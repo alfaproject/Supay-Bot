@@ -1,0 +1,283 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Globalization;
+
+namespace BigSister {
+  class CmdWar {
+
+    public static void Start(Object stateInfo) {
+      BotCommand bc = (BotCommand)stateInfo;
+
+      if (!bc.From.IsAdmin)
+        return;
+
+      string skill = "Overall";
+      if (bc.MessageTokens.Length < 2 || !Skill.TryParse(bc.MessageTokens[1], ref skill)) {
+        bc.SendReply("Syntax: !WarStart <skill>");
+        return;
+      }
+
+      Profile.Xml _config = new Profile.Xml("Data\\War.xml");
+      _config.RootName = bc.Channel.Substring(1);
+
+      _config.SetValue("Setup", "Skill", skill);
+
+      int count = 0;
+      string reply = string.Empty;
+      foreach (string rsn in _config.GetSectionNames()) {
+        if (rsn != "Setup") {
+          Player p = new Player(rsn);
+          _config.SetValue(rsn, "StartExp", p.Skills[skill].Exp);
+          _config.SetValue(rsn, "StartLevel", p.Skills[skill].Level);
+          _config.SetValue(rsn, "StartRank", p.Skills[skill].Rank);
+          if (count % 2 == 0)
+            reply += string.Format("\\c7{0} ({1:e});\\c ", rsn, p.Skills[skill]);
+          else
+            reply += string.Format("{0} ({1:e}); ", rsn, p.Skills[skill]);
+          count++;
+          if (count % 4 == 0) {
+            bc.SendReply(reply);
+            count = 0;
+            reply = string.Empty;
+          }
+        }
+      }
+      if (count > 0)
+        bc.SendReply(reply);
+
+      _config.SetValue("Setup", "StartTime", DateTime.Now);
+      bc.SendReply(string.Format("\\b{0}\\b war started on \\u{1}\\u for these players. \\bYou can now login and good luck!\\b", skill, DateTime.Now));
+    }
+
+    public static void End(Object stateInfo) {
+      BotCommand bc = (BotCommand)stateInfo;
+
+      if (!bc.From.IsAdmin)
+        return;
+
+      Profile.Xml _config = new Profile.Xml(@"Data\War.xml");
+      _config.RootName = bc.Channel.Substring(1);
+
+      if (!_config.HasSection("Setup"))
+        return;
+
+      string skill = _config.GetValue("Setup", "Skill", "Overall");
+
+      int count = 0;
+      string reply = string.Empty;
+      foreach (string rsn in _config.GetSectionNames()) {
+        if (rsn != "Setup") {
+          Player p = new Player(rsn);
+          if (count % 2 == 0)
+            reply += string.Format("\\c7{0} ({1:e});\\c ", rsn, p.Skills[skill]);
+          else
+            reply += string.Format("{0} ({1:e}); ", rsn, p.Skills[skill]);
+          count++;
+          if (count % 4 == 0) {
+            bc.SendReply(reply);
+            count = 0;
+            reply = string.Empty;
+          }
+        }
+      }
+      if (count > 0)
+        bc.SendReply(reply);
+
+      bc.SendReply(string.Format("\\b{0}\\b war ended on \\u{1}\\u for these players.", skill, DateTime.Now));
+
+      if (System.IO.File.Exists(@"Data\War.xml"))
+        System.IO.File.Delete(@"Data\War.xml");
+    }
+
+    public static void Add(Object stateInfo) {
+      BotCommand bc = (BotCommand)stateInfo;
+
+      if (!bc.From.IsAdmin)
+        return;
+
+      if (bc.MessageTokens.Length <= 1) {
+        bc.SendReply("Syntax: !WarAdd <rsn>");
+        return;
+      }
+
+      Profile.Xml _config = new Profile.Xml("Data\\War.xml");
+      _config.RootName = bc.Channel.Substring(1);
+
+      string[] rsns = Util.JoinTokens(bc.MessageTokens, 1).Split(new char[] { ',', ';', '+' });
+      foreach (string dirtyRsn in rsns) {
+        string rsn = RSUtil.FixRSN(dirtyRsn.Trim());
+
+        if (_config.HasEntry(rsn, "Signed")) {
+          bc.SendReply(string.Format("\\b{0}\\b was already signed to current war.", rsn));
+        } else {
+          Player p = new Player(rsn);
+          if (p.Ranked) {
+            _config.SetValue(rsn, "Signed", true);
+            if (_config.HasEntry("Setup", "Skill")) {
+              string skill = _config.GetValue("Setup", "Skill", "Overall");
+              _config.SetValue(rsn, "StartExp", p.Skills[skill].Exp);
+              _config.SetValue(rsn, "StartLevel", p.Skills[skill].Level);
+              _config.SetValue(rsn, "StartRank", p.Skills[skill].Rank);
+            }
+            bc.SendReply(string.Format("\\b{0}\\b is now signed to current war.", rsn));
+          } else {
+            bc.SendReply(string.Format("\\b{0}\\b doesn't feature Hiscores.", rsn));
+          }
+        }
+      }
+    }
+
+    public static void Remove(Object stateInfo) {
+      BotCommand bc = (BotCommand)stateInfo;
+
+      if (!bc.From.IsAdmin)
+        return;
+
+      if (bc.MessageTokens.Length <= 1) {
+        bc.SendReply("Syntax: !WarRemove <rsn>");
+        return;
+      }
+
+      string rsn = RSUtil.FixRSN(Util.JoinTokens(bc.MessageTokens, 1));
+
+      Profile.Xml _config = new Profile.Xml("Data\\War.xml");
+      _config.RootName = bc.Channel.Substring(1);
+
+      if (_config.HasSection(rsn)) {
+        _config.RemoveSection(rsn);
+        bc.SendReply(string.Format("\\b{0}\\b was removed from current war.", rsn));
+      } else {
+        bc.SendReply(string.Format("\\b{0}\\b isn't signed to current war.", rsn));
+      }
+    }
+
+    public static void Top(Object stateInfo) {
+      BotCommand bc = (BotCommand)stateInfo;
+
+      string rsn = bc.From.RSN;
+      int rank = 1;
+
+      // Get the war configuration file
+      Profile.Xml _config = new Profile.Xml("Data\\War.xml");
+      _config.RootName = bc.Channel.Substring(1);
+
+      if (!_config.HasSection("Setup"))
+        return;
+
+      string skill = _config.GetValue("Setup", "Skill", "Overall");
+      bc.SendReply("Please wait while the bot gathers all players Hiscores...");
+
+      // Create a list of the war players
+      Players warPlayers = new Players();
+      foreach (string warPlayerName in _config.GetSectionNames()) {
+        if (warPlayerName != "Setup") {
+          Player warPlayer = new Player(warPlayerName);
+          warPlayer.Skills[skill] -= new Skill(skill, _config.GetValue(warPlayerName, "StartRank", -1), _config.GetValue(warPlayerName, "StartExp", 0));
+          warPlayers.Add(warPlayer);
+        }
+      }
+      warPlayers.SortBySkill(skill, true);
+
+      // Parse command arguments
+      if (bc.MessageTokens.Length > 1) {
+        if (int.TryParse(bc.MessageTokens[1], out rank)) {
+          // !War <rank>
+        } else if (bc.MessageTokens[1].ToLowerInvariant() == "@last") {
+          // !War @last
+          rank = warPlayers.Count;
+        } else {
+          // !War <rsn>
+          rsn = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 1));
+          if (warPlayers.Contains(rsn))
+            rank = warPlayers.IndexOf(rsn) + 1;
+        }
+      }
+
+
+      // Get input player rank
+      int input_player_rank = 0;
+      if (warPlayers.Contains(bc.From.RSN))
+        input_player_rank = warPlayers.IndexOf(bc.From.RSN) + 1;
+
+      // fix rank
+      if (rank < 1)
+        rank = 1;
+      else if (rank > warPlayers.Count)
+        rank = warPlayers.Count;
+
+      int MinRank;
+      MinRank = rank - 6;
+      if (MinRank < 0)
+        MinRank = 0;
+      else if (MinRank > warPlayers.Count - 11)
+        MinRank = warPlayers.Count - 11;
+
+      string reply = "War \\u" + skill.ToLowerInvariant() + "\\u ranking:";
+      if (input_player_rank > 0 && input_player_rank <= MinRank)
+        reply += " \\c07#" + input_player_rank + "\\c \\u" + warPlayers[input_player_rank - 1].Name + "\\u (" + warPlayers[input_player_rank - 1].Skills[skill].ToString("e", CultureInfo.InvariantCulture) + ");";
+
+      for (int i = MinRank; i < Math.Min(MinRank + 11, warPlayers.Count); i++) {
+        reply += " ";
+        if (i == rank - 1)
+          reply += "\\b";
+        reply += "\\c07#" + (i + 1) + "\\c ";
+        if (i == input_player_rank - 1)
+          reply += "\\u";
+        reply += warPlayers[i].Name;
+        if (i == input_player_rank - 1)
+          reply += "\\u";
+        reply += " (" + warPlayers[i].Skills[skill].ToString("e", CultureInfo.InvariantCulture) + ")";
+        if (i == rank - 1)
+          reply += "\\b";
+        reply += ";";
+      }
+
+      if (input_player_rank > 0 && input_player_rank > MinRank + 11)
+        reply += " \\c07#" + input_player_rank + "\\c \\u" + warPlayers[input_player_rank - 1].Name + "\\u (" + warPlayers[input_player_rank - 1].Skills[skill].ToString("e", CultureInfo.InvariantCulture) + ");";
+
+      bc.SendReply(reply);
+    }
+
+    public static void TopAll(Object stateInfo) {
+      BotCommand bc = (BotCommand)stateInfo;
+
+      if (!bc.From.IsAdmin)
+        return;
+
+      // Get the war configuration file
+      Profile.Xml _config = new Profile.Xml("Data\\War.xml");
+      _config.RootName = bc.Channel.Substring(1);
+      string skill = _config.GetValue("Setup", "Skill", "Overall");
+
+      bc.SendReply("Please wait while the bot gathers all players Hiscores...");
+
+      // Create a list of the war players
+      Players warPlayers = new Players();
+      foreach (string warPlayerName in _config.GetSectionNames()) {
+        if (warPlayerName != "Setup") {
+          Player warPlayer = new Player(warPlayerName);
+          warPlayer.Skills[skill] -= new Skill(skill, _config.GetValue(warPlayerName, "StartRank", -1), _config.GetValue(warPlayerName, "StartExp", 0));
+          warPlayers.Add(warPlayer);
+        }
+      }
+      warPlayers.SortBySkill(skill, true);
+
+      string reply = null;
+      int i = 0;
+      while (i < warPlayers.Count) {
+        if (i % 5 == 0) {
+          if (reply != null)
+            bc.SendReply(reply);
+          reply = "War \\u" + skill.ToLowerInvariant() + "\\u ranking:";
+        }
+        reply += " \\c07#" + (i + 1) + "\\c " + warPlayers[i].Name + " (" + warPlayers[i].Skills[skill].ToString("e", CultureInfo.InvariantCulture) + ");";
+        i++;
+      }
+
+      if (reply != null)
+        bc.SendReply(reply);
+    }
+
+  }
+}

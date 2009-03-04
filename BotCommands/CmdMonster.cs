@@ -1,0 +1,111 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace BigSister
+{
+  class CmdMonster
+  {
+    public static void Search(Object stateInfo) {
+      BotCommand bc = (BotCommand)stateInfo;
+
+      if (bc.MessageTokens.Length == 1) {
+        bc.SendReply("Syntax: !MonsterSearch <search terms>");
+        return;
+      }
+
+      // get search terms
+      string search_terms = Util.JoinTokens(bc.MessageTokens, 1);
+
+      Monsters monsters = new Monsters();
+      List<Monster> results = monsters.SearchOnline(search_terms);
+
+      if (results.Count > 0) {
+        string reply = string.Format("\\c12www.tip.it\\c found \\c07{0}\\c results:", results.Count);
+        for (int i = 0; i < Math.Min(15, results.Count); i++)
+          reply += " \\c07" + results[i].Name + "\\c (" + results[i].Level + ");";
+        bc.SendReply(reply);
+      }
+      else {
+        bc.SendReply(string.Format("\\c12www.tip.it\\c doesn't have any record for \"{0}\".", search_terms));
+      }
+    }
+
+    public static void Info(Object stateInfo) {
+      BotCommand bc = (BotCommand)stateInfo;
+
+      if (bc.MessageTokens.Length == 1) {
+        bc.SendReply("Syntax: !MonsterInfo <monster>");
+        return;
+      }
+
+      // get search terms
+      string search_terms = Util.JoinTokens(bc.MessageTokens, 1);
+
+      // get level
+      int level = 0;
+      Match M = Regex.Match(search_terms, "\\((\\d+)\\)");
+      if (M.Success) {
+        level = int.Parse(M.Groups[1].Value);
+        search_terms = Regex.Replace(search_terms, "\\((\\d+)\\)", string.Empty).Trim();
+      }
+
+      Monsters monsters = new Monsters();
+      List<Monster> results = monsters.SearchOnline(search_terms);
+
+      if (results.Count > 0) {
+        Monster monster = null;
+        if (level > 0) {
+          // search for exact match at name and level
+          foreach (Monster m in results)
+            if (m.Name.ToUpperInvariant() == search_terms.ToUpperInvariant() && m.Level == level) {
+              monster = m;
+              break;
+            }
+          // search for partial match at name and level
+          if (monster == null)
+            foreach (Monster m in results)
+              if (m.Name.ToUpperInvariant().Contains(search_terms.ToUpperInvariant()) && m.Level == level) {
+                monster = m;
+                break;
+              }
+        }
+        // search for exact match at name
+        if (monster == null)
+          foreach (Monster m in results)
+            if (m.Name.ToUpperInvariant() == search_terms.ToUpperInvariant()) {
+              monster = m;
+              break;
+            }
+        // search for partial match at name
+        if (monster == null)
+          foreach (Monster m in results)
+            if (m.Name.ToUpperInvariant().Contains(search_terms.ToUpperInvariant())) {
+              monster = m;
+              break;
+            }
+
+        if (monster == null) {
+          bc.SendReply(string.Format("\\c12www.tip.it\\c doesn't have any record for \"{0}\".", search_terms));
+        }
+        else {
+          monster.Update();
+          bc.SendReply(string.Format("Name: \\c07{0}\\c | Level: \\c07{1}\\c | Hitpoints: \\c07{2}\\c | Race: \\c07{3}\\c | \\c12www.tip.it/runescape/index.php?rs2monster_id={4}\\c", 
+                                     monster.Name, monster.Level, monster.Hits, monster.Race, monster.ID));
+          bc.SendReply(string.Format("Aggressive? \\c{0}\\c | Retreats? \\c{1}\\c | Quest? \\c{2}\\c | Members? \\c{3}\\c | Poisonous? \\c{4}\\c | Habitat: \\c07{5}\\c",
+                                     monster.Aggressive ? "3Yes" : "4No",
+                                     monster.Retreats ? "3Yes" : "4No",
+                                     monster.Quest ? "3Yes" : "4No",
+                                     monster.Members ? "3Yes" : "4No",
+                                     monster.Poisonous ? "3Yes" : "4No",
+                                     monster.Habitat.Count > 0 ? monster.Habitat[0] : "Unknown"));
+        }
+      }
+      else {
+        bc.SendReply(string.Format("\\c12www.tip.it\\c doesn't have any record for \"{0}\".", search_terms));
+      }
+    }
+
+  }
+}

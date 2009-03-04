@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="urn:RScriptLookup" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="urn:RScriptLookup" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="urn:RScriptLookup">
+      <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/" />
+      <xsd:complexType name="skillVar">
+        <xsd:all>
+          <xsd:element name="rank" type="xsd:int" />
+          <xsd:element name="exp" type="xsd:int" />
+          <xsd:element name="level" type="xsd:int" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="minigameVar">
+        <xsd:all>
+          <xsd:element name="rank" type="xsd:int" />
+          <xsd:element name="score" type="xsd:int" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="skills">
+        <xsd:all>
+          <xsd:element name="overall" type="tns:skillVar" />
+          <xsd:element name="attack" type="tns:skillVar" />
+          <xsd:element name="defence" type="tns:skillVar" />
+          <xsd:element name="strength" type="tns:skillVar" />
+          <xsd:element name="hitpoints" type="tns:skillVar" />
+          <xsd:element name="ranged" type="tns:skillVar" />
+          <xsd:element name="prayer" type="tns:skillVar" />
+          <xsd:element name="magic" type="tns:skillVar" />
+          <xsd:element name="cooking" type="tns:skillVar" />
+          <xsd:element name="woodcutting" type="tns:skillVar" />
+          <xsd:element name="fletching" type="tns:skillVar" />
+          <xsd:element name="fishing" type="tns:skillVar" />
+          <xsd:element name="firemaking" type="tns:skillVar" />
+          <xsd:element name="crafting" type="tns:skillVar" />
+          <xsd:element name="smithing" type="tns:skillVar" />
+          <xsd:element name="mining" type="tns:skillVar" />
+          <xsd:element name="herblore" type="tns:skillVar" />
+          <xsd:element name="agility" type="tns:skillVar" />
+          <xsd:element name="thieving" type="tns:skillVar" />
+          <xsd:element name="slayer" type="tns:skillVar" />
+          <xsd:element name="farming" type="tns:skillVar" />
+          <xsd:element name="runecraft" type="tns:skillVar" />
+          <xsd:element name="hunter" type="tns:skillVar" />
+          <xsd:element name="construction" type="tns:skillVar" />
+          <xsd:element name="summoning" type="tns:skillVar" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="trackerTime">
+        <xsd:complexContent mixed="false">
+          <xsd:restriction base="SOAP-ENC:Array">
+            <xsd:attribute wsdl:arrayType="tns:skills[]" ref="SOAP-ENC:arrayType" />
+          </xsd:restriction>
+        </xsd:complexContent>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="statsRequest">
+    <wsdl:part name="name" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="statsResponse">
+    <wsdl:part name="return" type="tns:skills" />
+  </wsdl:message>
+  <wsdl:message name="trackGetTimeAllRequest">
+    <wsdl:part name="name" type="xsd:string" />
+    <wsdl:part name="time" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="trackGetTimeAllResponse">
+    <wsdl:part name="return" type="tns:skills" />
+  </wsdl:message>
+  <wsdl:message name="trackGetTimeAgoAllRequest">
+    <wsdl:part name="name" type="xsd:string" />
+    <wsdl:part name="time" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="trackGetTimeAgoAllResponse">
+    <wsdl:part name="return" type="tns:skills" />
+  </wsdl:message>
+  <wsdl:message name="trackUpdateUserRequest">
+    <wsdl:part name="name" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="trackUpdateUserResponse">
+    <wsdl:part name="return" type="xsd:boolean" />
+  </wsdl:message>
+  <wsdl:portType name="RScriptLookupPortType">
+    <wsdl:operation name="stats">
+      <documentation>Retreaves the stats of a User. Name must be under 12 characters.</documentation>
+      <wsdl:input message="tns:statsRequest" />
+      <wsdl:output message="tns:statsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="trackGetTimeAll">
+      <documentation>Gets a single tracker entry of all skills at a specific time [use a unix time stamp]. Does not include starting details.</documentation>
+      <wsdl:input message="tns:trackGetTimeAllRequest" />
+      <wsdl:output message="tns:trackGetTimeAllResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="trackGetTimeAgoAll">
+      <documentation>Gets a single tracker entry made x seconds ago. Does not include starting details.</documentation>
+      <wsdl:input message="tns:trackGetTimeAgoAllRequest" />
+      <wsdl:output message="tns:trackGetTimeAgoAllResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="trackUpdateUser">
+      <documentation>Updates a user's stats by quering the hiscores.</documentation>
+      <wsdl:input message="tns:trackUpdateUserRequest" />
+      <wsdl:output message="tns:trackUpdateUserResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="RScriptLookupBinding" type="tns:RScriptLookupPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <wsdl:operation name="stats">
+      <soap:operation soapAction="urn:RScriptLookup#stats" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="urn:RScriptLookup" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="urn:RScriptLookup" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="trackGetTimeAll">
+      <soap:operation soapAction="urn:RScriptLookup#trackGetTimeAll" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="urn:RScriptLookup" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="urn:RScriptLookup" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="trackGetTimeAgoAll">
+      <soap:operation soapAction="urn:RScriptLookup#trackGetAgoAll" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="urn:RScriptLookup" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="urn:RScriptLookup" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="trackUpdateUser">
+      <soap:operation soapAction="urn:RScriptLookup#trackUpdateUser" style="rpc" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="urn:RScriptLookup" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="urn:RScriptLookup" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="RScriptLookup">
+    <wsdl:port name="RScriptLookupPort" binding="tns:RScriptLookupBinding">
+      <soap:address location="http://rscript.org/lookup.php?soap" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
