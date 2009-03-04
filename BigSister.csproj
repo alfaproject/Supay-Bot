@@ -1,0 +1,496 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{57B7C0C0-AD4E-4B1F-A763-C5F294B5F2B8}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BigSister</RootNamespace>
+    <AssemblyName>BigSister</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <SignManifests>false</SignManifests>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <ApplicationIcon>Help 1.ico</ApplicationIcon>
+    <ManifestCertificateThumbprint>D35C82502CB91A219E44AF058A669C0F8190AFC3</ManifestCertificateThumbprint>
+    <ManifestKeyFile>BigSister_TemporaryKey.pfx</ManifestKeyFile>
+    <GenerateManifests>false</GenerateManifests>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.60.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BotCommands\BotCommand.cs" />
+    <Compile Include="BotCommands\CmdClan.cs" />
+    <Compile Include="BotCommands\CmdCompare.cs" />
+    <Compile Include="BotCommands\CmdDataFiles.cs" />
+    <Compile Include="BotCommands\CmdGrandExchange.cs" />
+    <Compile Include="BotCommands\CmdHiscores.cs" />
+    <Compile Include="BotCommands\CmdLinks.cs" />
+    <Compile Include="BotCommands\CmdMonster.cs" />
+    <Compile Include="BotCommands\CmdOthers.cs" />
+    <Compile Include="BotCommands\CmdRuneHead.cs" />
+    <Compile Include="BotCommands\CmdRuneScape.cs" />
+    <Compile Include="BotCommands\CmdRuneScript.cs" />
+    <Compile Include="BotCommands\CmdWar.cs" />
+    <Compile Include="BotCommands\CmdTimers.cs" />
+    <Compile Include="BotCommands\CmdTracker.cs" />
+    <Compile Include="BotCommands\CmdUtil.cs" />
+    <Compile Include="BotCommands\CmdZybez.cs" />
+    <Compile Include="Core\DataBase.cs" />
+    <Compile Include="Core\Math2.cs" />
+    <Compile Include="Core\MathParser.cs" />
+    <Compile Include="Core\OrderedDictionary.cs" />
+    <Compile Include="Core\Profile\IProfile.cs" />
+    <Compile Include="Core\Profile\Profile.cs" />
+    <Compile Include="Core\Profile\Xml.cs" />
+    <Compile Include="Core\Profile\XmlHelper.cs" />
+    <Compile Include="DataFiles\ASkillItem.cs" />
+    <Compile Include="DataFiles\FarmingItem.cs" />
+    <Compile Include="DataFiles\HerbloreItem.cs" />
+    <Compile Include="DataFiles\MagicItem.cs" />
+    <Compile Include="DataFiles\SummoningItem.cs" />
+    <Compile Include="DataFiles\SkillItem.cs" />
+    <Compile Include="DataFiles\SkillItems.cs" />
+    <Compile Include="FanSites\Item.cs" />
+    <Compile Include="FanSites\Items.cs" />
+    <Compile Include="FanSites\Monster.cs" />
+    <Compile Include="FanSites\Monsters.cs" />
+    <Compile Include="RuneScape\Price.cs" />
+    <Compile Include="RuneScape\Prices.cs" />
+    <Compile Include="IRC\ChannelStatus.cs" />
+    <Compile Include="IRC\Contacts\ContactList.cs" />
+    <Compile Include="IRC\Contacts\ContactsIsOnTracker.cs" />
+    <Compile Include="IRC\Contacts\ContactsMonitorTracker.cs" />
+    <Compile Include="IRC\Contacts\ContactsTracker.cs" />
+    <Compile Include="IRC\Contacts\ContactsWatchTracker.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IRC\Messages\CancelIrcMessageEventArgs.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\ChannelModeMessage.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\InviteMessage.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\JoinMessage.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\KickMessage.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\ListMessage.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\AccessControlMode.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\AnonymousMode.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\BanExceptionMode.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\BanMode.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\CannotRemoveServiceBot.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\ChannelLimitReachedMessage.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\ChannelMode.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\ChannelModeCollection.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\ChannelModesCreator.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\CreatorMode.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\FlagMode.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\HalfOpMode.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\InvitationExceptionMode.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\InviteOnlyMode.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\KeyMode.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\LimitMode.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\MemberStatusMode.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\ModeratedMode.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\NoOutsideMessagesMode.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\OperatorMode.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\PrivateMode.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\QuietMode.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\RegisteredNicksOnlyMode.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\SecretMode.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\ServerReopMode.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\TopicGuardedMode.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\UnknownMode.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\Modes\VoiceMode.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\NamesMessage.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\PartMessage.cs" />
+    <Compile Include="IRC\Messages\Channel Operation\TopicMessage.cs" />
+    <Compile Include="IRC\Messages\CommandMessage.cs" />
+    <Compile Include="IRC\Messages\Connection Registration\NickChangeMessage.cs" />
+    <Compile Include="IRC\Messages\Connection Registration\OperMessage.cs" />
+    <Compile Include="IRC\Messages\Connection Registration\PasswordMessage.cs" />
+    <Compile Include="IRC\Messages\Connection Registration\QuitMessage.cs" />
+    <Compile Include="IRC\Messages\Connection Registration\UserNotificationMessage.cs" />
+    <Compile Include="IRC\Messages\Connection Registration\UserNotificationServerSideMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\ActionRequestMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\ClientInfoReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\ClientInfoRequestMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\CtcpMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\CtcpReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\CtcpRequestMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\CtcpUtil.cs" />
+    <Compile Include="IRC\Messages\Ctcp\ErrorReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\ErrorRequestMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\FingerReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\FingerRequestMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\GenericCtcpReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\GenericCtcpRequestMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\PageRequestMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\PingReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\PingRequestMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\ScriptReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\ScriptRequestMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\SoundRequestMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\SourceReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\SourceRequestMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\TimeReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\TimeRequestMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\UserInfoReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\UserInfoRequestMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\VersionReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Ctcp\VersionRequestMessage.cs" />
+    <Compile Include="IRC\Messages\CustomListItemRendering.cs" />
+    <Compile Include="IRC\Messages\GenericMessage.cs" />
+    <Compile Include="IRC\Messages\IChannelTargetedMessage.cs" />
+    <Compile Include="IRC\Messages\InvalidMessageException.cs" />
+    <Compile Include="IRC\Messages\IQueryTargetedMessage.cs" />
+    <Compile Include="IRC\Messages\IrcMessage.cs" />
+    <Compile Include="IRC\Messages\IrcMessageEventArgs.cs" />
+    <Compile Include="IRC\Messages\IrcMessageWriter.cs" />
+    <Compile Include="IRC\Messages\IrcX\ChannelPropertyEndReplyMessage.cs" />
+    <Compile Include="IRC\Messages\IrcX\ChannelPropertyMessage.cs" />
+    <Compile Include="IRC\Messages\IrcX\ChannelPropertyReplyMessage.cs" />
+    <Compile Include="IRC\Messages\IrcX\IrcxMessage.cs" />
+    <Compile Include="IRC\Messages\IrcX\IrcxReplyMessage.cs" />
+    <Compile Include="IRC\Messages\IrcX\IsIrcxMessage.cs" />
+    <Compile Include="IRC\Messages\IrcX\KnockMessage.cs" />
+    <Compile Include="IRC\Messages\IrcX\KnockReplyMessage.cs" />
+    <Compile Include="IRC\Messages\IrcX\KnockRequestMessage.cs" />
+    <Compile Include="IRC\Messages\IrcX\WhisperMessage.cs" />
+    <Compile Include="IRC\Messages\MessageConduit.cs" />
+    <Compile Include="IRC\Messages\MessageParserService.cs" />
+    <Compile Include="IRC\Messages\MessageUtil.cs" />
+    <Compile Include="IRC\Messages\Misc\AcceptListEditorMessage.cs" />
+    <Compile Include="IRC\Messages\Misc\AcceptListRequestMessage.cs" />
+    <Compile Include="IRC\Messages\Misc\AwayMessage.cs" />
+    <Compile Include="IRC\Messages\Misc\BackMessage.cs" />
+    <Compile Include="IRC\Messages\Misc\IsOnMessage.cs" />
+    <Compile Include="IRC\Messages\Misc\KillMessage.cs" />
+    <Compile Include="IRC\Messages\Misc\MonitorAddUsersMessage.cs" />
+    <Compile Include="IRC\Messages\Misc\MonitorListClearMessage.cs" />
+    <Compile Include="IRC\Messages\Misc\MonitorListRequestMessage.cs" />
+    <Compile Include="IRC\Messages\Misc\MonitorMessage.cs" />
+    <Compile Include="IRC\Messages\Misc\MonitorRemoveUsersMessage.cs" />
+    <Compile Include="IRC\Messages\Misc\MonitorStatusRequestMessage.cs" />
+    <Compile Include="IRC\Messages\Misc\PingMessage.cs" />
+    <Compile Include="IRC\Messages\Misc\PongMessage.cs" />
+    <Compile Include="IRC\Messages\Misc\SilenceMessage.cs" />
+    <Compile Include="IRC\Messages\Misc\WatchListClearMessage.cs" />
+    <Compile Include="IRC\Messages\Misc\WatchListEditorMessage.cs" />
+    <Compile Include="IRC\Messages\Misc\WatchListRequestMessage.cs" />
+    <Compile Include="IRC\Messages\Misc\WatchMessage.cs" />
+    <Compile Include="IRC\Messages\Misc\WatchStatusRequestMessage.cs" />
+    <Compile Include="IRC\Messages\ModeAction.cs" />
+    <Compile Include="IRC\Messages\PrioritizedMessageList.cs" />
+    <Compile Include="IRC\Messages\Replies\AcceptListEndReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\AcceptListReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\BansEndReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\BansReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\ChannelCreationTimeMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\ChannelModeIsReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\AcceptAlreadyExistsMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\AcceptDoesNotExistMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\AcceptListFullMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\AlreadyOnChannelMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\BanListFullMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\CannotChangeNickWhileBannedMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\CannotSendToChannelMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\CannotUseColorsMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\ChannelBlockedMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\ChannelIsInviteOnlyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\ChannelKeyAlreadySetMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\ChannelOpStatusRequiredMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\ChannelRequiresKeyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\ChannelRequiresRegisteredNickMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\ErroneusNickMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\ErrorMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\GenericErrorMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\IdentChangedMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\NickChangeTooFastMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\NickCollisionMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\NickInUseMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\NoHostPermissionMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\NoNickGivenMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\NoPingOriginSpecifiedMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\NoRecipientGivenMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\NoSuchChannelMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\NoSuchNickMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\NoSuchServerMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\NotEnoughParametersMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\NoTextToSendMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\NotOnChannelMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\NotRegisteredMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\SilenceListFullMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\TargetChangeTooFastMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\TooManyChannelsMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\TooManyLinesMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\TooManyTargetsMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\UnknownChannelModeMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\UnknownCommandMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\UnknownUserModeMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\WasNoSuchNickMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\YouAreBannedFromChannelMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\Errors\YouAreBannedMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\GenericNumericMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\GlobalUsersReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\IsOnReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\LinksEndReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\LinksReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\ListEndReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\ListReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\ListStartReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\LocalUsersReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\LusersChannelsReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\LusersMeReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\LusersOpReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\LusersReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\MonitoredNicksListMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\MonitoredUserOfflineMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\MonitoredUserOnlineMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\MonitorListEndReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\MonitorListFullMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\MonitorListReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\MotdEndReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\MotdReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\MotdStartReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\NamesEndReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\NamesReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\NumericMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\OperReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\SelfAwayReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\SelfUnAwayReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\ServerCreatedMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\ServerInfoMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\SilenceEndReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\SilenceReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\StatsReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\SupportMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\TimeReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\TopicNoneReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\TopicReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\TopicSetReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\UniqueIdMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\UnknownConnectionsMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\UserAwayReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\UserHostReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\UserModeIsReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\WatchedUserChangedMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\WatchedUserIsOfflineMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\WatchedUserIsOnlineMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\WatchedUserNowOfflineMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\WatchedUserNowOnlineMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\WatchedUserOfflineMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\WatchedUserOnlineMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\WatchListEndReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\WatchStatusNicksReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\WatchStatusReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\WatchStoppedMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\WelcomeMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\WhoEndReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\WhoIsChannelsReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\WhoIsEndReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\WhoIsIdleReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\WhoIsOperReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\WhoIsRegisteredNickReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\WhoIsServerReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\WhoIsUserReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\WhoReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\WhoWasEndReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\WhoWasUserReplyMessage.cs" />
+    <Compile Include="IRC\Messages\Replies\YourHostIsMessage.cs" />
+    <Compile Include="IRC\Messages\Server Queries\AdminMessage.cs" />
+    <Compile Include="IRC\Messages\Server Queries\InfoMessage.cs" />
+    <Compile Include="IRC\Messages\Server Queries\LinksMessage.cs" />
+    <Compile Include="IRC\Messages\Server Queries\LusersMessage.cs" />
+    <Compile Include="IRC\Messages\Server Queries\MotdMessage.cs" />
+    <Compile Include="IRC\Messages\Server Queries\ServerQueryBase.cs" />
+    <Compile Include="IRC\Messages\Server Queries\StatsMessage.cs" />
+    <Compile Include="IRC\Messages\Server Queries\TimeMessage.cs" />
+    <Compile Include="IRC\Messages\Server Queries\TraceMessage.cs" />
+    <Compile Include="IRC\Messages\Server Queries\VersionMessage.cs" />
+    <Compile Include="IRC\Messages\Talking\ChannelScopedChatMessage.cs" />
+    <Compile Include="IRC\Messages\Talking\ChannelScopedNoticeMessage.cs" />
+    <Compile Include="IRC\Messages\Talking\ChatMessage.cs" />
+    <Compile Include="IRC\Messages\Talking\NoticeMessage.cs" />
+    <Compile Include="IRC\Messages\Talking\TextMessage.cs" />
+    <Compile Include="IRC\Messages\Talking\WallchopsMessage.cs" />
+    <Compile Include="IRC\Messages\Talking\WallopsMessage.cs" />
+    <Compile Include="IRC\Messages\User Based\Modes\AwayMode.cs" />
+    <Compile Include="IRC\Messages\User Based\Modes\CallerIdMode.cs" />
+    <Compile Include="IRC\Messages\User Based\Modes\DeafMode.cs" />
+    <Compile Include="IRC\Messages\User Based\Modes\InvisibleMode.cs" />
+    <Compile Include="IRC\Messages\User Based\Modes\NetworkOperatorMode.cs" />
+    <Compile Include="IRC\Messages\User Based\Modes\ReceiveBotNoticesMode.cs" />
+    <Compile Include="IRC\Messages\User Based\Modes\ReceiveConnectionNoticesMode.cs" />
+    <Compile Include="IRC\Messages\User Based\Modes\ReceiveDebugMode.cs" />
+    <Compile Include="IRC\Messages\User Based\Modes\ReceiveILineFullNoticesMode.cs" />
+    <Compile Include="IRC\Messages\User Based\Modes\ReceiveNickChangesMode.cs" />
+    <Compile Include="IRC\Messages\User Based\Modes\ReceiveOperWallopsMode.cs" />
+    <Compile Include="IRC\Messages\User Based\Modes\ReceiveServerKillsMode.cs" />
+    <Compile Include="IRC\Messages\User Based\Modes\ReceiveServerNoticesMode.cs" />
+    <Compile Include="IRC\Messages\User Based\Modes\ReceiveWallopsMode.cs" />
+    <Compile Include="IRC\Messages\User Based\Modes\RestrictedMode.cs" />
+    <Compile Include="IRC\Messages\User Based\Modes\ServerOperatorMode.cs" />
+    <Compile Include="IRC\Messages\User Based\Modes\UnknownUserMode.cs" />
+    <Compile Include="IRC\Messages\User Based\Modes\UserMode.cs" />
+    <Compile Include="IRC\Messages\User Based\Modes\UserModeCollection.cs" />
+    <Compile Include="IRC\Messages\User Based\Modes\UserModesCreator.cs" />
+    <Compile Include="IRC\Messages\User Based\UserHostMessage.cs" />
+    <Compile Include="IRC\Messages\User Based\UserModeMessage.cs" />
+    <Compile Include="IRC\Messages\User Based\WhoIsMessage.cs" />
+    <Compile Include="IRC\Messages\User Based\WhoMessage.cs" />
+    <Compile Include="IRC\Messages\User Based\WhoWasMessage.cs" />
+    <Compile Include="IRC\Model\Channel.cs" />
+    <Compile Include="IRC\Model\ChannelCollection.cs" />
+    <Compile Include="IRC\Model\Client.cs" />
+    <Compile Include="IRC\Model\ClientCollection.cs" />
+    <Compile Include="IRC\Model\Journal.cs" />
+    <Compile Include="IRC\Model\JournalEntry.cs" />
+    <Compile Include="IRC\Model\MessageCollection.cs" />
+    <Compile Include="IRC\Model\Query.cs" />
+    <Compile Include="IRC\Model\QueryCollection.cs" />
+    <Compile Include="IRC\Model\ServerQuery.cs" />
+    <Compile Include="IRC\Model\User.cs" />
+    <Compile Include="IRC\Model\UserCollection.cs" />
+    <Compile Include="IRC\Network\ClientConnection.cs" />
+    <Compile Include="IRC\Network\ConnectionDataEvent.cs" />
+    <Compile Include="IRC\Network\ConnectionStatus.cs" />
+    <Compile Include="IRC\ServerSupport.cs" />
+    <Compile Include="IRC\UserOnlineStatus.cs" />
+    <Compile Include="Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="RuneScape\Hiscores.cs" />
+    <Compile Include="RuneScape\Hiscore.cs" />
+    <Compile Include="RuneScape\Minigame.cs" />
+    <Compile Include="RuneScape\Minigames.cs" />
+    <Compile Include="RuneScape\Player.cs" />
+    <Compile Include="RuneScape\Players.cs" />
+    <Compile Include="RuneScape\RSUtil.cs" />
+    <Compile Include="RuneScape\Skill.cs" />
+    <Compile Include="RuneScape\Skills.cs" />
+    <Compile Include="RuneScape\World.cs" />
+    <Compile Include="RuneScape\Worlds.cs" />
+    <Compile Include="Service References\RScript\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Util.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Help 1.ico" />
+    <None Include="Service References\RScript\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\RScript\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Service References\RScript\BigSister.RScript.skills.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\RScript\lookup.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\RScript\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
