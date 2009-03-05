@@ -76,7 +76,7 @@ namespace BigSister {
       if (_skills[Skill.OVER].Exp == -1) {
         // Fix Hitpoints
         if (_skills[Skill.HITP].Exp == -1)
-          _skills[Skill.HITP].Exp = RSUtil.Lvl2Exp(10);
+          _skills[Skill.HITP].Exp = 10.ToExp();
 
         // Fix Overall and all other unranked skills 
         _skills[Skill.OVER].Exp = 0;
@@ -116,7 +116,7 @@ namespace BigSister {
 
         foreach (Skill s in _skills.Values)
           if (s.Exp == -1)
-            s.Exp = RSUtil.Lvl2Exp(s.Level);
+            s.Exp = s.Level.ToExp();
       }
     }
 

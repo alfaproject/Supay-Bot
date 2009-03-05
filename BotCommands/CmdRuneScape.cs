@@ -56,7 +56,7 @@ namespace BigSister {
         else
           InputLessThan = int.Parse(M.Groups[1].Value);
         if (InputLessThan < 127)
-          InputLessThan = RSUtil.Lvl2Exp(InputLessThan);
+          InputLessThan = InputLessThan.ToExp();
         bc.Message = Regex.Replace(bc.Message, " <(\\d+m|\\d+k|\\d+)", string.Empty);
       }
 
@@ -71,7 +71,7 @@ namespace BigSister {
         else
           InputGreaterThan = int.Parse(M.Groups[1].Value);
         if (InputGreaterThan < 127)
-          InputGreaterThan = RSUtil.Lvl2Exp(InputGreaterThan);
+          InputGreaterThan = InputGreaterThan.ToExp();
         bc.Message = Regex.Replace(bc.Message, " >(\\d+m|\\d+k|\\d+)", string.Empty);
       }
 
@@ -286,9 +286,9 @@ namespace BigSister {
             target_exp = 200000000;
           } else if (target_level > 127) {
             target_exp = Math.Min(200000000, target_level);
-            target_level = RSUtil.Exp2Lvl(target_exp);
+            target_level = target_exp.ToLevel();
           } else {
-            target_exp = RSUtil.Lvl2Exp(target_level);
+            target_exp = target_level.ToExp();
           }
         } else if (goal.StartsWith("r")) {
           // get rank
@@ -298,7 +298,7 @@ namespace BigSister {
               foreach (Skill h in new Hiscores(skill.Name, null, goalrank))
                 if (h.Rank == goalrank) {
                   target_exp = h.Exp;
-                  target_level = RSUtil.Exp2Lvl(target_exp);
+                  target_level = target_exp.ToLevel();
                   break;
                 }
             }
@@ -314,7 +314,7 @@ namespace BigSister {
           } else {
             target_exp = Math.Min(200000000, skill.Exp + 1);
           }
-          target_level = RSUtil.Exp2Lvl(target_exp);
+          target_level = target_exp.ToLevel();
         } else {
           // next level
           if (skill.VLevel == 126) {
@@ -322,12 +322,12 @@ namespace BigSister {
             target_exp = 200000000;
           } else {
             target_level = skill.VLevel + 1;
-            target_exp = RSUtil.Lvl2Exp(target_level);
+            target_exp = target_level.ToExp();
           }
         }
         if (target_exp < skill.Exp) {
           target_level = skill.VLevel + 1;
-          target_exp = RSUtil.Lvl2Exp(target_level);
+          target_exp = target_level.ToExp();
         }
 
         // calculate % done
@@ -345,7 +345,7 @@ namespace BigSister {
           item = null;
         } else {
           exp_to_go = target_exp - skill.Exp;
-          percent_done = Math.Round(100 - exp_to_go / (float)(target_exp - RSUtil.Lvl2Exp(skill.VLevel)) * 100, 1).ToString();
+          percent_done = Math.Round(100 - exp_to_go / (float)(target_exp - skill.VLevel.ToExp()) * 100, 1).ToString();
         }
 
         string reply = string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b \\c07{1}\\c | level: \\c07{1:v}\\c | exp: \\c07{1:e}\\c (\\c07{2}%\\c of {3}) | rank: \\c07{1:R}\\c",

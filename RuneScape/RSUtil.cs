@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BigSister {
   public class RSUtil {
-    
+
     public static string FixRSN(string rsn) {
       string fixedRSN = string.Empty;
       bool toUpper = true;
@@ -115,21 +115,6 @@ namespace BigSister {
       while (CalculateCombat(A, S, D, H, R, P, M, ++Sum) <= initial_combat)
         ;
       return Sum - initial_sum;
-    }
-
-    public static int Lvl2Exp(int level) {
-      int exp = 0;
-      while (level > 1)
-        exp += --level + (int)(300.0 * Math.Pow(2, level / 7.0));
-      return exp / 4;
-    }
-
-    public static int Exp2Lvl(int exp) {
-      int level = 0;
-      int levelExp = 0;
-      while (levelExp / 4 <= exp)
-        levelExp += ++level + (int)(300.0 * Math.Pow(2, level / 7.0));
-      return level;
     }
 
   } //class RSUtil

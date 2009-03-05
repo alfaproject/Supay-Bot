@@ -312,7 +312,7 @@ namespace BigSister {
             // !Exp <xp>
             qty = Math.Floor(qty);
             if (qty > 0 && qty < 128)
-              bc.SendReply(string.Format(CultureInfo.InvariantCulture, "Level \\b{0}\\b: \\c07{1:N0}\\c exp.", qty, RSUtil.Lvl2Exp((int)qty)));
+              bc.SendReply(string.Format(CultureInfo.InvariantCulture, "Level \\b{0}\\b: \\c07{1:N0}\\c exp.", qty, ((int)qty).ToExp()));
             else
               bc.SendReply("Error: Invalid level.");
             return;
@@ -466,7 +466,7 @@ namespace BigSister {
       }
 
       bc.SendReply(string.Format(CultureInfo.InvariantCulture, @"\b{0}\b summoning level \c07{1}\c | \c07{2:N0} Gold\c; \c03{3:N0} Green\c; \c04{4:N0} Crimson\c; \c10{5:N0} Blue\c | Total exp: \c07{6:#,##0.#}\c | Total shards: \c07{7:N0}\c (\c07{8:N0} gp\c) | Expected level: \c07{9}\c (\c07{10:N0} xp\c)",
-                                                               player.Name, summLevel, goldCharms, greenCharms, crimsonCharms, blueCharms, totalExp, totalShards, totalShards * 25, RSUtil.Exp2Lvl(player.Skills[Skill.SUMM].Exp + (int)totalExp), player.Skills[Skill.SUMM].Exp + totalExp));
+                                                               player.Name, summLevel, goldCharms, greenCharms, crimsonCharms, blueCharms, totalExp, totalShards, totalShards * 25, (player.Skills[Skill.SUMM].Exp + (int)totalExp).ToLevel(), player.Skills[Skill.SUMM].Exp + totalExp));
 
       bc.SendReply(reply.Substring(0, reply.Length - 3));
     }

@@ -271,12 +271,12 @@ namespace BigSister {
           switch (ops.Peek().Expr) {
             // RUNESCAPE FUNCTIONS
             case "xp":
-              vals.Push(RSUtil.Lvl2Exp((int)temp1));
+              vals.Push(((int)temp1).ToExp());
               break;
 
             case "lvl":
             case "level":
-              vals.Push(RSUtil.Exp2Lvl((int)temp1));
+              vals.Push(((int)temp1).ToLevel());
               break;
 
             // OTHER FUNCTIONS

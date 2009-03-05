@@ -58,6 +58,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite, Version=1.0.60.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86" />
     <Reference Include="System.Drawing" />
@@ -107,6 +110,7 @@
     <Compile Include="DataFiles\SummoningItem.cs" />
     <Compile Include="DataFiles\SkillItem.cs" />
     <Compile Include="DataFiles\SkillItems.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="FanSites\Item.cs" />
     <Compile Include="FanSites\Items.cs" />
     <Compile Include="FanSites\Monster.cs" />

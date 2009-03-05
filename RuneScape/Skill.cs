@@ -39,7 +39,7 @@ namespace BigSister {
       if (name == OVER || name == COMB)
         VLevel = level;
       else
-        VLevel = RSUtil.Exp2Lvl(_exp);
+        VLevel = _exp.ToLevel();
     }
 
     public Skill(string name, int rank, int exp)
@@ -78,7 +78,7 @@ namespace BigSister {
         if (_exp != value) {
           _exp = value;
           if (Name != OVER && Name != COMB) {
-            VLevel = RSUtil.Exp2Lvl(_exp);
+            VLevel = _exp.ToLevel();
             _level = Math.Min(99, VLevel);
           }
         }
@@ -104,7 +104,7 @@ namespace BigSister {
     public int ExpToLevel {
       get {
         if (_level < 99)
-          return RSUtil.Lvl2Exp(_level + 1) - _exp;
+          return (_level + 1).ToExp() - _exp;
         return 0;
       }
     }
@@ -112,7 +112,7 @@ namespace BigSister {
     public int ExpToVLevel {
       get {
         if (VLevel < 126)
-          return RSUtil.Lvl2Exp(VLevel + 1) - _exp;
+          return (this.VLevel + 1).ToExp() - _exp;
         return 200000000 - _exp;
       }
     }
