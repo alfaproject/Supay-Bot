@@ -194,7 +194,7 @@ namespace BigSister {
       if (p.Ranked) {
         Minigame minigame = p.Minigames[BigSister.Minigame.Parse(bc.MessageTokens[0])];
         if (minigame.Rank > 0) {
-          string reply = string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b \\c07{1:n}\\c | score: \\c07{2:s}\\c | rank: \\c07{3:R}\\c", rsn, minigame);
+          string reply = string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b \\c07{1:n}\\c | score: \\c07{1:s}\\c | rank: \\c07{1:R}\\c", rsn, minigame);
 
           // Add up SS rank if applicable
           Players ssplayers = new Players("SS");
