@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Globalization;
-using System.Text.RegularExpressions;
 
 namespace BigSister {
   class CmdOthers {
 
-    public static void Percent(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Percent(CommandContext bc) {
       // get rsn
       string rsn;
       if (bc.MessageTokens.Length > 1)
@@ -44,9 +40,7 @@ namespace BigSister {
                                  (float)(current_combat_xp - expected_combat_xp) / current_combat_xp * 100));
     }
 
-    public static void CombatPercent(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void CombatPercent(CommandContext bc) {
       // get rsn
       string rsn;
       if (bc.MessageTokens.Length > 1)
@@ -63,9 +57,7 @@ namespace BigSister {
       bc.SendReply(string.Format("\\b{0}\\b is \\c07{1:0.##}%\\c combat based, with \\c07{2:e}\\c combat based exp. and \\c07{3:e}\\c total exp.", rsn, (double)p.Skills[Skill.COMB].Exp / (double)p.Skills[Skill.OVER].Exp * 100.0, p.Skills[Skill.COMB], p.Skills[Skill.OVER]));
     }
 
-    public static void F2pPercent(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void F2pPercent(CommandContext bc) {
       // get rsn
       string rsn;
       if (bc.MessageTokens.Length > 1)
@@ -82,9 +74,7 @@ namespace BigSister {
       bc.SendReply(string.Format("\\b{0}\\b is \\c07{1:0.##}%\\c f2p based, with \\c07{2:N0}\\c f2p based exp. and \\c07{3:e}\\c total exp.", rsn, (double)p.Skills.F2pExp() / (double)p.Skills[Skill.OVER].Exp * 100, p.Skills.F2pExp(), p.Skills[Skill.OVER]));
     }
 
-    public static void SlayerPercent(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void SlayerPercent(CommandContext bc) {
       // get rsn
       string rsn;
       if (bc.MessageTokens.Length > 1)
@@ -107,9 +97,7 @@ namespace BigSister {
                                  (double)p.Skills[Skill.SLAY].Exp * 16.0 / 3.0, hits_exp_gained + hits_exp_gained * 3));
     }
 
-    public static void PcPercent(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void PcPercent(CommandContext bc) {
       // get rsn
       string rsn;
       if (bc.MessageTokens.Length > 1)
@@ -131,9 +119,7 @@ namespace BigSister {
                                  expected_combat_xp, current_combat_xp));
     }
 
-    public static void Players(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Players(CommandContext bc) {
       Worlds worlds = new Worlds();
 
       int inputworld;
@@ -260,9 +246,7 @@ namespace BigSister {
       }
     }
 
-    public static void Grats(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Grats(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !grats <skill> <level>");
         return;
@@ -309,9 +293,7 @@ namespace BigSister {
         bc.SendReply(string.Format(":D\\-< ¤.¡*°*¡.¤ Woo! Congrats on your \\c07{0} level {1}\\c!! ¤.¡*°*¡.¤ :D/-<", skill.ToLowerInvariant(), rsn));
     }
 
-    public static void HighLow(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void HighLow(CommandContext bc) {
       // @rank
       bool rank = false;
       if (bc.Message.Contains(" @rank") || bc.Message.Contains(" @r")) {
@@ -392,9 +374,7 @@ namespace BigSister {
       }
     }
 
-    public static void CalcCombat(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void CalcCombat(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !CalcCombat Att Str Def Hit Pray Sum Ran Mag");
         return;
@@ -474,5 +454,5 @@ namespace BigSister {
                                  (Mag + nextM > 99 ? "04" : "03") + nextM));
     }
 
-  }
-}
+  } //class CmdOthers
+} //namespace BigSister

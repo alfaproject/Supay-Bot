@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Globalization;
-
 using System.Data.SQLite;
 
-namespace BigSister
-{
-  class CmdTimers
-  {
-    public static void Start(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
+namespace BigSister {
+  class CmdTimers {
 
+    public static void Start(CommandContext bc) {
       // get rsn
       string rsn = bc.From.RSN;
 
@@ -46,9 +39,7 @@ namespace BigSister
       bc.SendReply(string.Format("\\b{0}\\b starting exp of \\c07{1:e}\\c in \\u{1:n}\\u has been recorded{2}.", rsn, p.Skills[skill], name.Length > 0 ? " on timer \\c07" + name + "\\c" : string.Empty));
     }
 
-    public static void Check(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Check(CommandContext bc) {
       // get rsn
       string rsn = bc.From.RSN;
 
@@ -77,8 +68,7 @@ namespace BigSister
         if (skill != "Overall" && skill != "Combat" && p.Skills[skill].VLevel < 126)
           reply += string.Format(" Estimated time to level up: \\c07{0}\\c", Util.FormatTimeSpan(new TimeSpan(0, 0, (int)((double)p.Skills[skill].ExpToVLevel * (double)time.TotalSeconds / (double)gained_exp))));
         bc.SendReply(reply);
-      }
-      else {
+      } else {
         if (name.Length > 0)
           bc.SendReply("You must start timing a skill on that timer first.");
         else
@@ -86,9 +76,7 @@ namespace BigSister
       }
     }
 
-    public static void Stop(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Stop(CommandContext bc) {
       // get rsn
       string rsn = bc.From.RSN;
 
@@ -120,8 +108,7 @@ namespace BigSister
 
         // remove the timer with this name
         DataBase.ExecuteNonQuery("DELETE FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "';");
-      }
-      else {
+      } else {
         if (name.Length > 0)
           bc.SendReply("You must start timing a skill on that timer first.");
         else
@@ -129,9 +116,7 @@ namespace BigSister
       }
     }
 
-    public static void Timer(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Timer(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         SQLiteDataReader rsTimer = DataBase.ExecuteReader("SELECT name, duration, started FROM timers WHERE fingerprint='" + bc.From.FingerPrint + "' OR nick='" + bc.From.Nick + "';");
         int timers = 0;
@@ -188,5 +173,5 @@ namespace BigSister
       bc.SendReply(string.Format("Timer started to \\b{0}\\b. Timer will end at \\c07{1}\\c.", bc.From.Nick, DateTime.Now.AddMinutes(duration).ToString("yyyy/MM/dd HH:mm:ss")));
     }
 
-  }
-}
+  } //class CmdTimers
+} //namespace BigSister

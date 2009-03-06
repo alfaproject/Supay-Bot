@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Globalization;
 
 namespace BigSister {
   class CmdGrandExchange {
 
-    public static void Price(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Price(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !Price [qty] <item>");
         return;
@@ -44,9 +40,7 @@ namespace BigSister {
       bc.SendReply(reply);
     }
 
-    public static void PriceInfo(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void PriceInfo(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !PriceInfo <item>");
         return;
@@ -103,11 +97,8 @@ namespace BigSister {
                                  price.Name, Util.FormatShort(price.MarketPrice, 2), Util.FormatShort(price.MinimumPrice, 2), Util.FormatShort(price.MaximumPrice), change7days, change30days, price.Examine));
     }
 
-    public static void LastUpdate(object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void LastUpdate(CommandContext bc) {
       DateTime lastUpdate = Util.StrToDateTime(DataBase.GetString("SELECT lastUpdate FROM prices ORDER BY lastUpdate DESC LIMIT 1;", DateTime.UtcNow.ToString("yyyyMMddHHmm")));
-
       bc.SendReply(string.Format("The GE was last updated \\c07{0}\\c ago. ({1:R})", Util.FormatTimeSpan(DateTime.UtcNow - lastUpdate), lastUpdate));
     }
 

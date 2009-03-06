@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 
-namespace BigSister
-{
-  class CmdMonster
-  {
-    public static void Search(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
+namespace BigSister {
+  class CmdMonster {
 
+    public static void Search(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !MonsterSearch <search terms>");
         return;
@@ -26,15 +22,12 @@ namespace BigSister
         for (int i = 0; i < Math.Min(15, results.Count); i++)
           reply += " \\c07" + results[i].Name + "\\c (" + results[i].Level + ");";
         bc.SendReply(reply);
-      }
-      else {
+      } else {
         bc.SendReply(string.Format("\\c12www.tip.it\\c doesn't have any record for \"{0}\".", search_terms));
       }
     }
 
-    public static void Info(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Info(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !MonsterInfo <monster>");
         return;
@@ -88,10 +81,9 @@ namespace BigSister
 
         if (monster == null) {
           bc.SendReply(string.Format("\\c12www.tip.it\\c doesn't have any record for \"{0}\".", search_terms));
-        }
-        else {
+        } else {
           monster.Update();
-          bc.SendReply(string.Format("Name: \\c07{0}\\c | Level: \\c07{1}\\c | Hitpoints: \\c07{2}\\c | Race: \\c07{3}\\c | \\c12www.tip.it/runescape/index.php?rs2monster_id={4}\\c", 
+          bc.SendReply(string.Format("Name: \\c07{0}\\c | Level: \\c07{1}\\c | Hitpoints: \\c07{2}\\c | Race: \\c07{3}\\c | \\c12www.tip.it/runescape/index.php?rs2monster_id={4}\\c",
                                      monster.Name, monster.Level, monster.Hits, monster.Race, monster.ID));
           bc.SendReply(string.Format("Aggressive? \\c{0}\\c | Retreats? \\c{1}\\c | Quest? \\c{2}\\c | Members? \\c{3}\\c | Poisonous? \\c{4}\\c | Habitat: \\c07{5}\\c",
                                      monster.Aggressive ? "3Yes" : "4No",
@@ -101,11 +93,10 @@ namespace BigSister
                                      monster.Poisonous ? "3Yes" : "4No",
                                      monster.Habitat.Count > 0 ? monster.Habitat[0] : "Unknown"));
         }
-      }
-      else {
+      } else {
         bc.SendReply(string.Format("\\c12www.tip.it\\c doesn't have any record for \"{0}\".", search_terms));
       }
     }
 
-  }
-}
+  } //class CmdMonster
+} //namespace BigSister

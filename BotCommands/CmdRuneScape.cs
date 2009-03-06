@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Globalization;
-using System.IO;
+using System.Text.RegularExpressions;
 
 namespace BigSister {
-
   class CmdRuneScape {
 
-    public static void Stats(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Stats(CommandContext bc) {
       // get @next
       bool ExpNext = false;
       if (bc.Message.Contains(" @next") || bc.Message.Contains(" @n")) {
@@ -180,9 +175,7 @@ namespace BigSister {
       }
     }
 
-    public static void Minigame(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Minigame(CommandContext bc) {
       // get rsn
       string rsn;
       if (bc.MessageTokens.Length > 1)
@@ -246,9 +239,7 @@ namespace BigSister {
       bc.SendReply(string.Format("\\b{0}\\b doesn't feature Hiscores.", rsn));
     }
 
-    public static void SkillInfo(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void SkillInfo(CommandContext bc) {
       // get goal
       string goal = "nl";
       Match M = Regex.Match(bc.Message, " (#|goal=)([\\dnlr]+)( |$)");
@@ -541,9 +532,7 @@ namespace BigSister {
       return false;
     }
 
-    public static void Combat(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Combat(CommandContext bc) {
       // get @next
       bool ExpNext = false;
       if (bc.Message.Contains(" @next") || bc.Message.Contains(" @n")) {
@@ -781,5 +770,5 @@ namespace BigSister {
       return null;
     }
 
-  }
-}
+  } //class CmdRuneScape
+} //namespace BigSister

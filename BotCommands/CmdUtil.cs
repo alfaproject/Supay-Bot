@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
-
-namespace BigSister {
+﻿namespace BigSister {
   class CmdUtil {
-    //setname <rsn>
-    public static void SetName(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
 
+    //setname <rsn>
+    public static void SetName(CommandContext bc) {
       if (bc.MessageTokens.Length <= 1) {
         bc.SendReply("Syntax: !setname <rsn>");
         return;
@@ -30,9 +24,7 @@ namespace BigSister {
     }
 
     //whois <nick>
-    public static void Whois(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Whois(CommandContext bc) {
       if (bc.MessageTokens.Length <= 1) {
         bc.SendReply(string.Format("{0}'s RSN is \\b{1}\\b.", bc.From.Nick, bc.From.RSN));
         return;
@@ -47,9 +39,7 @@ namespace BigSister {
     }
 
     //calc <expression>
-    public static void Calc(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Calc(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !calc <expression>");
         return;
@@ -61,5 +51,5 @@ namespace BigSister {
       bc.SendReply("\\c07" + mp.Expression + "\\c => \\c07" + mp.ValueAsString + "\\c");
     }
 
-  }
-}
+  } //class CmdUtils
+} //namespace BigSister

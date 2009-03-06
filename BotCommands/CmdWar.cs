@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Globalization;
 
 namespace BigSister {
   class CmdWar {
 
-    public static void Start(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Start(CommandContext bc) {
       if (!bc.From.IsAdmin)
         return;
 
@@ -50,9 +46,7 @@ namespace BigSister {
       bc.SendReply(string.Format("\\b{0}\\b war started on \\u{1}\\u for these players. \\bYou can now login and good luck!\\b", skill, DateTime.Now));
     }
 
-    public static void End(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void End(CommandContext bc) {
       if (!bc.From.IsAdmin)
         return;
 
@@ -90,9 +84,7 @@ namespace BigSister {
         System.IO.File.Delete(@"Data\War.xml");
     }
 
-    public static void Add(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Add(CommandContext bc) {
       if (!bc.From.IsAdmin)
         return;
 
@@ -128,9 +120,7 @@ namespace BigSister {
       }
     }
 
-    public static void Remove(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Remove(CommandContext bc) {
       if (!bc.From.IsAdmin)
         return;
 
@@ -152,9 +142,7 @@ namespace BigSister {
       }
     }
 
-    public static void Top(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Top(CommandContext bc) {
       string rsn = bc.From.RSN;
       int rank = 1;
 
@@ -239,9 +227,7 @@ namespace BigSister {
       bc.SendReply(reply);
     }
 
-    public static void TopAll(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void TopAll(CommandContext bc) {
       if (!bc.From.IsAdmin)
         return;
 
@@ -279,5 +265,5 @@ namespace BigSister {
         bc.SendReply(reply);
     }
 
-  }
-}
+  } //class CmdWar
+} //namespace BigSister

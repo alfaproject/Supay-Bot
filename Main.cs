@@ -21,7 +21,7 @@ namespace BigSister {
 
     private const int UPDATE_HOUR = 6;
 
-    private delegate void ExecuteBotCommand(object o);
+    private delegate void ExecuteBotCommand(CommandContext bc);
 
     public Main() {
       InitializeComponent();
@@ -219,7 +219,7 @@ namespace BigSister {
           e.Message.Text = "." + e.Message.Text;
 
         if (e.Message.Text[0] == '!' || e.Message.Text[0] == '.' || e.Message.Text[0] == '@') {
-          BotCommand bc = new BotCommand(_irc, _irc.Peers, e.Message.Sender, _irc.Channels.Find(e.Message.Targets[0]), e.Message.Text);
+          CommandContext bc = new CommandContext(_irc, _irc.Peers, e.Message.Sender, _irc.Channels.Find(e.Message.Targets[0]), e.Message.Text);
 
           switch (bc.MessageTokens[0].ToLowerInvariant()) {
             // Utility

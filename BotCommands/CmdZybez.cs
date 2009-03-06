@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace BigSister {
-  
   class CmdZybez {
 
-    public static void ItemInfo(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void ItemInfo(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !Item <item>");
         return;
@@ -63,9 +58,7 @@ namespace BigSister {
       }
     }
 
-    public static void HighAlch(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void HighAlch(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !Alch [qty] <item>");
         return;
@@ -180,5 +173,5 @@ namespace BigSister {
       return false;
     }
 
-  }
-}
+  } //class CmdZybez
+} //namespace BigSister

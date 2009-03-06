@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Globalization;
 
 namespace BigSister {
   class CmdHiscores {
-    
-    public static void Top(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
 
+    public static void Top(CommandContext bc) {
       string rsn = bc.From.RSN;
       string skill = null, minigame = null;
       int rank = 0;
@@ -73,12 +68,12 @@ namespace BigSister {
           reply += " ";
           if (hiscores[i].Rank == rank)
             reply += "\\b";
-          
+
           if (level)
             reply += string.Format("\\c07#{0:r}\\c {1} ({0:l})", (Skill)hiscores[i], hiscores[i].RSN);
           else
             reply += string.Format("\\c07#{0:r}\\c {1} ({0:e})", (Skill)hiscores[i], hiscores[i].RSN);
-          
+
           if (hiscores[i].Rank == rank)
             reply += "\\b";
           reply += ";";
@@ -97,9 +92,7 @@ namespace BigSister {
       bc.SendReply(reply);
     }
 
-    public static void Rank(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Rank(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         // !rank
         bc.SendReply("Syntax: !rank <skill/minigame> <rank>");

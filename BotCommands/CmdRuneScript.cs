@@ -5,9 +5,7 @@ using System.Text.RegularExpressions;
 namespace BigSister {
   class CmdRuneScript {
 
-    public static void Graph(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Graph(CommandContext bc) {
       string skill = "Overall";
       string rsn = bc.From.RSN;
 
@@ -15,18 +13,15 @@ namespace BigSister {
         if (Skill.TryParse(bc.MessageTokens[1], ref skill)) {
           if (bc.MessageTokens.Length > 2)
             rsn = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 2));
-        }
-        else {
+        } else {
           rsn = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 1));
         }
       }
-      
+
       bc.SendReply(string.Format("\\b{0}\\b \\c07{1}\\c graph | level: \\c12http://t.rscript.org/graph-{0}.{2}.lvl.png\\c | exp: \\c12http://t.rscript.org/graph-{0}.{2}.png\\c | rank: \\c12http://t.rscript.org/graph-{0}.{2}.rank.png\\c", rsn, skill.ToLowerInvariant(), Skill.NameToId(skill)));
     }
-    
-    public static void Track(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
 
+    public static void Track(CommandContext bc) {
       // get time
       int intervalTime = 604800;
       string intervalName = "1 week";
@@ -106,8 +101,7 @@ namespace BigSister {
       Skill OverallDif = PlayerNew.Skills["Overall"] - PlayerOld.Skills["Overall"];
       if (OverallDif.Exp <= 0) {
         bc.SendReply(string.Format("No performance for \\b{0}\\b within this period.", rsn));
-      }
-      else {
+      } else {
         Skill CombatDif = PlayerNew.Skills["Combat"] - PlayerOld.Skills["Combat"];
 
         string DifLevel = string.Empty;
@@ -117,7 +111,7 @@ namespace BigSister {
         DifLevel = string.Empty;
         if (CombatDif.Level > 0)
           DifLevel = string.Format(" [\\b+{0}\\b]", CombatDif.Level);
-        ReplyMsg += string.Format("; \\c07Combat\\c lvl {0} \\c03+{1}\\c xp (\\c07{2}%\\c)", PlayerNew.Skills["Combat"].Level + DifLevel, Util.FormatShort(CombatDif.Exp, 1), Util.FormatShort((double) CombatDif.Exp / (double) OverallDif.Exp * 100.0, 1));
+        ReplyMsg += string.Format("; \\c07Combat\\c lvl {0} \\c03+{1}\\c xp (\\c07{2}%\\c)", PlayerNew.Skills["Combat"].Level + DifLevel, Util.FormatShort(CombatDif.Exp, 1), Util.FormatShort((double)CombatDif.Exp / (double)OverallDif.Exp * 100.0, 1));
         bc.SendReply(ReplyMsg);
 
         // 2nd line: skills list
@@ -140,5 +134,5 @@ namespace BigSister {
       }
     }
 
-  }
-}
+  } //class CmdRuneScript
+} //namespace BigSister

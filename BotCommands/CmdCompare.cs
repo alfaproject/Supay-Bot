@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Globalization;
+﻿using System.Globalization;
 
-namespace BigSister
-{
-  class CmdCompare
-  {
-    public static void Compare(Object stateInfo) {
-      BotCommand bc = (BotCommand) stateInfo;
+namespace BigSister {
+  class CmdCompare {
 
+    public static void Compare(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !compare [skill] <player1> [player2]");
         return;
@@ -23,44 +17,37 @@ namespace BigSister
           // !compare <skill> <player2>
           rsn1 = bc.From.RSN;
           rsn2 = bc.NickToRSN(bc.MessageTokens[2]);
-        }
-        else if (bc.MessageTokens.Length > 3) {
+        } else if (bc.MessageTokens.Length > 3) {
           // !compare <skill> <player1> <player2>
           rsn1 = bc.NickToRSN(bc.MessageTokens[2]);
           rsn2 = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 3));
-        }
-        else {
+        } else {
           // !compare <player2>
           skill1 = "Overall";
           rsn1 = bc.From.RSN;
           rsn2 = bc.NickToRSN(bc.MessageTokens[1]);
         }
-      }
-      else if (Minigame.TryParse(bc.MessageTokens[1], ref minigame1)) {
+      } else if (Minigame.TryParse(bc.MessageTokens[1], ref minigame1)) {
         if (bc.MessageTokens.Length == 3) {
           // !compare <minigame> <player2>
           rsn1 = bc.From.RSN;
           rsn2 = bc.NickToRSN(bc.MessageTokens[2]);
-        }
-        else if (bc.MessageTokens.Length > 3) {
+        } else if (bc.MessageTokens.Length > 3) {
           // !compare <minigame> <player1> <player2>
           rsn1 = bc.NickToRSN(bc.MessageTokens[2]);
           rsn2 = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 3));
-        }
-        else {
+        } else {
           // !compare <player2>
           skill1 = "Overall";
           rsn1 = bc.From.RSN;
           rsn2 = bc.NickToRSN(bc.MessageTokens[1]);
         }
-      }
-      else if (bc.MessageTokens.Length == 2) {
+      } else if (bc.MessageTokens.Length == 2) {
         // !compare <player2>
         skill1 = "Overall";
         rsn1 = bc.From.RSN;
         rsn2 = bc.NickToRSN(bc.MessageTokens[1]);
-      }
-      else {
+      } else {
         // !compare <player1> <player2>
         skill1 = "Overall";
         rsn1 = bc.NickToRSN(bc.MessageTokens[1]);
@@ -93,8 +80,7 @@ namespace BigSister
             reply += string.Format(", but \\b{0}\\b has \\c07{1:N0}\\c more experience.", p1.Name, pskill1.Exp - pskill2.Exp);
           else
             reply += string.Format(", but \\b{0}\\b has \\c07{1:N0}\\c less experience.", p1.Name, pskill2.Exp - pskill1.Exp);
-        }
-        else if (pskill1.Level > pskill2.Level) {
+        } else if (pskill1.Level > pskill2.Level) {
           reply = string.Format("\\b{0}\\b has \\c07{2}\\c more level{3} than \\b{1}\\b.", p1.Name, p2.Name, pskill1.Level - pskill2.Level, pskill1.Level - pskill2.Level == 1 ? string.Empty : "s");
           if (pskill1.Exp == pskill2.Exp)
             reply += string.Format(", but both have \\c07{0:e}\\c experience.", pskill1);
@@ -102,8 +88,7 @@ namespace BigSister
             reply += string.Format(" and has \\c07{0:N0}\\c more experience.", pskill1.Exp - pskill2.Exp);
           else
             reply += string.Format(", but \\b{0}\\b has \\c07{1:N0}\\c less experience.", p1.Name, pskill2.Exp - pskill1.Exp);
-        }
-        else {
+        } else {
           reply = string.Format("\\b{0}\\b has \\c07{2}\\c less level{3} than \\b{1}\\b.", p1.Name, p2.Name, pskill2.Level - pskill1.Level, pskill2.Level - pskill1.Level == 1 ? string.Empty : "s");
           if (pskill1.Exp == pskill2.Exp)
             reply += string.Format(", but both have \\c07{0:e}\\c experience.", pskill1);
@@ -130,8 +115,7 @@ namespace BigSister
             }
           }
         }
-      }
-      else {
+      } else {
         // compare minigames
         Minigame pminigame1 = p1.Minigames[minigame1];
         Minigame pminigame2 = p2.Minigames[minigame1];
@@ -172,5 +156,5 @@ namespace BigSister
       }
     }
 
-  }
-}
+  } //class CmdCompare
+} //namespace BigSister

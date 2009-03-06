@@ -78,7 +78,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BotCommands\BotCommand.cs" />
+    <Compile Include="BotCommands\CommandContext.cs" />
     <Compile Include="BotCommands\CmdClan.cs" />
     <Compile Include="BotCommands\CmdCompare.cs" />
     <Compile Include="BotCommands\CmdDataFiles.cs" />

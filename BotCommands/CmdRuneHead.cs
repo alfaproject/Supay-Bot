@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
-
-using System.Data.SQLite;
 
 namespace BigSister {
   class CmdRuneHead {
@@ -19,7 +16,7 @@ namespace BigSister {
       return clans;
     }
 
-    private static void _OutputClans(BotCommand bc, string type, string rsn, List<string[]> clans) {
+    private static void _OutputClans(CommandContext bc, string type, string rsn, List<string[]> clans) {
       if (clans.Count == 0)
         return;
 
@@ -34,9 +31,7 @@ namespace BigSister {
       bc.SendReply(reply);
     }
 
-    public static void Clan(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Clan(CommandContext bc) {
       // get rsn
       string rsn;
       if (bc.MessageTokens.Length > 1)
@@ -66,9 +61,7 @@ namespace BigSister {
       }
     }
 
-    public static void ClanInfo(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void ClanInfo(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !ClanInfo <clan name|clan initials>");
       }
@@ -96,9 +89,7 @@ namespace BigSister {
       }
     }
 
-    public static void ParseClan(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void ParseClan(CommandContext bc) {
       List<string> clanMembers = new List<string>(500);
 
       string pageRuneHead;

@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
-
 using System.Data.SQLite;
+using System.Text.RegularExpressions;
 
 namespace BigSister {
   class CmdTracker {
-    public static void Add(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
 
+    public static void Add(CommandContext bc) {
       if (!bc.From.IsAdmin)
         return;
 
@@ -33,9 +30,7 @@ namespace BigSister {
       }
     }
 
-    public static void Remove(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Remove(CommandContext bc) {
       if (!bc.From.IsAdmin)
         return;
 
@@ -55,9 +50,7 @@ namespace BigSister {
       }
     }
 
-    public static void RemoveTrackerFromClan(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void RemoveTrackerFromClan(CommandContext bc) {
       if (!bc.From.IsAdmin)
         return;
 
@@ -86,9 +79,7 @@ namespace BigSister {
       bc.SendReply(string.Format("There are \\b{0}\\b players left in the tracker.", playersLeft));
     }
 
-    public static void RemoveFromClan(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void RemoveFromClan(CommandContext bc) {
       if (!bc.From.IsAdmin)
         return;
 
@@ -106,9 +97,7 @@ namespace BigSister {
       }
     }
 
-    public static void Performance(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Performance(CommandContext bc) {
       // get rsn
       string rsn;
       if (bc.MessageTokens.Length > 1)

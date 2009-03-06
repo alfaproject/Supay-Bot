@@ -6,7 +6,8 @@ using BigSister.Irc;
 using BigSister.Irc.Messages;
 
 namespace BigSister {
-  class BotCommand {
+  class CommandContext {
+
     private Client _irc;
     private UserCollection _users;
 
@@ -16,7 +17,7 @@ namespace BigSister {
     private string[] _messagetokens;
     private bool _replynotice;
 
-    public BotCommand(Client irc, UserCollection users, User from, Channel channel, string message) {
+    public CommandContext(Client irc, UserCollection users, User from, Channel channel, string message) {
       _irc = irc;
       _users = users;
 
@@ -95,5 +96,5 @@ namespace BigSister {
       }
     }
 
-  }
-}
+  } //class CommandContext
+} //namespace BigSister

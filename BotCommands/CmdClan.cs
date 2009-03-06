@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-using System.Data.SQLite;
 
 namespace BigSister {
   class CmdClan {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
-    public static void Top(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Top(CommandContext bc) {
       string clanInitials;
       string clanName;
       if (bc.Message.ToUpperInvariant().Contains("SS")) {
@@ -194,9 +189,7 @@ namespace BigSister {
     }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
-    public static void Performance(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Performance(CommandContext bc) {
       string clanInitials;
       string clanName;
       if (bc.Message.ToUpperInvariant().Contains("SS")) {
@@ -351,9 +344,7 @@ namespace BigSister {
       }
     }
 
-    public static void Stats(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Stats(CommandContext bc) {
       string skill = "Overall";
       if (bc.MessageTokens.Length > 1)
         Skill.TryParse(bc.MessageTokens[1], ref skill);

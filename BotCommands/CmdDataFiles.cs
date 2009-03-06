@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.IO;
 using System.Globalization;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace BigSister {
   class CmdDataFiles {
 
-    public static void Coord(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Coord(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !Coords ## ## n/s ## ## w/e");
         return;
@@ -53,9 +50,7 @@ namespace BigSister {
       }
     }
 
-    public static void Riddle(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Riddle(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !Riddle <riddle>");
         return;
@@ -79,9 +74,7 @@ namespace BigSister {
       bc.SendReply(string.Format(@"Could not locate \c07'{0}'\c riddle.", query));
     }
 
-    public static void Anagram(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Anagram(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !Anagram <anagram>");
         return;
@@ -105,9 +98,7 @@ namespace BigSister {
       bc.SendReply(string.Format(@"Could not locate \c07'{0}'\c anagram.", query));
     }
 
-    public static void Challenge(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Challenge(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !Challenge <challenge>");
         return;
@@ -131,9 +122,7 @@ namespace BigSister {
       bc.SendReply(string.Format(@"Could not locate \c07'{0}'\c challenge.", query));
     }
 
-    public static void Npc(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Npc(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !Npc <npc>");
         return;
@@ -157,9 +146,7 @@ namespace BigSister {
       bc.SendReply(string.Format(@"Could not locate \c07'{0}'\c NPC.", query));
     }
 
-    public static void Search(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Search(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !Search <search>");
         return;
@@ -183,9 +170,7 @@ namespace BigSister {
       bc.SendReply(string.Format(@"Could not locate \c07'{0}'\c search.", query));
     }
 
-    public static void Uri(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Uri(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !Uri <Uri>");
         return;
@@ -209,9 +194,7 @@ namespace BigSister {
       bc.SendReply(string.Format(@"Could not locate \c07'{0}'\c uri.", query));
     }
 
-    public static void Fairy(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Fairy(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !Fairy <search term>");
         return;
@@ -234,9 +217,7 @@ namespace BigSister {
         bc.SendReply(string.Format("No combinations were found for \\c07{0}\\c.", search_terms));
     }
 
-    public static void Farmer(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Farmer(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !Plant [qty] <plant>");
         return;
@@ -271,9 +252,7 @@ namespace BigSister {
       }
     }
 
-    public static void Cape(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Cape(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !Cape <skill|quest>");
         return;
@@ -295,9 +274,7 @@ namespace BigSister {
       cape_file.Close();
     }
 
-    public static void Exp(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Exp(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !Exp [qty] <item>");
         return;
@@ -339,9 +316,7 @@ namespace BigSister {
       }
     }
 
-    public static void Reqs(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Reqs(CommandContext bc) {
       StreamReader reqs_file = new StreamReader("Data\\Reqs.txt");
       string reqs_line;
       while ((reqs_line = reqs_file.ReadLine()) != null)
@@ -352,9 +327,7 @@ namespace BigSister {
       reqs_file.Close();
     }
 
-    public static void Pouch(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Pouch(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !Pouch [qty] <familiar>");
         return;
@@ -392,9 +365,7 @@ namespace BigSister {
       }
     }
 
-    public static void Charms(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Charms(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !Charms <gold> [green] [crimson] [blue]");
         return;
@@ -471,9 +442,7 @@ namespace BigSister {
       bc.SendReply(reply.Substring(0, reply.Length - 3));
     }
 
-    public static void Potion(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Potion(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !Potion [qty] <potion>");
         return;
@@ -507,9 +476,7 @@ namespace BigSister {
       }
     }
 
-    public static void Spell(Object stateInfo) {
-      BotCommand bc = (BotCommand)stateInfo;
-
+    public static void Spell(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !Spell [qty] <spell>");
         return;
