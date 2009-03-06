@@ -103,6 +103,7 @@
     <Compile Include="Core\Profile\Profile.cs" />
     <Compile Include="Core\Profile\Xml.cs" />
     <Compile Include="Core\Profile\XmlHelper.cs" />
+    <Compile Include="Core\ThreadUtil.cs" />
     <Compile Include="DataFiles\ASkillItem.cs" />
     <Compile Include="DataFiles\FarmingItem.cs" />
     <Compile Include="DataFiles\HerbloreItem.cs" />

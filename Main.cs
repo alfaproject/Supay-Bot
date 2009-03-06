@@ -21,6 +21,8 @@ namespace BigSister {
 
     private const int UPDATE_HOUR = 6;
 
+    private delegate void ExecuteBotCommand(object o);
+
     public Main() {
       InitializeComponent();
 
@@ -224,30 +226,30 @@ namespace BigSister {
             case "setname":
             case "defname":
             case "addme":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdUtil.SetName), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdUtil.SetName), bc);
               break;
             case "rsn":
             case "whois":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdUtil.Whois), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdUtil.Whois), bc);
               break;
             case "calc":
             case "c":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdUtil.Calc), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdUtil.Calc), bc);
               break;
 
             // Tracker
             case "addtracker":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdTracker.Add), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTracker.Add), bc);
               break;
             case "removetracker":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdTracker.Remove), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTracker.Remove), bc);
               break;
             case "removetrackerfromclan":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdTracker.RemoveTrackerFromClan), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTracker.RemoveTrackerFromClan), bc);
               break;
             case "removefromss":
             case "removesser":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdTracker.RemoveFromClan), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTracker.RemoveFromClan), bc);
               break;
             case "today":
             case "week":
@@ -261,16 +263,16 @@ namespace BigSister {
             case "lmonth":
             case "lastyear":
             case "lyear":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdTracker.Performance), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTracker.Performance), bc);
               break;
 
             // RuneScript
             case "graph":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdRuneScript.Graph), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneScript.Graph), bc);
               break;
             case "track":
             case "tracker":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdRuneScript.Track), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneScript.Track), bc);
               break;
 
             // Clan
@@ -278,7 +280,7 @@ namespace BigSister {
             case "tugatop":
             case "sstop":
             case "tstop":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdClan.Top), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdClan.Top), bc);
               break;
             case "ptweek":
             case "ptmonth":
@@ -324,59 +326,59 @@ namespace BigSister {
             case "tslmonth":
             case "tslastyear":
             case "tslyear":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdClan.Performance), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdClan.Performance), bc);
               break;
             case "ss":
             case "ssavg":
             case "ssstats":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdClan.Stats), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdClan.Stats), bc);
               break;
 
             // Grand Exchange
             case "prices":
             case "price":
             case "ge":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdGrandExchange.Price), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdGrandExchange.Price), bc);
               break;
             case "priceinfo":
             case "geinfo":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdGrandExchange.PriceInfo), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdGrandExchange.PriceInfo), bc);
               break;
             case "gelastupdate":
             case "geupdate":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdGrandExchange.LastUpdate), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdGrandExchange.LastUpdate), bc);
               break;
 
             // RuneScape
             case "all":
             case "stats":
             case "skills":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdRuneScape.Stats), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneScape.Stats), bc);
               break;
             case "compare":
             case "comp":
             case "cmp":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdCompare.Compare), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdCompare.Compare), bc);
               break;
             case "combat":
             case "comb":
             case "cmb":
             case "cb":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdRuneScape.Combat), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneScape.Combat), bc);
               break;
 
             // Hiscores
             case "top":
             case "table":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdHiscores.Top), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdHiscores.Top), bc);
               break;
             case "rank":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdHiscores.Rank), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdHiscores.Rank), bc);
               break;
 
             // Zybez
             case "item":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdZybez.ItemInfo), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdZybez.ItemInfo), bc);
               break;
             case "highalchemy":
             case "highalch":
@@ -384,16 +386,16 @@ namespace BigSister {
             case "lowalch":
             case "alchemy":
             case "alch":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdZybez.HighAlch), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdZybez.HighAlch), bc);
               break;
 
             // RuneHead
             case "clan":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdRuneHead.Clan), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneHead.Clan), bc);
               break;
             case "claninfo":
             case "ml":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdRuneHead.ClanInfo), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneHead.ClanInfo), bc);
               break;
             case "parsess":
             case "updatess":
@@ -401,79 +403,79 @@ namespace BigSister {
             case "updatept":
             case "parsets":
             case "updatets":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdRuneHead.ParseClan), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneHead.ParseClan), bc);
               break;
 
             // Tip.It
             case "monstersearch":
             case "npcsearch":
             case "mdbsearch":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdMonster.Search), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdMonster.Search), bc);
               break;
             case "monsterinfo":
             case "mdbinfo":
             case "monster":
             case "mdb":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdMonster.Info), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdMonster.Info), bc);
               break;
 
             // Timers
             case "start":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdTimers.Start), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTimers.Start), bc);
               break;
             case "check":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdTimers.Check), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTimers.Check), bc);
               break;
             case "stop":
             case "end":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdTimers.Stop), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTimers.Stop), bc);
               break;
             case "timer":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdTimers.Timer), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTimers.Timer), bc);
               break;
 
             // DataFiles
             case "coords":
             case "coord":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdDataFiles.Coord), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Coord), bc);
               break;
             case "anagram":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdDataFiles.Anagram), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Anagram), bc);
               break;
             case "challenge":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdDataFiles.Challenge), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Challenge), bc);
               break;
             case "npc":
             case "person":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdDataFiles.Npc), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Npc), bc);
               break;
             case "riddle":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdDataFiles.Riddle), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Riddle), bc);
               break;
             case "search":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdDataFiles.Search), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Search), bc);
               break;
             case "uri":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdDataFiles.Uri), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Uri), bc);
               break;
             case "fairy":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdDataFiles.Fairy), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Fairy), bc);
               break;
             case "payment":
             case "farmer":
             case "plant":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdDataFiles.Farmer), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Farmer), bc);
               break;
             case "cape":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdDataFiles.Cape), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Cape), bc);
               break;
             case "exp":
             case "xp":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdDataFiles.Exp), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Exp), bc);
               break;
             case "req":
             case "reqs":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdDataFiles.Reqs), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Reqs), bc);
               break;
             case "po":
             case "pouch":
@@ -481,95 +483,95 @@ namespace BigSister {
             case "fam":
             case "familiar":
             case "familiars":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdDataFiles.Pouch), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Pouch), bc);
               break;
             case "ch":
             case "charm":
             case "charms":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdDataFiles.Charms), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Charms), bc);
               break;
             case "pot":
             case "potion":
             case "potions":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdDataFiles.Potion), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Potion), bc);
               break;
             case "sp":
             case "spell":
             case "spells":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdDataFiles.Spell), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Spell), bc);
               break;
 
             // Others
             case "%":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdOthers.Percent), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.Percent), bc);
               break;
             case "combat%":
             case "comb%":
             case "cmb%":
             case "cb%":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdOthers.CombatPercent), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.CombatPercent), bc);
               break;
             case "slayer%":
             case "slay%":
             case "sl%":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdOthers.SlayerPercent), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.SlayerPercent), bc);
               break;
             case "f2p%":
             case "f2p":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdOthers.F2pPercent), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.F2pPercent), bc);
               break;
             case "pc%":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdOthers.PcPercent), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.PcPercent), bc);
               break;
 
             case "players":
             case "worlds":
             case "world":
             case "w":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdOthers.Players), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.Players), bc);
               break;
 
             case "grats":
             case "gratz":
             case "g":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdOthers.Grats), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.Grats), bc);
               break;
 
             case "highlow":
             case "lowhigh":
             case "hilo":
             case "lohi":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdOthers.HighLow), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.HighLow), bc);
               break;
             case "calccombat":
             case "cmb-est":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdOthers.CalcCombat), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.CalcCombat), bc);
               break;
 
             // Links
             case "quickfind":
             case "qfc":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdLinks.Qfc), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdLinks.Qfc), bc);
               break;
 
             // Wars
             case "warstart":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdWar.Start), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdWar.Start), bc);
               break;
             case "waradd":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdWar.Add), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdWar.Add), bc);
               break;
             case "warremove":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdWar.Remove), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdWar.Remove), bc);
               break;
             case "warend":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdWar.End), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdWar.End), bc);
               break;
             case "wartop":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdWar.Top), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdWar.Top), bc);
               break;
             case "wartopall":
-              ThreadPool.QueueUserWorkItem(new WaitCallback(CmdWar.TopAll), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdWar.TopAll), bc);
               break;
 
             default:
@@ -577,16 +579,16 @@ namespace BigSister {
 
               if (bc.MessageTokens[0].ToUpperInvariant().StartsWith("LAST")) {
                 // !lastNdays
-                ThreadPool.QueueUserWorkItem(new WaitCallback(CmdTracker.Performance), bc);
+                ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTracker.Performance), bc);
               } else if (bc.MessageTokens[0].ToUpperInvariant().StartsWith("SSLAST") || bc.MessageTokens[0].ToUpperInvariant().StartsWith("TSLAST") || bc.MessageTokens[0].ToUpperInvariant().StartsWith("PTLAST") || bc.MessageTokens[0].ToUpperInvariant().StartsWith("TUGALAST")) {
                 // !<clan>lastNdays
-                ThreadPool.QueueUserWorkItem(new WaitCallback(CmdClan.Performance), bc);
+                ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdClan.Performance), bc);
               } else if (Minigame.TryParse(bc.MessageTokens[0], ref command)) {
                 // !<minigame>
-                ThreadPool.QueueUserWorkItem(new WaitCallback(CmdRuneScape.Minigame), bc);
+                ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneScape.Minigame), bc);
               } else if (Skill.TryParse(bc.MessageTokens[0], ref command)) {
                 // !<skill>
-                ThreadPool.QueueUserWorkItem(new WaitCallback(CmdRuneScape.SkillInfo), bc);
+                ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneScape.SkillInfo), bc);
               }
               break;
           }
