@@ -153,7 +153,7 @@ namespace BigSister {
       btnConnect.Enabled = false;
 
       // Create a new client to the given address with the given nick
-      Profile.Xml config = new Profile.Xml("Data\\BigSister.xml");
+      XmlProfile config = new XmlProfile("Data\\BigSister.xml");
       config.RootName = "BigSister";
       string address = config.GetValue("Connection", "Address", "irc.swiftirc.net");
       string nick = config.GetValue("Connection", "Nick", "aLfPet");

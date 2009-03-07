@@ -443,7 +443,7 @@ namespace BigSister {
         }
 
         // ***** start war *****
-        Profile.Xml _config = new Profile.Xml("Data\\War.xml");
+        XmlProfile _config = new XmlProfile("Data\\War.xml");
         _config.RootName = bc.Channel.Substring(1);
 
         if (_config.GetValue("Setup", "Skill", "Overall") == skill.Name && _config.HasEntry(rsn, "StartExp")) {

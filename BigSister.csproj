@@ -100,8 +100,7 @@
     <Compile Include="Core\MathParser.cs" />
     <Compile Include="Core\OrderedDictionary.cs" />
     <Compile Include="Core\Profile\Profile.cs" />
-    <Compile Include="Core\Profile\Xml.cs" />
-    <Compile Include="Core\Profile\XmlHelper.cs" />
+    <Compile Include="Core\Profile\XmlBuffer.cs" />
     <Compile Include="Core\ThreadUtil.cs" />
     <Compile Include="DataFiles\ASkillItem.cs" />
     <Compile Include="DataFiles\FarmingItem.cs" />

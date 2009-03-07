@@ -1,43 +1,246 @@
 using System;
 using System.Data;
 using System.Globalization;
+using System.IO;
+using System.Text;
+using System.Xml;
 
-namespace BigSister.Profile {
+namespace BigSister {
   /// <summary>
-  ///   Abstract base class for all Profile classes in this namespace. </summary>
+  ///   Profile class that utilizes an XML file to retrieve and save its data. </summary>
   /// <remarks>
-  ///   This class contains fields and methods which are common for all the derived Profile classes. 
-  ///   It fully implements most of the methods and properties of its base interfaces so that 
-  ///   derived classes don't have to. </remarks>
-  [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1724:TypeNamesShouldNotMatchNamespaces")]
-  public abstract class Profile {
+  ///   This class works with XML files, which are text files that store their data using XML. 
+  ///   Since the format of XML is very flexible, I had to decide how to best organize the data
+  ///   using the section/entry paradigm.  After considering a couple of possibilities, 
+  ///   I decided that the format below would be preferrable, since it allows section and 
+  ///   entry names to contain spaces.  It also looks cleaner and more consistent than if I had
+  ///   used the section and entry names themselves to name the elements.
+  ///   <para>
+  ///   Here's an illustration of the format: </para>
+  ///   <code>
+  ///   &lt;?xml version="1.0" encoding="utf-8"?&gt;
+  ///   &lt;profile&gt;
+  ///     &lt;section name="A Section"&gt;
+  ///       &lt;entry name="An Entry"&gt;Some Value&lt;/entry&gt;
+  ///       &lt;entry name="Another Entry"&gt;Another Value&lt;/entry&gt;
+  ///     &lt;/section&gt;
+  ///     &lt;section name="Another Section"&gt;
+  ///       &lt;entry name="This is cool"&gt;True&lt;/entry&gt;
+  ///     &lt;/section&gt;
+  ///   &lt;/profile&gt;
+  ///   </code></remarks>
+  public class XmlProfile : IDisposable {
 
     // Fields
     private string _name;
     private bool _readOnly;
+    private string _rootName = "profile";
+    private Encoding _encoding = Encoding.UTF8;
+    internal XmlBuffer _buffer;
 
     /// <summary>
-    ///   Initializes a new instance of the Profile class by setting the <see cref="Name" /> to <see cref="DefaultName" />. </summary>
+    ///   Initializes a new instance of the XmlProfile class by setting the <see cref="Name" /> to <see cref="DefaultName" />. </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    protected Profile() {
+    protected XmlProfile() {
       _name = this.DefaultName;
     }
 
     /// <summary>
-    ///   Initializes a new instance of the Profile class by setting the <see cref="Name" /> to a value. </summary>
-    /// <param name="name">
-    ///   The name to initialize the <see cref="Name" /> property with. </param>
-    protected Profile(string name) {
-      _name = name;
+    ///   Initializes a new instance of the XmlProfile class by setting the <see cref="Profile.Name" /> to the given file name. </summary>
+    /// <param name="fileName">
+    ///   The name of the file to initialize the <see cref="Profile.Name" /> property with. </param>
+    public XmlProfile(string fileName) {
+      _name = fileName;
     }
 
     /// <summary>
-    ///   Initializes a new instance of the Profile class based on another Profile object. </summary>
+    ///   Initializes a new instance of the XmlProfile class based on another XmlProfile object. </summary>
     /// <param name="profile">
-    ///   The Profile object whose properties and events are used to initialize the object being constructed. </param>
-    protected Profile(Profile profile) {
+    ///   The XmlProfile object whose properties and events are used to initialize the object being constructed. </param>
+    protected XmlProfile(XmlProfile profile) {
       _name = profile._name;
       _readOnly = profile._readOnly;
+      _rootName = profile._rootName;
+      _encoding = profile._encoding;
+    }
+
+    /// <summary>
+    ///   Retrieves an XmlDocument object based on the <see cref="Profile.Name" /> of the file. </summary>
+    /// <returns>
+    ///   If <see cref="Buffering" /> is not enabled, the return value is the XmlDocument object loaded with the file, 
+    ///   or null if the file does not exist. If <see cref="Buffering" /> is enabled, the return value is an 
+    ///   XmlDocument object, which will be loaded with the file if it already exists.</returns>
+    /// <exception cref="InvalidOperationException">
+    ///	  <see cref="Profile.Name" /> is null or empty. </exception>
+    /// <exception cref="XmlException">
+    ///	  Parse error in the XML being loaded from the file. </exception>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1059:MembersShouldNotExposeCertainConcreteTypes", MessageId = "System.Xml.XmlNode"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
+    protected XmlDocument GetXmlDocument() {
+      if (_buffer != null)
+        return _buffer.XmlDocument;
+
+      VerifyName();
+      if (!File.Exists(Name))
+        return null;
+
+      XmlDocument doc = new XmlDocument();
+      doc.Load(Name);
+      return doc;
+    }
+
+    /// <summary>
+    ///   Saves any changes pending on an XmlDocument object, unless <see cref="Buffering" /> is enabled. </summary>
+    /// <exception cref="XmlException">
+    ///	  The resulting XML document would not be well formed. </exception>
+    /// <remarks>
+    ///   If <see cref="Buffering" /> is enabled, this method sets the <see cref="XmlBuffer.NeedsFlushing" /> property to true 
+    ///   and the changes are not saved until the buffer is flushed (or closed).  If the Buffer is not active
+    ///   the contents of the XmlDocument object are saved to the file. </remarks>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1059:MembersShouldNotExposeCertainConcreteTypes", MessageId = "System.Xml.XmlNode")]
+    protected void Save(XmlDocument doc) {
+      if (_buffer != null)
+        _buffer._needsFlushing = true;
+      else
+        doc.Save(Name);
+    }
+
+    /// <summary>
+    ///   Activates buffering on this XML-based profile object, if not already active. </summary>
+    /// <param name="lockFile">
+    ///   If true, the file is locked when the buffer is activated so that no other processes can write to it.  
+    ///   If false, other processes can continue writing to it and the actual contents of the file can get 
+    ///   out of synch with the contents of the buffer. </param>
+    /// <returns>
+    ///   The return value is an <see cref="XmlBuffer" /> object that may be used to control the buffer used
+    ///   to read/write values from this profile.  </returns>
+    /// <exception cref="InvalidOperationException">
+    ///	  Attempting to lock the file  and the name is null or empty. </exception>
+    /// <exception cref="SecurityException">
+    ///	  Attempting to lock the file without the required permission. </exception>
+    /// <exception cref="UnauthorizedAccessException">
+    ///	  Attempting to lock the file and ReadWrite access is not permitted by the operating system. </exception>
+    /// <remarks>
+    ///   <i>Buffering</i> is the caching of an <see cref="XmlDocument" /> object so that subsequent reads or writes
+    ///   are all done through it.  This dramatically increases the performance of those operations, but it requires
+    ///   that the buffer is flushed (or closed) to commit any changes done to the underlying file.
+    ///   <para>
+    ///   The XmlBuffer object is created and attached to this profile object, if not already present.
+    ///   If it is already attached, the same object is returned in subsequent calls, until the object is closed. </para>
+    ///   <para>
+    ///   Since the XmlBuffer class implements <see cref="IDisposable" />, the <c>using</c> keyword in C# can be 
+    ///   used to conveniently create the buffer, write to it, and then automatically flush it (when it's disposed).  
+    ///   Here's an example:
+    ///   <code> 
+    ///   using (profile.Buffer(true)) {
+    ///      profile.SetValue("A Section", "An Entry", "A Value");
+    ///      profile.SetValue("A Section", "Another Entry", "Another Value");
+    ///      ...
+    ///   }
+    ///   </code></para></remarks>
+    /// <seealso cref="XmlBuffer" />
+    /// <seealso cref="Buffering" />
+    public XmlBuffer Buffer(bool lockFile) {
+      if (_buffer == null)
+        _buffer = new XmlBuffer(this, lockFile);
+      return _buffer;
+    }
+
+    /// <summary>
+    ///   Activates <i>locked</i> buffering on this XML-based profile object, if not already active. </summary>
+    /// <returns>
+    ///   The return value is an <see cref="XmlBuffer" /> object that may be used to control the buffer used
+    ///   to read/write values from this profile.  </returns>
+    /// <exception cref="InvalidOperationException">
+    ///	  Attempting to lock the file  and the name is null or empty. </exception>
+    /// <exception cref="SecurityException">
+    ///	  Attempting to lock the file without the required permission. </exception>
+    /// <exception cref="UnauthorizedAccessException">
+    ///	  Attempting to lock the file and ReadWrite access is not permitted by the operating system. </exception>
+    /// <remarks>
+    ///   <i>Buffering</i> refers to the caching of an <see cref="XmlDocument" /> object so that subsequent reads or writes
+    ///   are all done through it.  This dramatically increases the performance of those operations, but it requires
+    ///   that the buffer is flushed (or closed) to commit any changes done to the underlying file.
+    ///   <para>
+    ///   The XmlBuffer object is created and attached to this profile object, if not already present.
+    ///   If it is already attached, the same object is returned in subsequent calls, until the object is closed. </para>
+    ///   <para>
+    ///   If the buffer is created, the underlying file (if any) is locked so that no other processes 
+    ///   can write to it. This is equivalent to calling Buffer(true). </para>
+    ///   <para>
+    ///   Since the XmlBuffer class implements <see cref="IDisposable" />, the <c>using</c> keyword in C# can be 
+    ///   used to conveniently create the buffer, write to it, and then automatically flush it (when it's disposed).  
+    ///   Here's an example:
+    ///   <code> 
+    ///   using (profile.Buffer()) {
+    ///      profile.SetValue("A Section", "An Entry", "A Value");
+    ///      profile.SetValue("A Section", "Another Entry", "Another Value");
+    ///      ...
+    ///   }
+    ///   </code></para></remarks>
+    /// <seealso cref="XmlBuffer" />
+    /// <seealso cref="Buffering" />
+    public XmlBuffer Buffer() {
+      return Buffer(true);
+    }
+
+    /// <summary>
+    ///   Gets whether buffering is active or not. </summary>
+    /// <remarks>
+    ///   <i>Buffering</i> is the caching of an <see cref="XmlDocument" /> object so that subsequent reads or writes
+    ///   are all done through it.  This dramatically increases the performance of those operations, but it requires
+    ///   that the buffer is flushed (or closed) to commit any changes done to the underlying file.
+    ///   <para>
+    ///   This property may be used to determine if the buffer is active without actually activating it.  
+    ///   The <see cref="Buffer(bool)" /> method activates the buffer, which then needs to be flushed (or closed) to update the file. </para></remarks>
+    /// <seealso cref="Buffer(bool)" />
+    /// <seealso cref="XmlBuffer" />
+    public bool Buffering {
+      get {
+        return _buffer != null;
+      }
+    }
+
+    /// <summary>
+    ///   Gets or sets the encoding, to be used if the file is created. </summary>
+    /// <exception cref="InvalidOperationException">
+    ///   Setting this property if <see cref="Profile.ReadOnly" /> is true. </exception>
+    /// <remarks>
+    ///   By default this property is set to <see cref="System.Text.Encoding.UTF8">Encoding.UTF8</see>, but it is only 
+    ///   used when the file is not found and needs to be created to write the value. 
+    ///   If the file exists, the existing encoding is used and this value is ignored. 
+    ///   The <see cref="Profile.Changing" /> event is raised before changing this property.  
+    ///   If its <see cref="ProfileChangingArgs.Cancel" /> property is set to true, this method 
+    ///   returns immediately without changing this property.  After the property has been changed, 
+    ///   the <see cref="Profile.Changed" /> event is raised. </remarks>
+    public Encoding Encoding {
+      get {
+        return _encoding;
+      }
+      set {
+        VerifyNotReadOnly();
+        if (_encoding == value)
+          return;
+
+        _encoding = value;
+      }
+    }
+
+    /// <summary>
+    ///   Retrieves the XPath string used for retrieving a section from the XML file. </summary>
+    /// <returns>
+    ///   An XPath string. </returns>
+    /// <seealso cref="GetEntryPath" />
+    private static string GetSectionsPath(string section) {
+      return "section[@name=\"" + section + "\"]";
+    }
+
+    /// <summary>
+    ///   Retrieves the XPath string used for retrieving an entry from the XML file. </summary>
+    /// <returns>
+    ///   An XPath string. </returns>
+    /// <seealso cref="GetSectionsPath" />
+    private static string GetEntryPath(string entry) {
+      return "entry[@name=\"" + entry + "\"]";
     }
 
     /// <summary>
@@ -63,6 +266,33 @@ namespace BigSister.Profile {
           return;
 
         _name = value.Trim();
+      }
+    }
+
+    /// <summary>
+    ///   Gets or sets the name of the root element, to be used if the file is created. </summary>
+    /// <exception cref="InvalidOperationException">
+    ///   Setting this property if <see cref="Profile.ReadOnly" /> is true. </exception>
+    /// <exception cref="NullReferenceException">
+    ///   Setting this property to null. </exception>
+    /// <remarks>
+    ///   By default this property is set to "profile", but it is only used when the file 
+    ///   is not found and needs to be created to write the value. 
+    ///   If the file exists, the name of the root element inside the file is ignored. 
+    ///   The <see cref="Profile.Changing" /> event is raised before changing this property.  
+    ///   If its <see cref="ProfileChangingArgs.Cancel" /> property is set to true, this method 
+    ///   returns immediately without changing this property.  After the property has been changed, 
+    ///   the <see cref="Profile.Changed" /> event is raised. </remarks>
+    public string RootName {
+      get {
+        return _rootName;
+      }
+      set {
+        VerifyNotReadOnly();
+        if (_rootName == value.Trim())
+          return;
+
+        _rootName = value.Trim();
       }
     }
 
@@ -96,23 +326,25 @@ namespace BigSister.Profile {
     }
 
     /// <summary>
-    ///   Gets the name associated with the profile by default. </summary>
+    ///   Gets the default name for the XML file. </summary>
     /// <remarks>
-    ///   This property needs to be implemented by derived classes.  
-    ///   See <see cref="IProfile.DefaultName">IProfile.DefaultName</see> for additional remarks. </remarks>
-    /// <seealso cref="Name" />
-    public abstract string DefaultName {
-      get;
+    ///   For Windows apps, this property returns the name of the executable plus .xml ("program.exe.xml").
+    ///   For Web apps, this property returns the full path of <i>web.xml</i> based on the root folder.
+    ///   This property is used to set the <see cref="Profile.Name" /> property inside the default constructor.</remarks>
+    public string DefaultName {
+      get {
+        return DefaultNameWithoutExtension + ".xml";
+      }
     }
 
     /// <summary>
     ///   Retrieves a copy of itself. </summary>
     /// <returns>
     ///   The return value is a copy of itself as an object. </returns>
-    /// <remarks>
-    ///   This method needs to be implemented by derived classes. </remarks>
-    /// <seealso cref="CloneReadOnly" />
-    public abstract object Clone();
+    /// <seealso cref="Profile.CloneReadOnly" />
+    public object Clone() {
+      return new XmlProfile(this);
+    }
 
     /// <summary>
     ///   Sets the value for an entry inside a section. </summary>
@@ -121,18 +353,100 @@ namespace BigSister.Profile {
     /// <param name="entry">
     ///   The name of the entry where the value will be set. </param>
     /// <param name="value">
-    ///   The value to set. If it's null, the entry should be removed. </param>
+    ///   The value to set. If it's null, the entry is removed. </param>
     /// <exception cref="InvalidOperationException">
-    ///   <see cref="Profile.ReadOnly" /> is true or
-    ///   <see cref="Profile.Name" /> is null or empty. </exception>
+    ///   <see cref="Profile.Name" /> is null or empty, 
+    ///   <see cref="Profile.ReadOnly" /> is true, or
+    ///   the resulting XML document is invalid. </exception>
     /// <exception cref="ArgumentNullException">
     ///   Either section or entry is null. </exception>
+    /// <exception cref="XmlException">
+    ///	  Parse error in the XML being loaded from the file or
+    ///	  the resulting XML document would not be well formed. </exception>
     /// <remarks>
-    ///   This method needs to be implemented by derived classes.  Check the 
-    ///   documentation to see what other exceptions derived versions may raise.
-    ///   See <see cref="IProfile.SetValue">IProfile.SetValue</see> for additional remarks. </remarks>
-    /// <seealso cref="GetValue(string, string)" />
-    public abstract void SetValue(string section, string entry, object value);
+    ///   If the XML file does not exist, it is created, unless <see cref="XmlProfile.Buffering" /> is enabled.
+    ///   The <see cref="Profile.Changing" /> event is raised before setting the value.  
+    ///   If its <see cref="ProfileChangingArgs.Cancel" /> property is set to true, this method 
+    ///   returns immediately without setting the value.  After the value has been set, 
+    ///   the <see cref="Profile.Changed" /> event is raised. 
+    ///   <para>
+    ///   Note: If <see cref="XmlProfile.Buffering" /> is enabled, the value is not actually written to the
+    ///   XML file until the buffer is flushed (or closed). </para></remarks>
+    /// <seealso cref="GetValue" />
+    public void SetValue(string section, string entry, object value) {
+      // If the value is null, remove the entry
+      if (value == null) {
+        RemoveEntry(section, entry);
+        return;
+      }
+
+      VerifyNotReadOnly();
+      VerifyName();
+      VerifyAndAdjustSection(ref section);
+      VerifyAndAdjustEntry(ref entry);
+
+      string valueString = value.ToString();
+
+      // If the file does not exist, use the writer to quickly create it
+      if ((_buffer == null || _buffer.IsEmpty) && !File.Exists(Name)) {
+        XmlTextWriter writer = null;
+
+        // If there's a buffer, write to it without creating the file
+        if (_buffer == null)
+          writer = new XmlTextWriter(Name, Encoding);
+        else
+          writer = new XmlTextWriter(new MemoryStream(), Encoding);
+
+        writer.Formatting = Formatting.Indented;
+
+        writer.WriteStartDocument();
+
+        writer.WriteStartElement(_rootName);
+        writer.WriteStartElement("section");
+        writer.WriteAttributeString("name", null, section);
+        writer.WriteStartElement("entry");
+        writer.WriteAttributeString("name", null, entry);
+        writer.WriteString(valueString);
+        writer.WriteEndElement();
+        writer.WriteEndElement();
+        writer.WriteEndElement();
+
+        if (_buffer != null)
+          _buffer.Load(writer);
+        writer.Close();
+
+        return;
+      }
+
+      // The file exists, edit it
+
+      XmlDocument doc = GetXmlDocument();
+      XmlElement root = doc.DocumentElement;
+
+      // Get the section element and add it if it's not there
+      XmlNode sectionNode = root.SelectSingleNode(GetSectionsPath(section));
+      if (sectionNode == null) {
+        XmlElement element = doc.CreateElement("section");
+        XmlAttribute attribute = doc.CreateAttribute("name");
+        attribute.Value = section;
+        element.Attributes.Append(attribute);
+        sectionNode = root.AppendChild(element);
+      }
+
+      // Get the entry element and add it if it's not there
+      XmlNode entryNode = sectionNode.SelectSingleNode(GetEntryPath(entry));
+      if (entryNode == null) {
+        XmlElement element = doc.CreateElement("entry");
+        XmlAttribute attribute = doc.CreateAttribute("name");
+        attribute.Value = entry;
+        element.Attributes.Append(attribute);
+        entryNode = sectionNode.AppendChild(element);
+      }
+
+      // Add the value and save the file
+      entryNode.InnerText = valueString;
+      Save(doc);
+    }
 
     /// <summary>
     ///   Retrieves the value of an entry inside a section. </summary>
@@ -146,12 +460,25 @@ namespace BigSister.Profile {
     ///	  <see cref="Profile.Name" /> is null or empty. </exception>
     /// <exception cref="ArgumentNullException">
     ///   Either section or entry is null. </exception>
-    /// <remarks>
-    ///   This method needs to be implemented by derived classes.  Check the 
-    ///   documentation to see what other exceptions derived versions may raise. </remarks>
+    /// <exception cref="XmlException">
+    ///	  Parse error in the XML being loaded from the file. </exception>
     /// <seealso cref="SetValue" />
-    /// <seealso cref="HasEntry" />
-    public abstract object GetValue(string section, string entry);
+    /// <seealso cref="Profile.HasEntry" />
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
+    public object GetValue(string section, string entry) {
+      VerifyAndAdjustSection(ref section);
+      VerifyAndAdjustEntry(ref entry);
+
+      try {
+        XmlDocument doc = GetXmlDocument();
+        XmlElement root = doc.DocumentElement;
+
+        XmlNode entryNode = root.SelectSingleNode(GetSectionsPath(section) + "/" + GetEntryPath(entry));
+        return entryNode.InnerText;
+      } catch {
+        return null;
+      }
+    }
 
     /// <summary>
     ///   Retrieves the string value of an entry inside a section, or a default value if the entry does not exist. </summary>
@@ -331,57 +658,162 @@ namespace BigSister.Profile {
     /// <param name="entry">
     ///   The name of the entry to remove. </param>
     /// <exception cref="InvalidOperationException">
+    ///	  <see cref="Profile.Name" /> is null or empty or
     ///   <see cref="Profile.ReadOnly" /> is true. </exception>
     /// <exception cref="ArgumentNullException">
     ///   Either section or entry is null. </exception>
+    /// <exception cref="XmlException">
+    ///	  Parse error in the XML being loaded from the file or
+    ///	  the resulting XML document would not be well formed. </exception>
     /// <remarks>
-    ///   This method needs to be implemented by derived classes.  Check the 
-    ///   documentation to see what other exceptions derived versions may raise.
-    ///   See <see cref="IProfile.RemoveEntry">IProfile.RemoveEntry</see> for additional remarks. </remarks>
+    ///   The <see cref="Profile.Changing" /> event is raised before removing the entry.  
+    ///   If its <see cref="ProfileChangingArgs.Cancel" /> property is set to true, this method 
+    ///   returns immediately without removing the entry.  After the entry has been removed, 
+    ///   the <see cref="Profile.Changed" /> event is raised.
+    ///   <para>
+    ///   Note: If <see cref="XmlProfile.Buffering" /> is enabled, the entry is not removed from the
+    ///   XML file until the buffer is flushed (or closed). </para></remarks>
     /// <seealso cref="RemoveSection" />
-    public abstract void RemoveEntry(string section, string entry);
+    public void RemoveEntry(string section, string entry) {
+      VerifyNotReadOnly();
+      VerifyAndAdjustSection(ref section);
+      VerifyAndAdjustEntry(ref entry);
+
+      // Verify the document exists
+      XmlDocument doc = GetXmlDocument();
+      if (doc == null)
+        return;
+
+      // Get the entry's node, if it exists
+      XmlElement root = doc.DocumentElement;
+      XmlNode entryNode = root.SelectSingleNode(GetSectionsPath(section) + "/" + GetEntryPath(entry));
+      if (entryNode == null)
+        return;
+
+      entryNode.ParentNode.RemoveChild(entryNode);
+      Save(doc);
+    }
 
     /// <summary>
     ///   Removes a section. </summary>
     /// <param name="section">
     ///   The name of the section to remove. </param>
     /// <exception cref="InvalidOperationException">
+    ///	  <see cref="Profile.Name" /> is null or empty or
     ///   <see cref="Profile.ReadOnly" /> is true. </exception>
     /// <exception cref="ArgumentNullException">
     ///   section is null. </exception>
+    /// <exception cref="XmlException">
+    ///	  Parse error in the XML being loaded from the file or
+    ///	  the resulting XML document would not be well formed. </exception>
     /// <remarks>
-    ///   This method needs to be implemented by derived classes.  Check the 
-    ///   documentation to see what other exceptions derived versions may raise.
-    ///   See <see cref="IProfile.RemoveSection">IProfile.RemoveSection</see> for additional remarks. </remarks>
+    ///   The <see cref="Profile.Changing" /> event is raised before removing the section.  
+    ///   If its <see cref="ProfileChangingArgs.Cancel" /> property is set to true, this method 
+    ///   returns immediately without removing the section.  After the section has been removed, 
+    ///   the <see cref="Profile.Changed" /> event is raised.
+    ///   <para>
+    ///   Note: If <see cref="XmlProfile.Buffering" /> is enabled, the section is not removed from the
+    ///   XML file until the buffer is flushed (or closed). </para></remarks>
     /// <seealso cref="RemoveEntry" />
-    public abstract void RemoveSection(string section);
+    public void RemoveSection(string section) {
+      VerifyNotReadOnly();
+      VerifyAndAdjustSection(ref section);
+
+      // Verify the document exists
+      XmlDocument doc = GetXmlDocument();
+      if (doc == null)
+        return;
+
+      // Get the root node, if it exists
+      XmlElement root = doc.DocumentElement;
+      if (root == null)
+        return;
+
+      // Get the section's node, if it exists
+      XmlNode sectionNode = root.SelectSingleNode(GetSectionsPath(section));
+      if (sectionNode == null)
+        return;
+
+      root.RemoveChild(sectionNode);
+      Save(doc);
+    }
 
     /// <summary>
     ///   Retrieves the names of all the entries inside a section. </summary>
     /// <param name="section">
     ///   The name of the section holding the entries. </param>
     /// <returns>
-    ///   If the section exists, the return value should be an array with the names of its entries; 
-    ///   otherwise null. </returns>
+    ///   If the section exists, the return value is an array with the names of its entries; 
+    ///   otherwise it's null. </returns>
+    /// <exception cref="InvalidOperationException">
+    ///	  <see cref="Profile.Name" /> is null or empty. </exception>
     /// <exception cref="ArgumentNullException">
     ///   section is null. </exception>
-    /// <remarks>
-    ///   This method needs to be implemented by derived classes.  Check the 
-    ///   documentation to see what other exceptions derived versions may raise. </remarks>
-    /// <seealso cref="HasEntry" />
+    /// <exception cref="XmlException">
+    ///	  Parse error in the XML being loaded from the file. </exception>
+    /// <seealso cref="Profile.HasEntry" />
     /// <seealso cref="GetSectionNames" />
-    public abstract string[] GetEntryNames(string section);
+    public string[] GetEntryNames(string section) {
+      // Verify the section exists
+      if (!HasSection(section))
+        return null;
+
+      VerifyAndAdjustSection(ref section);
+
+      XmlDocument doc = GetXmlDocument();
+      XmlElement root = doc.DocumentElement;
+
+      // Get the entry nodes
+      XmlNodeList entryNodes = root.SelectNodes(GetSectionsPath(section) + "/entry[@name]");
+      if (entryNodes == null)
+        return null;
+
+      // Add all entry names to the string array			
+      string[] entries = new string[entryNodes.Count];
+      int i = 0;
+
+      foreach (XmlNode node in entryNodes)
+        entries[i++] = node.Attributes["name"].Value;
+
+      return entries;
+    }
 
     /// <summary>
     ///   Retrieves the names of all the sections. </summary>
     /// <returns>
-    ///   The return value should be an array with the names of all the sections. </returns>
-    /// <remarks>
-    ///   This method needs to be implemented by derived classes.  Check the 
-    ///   documentation to see what exceptions derived versions may raise. </remarks>
-    /// <seealso cref="HasSection" />
+    ///   If the XML file exists, the return value is an array with the names of all the sections;
+    ///   otherwise it's null. </returns>
+    /// <exception cref="InvalidOperationException">
+    ///	  <see cref="Profile.Name" /> is null or empty. </exception>
+    /// <exception cref="XmlException">
+    ///	  Parse error in the XML being loaded from the file. </exception>
+    /// <seealso cref="Profile.HasSection" />
     /// <seealso cref="GetEntryNames" />
-    public abstract string[] GetSectionNames();
+    public string[] GetSectionNames() {
+      // Verify the document exists
+      XmlDocument doc = GetXmlDocument();
+      if (doc == null)
+        return null;
+
+      // Get the root node, if it exists
+      XmlElement root = doc.DocumentElement;
+      if (root == null)
+        return null;
+
+      // Get the section nodes
+      XmlNodeList sectionNodes = root.SelectNodes("section[@name]");
+      if (sectionNodes == null)
+        return null;
+
+      // Add all section names to the string array			
+      string[] sections = new string[sectionNodes.Count];
+      int i = 0;
+
+      foreach (XmlNode node in sectionNodes)
+        sections[i++] = node.Attributes["name"].Value;
+
+      return sections;
+    }
 
     /// <summary>
     ///   Retrieves a copy of itself and makes it read-only. </summary>
@@ -391,8 +823,8 @@ namespace BigSister.Profile {
     ///   This method serves as a convenient way to pass a read-only copy of the profile to methods 
     ///   that are not allowed to modify it. </remarks>
     /// <seealso cref="ReadOnly" />
-    public virtual Profile CloneReadOnly() {
-      Profile profile = (Profile)Clone();
+    public virtual XmlProfile CloneReadOnly() {
+      XmlProfile profile = (XmlProfile)Clone();
       profile._readOnly = true;
 
       return profile;
@@ -578,5 +1010,19 @@ namespace BigSister.Profile {
         throw new InvalidOperationException("Operation not allowed because ReadOnly property is true.");
     }
 
+    #region IDisposable Members
+
+    public void Dispose() {
+      Dispose(true);
+      GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing) {
+      if (disposing && _buffer != null)
+        _buffer.Dispose();
+    }
+
+    #endregion
+
   } //class Profile
-} //namespace BigSister.Profile
+} //namespace BigSister
