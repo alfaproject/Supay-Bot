@@ -2,8 +2,8 @@
 using System.Data.SQLite;
 
 namespace BigSister {
-
   public sealed class DataBase {
+
     private static readonly DataBase _instance = new DataBase();
 
     private SQLiteConnection _con;
@@ -108,5 +108,4 @@ namespace BigSister {
     }
 
   } //class DataBase
-
 } //namespace BigSister

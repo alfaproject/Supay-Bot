@@ -1,6 +1,5 @@
 using System;
 using System.Data;
-using System.Reflection;
 using System.Globalization;
 
 namespace BigSister.Profile {
@@ -11,7 +10,8 @@ namespace BigSister.Profile {
   ///   It fully implements most of the methods and properties of its base interfaces so that 
   ///   derived classes don't have to. </remarks>
   [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1724:TypeNamesShouldNotMatchNamespaces")]
-  public abstract class Profile : IProfile {
+  public abstract class Profile {
+
     // Fields
     private string _name;
     private bool _readOnly;
@@ -391,7 +391,7 @@ namespace BigSister.Profile {
     ///   This method serves as a convenient way to pass a read-only copy of the profile to methods 
     ///   that are not allowed to modify it. </remarks>
     /// <seealso cref="ReadOnly" />
-    public virtual IReadOnlyProfile CloneReadOnly() {
+    public virtual Profile CloneReadOnly() {
       Profile profile = (Profile)Clone();
       profile._readOnly = true;
 
@@ -578,5 +578,5 @@ namespace BigSister.Profile {
         throw new InvalidOperationException("Operation not allowed because ReadOnly property is true.");
     }
 
-  }
-}
+  } //class Profile
+} //namespace BigSister.Profile

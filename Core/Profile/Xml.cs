@@ -1,9 +1,6 @@
 using System;
 using System.IO;
-using System.Text;
 using System.Xml;
-using System.Collections;
-using System.Reflection;
 
 namespace BigSister.Profile {
   /// <summary>
@@ -31,6 +28,7 @@ namespace BigSister.Profile {
   ///   </code></remarks>
   [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1724:TypeNamesShouldNotMatchNamespaces")]
   public class Xml : XmlBased {
+
     // Fields
     private string _rootName = "profile";
 
@@ -420,5 +418,5 @@ namespace BigSister.Profile {
       return sections;
     }
 
-  }
-}
+  } //class Xml
+} //namespace BigSister.Profile

@@ -99,7 +99,6 @@
     <Compile Include="Core\Math2.cs" />
     <Compile Include="Core\MathParser.cs" />
     <Compile Include="Core\OrderedDictionary.cs" />
-    <Compile Include="Core\Profile\IProfile.cs" />
     <Compile Include="Core\Profile\Profile.cs" />
     <Compile Include="Core\Profile\Xml.cs" />
     <Compile Include="Core\Profile\XmlHelper.cs" />

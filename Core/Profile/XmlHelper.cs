@@ -1,8 +1,8 @@
 using System;
-using System.Xml;
-using System.Text;
 using System.IO;
 using System.Security;
+using System.Text;
+using System.Xml;
 
 namespace BigSister.Profile {
   /// <summary>
@@ -11,6 +11,7 @@ namespace BigSister.Profile {
   ///   This class provides common methods and properties for the XML-based Profile classes 
   ///   (<see cref="Xml" />, <see cref="Config" />). </remarks>
   public abstract class XmlBased : Profile, IDisposable {
+
     private Encoding _encoding = Encoding.UTF8;
     internal XmlBuffer _buffer;
 
@@ -211,7 +212,8 @@ namespace BigSister.Profile {
     }
 
     #endregion
-  }
+
+  } //class XmlBased
 
   /// <summary>
   ///   Buffer class for all <see cref="XmlBased" /> Profile classes. </summary>
@@ -415,5 +417,6 @@ namespace BigSister.Profile {
       if (disposing)
         Close();
     }
-  }
-}
+
+  } //class XmlBuffer
+} //namespace BigSister.Profile
