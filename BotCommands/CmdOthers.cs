@@ -33,11 +33,11 @@ namespace BigSister {
 
       bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b statistic percentages | Total exp: \\c07{1:N0}\\c | Combat exp: \\c07{2:N0}\\c (\\c07{3:0.##}%\\c) | F2P exp: \\c07{4:N0}\\c (\\c07{5:0.##}%\\c) | Slayer%: \\c07{6:0.##}% - {7:0.##}%\\c | PestControl%: \\c07{8:0.##}%\\c",
                                  rsn, totalExp,
-                                 combatExp, (float)combatExp / totalExp * 100,
-                                 f2pExp, (float)f2pExp / totalExp * 100,
-                                 (float)p.Skills[Skill.SLAY].Exp / expected_max_slayer_exp * 100,
-                                 (float)p.Skills[Skill.SLAY].Exp / (expected_max_slayer_exp - (hits_exp_gained / 133)) * 100,
-                                 (float)(current_combat_xp - expected_combat_xp) / current_combat_xp * 100));
+                                 combatExp, (double)combatExp / totalExp * 100,
+                                 f2pExp, (double)f2pExp / totalExp * 100,
+                                 (double)p.Skills[Skill.SLAY].Exp / expected_max_slayer_exp * 100,
+                                 (double)p.Skills[Skill.SLAY].Exp / (expected_max_slayer_exp - (hits_exp_gained / 133)) * 100,
+                                 (double)(current_combat_xp - expected_combat_xp) / current_combat_xp * 100));
     }
 
     public static void CombatPercent(CommandContext bc) {

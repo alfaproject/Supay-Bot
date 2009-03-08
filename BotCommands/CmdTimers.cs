@@ -103,7 +103,7 @@ namespace BigSister {
 
         string reply = string.Format("You gained \\c07{0:N0}\\c \\u{1}\\u exp in \\c07{2}\\c. That's \\c07{3:N0}\\c exp/h.", gained_exp, skill.ToLowerInvariant(), Util.FormatTimeSpan(time), (double)gained_exp / (double)time.TotalHours);
         if (skill != "Overall" && skill != "Combat" && p.Skills[skill].VLevel < 126)
-          reply += string.Format(" Estimated time to level up: \\c07{0}\\c", Util.FormatTimeSpan(new TimeSpan(0, 0, (int)(p.Skills[skill].ExpToVLevel / (gained_exp / (float)time.TotalSeconds)))));
+          reply += string.Format(" Estimated time to level up: \\c07{0}\\c", Util.FormatTimeSpan(new TimeSpan(0, 0, (int)(p.Skills[skill].ExpToVLevel / (gained_exp / (double)time.TotalSeconds)))));
         bc.SendReply(reply);
 
         // remove the timer with this name

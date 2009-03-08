@@ -63,12 +63,12 @@ namespace BigSister {
       private set;
     }
 
-    public float Change7days {
+    public double Change7days {
       get;
       private set;
     }
 
-    public float Change30days {
+    public double Change30days {
       get;
       private set;
     }
@@ -150,8 +150,8 @@ namespace BigSister {
         this.MinimumPrice = Util.ParseNumber(priceMatch.Groups[3].Value);
         this.MarketPrice = Util.ParseNumber(priceMatch.Groups[4].Value);
         this.MaximumPrice = Util.ParseNumber(priceMatch.Groups[5].Value);
-        this.Change7days = float.Parse(priceMatch.Groups[6].Value, CultureInfo.InvariantCulture);
-        this.Change30days = float.Parse(priceMatch.Groups[7].Value, CultureInfo.InvariantCulture);
+        this.Change7days = double.Parse(priceMatch.Groups[6].Value, CultureInfo.InvariantCulture);
+        this.Change30days = double.Parse(priceMatch.Groups[7].Value, CultureInfo.InvariantCulture);
       }
 
       if (!string.IsNullOrEmpty(this.Name) && this.MarketPrice > 0)

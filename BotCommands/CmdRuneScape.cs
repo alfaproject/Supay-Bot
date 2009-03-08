@@ -112,9 +112,9 @@ namespace BigSister {
         string reply = string.Format("\\b{0}\\b \\c07overall\\c | level: \\c07{1:N0}\\c (\\c07{2}\\c avg.) | exp: \\c07{3:e}\\c (\\c07{4}%\\c of {5}) | rank: \\c07{3:R}\\c",
                                      rsn,
                                      totalLevel,
-                                     Math.Round((float)totalLevel / (p.Skills.Count - 2), 1),
+                                     Math.Round((double)totalLevel / (p.Skills.Count - 2), 1),
                                      p.Skills[0],
-                                     Math.Round((float)oa_exp / (13034431 * (p.Skills.Count - 2)) * 100.0, 1),
+                                     Math.Round((double)oa_exp / (13034431 * (p.Skills.Count - 2)) * 100.0, 1),
                                      (p.Skills.Count - 2) * 99);
 
         // add up SS rank if applicable
@@ -331,12 +331,12 @@ namespace BigSister {
               oa_exp += Math.Min(13034431, s.Exp);
           target_level = (p.Skills.Count - 2) * 99;
           int max_exp = 13034431 * (p.Skills.Count - 2);
-          percent_done = Math.Round(oa_exp / (float)max_exp * 100.0, 1).ToString();
+          percent_done = Math.Round(oa_exp / (double)max_exp * 100.0, 1).ToString();
 
           item = null;
         } else {
           exp_to_go = target_exp - skill.Exp;
-          percent_done = Math.Round(100 - exp_to_go / (float)(target_exp - skill.VLevel.ToExp()) * 100, 1).ToString();
+          percent_done = Math.Round(100 - exp_to_go / (double)(target_exp - skill.VLevel.ToExp()) * 100, 1).ToString();
         }
 
         string reply = string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b \\c07{1}\\c | level: \\c07{1:v}\\c | exp: \\c07{1:e}\\c (\\c07{2}%\\c of {3}) | rank: \\c07{1:R}\\c",
@@ -363,19 +363,19 @@ namespace BigSister {
               case "Strength":
               case "Ranged":
                 if (_GetMonster(item, out item_name, out monster_hp))
-                  reply += string.Format(" (\\c07{0}\\c {1})", Math.Ceiling((float)exp_to_go / (monster_hp * 4)), item_name);
+                  reply += string.Format(" (\\c07{0}\\c {1})", Math.Ceiling((double)exp_to_go / (monster_hp * 4)), item_name);
                 else
                   reply += " (unknown monster)";
                 break;
               case "Hitpoints":
                 if (_GetMonster(item, out item_name, out monster_hp))
-                  reply += string.Format(" (\\c07{0}\\c {1})", Math.Ceiling((float)exp_to_go / (monster_hp * (4 / 3))), item_name);
+                  reply += string.Format(" (\\c07{0}\\c {1})", Math.Ceiling((double)exp_to_go / (monster_hp * (4 / 3))), item_name);
                 else
                   reply += " (unknown monster)";
                 break;
               case "Slayer":
                 if (_GetMonster(item, out item_name, out monster_hp))
-                  reply += string.Format(" (\\c07{0}\\c {1})", Math.Ceiling((float)exp_to_go / monster_hp), item_name);
+                  reply += string.Format(" (\\c07{0}\\c {1})", Math.Ceiling((double)exp_to_go / monster_hp), item_name);
                 else
                   reply += " (unknown monster)";
                 break;

@@ -118,7 +118,7 @@ namespace BigSister {
       }
     }
 
-    public float CheapestExpCost {
+    public double CheapestExpCost {
       get {
         Price nature = new Price(561);
         nature.LoadFromCache();
@@ -126,9 +126,9 @@ namespace BigSister {
         int componentsPrice = this.ComponentsPrice;
         int totalCost = componentsPrice + this.Shards * 25 + 1;
         
-        float bogrogExp = (float)(componentsPrice + Math.Ceiling(.3 * this.Shards) * 25 + 1) / this.Exp;
-        //float marketExp = (totalCost - this.PouchPrice) / this.Exp;
-        float alchExp = (totalCost + nature.MarketPrice - this.HighAlch) / this.Exp;
+        double bogrogExp = (double)(componentsPrice + Math.Ceiling(.3 * this.Shards) * 25 + 1) / this.Exp;
+        //double marketExp = (totalCost - this.PouchPrice) / this.Exp;
+        double alchExp = (totalCost + nature.MarketPrice - this.HighAlch) / this.Exp;
 
         return Math.Min(bogrogExp, alchExp);
       }

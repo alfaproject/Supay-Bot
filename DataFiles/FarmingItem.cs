@@ -27,13 +27,13 @@ namespace BigSister {
       this.Patch = tokens[8];
 
       // Field 9: Plant exp
-      this.PlantExp = float.Parse(tokens[9], CultureInfo.InvariantCulture);
+      this.PlantExp = double.Parse(tokens[9], CultureInfo.InvariantCulture);
 
       // Field 10: Harvest exp
-      this.HarvestExp = float.Parse(tokens[10], CultureInfo.InvariantCulture);
+      this.HarvestExp = double.Parse(tokens[10], CultureInfo.InvariantCulture);
 
       // Field 11: Check-health exp
-      this.CheckHealthExp = float.Parse(tokens[11], CultureInfo.InvariantCulture);
+      this.CheckHealthExp = double.Parse(tokens[11], CultureInfo.InvariantCulture);
 
       // Field 12: Grow time
       this.GrowTime = int.Parse(tokens[12], CultureInfo.InvariantCulture);
@@ -88,17 +88,17 @@ namespace BigSister {
       set;
     }
 
-    public float PlantExp {
+    public double PlantExp {
       get;
       set;
     }
 
-    public float HarvestExp {
+    public double HarvestExp {
       get;
       set;
     }
 
-    public float CheckHealthExp {
+    public double CheckHealthExp {
       get;
       set;
     }

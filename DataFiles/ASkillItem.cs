@@ -7,7 +7,7 @@ namespace BigSister {
     public ASkillItem(string[] tokens) {
       this.Skill = tokens[0];
       this.Level = int.Parse(tokens[1], CultureInfo.InvariantCulture);
-      this.Exp = float.Parse(tokens[2], CultureInfo.InvariantCulture);
+      this.Exp = double.Parse(tokens[2], CultureInfo.InvariantCulture);
       this.Name = tokens[3];
     }
 
@@ -21,7 +21,7 @@ namespace BigSister {
       set;
     }
 
-    public float Exp {
+    public double Exp {
       get;
       set;
     }
