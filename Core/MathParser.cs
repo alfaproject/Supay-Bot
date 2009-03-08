@@ -396,7 +396,7 @@ namespace BigSister {
               vals.Push(Math.PI / 2 - Math.Atan(temp1));
               break;
 
-            // HIPERBOLIC FUNCTIONS
+            // HYPERBOLIC FUNCTIONS
             case "sinh":
               vals.Push(Math.Sinh(temp1));
               break;
