@@ -1,7 +1,25 @@
 ﻿using System;
+using System.Text;
 
 namespace BigSister {
   public static class Extensions {
+
+    public static string ToRSN(this string rsn) {
+      StringBuilder fixedRSN = new StringBuilder(rsn.Substring(0, Math.Min(12, rsn.Length)).ToLowerInvariant(), 12);
+      bool toUpper = true;
+      for (int i = 0; i < fixedRSN.Length; i++) {
+        if ((fixedRSN[i] >= 'a' && fixedRSN[i] <= 'z') || (fixedRSN[i] >= '0' && fixedRSN[i] <= '9')) {
+          if (toUpper) {
+            fixedRSN[i] = char.ToUpperInvariant(fixedRSN[i]);
+            toUpper = false;
+          }
+        } else {
+          fixedRSN[i] = '_';
+          toUpper = true;
+        }
+      }
+      return fixedRSN.ToString();
+    }
 
     public static int ToExp(this int level) {
       int exp = 0;

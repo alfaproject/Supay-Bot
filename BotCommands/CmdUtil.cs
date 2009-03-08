@@ -8,7 +8,7 @@
         return;
       }
 
-      string rsn = RSUtil.FixRSN(Util.JoinTokens(bc.MessageTokens, 1));
+      string rsn = Util.JoinTokens(bc.MessageTokens, 1).ToRSN();
 
       // add/update to database
       if (DataBase.GetValue("users", "rsn", "fingerprint='" + bc.From.FingerPrint + "'") == null) {

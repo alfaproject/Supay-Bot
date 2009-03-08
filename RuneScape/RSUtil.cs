@@ -1,30 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BigSister {
   public class RSUtil {
-
-    public static string FixRSN(string rsn) {
-      string fixedRSN = string.Empty;
-      bool toUpper = true;
-      foreach (char c in rsn.ToLowerInvariant()) {
-        if (c >= 'a' && c <= 'z') {
-          if (toUpper) {
-            fixedRSN += c.ToString().ToUpperInvariant();
-            toUpper = false;
-          } else {
-            fixedRSN += c;
-          }
-        } else if (c >= '0' && c <= '9') {
-          fixedRSN += c;
-        } else {
-          fixedRSN += '_';
-          toUpper = true;
-        }
-      }
-      return fixedRSN.Substring(0, Math.Min(12, fixedRSN.Length));
-    }
 
     public static int CalculateCombat(int Att, int Str, int Def, int Hp, int Ran, int Pr, int Mag, int Sum, out string CombatClass) {
       // Get combat bonus

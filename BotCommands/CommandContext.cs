@@ -82,7 +82,7 @@ namespace BigSister {
       User u = _users.Find(nick);
       if (u != null)
         return u.RSN;
-      return RSUtil.FixRSN(nick);
+      return nick.ToRSN();
     }
 
     public void SendReply(string message) {
