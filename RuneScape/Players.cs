@@ -14,7 +14,7 @@ namespace BigSister {
     public Players(string clan) {
       SQLiteDataReader rs = DataBase.ExecuteReader("SELECT rsn, lastupdate FROM players WHERE clan LIKE '%" + clan + "%'");
       while (rs.Read())
-        this.Add(new Player(rs.GetString(0), Util.StrToDateTime(rs.GetString(1))));
+        this.Add(new Player(rs.GetString(0), rs.GetString(1).ToDateTime()));
       rs.Close();
     }
 

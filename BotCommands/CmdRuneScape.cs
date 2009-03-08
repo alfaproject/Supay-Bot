@@ -201,7 +201,7 @@ namespace BigSister {
           // Show player performance if applicable
           string dblastupdate = DataBase.LastUpdate(rsn);
           if (dblastupdate != null && dblastupdate.Length == 8) {
-            DateTime lastupdate = Util.StrToDateTime(dblastupdate);
+            DateTime lastupdate = dblastupdate.ToDateTime();
             string perf;
             reply = string.Empty;
 
@@ -400,7 +400,7 @@ namespace BigSister {
           if (DateTime.Now.Hour >= 0 && DateTime.Now.Hour < 6)
             lastupdate = lastupdate.AddDays(-1);
         } else {
-          lastupdate = Util.StrToDateTime(dblastupdate);
+          lastupdate = dblastupdate.ToDateTime();
         }
 
         string perf;
@@ -698,7 +698,7 @@ namespace BigSister {
       // Show player performance if applicable
       string dblastupdate = DataBase.LastUpdate(rsn);
       if (dblastupdate != null && dblastupdate.Length == 8) {
-        DateTime lastupdate = Util.StrToDateTime(dblastupdate);
+        DateTime lastupdate = dblastupdate.ToDateTime();
         string perf;
         reply = string.Empty;
 

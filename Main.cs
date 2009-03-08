@@ -124,7 +124,7 @@ namespace BigSister {
         // check for pending timers
         SQLiteDataReader rsTimer = DataBase.ExecuteReader("SELECT fingerprint, nick, name, duration, started FROM timers;");
         while (rsTimer.Read()) {
-          if (DateTime.Now >= Util.StrToDateTime(rsTimer.GetString(4)).AddSeconds(rsTimer.GetInt32(3))) {
+          if (DateTime.Now >= rsTimer.GetString(4).ToDateTime().AddSeconds(rsTimer.GetInt32(3))) {
             string fingerprint = rsTimer.GetString(0);
             string nick = rsTimer.GetString(1);
 

@@ -109,7 +109,7 @@ namespace BigSister {
       if (dr.Read()) {
         this.Name = dr.GetString(0);
         this.MarketPrice = dr.GetInt32(1);
-        this.LastUpdate = Util.StrToDateTime(dr.GetString(2));
+        this.LastUpdate = dr.GetString(2).ToDateTime();
       }
       dr.Close();
     }

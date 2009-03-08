@@ -102,11 +102,11 @@ namespace BigSister {
         // get these players last update time
         string dblastupdate = DataBase.LastUpdate(rsn1);
         if (dblastupdate != null && dblastupdate.Length == 8) {
-          p1 = new Player(rsn1, Util.StrToDateTime(dblastupdate));
+          p1 = new Player(rsn1, dblastupdate.ToDateTime());
           if (p1.Ranked) {
             dblastupdate = DataBase.LastUpdate(rsn2);
             if (dblastupdate != null && dblastupdate.Length == 8) {
-              p2 = new Player(rsn2, Util.StrToDateTime(dblastupdate));
+              p2 = new Player(rsn2, dblastupdate.ToDateTime());
               if (p2.Ranked) {
                 Skill skilldif1 = pskill1 - p1.Skills[skill1];
                 Skill skilldif2 = pskill2 - p2.Skills[skill1];
@@ -140,11 +140,11 @@ namespace BigSister {
         // get these players last update time
         string dblastupdate = DataBase.LastUpdate(rsn1);
         if (dblastupdate != null && dblastupdate.Length == 8) {
-          p1 = new Player(rsn1, Util.StrToDateTime(dblastupdate));
+          p1 = new Player(rsn1, dblastupdate.ToDateTime());
           if (p1.Ranked && p1.Minigames[minigame1].Rank > 0) {
             dblastupdate = DataBase.LastUpdate(rsn2);
             if (dblastupdate != null && dblastupdate.Length == 8) {
-              p2 = new Player(rsn2, Util.StrToDateTime(dblastupdate));
+              p2 = new Player(rsn2, dblastupdate.ToDateTime());
               if (p2.Ranked && p2.Minigames[minigame1].Rank > 0) {
                 Minigame minigamedif1 = pminigame1 - p1.Minigames[minigame1];
                 Minigame minigamedif2 = pminigame2 - p2.Minigames[minigame1];

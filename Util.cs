@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using System.Text.RegularExpressions;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace BigSister {
   public class Util {
@@ -21,19 +18,6 @@ namespace BigSister {
 
     public static string FormatShort(double value) {
       return FormatShort(value, 0);
-    }
-
-    public static DateTime StrToDateTime(string s) {
-      switch (s.Length) {
-        case 8: //yyyyMMdd
-          return new DateTime(int.Parse(s.Substring(0, 4)), int.Parse(s.Substring(4, 2)), int.Parse(s.Substring(6, 2)));
-        case 12: //yyyyMMddHHmm
-          return new DateTime(int.Parse(s.Substring(0, 4)), int.Parse(s.Substring(4, 2)), int.Parse(s.Substring(6, 2)), int.Parse(s.Substring(8, 2)), int.Parse(s.Substring(10, 2)), 0);
-        case 14: //yyyyMMddHHmmss
-          return new DateTime(int.Parse(s.Substring(0, 4)), int.Parse(s.Substring(4, 2)), int.Parse(s.Substring(6, 2)), int.Parse(s.Substring(8, 2)), int.Parse(s.Substring(10, 2)), int.Parse(s.Substring(12, 2)));
-        default:
-          return DateTime.MinValue;
-      }
     }
 
     public static bool TryCalc(string s, out double result_value) {
@@ -57,10 +41,6 @@ namespace BigSister {
       }
 
       return false;
-    }
-
-    public static string ClearHTML(string html) {
-      return Regex.Replace(html, "<[^>]+>", string.Empty, RegexOptions.Singleline);
     }
 
     public static string FormatTimeSpan(TimeSpan TimeSpan) {

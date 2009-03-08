@@ -113,7 +113,7 @@ namespace BigSister {
         if (DateTime.Now.Hour >= 0 && DateTime.Now.Hour < 6)
           lastupdate = lastupdate.AddDays(-1);
       } else {
-        lastupdate = Util.StrToDateTime(dblastupdate);
+        lastupdate = dblastupdate.ToDateTime();
       }
 
       // get performance interval
