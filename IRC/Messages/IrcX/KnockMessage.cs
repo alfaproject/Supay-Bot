@@ -1,12 +1,9 @@
 using System;
 using System.Collections.Specialized;
-using System.Text;
 
 namespace BigSister.Irc.Messages {
-
   /// <summary>
-  /// With the KnockMessage, clients can request an invite to a invitation-only channel.
-  /// </summary>
+  ///   With the KnockMessage, clients can request an invite to a invitation-only channel. </summary>
   [Serializable]
   public class KnockMessage : CommandMessage, IChannelTargetedMessage {
 
@@ -69,8 +66,7 @@ namespace BigSister.Irc.Messages {
 
       if (parameters.Count > 0) {
         this.Channel = parameters[0];
-      }
-      else {
+      } else {
         this.Channel = string.Empty;
       }
     }
@@ -81,7 +77,6 @@ namespace BigSister.Irc.Messages {
     public override void Notify(BigSister.Irc.Messages.MessageConduit conduit) {
       conduit.OnKnock(new IrcMessageEventArgs<KnockMessage>(this));
     }
-
 
     #region IChannelTargetedMessage Members
 
@@ -97,5 +92,6 @@ namespace BigSister.Irc.Messages {
     }
 
     #endregion
+
   }
 }

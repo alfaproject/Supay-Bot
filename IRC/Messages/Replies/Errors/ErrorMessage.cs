@@ -1,12 +1,8 @@
 using System;
-using System.Collections.Specialized;
-using System.Text;
 
 namespace BigSister.Irc.Messages {
-
   /// <summary>
-  /// This class of message is sent to a client from a server when something bad happens.
-  /// </summary>
+  ///   This class of message is sent to a client from a server when something bad happens. </summary>
   [Serializable]
   public abstract class ErrorMessage : NumericMessage {
 

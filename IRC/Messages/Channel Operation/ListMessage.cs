@@ -1,17 +1,13 @@
 using System;
 using System.Collections.Specialized;
-using System.Text;
 using System.Globalization;
 
 namespace BigSister.Irc.Messages {
-
   /// <summary>
-  /// The <see cref="ListMessage"/> is used to list channels and their topics.
-  /// </summary>
+  ///   The <see cref="ListMessage"/> is used to list channels and their topics. </summary>
   /// <remarks>
-  /// A server sent a <see cref="ListMessage"/> will reply with a 
-  /// <see cref="ListStartReplyMessage"/>, <see cref="ListReplyMessage"/>, and a <see cref="ListEndReplyMessage"/>.
-  /// </remarks>
+  ///   A server sent a <see cref="ListMessage"/> will reply with a 
+  ///   <see cref="ListStartReplyMessage"/>, <see cref="ListReplyMessage"/>, and a <see cref="ListEndReplyMessage"/>. </remarks>
   [Serializable]
   public class ListMessage : CommandMessage {
 
@@ -300,7 +296,7 @@ namespace BigSister.Irc.Messages {
       }
     }
 
-    private static Boolean IsExtendedParameter(string p) {
+    private static bool IsExtendedParameter(string p) {
       if (string.IsNullOrEmpty(p)) {
         return false;
       }

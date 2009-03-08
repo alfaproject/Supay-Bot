@@ -1,18 +1,14 @@
 using System;
 using System.Collections.Specialized;
-using System.Text;
 
 namespace BigSister.Irc.Messages {
-
   /// <summary>
-  /// This message is a notice message which is scoped to the current channel.
-  /// </summary>
+  ///   This message is a notice message which is scoped to the current channel. </summary>
   /// <remarks>
-  /// This is a non-standard message.
-  /// This command exists because many servers limit the number of standard notice messages
-  /// you can send in a time frame. However, they will let channel operators send this notice message
-  /// as often as they want to people who are in that channel.
-  /// </remarks>
+  ///   This is a non-standard message.
+  ///   This command exists because many servers limit the number of standard notice messages
+  ///   you can send in a time frame. However, they will let channel operators send this notice message
+  ///   as often as they want to people who are in that channel. </remarks>
   [Serializable]
   public class ChannelScopedNoticeMessage : CommandMessage, IChannelTargetedMessage {
 
@@ -170,5 +166,6 @@ namespace BigSister.Irc.Messages {
     }
 
     #endregion
+
   }
 }

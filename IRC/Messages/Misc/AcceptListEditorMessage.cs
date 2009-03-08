@@ -1,12 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Specialized;
 
 namespace BigSister.Irc.Messages {
-
   /// <summary>
-  /// A Message that edits the list of users on your accept list.
-  /// </summary>
+  ///   A Message that edits the list of users on your accept list. </summary>
   [Serializable]
   public class AcceptListEditorMessage : CommandMessage {
 
@@ -29,7 +26,6 @@ namespace BigSister.Irc.Messages {
       }
 
     }
-
 
     #region Properties
 
@@ -64,9 +60,8 @@ namespace BigSister.Irc.Messages {
     #region Parsing
 
     /// <summary>
-    /// Determines if the message can be parsed by this type.
-    /// </summary>
-    public override Boolean CanParse(string unparsedMessage) {
+    ///   Determines if the message can be parsed by this type. </summary>
+    public override bool CanParse(string unparsedMessage) {
       if (!base.CanParse(unparsedMessage)) {
         return false;
       }

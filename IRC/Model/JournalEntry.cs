@@ -2,23 +2,20 @@
 using System.ComponentModel;
 
 namespace BigSister.Irc {
-
   /// <summary>
-  /// A single entry in the journal of messages and related information related to an irc channel or query.
-  /// </summary>
+  ///   A single entry in the journal of messages and related information related to an irc channel or query. </summary>
   public class JournalEntry : INotifyPropertyChanged {
+
     private DateTime _time;
     private Object _item;
 
     /// <summary>
-    /// Creates a new instance of the <see href="JournalEntry" /> class.
-    /// </summary>
+    ///   Creates a new instance of the <see href="JournalEntry" /> class. </summary>
     public JournalEntry() {
     }
 
     /// <summary>
-    /// Creates a new instance of the <see href="JournalEntry"/> class, populated with the given item.
-    /// </summary>
+    ///   Creates a new instance of the <see href="JournalEntry"/> class, populated with the given item. </summary>
     public JournalEntry(Object item) {
       this.Item = item;
     }

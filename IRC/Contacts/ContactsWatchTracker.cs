@@ -1,71 +1,56 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using BigSister.Irc.Messages;
 
-namespace BigSister.Irc.Contacts
-{
-	internal class ContactsWatchTracker : ContactsTracker
-	{
-		public ContactsWatchTracker( ContactList contacts )
-			: base( contacts )
-		{
-		}
+namespace BigSister.Irc.Contacts {
+  internal class ContactsWatchTracker : ContactsTracker {
 
-		public override void Initialize()
-		{
-			this.Contacts.Client.Messages.WatchedUserOffline += new EventHandler<BigSister.Irc.Messages.IrcMessageEventArgs<BigSister.Irc.Messages.WatchedUserOfflineMessage>>( client_WatchedUserOffline );
-			this.Contacts.Client.Messages.WatchedUserOnline += new EventHandler<BigSister.Irc.Messages.IrcMessageEventArgs<BigSister.Irc.Messages.WatchedUserOnlineMessage>>( client_WatchedUserOnline );
-			base.Initialize();
-		}
+    public ContactsWatchTracker(ContactList contacts)
+      : base(contacts) {
+    }
 
-		protected override void AddNicks( System.Collections.Specialized.StringCollection nicks )
-		{
-			WatchListEditorMessage addMsg = new WatchListEditorMessage();
-			foreach ( string nick in nicks )
-			{
-				addMsg.AddedNicks.Add( nick );
-			}
-			this.Contacts.Client.Send( addMsg );
-		}
+    public override void Initialize() {
+      this.Contacts.Client.Messages.WatchedUserOffline += new EventHandler<BigSister.Irc.Messages.IrcMessageEventArgs<BigSister.Irc.Messages.WatchedUserOfflineMessage>>(client_WatchedUserOffline);
+      this.Contacts.Client.Messages.WatchedUserOnline += new EventHandler<BigSister.Irc.Messages.IrcMessageEventArgs<BigSister.Irc.Messages.WatchedUserOnlineMessage>>(client_WatchedUserOnline);
+      base.Initialize();
+    }
 
-		protected override void AddNick( string nick )
-		{
-			WatchListEditorMessage addMsg = new WatchListEditorMessage();
-			addMsg.AddedNicks.Add( nick );
-			this.Contacts.Client.Send( addMsg );
-		}
+    protected override void AddNicks(System.Collections.Specialized.StringCollection nicks) {
+      WatchListEditorMessage addMsg = new WatchListEditorMessage();
+      foreach (string nick in nicks) {
+        addMsg.AddedNicks.Add(nick);
+      }
+      this.Contacts.Client.Send(addMsg);
+    }
 
-		protected override void RemoveNick( string nick )
-		{
-			WatchListEditorMessage remMsg = new WatchListEditorMessage();
-			remMsg.RemovedNicks.Add( nick );
-			this.Contacts.Client.Send( remMsg );
-		}
+    protected override void AddNick(string nick) {
+      WatchListEditorMessage addMsg = new WatchListEditorMessage();
+      addMsg.AddedNicks.Add(nick);
+      this.Contacts.Client.Send(addMsg);
+    }
 
-		#region Reply Handlers
+    protected override void RemoveNick(string nick) {
+      WatchListEditorMessage remMsg = new WatchListEditorMessage();
+      remMsg.RemovedNicks.Add(nick);
+      this.Contacts.Client.Send(remMsg);
+    }
 
-		void client_WatchedUserOnline( object sender, BigSister.Irc.Messages.IrcMessageEventArgs<BigSister.Irc.Messages.WatchedUserOnlineMessage> e )
-		{
-			User knownUser = this.Contacts.Users.Find( e.Message.WatchedUser.Nick );
-			if ( knownUser != null && knownUser.OnlineStatus == UserOnlineStatus.Offline )
-			{
-				knownUser.OnlineStatus = UserOnlineStatus.Online;
-			}
-		}
+    #region Reply Handlers
 
-		void client_WatchedUserOffline( object sender, BigSister.Irc.Messages.IrcMessageEventArgs<BigSister.Irc.Messages.WatchedUserOfflineMessage> e )
-		{
-			User knownUser = this.Contacts.Users.Find( e.Message.WatchedUser.Nick );
-			if ( knownUser != null )
-			{
-				knownUser.OnlineStatus = UserOnlineStatus.Offline;
-			}
-		}
+    void client_WatchedUserOnline(object sender, BigSister.Irc.Messages.IrcMessageEventArgs<BigSister.Irc.Messages.WatchedUserOnlineMessage> e) {
+      User knownUser = this.Contacts.Users.Find(e.Message.WatchedUser.Nick);
+      if (knownUser != null && knownUser.OnlineStatus == UserOnlineStatus.Offline) {
+        knownUser.OnlineStatus = UserOnlineStatus.Online;
+      }
+    }
 
-		#endregion
+    void client_WatchedUserOffline(object sender, BigSister.Irc.Messages.IrcMessageEventArgs<BigSister.Irc.Messages.WatchedUserOfflineMessage> e) {
+      User knownUser = this.Contacts.Users.Find(e.Message.WatchedUser.Nick);
+      if (knownUser != null) {
+        knownUser.OnlineStatus = UserOnlineStatus.Offline;
+      }
+    }
 
+    #endregion
 
-
-	}
+  }
 }

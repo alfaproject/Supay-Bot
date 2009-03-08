@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
-
-using BigSister.Irc.Network;
 using BigSister.Irc.Messages.Modes;
+using BigSister.Irc.Network;
 
 namespace BigSister.Irc {
-
   /// <summary>
-  /// Represents a single irc channel, with it's users.
-  /// </summary>
+  ///   Represents a single irc channel, with it's users. </summary>
   public class Channel : INotifyPropertyChanged {
+
     private Client _client;
     private UserCollection _users = new UserCollection();
     private ChannelModeCollection _modes = new ChannelModeCollection();

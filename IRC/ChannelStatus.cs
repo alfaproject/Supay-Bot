@@ -1,13 +1,11 @@
 using System;
-using System.Collections;
-using System.Runtime.Serialization;
-using System.Security.Permissions;
-using System.Globalization;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Runtime.Serialization;
+using System.Security.Permissions;
 
 namespace BigSister.Irc {
-
   /// <summary>
   /// The nick prefixes that represent user level status in a channel.
   /// </summary>
@@ -71,9 +69,8 @@ namespace BigSister.Irc {
     }
 
     /// <summary>
-    /// Determines if the given ChannelStatus is one of the defined ChannelStatuses.
-    /// </summary>
-    public static Boolean IsDefined(ChannelStatus item) {
+    ///   Determines if the given ChannelStatus is one of the defined ChannelStatuses. </summary>
+    public static bool IsDefined(ChannelStatus item) {
       foreach (ChannelStatus definedItem in definedItems) {
         if (definedItem.Equals(item)) {
           return true;
@@ -83,9 +80,8 @@ namespace BigSister.Irc {
     }
 
     /// <summary>
-    /// Determines if the given symbol is any of the known channel statuses.
-    /// </summary>
-    public static Boolean Exists(string symbol) {
+    ///   Determines if the given symbol is any of the known channel statuses. </summary>
+    public static bool Exists(string symbol) {
       foreach (ChannelStatus definedItem in definedItems) {
         if (definedItem.symbol == symbol) {
           return true;
@@ -134,9 +130,8 @@ namespace BigSister.Irc {
     }
 
     /// <summary>
-    /// Creates a new instance of the <see cref="ChannelStatus"/> class.
-    /// </summary>
-    private ChannelStatus(string symbol, Boolean isDefined) {
+    ///   Creates a new instance of the <see cref="ChannelStatus"/> class. </summary>
+    private ChannelStatus(string symbol, bool isDefined) {
       this.symbol = symbol;
       if (isDefined) {
         definedItems.Add(this);
@@ -193,10 +188,9 @@ namespace BigSister.Irc {
     }
 
     /// <summary>
-    /// Implements the operator based on the Symbol property.
-    /// </summary>
+    ///   Implements the operator based on the Symbol property. </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "y"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x")]
-    public static Boolean operator ==(ChannelStatus x, ChannelStatus y) {
+    public static bool operator ==(ChannelStatus x, ChannelStatus y) {
       // If both are null, or both are same instance, return true.
       if (System.Object.ReferenceEquals(x, y)) {
         return true;
@@ -211,26 +205,23 @@ namespace BigSister.Irc {
     }
 
     /// <summary>
-    /// Implements the operator based on the Symbol property.
-    /// </summary>
+    ///   Implements the operator based on the Symbol property. </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "y"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x")]
-    public static Boolean operator !=(ChannelStatus x, ChannelStatus y) {
+    public static bool operator !=(ChannelStatus x, ChannelStatus y) {
       return !(x == y);
     }
 
     /// <summary>
-    /// Implements the operator based on the Symbol property.
-    /// </summary>
+    ///   Implements the operator based on the Symbol property. </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "y"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x")]
-    public static Boolean operator <(ChannelStatus x, ChannelStatus y) {
+    public static bool operator <(ChannelStatus x, ChannelStatus y) {
       return string.Compare(x.symbol, y.symbol, StringComparison.OrdinalIgnoreCase) < 0;
     }
 
     /// <summary>
-    /// Implements the operator based on the Symbol property.
-    /// </summary>
+    ///   Implements the operator based on the Symbol property. </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "y"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x")]
-    public static Boolean operator >(ChannelStatus x, ChannelStatus y) {
+    public static bool operator >(ChannelStatus x, ChannelStatus y) {
       return string.Compare(x.symbol, y.symbol, StringComparison.OrdinalIgnoreCase) > 0;
     }
 

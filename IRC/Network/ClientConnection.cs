@@ -1,24 +1,17 @@
 using System;
 using System.ComponentModel;
 using System.IO;
-using System.Net.Sockets;
-using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Diagnostics;
-using BigSister.Irc;
 using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
+using System.Net.Sockets;
 using System.Security.Authentication;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading;
 
 namespace BigSister.Irc.Network {
-
   /// <summary>
-  /// Represents a network connection to an irc server.
-  /// </summary>
+  ///   Represents a network connection to an irc server. </summary>
   /// <remarks>
-  /// Use the <see cref="ClientConnection"/> class to send a <see cref="BigSister.Irc.Messages.IrcMessage"/> to an irc server, and to be notified when it returns a <see cref="BigSister.Irc.Messages.IrcMessage"/>.
-  /// </remarks>
+  ///   Use the <see cref="ClientConnection"/> class to send a <see cref="BigSister.Irc.Messages.IrcMessage"/> to an irc server, and to be notified when it returns a <see cref="BigSister.Irc.Messages.IrcMessage"/>. </remarks>
   [System.ComponentModel.DesignerCategory("Code")]
   public class ClientConnection : Component {
 
@@ -161,9 +154,8 @@ namespace BigSister.Irc.Network {
     }
 
     /// <summary>
-    /// Gets or sets if the connection will use SSL to connect to the server
-    /// </summary>
-    public Boolean Ssl {
+    ///   Gets or sets if the connection will use SSL to connect to the server. </summary>
+    public bool Ssl {
       get {
         return _ssl;
       }
@@ -263,7 +255,7 @@ namespace BigSister.Irc.Network {
         data += "\r\n";
       }
       //if (data.Length > 512) {
-      //  throw new BigSister.Irc.Messages.InvalidMessageException(NeboResources.MessagesAreLimitedInSize, data);
+      //  throw new BigSister.Irc.Messages.InvalidMessageException("Messages are limited to 512 bytes.", data);
       //}
 
       try {
@@ -461,7 +453,7 @@ namespace BigSister.Irc.Network {
     private int port;
     private ConnectionStatus status = ConnectionStatus.Disconnected;
     private System.Text.Encoding _encoding;
-    private Boolean _ssl;
+    private bool _ssl;
 
     private TcpClient chatClient;
     private StreamReader chatReader;

@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Globalization;
 
 namespace BigSister.Irc {
-
   /// <summary>
   /// Contains information about what irc extensions and such the server supports.
   /// </summary>
@@ -71,9 +70,8 @@ namespace BigSister.Irc {
     #region Properties
 
     /// <summary>
-    /// Gets or sets if the server supports the Deaf user mode
-    /// </summary>
-    public Boolean DeafMode {
+    ///   Gets or sets if the server supports the Deaf user mode. </summary>
+    public bool DeafMode {
       get;
       set;
     }
@@ -306,9 +304,8 @@ namespace BigSister.Irc {
     private string _networkName = string.Empty;
 
     /// <summary>
-    /// Gets or sets if the server supports channel ban exceptions. 
-    /// </summary>
-    public Boolean BanExceptions {
+    ///   Gets or sets if the server supports channel ban exceptions. </summary>
+    public bool BanExceptions {
       get {
         return (this._banExceptions);
       }
@@ -316,12 +313,11 @@ namespace BigSister.Irc {
         this._banExceptions = value;
       }
     }
-    private Boolean _banExceptions = false;
+    private bool _banExceptions = false;
 
     /// <summary>
-    /// Gets or sets if the server supports channel invitation exceptions.
-    /// </summary>
-    public Boolean InvitationExceptions {
+    ///   Gets or sets if the server supports channel invitation exceptions.</summary>
+    public bool InvitationExceptions {
       get {
         return (this._invitationExceptions);
       }
@@ -329,7 +325,7 @@ namespace BigSister.Irc {
         this._invitationExceptions = value;
       }
     }
-    private Boolean _invitationExceptions = false;
+    private bool _invitationExceptions = false;
 
     /// <summary>
     /// Gets or sets the maximum number of silence ( serverside ignore ) listings a client can store.
@@ -345,13 +341,11 @@ namespace BigSister.Irc {
     private int _maxSilences = 0;
 
     /// <summary>
-    /// Gets or sets if the server supports messages to channel operators.
-    /// </summary>
+    ///   Gets or sets if the server supports messages to channel operators. </summary>
     /// <remarks>
-    /// To send a message to channel operators, use a <see cref="BigSister.Irc.Messages.NoticeMessage"/>
-    /// with a target in the format "@#channel".
-    /// </remarks>
-    public Boolean MessagesToOperators {
+    ///   To send a message to channel operators, use a <see cref="BigSister.Irc.Messages.NoticeMessage"/>
+    ///   with a target in the format "@#channel". </remarks>
+    public bool MessagesToOperators {
       get {
         return (this._messagesToOperators);
       }
@@ -359,7 +353,7 @@ namespace BigSister.Irc {
         this._messagesToOperators = value;
       }
     }
-    private Boolean _messagesToOperators = false;
+    private bool _messagesToOperators = false;
 
     /// <summary>
     /// Gets or sets the case mapping supported by the server.
@@ -389,9 +383,8 @@ namespace BigSister.Irc {
     private string _characterSet = string.Empty;
 
     /// <summary>
-    /// Gets or sets if the server supports the standards declared in rfc 2812.
-    /// </summary>
-    public Boolean Rfc2812 {
+    ///   Gets or sets if the server supports the standards declared in rfc 2812. </summary>
+    public bool Rfc2812 {
       get {
         return (this._rfc2812);
       }
@@ -399,7 +392,7 @@ namespace BigSister.Irc {
         this._rfc2812 = value;
       }
     }
-    private Boolean _rfc2812 = false;
+    private bool _rfc2812 = false;
 
     /// <summary>
     /// Gets or sets the length of channel ids.
@@ -415,9 +408,8 @@ namespace BigSister.Irc {
     private int _channelIdLength = -1;
 
     /// <summary>
-    /// Gets or sets if the server has a message penalty.
-    /// </summary>
-    public Boolean Penalties {
+    ///   Gets or sets if the server has a message penalty. </summary>
+    public bool Penalties {
       get {
         return (this._penalties);
       }
@@ -425,12 +417,11 @@ namespace BigSister.Irc {
         this._penalties = value;
       }
     }
-    private Boolean _penalties = false;
+    private bool _penalties = false;
 
     /// <summary>
-    /// Gets or sets if the server will change your nick automatticly when it needs to.
-    /// </summary>
-    public Boolean ForcedNickChanges {
+    ///   Gets or sets if the server will change your nick automatticly when it needs to. </summary>
+    public bool ForcedNickChanges {
       get {
         return (this._forcedNickChanges);
       }
@@ -438,12 +429,11 @@ namespace BigSister.Irc {
         this._forcedNickChanges = value;
       }
     }
-    private Boolean _forcedNickChanges = false;
+    private bool _forcedNickChanges = false;
 
     /// <summary>
-    /// Gets or sets if the server supports the USERIP command.
-    /// </summary>
-    public Boolean UserIP {
+    ///   Gets or sets if the server supports the USERIP command. </summary>
+    public bool UserIP {
       get {
         return (this._userIp);
       }
@@ -451,12 +441,11 @@ namespace BigSister.Irc {
         this._userIp = value;
       }
     }
-    private Boolean _userIp = false;
+    private bool _userIp = false;
 
     /// <summary>
-    /// Gets or sets if the server supports the CPRIVMSG command.
-    /// </summary>
-    public Boolean ChannelMessages {
+    ///   Gets or sets if the server supports the CPRIVMSG command. </summary>
+    public bool ChannelMessages {
       get {
         return (this._channelMessages);
       }
@@ -464,12 +453,11 @@ namespace BigSister.Irc {
         this._channelMessages = value;
       }
     }
-    private Boolean _channelMessages = false;
+    private bool _channelMessages = false;
 
     /// <summary>
-    /// Gets or sets if the server supports the CNOTICE command.
-    /// </summary>
-    public Boolean ChannelNotices {
+    ///   Gets or sets if the server supports the CNOTICE command. </summary>
+    public bool ChannelNotices {
       get {
         return (this._channelNotices);
       }
@@ -477,7 +465,7 @@ namespace BigSister.Irc {
         this._channelNotices = value;
       }
     }
-    private Boolean _channelNotices = false;
+    private bool _channelNotices = false;
 
     /// <summary>
     /// Gets or sets the maximum number of targets allowed on targetted messages, grouped by message command
@@ -490,9 +478,8 @@ namespace BigSister.Irc {
     private Dictionary<string, int> _maxMessageTargets = new Dictionary<string, int>();
 
     /// <summary>
-    /// Gets or sets if the server supports the <see cref="BigSister.Irc.Messages.KnockMessage"/>.
-    /// </summary>
-    public Boolean Knock {
+    ///   Gets or sets if the server supports the <see cref="BigSister.Irc.Messages.KnockMessage"/>. </summary>
+    public bool Knock {
       get {
         return (this._knock);
       }
@@ -500,12 +487,11 @@ namespace BigSister.Irc {
         this._knock = value;
       }
     }
-    private Boolean _knock = false;
+    private bool _knock = false;
 
     /// <summary>
-    /// Gets or sets if the server supports virtual channels.
-    /// </summary>
-    public Boolean VirtualChannels {
+    ///   Gets or sets if the server supports virtual channels. </summary>
+    public bool VirtualChannels {
       get {
         return (this._virtualChannels);
       }
@@ -513,12 +499,11 @@ namespace BigSister.Irc {
         this._virtualChannels = value;
       }
     }
-    private Boolean _virtualChannels = false;
+    private bool _virtualChannels = false;
 
     /// <summary>
-    /// Gets or sets if the <see cref="BigSister.Irc.Messages.ListReplyMessage"/> is sent in multiple itterations.
-    /// </summary>
-    public Boolean SafeList {
+    ///   Gets or sets if the <see cref="BigSister.Irc.Messages.ListReplyMessage"/> is sent in multiple itterations. </summary>
+    public bool SafeList {
       get {
         return (this._safeList);
       }
@@ -526,7 +511,7 @@ namespace BigSister.Irc {
         this._safeList = value;
       }
     }
-    private Boolean _safeList = false;
+    private bool _safeList = false;
 
     /// <summary>
     /// Gets or sets the extended parameters the server supports for a <see cref="T:BigSister.Irc.Messages.ListMessage"/>.
@@ -555,9 +540,8 @@ namespace BigSister.Irc {
     private int _maxWatches = -1;
 
     /// <summary>
-    /// Gets or sets if the <see cref="BigSister.Irc.Messages.WhoMessage"/> uses the WHOX protocol
-    /// </summary>
-    public Boolean WhoX {
+    ///   Gets or sets if the <see cref="BigSister.Irc.Messages.WhoMessage"/> uses the WHOX protocol. </summary>
+    public bool WhoX {
       get {
         return (this._whoX);
       }
@@ -565,12 +549,11 @@ namespace BigSister.Irc {
         this._whoX = value;
       }
     }
-    private Boolean _whoX = false;
+    private bool _whoX = false;
 
     /// <summary>
-    /// Gets or sets if the server suports callerid-style ignore.
-    /// </summary>
-    public Boolean CallerId {
+    ///   Gets or sets if the server suports callerid-style ignore. </summary>
+    public bool CallerId {
       get {
         return (this._callerId);
       }
@@ -578,12 +561,11 @@ namespace BigSister.Irc {
         this._callerId = value;
       }
     }
-    private Boolean _callerId = false;
+    private bool _callerId = false;
 
     /// <summary>
-    /// Gets or sets if the server supports ETrace.
-    /// </summary>
-    public Boolean ETrace {
+    ///   Gets or sets if the server supports ETrace. </summary>
+    public bool ETrace {
       get {
         return (this.eTrace);
       }
@@ -591,7 +573,7 @@ namespace BigSister.Irc {
         this.eTrace = value;
       }
     }
-    private Boolean eTrace = false;
+    private bool eTrace = false;
 
     /// <summary>
     /// Gets or sets the maximum number of user monitors a user is allowed to set.
@@ -886,5 +868,6 @@ namespace BigSister.Irc {
       public string Key;
       public string Value;
     }
+
   }
 }

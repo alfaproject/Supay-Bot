@@ -1,17 +1,13 @@
 using System;
-using System.Collections;
-using System.Runtime.Serialization;
-using System.Globalization;
-using System.Security.Permissions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
+using System.Globalization;
+using System.Runtime.Serialization;
+using System.Security.Permissions;
 
 namespace BigSister.Irc.Messages {
-
   /// <summary>
-  /// Possible actions for each mode change in a <see cref="BigSister.Irc.Messages.ChannelModeMessage"/> or <see cref="BigSister.Irc.Messages.UserModeMessage"/> message.
-  /// </summary>
+  ///   Possible actions for each mode change in a <see cref="BigSister.Irc.Messages.ChannelModeMessage"/> or <see cref="BigSister.Irc.Messages.UserModeMessage"/> message. </summary>
   [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2229:ImplementSerializationConstructors", Justification = "Using IObjectReference instead"), Serializable]
   public sealed class ModeAction : MarshalByRefObject, IComparable, ISerializable {
 
@@ -45,9 +41,8 @@ namespace BigSister.Irc.Messages {
     }
 
     /// <summary>
-    /// Determines if the given string value is representative of any defined ModeActions.
-    /// </summary>
-    public static Boolean IsDefined(string value) {
+    ///   Determines if the given string value is representative of any defined ModeActions. </summary>
+    public static bool IsDefined(string value) {
       foreach (ModeAction modeAction in ModeAction.Values) {
         if (modeAction.ircName == value) {
           return true;
@@ -69,11 +64,12 @@ namespace BigSister.Irc.Messages {
     }
 
     /// <summary>
-    /// Returns the correct <see cref="ModeAction"/> for the given string value.
-    /// </summary>
-    /// <param name="value">The string to parse.</param>
-    /// <param name="ignoreCase">Decides whether the parsing is case-specific.</param>
-    public static ModeAction Parse(string value, Boolean ignoreCase) {
+    ///   Returns the correct <see cref="ModeAction"/> for the given string value. </summary>
+    /// <param name="value">
+    ///   The string to parse. </param>
+    /// <param name="ignoreCase">
+    ///   Decides whether the parsing is case-specific. </param>
+    public static ModeAction Parse(string value, bool ignoreCase) {
       if (value == null) {
         throw new ArgumentNullException("value");
       }
@@ -135,10 +131,9 @@ namespace BigSister.Irc.Messages {
     }
 
     /// <summary>
-    /// Implements the operator based on a string value.
-    /// </summary>
+    ///   Implements the operator based on a string value. </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "y"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x")]
-    public static Boolean operator ==(ModeAction x, ModeAction y) {
+    public static bool operator ==(ModeAction x, ModeAction y) {
       // If both are null, or both are same instance, return true.
       if (System.Object.ReferenceEquals(x, y)) {
         return true;
@@ -153,26 +148,23 @@ namespace BigSister.Irc.Messages {
     }
 
     /// <summary>
-    /// Implements the operator based on a string value.
-    /// </summary>
+    ///   Implements the operator based on a string value. </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "y"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x")]
-    public static Boolean operator !=(ModeAction x, ModeAction y) {
+    public static bool operator !=(ModeAction x, ModeAction y) {
       return !(x == y);
     }
 
     /// <summary>
-    /// Implements the operator based on a string value.
-    /// </summary>
+    ///   Implements the operator based on a string value. </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "y"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x")]
-    public static Boolean operator <(ModeAction x, ModeAction y) {
+    public static bool operator <(ModeAction x, ModeAction y) {
       return string.CompareOrdinal(x.ircName, y.ircName) < 0;
     }
 
     /// <summary>
-    /// Implements the operator based on a string value.
-    /// </summary>
+    ///   Implements the operator based on a string value. </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "y"), System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x")]
-    public static Boolean operator >(ModeAction x, ModeAction y) {
+    public static bool operator >(ModeAction x, ModeAction y) {
       return string.CompareOrdinal(x.ircName, y.ircName) > 0;
     }
 
@@ -229,5 +221,6 @@ namespace BigSister.Irc.Messages {
 
     private string ircName;
     private static ReadOnlyCollection<ModeAction> values;
+
   }
 }

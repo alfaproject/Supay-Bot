@@ -6,12 +6,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 namespace BigSister.Irc {
-
   /// <summary>
-  /// Represents a User on an irc server.
-  /// </summary>
+  ///   Represents a User on an irc server. </summary>
   [Serializable]
   public sealed class User : INotifyPropertyChanged {
+
     private string _nick = string.Empty;
     private string _userName = string.Empty;
     private string _hostName = string.Empty;
@@ -210,9 +209,8 @@ namespace BigSister.Irc {
     private string serverName;
 
     /// <summary>
-    /// Gets or sets if the User is an IRC Operator
-    /// </summary>
-    public Boolean IrcOperator {
+    ///   Gets or sets if the User is an IRC Operator </summary>
+    public bool IrcOperator {
       get {
         return ircOperator;
       }
@@ -223,7 +221,7 @@ namespace BigSister.Irc {
         }
       }
     }
-    private Boolean ircOperator;
+    private bool ircOperator;
 
     /// <summary>
     /// Gets the modes which apply to the user.
@@ -270,11 +268,12 @@ namespace BigSister.Irc {
     }
 
     /// <summary>
-    /// Determines wether the current user mask matches the given user mask.
-    /// </summary>
-    /// <param name="wildcardMask">The wild-card filled mask to compare with the current.</param>
-    /// <returns>True if this mask is described by the given wildcard Mask. False if not.</returns>
-    public Boolean IsMatch(User wildcardMask) {
+    ///   Determines wether the current user mask matches the given user mask. </summary>
+    /// <param name="wildcardMask">
+    ///   The wild-card filled mask to compare with the current. </param>
+    /// <returns>
+    ///   True if this mask is described by the given wildcard Mask. False if not. </returns>
+    public bool IsMatch(User wildcardMask) {
       if (wildcardMask == null) {
         return false;
       }
@@ -292,12 +291,14 @@ namespace BigSister.Irc {
     }
 
     /// <summary>
-    /// Decides if the given user address matches the given address mask.
-    /// </summary>
-    /// <param name="actualMask">The user address mask to compare match.</param>
-    /// <param name="wildcardMask">The address mask containing wildcards to match with.</param>
-    /// <returns>True if <parmref>actualMask</parmref> is contained within ( or described with ) the <paramref>wildcardMask</paramref>. False if not.</returns>
-    public static Boolean IsMatch(string actualMask, string wildcardMask) {
+    ///   Decides if the given user address matches the given address mask. </summary>
+    /// <param name="actualMask">
+    ///   The user address mask to compare match. </param>
+    /// <param name="wildcardMask">
+    ///   The address mask containing wildcards to match with. </param>
+    /// <returns>
+    ///   True if <parmref>actualMask</parmref> is contained within (or described with) the <paramref>wildcardMask</paramref>. False if not. </returns>
+    public static bool IsMatch(string actualMask, string wildcardMask) {
       return new User(actualMask).IsMatch(new User(wildcardMask));
     }
 
@@ -451,7 +452,7 @@ namespace BigSister.Irc {
       this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
     }
 
-    private Boolean IsDirty(string propertyName) {
+    private bool IsDirty(string propertyName) {
       return dirtyProperties.Contains(propertyName);
     }
 

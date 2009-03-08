@@ -1,23 +1,15 @@
 using System;
-using System.Collections;
-using System.Collections.Specialized;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Reflection;
-using BigSister.Irc;
 using BigSister.Irc.Messages;
-using System.ComponentModel;
-using BigSister.Irc.Network;
-using System.Collections.ObjectModel;
 using BigSister.Irc.Messages.Modes;
+using BigSister.Irc.Network;
 
 namespace BigSister.Irc {
-
   /// <summary>
-  /// Represents an irc client. it has a connection, a user, etc
-  /// </summary>
-  /// <remarks>A gui frontend should use one instance of these per client/server <see cref="ClientConnection"/> it wants to make.</remarks>
+  ///   Represents an irc client. it has a connection, a user, etc. </summary>
+  /// <remarks>
+  ///   A gui frontend should use one instance of these per client/server <see cref="ClientConnection"/> it wants to make. </remarks>
   [System.ComponentModel.DesignerCategory("Code")]
   public class Client : IDisposable {
 
@@ -274,16 +266,15 @@ namespace BigSister.Irc {
     #endregion
 
     /// <summary>
-    /// Determines if the given message originated from the currently connected server.
-    /// </summary>
-    public virtual Boolean IsMessageFromServer(BigSister.Irc.Messages.IrcMessage msg) {
+    ///   Determines if the given message originated from the currently connected server. </summary>
+    public virtual bool IsMessageFromServer(BigSister.Irc.Messages.IrcMessage msg) {
       if (msg == null) {
         return false;
       }
       return (msg.Sender.Nick == this.ServerName);
     }
 
-    private Boolean IsMe(string nick) {
+    private bool IsMe(string nick) {
       return (MessageUtil.IsIgnoreCaseMatch(this.User.Nick, nick));
     }
 
@@ -546,12 +537,11 @@ namespace BigSister.Irc {
     }
 
     private void messageParsed(object sender, IrcMessageEventArgs<IrcMessage> e) {
-
       if (!readyRaised) {
         lookForReady(sender, e);
       }
 
-      Boolean routed = false;
+      bool routed = false;
 
       IrcMessage ircMessage = e.Message;
       if (ircMessage is IChannelTargetedMessage || ircMessage is IQueryTargetedMessage) {
@@ -874,7 +864,7 @@ namespace BigSister.Irc {
 
     #region Private
 
-    private Boolean readyRaised = false;
+    private bool readyRaised = false;
     IrcMessageWriter writer = new IrcMessageWriter();
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]

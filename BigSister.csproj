@@ -185,7 +185,6 @@
     <Compile Include="IRC\Messages\Ctcp\PingRequestMessage.cs" />
     <Compile Include="IRC\Messages\Ctcp\ScriptReplyMessage.cs" />
     <Compile Include="IRC\Messages\Ctcp\ScriptRequestMessage.cs" />
-    <Compile Include="IRC\Messages\Ctcp\SoundRequestMessage.cs" />
     <Compile Include="IRC\Messages\Ctcp\SourceReplyMessage.cs" />
     <Compile Include="IRC\Messages\Ctcp\SourceRequestMessage.cs" />
     <Compile Include="IRC\Messages\Ctcp\TimeReplyMessage.cs" />

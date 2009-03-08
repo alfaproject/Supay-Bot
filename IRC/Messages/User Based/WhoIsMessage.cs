@@ -1,29 +1,23 @@
 using System;
 using System.Collections.Specialized;
-using System.Text;
 
 namespace BigSister.Irc.Messages {
-
   /// <summary>
-  /// Requests information from the server about the users specified.
-  /// </summary>
+  ///   Requests information from the server about the users specified. </summary>
   /// <remarks>
-  /// <para>
-  /// Possible reply messages include:
-  /// <see cref="T:NoSuchServerMessage"/>
-  /// <see cref="T:NoNickGivenMessage"/>
-  /// <see cref="T:NoSuchNickMessage"/>
+  ///   Possible reply messages include:
+  ///   <see cref="T:NoSuchServerMessage"/>
+  ///   <see cref="T:NoNickGivenMessage"/>
+  ///   <see cref="T:NoSuchNickMessage"/>
   /// 
-  /// <see cref="T:WhoIsUserReplyMessage"/>
-  /// <see cref="T:WhoIsChannelsReplyMessage"/>
-  /// <see cref="T:WhoIsServerReplyMessage"/>
-  /// <see cref="T:WhoIsOperReplyMessage"/>
-  /// <see cref="T:WhoIsIdleReplyMessage"/>
+  ///   <see cref="T:WhoIsUserReplyMessage"/>
+  ///   <see cref="T:WhoIsChannelsReplyMessage"/>
+  ///   <see cref="T:WhoIsServerReplyMessage"/>
+  ///   <see cref="T:WhoIsOperReplyMessage"/>
+  ///   <see cref="T:WhoIsIdleReplyMessage"/>
   /// 
-  /// <see cref="T:UserAwayMessage" />
-  /// <see cref="T:WhoIsEndReplyMessage"/>
-  /// </para>
-  /// </remarks>
+  ///   <see cref="T:UserAwayMessage" />
+  ///   <see cref="T:WhoIsEndReplyMessage"/> </remarks>
   [Serializable]
   public class WhoIsMessage : CommandMessage {
 

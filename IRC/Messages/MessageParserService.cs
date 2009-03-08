@@ -1,15 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Reflection;
-using System.Text;
 
 namespace BigSister.Irc.Messages {
-
   /// <summary>
-  /// Provides clients with a correct <see cref="IrcMessage"/> for a given raw message string
-  /// </summary>
+  ///   Provides clients with a correct <see cref="IrcMessage"/> for a given raw message string. </summary>
   public sealed class MessageParserService {
 
     /// <summary>

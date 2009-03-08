@@ -3,10 +3,8 @@ using System.Collections.Specialized;
 using System.Globalization;
 
 namespace BigSister.Irc.Messages {
-
   /// <summary>
-  /// A reply to a <see cref="WhoMessage"/> query.
-  /// </summary>
+  ///   A reply to a <see cref="WhoMessage"/> query. </summary>
   [Serializable]
   public class WhoReplyMessage : NumericMessage, IChannelTargetedMessage {
 
@@ -83,9 +81,8 @@ namespace BigSister.Irc.Messages {
     }
 
     /// <summary>
-    /// Gets or sets if the user is an irc operator.
-    /// </summary>
-    public virtual Boolean IsOper {
+    ///   Gets or sets if the user is an irc operator. </summary>
+    public virtual bool IsOper {
       get {
         return isOper;
       }
@@ -98,7 +95,7 @@ namespace BigSister.Irc.Messages {
     private User user = new User();
     private string server = string.Empty;
     private int hopCount = -1;
-    private Boolean isOper = false;
+    private bool isOper = false;
     private ChannelStatus status = ChannelStatus.None;
 
 
@@ -115,8 +112,7 @@ namespace BigSister.Irc.Messages {
       //HACK it could also be a G, but I was unable to determine what it meant.
       if (this.IsOper) {
         writer.AddParameter("H*");
-      }
-      else {
+      } else {
         writer.AddParameter("H");
       }
       writer.AddParameter(this.Status.ToString());
@@ -143,8 +139,7 @@ namespace BigSister.Irc.Messages {
         string lastLetter = levels.Substring(levels.Length - 1);
         if (ChannelStatus.Exists(lastLetter)) {
           //HACK this.Status = ChannelStatus.GetInstance(lastLetter);
-        }
-        else {
+        } else {
           //HACK this.Status = ChannelStatus.None;
         }
 
@@ -161,7 +156,6 @@ namespace BigSister.Irc.Messages {
       conduit.OnWhoReply(new IrcMessageEventArgs<WhoReplyMessage>(this));
     }
 
-
     #region IChannelTargetedMessage Members
 
     bool IChannelTargetedMessage.IsTargetedAtChannel(string channelName) {
@@ -177,5 +171,6 @@ namespace BigSister.Irc.Messages {
     }
 
     #endregion
+
   }
 }

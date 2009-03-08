@@ -2,13 +2,10 @@ using System;
 using System.ComponentModel;
 
 namespace BigSister.Irc.Messages {
-
   /// <summary>
-  /// The base class for classes which send and receive messages.
-  /// </summary>
+  ///   The base class for classes which send and receive messages. </summary>
   [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling")]
   public class MessageConduit {
-
 
     /// <summary>
     /// Occurs when an unrecognized message is received.
@@ -1434,15 +1431,6 @@ namespace BigSister.Irc.Messages {
     protected internal void OnSourceReply(IrcMessageEventArgs<SourceReplyMessage> e) {
       if (SourceReply != null) {
         SourceReply(this, e);
-      }
-    }
-
-    /// <summary>Occurs when a <see cref="SoundRequestMessage"/> is received.</summary>
-    public event EventHandler<IrcMessageEventArgs<SoundRequestMessage>> SoundRequest;
-    /// <summary>Raises the SoundRequest event.</summary>
-    protected internal void OnSoundRequest(IrcMessageEventArgs<SoundRequestMessage> e) {
-      if (SoundRequest != null) {
-        SoundRequest(this, e);
       }
     }
 

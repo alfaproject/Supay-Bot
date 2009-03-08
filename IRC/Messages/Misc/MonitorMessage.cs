@@ -1,10 +1,8 @@
 using System;
 
 namespace BigSister.Irc.Messages {
-
   /// <summary>
-  /// A Message that participates in the Monitor system.
-  /// </summary>
+  ///   A Message that participates in the Monitor system. </summary>
   [Serializable]
   public abstract class MonitorMessage : CommandMessage {
 

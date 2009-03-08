@@ -1,4 +1,5 @@
 namespace BigSister.Irc {
+
   /// <summary>
   /// The enum of a user's online status.
   /// </summary>
@@ -18,4 +19,5 @@ namespace BigSister.Irc {
     /// </summary>
     Offline = 2
   }
+
 }

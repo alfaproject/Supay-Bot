@@ -1,18 +1,14 @@
 using System;
 using System.Collections.Specialized;
-using System.Text;
 
 namespace BigSister.Irc.Messages {
-
   /// <summary>
-  /// This message is a chat message which is scoped to the current channel.
-  /// </summary>
+  ///   This message is a chat message which is scoped to the current channel. </summary>
   /// <remarks>
-  /// This is a non-standard message.
-  /// This command exists because many servers limit the number of standard chat messages
-  /// you can send in a time frame. However, they will let channel operators send this chat message
-  /// as often as they want to people who are in that channel.
-  /// </remarks>
+  ///   This is a non-standard message.
+  ///   This command exists because many servers limit the number of standard chat messages
+  ///   you can send in a time frame. However, they will let channel operators send this chat message
+  ///   as often as they want to people who are in that channel. </remarks>
   [Serializable]
   public class ChannelScopedChatMessage : CommandMessage, IChannelTargetedMessage {
 
@@ -156,7 +152,6 @@ namespace BigSister.Irc.Messages {
 
     #endregion
 
-
     #region IChannelTargetedMessage Members
 
     bool IChannelTargetedMessage.IsTargetedAtChannel(string channelName) {
@@ -172,5 +167,6 @@ namespace BigSister.Irc.Messages {
     }
 
     #endregion
+
   }
 }

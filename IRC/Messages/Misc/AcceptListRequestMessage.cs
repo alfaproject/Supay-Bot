@@ -1,12 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Specialized;
 
 namespace BigSister.Irc.Messages {
-
   /// <summary>
-  /// A CallerId/Accept system message that requests the nicks of the users on your accept list.
-  /// </summary>
+  ///   A CallerId/Accept system message that requests the nicks of the users on your accept list. </summary>
   [Serializable]
   public class AcceptListRequestMessage : CommandMessage {
 
@@ -31,9 +27,8 @@ namespace BigSister.Irc.Messages {
     }
 
     /// <summary>
-    /// Determines if the message can be parsed by this type.
-    /// </summary>
-    public override Boolean CanParse(string unparsedMessage) {
+    /// Determines if the message can be parsed by this type. </summary>
+    public override bool CanParse(string unparsedMessage) {
       if (!base.CanParse(unparsedMessage)) {
         return false;
       }
