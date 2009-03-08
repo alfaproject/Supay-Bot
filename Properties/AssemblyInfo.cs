@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Resources;
+using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -11,7 +10,7 @@ using System.Resources;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("_aLfa_")]
 [assembly: AssemblyProduct("BigSister")]
-[assembly: AssemblyCopyright("Copyright © _aLfa_ 2008")]
+[assembly: AssemblyCopyright("Copyright © _aLfa_ 2006 - 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
