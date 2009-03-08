@@ -123,7 +123,6 @@
     <Compile Include="IRC\Contacts\ContactsMonitorTracker.cs" />
     <Compile Include="IRC\Contacts\ContactsTracker.cs" />
     <Compile Include="IRC\Contacts\ContactsWatchTracker.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IRC\Messages\CancelIrcMessageEventArgs.cs" />
     <Compile Include="IRC\Messages\Channel Operation\ChannelModeMessage.cs" />
     <Compile Include="IRC\Messages\Channel Operation\InviteMessage.cs" />
