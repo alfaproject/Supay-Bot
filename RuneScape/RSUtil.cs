@@ -18,15 +18,15 @@ namespace BigSister {
     public static int CalculateCombat(Skills skills, bool @virtual, bool f2p) {
       if (@virtual) {
         if (f2p) {
-          return CalculateCombat(skills[Skill.DEFE].VLevel + skills[Skill.HITP].VLevel + skills[Skill.PRAY].VLevel / 2, skills[Skill.ATTA].VLevel + skills[Skill.STRE].VLevel, skills[Skill.MAGI].VLevel + skills[Skill.MAGI].VLevel / 2, skills[Skill.RANG].VLevel + skills[Skill.RANG].VLevel / 2);
+          return CalculateCombat(skills[Skill.ATTA].VLevel, skills[Skill.STRE].VLevel, skills[Skill.DEFE].VLevel, skills[Skill.HITP].VLevel, skills[Skill.RANG].VLevel, skills[Skill.PRAY].VLevel, skills[Skill.MAGI].VLevel);
         } else {
-          return CalculateCombat(skills[Skill.DEFE].VLevel + skills[Skill.HITP].VLevel + skills[Skill.PRAY].VLevel / 2 + skills[Skill.SUMM].VLevel / 2, skills[Skill.ATTA].VLevel + skills[Skill.STRE].VLevel, skills[Skill.MAGI].VLevel + skills[Skill.MAGI].VLevel / 2, skills[Skill.RANG].VLevel + skills[Skill.RANG].VLevel / 2);
+          return CalculateCombat(skills[Skill.ATTA].VLevel, skills[Skill.STRE].VLevel, skills[Skill.DEFE].VLevel, skills[Skill.HITP].VLevel, skills[Skill.RANG].VLevel, skills[Skill.PRAY].VLevel, skills[Skill.MAGI].VLevel, skills[Skill.SUMM].VLevel);
         }
       } else {
         if (f2p) {
-          return CalculateCombat(skills[Skill.DEFE].Level + skills[Skill.HITP].Level + skills[Skill.PRAY].Level / 2, skills[Skill.ATTA].Level + skills[Skill.STRE].Level, skills[Skill.MAGI].Level + skills[Skill.MAGI].Level / 2, skills[Skill.RANG].Level + skills[Skill.RANG].Level / 2);
+          return CalculateCombat(skills[Skill.ATTA].Level, skills[Skill.STRE].Level, skills[Skill.DEFE].Level, skills[Skill.HITP].Level, skills[Skill.RANG].Level, skills[Skill.PRAY].Level, skills[Skill.MAGI].Level);
         } else {
-          return CalculateCombat(skills[Skill.DEFE].Level + skills[Skill.HITP].Level + skills[Skill.PRAY].Level / 2 + skills[Skill.SUMM].Level / 2, skills[Skill.ATTA].Level + skills[Skill.STRE].Level, skills[Skill.MAGI].Level + skills[Skill.MAGI].Level / 2, skills[Skill.RANG].Level + skills[Skill.RANG].Level / 2);
+          return CalculateCombat(skills[Skill.ATTA].Level, skills[Skill.STRE].Level, skills[Skill.DEFE].Level, skills[Skill.HITP].Level, skills[Skill.RANG].Level, skills[Skill.PRAY].Level, skills[Skill.MAGI].Level, skills[Skill.SUMM].Level);
         }
       }
     }
