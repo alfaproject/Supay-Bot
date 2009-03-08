@@ -1,9 +1,7 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace BigSister {
-
   class MagicItem : ASkillItem {
 
     public MagicItem(string[] tokens)

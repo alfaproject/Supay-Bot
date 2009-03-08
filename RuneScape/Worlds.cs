@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace BigSister
-{
-  public class Worlds : Dictionary<int, World>
-  {
+namespace BigSister {
+  public class Worlds : Dictionary<int, World> {
+
     public List<World> FindActivity(string activity) {
       List<World> ret = new List<World>();
       foreach (World world in this.Values)
@@ -41,7 +38,7 @@ namespace BigSister
             NewWorld.Status = "Online";
             break;
         }
-        
+
         NewWorld.Location = W.Groups[4].Value;
         NewWorld.Activity = W.Groups[5].Value;
 
@@ -52,5 +49,6 @@ namespace BigSister
         this.Add(NewWorld.Number, NewWorld);
       }
     }
+
   }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 using System.Data.SQLite;
 
@@ -29,7 +28,7 @@ namespace BigSister {
     }
 
     // performance constructor
-    public Players (string clan, DateTime firstDay, DateTime lastDay) {
+    public Players(string clan, DateTime firstDay, DateTime lastDay) {
       SQLiteDataReader rs = DataBase.ExecuteReader("SELECT rsn FROM players WHERE clan LIKE '%" + clan + "%'");
       while (rs.Read()) {
         Player playerBegin = new Player(rs.GetString(0), firstDay);

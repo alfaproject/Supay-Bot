@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Globalization;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace BigSister {
   public class MathParser {
+
     // actions
     private const int SHIFT = 0;  // shift
     private const int REDUCE = 1; // reduce

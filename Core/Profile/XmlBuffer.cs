@@ -16,6 +16,7 @@ namespace BigSister {
   ///   be instanciated directly.  Instead, use the <see cref="XmlProfile.Buffer(bool)" /> method of the profile object. </para></remarks>
   /// <seealso cref="XmlProfile.Buffer(bool)" />
   public class XmlBuffer : IDisposable {
+
     private XmlProfile _profile;
     private XmlDocument _doc;
     private FileStream _file;

@@ -3,6 +3,7 @@ using System.Globalization;
 
 namespace BigSister {
   public class Minigame : Hiscore, IComparable<Minigame> {
+
     public const string DUEL = "Duel Tournament";
     public const string BOUN = "Bounty Hunters";
     public const string ROGU = "Bounty Hunter Rogues";
@@ -128,7 +129,6 @@ namespace BigSister {
       }
     }
 
-
     #region IComparable<Minigame> Members
 
     // {CompareTo < 0 => this < other} {CompareTo > 0 => this > other} {CompareTo == 0 => this == other}
@@ -147,5 +147,4 @@ namespace BigSister {
     #endregion
 
   } // class Minigame
-
 } // namespace BigSister

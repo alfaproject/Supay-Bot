@@ -2,8 +2,8 @@
 using System.Text.RegularExpressions;
 
 namespace BigSister {
-
   class HerbloreItem : ASkillItem {
+
     private int _potionId;
     private Price _price;
 

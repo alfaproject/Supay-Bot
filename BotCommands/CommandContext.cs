@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-using BigSister.Irc;
+﻿using BigSister.Irc;
 using BigSister.Irc.Messages;
 
 namespace BigSister {

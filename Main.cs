@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Windows.Forms;
-using System.Globalization;
-using System.Threading;
-using System.Text.RegularExpressions;
 using System.Collections.Generic;
-
 using System.Data.SQLite;
-
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Windows.Forms;
 using BigSister.Irc;
 using BigSister.Irc.Messages;
 
 namespace BigSister {
   public partial class Main : Form {
+
     private Client _irc;
 
     System.Threading.Timer _timerDaily;

@@ -1,7 +1,4 @@
-﻿using System.Globalization;
-
-namespace BigSister {
-
+﻿namespace BigSister {
   class SkillItem : ASkillItem {
 
     public SkillItem(string[] tokens)
@@ -15,5 +12,4 @@ namespace BigSister {
     }
 
   } //class SkillItem
-
 } //namespace BigSister

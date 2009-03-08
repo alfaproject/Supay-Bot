@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace BigSister {
   class Items : List<Item> {
 
-    public Items(string query) : base() {
+    public Items(string query)
+      : base() {
       try {
         string itemsPage = new System.Net.WebClient().DownloadString("http://www.tip.it/runescape/index.php?rs2item=&orderby=0&keywords=" + query + "&Players=all&category=0&subcategory=0&cmd=8&action=Manage_Items&search=1&submit=Simple+Search");
 

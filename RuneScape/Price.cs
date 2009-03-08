@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Data.SQLite;
-using System.Text.RegularExpressions;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace BigSister {
-  
   class Price {
 
     public Price(int id, string name, int currentPrice) {
@@ -116,7 +115,7 @@ namespace BigSister {
 
     public void LoadFromGE() {
       string pricePage = new System.Net.WebClient().DownloadString("http://itemdb-rs.runescape.com/viewitem.ws?obj=" + this.Id);
-      
+
       string priceRegex = @"<div class=""subsectionHeader"">\s+";
       priceRegex += @"(.+)\s+";
       priceRegex += @"</div>\s+";
@@ -159,5 +158,4 @@ namespace BigSister {
     }
 
   } //class Price
-
 } //namespace BigSister

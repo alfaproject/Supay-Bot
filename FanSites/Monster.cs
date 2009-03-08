@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Text.RegularExpressions;
 
-namespace BigSister
-{
-  public class Monster
-  {
+namespace BigSister {
+  public class Monster {
+
     public int ID;
     public DateTime LastUpdate;
 
@@ -163,8 +161,7 @@ namespace BigSister
         }
 
         LastUpdate = DateTime.Now;
-      }
-      catch {
+      } catch {
         // An error ocurred
       }
     }
@@ -176,5 +173,6 @@ namespace BigSister
     public Monster(int id) {
       this.ID = id;
     }
+
   }
 }

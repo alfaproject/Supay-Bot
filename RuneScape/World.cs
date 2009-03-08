@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace BigSister
-{
-  public class World : IComparable<World>
-  {
+namespace BigSister {
+  public class World : IComparable<World> {
+
     public int Number;
     public bool Member;
     public string Status; //Online, Offline, Full
@@ -16,7 +15,6 @@ namespace BigSister
     public bool PVP;
 
     public World() {
-      // 
     }
 
     #region IComparable<World> Members
@@ -31,5 +29,6 @@ namespace BigSister
     }
 
     #endregion
+
   }
 }

@@ -2,8 +2,8 @@
 using System.Globalization;
 
 namespace BigSister {
-
   public class Skill : Hiscore, IComparable<Skill> {
+
     public const string OVER = "Overall";
     public const string ATTA = "Attack";
     public const string DEFE = "Defence";
@@ -466,5 +466,4 @@ namespace BigSister {
     #endregion
 
   } // class Skill
-
 } // namespace BigSister

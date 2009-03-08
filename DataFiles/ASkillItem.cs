@@ -1,7 +1,6 @@
 ﻿using System.Globalization;
 
 namespace BigSister {
-
   public abstract class ASkillItem {
 
     public ASkillItem(string[] tokens) {
@@ -36,5 +35,4 @@ namespace BigSister {
     }
 
   } //abstract class ASkillItem
-
 } //namespace BigSister

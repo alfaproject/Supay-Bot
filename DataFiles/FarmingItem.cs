@@ -2,8 +2,8 @@
 using System.Text.RegularExpressions;
 
 namespace BigSister {
-
   class FarmingItem : ASkillItem {
+
     private int _seedId;
     private int _produceId;
     private int _paymentId;
@@ -59,7 +59,7 @@ namespace BigSister {
         Match matchQty = Regex.Match(this.Seed, @"(\d+)x ");
         if (matchQty.Success)
           qty = int.Parse(matchQty.Groups[1].Value, CultureInfo.InvariantCulture);
-        
+
         return qty * price.MarketPrice;
       }
     }

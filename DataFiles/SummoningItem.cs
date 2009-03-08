@@ -2,8 +2,8 @@
 using System.Globalization;
 
 namespace BigSister {
-
   class SummoningItem : ASkillItem {
+
     private int _pouchId;
 
     public SummoningItem(string[] tokens)
@@ -125,7 +125,7 @@ namespace BigSister {
 
         int componentsPrice = this.ComponentsPrice;
         int totalCost = componentsPrice + this.Shards * 25 + 1;
-        
+
         double bogrogExp = (double)(componentsPrice + Math.Ceiling(.3 * this.Shards) * 25 + 1) / this.Exp;
         //double marketExp = (totalCost - this.PouchPrice) / this.Exp;
         double alchExp = (totalCost + nature.MarketPrice - this.HighAlch) / this.Exp;
@@ -135,5 +135,4 @@ namespace BigSister {
     }
 
   } //class SummoningItem
-
 } //namespace BigSister

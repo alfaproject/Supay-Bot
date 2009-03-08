@@ -1,7 +1,7 @@
 ﻿namespace System.Collections.Generic {
-
   [Serializable()]
   public class OrderedDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IList<KeyValuePair<TKey, TValue>> {
+
     Dictionary<TKey, TValue> _dict;
     List<KeyValuePair<TKey, TValue>> _list;
 

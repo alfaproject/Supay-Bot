@@ -2,7 +2,6 @@
 using System.Text.RegularExpressions;
 
 namespace BigSister {
-  
   class Prices : List<Price> {
 
     public Prices()
@@ -58,5 +57,4 @@ namespace BigSister {
     }
 
   } //class Prices
-
 } //namespace BigSister

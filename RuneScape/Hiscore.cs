@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BigSister {
-  
   public abstract class Hiscore : IFormattable {
 
     public Hiscore() {
@@ -40,5 +37,4 @@ namespace BigSister {
     #endregion
 
   } // class Hiscore
-
 } // namespace BigSister

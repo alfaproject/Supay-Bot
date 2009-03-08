@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Globalization;
 using System.Text.RegularExpressions;
-using System.Globalization;
 
 namespace BigSister {
   class Item {

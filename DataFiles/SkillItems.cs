@@ -2,7 +2,6 @@
 using System.IO;
 
 namespace BigSister {
-
   class SkillItems : List<ASkillItem> {
 
     public SkillItems(string skill)
@@ -65,5 +64,4 @@ namespace BigSister {
     }
 
   } //class SkillItems
-
 } //namespace BigSister
