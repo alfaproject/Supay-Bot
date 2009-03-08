@@ -85,7 +85,7 @@ namespace BigSister {
 
       if (ExpNext) {
         string reply = string.Empty;
-        List<Skill> skills = p.Skills.SortedByExpToNextVLevel();
+        List<Skill> skills = p.Skills.SortedByExpToNextVLevel;
         for (int i = 0; i < skills.Count; i++) {
           if (i == 0 || i == 15)
             reply = string.Format("Exp. to next level of \\b{0}\\b:", rsn);

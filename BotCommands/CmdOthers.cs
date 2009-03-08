@@ -19,9 +19,9 @@ namespace BigSister {
         return;
       }
 
-      int totalExp = p.Skills["Overall"].Exp;
-      int combatExp = p.Skills["Combat"].Exp;
-      int f2pExp = p.Skills.F2pExp();
+      int totalExp = p.Skills[Skill.OVER].Exp;
+      int combatExp = p.Skills[Skill.COMB].Exp;
+      int f2pExp = p.Skills.F2pExp;
 
       // slayer
       int hits_exp_gained = p.Skills["Hitpoints"].Exp - 1154;
@@ -71,7 +71,7 @@ namespace BigSister {
         return;
       }
 
-      bc.SendReply(string.Format("\\b{0}\\b is \\c07{1:0.##}%\\c f2p based, with \\c07{2:N0}\\c f2p based exp. and \\c07{3:e}\\c total exp.", rsn, (double)p.Skills.F2pExp() / (double)p.Skills[Skill.OVER].Exp * 100, p.Skills.F2pExp(), p.Skills[Skill.OVER]));
+      bc.SendReply(string.Format("\\b{0}\\b is \\c07{1:0.##}%\\c f2p based, with \\c07{2:N0}\\c f2p based exp. and \\c07{3:e}\\c total exp.", rsn, (double)p.Skills.F2pExp / (double)p.Skills[Skill.OVER].Exp * 100, p.Skills.F2pExp, p.Skills[Skill.OVER]));
     }
 
     public static void SlayerPercent(CommandContext bc) {
