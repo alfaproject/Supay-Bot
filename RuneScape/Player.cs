@@ -7,6 +7,7 @@ using System.Data.SQLite;
 
 namespace BigSister {
   public class Player {
+
     private int _id;
     private string _name;
     private string _clan = null;
@@ -121,8 +122,9 @@ namespace BigSister {
     }
 
     private void _CreateCombatSkill() {
-      int CmbLevel = RSUtil.CalculateCombat(_skills["Attack"].Level, _skills["Strength"].Level, _skills["Defence"].Level, _skills["Hitpoints"].Level, _skills["Ranged"].Level, _skills[Skill.PRAY].Level, _skills["Magic"].Level, _skills[Skill.SUMM].Level, out _combatclass);
-      int CmbExp = _skills["Attack"].Exp + _skills["Strength"].Exp + _skills["Defence"].Exp + _skills["Hitpoints"].Exp + _skills["Ranged"].Exp + _skills[Skill.PRAY].Exp + _skills["Magic"].Exp + _skills[Skill.SUMM].Exp;
+      _combatclass = RSUtil.CombatClass(_skills, false);
+      int CmbLevel = RSUtil.CalculateCombat(_skills, false, false);
+      int CmbExp = _skills[Skill.ATTA].Exp + _skills[Skill.STRE].Exp + _skills[Skill.DEFE].Exp + _skills[Skill.HITP].Exp + _skills[Skill.RANG].Exp + _skills[Skill.PRAY].Exp + _skills[Skill.MAGI].Exp + _skills[Skill.SUMM].Exp;
       _skills.Add("Combat", new Skill("Combat", -1, CmbLevel, CmbExp));
     }
 

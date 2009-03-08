@@ -586,11 +586,13 @@ namespace BigSister {
       int combatLevel, combatF2pLevel;
       string combatClass;
       if (VLevel) {
-        combatLevel = RSUtil.CalculateCombat(p.Skills[Skill.ATTA].VLevel, p.Skills[Skill.STRE].VLevel, p.Skills[Skill.DEFE].VLevel, p.Skills[Skill.HITP].VLevel, p.Skills[Skill.RANG].VLevel, p.Skills[Skill.PRAY].VLevel, p.Skills[Skill.MAGI].VLevel, p.Skills[Skill.SUMM].VLevel, out combatClass);
-        combatF2pLevel = RSUtil.CalculateF2pCombat(p.Skills[Skill.ATTA].VLevel, p.Skills[Skill.STRE].VLevel, p.Skills[Skill.DEFE].VLevel, p.Skills[Skill.HITP].VLevel, p.Skills[Skill.RANG].VLevel, p.Skills[Skill.PRAY].VLevel, p.Skills[Skill.MAGI].VLevel);
+        combatClass = RSUtil.CombatClass(p.Skills, true);
+        combatLevel = RSUtil.CalculateCombat(p.Skills, true, false);
+        combatF2pLevel = RSUtil.CalculateCombat(p.Skills, true, true);
       } else {
-        combatLevel = RSUtil.CalculateCombat(p.Skills[Skill.ATTA].Level, p.Skills[Skill.STRE].Level, p.Skills[Skill.DEFE].Level, p.Skills[Skill.HITP].Level, p.Skills[Skill.RANG].Level, p.Skills[Skill.PRAY].Level, p.Skills[Skill.MAGI].Level, p.Skills[Skill.SUMM].Level, out combatClass);
-        combatF2pLevel = RSUtil.CalculateF2pCombat(p.Skills[Skill.ATTA].Level, p.Skills[Skill.STRE].Level, p.Skills[Skill.DEFE].Level, p.Skills[Skill.HITP].Level, p.Skills[Skill.RANG].Level, p.Skills[Skill.PRAY].Level, p.Skills[Skill.MAGI].Level);
+        combatClass = RSUtil.CombatClass(p.Skills, false);
+        combatLevel = RSUtil.CalculateCombat(p.Skills, false, false);
+        combatF2pLevel = RSUtil.CalculateCombat(p.Skills, false, true);
       }
 
       string reply = string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b \\c07combat\\c | level: \\c07{1}\\c (f2p: \\c07{2}\\c) | exp: \\c07{3:e}\\c | combat%: \\c07{4:0.##}%\\c | slayer%: \\c07{5:0.##}%\\c | class: \\c07{6}\\c",

@@ -435,8 +435,8 @@ namespace BigSister {
           Mag = 1;
       }
 
-      string cmbclass;
-      int cmblevel = RSUtil.CalculateCombat(Att, Str, Def, Hit, Ran, Pray, Mag, Sum, out cmbclass);
+      string cmbclass = RSUtil.CombatClass(Att, Str, Ran, Mag);
+      int cmblevel = RSUtil.CalculateCombat(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
       bc.SendReply(string.Format("Combat: \\c07{0}\\c | Class: \\c07{1}\\c | Stats: \\c07{2} {3} {4}\\c {5} \\c07{6} {7}\\c {8} {9}", cmblevel, cmbclass, Att, Str, Def, Hit, Pray, Sum, Ran, Mag));
 
       int nextAS = RSUtil.NextCombatAttStr(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
