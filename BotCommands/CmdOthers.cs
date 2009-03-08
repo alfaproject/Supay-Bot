@@ -9,7 +9,7 @@ namespace BigSister {
       // get rsn
       string rsn;
       if (bc.MessageTokens.Length > 1)
-        rsn = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 1));
+        rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
         rsn = bc.From.RSN;
 
@@ -44,7 +44,7 @@ namespace BigSister {
       // get rsn
       string rsn;
       if (bc.MessageTokens.Length > 1)
-        rsn = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 1));
+        rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
         rsn = bc.From.RSN;
 
@@ -61,7 +61,7 @@ namespace BigSister {
       // get rsn
       string rsn;
       if (bc.MessageTokens.Length > 1)
-        rsn = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 1));
+        rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
         rsn = bc.From.RSN;
 
@@ -78,7 +78,7 @@ namespace BigSister {
       // get rsn
       string rsn;
       if (bc.MessageTokens.Length > 1)
-        rsn = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 1));
+        rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
         rsn = bc.From.RSN;
 
@@ -101,7 +101,7 @@ namespace BigSister {
       // get rsn
       string rsn;
       if (bc.MessageTokens.Length > 1)
-        rsn = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 1));
+        rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
         rsn = bc.From.RSN;
 
@@ -202,7 +202,7 @@ namespace BigSister {
           }
 
           // !players <activity>
-          List<World> act_worlds = worlds.FindActivity(Util.JoinTokens(bc.MessageTokens, 1));
+          List<World> act_worlds = worlds.FindActivity(bc.MessageTokens.Join(1));
           if (p2p)
             act_worlds.RemoveAll(w => !w.Member);
           if (f2p)
@@ -305,7 +305,7 @@ namespace BigSister {
       // get rsn
       string rsn;
       if (bc.MessageTokens.Length > 1)
-        rsn = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 1));
+        rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
         rsn = bc.From.RSN;
 

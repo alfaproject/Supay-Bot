@@ -20,7 +20,7 @@ namespace BigSister {
         } else if (bc.MessageTokens.Length > 3) {
           // !compare <skill> <player1> <player2>
           rsn1 = bc.NickToRSN(bc.MessageTokens[2]);
-          rsn2 = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 3));
+          rsn2 = bc.NickToRSN(bc.MessageTokens.Join(3));
         } else {
           // !compare <player2>
           skill1 = "Overall";
@@ -35,7 +35,7 @@ namespace BigSister {
         } else if (bc.MessageTokens.Length > 3) {
           // !compare <minigame> <player1> <player2>
           rsn1 = bc.NickToRSN(bc.MessageTokens[2]);
-          rsn2 = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 3));
+          rsn2 = bc.NickToRSN(bc.MessageTokens.Join(3));
         } else {
           // !compare <player2>
           skill1 = "Overall";
@@ -51,7 +51,7 @@ namespace BigSister {
         // !compare <player1> <player2>
         skill1 = "Overall";
         rsn1 = bc.NickToRSN(bc.MessageTokens[1]);
-        rsn2 = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 2));
+        rsn2 = bc.NickToRSN(bc.MessageTokens.Join(2));
       }
 
       Player p1 = new Player(rsn1);

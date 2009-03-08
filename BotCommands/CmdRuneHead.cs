@@ -35,7 +35,7 @@ namespace BigSister {
       // get rsn
       string rsn;
       if (bc.MessageTokens.Length > 1)
-        rsn = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 1));
+        rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
         rsn = bc.From.RSN;
 
@@ -67,7 +67,7 @@ namespace BigSister {
       }
       
       // Get the clan to lookup
-      string query = Util.JoinTokens(bc.MessageTokens, 1);
+      string query = bc.MessageTokens.Join(1);
 
       try {
         List<string[]> clans = new List<string[]>();

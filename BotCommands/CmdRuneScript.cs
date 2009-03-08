@@ -12,9 +12,9 @@ namespace BigSister {
       if (bc.MessageTokens.Length > 1) {
         if (Skill.TryParse(bc.MessageTokens[1], ref skill)) {
           if (bc.MessageTokens.Length > 2)
-            rsn = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 2));
+            rsn = bc.NickToRSN(bc.MessageTokens.Join(2));
         } else {
-          rsn = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 1));
+          rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
         }
       }
 
@@ -78,7 +78,7 @@ namespace BigSister {
       // get rsn
       string rsn;
       if (bc.MessageTokens.Length > 1)
-        rsn = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 1));
+        rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
         rsn = bc.From.RSN;
 

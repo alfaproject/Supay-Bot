@@ -56,7 +56,7 @@ namespace BigSister {
         return;
       }
 
-      string query = Util.JoinTokens(bc.MessageTokens, 1);
+      string query = bc.MessageTokens.Join(1);
 
       StreamReader clueFile = new StreamReader(@"Data\Clues.txt");
       string clueLine;
@@ -80,7 +80,7 @@ namespace BigSister {
         return;
       }
 
-      string query = Util.JoinTokens(bc.MessageTokens, 1);
+      string query = bc.MessageTokens.Join(1);
 
       StreamReader clueFile = new StreamReader(@"Data\Clues.txt");
       string clueLine;
@@ -104,7 +104,7 @@ namespace BigSister {
         return;
       }
 
-      string query = Util.JoinTokens(bc.MessageTokens, 1);
+      string query = bc.MessageTokens.Join(1);
 
       StreamReader clueFile = new StreamReader(@"Data\Clues.txt");
       string clueLine;
@@ -128,7 +128,7 @@ namespace BigSister {
         return;
       }
 
-      string query = Util.JoinTokens(bc.MessageTokens, 1);
+      string query = bc.MessageTokens.Join(1);
 
       StreamReader clueFile = new StreamReader(@"Data\Clues.txt");
       string clueLine;
@@ -152,7 +152,7 @@ namespace BigSister {
         return;
       }
 
-      string query = Util.JoinTokens(bc.MessageTokens, 1);
+      string query = bc.MessageTokens.Join(1);
 
       StreamReader clueFile = new StreamReader(@"Data\Clues.txt");
       string clueLine;
@@ -176,7 +176,7 @@ namespace BigSister {
         return;
       }
 
-      string query = Util.JoinTokens(bc.MessageTokens, 1);
+      string query = bc.MessageTokens.Join(1);
 
       StreamReader clueFile = new StreamReader(@"Data\Clues.txt");
       string clueLine;
@@ -200,7 +200,7 @@ namespace BigSister {
         return;
       }
 
-      string search_terms = Util.JoinTokens(bc.MessageTokens, 1);
+      string search_terms = bc.MessageTokens.Join(1);
 
       StreamReader fairy_file = new StreamReader("Data\\Fairy.txt");
       string fairy_line;
@@ -226,10 +226,10 @@ namespace BigSister {
       int qty = 1;
       string query;
       if (bc.MessageTokens.Length > 2 && int.TryParse(bc.MessageTokens[1], out qty)) {
-        query = Util.JoinTokens(bc.MessageTokens, 2);
+        query = bc.MessageTokens.Join(2);
       } else {
         qty = 1;
-        query = Util.JoinTokens(bc.MessageTokens, 1);
+        query = bc.MessageTokens.Join(1);
       }
 
       FarmingItem plant = (FarmingItem)new SkillItems(Skill.FARM).Find(f => f.Name.ToUpperInvariant().Contains(query.ToUpperInvariant()));
@@ -281,7 +281,7 @@ namespace BigSister {
       }
 
       double qty = 0;
-      string query = Util.JoinTokens(bc.MessageTokens, 1);
+      string query = bc.MessageTokens.Join(1);
 
       if (bc.MessageTokens.Length > 1) {
         if (Util.TryCalc(bc.MessageTokens[1], out qty)) {
@@ -296,12 +296,12 @@ namespace BigSister {
           } else {
             // !Exp <qty> <item>
             qty = Math.Max(1, Math.Floor(qty));
-            query = Util.JoinTokens(bc.MessageTokens, 2);
+            query = bc.MessageTokens.Join(2);
           }
         } else {
           // !Exp <item>
           qty = 1;
-          query = Util.JoinTokens(bc.MessageTokens, 1);
+          query = bc.MessageTokens.Join(1);
         }
       }
 
@@ -336,10 +336,10 @@ namespace BigSister {
       int qty = 1;
       string query;
       if (bc.MessageTokens.Length > 2 && int.TryParse(bc.MessageTokens[1], out qty)) {
-        query = Util.JoinTokens(bc.MessageTokens, 2);
+        query = bc.MessageTokens.Join(2);
       } else {
         qty = 1;
-        query = Util.JoinTokens(bc.MessageTokens, 1);
+        query = bc.MessageTokens.Join(1);
       }
 
       SummoningItem familiar = (SummoningItem)new SkillItems(Skill.SUMM).Find(f => f.Name.ToUpperInvariant().Contains(query.ToUpperInvariant()));
@@ -451,10 +451,10 @@ namespace BigSister {
       int qty = 1;
       string query;
       if (bc.MessageTokens.Length > 2 && int.TryParse(bc.MessageTokens[1], out qty)) {
-        query = Util.JoinTokens(bc.MessageTokens, 2);
+        query = bc.MessageTokens.Join(2);
       } else {
         qty = 1;
-        query = Util.JoinTokens(bc.MessageTokens, 1);
+        query = bc.MessageTokens.Join(1);
       }
 
       HerbloreItem potion = (HerbloreItem)new SkillItems(Skill.HERB).Find(f => f.Name.ToUpperInvariant().Contains(query.ToUpperInvariant()));
@@ -485,10 +485,10 @@ namespace BigSister {
       int qty = 1;
       string query;
       if (bc.MessageTokens.Length > 2 && int.TryParse(bc.MessageTokens[1], out qty)) {
-        query = Util.JoinTokens(bc.MessageTokens, 2);
+        query = bc.MessageTokens.Join(2);
       } else {
         qty = 1;
-        query = Util.JoinTokens(bc.MessageTokens, 1);
+        query = bc.MessageTokens.Join(1);
       }
 
       MagicItem spell = (MagicItem)new SkillItems(Skill.MAGI).Find(f => f.Name.ToUpperInvariant().Contains(query.ToUpperInvariant()));

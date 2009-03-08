@@ -18,7 +18,7 @@ namespace BigSister {
         // !Item <id>
         item = new Item(itemId);
       } else {
-        string query = Util.JoinTokens(bc.MessageTokens, 1);
+        string query = bc.MessageTokens.Join(1);
         Items items = new Items(query);
 
         switch (items.Count) {
@@ -77,11 +77,11 @@ namespace BigSister {
           if (itemLine.Length > 1 && Util.TryCalc(itemLine[0], out qty)) {
             // <qty> <item>
             qty = Math.Max(1, Math.Floor(qty));
-            inputItem = Util.JoinTokens(itemLine, 1);
+            inputItem = itemLine.Join(1);
           } else {
             // <item>
             qty = 1;
-            inputItem = Util.JoinTokens(itemLine, 0);
+            inputItem = itemLine.Join();
           }
 
           int highAlch, lowAlch;
@@ -104,11 +104,11 @@ namespace BigSister {
         if (bc.MessageTokens.Length > 2 && Util.TryCalc(bc.MessageTokens[1], out qty)) {
           // !alch <qty> <item>
           qty = Math.Max(1, Math.Floor(qty));
-          input_item = Util.JoinTokens(bc.MessageTokens, 2);
+          input_item = bc.MessageTokens.Join(2);
         } else {
           // !alch <item>
           qty = 1;
-          input_item = Util.JoinTokens(bc.MessageTokens, 1);
+          input_item = bc.MessageTokens.Join(1);
         }
 
         int item_id;

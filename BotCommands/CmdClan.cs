@@ -62,14 +62,14 @@ namespace BigSister {
             rank = clanPlayers.Count;
           } else {
             // !ClanTop Skill/Minigame RSN
-            rsn = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 2));
+            rsn = bc.NickToRSN(bc.MessageTokens.Join(2));
             if (clanPlayers.Contains(rsn))
               rank = clanPlayers.IndexOf(rsn) + 1;
           }
         }
       } else {
         // !ClanTop RSN
-        rsn = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 1));
+        rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
         IsIndividual = true;
       }
 
@@ -268,14 +268,14 @@ namespace BigSister {
             rank = clanPlayers.Count;
           } else {
             // !ClanTop Skill
-            rsn = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 2));
+            rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
             if (clanPlayers.Contains(rsn))
               rank = clanPlayers.IndexOf(rsn) + 1;
           }
         }
       } else {
         // !ClanTop RSN
-        rsn = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 1));
+        rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
         IsIndividual = true;
       }
 

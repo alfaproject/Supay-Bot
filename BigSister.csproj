@@ -110,6 +110,7 @@
     <Compile Include="DataFiles\SkillItem.cs" />
     <Compile Include="DataFiles\SkillItems.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="RuneScape\Extensions.cs" />
     <Compile Include="FanSites\Item.cs" />
     <Compile Include="FanSites\Items.cs" />
     <Compile Include="FanSites\Monster.cs" />

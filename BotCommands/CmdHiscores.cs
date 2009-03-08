@@ -31,7 +31,7 @@ namespace BigSister {
             // !Top Skill/Minigame Rank
           } else {
             // !Top Skill/Minigame RSN
-            rsn = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 2));
+            rsn = bc.NickToRSN(bc.MessageTokens.Join(2));
             Player p = new Player(rsn);
             if (p.Ranked) {
               if (skill == null)
@@ -48,7 +48,7 @@ namespace BigSister {
         // !Top RSN
         rank = 1;
         skill = "Overall";
-        rsn = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 1));
+        rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
         Player p = new Player(rsn);
         if (p.Ranked) {
           if (skill == null)

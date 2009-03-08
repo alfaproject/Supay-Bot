@@ -8,7 +8,7 @@
         return;
       }
 
-      string rsn = Util.JoinTokens(bc.MessageTokens, 1).ToRSN();
+      string rsn = bc.MessageTokens.Join(1).ToRSN();
 
       // add/update to database
       if (DataBase.GetValue("users", "rsn", "fingerprint='" + bc.From.FingerPrint + "'") == null) {
@@ -30,7 +30,7 @@
         return;
       }
 
-      string nick = Util.JoinTokens("_", bc.MessageTokens, 1);
+      string nick = bc.MessageTokens.Join(1, "_");
       BigSister.Irc.User u = bc.Users.Find(nick);
       if (u != null)
         bc.SendReply(string.Format("{0}'s RSN is \\b{1}\\b.", u.Nick, u.RSN));
@@ -45,7 +45,7 @@
         return;
       }
 
-      string input = Util.JoinTokens(bc.MessageTokens, 1).Replace(",", string.Empty).Replace(" ", string.Empty);
+      string input = bc.MessageTokens.Join(1).Replace(",", string.Empty).Replace(" ", string.Empty);
       MathParser mp = new MathParser();
       mp.Evaluate(input);
       bc.SendReply("\\c07" + mp.Expression + "\\c => \\c07" + mp.ValueAsString + "\\c");

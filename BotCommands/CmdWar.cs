@@ -96,7 +96,7 @@ namespace BigSister {
       XmlProfile _config = new XmlProfile("Data\\War.xml");
       _config.RootName = bc.Channel.Substring(1);
 
-      string[] rsns = Util.JoinTokens(bc.MessageTokens, 1).Split(new char[] { ',', ';', '+' });
+      string[] rsns = bc.MessageTokens.Join(1).Split(new char[] { ',', ';', '+' });
       foreach (string dirtyRsn in rsns) {
         string rsn = dirtyRsn.Trim().ToRSN();
 
@@ -129,7 +129,7 @@ namespace BigSister {
         return;
       }
 
-      string rsn = Util.JoinTokens(bc.MessageTokens, 1).ToRSN();
+      string rsn = bc.MessageTokens.Join(1).ToRSN();
 
       XmlProfile _config = new XmlProfile("Data\\War.xml");
       _config.RootName = bc.Channel.Substring(1);
@@ -176,7 +176,7 @@ namespace BigSister {
           rank = warPlayers.Count;
         } else {
           // !War <rsn>
-          rsn = bc.NickToRSN(Util.JoinTokens(bc.MessageTokens, 1));
+          rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
           if (warPlayers.Contains(rsn))
             rank = warPlayers.IndexOf(rsn) + 1;
         }

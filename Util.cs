@@ -8,29 +8,6 @@ using System.Globalization;
 namespace BigSister {
   public class Util {
 
-    /// <summary>
-    /// Concatenates a specified separator string between each element of a specified string array, yielding a single concatenated string.
-    /// </summary>
-    /// <param name="separator">A System.string.</param>
-    /// <param name="value">An array of System.string.</param>
-    /// <param name="startIndex">The first array element in value to use.</param>
-    public static string JoinTokens(string separator, string[] value, int startIndex) {
-      if (value.Length == startIndex + 1) {
-        return value[startIndex];
-      } else {
-        return string.Join(separator, value, startIndex, value.Length - startIndex);
-      }
-    }
-
-    /// <summary>
-    /// Concatenates a space between each element of a specified string array, yielding a single concatenated string.
-    /// </summary>
-    /// <param name="value">An array of System.string.</param>
-    /// <param name="startIndex">The first array element in value to use.</param>
-    public static string JoinTokens(string[] value, int startIndex) {
-      return Util.JoinTokens(" ", value, startIndex);
-    }
-
     public static string FormatShort(double value, int decimals) {
       string format = "#,##0." + new string('#', decimals);
       if (value >= 1000000 || value <= -1000000) {

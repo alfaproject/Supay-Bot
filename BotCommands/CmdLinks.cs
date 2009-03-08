@@ -9,7 +9,7 @@ namespace BigSister {
         return;
       }
 
-      Match qfc = Regex.Match(Util.JoinTokens(bc.MessageTokens, 1), "(\\d+).(\\d+).(\\d+).(\\d+)");
+      Match qfc = Regex.Match(bc.MessageTokens.Join(1), "(\\d+).(\\d+).(\\d+).(\\d+)");
       if (!qfc.Success) {
         bc.SendReply("Syntax: !Qfc <qfc>");
       } else {

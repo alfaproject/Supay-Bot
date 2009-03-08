@@ -1,39 +1,32 @@
-﻿using System;
-using System.Text;
+﻿namespace BigSister {
+  public static partial class Extensions {
 
-namespace BigSister {
-  public static class Extensions {
-
-    public static string ToRSN(this string rsn) {
-      StringBuilder fixedRSN = new StringBuilder(rsn.Substring(0, Math.Min(12, rsn.Length)).ToLowerInvariant(), 12);
-      bool toUpper = true;
-      for (int i = 0; i < fixedRSN.Length; i++) {
-        if ((fixedRSN[i] >= 'a' && fixedRSN[i] <= 'z') || (fixedRSN[i] >= '0' && fixedRSN[i] <= '9')) {
-          if (toUpper) {
-            fixedRSN[i] = char.ToUpperInvariant(fixedRSN[i]);
-            toUpper = false;
-          }
-        } else {
-          fixedRSN[i] = '_';
-          toUpper = true;
-        }
+    /// <summary>
+    ///   Concatenates a specified separator string between each element of a specified string array, yielding a single concatenated string. </summary>
+    /// <param name="startIndex">
+    ///   The first array element in value to use. </param>
+    /// <param name="separator">
+    ///   A System.String. </param>
+    public static string Join(this string[] value, int startIndex, string separator) {
+      if (value.Length == startIndex + 1) {
+        return value[startIndex];
+      } else {
+        return string.Join(separator, value, startIndex, value.Length - startIndex);
       }
-      return fixedRSN.ToString();
     }
 
-    public static int ToExp(this int level) {
-      int exp = 0;
-      while (level > 1)
-        exp += --level + (int)(300.0 * Math.Pow(2.0, (double)level / 7.0));
-      return exp / 4;
+    /// <summary>
+    ///   Concatenates a space between each element of a specified string array, yielding a single concatenated string. </summary>
+    /// <param name="startIndex">
+    ///   The first array element in value to use. </param>
+    public static string Join(this string[] value, int startIndex) {
+      return Join(value, startIndex, " ");
     }
 
-    public static int ToLevel(this int exp) {
-      int level = 0;
-      int levelExp = 0;
-      while (levelExp / 4 <= exp)
-        levelExp += ++level + (int)(300.0 * Math.Pow(2.0, (double)level / 7.0));
-      return level;
+    /// <summary>
+    ///   Concatenates a space between each element of a specified string array, yielding a single concatenated string. </summary>
+    public static string Join(this string[] value) {
+      return Join(value, 0, " ");
     }
 
   } //class Extensions

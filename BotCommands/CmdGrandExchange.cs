@@ -14,10 +14,10 @@ namespace BigSister {
       double qty = 0;
       if (bc.MessageTokens.Length > 2 && Util.TryCalc(bc.MessageTokens[1], out qty)) {
         qty = Math.Round(qty, 1);
-        search_term = Util.JoinTokens(bc.MessageTokens, 2);
+        search_term = bc.MessageTokens.Join(2);
       } else {
         qty = 1;
-        search_term = Util.JoinTokens(bc.MessageTokens, 1);
+        search_term = bc.MessageTokens.Join(1);
       }
 
       Prices price_list = new Prices(search_term);
@@ -53,7 +53,7 @@ namespace BigSister {
         // !PriceInfo <id>
         price = new Price(id);
       } else {
-        string query = Util.JoinTokens(bc.MessageTokens, 1);
+        string query = bc.MessageTokens.Join(1);
         Prices prices = new Prices();
         prices.SearchExact(query);
 

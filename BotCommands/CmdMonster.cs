@@ -12,7 +12,7 @@ namespace BigSister {
       }
 
       // get search terms
-      string search_terms = Util.JoinTokens(bc.MessageTokens, 1);
+      string search_terms = bc.MessageTokens.Join(1);
 
       Monsters monsters = new Monsters();
       List<Monster> results = monsters.SearchOnline(search_terms);
@@ -34,7 +34,7 @@ namespace BigSister {
       }
 
       // get search terms
-      string search_terms = Util.JoinTokens(bc.MessageTokens, 1);
+      string search_terms = bc.MessageTokens.Join(1);
 
       // get level
       int level = 0;
