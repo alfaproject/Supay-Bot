@@ -63,10 +63,10 @@ namespace BigSister {
     int _operations;
 
     // last answer value
-    double _lastanswer;
+    double _lastAnswer;
 
     // last error
-    string _lasterror;
+    string _lastError;
 
     // states machine table
     private int[][] _states;
@@ -101,14 +101,14 @@ namespace BigSister {
       _operations = 0;
 
       // last answer is 0 before we do anything
-      _lastanswer = 0;
+      _lastAnswer = 0;
     }
 
     public MathParser(double lastanswer)
       : this() {
 
       // start with a custom lastanswer
-      _lastanswer = lastanswer;
+      _lastAnswer = lastanswer;
     }
 
     public string Expression {
@@ -157,18 +157,18 @@ namespace BigSister {
     public string ValueAsString {
       get {
         if (_value == null)
-          if (_lasterror != null)
-            return "{error: " + _lasterror + "}";
+          if (_lastError != null)
+            return "{error: " + _lastError + "}";
           else
             return "{error}";
         else
-          return ((double)_value).ToString(CultureInfo.InvariantCulture);
+          return ((double)_value).ToString("#,##0.######", CultureInfo.InvariantCulture);
       }
     }
 
     public double LastAnswer {
       get {
-        return _lastanswer;
+        return _lastAnswer;
       }
     }
 
@@ -180,7 +180,7 @@ namespace BigSister {
 
     public string LastError {
       get {
-        return _lasterror;
+        return _lastError;
       }
     }
 
@@ -541,13 +541,24 @@ namespace BigSister {
         _currentpos += 1;
       }
 
-      if (_currentpos < _expression.Length && _expression[_currentpos] == '.') {
-        // ignore the dot
-        _currentpos += 1;
-        return ScanFrac(ref _currentpos, n);
-      } else {
-        return n;
+      if (_currentpos < _expression.Length) {
+        if (_expression[_currentpos] == '.') {
+          // ignore the dot
+          _currentpos += 1;
+          return ScanFrac(ref _currentpos, n);
+        } else if (_expression[_currentpos] == 'k') {
+          _currentpos += 1;
+          return n * 1000.0;
+        } else if (_expression[_currentpos] == 'm') {
+          _currentpos += 1;
+          return n * 1000000.0;
+        } else if (_expression[_currentpos] == 'b') {
+          _currentpos += 1;
+          return n * 1000000000.0;
+        }
       }
+
+      return n;
     }
 
     private double ScanFrac(ref int _currentpos, double n) {
@@ -557,6 +568,20 @@ namespace BigSister {
         factor /= 10.0;
         _currentpos += 1;
       }
+
+      if (_currentpos < _expression.Length) {
+        if (_expression[_currentpos] == 'k') {
+          _currentpos += 1;
+          return n * 1000.0;
+        } else if (_expression[_currentpos] == 'm') {
+          _currentpos += 1;
+          return n * 1000000.0;
+        } else if (_expression[_currentpos] == 'b') {
+          _currentpos += 1;
+          return n * 1000000000.0;
+        }
+      }
+
       return n;
     }
 
@@ -569,27 +594,11 @@ namespace BigSister {
 
         if (char.IsDigit(c)) {
           double number = ScanReal(ref _currentpos);
-          if (_currentpos < _expression.Length && _expression[_currentpos] == 'k') {
-            _currentpos += 1;
-            ret.Add(new Token(number.ToString(CultureInfo.InvariantCulture) + "k", VAL, number * 1000.0));
-          } else if (_currentpos < _expression.Length && _expression[_currentpos] == 'm') {
-            _currentpos += 1;
-            ret.Add(new Token(number.ToString(CultureInfo.InvariantCulture) + "m", VAL, number * 1000000.0));
-          } else {
-            ret.Add(new Token(number.ToString(CultureInfo.InvariantCulture), VAL, number));
-          }
+          ret.Add(new Token(number.ToString(CultureInfo.InvariantCulture), VAL, number));
         } else if (c == '.') {
           _currentpos += 1;
           double number = ScanFrac(ref _currentpos, 0.0);
-          if (_currentpos < _expression.Length && _expression[_currentpos] == 'k') {
-            _currentpos += 1;
-            ret.Add(new Token(number.ToString(CultureInfo.InvariantCulture) + "k", VAL, number * 1000.0));
-          } else if (_currentpos < _expression.Length && _expression[_currentpos] == 'm') {
-            _currentpos += 1;
-            ret.Add(new Token(number.ToString(CultureInfo.InvariantCulture) + "m", VAL, number * 1000000.0));
-          } else {
-            ret.Add(new Token(number.ToString(CultureInfo.InvariantCulture), VAL, number));
-          }
+          ret.Add(new Token(number.ToString(CultureInfo.InvariantCulture), VAL, number));
         } else if (char.IsLetter(c)) {
           string identifier = ScanIdentifier(ref _currentpos);
           if (_currentpos < _expression.Length && _expression[_currentpos] == '(') {
@@ -605,7 +614,7 @@ namespace BigSister {
                 ret.Add(new Token(identifier, VAL, Math.E));
                 break;
               case "ans":
-                ret.Add(new Token(identifier, VAL, _lastanswer));
+                ret.Add(new Token(identifier, VAL, _lastAnswer));
                 break;
               default:
                 // function?
@@ -709,7 +718,7 @@ namespace BigSister {
                 // accept
                 if (_vals.Count == 1) {
                   _value = _vals.Pop();
-                  _lastanswer = (double)_value;
+                  _lastAnswer = (double)_value;
                   return _value;
                 } else {
                   throw new Exception("Syntax error");
@@ -724,10 +733,9 @@ namespace BigSister {
                 throw new Exception("Invalid function argument");
             }
           }
-        }
-        while (true);
+        } while (true);
       } catch (Exception ex) {
-        _lasterror = ex.Message;
+        _lastError = ex.Message;
         _value = null;
         return null;
       }
@@ -738,5 +746,5 @@ namespace BigSister {
       return _value;
     }
 
-  }
-}
+  } //class MathParser
+} //namespace BigSister
