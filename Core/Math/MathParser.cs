@@ -127,7 +127,11 @@ namespace BigSister {
             case MOD:
             case DIVI:
             case POW:
-              ret += " " + token.Expr + " ";
+              if (token.Expr.Length > 0) {
+                ret += " " + token.Expr + " ";
+              } else {
+                ret += " ";
+              }
               break;
             case SCOL:
               ret += "; ";
@@ -672,6 +676,10 @@ namespace BigSister {
               ret.Add(new Token(c.ToString(), FACT));
               break;
             case '(':
+              if (ret.Count > 0 && ret[ret.Count - 1].Type == RPAR) {
+                // implicit multiplication: (...)(...)
+                ret.Add(new Token(string.Empty, MUL));
+              }
               ret.Add(new Token(c.ToString(), LPAR));
               break;
             case ')':
