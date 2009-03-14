@@ -120,7 +120,7 @@ namespace BigSister {
       // remove players from clan that were removed from clan listing
       foreach (Player p in clanPlayers) {
         if (!clanMembers.Contains(p.Name)) {
-          DataBase.Update("players", "id=" + p.Id, "clan", string.Empty);
+          Database.Update("players", "id=" + p.Id, "clan", string.Empty);
           bc.SendReply(string.Format("\\b{0}\\b is now being tracked under no clan.", p.Name));
         }
       }
@@ -129,12 +129,12 @@ namespace BigSister {
       foreach (string rsn in clanMembers) {
         if (!clanPlayers.Contains(rsn)) {
           try {
-            DataBase.Insert("players", "rsn", rsn, "clan", clanInitials, "lastupdate", string.Empty);
+            Database.Insert("players", "rsn", rsn, "clan", clanInitials, "lastupdate", string.Empty);
             Player p = new Player(rsn);
             if (p.Ranked)
               p.SaveToDB(DateTime.UtcNow.ToString("yyyyMMdd"));
           } catch {
-            DataBase.Update("players", "rsn='" + rsn + "'", "clan", clanInitials);
+            Database.Update("players", "rsn='" + rsn + "'", "clan", clanInitials);
           }
           bc.SendReply(string.Format("\\b{0}\\b is now being tracked under \\c07{1}\\c clan.", rsn, clanName));
         }

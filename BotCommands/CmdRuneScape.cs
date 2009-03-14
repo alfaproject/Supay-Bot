@@ -199,7 +199,7 @@ namespace BigSister {
           bc.SendReply(reply);
 
           // Show player performance if applicable
-          string dblastupdate = DataBase.LastUpdate(rsn);
+          string dblastupdate = Database.LastUpdate(rsn);
           if (dblastupdate != null && dblastupdate.Length == 8) {
             DateTime lastupdate = dblastupdate.ToDateTime();
             string perf;
@@ -394,7 +394,7 @@ namespace BigSister {
 
         // Show player performance if applicable
         DateTime lastupdate;
-        string dblastupdate = DataBase.LastUpdate(rsn);
+        string dblastupdate = Database.LastUpdate(rsn);
         if (dblastupdate == null || dblastupdate.Length < 8) {
           lastupdate = DateTime.Now.AddHours(-DateTime.Now.Hour + 6).AddMinutes(-DateTime.Now.Minute).AddSeconds(-DateTime.Now.Second);
           if (DateTime.Now.Hour >= 0 && DateTime.Now.Hour < 6)
@@ -698,7 +698,7 @@ namespace BigSister {
       bc.SendReply(reply);
 
       // Show player performance if applicable
-      string dblastupdate = DataBase.LastUpdate(rsn);
+      string dblastupdate = Database.LastUpdate(rsn);
       if (dblastupdate != null && dblastupdate.Length == 8) {
         DateTime lastupdate = dblastupdate.ToDateTime();
         string perf;

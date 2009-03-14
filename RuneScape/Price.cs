@@ -82,15 +82,15 @@ namespace BigSister {
       if (updateDate)
         lastUpdate = DateTime.UtcNow.ToString("yyyyMMddHHmm");
       else
-        lastUpdate = DataBase.GetString("SELECT lastUpdate FROM prices ORDER BY lastUpdate DESC LIMIT 1;", "");
+        lastUpdate = Database.GetString("SELECT lastUpdate FROM prices ORDER BY lastUpdate DESC LIMIT 1;", "");
 
       try {
-        DataBase.Insert("prices", "id", this.Id.ToString(),
+        Database.Insert("prices", "id", this.Id.ToString(),
                                   "name", this.Name,
                                   "price", this.MarketPrice.ToString(),
                                   "lastUpdate", lastUpdate);
       } catch {
-        DataBase.Update("prices", "id=" + this.Id.ToString(),
+        Database.Update("prices", "id=" + this.Id.ToString(),
                                   "name", this.Name,
                                   "price", this.MarketPrice.ToString(),
                                   "lastUpdate", lastUpdate);
@@ -104,7 +104,7 @@ namespace BigSister {
     }
 
     public void LoadFromDB() {
-      SQLiteDataReader dr = DataBase.ExecuteReader("SELECT name, price, lastUpdate FROM prices WHERE id=" + this.Id + ";");
+      SQLiteDataReader dr = Database.ExecuteReader("SELECT name, price, lastUpdate FROM prices WHERE id=" + this.Id + ";");
       if (dr.Read()) {
         this.Name = dr.GetString(0);
         this.MarketPrice = dr.GetInt32(1);

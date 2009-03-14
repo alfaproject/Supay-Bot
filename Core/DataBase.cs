@@ -2,22 +2,22 @@
 using System.Data.SQLite;
 
 namespace BigSister {
-  public sealed class DataBase {
+  public sealed class Database {
 
-    private static readonly DataBase _instance = new DataBase();
+    private static readonly Database _instance = new Database();
 
     private SQLiteConnection _con;
 
     // explicit static constructor to tell c# compiler not to mark type as beforefieldinit
-    static DataBase() {
+    static Database() {
     }
 
-    private DataBase() {
+    private Database() {
       _con = new SQLiteConnection(@"Data Source=Data\BigSister.db");
       _con.Open();
     }
 
-    public static DataBase Instance {
+    public static Database Instance {
       get {
         return _instance;
       }
@@ -30,17 +30,17 @@ namespace BigSister {
     }
 
     public static SQLiteDataReader ExecuteReader(string sql) {
-      SQLiteCommand com = new SQLiteCommand(sql, DataBase.Instance.Connection);
+      SQLiteCommand com = new SQLiteCommand(sql, Database.Instance.Connection);
       return com.ExecuteReader();
     }
 
     public static void ExecuteNonQuery(string sql) {
-      SQLiteCommand com = new SQLiteCommand(sql, DataBase.Instance.Connection);
+      SQLiteCommand com = new SQLiteCommand(sql, Database.Instance.Connection);
       com.ExecuteNonQuery();
     }
 
     public static int GetInteger(string sql, int defaultValue) {
-      SQLiteCommand com = new SQLiteCommand(sql, DataBase.Instance.Connection);
+      SQLiteCommand com = new SQLiteCommand(sql, Database.Instance.Connection);
       object result = com.ExecuteScalar();
       if (result == null)
         return defaultValue;
@@ -49,7 +49,7 @@ namespace BigSister {
     }
 
     public static string GetString(string sql, string defaultValue) {
-      SQLiteCommand com = new SQLiteCommand(sql, DataBase.Instance.Connection);
+      SQLiteCommand com = new SQLiteCommand(sql, Database.Instance.Connection);
       object result = com.ExecuteScalar();
       if (result == null)
         return defaultValue;
@@ -58,11 +58,11 @@ namespace BigSister {
     }
 
     public static int PlayerID(string rsn) {
-      return DataBase.GetInteger("SELECT id FROM players WHERE rsn='" + rsn + "';", 0);
+      return Database.GetInteger("SELECT id FROM players WHERE rsn='" + rsn + "';", 0);
     }
 
     public static string LastUpdate(string rsn) {
-      return DataBase.GetString("SELECT lastupdate FROM players WHERE rsn='" + rsn + "';", string.Empty);
+      return Database.GetString("SELECT lastupdate FROM players WHERE rsn='" + rsn + "';", string.Empty);
     }
 
     public static void Insert(string table, params string[] fields_values) {
@@ -76,7 +76,7 @@ namespace BigSister {
         sql += "'" + fields_values[i].Replace("'", "''") + "', ";
       }
 
-      DataBase.ExecuteNonQuery(sql.Substring(0, sql.Length - 2) + ");");
+      Database.ExecuteNonQuery(sql.Substring(0, sql.Length - 2) + ");");
     }
 
     public static void Update(string table, string condition, params string[] fields_values) {
@@ -90,7 +90,7 @@ namespace BigSister {
         sql += " WHERE " + condition;
       }
 
-      DataBase.ExecuteNonQuery(sql + ";");
+      Database.ExecuteNonQuery(sql + ";");
     }
 
     public static object GetValue(string table, string field, string condition) {
@@ -99,12 +99,12 @@ namespace BigSister {
         sql += " WHERE " + condition;
       }
 
-      SQLiteCommand com = new SQLiteCommand(sql + " LIMIT 1;", DataBase.Instance.Connection);
+      SQLiteCommand com = new SQLiteCommand(sql + " LIMIT 1;", Database.Instance.Connection);
       return com.ExecuteScalar();
     }
 
     public static object GetValue(string table, string field) {
-      return DataBase.GetValue(table, field, null);
+      return Database.GetValue(table, field, null);
     }
 
   } //class DataBase

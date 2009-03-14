@@ -141,7 +141,7 @@ namespace BigSister.Irc {
           return _nick.ToRSN();
 
         if (_rsn == null) {
-          _rsn = (string)DataBase.GetValue("users", "rsn", "fingerprint='" + this.FingerPrint + "'");
+          _rsn = (string)Database.GetValue("users", "rsn", "fingerprint='" + this.FingerPrint + "'");
           if (_rsn == null)
             return _nick.ToRSN();
         }

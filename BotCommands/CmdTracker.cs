@@ -19,7 +19,7 @@ namespace BigSister {
       try {
         Player p = new Player(rsn);
         if (p.Ranked) {
-          DataBase.Insert("players", "rsn", rsn, "clan", string.Empty, "lastupdate", string.Empty);
+          Database.Insert("players", "rsn", rsn, "clan", string.Empty, "lastupdate", string.Empty);
           p.SaveToDB(DateTime.UtcNow.ToString("yyyyMMdd"));
           bc.SendReply(string.Format("\\b{0}\\b is now being tracked.", rsn));
         } else {
@@ -40,10 +40,10 @@ namespace BigSister {
       }
 
       string rsn = bc.MessageTokens.Join(1).ToRSN();
-      if (DataBase.GetValue("players", "id", "rsn='" + rsn + "'") != null) {
-        int pid = Convert.ToInt32(DataBase.GetValue("players", "id", "rsn='" + rsn + "'"));
-        DataBase.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + pid + ";");
-        DataBase.ExecuteNonQuery("DELETE FROM players WHERE id=" + pid + ";");
+      if (Database.GetValue("players", "id", "rsn='" + rsn + "'") != null) {
+        int pid = Convert.ToInt32(Database.GetValue("players", "id", "rsn='" + rsn + "'"));
+        Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + pid + ";");
+        Database.ExecuteNonQuery("DELETE FROM players WHERE id=" + pid + ";");
         bc.SendReply(string.Format("\\b{0}\\b was removed from tracker.", rsn));
       } else {
         bc.SendReply(string.Format("\\b{0}\\b wasn't being tracked.", rsn));
@@ -64,18 +64,18 @@ namespace BigSister {
         clan = string.Empty;
 
       int playersRemoved = 0;
-      SQLiteDataReader dr = DataBase.ExecuteReader("SELECT id FROM players WHERE clan='" + clan + "';");
+      SQLiteDataReader dr = Database.ExecuteReader("SELECT id FROM players WHERE clan='" + clan + "';");
       while (dr.Read()) {
-        DataBase.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + dr.GetInt32(0) + ";");
+        Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + dr.GetInt32(0) + ";");
         playersRemoved++;
       }
       dr.Close();
-      DataBase.ExecuteNonQuery("DELETE FROM players WHERE clan ='" + clan + "';");
+      Database.ExecuteNonQuery("DELETE FROM players WHERE clan ='" + clan + "';");
       bc.SendReply(string.Format("\\b{0}\\b players were removed from tracker.", playersRemoved));
 
-      DataBase.ExecuteNonQuery("VACUUM;");
+      Database.ExecuteNonQuery("VACUUM;");
 
-      int playersLeft = DataBase.GetInteger("SELECT Count(*) FROM players;", 0);
+      int playersLeft = Database.GetInteger("SELECT Count(*) FROM players;", 0);
       bc.SendReply(string.Format("There are \\b{0}\\b players left in the tracker.", playersLeft));
     }
 
@@ -90,7 +90,7 @@ namespace BigSister {
 
       string rsn = bc.MessageTokens.Join(1).ToRSN();
       try {
-        DataBase.Update("players", "rsn='" + rsn + "'", "clan", string.Empty);
+        Database.Update("players", "rsn='" + rsn + "'", "clan", string.Empty);
         bc.SendReply(string.Format("\\b{0}\\b is now being tracked under no clan.", rsn));
       } catch {
         bc.SendReply(string.Format("\\b{0}\\b wasn't being tracked."));
@@ -107,7 +107,7 @@ namespace BigSister {
 
       // get this player last update time
       DateTime lastupdate;
-      string dblastupdate = DataBase.LastUpdate(rsn);
+      string dblastupdate = Database.LastUpdate(rsn);
       if (dblastupdate == null || dblastupdate.Length < 8) {
         lastupdate = DateTime.Now.AddHours(-DateTime.Now.Hour + 6).AddMinutes(-DateTime.Now.Minute).AddSeconds(-DateTime.Now.Second);
         if (DateTime.Now.Hour >= 0 && DateTime.Now.Hour < 6)

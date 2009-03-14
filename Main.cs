@@ -50,7 +50,7 @@ namespace BigSister {
 
     private void _updatePlayers(object stateInfo) {
       DateTime now = DateTime.UtcNow;
-      SQLiteDataReader rs = DataBase.ExecuteReader("SELECT rsn FROM players WHERE lastupdate!='" + now.ToString("yyyyMMdd") + "';");
+      SQLiteDataReader rs = Database.ExecuteReader("SELECT rsn FROM players WHERE lastupdate!='" + now.ToString("yyyyMMdd") + "';");
       while (rs.Read()) {
         Player p = new Player(rs.GetString(0));
         txt.Invoke(new delOutputMessage(_OutputMessage), "***** UPDATING ***** " + p.Name);
@@ -121,7 +121,7 @@ namespace BigSister {
 
       if (_irc != null) {
         // check for pending timers
-        SQLiteDataReader rsTimer = DataBase.ExecuteReader("SELECT fingerprint, nick, name, duration, started FROM timers;");
+        SQLiteDataReader rsTimer = Database.ExecuteReader("SELECT fingerprint, nick, name, duration, started FROM timers;");
         while (rsTimer.Read()) {
           if (DateTime.Now >= rsTimer.GetString(4).ToDateTime().AddSeconds(rsTimer.GetInt32(3))) {
             string fingerprint = rsTimer.GetString(0);
@@ -129,7 +129,7 @@ namespace BigSister {
 
             foreach (User u in _irc.Peers)
               if (u.FingerPrint == fingerprint || u.Nick == nick) {
-                DataBase.ExecuteNonQuery("DELETE FROM timers WHERE fingerprint='" + fingerprint + "' AND started='" + rsTimer.GetString(4) + "';");
+                Database.ExecuteNonQuery("DELETE FROM timers WHERE fingerprint='" + fingerprint + "' AND started='" + rsTimer.GetString(4) + "';");
                 _irc.Send(new NoticeMessage(string.Format("\\c07{0}\\c timer ended for \\b{1}\\b.", rsTimer.GetString(2), u.Nick), u.Nick));
                 _irc.SendChat(string.Format("\\c07{0}\\c timer ended for \\b{1}\\b.", rsTimer.GetString(2), u.Nick), u.Nick);
               }

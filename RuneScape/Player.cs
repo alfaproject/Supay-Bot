@@ -131,10 +131,10 @@ namespace BigSister {
     }
 
     public void SaveToDB(string s_date) {
-      _id = Convert.ToInt32(DataBase.GetValue("players", "id", "rsn='" + _name + "'"));
+      _id = Convert.ToInt32(Database.GetValue("players", "id", "rsn='" + _name + "'"));
 
       if (this.Ranked) {
-        DataBase.Insert("tracker", "pid", _id.ToString(),
+        Database.Insert("tracker", "pid", _id.ToString(),
                                    "date", s_date,
                                    "overall_level", _skills[0].Level.ToString(), "overall_xp", _skills[0].Exp.ToString(), "overall_rank", _skills[0].Rank.ToString(),
                                    "attack_xp", _skills[1].Exp.ToString(), "attack_rank", _skills[1].Rank.ToString(),
@@ -166,7 +166,7 @@ namespace BigSister {
                                    "bhr_rank", _minigames[Minigame.ROGU].Rank.ToString(), "bhr_score", _minigames[Minigame.ROGU].Score.ToString(),
                                    "fist_rank", _minigames[Minigame.FIST].Rank.ToString(), "fist_score", _minigames[Minigame.FIST].Score.ToString());
 
-        DataBase.Update("players", "id=" + _id, "lastupdate", s_date);
+        Database.Update("players", "id=" + _id, "lastupdate", s_date);
       }
     }
 
@@ -234,7 +234,7 @@ namespace BigSister {
 
       try {
         // Query database
-        SQLiteDataReader rs = DataBase.ExecuteReader("SELECT tracker.* FROM tracker INNER JOIN players ON tracker.pid=players.id WHERE players.rsn='" + _name + "' AND tracker.date='" + day.ToString("yyyyMMdd") + "';");
+        SQLiteDataReader rs = Database.ExecuteReader("SELECT tracker.* FROM tracker INNER JOIN players ON tracker.pid=players.id WHERE players.rsn='" + _name + "' AND tracker.date='" + day.ToString("yyyyMMdd") + "';");
         if (rs.Read()) {
           // Initialize variables
           _id = Convert.ToInt32(rs["pid"]);

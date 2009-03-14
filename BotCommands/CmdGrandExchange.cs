@@ -98,7 +98,7 @@ namespace BigSister {
     }
 
     public static void LastUpdate(CommandContext bc) {
-      DateTime lastUpdate = DataBase.GetString("SELECT lastUpdate FROM prices ORDER BY lastUpdate DESC LIMIT 1;", DateTime.UtcNow.ToString("yyyyMMddHHmm")).ToDateTime();
+      DateTime lastUpdate = Database.GetString("SELECT lastUpdate FROM prices ORDER BY lastUpdate DESC LIMIT 1;", DateTime.UtcNow.ToString("yyyyMMddHHmm")).ToDateTime();
       bc.SendReply(string.Format("The GE was last updated \\c07{0}\\c ago. ({1:R})", (DateTime.UtcNow - lastUpdate).ToLongString(), lastUpdate));
     }
 

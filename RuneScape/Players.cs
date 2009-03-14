@@ -11,14 +11,14 @@ namespace BigSister {
     }
 
     public Players(string clan) {
-      SQLiteDataReader rs = DataBase.ExecuteReader("SELECT rsn, lastupdate FROM players WHERE clan LIKE '%" + clan + "%'");
+      SQLiteDataReader rs = Database.ExecuteReader("SELECT rsn, lastupdate FROM players WHERE clan LIKE '%" + clan + "%'");
       while (rs.Read())
         this.Add(new Player(rs.GetString(0), rs.GetString(1).ToDateTime()));
       rs.Close();
     }
 
     public Players(string clan, DateTime day) {
-      SQLiteDataReader rs = DataBase.ExecuteReader("SELECT rsn FROM players WHERE clan LIKE '%" + clan + "%'");
+      SQLiteDataReader rs = Database.ExecuteReader("SELECT rsn FROM players WHERE clan LIKE '%" + clan + "%'");
       while (rs.Read()) {
         Player p = new Player(rs.GetString(0), day);
         if (p.Ranked)
@@ -29,7 +29,7 @@ namespace BigSister {
 
     // performance constructor
     public Players(string clan, DateTime firstDay, DateTime lastDay) {
-      SQLiteDataReader rs = DataBase.ExecuteReader("SELECT rsn FROM players WHERE clan LIKE '%" + clan + "%'");
+      SQLiteDataReader rs = Database.ExecuteReader("SELECT rsn FROM players WHERE clan LIKE '%" + clan + "%'");
       while (rs.Read()) {
         Player playerBegin = new Player(rs.GetString(0), firstDay);
         if (playerBegin.Ranked) {

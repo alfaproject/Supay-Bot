@@ -28,10 +28,10 @@ namespace BigSister {
         Skill.TryParse(bc.MessageTokens[1], ref skill);
 
       // remove previous timer with this name, if any
-      DataBase.ExecuteNonQuery("DELETE FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "';");
+      Database.ExecuteNonQuery("DELETE FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "';");
 
       // start a new timer with this name
-      DataBase.Insert("timers_exp", "fingerprint", bc.From.FingerPrint,
+      Database.Insert("timers_exp", "fingerprint", bc.From.FingerPrint,
                                     "name", name,
                                     "skill", skill,
                                     "exp", p.Skills[skill].Exp.ToString(),
@@ -57,7 +57,7 @@ namespace BigSister {
         bc.Message = bc.Message.Substring(0, indexofsharp - 1);
       }
 
-      SQLiteDataReader rs = DataBase.ExecuteReader("SELECT skill, exp, datetime FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "' LIMIT 1;");
+      SQLiteDataReader rs = Database.ExecuteReader("SELECT skill, exp, datetime FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "' LIMIT 1;");
       if (rs.Read()) {
         string skill = rs.GetString(0);
 
@@ -94,7 +94,7 @@ namespace BigSister {
         bc.Message = bc.Message.Substring(0, indexofsharp - 1);
       }
 
-      SQLiteDataReader rs = DataBase.ExecuteReader("SELECT skill, exp, datetime FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "' LIMIT 1;");
+      SQLiteDataReader rs = Database.ExecuteReader("SELECT skill, exp, datetime FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "' LIMIT 1;");
       if (rs.Read()) {
         string skill = rs.GetString(0);
 
@@ -107,7 +107,7 @@ namespace BigSister {
         bc.SendReply(reply);
 
         // remove the timer with this name
-        DataBase.ExecuteNonQuery("DELETE FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "';");
+        Database.ExecuteNonQuery("DELETE FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "';");
       } else {
         if (name.Length > 0)
           bc.SendReply("You must start timing a skill on that timer first.");
@@ -118,7 +118,7 @@ namespace BigSister {
 
     public static void Timer(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
-        SQLiteDataReader rsTimer = DataBase.ExecuteReader("SELECT name, duration, started FROM timers WHERE fingerprint='" + bc.From.FingerPrint + "' OR nick='" + bc.From.Nick + "';");
+        SQLiteDataReader rsTimer = Database.ExecuteReader("SELECT name, duration, started FROM timers WHERE fingerprint='" + bc.From.FingerPrint + "' OR nick='" + bc.From.Nick + "';");
         int timers = 0;
         string reply = string.Empty;
         while (rsTimer.Read()) {
@@ -165,7 +165,7 @@ namespace BigSister {
       }
 
       // start a new timer for this duration
-      DataBase.Insert("timers", "fingerprint", bc.From.FingerPrint,
+      Database.Insert("timers", "fingerprint", bc.From.FingerPrint,
                                 "nick", bc.From.Nick,
                                 "name", name,
                                 "duration", (duration * 60).ToString(),

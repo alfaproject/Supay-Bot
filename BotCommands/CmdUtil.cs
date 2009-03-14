@@ -11,11 +11,11 @@
       string rsn = bc.MessageTokens.Join(1).ToRSN();
 
       // add/update to database
-      if (DataBase.GetValue("users", "rsn", "fingerprint='" + bc.From.FingerPrint + "'") == null) {
-        DataBase.Insert("users", "fingerprint", bc.From.FingerPrint,
+      if (Database.GetValue("users", "rsn", "fingerprint='" + bc.From.FingerPrint + "'") == null) {
+        Database.Insert("users", "fingerprint", bc.From.FingerPrint,
                                  "rsn", rsn);
       } else {
-        DataBase.Update("users", "fingerprint='" + bc.From.FingerPrint + "'",
+        Database.Update("users", "fingerprint='" + bc.From.FingerPrint + "'",
                                  "rsn", rsn);
       }
       bc.From.RSN = rsn;

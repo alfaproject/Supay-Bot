@@ -100,11 +100,11 @@ namespace BigSister {
         bc.SendReply(reply);
 
         // get these players last update time
-        string dblastupdate = DataBase.LastUpdate(rsn1);
+        string dblastupdate = Database.LastUpdate(rsn1);
         if (dblastupdate != null && dblastupdate.Length == 8) {
           p1 = new Player(rsn1, dblastupdate.ToDateTime());
           if (p1.Ranked) {
-            dblastupdate = DataBase.LastUpdate(rsn2);
+            dblastupdate = Database.LastUpdate(rsn2);
             if (dblastupdate != null && dblastupdate.Length == 8) {
               p2 = new Player(rsn2, dblastupdate.ToDateTime());
               if (p2.Ranked) {
@@ -138,11 +138,11 @@ namespace BigSister {
         bc.SendReply(reply);
 
         // get these players last update time
-        string dblastupdate = DataBase.LastUpdate(rsn1);
+        string dblastupdate = Database.LastUpdate(rsn1);
         if (dblastupdate != null && dblastupdate.Length == 8) {
           p1 = new Player(rsn1, dblastupdate.ToDateTime());
           if (p1.Ranked && p1.Minigames[minigame1].Rank > 0) {
-            dblastupdate = DataBase.LastUpdate(rsn2);
+            dblastupdate = Database.LastUpdate(rsn2);
             if (dblastupdate != null && dblastupdate.Length == 8) {
               p2 = new Player(rsn2, dblastupdate.ToDateTime());
               if (p2.Ranked && p2.Minigames[minigame1].Rank > 0) {
