@@ -597,7 +597,7 @@ namespace BigSister {
 
           // check for an implicit calculation
           MathParser c = new MathParser();
-          c.Evaluate(msg.Replace(",",string.Empty));
+          c.Evaluate(msg);
           if (c.LastError == null && c.Operations > 0)
             _irc.Send(new NoticeMessage(c.Expression + " => " + c.ValueAsString, e.Message.Sender.Nick));
         }

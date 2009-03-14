@@ -25,7 +25,7 @@ namespace BigSister {
     private const int UMI = 7;   // - (unary minus)
     private const int FACT = 8;  // ! (factorial)
     private const int FUN = 9;   // function
-    private const int COMA = 10; // ,
+    private const int SCOL = 10; // ; (semicolon - function arguments separator)
     private const int LPAR = 11; // (
     private const int RPAR = 12; // )
     private const int EOF = 13;  // end of expression
@@ -104,11 +104,11 @@ namespace BigSister {
       _lastAnswer = 0;
     }
 
-    public MathParser(double lastanswer)
+    public MathParser(double lastAnswer)
       : this() {
 
       // start with a custom lastanswer
-      _lastAnswer = lastanswer;
+      _lastAnswer = lastAnswer;
     }
 
     public string Expression {
@@ -129,7 +129,7 @@ namespace BigSister {
             case POW:
               ret += " " + token.Expr + " ";
               break;
-            case COMA:
+            case SCOL:
               ret += "; ";
               break;
             case EOF:
@@ -465,6 +465,15 @@ namespace BigSister {
               break;
 
             // 2 argument functions
+            case "pow":
+            case "power":
+              if (vals.Count < 1)
+                throw new Exception("Syntax error");
+              temp2 = temp1;
+              temp1 = vals.Pop();
+              vals.Push(Math.Pow(temp1, temp2));
+              break;
+
             case "min":
               if (vals.Count < 1)
                 throw new Exception("Syntax error");
@@ -481,6 +490,7 @@ namespace BigSister {
               vals.Push(Math.Max(temp1, temp2));
               break;
 
+            case "rand":
             case "random":
               if (vals.Count < 1)
                 throw new Exception("Syntax error");
@@ -529,7 +539,7 @@ namespace BigSister {
       string ret = string.Empty;
       while (_currentpos < _expression.Length && char.IsLetterOrDigit(_expression, _currentpos)) {
         ret += _expression[_currentpos];
-        _currentpos += 1;
+        _currentpos++;
       }
       return ret;
     }
@@ -538,22 +548,22 @@ namespace BigSister {
       double n = 0.0;
       while (_currentpos < _expression.Length && char.IsDigit(_expression, _currentpos)) {
         n = n * 10.0 + _expression[_currentpos] - '0';
-        _currentpos += 1;
+        _currentpos++;
       }
 
       if (_currentpos < _expression.Length) {
         if (_expression[_currentpos] == '.') {
           // ignore the dot
-          _currentpos += 1;
+          _currentpos++;
           return ScanFrac(ref _currentpos, n);
         } else if (_expression[_currentpos] == 'k') {
-          _currentpos += 1;
+          _currentpos++;
           return n * 1000.0;
         } else if (_expression[_currentpos] == 'm') {
-          _currentpos += 1;
+          _currentpos++;
           return n * 1000000.0;
         } else if (_expression[_currentpos] == 'b') {
-          _currentpos += 1;
+          _currentpos++;
           return n * 1000000000.0;
         }
       }
@@ -566,18 +576,18 @@ namespace BigSister {
       while (_currentpos < _expression.Length && char.IsDigit(_expression, _currentpos)) {
         n += factor * (_expression[_currentpos] - '0');
         factor /= 10.0;
-        _currentpos += 1;
+        _currentpos++;
       }
 
       if (_currentpos < _expression.Length) {
         if (_expression[_currentpos] == 'k') {
-          _currentpos += 1;
+          _currentpos++;
           return n * 1000.0;
         } else if (_expression[_currentpos] == 'm') {
-          _currentpos += 1;
+          _currentpos++;
           return n * 1000000.0;
         } else if (_expression[_currentpos] == 'b') {
-          _currentpos += 1;
+          _currentpos++;
           return n * 1000000000.0;
         }
       }
@@ -592,11 +602,14 @@ namespace BigSister {
       while (_currentpos < _expression.Length) {
         char c = _expression[_currentpos];
 
-        if (char.IsDigit(c)) {
+        if (char.IsWhiteSpace(c) || c == ',') {
+          // ignore whitespace and commas
+          _currentpos++;
+        } else if (char.IsDigit(c)) {
           double number = ScanReal(ref _currentpos);
           ret.Add(new Token(number.ToString(CultureInfo.InvariantCulture), VAL, number));
         } else if (c == '.') {
-          _currentpos += 1;
+          _currentpos++;
           double number = ScanFrac(ref _currentpos, 0.0);
           ret.Add(new Token(number.ToString(CultureInfo.InvariantCulture), VAL, number));
         } else if (char.IsLetter(c)) {
@@ -661,12 +674,12 @@ namespace BigSister {
               ret.Add(new Token(c.ToString(), RPAR));
               break;
             case ';':
-              ret.Add(new Token(c.ToString(), COMA));
+              ret.Add(new Token(c.ToString(), SCOL));
               break;
             default:
               throw new Exception("Illegal character \"" + c + "\" at position " + _currentpos + ".");
           }
-          _currentpos += 1;
+          _currentpos++;
         }
       }
 
@@ -700,7 +713,7 @@ namespace BigSister {
             _vals.Push(_tokens[token].Value);
 
             // move to next token
-            token += 1;
+            token++;
           } else {
             // input is operator
             switch (_states[(int)_ops.Peek().Type][(int)_tokens[token].Type]) {
@@ -712,7 +725,7 @@ namespace BigSister {
                 _ops.Push(_tokens[token]);
 
                 // move to next token
-                token += 1;
+                token++;
                 break;
               case ACCEPT:
                 // accept

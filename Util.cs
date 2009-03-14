@@ -30,8 +30,6 @@ namespace BigSister {
       if (s.Length == 0)
         return false;
 
-      s = s.Replace(",", string.Empty).Replace(" ", string.Empty);
-
       // evaluate and output the result
       MathParser c = new MathParser();
       c.Evaluate(s);

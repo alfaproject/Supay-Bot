@@ -45,9 +45,8 @@
         return;
       }
 
-      string input = bc.MessageTokens.Join(1).Replace(",", string.Empty).Replace(" ", string.Empty);
       MathParser mp = new MathParser();
-      mp.Evaluate(input);
+      mp.Evaluate(bc.MessageTokens.Join(1));
       bc.SendReply("\\c07" + mp.Expression + "\\c => \\c07" + mp.ValueAsString + "\\c");
     }
 
