@@ -9,11 +9,9 @@ namespace BigSister.Irc.Messages {
     // :irc.easynews.com 403 aLfBot #qwe9r8wjfq98wer :No such channel
 
     /// <summary>
-    /// Creates a new instances of the <see cref="NoSuchChannelMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="NoSuchChannelMessage"/> class. </summary>
     public NoSuchChannelMessage()
-      : base() {
-      this.InternalNumeric = 403;
+      : base(403) {
     }
 
     /// <summary>

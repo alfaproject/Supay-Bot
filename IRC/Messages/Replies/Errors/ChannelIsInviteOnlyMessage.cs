@@ -11,11 +11,9 @@ namespace BigSister.Irc.Messages {
     //:irc.dkom.at 473 _aLfa_ #chaos :Cannot join channel (+i)
 
     /// <summary>
-    /// Creates a new instances of the <see cref="ChannelIsInviteOnlyMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="ChannelIsInviteOnlyMessage"/> class. </summary>
     public ChannelIsInviteOnlyMessage()
-      : base() {
-      this.InternalNumeric = 473;
+      : base(473) {
     }
 
     /// <summary>

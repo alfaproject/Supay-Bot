@@ -9,11 +9,9 @@ namespace BigSister.Irc.Messages {
     //:irc.dkom.at 484 _aLfa_ chanserv #aLfBot :Cannot kill, kick or deop channel service
 
     /// <summary>
-    /// Creates a new instances of the <see cref="CannotRemoveServiceBotMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="CannotRemoveServiceBotMessage"/> class. </summary>
     public CannotRemoveServiceBotMessage()
-      : base() {
-      this.InternalNumeric = 484;
+      : base(484) {
     }
 
     /// <summary>

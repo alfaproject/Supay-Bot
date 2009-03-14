@@ -9,11 +9,9 @@ namespace BigSister.Irc.Messages {
     //:irc.dkom.at 511 _aLfa_ *!*@*aol.com :Your silence list is full
 
     /// <summary>
-    /// Creates a new instances of the <see cref="SilenceListFullMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="SilenceListFullMessage"/> class. </summary>
     public SilenceListFullMessage()
-      : base() {
-      this.InternalNumeric = 511;
+      : base(511) {
     }
 
     /// <summary>

@@ -10,11 +10,9 @@ namespace BigSister.Irc.Messages {
   public class CannotChangeNickWhileBannedMessage : ErrorMessage, IChannelTargetedMessage {
 
     /// <summary>
-    /// Creates a new instances of the <see cref="TooManyLinesMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="CannotChangeNickWhileBannedMessage"/> class. </summary>
     public CannotChangeNickWhileBannedMessage()
-      : base() {
-      this.InternalNumeric = 437;
+      : base(437) {
     }
 
     /// <summary>

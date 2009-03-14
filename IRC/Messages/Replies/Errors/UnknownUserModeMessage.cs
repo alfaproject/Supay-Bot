@@ -8,11 +8,9 @@ namespace BigSister.Irc.Messages {
     //:irc.dkom.at 501 _aLfa_ :Unknown MODE flag
 
     /// <summary>
-    /// Creates a new instances of the <see cref="UnknownUserModeMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="UnknownUserModeMessage"/> class. </summary>
     public UnknownUserModeMessage()
-      : base() {
-      this.InternalNumeric = 501;
+      : base(501) {
     }
 
     /// <exclude />

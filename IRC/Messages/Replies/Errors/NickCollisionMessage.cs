@@ -8,11 +8,9 @@ namespace BigSister.Irc.Messages {
   public class NickCollisionMessage : ErrorMessage {
 
     /// <summary>
-    /// Creates a new instances of the <see cref="NickCollisionMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="NickCollisionMessage"/> class. </summary>
     public NickCollisionMessage()
-      : base() {
-      this.InternalNumeric = 436;
+      : base(436) {
     }
 
     /// <summary>

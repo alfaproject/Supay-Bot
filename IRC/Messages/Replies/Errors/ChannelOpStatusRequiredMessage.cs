@@ -12,11 +12,9 @@ namespace BigSister.Irc.Messages {
     //:irc.dkom.at 482 _aLfa_ #aLfBot :You're not channel operator
 
     /// <summary>
-    /// Creates a new instances of the <see cref="ChannelOperatorStatusRequiredMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="ChannelOperatorStatusRequiredMessage"/> class. </summary>
     public ChannelOperatorStatusRequiredMessage()
-      : base() {
-      this.InternalNumeric = 482;
+      : base(482) {
     }
 
     /// <summary>

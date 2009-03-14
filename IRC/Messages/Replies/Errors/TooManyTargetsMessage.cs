@@ -8,11 +8,9 @@ namespace BigSister.Irc.Messages {
   public class TooManyTargetsMessage : ErrorMessage {
 
     /// <summary>
-    /// Creates a new instances of the <see cref="TooManyTargetsMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="TooManyTargetsMessage"/> class. </summary>
     public TooManyTargetsMessage()
-      : base() {
-      this.InternalNumeric = 407;
+      : base(407) {
     }
 
     /// <summary>

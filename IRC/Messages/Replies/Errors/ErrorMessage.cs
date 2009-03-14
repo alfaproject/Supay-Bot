@@ -7,8 +7,22 @@ namespace BigSister.Irc.Messages {
   public abstract class ErrorMessage : NumericMessage {
 
     /// <summary>
-    /// Gets the Numeric command of the Message
-    /// </summary>
+    ///   Creates a new instance of the <see cref="ErrorMessage"/> class. </summary>
+    public ErrorMessage()
+      : base() {
+    }
+
+    /// <summary>
+    ///   Creates a new instance of the <see cref="ErrorMessage"/> class with the numeric command. </summary>
+    /// <param name="internalNumeric">
+    ///   Numeric command of the Message. </param>
+    public ErrorMessage(int internalNumeric)
+      : base() {
+      this.InternalNumeric = internalNumeric;
+    }
+
+    /// <summary>
+    ///   Gets the Numeric command of the Message. </summary>
     public override int InternalNumeric {
       get {
         return base.InternalNumeric;

@@ -9,11 +9,9 @@ namespace BigSister.Irc.Messages {
     //:irc.dkom.at 472 _aLfa_ g :is unknown mode char to me
 
     /// <summary>
-    /// Creates a new instances of the <see cref="UnknownChannelModeMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="UnknownChannelModeMessage"/> class. </summary>
     public UnknownChannelModeMessage()
-      : base() {
-      this.InternalNumeric = 472;
+      : base(472) {
     }
 
     /// <summary>

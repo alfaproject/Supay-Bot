@@ -8,11 +8,9 @@ namespace BigSister.Irc.Messages {
   public class TooManyLinesMessage : ErrorMessage {
 
     /// <summary>
-    /// Creates a new instances of the <see cref="TooManyLinesMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="TooManyLinesMessage"/> class. </summary>
     public TooManyLinesMessage()
-      : base() {
-      this.InternalNumeric = 416;
+      : base(416) {
     }
 
     /// <summary>

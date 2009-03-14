@@ -9,11 +9,9 @@ namespace BigSister.Irc.Messages {
     //:irc.dkom.at 443 _aLfa_ KICK :not enough parameters
 
     /// <summary>
-    /// Creates a new instances of the <see cref="NotEnoughParametersMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="NotEnoughParametersMessage"/> class. </summary>
     public NotEnoughParametersMessage()
-      : base() {
-      this.InternalNumeric = 461;
+      : base(461) {
     }
 
     /// <summary>

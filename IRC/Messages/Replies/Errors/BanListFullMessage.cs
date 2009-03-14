@@ -14,11 +14,9 @@ namespace BigSister.Irc.Messages {
     //:irc.dkom.at 478 _aLfa_ #aLfBot *!*@aol.com :Channel ban/ignore list is full
 
     /// <summary>
-    /// Creates a new instances of the <see cref="BanListFullMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="BanListFullMessage"/> class. </summary>
     public BanListFullMessage()
-      : base() {
-      this.InternalNumeric = 478;
+      : base(478) {
     }
 
     /// <summary>

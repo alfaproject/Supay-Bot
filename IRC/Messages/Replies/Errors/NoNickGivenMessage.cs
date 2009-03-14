@@ -7,11 +7,9 @@ namespace BigSister.Irc.Messages {
   public class NoNickGivenMessage : ErrorMessage {
 
     /// <summary>
-    /// Creates a new instances of the <see cref="NoNickGivenMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="NoNickGivenMessage"/> class. </summary>
     public NoNickGivenMessage()
-      : base() {
-      this.InternalNumeric = 431;
+      : base(431) {
     }
 
     /// <summary>

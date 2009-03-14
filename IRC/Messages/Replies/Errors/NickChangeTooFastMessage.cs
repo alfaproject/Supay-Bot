@@ -9,11 +9,9 @@ namespace BigSister.Irc.Messages {
   public class NickChangeTooFastMessage : ErrorMessage {
 
     /// <summary>
-    /// Creates a new instances of the <see cref="NickChangeTooFastMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="NickChangeTooFastMessage"/> class. </summary>
     public NickChangeTooFastMessage()
-      : base() {
-      this.InternalNumeric = 438;
+      : base(438) {
     }
 
     /// <summary>

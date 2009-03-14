@@ -8,11 +8,9 @@ namespace BigSister.Irc.Messages {
   public class NickInUseMessage : ErrorMessage {
 
     /// <summary>
-    /// Creates a new instances of the <see cref="NickInUseMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="NickInUseMessage"/> class. </summary>
     public NickInUseMessage()
-      : base() {
-      this.InternalNumeric = 433;
+      : base(433) {
     }
 
     /// <summary>

@@ -8,11 +8,9 @@ namespace BigSister.Irc.Messages {
   public class CannotSendToChannelMessage : ErrorMessage, IChannelTargetedMessage {
 
     /// <summary>
-    /// Creates a new instances of the <see cref="CannotSendToChannelMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="CannotSendToChannelMessage"/> class. </summary>
     public CannotSendToChannelMessage()
-      : base() {
-      this.InternalNumeric = 404;
+      : base(404) {
     }
 
     /// <summary>

@@ -13,11 +13,9 @@ namespace BigSister.Irc.Messages {
     //:irc.dkom.at 471 _aLfa_ #chaos :Cannot join channel (+l)
 
     /// <summary>
-    /// Creates a new instances of the <see cref="ChannelLimitReachedMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="ChannelLimitReachedMessage"/> class. </summary>
     public ChannelLimitReachedMessage()
-      : base() {
-      this.InternalNumeric = 471;
+      : base(471) {
     }
 
     /// <summary>

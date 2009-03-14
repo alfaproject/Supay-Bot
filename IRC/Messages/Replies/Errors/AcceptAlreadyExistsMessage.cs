@@ -9,11 +9,9 @@ namespace BigSister.Irc.Messages {
   public class AcceptAlreadyExistsMessage : ErrorMessage {
 
     /// <summary>
-    /// Creates a new instances of the <see cref="AcceptAlreadyExistsMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="AcceptAlreadyExistsMessage"/> class. </summary>
     public AcceptAlreadyExistsMessage()
-      : base() {
-      this.InternalNumeric = 457;
+      : base(457) {
     }
 
     /// <summary>

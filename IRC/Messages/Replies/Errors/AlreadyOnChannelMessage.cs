@@ -10,11 +10,9 @@ namespace BigSister.Irc.Messages {
     //:irc.dkom.at 443 _aLfa_ bob #aLfBot :is already on channel
 
     /// <summary>
-    /// Creates a new instances of the <see cref="AlreadyOnChannelMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="AlreadyOnChannelMessage"/> class. </summary>
     public AlreadyOnChannelMessage()
-      : base() {
-      this.InternalNumeric = 443;
+      : base(443) {
     }
 
     /// <summary>

@@ -8,11 +8,9 @@ namespace BigSister.Irc.Messages {
   public class TooManyChannelsMessage : ErrorMessage, IChannelTargetedMessage {
 
     /// <summary>
-    /// Creates a new instances of the <see cref="TooManyChannelsMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="TooManyChannelsMessage"/> class. </summary>
     public TooManyChannelsMessage()
-      : base() {
-      this.InternalNumeric = 405;
+      : base(405) {
     }
 
     /// <summary>

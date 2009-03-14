@@ -12,11 +12,9 @@ namespace BigSister.Irc.Messages {
     //:irc.dkom.at 485 _aLfa_ #chaos :Cannot join channel (Q-Line Blocked)
 
     /// <summary>
-    /// Creates a new instances of the <see cref="ChannelBlockedMessage"/> class.
-    /// </summary>
+    ///  Creates a new instance of the <see cref="ChannelBlockedMessage"/> class. </summary>
     public ChannelBlockedMessage()
-      : base() {
-      this.InternalNumeric = 485;
+      : base(485) {
     }
 
     /// <summary>

@@ -9,11 +9,9 @@ namespace BigSister.Irc.Messages {
     //:irc.dkom.at 474 _aLfa_ #chaos :Cannot join channel (+b)
 
     /// <summary>
-    /// Creates a new instances of the <see cref="YouAreBannedFromChannelMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="YouAreBannedFromChannelMessage"/> class. </summary>
     public YouAreBannedFromChannelMessage()
-      : base() {
-      this.InternalNumeric = 474;
+      : base(474) {
     }
 
     /// <summary>

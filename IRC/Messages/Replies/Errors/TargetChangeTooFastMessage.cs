@@ -11,11 +11,9 @@ namespace BigSister.Irc.Messages {
   public class TargetChangeTooFastMessage : ErrorMessage, IChannelTargetedMessage {
 
     /// <summary>
-    /// Creates a new instances of the <see cref="TargetChangeTooFastMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="TargetChangeTooFastMessage"/> class. </summary>
     public TargetChangeTooFastMessage()
-      : base() {
-      this.InternalNumeric = 439;
+      : base(439) {
     }
 
     /// <summary>

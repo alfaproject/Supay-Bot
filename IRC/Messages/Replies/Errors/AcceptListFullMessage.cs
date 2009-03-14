@@ -7,11 +7,9 @@ namespace BigSister.Irc.Messages {
   public class AcceptListFullMessage : ErrorMessage {
 
     /// <summary>
-    /// Creates a new instances of the <see cref="BanListFullMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="AcceptListFullMessage"/> class. </summary>
     public AcceptListFullMessage()
-      : base() {
-      this.InternalNumeric = 456;
+      : base(456) {
     }
 
     /// <exclude />

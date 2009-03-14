@@ -7,11 +7,9 @@ namespace BigSister.Irc.Messages {
   public class YouAreBannedMessage : ErrorMessage {
 
     /// <summary>
-    /// Creates a new instances of the <see cref="YouAreBannedMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="YouAreBannedMessage"/> class. </summary>
     public YouAreBannedMessage()
-      : base() {
-      this.InternalNumeric = 465;
+      : base(465) {
     }
 
     /// <summary>

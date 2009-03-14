@@ -8,11 +8,9 @@ namespace BigSister.Irc.Messages {
   public class WasNoSuchNickMessage : ErrorMessage {
 
     /// <summary>
-    /// Creates a new instances of the <see cref="WasNoSuchNickMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="WasNoSuchNickMessage"/> class. </summary>
     public WasNoSuchNickMessage()
-      : base() {
-      this.InternalNumeric = 406;
+      : base(406) {
     }
 
     private string _nick;

@@ -8,11 +8,9 @@ namespace BigSister.Irc.Messages {
   public class CannotUseColorsMessage : ErrorMessage, IChannelTargetedMessage {
 
     /// <summary>
-    /// Creates a new instances of the <see cref="CannotUseColorsMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="CannotUseColorsMessage"/> class. </summary>
     public CannotUseColorsMessage()
-      : base() {
-      this.InternalNumeric = 408;
+      : base(408) {
     }
 
     /// <summary>

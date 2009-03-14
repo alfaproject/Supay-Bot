@@ -7,11 +7,9 @@ namespace BigSister.Irc.Messages {
   public class NoHostPermissionMessage : ErrorMessage {
 
     /// <summary>
-    /// Creates a new instances of the <see cref="NoHostPermissionMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="NoHostPermissionMessage"/> class. </summary>
     public NoHostPermissionMessage()
-      : base() {
-      this.InternalNumeric = 463;
+      : base(463) {
     }
 
     /// <summary>

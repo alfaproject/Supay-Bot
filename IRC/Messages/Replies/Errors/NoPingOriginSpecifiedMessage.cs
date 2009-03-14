@@ -7,11 +7,9 @@ namespace BigSister.Irc.Messages {
   public class NoPingOriginSpecifiedMessage : ErrorMessage {
 
     /// <summary>
-    /// Creates a new instances of the <see cref="NoPingOriginSpecifiedMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="NoPingOriginSpecifiedMessage"/> class. </summary>
     public NoPingOriginSpecifiedMessage()
-      : base() {
-      this.InternalNumeric = 409;
+      : base(409) {
     }
 
     /// <summary>

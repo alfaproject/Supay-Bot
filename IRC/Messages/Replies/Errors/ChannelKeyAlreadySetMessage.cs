@@ -12,11 +12,9 @@ namespace BigSister.Irc.Messages {
     //:irc.dkom.at 467 _aLfa_ #locked :Channel key already set
 
     /// <summary>
-    /// Creates a new instances of the <see cref="ChannelKeyAlreadySetMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="ChannelKeyAlreadySetMessage"/> class. </summary>
     public ChannelKeyAlreadySetMessage()
-      : base() {
-      this.InternalNumeric = 467;
+      : base(467) {
     }
 
     /// <summary>

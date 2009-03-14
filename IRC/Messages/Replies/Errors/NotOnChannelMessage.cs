@@ -13,11 +13,9 @@ namespace BigSister.Irc.Messages {
     //:irc.dkom.at 441 _aLfa_ bob #aLfBot :They aren't on that channel
 
     /// <summary>
-    /// Creates a new instances of the <see cref="NotOnChannelMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="NotOnChannelMessage"/> class. </summary>
     public NotOnChannelMessage()
-      : base() {
-      this.InternalNumeric = 441;
+      : base(441) {
     }
 
     /// <summary>

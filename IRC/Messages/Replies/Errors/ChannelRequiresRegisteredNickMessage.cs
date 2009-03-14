@@ -13,11 +13,9 @@ namespace BigSister.Irc.Messages {
     //:irc.dkom.at 477 _aLfa_ #chaos :You need a registered nick to join that channel.
 
     /// <summary>
-    /// Creates a new instances of the <see cref="ChannelRequiresRegisteredNickMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="ChannelRequiresRegisteredNickMessage"/> class. </summary>
     public ChannelRequiresRegisteredNickMessage()
-      : base() {
-      this.InternalNumeric = 477;
+      : base(477) {
     }
 
     /// <summary>
