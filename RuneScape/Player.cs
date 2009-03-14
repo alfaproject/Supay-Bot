@@ -98,6 +98,10 @@ namespace BigSister {
           if (_skills[i].Exp != -1 || _skills[i].Name == Skill.HITP)
             rankedLevels += _skills[i].Level;
 
+        // RuneScript hack
+        if (_skills[Skill.OVER].Level == 0)
+          _skills[Skill.OVER].Level = rankedLevels;
+
         // Fill unranked skills with some estimate xp and level 
         while (_skills[Skill.OVER].Level - rankedLevels != 0) {
           for (int i = 1; i < _skills.Count; i++) {
