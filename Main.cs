@@ -36,7 +36,7 @@ namespace BigSister {
         nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, UPDATE_HOUR, 0, 0);
       else
         nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, UPDATE_HOUR, 0, 0).AddDays(1D);
-      _timerDaily = new System.Threading.Timer(new TimerCallback(_timerDaily_Elapsed), null, nextMorning.Subtract(DateTime.UtcNow), new TimeSpan(24, 0, 0));
+      _timerDaily = new System.Threading.Timer(new TimerCallback(_timerDaily_Elapsed), null, nextMorning.Subtract(DateTime.UtcNow), TimeSpan.FromDays(24));
 
       _timerMain = new System.Windows.Forms.Timer();
       _timerMain.Tick += new EventHandler(_timerMain_Tick);

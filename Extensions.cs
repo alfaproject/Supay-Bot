@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Text;
 
 namespace BigSister {
   public static partial class Extensions {
@@ -70,6 +71,20 @@ namespace BigSister {
     ///   Max number of decimals allowed. </param>
     public static string ToShortString(this int value, int decimals) {
       return ((double)value).ToShortString(decimals);
+    }
+
+    /// <summary>
+    ///   Returns the string representation of the value of this instance in the format: ##days ##hours ##mins ##secs. </summary>
+    public static string ToLongString(this TimeSpan timeSpan) {
+      StringBuilder result = new StringBuilder(30);
+      if (timeSpan.Days > 0)
+        result.Append(timeSpan.Days + "day" + (timeSpan.Days == 1 ? " " : "s "));
+      if (timeSpan.Hours > 0)
+        result.Append(timeSpan.Hours + "hour" + (timeSpan.Hours == 1 ? " " : "s "));
+      if (timeSpan.Minutes > 0)
+        result.Append(timeSpan.Minutes + "min" + (timeSpan.Minutes == 1 ? " " : "s "));
+      result.Append(timeSpan.Seconds + "sec" + (timeSpan.Seconds == 1 ? string.Empty : "s"));
+      return result.ToString();
     }
 
   } //class Extensions

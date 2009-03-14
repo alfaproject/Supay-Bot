@@ -64,9 +64,9 @@ namespace BigSister {
         int gained_exp = p.Skills[skill].Exp - rs.GetInt32(1);
         TimeSpan time = DateTime.Now - rs.GetString(2).ToDateTime();
 
-        string reply = string.Format("You gained \\c07{0:N0}\\c \\u{1}\\u exp in \\c07{2}\\c. That's \\c07{3:N0}\\c exp/h.", gained_exp, skill.ToLowerInvariant(), Util.FormatTimeSpan(time), (double)gained_exp / (double)time.TotalHours);
+        string reply = string.Format("You gained \\c07{0:N0}\\c \\u{1}\\u exp in \\c07{2}\\c. That's \\c07{3:N0}\\c exp/h.", gained_exp, skill.ToLowerInvariant(), time.ToLongString(), (double)gained_exp / (double)time.TotalHours);
         if (skill != "Overall" && skill != "Combat" && p.Skills[skill].VLevel < 126)
-          reply += string.Format(" Estimated time to level up: \\c07{0}\\c", Util.FormatTimeSpan(new TimeSpan(0, 0, (int)((double)p.Skills[skill].ExpToVLevel * (double)time.TotalSeconds / (double)gained_exp))));
+          reply += string.Format(" Estimated time to level up: \\c07{0}\\c", TimeSpan.FromSeconds((double)p.Skills[skill].ExpToVLevel * (double)time.TotalSeconds / (double)gained_exp).ToLongString());
         bc.SendReply(reply);
       } else {
         if (name.Length > 0)
@@ -101,9 +101,9 @@ namespace BigSister {
         int gained_exp = p.Skills[skill].Exp - rs.GetInt32(1);
         TimeSpan time = DateTime.Now - rs.GetString(2).ToDateTime();
 
-        string reply = string.Format("You gained \\c07{0:N0}\\c \\u{1}\\u exp in \\c07{2}\\c. That's \\c07{3:N0}\\c exp/h.", gained_exp, skill.ToLowerInvariant(), Util.FormatTimeSpan(time), (double)gained_exp / (double)time.TotalHours);
+        string reply = string.Format("You gained \\c07{0:N0}\\c \\u{1}\\u exp in \\c07{2}\\c. That's \\c07{3:N0}\\c exp/h.", gained_exp, skill.ToLowerInvariant(), time.ToLongString(), (double)gained_exp / (double)time.TotalHours);
         if (skill != "Overall" && skill != "Combat" && p.Skills[skill].VLevel < 126)
-          reply += string.Format(" Estimated time to level up: \\c07{0}\\c", Util.FormatTimeSpan(new TimeSpan(0, 0, (int)(p.Skills[skill].ExpToVLevel / (gained_exp / (double)time.TotalSeconds)))));
+          reply += string.Format(" Estimated time to level up: \\c07{0}\\c", TimeSpan.FromSeconds((double)p.Skills[skill].ExpToVLevel / ((double)gained_exp / (double)time.TotalSeconds)).ToLongString());
         bc.SendReply(reply);
 
         // remove the timer with this name
@@ -125,7 +125,7 @@ namespace BigSister {
           timers++;
           DateTime start = rsTimer.GetString(2).ToDateTime();
           DateTime end = start.AddSeconds(rsTimer.GetDouble(1));
-          reply += string.Format(" \\b#{0}\\b timer (\\c07{1}\\c) ends in \\c07{2}\\c, at \\c07{3}\\c;", timers, rsTimer.GetString(0), Util.FormatTimeSpan(end - DateTime.Now), end.ToString("yyyy/MM/dd HH:mm:ss"));
+          reply += string.Format(" \\b#{0}\\b timer (\\c07{1}\\c) ends in \\c07{2}\\c, at \\c07{3}\\c;", timers, rsTimer.GetString(0), (end - DateTime.Now).ToLongString(), end.ToString("yyyy/MM/dd HH:mm:ss"));
         }
         rsTimer.Close();
         if (timers > 0)

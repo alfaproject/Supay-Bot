@@ -243,7 +243,7 @@ namespace BigSister {
         if (plant.CheckHealthExp != 0)
           reply += string.Format(CultureInfo.InvariantCulture, @" | Check-health xp: \c07{0:#,##0.#}\c", qty * plant.CheckHealthExp);
 
-        reply += string.Format(CultureInfo.InvariantCulture, @" | Grow time: \c07{0}\c", Util.FormatTimeSpan(new TimeSpan(0, qty * plant.GrowTime, 0)));
+        reply += string.Format(CultureInfo.InvariantCulture, @" | Grow time: \c07{0}\c", TimeSpan.FromHours(qty * plant.GrowTime).ToLongString());
 
         if (plant.Payment != "-")
           reply += string.Format(CultureInfo.InvariantCulture, @" | Payment: \c07{0}\c (\c07{1:N0} gp)", plant.Payment, qty * plant.PaymentPrice);
