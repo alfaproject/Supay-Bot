@@ -217,15 +217,15 @@ namespace BigSister {
         if (OverallDif.Level > 0)
           DifLevel = string.Format(" [\\b+{0}\\b]", OverallDif.Level);
         if (days == 1) {
-          ReplyMsg += string.Format(" \\c07Overall\\c lvl {0} \\c03+{1}\\c xp (Avg. hourly exp.: \\c07{2}\\c)", PlayerNew.Skills["Overall"].Level + DifLevel, Util.FormatShort(OverallDif.Exp, 1), Util.FormatShort(OverallDif.Exp / 24));
+          ReplyMsg += string.Format(" \\c07Overall\\c lvl {0} \\c03+{1}\\c xp (Avg. hourly exp.: \\c07{2}\\c)", PlayerNew.Skills["Overall"].Level + DifLevel, OverallDif.Exp.ToShortString(1), ((double)OverallDif.Exp / 24.0).ToShortString(0));
         } else {
-          ReplyMsg += string.Format(" \\c07Overall\\c lvl {0} \\c03+{1}\\c xp (Avg. daily exp.: \\c07{2}\\c)", PlayerNew.Skills["Overall"].Level + DifLevel, Util.FormatShort(OverallDif.Exp, 1), Util.FormatShort(OverallDif.Exp / days));
+          ReplyMsg += string.Format(" \\c07Overall\\c lvl {0} \\c03+{1}\\c xp (Avg. daily exp.: \\c07{2}\\c)", PlayerNew.Skills["Overall"].Level + DifLevel, OverallDif.Exp.ToShortString(1), ((double)OverallDif.Exp / (double)days).ToShortString(0));
         }
         DifLevel = string.Empty;
         if (CombatDif.Level > 0) {
           DifLevel = string.Format(" [\\b+{0}\\b]", CombatDif.Level);
         }
-        ReplyMsg += string.Format("; \\c07Combat\\c lvl {0} \\c03+{1}\\c xp (\\c07{2}%\\c)", PlayerNew.Skills["Combat"].Level + DifLevel, Util.FormatShort(CombatDif.Exp, 1), Util.FormatShort((double)CombatDif.Exp / (double)OverallDif.Exp * 100.0, 1));
+        ReplyMsg += string.Format("; \\c07Combat\\c lvl {0} \\c03+{1}\\c xp (\\c07{2}%\\c)", PlayerNew.Skills["Combat"].Level + DifLevel, CombatDif.Exp.ToShortString(1), ((double)CombatDif.Exp / (double)OverallDif.Exp * 100.0).ToShortString(1));
 
         ReplyMsg += string.Format("; Interval: \\c07{0}\\c -> \\c07{1}\\c", firstday.ToString("yyyy/MMM/dd"), lastday == DateTime.MaxValue ? "Now" : lastday.ToString("yyyy/MMM/dd"));
         bc.SendReply(ReplyMsg);
@@ -247,7 +247,7 @@ namespace BigSister {
             DifLevel = string.Empty;
             if (SkillsDif[i].Level > 0)
               DifLevel = string.Format(" [\\b+{0}\\b]", SkillsDif[i].Level);
-            ReplyMsg += string.Format(" \\c7{0}\\c lvl {1} \\c3+{2}\\c xp;", SkillsDif[i].Name, PlayerNew.Skills[SkillsDif[i].Name].Level + DifLevel, Util.FormatShort(SkillsDif[i].Exp, 1));
+            ReplyMsg += string.Format(" \\c7{0}\\c lvl {1} \\c3+{2}\\c xp;", SkillsDif[i].Name, PlayerNew.Skills[SkillsDif[i].Name].Level + DifLevel, SkillsDif[i].Exp.ToShortString(1));
           }
         }
         if (has_performance)

@@ -88,11 +88,11 @@ namespace BigSister {
         }
 
         // Announce all channels
-        if (pricesChanged.Count > 4) {
+        if (pricesChanged.Count > 15) {
           pricesChanged.Sort((p1, p2) => -p1.MarketPrice.CompareTo(p2.MarketPrice));
           string reply = "\\bGrand Exchange\\b database has updated: ";
-          for (int i = 0; i < Math.Min(14, pricesChanged.Count); i++)
-            reply += string.Format(CultureInfo.InvariantCulture, @"\u{0}\u: {1} | ", pricesChanged[i].Name, Util.FormatShort(pricesChanged[i].MarketPrice, 2));
+          for (int i = 0; i < 13; i++)
+            reply += string.Format(CultureInfo.InvariantCulture, @"\u{0}\u: {1} | ", pricesChanged[i].Name, pricesChanged[i].MarketPrice.ToShortString(1));
           reply += "(...)";
           foreach (Channel c in _irc.Channels)
             _irc.SendChat(reply, c.Name);

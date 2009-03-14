@@ -45,8 +45,8 @@ namespace BigSister {
       } else {
         bc.SendReply(string.Format("\\c07{0}\\c | Alch: \\c07{1}/{2}\\c | MarketPrice: \\c07{3}\\c | Location: \\c07{4}\\c | \\c12www.tip.it/runescape/index.php?rs2item_id={5}\\c",
                                    item.Name,
-                                   Util.FormatShort(item.HighAlch, 1), Util.FormatShort(item.LowAlch, 1),
-                                   Util.FormatShort(item.MarketPrice, 1),
+                                   item.HighAlch.ToShortString(1), item.LowAlch.ToShortString(1),
+                                   item.MarketPrice.ToShortString(1),
                                    item.Location,
                                    item.Id));
         bc.SendReply(string.Format("Members? \\c{0}\\c | Quest: \\c{1}\\c | Tradeable? \\c{2}\\c | Stackable? \\c{3}\\c | Weight? \\c07{4}Kg\\c | Examine: \\c07{5}\\c",

@@ -739,7 +739,7 @@ namespace BigSister {
         string result = "\\u" + interval + ":\\u ";
 
         if (skilldif.Exp > 0)
-          result += "\\c03" + Util.FormatShort(skilldif.Exp, 1) + "\\c xp, ";
+          result += "\\c03" + skilldif.Exp.ToShortString(1) + "\\c xp, ";
 
         if (skilldif.Level > 0)
           result += "\\c03" + skilldif.Level + "\\c level" + (skilldif.Level > 1 ? "s" : string.Empty) + ", ";

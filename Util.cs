@@ -5,21 +5,6 @@ using System.Text.RegularExpressions;
 namespace BigSister {
   public class Util {
 
-    public static string FormatShort(double value, int decimals) {
-      string format = "#,##0." + new string('#', decimals);
-      if (value >= 1000000 || value <= -1000000) {
-        return Math.Round(value / 1000000, decimals).ToString(format, CultureInfo.InvariantCulture) + "m";
-      } else if (value >= 1000 || value <= -1000) {
-        return Math.Round(value / 1000, decimals).ToString(format, CultureInfo.InvariantCulture) + "k";
-      } else {
-        return Math.Round(value, decimals).ToString(format, CultureInfo.InvariantCulture);
-      }
-    }
-
-    public static string FormatShort(double value) {
-      return FormatShort(value, 0);
-    }
-
     public static bool TryCalc(string s, out double result_value) {
       result_value = 0;
 
