@@ -546,8 +546,10 @@ namespace BigSister {
 
     private double ScanReal(ref int _currentpos) {
       double n = 0.0;
-      while (_currentpos < _expression.Length && char.IsDigit(_expression, _currentpos)) {
-        n = n * 10.0 + _expression[_currentpos] - '0';
+      while (_currentpos < _expression.Length && (char.IsDigit(_expression, _currentpos) || _expression[_currentpos] == ',')) {
+        if (_expression[_currentpos] != ',') {
+          n = n * 10.0 + _expression[_currentpos] - '0';
+        }
         _currentpos++;
       }
 
@@ -573,9 +575,11 @@ namespace BigSister {
 
     private double ScanFrac(ref int _currentpos, double n) {
       double factor = 0.1;
-      while (_currentpos < _expression.Length && char.IsDigit(_expression, _currentpos)) {
-        n += factor * (_expression[_currentpos] - '0');
-        factor /= 10.0;
+      while (_currentpos < _expression.Length && (char.IsDigit(_expression, _currentpos) || _expression[_currentpos] == ',')) {
+        if (_expression[_currentpos] != ',') {
+          n += factor * (_expression[_currentpos] - '0');
+          factor /= 10.0;
+        }
         _currentpos++;
       }
 
@@ -602,8 +606,8 @@ namespace BigSister {
       while (_currentpos < _expression.Length) {
         char c = _expression[_currentpos];
 
-        if (char.IsWhiteSpace(c) || c == ',') {
-          // ignore whitespace and commas
+        if (char.IsWhiteSpace(c)) {
+          // ignore whitespace
           _currentpos++;
         } else if (char.IsDigit(c)) {
           double number = ScanReal(ref _currentpos);

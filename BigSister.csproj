@@ -96,8 +96,8 @@
     <Compile Include="BotCommands\CmdUtil.cs" />
     <Compile Include="BotCommands\CmdZybez.cs" />
     <Compile Include="Core\DataBase.cs" />
-    <Compile Include="Core\Math2.cs" />
-    <Compile Include="Core\MathParser.cs" />
+    <Compile Include="Core\Math\Math2.cs" />
+    <Compile Include="Core\Math\MathParser.cs" />
     <Compile Include="Core\OrderedDictionary.cs" />
     <Compile Include="Core\Profile\Profile.cs" />
     <Compile Include="Core\Profile\XmlBuffer.cs" />
