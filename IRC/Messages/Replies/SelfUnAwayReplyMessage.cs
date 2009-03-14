@@ -8,11 +8,9 @@ namespace BigSister.Irc.Messages {
   public class SelfUnAwayMessage : NumericMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="SelfUnAwayMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="SelfUnAwayMessage"/> class. </summary>
     public SelfUnAwayMessage()
-      : base() {
-      this.InternalNumeric = 305;
+      : base(305) {
     }
 
     /// <summary>

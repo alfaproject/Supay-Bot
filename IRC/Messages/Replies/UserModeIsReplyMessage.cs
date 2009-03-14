@@ -8,11 +8,9 @@ namespace BigSister.Irc.Messages {
   public class UserModeIsReplyMessage : NumericMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="UserModeIsReplyMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="UserModeIsReplyMessage"/> class. </summary>
     public UserModeIsReplyMessage()
-      : base() {
-      this.InternalNumeric = 221;
+      : base(221) {
     }
 
     /// <summary>

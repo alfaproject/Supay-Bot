@@ -10,11 +10,9 @@ namespace BigSister.Irc.Messages {
     // :irc2.secsup.org 004 _aLfa_ irc2.secsup.org 2.8/hybrid-6.3.1 oOiwszcrkfydnxb biklmnopstve
 
     /// <summary>
-    /// Creates a new instance of the <see cref="ServerInfoMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="ServerInfoMessage"/> class. </summary>
     public ServerInfoMessage()
-      : base() {
-      this.InternalNumeric = 004;
+      : base(004) {
     }
 
     /// <summary>

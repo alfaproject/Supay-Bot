@@ -8,11 +8,9 @@ namespace BigSister.Irc.Messages {
   public class WhoIsEndReplyMessage : NumericMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="WhoIsEndReplyMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="WhoIsEndReplyMessage"/> class. </summary>
     public WhoIsEndReplyMessage()
-      : base() {
-      this.InternalNumeric = 318;
+      : base(318) {
     }
 
     /// <summary>

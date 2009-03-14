@@ -8,11 +8,9 @@ namespace BigSister.Irc.Messages {
   public class SilenceReplyMessage : NumericMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="SilenceReplyMessage"/>.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="SilenceReplyMessage"/>. </summary>
     public SilenceReplyMessage()
-      : base() {
-      this.InternalNumeric = 271;
+      : base(271) {
     }
 
     /// <summary>

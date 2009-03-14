@@ -9,11 +9,9 @@ namespace BigSister.Irc.Messages {
   public class WatchStatusReplyMessage : NumericMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="WatchStatusRequestMessage"/>.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="WatchStatusReplyMessage"/>. </summary>
     public WatchStatusReplyMessage()
-      : base() {
-      this.InternalNumeric = 603;
+      : base(603) {
     }
 
     /// <summary>

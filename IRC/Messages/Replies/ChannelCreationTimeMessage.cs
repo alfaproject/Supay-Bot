@@ -9,11 +9,9 @@ namespace BigSister.Irc.Messages {
   public class ChannelCreationTimeMessage : NumericMessage, IChannelTargetedMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="ChannelCreationTimeMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="ChannelCreationTimeMessage"/> class. </summary>
     public ChannelCreationTimeMessage()
-      : base() {
-      this.InternalNumeric = 329;
+      : base(329) {
     }
 
     /// <summary>

@@ -7,11 +7,9 @@ namespace BigSister.Irc.Messages {
   public class MonitorListEndReplyMessage : NumericMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="MonitorListReplyMessage"/>.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="MonitorListReplyMessage"/>. </summary>
     public MonitorListEndReplyMessage()
-      : base() {
-      this.InternalNumeric = 733;
+      : base(733) {
     }
 
     /// <summary>

@@ -9,11 +9,9 @@ namespace BigSister.Irc.Messages {
     // :irc.foxlink.net 710 #_aLfa_2 #_aLfa_2 _aLfa_!_aLfa_@12-255-177-172 :has asked for an invite.
 
     /// <summary>
-    /// Creates a new instance of the <see cref="KnockRequestMessage"/>.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="KnockRequestMessage"/>. </summary>
     public KnockRequestMessage()
-      : base() {
-      this.InternalNumeric = 710;
+      : base(710) {
     }
 
     /// <summary>

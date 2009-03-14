@@ -9,11 +9,9 @@ namespace BigSister.Irc.Messages {
   public class IrcxReplyMessage : NumericMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="IrcxReplyMessage"/>.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="IrcxReplyMessage"/>. </summary>
     public IrcxReplyMessage()
-      : base() {
-      this.InternalNumeric = 800;
+      : base(800) {
     }
 
     /// <summary>

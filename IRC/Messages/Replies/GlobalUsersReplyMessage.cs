@@ -9,11 +9,9 @@ namespace BigSister.Irc.Messages {
   public class GlobalUsersReplyMessage : NumericMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="GlobalUsersReplyMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="GlobalUsersReplyMessage"/> class. </summary>
     public GlobalUsersReplyMessage()
-      : base() {
-      this.InternalNumeric = 266;
+      : base(266) {
     }
 
     /// <summary>

@@ -10,11 +10,9 @@ namespace BigSister.Irc.Messages {
   public class MonitorListFullMessage : NumericMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="MonitorListFullMessage"/>.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="MonitorListFullMessage"/>. </summary>
     public MonitorListFullMessage()
-      : base() {
-      this.InternalNumeric = 734;
+      : base(734) {
     }
 
     /// <summary>

@@ -7,11 +7,9 @@ namespace BigSister.Irc.Messages {
   public class ListEndReplyMessage : NumericMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="ListEndReplyMessage"/>.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="ListEndReplyMessage"/>. </summary>
     public ListEndReplyMessage()
-      : base() {
-      this.InternalNumeric = 323;
+      : base(323) {
     }
 
     /// <summary>

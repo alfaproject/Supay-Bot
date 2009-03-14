@@ -8,11 +8,9 @@ namespace BigSister.Irc.Messages {
   public class TopicReplyMessage : NumericMessage, IChannelTargetedMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="TopicReplyMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="TopicReplyMessage"/> class. </summary>
     public TopicReplyMessage()
-      : base() {
-      this.InternalNumeric = 332;
+      : base(332) {
     }
 
     /// <summary>

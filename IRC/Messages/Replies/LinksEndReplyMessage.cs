@@ -8,11 +8,9 @@ namespace BigSister.Irc.Messages {
   public class LinksEndReplyMessage : NumericMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="LinksEndReplyMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="LinksEndReplyMessage"/> class. </summary>
     public LinksEndReplyMessage()
-      : base() {
-      this.InternalNumeric = 365;
+      : base(365) {
     }
 
     /// <summary>

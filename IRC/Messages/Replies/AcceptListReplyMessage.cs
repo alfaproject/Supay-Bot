@@ -10,11 +10,9 @@ namespace BigSister.Irc.Messages {
   public class AcceptListReplyMessage : NumericMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="AcceptListReplyMessage"/>.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="AcceptListReplyMessage"/>. </summary>
     public AcceptListReplyMessage()
-      : base() {
-      this.InternalNumeric = 281;
+      : base(281) {
     }
 
     /// <summary>

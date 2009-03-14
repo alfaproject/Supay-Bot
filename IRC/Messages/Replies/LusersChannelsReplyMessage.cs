@@ -9,11 +9,9 @@ namespace BigSister.Irc.Messages {
   public class LusersChannelsReplyMessage : NumericMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="LusersChannelsReplyMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="LusersChannelsReplyMessage"/> class. </summary>
     public LusersChannelsReplyMessage()
-      : base() {
-      this.InternalNumeric = 254;
+      : base(254) {
     }
 
     /// <summary>

@@ -8,11 +8,9 @@ namespace BigSister.Irc.Messages {
   public class BansEndReplyMessage : NumericMessage, IChannelTargetedMessage {
 
     /// <summary>
-    /// Creates a new instances of the <see cref="BansEndReplyMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="BansEndReplyMessage"/> class. </summary>
     public BansEndReplyMessage()
-      : base() {
-      this.InternalNumeric = 368;
+      : base(368) {
     }
 
     /// <summary>

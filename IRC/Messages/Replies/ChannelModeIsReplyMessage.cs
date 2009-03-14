@@ -8,11 +8,9 @@ namespace BigSister.Irc.Messages {
   public class ChannelModeIsReplyMessage : NumericMessage, IChannelTargetedMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="ChannelModeIsReplyMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="ChannelModeIsReplyMessage"/> class. </summary>
     public ChannelModeIsReplyMessage()
-      : base() {
-      this.InternalNumeric = 324;
+      : base(324) {
     }
 
     /// <summary>

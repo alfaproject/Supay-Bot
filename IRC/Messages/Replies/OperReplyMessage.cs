@@ -7,11 +7,9 @@ namespace BigSister.Irc.Messages {
   public class OperReplyMessage : NumericMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="OperReplyMessage"/> class
-    /// </summary>
+    ///   Creates a new instance of the <see cref="OperReplyMessage"/> class. </summary>
     public OperReplyMessage()
-      : base() {
-      this.InternalNumeric = 381;
+      : base(381) {
     }
 
     /// <summary>

@@ -9,11 +9,9 @@ namespace BigSister.Irc.Messages {
   public class UniqueIdMessage : NumericMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="UniqueIdMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="UniqueIdMessage"/> class. </summary>
     public UniqueIdMessage()
-      : base() {
-      this.InternalNumeric = 042;
+      : base(042) {
     }
 
     /// <summary>

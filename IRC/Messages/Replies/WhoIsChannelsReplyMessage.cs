@@ -8,11 +8,9 @@ namespace BigSister.Irc.Messages {
   public class WhoIsChannelsReplyMessage : NumericMessage, IChannelTargetedMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="WhoIsChannelsReplyMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="WhoIsChannelsReplyMessage"/> class. </summary>
     public WhoIsChannelsReplyMessage()
-      : base() {
-      this.InternalNumeric = 319;
+      : base(319) {
     }
 
     /// <summary>

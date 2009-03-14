@@ -7,11 +7,9 @@ namespace BigSister.Irc.Messages {
   public class ListStartReplyMessage : NumericMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="ListStartReplyMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="ListStartReplyMessage"/> class. </summary>
     public ListStartReplyMessage()
-      : base() {
-      this.InternalNumeric = 321;
+      : base(321) {
     }
 
     /// <summary>

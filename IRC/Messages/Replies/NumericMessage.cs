@@ -9,11 +9,26 @@ namespace BigSister.Irc.Messages {
   public abstract class NumericMessage : IrcMessage {
 
     /// <summary>
+    ///   Creates a new instance of the <see cref="NumericMessage"/> class with the numeric command. </summary>
+    /// <param name="internalNumeric">
+    ///   Numeric command of the Message. </param>
+    public NumericMessage(int internalNumeric)
+      : base() {
+      _internalNumeric = internalNumeric;
+    }
+
+    /// <summary>
+    ///   Creates a new instance of the <see cref="NumericMessage"/> class. </summary>
+    public NumericMessage()
+      : this(-1) {
+    }
+
+    /// <summary>
     /// Overrides <see cref="IrcMessage.AddParametersToFormat"/>
     /// </summary>
     protected override void AddParametersToFormat(IrcMessageWriter writer) {
       base.AddParametersToFormat(writer);
-      writer.AddParameter(this.internalNumeric.ToString("000", CultureInfo.InvariantCulture));
+      writer.AddParameter(_internalNumeric.ToString("000", CultureInfo.InvariantCulture));
       if (this.Target.Length != 0) {
         writer.AddParameter(this.Target);
       }
@@ -55,17 +70,16 @@ namespace BigSister.Irc.Messages {
     }
 
     /// <summary>
-    /// Gets the Numeric command of the Message
-    /// </summary>
+    ///   Gets the Numeric command of the Message. </summary>
     public virtual int InternalNumeric {
       get {
-        return internalNumeric;
+        return _internalNumeric;
       }
       protected set {
-        internalNumeric = value;
+        _internalNumeric = value;
       }
     }
-    private int internalNumeric = -1;
+    private int _internalNumeric;
 
     /// <summary>
     ///   Determines if the message can be parsed by this type. </summary>

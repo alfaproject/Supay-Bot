@@ -8,11 +8,9 @@ namespace BigSister.Irc.Messages {
   public class MotdStartReplyMessage : NumericMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="MotdStartReplyMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="MotdStartReplyMessage"/> class. </summary>
     public MotdStartReplyMessage()
-      : base() {
-      this.InternalNumeric = 375;
+      : base(375) {
     }
 
     private string info;

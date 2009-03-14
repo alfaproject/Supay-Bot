@@ -8,11 +8,9 @@ namespace BigSister.Irc.Messages {
   public class ChannelPropertyEndReplyMessage : NumericMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="ChannelPropertyEndReplyMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="ChannelPropertyEndReplyMessage"/> class. </summary>
     public ChannelPropertyEndReplyMessage()
-      : base() {
-      this.InternalNumeric = 819;
+      : base(819) {
     }
 
     /// <summary>

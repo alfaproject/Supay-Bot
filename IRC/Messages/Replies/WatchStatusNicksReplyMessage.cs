@@ -11,11 +11,9 @@ namespace BigSister.Irc.Messages {
     // :mesra.kl.my.dal.net 606 _aLfa_ :aLfBot2 aLfBot
 
     /// <summary>
-    /// Creates a new instance of the <see cref="WatchStatusNicksReplyMessage"/>.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="WatchStatusNicksReplyMessage"/>. </summary>
     public WatchStatusNicksReplyMessage()
-      : base() {
-      this.InternalNumeric = 606;
+      : base(606) {
     }
 
     /// <summary>

@@ -9,11 +9,9 @@ namespace BigSister.Irc.Messages {
   public class WelcomeMessage : NumericMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="WelcomeMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="WelcomeMessage"/> class. </summary>
     public WelcomeMessage()
-      : base() {
-      this.InternalNumeric = 001;
+      : base(001) {
     }
 
     /// <summary>

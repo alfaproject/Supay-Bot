@@ -8,11 +8,9 @@ namespace BigSister.Irc.Messages {
   public class ServerTimeReplyMessage : NumericMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="ServerTimeReplyMessage"/> class
-    /// </summary>
+    ///   Creates a new instance of the <see cref="ServerTimeReplyMessage"/> class </summary>
     public ServerTimeReplyMessage()
-      : base() {
-      this.InternalNumeric = 391;
+      : base(391) {
     }
 
     /// <summary>

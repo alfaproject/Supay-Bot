@@ -14,11 +14,9 @@ namespace BigSister.Irc.Messages {
   public class UnknownConnectionsMessage : NumericMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="UnknownConnectionsMessage"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="UnknownConnectionsMessage"/> class. </summary>
     public UnknownConnectionsMessage()
-      : base() {
-      this.InternalNumeric = 253;
+      : base(253) {
     }
 
     /// <summary>

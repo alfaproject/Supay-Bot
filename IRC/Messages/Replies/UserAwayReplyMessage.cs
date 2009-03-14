@@ -10,11 +10,9 @@ namespace BigSister.Irc.Messages {
   public class UserAwayMessage : NumericMessage {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="UserAwayMessage"/>.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="UserAwayMessage"/>. </summary>
     public UserAwayMessage()
-      : base() {
-      this.InternalNumeric = 301;
+      : base(301) {
     }
 
     /// <summary>
