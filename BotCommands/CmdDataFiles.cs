@@ -207,7 +207,7 @@ namespace BigSister {
       int results = 0;
       while (results < 2 && (fairy_line = fairy_file.ReadLine()) != null) {
         if (fairy_line.ToLowerInvariant().Contains(search_terms.ToLowerInvariant())) {
-          results += 1;
+          results++;
           string[] fairy = fairy_line.Split('|');
           bc.SendReply(string.Format("Code: \\c07{0}\\c | Location: \\c07{1}\\c | Nearby features: \\c07{2}\\c", fairy[0], fairy[1], fairy[2]));
         }
