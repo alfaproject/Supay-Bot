@@ -847,7 +847,7 @@ namespace BigSister.Irc {
       logUnimplementedMessage(e.Message);
     }
 
-    private void logUnimplementedMessage(IrcMessage msg) {
+    private static void logUnimplementedMessage(IrcMessage msg) {
       System.Diagnostics.Trace.WriteLine(msg.ToString(), "Unimplemented Message");
     }
 
