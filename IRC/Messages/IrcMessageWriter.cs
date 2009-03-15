@@ -60,14 +60,9 @@ namespace BigSister.Irc.Messages {
     /// <summary>
     ///   Gets or sets if a new line is appended to the end of messages when they are written. </summary>
     public bool AppendNewLine {
-      get {
-        return this.addNewLine;
-      }
-      set {
-        this.addNewLine = value;
-      }
+      get;
+      set;
     }
-    private bool addNewLine;
 
     #endregion
 
@@ -147,7 +142,7 @@ namespace BigSister.Irc.Messages {
         }
         this.writer.Write(lastParam);
       }
-      if (this.addNewLine) {
+      if (this.AppendNewLine) {
         this.writer.Write(System.Environment.NewLine);
       }
 
@@ -160,7 +155,7 @@ namespace BigSister.Irc.Messages {
     #region Helpers
 
     private void resetDefaults() {
-      this.addNewLine = true;
+      this.AppendNewLine = true;
       this.sender = null;
       this.parameters.Clear();
       this.listParams.Clear();
@@ -196,7 +191,7 @@ namespace BigSister.Irc.Messages {
 
     #region IDisposable Members
 
-    private bool disposed = false;
+    private bool disposed;
 
     /// <summary>
     /// Implements IDisposable.Dispose

@@ -9,28 +9,27 @@ namespace BigSister.Irc.Contacts {
   class ContactList : IDisposable {
 
     /// <summary>
-    /// Gets the collection of users being tracked as a contact list.
-    /// </summary>
+    ///   Gets the collection of users being tracked as a contact list. </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
     public UserCollection Users {
       get;
       private set;
     }
 
     /// <summary>
-    /// The client on which the list is tracked.
-    /// </summary>
+    ///   The client on which the list is tracked. </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
     public Client Client {
       get;
       private set;
     }
 
     /// <summary>
-    /// Initializes the ContactList on the given client.
-    /// </summary>
+    ///   Initializes the ContactList on the given client. </summary>
     /// <remarks>
-    /// This method should not be called until the Client receives the ServerSupport is populated.
-    /// An easy way to make sure is to wait until the Ready event of the Client.
-    /// </remarks>
+    ///   This method should not be called until the Client receives the ServerSupport is populated.
+    ///   An easy way to make sure is to wait until the Ready event of the Client. </remarks>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
     public void Initialize(Client client) {
       if (client == null) {
         throw new ArgumentNullException("client");
@@ -55,11 +54,10 @@ namespace BigSister.Irc.Contacts {
 
     #region IDisposable Members
 
-    private bool disposed = false;
+    private bool disposed;
 
     /// <summary>
-    /// Implements IDisposable.Dispose
-    /// </summary>
+    ///   Implements IDisposable.Dispose. </summary>
     public void Dispose() {
       this.Dispose(true);
       GC.SuppressFinalize(this);

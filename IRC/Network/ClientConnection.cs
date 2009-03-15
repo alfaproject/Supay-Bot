@@ -120,11 +120,9 @@ namespace BigSister.Irc.Network {
     }
 
     /// <summary>
-    /// Gets or sets the <see cref="ISynchronizeInvoke"/> implementor which will be used to synchronize threads and events.
-    /// </summary>
+    ///   Gets or sets the <see cref="ISynchronizeInvoke"/> implementor which will be used to synchronize threads and events. </summary>
     /// <remarks>
-    /// This is usually the main form of the application.
-    /// </remarks>
+    ///   This is usually the main form of the application. </remarks>
     public System.ComponentModel.ISynchronizeInvoke SynchronizationObject {
       get {
         return synchronizationObject;
@@ -460,7 +458,7 @@ namespace BigSister.Irc.Network {
     private StreamWriter chatWriter;
     private Thread connectionWorker;
 
-    private System.ComponentModel.ISynchronizeInvoke synchronizationObject = null;
+    private System.ComponentModel.ISynchronizeInvoke synchronizationObject;
     private delegate void SyncInvoke();
 
     #endregion

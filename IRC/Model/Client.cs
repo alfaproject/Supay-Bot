@@ -157,8 +157,8 @@ namespace BigSister.Irc {
     }
 
     /// <summary>
-    /// Gets the <see cref="BigSister.Irc.Contacts.ContactList" /> for this client.
-    /// </summary>
+    ///   Gets the <see cref="BigSister.Irc.Contacts.ContactList" /> for this client. </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
     public Contacts.ContactList Contacts {
       get;
       protected set;
@@ -359,8 +359,7 @@ namespace BigSister.Irc {
     #region Dispose
 
     /// <summary>
-    /// Releases the disposable resources used
-    /// </summary>
+    ///   Releases the disposable resources used. </summary>
     protected virtual void Dispose(bool disposing) {
       if (disposing) {
         if (this.Connection != null) {
@@ -374,6 +373,7 @@ namespace BigSister.Irc {
 
     void IDisposable.Dispose() {
       Dispose(true);
+      GC.SuppressFinalize(this);
     }
 
     /// <summary>
@@ -544,34 +544,30 @@ namespace BigSister.Irc {
       bool routed = false;
 
       IrcMessage ircMessage = e.Message;
-      if (ircMessage is IChannelTargetedMessage || ircMessage is IQueryTargetedMessage) {
 
+      if (ircMessage is IQueryTargetedMessage) {
         IQueryTargetedMessage queryMessage = ircMessage as IQueryTargetedMessage;
-        if (queryMessage != null) {
-          if (queryMessage.IsQueryToUser(this.User)) {
-            User msgSender = this.Peers.EnsureUser(ircMessage.Sender);
-            Query qry = this.Queries.EnsureQuery(msgSender, this);
-            qry.Journal.Add(new JournalEntry(ircMessage));
+        if (queryMessage.IsQueryToUser(this.User)) {
+          User msgSender = this.Peers.EnsureUser(ircMessage.Sender);
+          Query qry = this.Queries.EnsureQuery(msgSender, this);
+          qry.Journal.Add(new JournalEntry(ircMessage));
+          routed = true;
+        }
+      }
+
+      if (ircMessage is IChannelTargetedMessage) {
+        IChannelTargetedMessage channelMessage = ircMessage as IChannelTargetedMessage;
+        foreach (Channel channel in this.Channels) {
+          if (channelMessage.IsTargetedAtChannel(channel.Name)) {
+            channel.Journal.Add(new JournalEntry(ircMessage));
             routed = true;
           }
         }
-
-        IChannelTargetedMessage channelMessage = ircMessage as IChannelTargetedMessage;
-        if (channelMessage != null) {
-          foreach (Channel channel in this.Channels) {
-            if (channelMessage.IsTargetedAtChannel(channel.Name)) {
-              channel.Journal.Add(new JournalEntry(ircMessage));
-              routed = true;
-            }
-          }
-        }
-
       }
 
       if (!routed) {
         this.ServerQuery.Journal.Add(new JournalEntry(ircMessage));
       }
-
     }
 
     private void routeJoins(Object sender, IrcMessageEventArgs<JoinMessage> e) {
@@ -864,7 +860,7 @@ namespace BigSister.Irc {
 
     #region Private
 
-    private bool readyRaised = false;
+    private bool readyRaised;
     IrcMessageWriter writer = new IrcMessageWriter();
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]

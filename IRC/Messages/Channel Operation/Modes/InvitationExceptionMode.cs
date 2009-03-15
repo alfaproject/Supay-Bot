@@ -12,19 +12,18 @@ namespace BigSister.Irc.Messages.Modes {
     }
 
     /// <summary>
-    /// Creates a new instance of the <see cref="InvitationExceptionMode"/> class with the given <see cref="ModeAction"/>.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="InvitationExceptionMode"/> class with the given <see cref="ModeAction"/>. </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
     public InvitationExceptionMode(ModeAction action) {
-      this.Action = action;
+      base.Action = action;
     }
 
     /// <summary>
-    /// Creates a new instance of the <see cref="InvitationExceptionMode"/> class 
-    /// with the given <see cref="ModeAction"/> and <see cref="User"/>.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="InvitationExceptionMode"/> class 
+    ///   with the given <see cref="ModeAction"/> and <see cref="User"/>. </summary>
     public InvitationExceptionMode(ModeAction action, User mask) {
-      this.Action = action;
-      this.Mask = mask;
+      base.Action = action;
+      base.Mask = mask;
     }
 
     /// <summary>

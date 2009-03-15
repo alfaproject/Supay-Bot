@@ -4,6 +4,7 @@ using BigSister.Irc.Messages;
 namespace BigSister.Irc.Contacts {
   internal class ContactsMonitorTracker : ContactsTracker {
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
     public ContactsMonitorTracker(ContactList contacts)
       : base(contacts) {
     }

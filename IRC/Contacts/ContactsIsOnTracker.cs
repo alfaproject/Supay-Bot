@@ -5,6 +5,7 @@ using BigSister.Irc.Messages;
 namespace BigSister.Irc.Contacts {
   internal class ContactsIsOnTracker : ContactsTracker, IDisposable {
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
     public ContactsIsOnTracker(ContactList contacts)
       : base(contacts) {
     }
@@ -82,7 +83,7 @@ namespace BigSister.Irc.Contacts {
 
     #region IDisposable Members
 
-    private bool disposed = false;
+    private bool disposed;
 
     public void Dispose() {
       this.Dispose(true);

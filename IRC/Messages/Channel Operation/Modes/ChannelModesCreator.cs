@@ -14,8 +14,8 @@ namespace BigSister.Irc.Messages.Modes {
     }
 
     /// <summary>
-    /// A <see cref="BigSister.Irc.ServerSupport"/> instance is required in order to parse non-standard modes.
-    /// </summary>
+    ///   A <see cref="BigSister.Irc.ServerSupport"/> instance is required in order to parse non-standard modes. </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
     public BigSister.Irc.ServerSupport ServerSupport {
       get {
         return this.serverSupports;
@@ -152,8 +152,8 @@ namespace BigSister.Irc.Messages.Modes {
     }
 
     /// <summary>
-    /// Loads the given mode data into this <see cref="ChannelModesCreator"/>
-    /// </summary>
+    ///   Loads the given mode data into this <see cref="ChannelModesCreator"/>. </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
     public void Parse(ChannelModeMessage msg) {
       if (msg == null) {
         return;
@@ -162,8 +162,8 @@ namespace BigSister.Irc.Messages.Modes {
     }
 
     /// <summary>
-    /// Loads the given mode data into this <see cref="ChannelModesCreator"/>
-    /// </summary>
+    ///   Loads the given mode data into this <see cref="ChannelModesCreator"/>. </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
     public void Parse(string modeChanges) {
       if (string.IsNullOrEmpty(modeChanges)) {
         return;

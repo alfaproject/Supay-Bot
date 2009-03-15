@@ -11,10 +11,10 @@ namespace BigSister.Irc.Messages.Modes {
     }
 
     /// <summary>
-    /// Creates a new instance of the <see cref="HalfOpMode"/> class with the given <see cref="ModeAction"/>.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="HalfOpMode"/> class with the given <see cref="ModeAction"/>. </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
     public HalfOpMode(ModeAction action) {
-      this.Action = action;
+      base.Action = action;
     }
 
     /// <summary>
@@ -22,8 +22,8 @@ namespace BigSister.Irc.Messages.Modes {
     /// with the given <see cref="ModeAction"/> and member's nick.
     /// </summary>
     public HalfOpMode(ModeAction action, string nick) {
-      this.Action = action;
-      this.Nick = nick;
+      base.Action = action;
+      base.Nick = nick;
     }
 
     /// <summary>

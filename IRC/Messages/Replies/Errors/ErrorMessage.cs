@@ -10,6 +10,7 @@ namespace BigSister.Irc.Messages {
     ///   Creates a new instance of the <see cref="ErrorMessage"/> class with the numeric command. </summary>
     /// <param name="internalNumeric">
     ///   Numeric command of the Message. </param>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
     public ErrorMessage(int internalNumeric)
       : base() {
       this.InternalNumeric = internalNumeric;

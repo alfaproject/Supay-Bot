@@ -26,11 +26,14 @@ namespace BigSister.Irc.Messages {
     }
 
     /// <summary>
-    /// Creates a new instance of the ChannelModeMessage class and applies the given parameters.
-    /// </summary>
-    /// <param name="channel">The name of the channel being affected.</param>
-    /// <param name="modeChanges">The mode changes being applied.</param>
-    /// <param name="modeArguments">The arguments ( parameters ) for the <see cref="ChannelModeMessage.ModeChanges"/> property.</param>
+    ///   Creates a new instance of the ChannelModeMessage class and applies the given parameters. </summary>
+    /// <param name="channel">
+    ///   The name of the channel being affected. </param>
+    /// <param name="modeChanges">
+    ///   The mode changes being applied. </param>
+    /// <param name="modeArguments">
+    ///   The arguments (parameters) for the <see cref="ChannelModeMessage.ModeChanges"/> property. </param>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
     public ChannelModeMessage(string channel, string modeChanges, params string[] modeArguments) {
       this.channel = channel;
       this.modeChanges = modeChanges;

@@ -6,7 +6,7 @@ using System.Security.Permissions;
 namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Exception thrown when a message parsed from a string is invalid. </summary>
-  [Serializable()]
+  [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1064:ExceptionsShouldBePublic"), Serializable()]
   class InvalidMessageException : Exception, ISerializable {
 
     /// <summary>
@@ -25,8 +25,8 @@ namespace BigSister.Irc.Messages {
     }
 
     /// <summary>
-    /// Intializes a new instance of the InvalidMessageException class with the given message and inner exception.
-    /// </summary>
+    ///   Initializes a new instance of the InvalidMessageException class with the given message and inner exception. </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
     public InvalidMessageException(string message, Exception innerException)
       : base(message, innerException) {
     }

@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 namespace BigSister.Irc.Contacts {
   internal abstract class ContactsTracker {
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
     public ContactsTracker(ContactList contacts) {
       this.contacts = contacts;
       this.contacts.Users.CollectionChanged += new NotifyCollectionChangedEventHandler(Users_CollectionChanged);

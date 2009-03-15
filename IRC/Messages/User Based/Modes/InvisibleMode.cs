@@ -10,10 +10,9 @@ namespace BigSister.Irc.Messages.Modes {
     }
 
     /// <summary>
-    /// Creates a new instance of the <see cref="InvisibleMode"/> class with the given <see cref="ModeAction"/>.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="InvisibleMode"/> class with the given <see cref="ModeAction"/>. </summary>
     public InvisibleMode(ModeAction action) {
-      this.Action = action;
+      base.Action = action;
     }
 
     /// <summary>

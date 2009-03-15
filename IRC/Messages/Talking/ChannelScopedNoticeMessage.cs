@@ -22,16 +22,16 @@ namespace BigSister.Irc.Messages {
     }
 
     /// <summary>
-    /// Creates a new instance of the <see cref="ChannelScopedNoticeMessage"/> class with the given text string.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="ChannelScopedNoticeMessage"/> class with the given text string. </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
     public ChannelScopedNoticeMessage(string text)
       : base() {
       this.Text = text;
     }
 
     /// <summary>
-    /// Creates a new instance of the <see cref="ChannelScopedNoticeMessage"/> class with the given text string and target channel or user.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="ChannelScopedNoticeMessage"/> class with the given text string and target channel or user. </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
     public ChannelScopedNoticeMessage(string text, string target)
       : this(text) {
       this.Target = target;
@@ -51,8 +51,7 @@ namespace BigSister.Irc.Messages {
     }
 
     /// <summary>
-    /// Gets or sets the actual text of this message.
-    /// </summary>
+    ///   Gets or sets the actual text of this message. </summary>
     public virtual string Text {
       get {
         return this.text;
@@ -67,8 +66,7 @@ namespace BigSister.Irc.Messages {
     private string text = string.Empty;
 
     /// <summary>
-    /// Gets or sets the target of this message.
-    /// </summary>
+    ///   Gets or sets the target of this message. </summary>
     public virtual string Target {
       get {
         return this.target;

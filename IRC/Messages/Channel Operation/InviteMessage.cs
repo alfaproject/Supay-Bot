@@ -19,10 +19,12 @@ namespace BigSister.Irc.Messages {
     }
 
     /// <summary>
-    /// Creates a new instance of the <see cref="InviteMessage"/> class with the given channel and nick.
-    /// </summary>
-    /// <param name="channel">The channel the person is being invited into.</param>
-    /// <param name="nick">The nick of the user invited</param>
+    ///   Creates a new instance of the <see cref="InviteMessage"/> class with the given channel and nick. </summary>
+    /// <param name="channel">
+    ///   The channel the person is being invited into. </param>
+    /// <param name="nick">
+    ///   The nick of the user invited. </param>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
     public InviteMessage(string channel, string nick) {
       this.channel = channel;
       this.nick = nick;
