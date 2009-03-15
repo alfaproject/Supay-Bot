@@ -29,8 +29,8 @@ namespace BigSister.Irc.Messages {
     }
 
     /// <summary>
-    /// Unescapes the given text for use outside a ctcp message.
-    /// </summary>
+    ///   Unescapes the given text for use outside a ctcp message. </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Unescape")]
     public static string Unescape(string text) {
       string escaper = '\x0014'.ToString();
       string NUL = '\x0000'.ToString();

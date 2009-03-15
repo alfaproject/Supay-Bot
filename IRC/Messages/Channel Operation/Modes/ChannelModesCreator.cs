@@ -174,8 +174,8 @@ namespace BigSister.Irc.Messages.Modes {
     #endregion
 
     /// <summary>
-    /// Removes redundant or overridden modes from the modes collection.
-    /// </summary>
+    ///   Removes redundant or overridden modes from the modes collection. </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
     private void CollapseModes() {
       //TODO Implement CollapseModes
     }
