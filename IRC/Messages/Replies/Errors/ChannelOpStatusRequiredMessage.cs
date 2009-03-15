@@ -8,7 +8,7 @@ namespace BigSister.Irc.Messages {
   /// <remarks>
   ///   Channel-operator status is set with the OperatorMode of the ChannelModeMessage. </remarks>
   [Serializable]
-  public class ChannelOperatorStatusRequiredMessage : ErrorMessage, IChannelTargetedMessage {
+  class ChannelOperatorStatusRequiredMessage : ErrorMessage, IChannelTargetedMessage {
     //:irc.dkom.at 482 _aLfa_ #aLfBot :You're not channel operator
 
     /// <summary>

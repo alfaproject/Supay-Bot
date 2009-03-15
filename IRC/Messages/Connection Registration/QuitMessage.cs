@@ -8,7 +8,7 @@ namespace BigSister.Irc.Messages {
   ///   The server must close the connection to a client which sends a QuitMessage.
   ///   If a <see cref="QuitMessage.Reason"/> is given, this will be sent instead of the default message, the nickname. </remarks>
   [Serializable]
-  public class QuitMessage : CommandMessage {
+  class QuitMessage : CommandMessage {
 
     /// <summary>
     /// Creates a new instance of the QuitMessage class.

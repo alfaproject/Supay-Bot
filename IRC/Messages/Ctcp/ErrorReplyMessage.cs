@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   This reply should be sent whenever a client receives a <see cref="CtcpRequestMessage"/> that is not understood or is malformed. </summary>
   [Serializable]
-  public class ErrorReplyMessage : CtcpReplyMessage {
+  class ErrorReplyMessage : CtcpReplyMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="ErrorReplyMessage"/> class.

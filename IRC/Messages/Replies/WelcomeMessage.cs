@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   ///   The WelcomeMessage is sent from a server to a client as the first message 
   ///   once the client is registered. </summary>
   [Serializable]
-  public class WelcomeMessage : NumericMessage {
+  class WelcomeMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="WelcomeMessage"/> class. </summary>

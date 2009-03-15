@@ -1,7 +1,7 @@
 namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   The modes in this category have a channel member nickname property, <see cref="MemberStatusMode.Nick"/> and affect the privileges given to this user. </summary>
-  public abstract class MemberStatusMode : ChannelMode {
+  abstract class MemberStatusMode : ChannelMode {
 
     /// <summary>
     /// Gets or sets the nickname of the channel member who will be affected by this mode.

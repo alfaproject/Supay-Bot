@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Requests that the server send its Message Of The Day to the client. </summary>
   [Serializable]
-  public class MotdMessage : ServerQueryBase {
+  class MotdMessage : ServerQueryBase {
 
     /// <summary>
     /// Gets the Irc command associated with this message.

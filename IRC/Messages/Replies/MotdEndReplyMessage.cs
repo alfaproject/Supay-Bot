@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Signifies the end of the motd sent by the server. </summary>
   [Serializable]
-  public class MotdEndReplyMessage : NumericMessage {
+  class MotdEndReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="MotdEndReplyMessage"/> class. </summary>

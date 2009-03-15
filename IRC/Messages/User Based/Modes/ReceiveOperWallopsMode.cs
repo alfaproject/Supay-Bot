@@ -1,7 +1,7 @@
 namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   This mode signifies that the user will receive debug messages. </summary>
-  public class ReceiveOperWallopsMode : UserMode {
+  class ReceiveOperWallopsMode : UserMode {
 
     /// <summary>
     /// Creates a new instance of the <see cref="ReceiveOperWallopsMode"/> class.

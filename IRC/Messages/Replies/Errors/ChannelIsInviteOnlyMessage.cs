@@ -7,7 +7,7 @@ namespace BigSister.Irc.Messages {
   /// <remarks>
   ///   A channel can be set invite-only with a ChannelModeMessage containing a InviteOnlyMode. </remarks>
   [Serializable]
-  public class ChannelIsInviteOnlyMessage : ErrorMessage, IChannelTargetedMessage {
+  class ChannelIsInviteOnlyMessage : ErrorMessage, IChannelTargetedMessage {
     //:irc.dkom.at 473 _aLfa_ #chaos :Cannot join channel (+i)
 
     /// <summary>

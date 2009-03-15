@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Signals the end of replies to a Watch system query. </summary>
   [Serializable]
-  public class WatchListEndReplyMessage : NumericMessage {
+  class WatchListEndReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="WatchListEndReplyMessage"/>. </summary>

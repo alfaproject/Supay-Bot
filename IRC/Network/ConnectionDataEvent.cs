@@ -3,7 +3,7 @@ using System;
 namespace BigSister.Irc.Network {
   /// <summary>
   ///   Provides data for connection events that carry a data payload. </summary>
-  public class ConnectionDataEventArgs : EventArgs {
+  class ConnectionDataEventArgs : EventArgs {
 
     /// <summary>
     /// Initializes a new instance of the ConnectionDataEventArgs class with the given data.

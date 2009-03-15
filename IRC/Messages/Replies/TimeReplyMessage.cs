@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   This is the reply to the <see cref="TimeMessage"/> server query. </summary>
   [Serializable]
-  public class ServerTimeReplyMessage : NumericMessage {
+  class ServerTimeReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="ServerTimeReplyMessage"/> class </summary>

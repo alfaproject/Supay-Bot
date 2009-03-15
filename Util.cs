@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 
 namespace BigSister {
-  public class Util {
+  class Util {
 
     public static bool TryCalc(string s, out double result_value) {
       result_value = 0;

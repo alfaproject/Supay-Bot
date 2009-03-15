@@ -2,7 +2,7 @@ namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   This mode is used to toggle the half-operator status of a channel member. </summary>
   [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Op")]
-  public class HalfOpMode : MemberStatusMode {
+  class HalfOpMode : MemberStatusMode {
 
     /// <summary>
     /// Creates a new instance of the <see cref="HalfOpMode"/> class.

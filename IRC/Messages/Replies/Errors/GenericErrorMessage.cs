@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Represents an error message with a numeric command that is either unparsable or unimplemented. </summary>
   [Serializable]
-  public class GenericErrorMessage : ErrorMessage {
+  class GenericErrorMessage : ErrorMessage {
 
     /// <summary>
     /// Gets or sets the Numeric command of the Message

@@ -9,7 +9,7 @@ namespace BigSister.Irc.Messages {
   ///   A channel can require a key with the ChannelModeMessage with a KeyMode.
   ///   The key must be set on the JoinMessage to join such channels. </remarks>
   [Serializable]
-  public class ChannelRequiresRegisteredNickMessage : ErrorMessage, IChannelTargetedMessage {
+  class ChannelRequiresRegisteredNickMessage : ErrorMessage, IChannelTargetedMessage {
     //:irc.dkom.at 477 _aLfa_ #chaos :You need a registered nick to join that channel.
 
     /// <summary>

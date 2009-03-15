@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The ErrorMessage sent when a command is sent to a server which didn't recognize it. </summary>
   [Serializable]
-  public class UnknownCommandMessage : ErrorMessage {
+  class UnknownCommandMessage : ErrorMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="TooManyLinesMessage"/> class. </summary>

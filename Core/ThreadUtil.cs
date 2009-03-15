@@ -2,7 +2,7 @@
 using System.Threading;
 
 namespace BigSister {
-  public class ThreadUtil {
+  class ThreadUtil {
 
     /// <summary>
     ///   Delegate to wrap another delegate and its arguments. </summary>

@@ -7,7 +7,7 @@ namespace BigSister.Irc.Messages {
   ///   A Monitor system error message informing the user which nicks couldn't be added 
   ///   to their monitor list because it is full. </summary>
   [Serializable]
-  public class MonitorListFullMessage : NumericMessage {
+  class MonitorListFullMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="MonitorListFullMessage"/>. </summary>

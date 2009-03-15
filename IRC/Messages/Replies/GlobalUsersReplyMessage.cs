@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   This message indicates the number of network-wide users. </summary>
   [Serializable]
-  public class GlobalUsersReplyMessage : NumericMessage {
+  class GlobalUsersReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="GlobalUsersReplyMessage"/> class. </summary>

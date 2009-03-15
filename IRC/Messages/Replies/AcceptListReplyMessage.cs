@@ -7,7 +7,7 @@ namespace BigSister.Irc.Messages {
   /// <remarks>
   ///   You may receive more than 1 of these in response to the request. </remarks>
   [Serializable]
-  public class AcceptListReplyMessage : NumericMessage {
+  class AcceptListReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="AcceptListReplyMessage"/>. </summary>

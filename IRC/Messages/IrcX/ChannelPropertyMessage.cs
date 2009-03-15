@@ -12,7 +12,7 @@ namespace BigSister.Irc.Messages {
   ///   </p>
   ///   <p>This command is only effective for an IrcX enabled server.</p> </remarks>
   [Serializable]
-  public class ChannelPropertyMessage : CommandMessage {
+  class ChannelPropertyMessage : CommandMessage {
 
     /// <summary>
     /// Creates a new instance of the ChannelPropertyMessage class.

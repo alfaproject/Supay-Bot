@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Requests information about the nicks supplied in the Nick property. </summary>
   [Serializable]
-  public class UserHostMessage : CommandMessage {
+  class UserHostMessage : CommandMessage {
 
     /// <summary>
     /// Gets the Irc command associated with this message.

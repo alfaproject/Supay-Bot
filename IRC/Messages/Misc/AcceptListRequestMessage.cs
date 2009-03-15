@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A CallerId/Accept system message that requests the nicks of the users on your accept list. </summary>
   [Serializable]
-  public class AcceptListRequestMessage : CommandMessage {
+  class AcceptListRequestMessage : CommandMessage {
 
     /// <summary>
     /// Gets the Irc command associated with this message.

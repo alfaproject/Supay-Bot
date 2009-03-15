@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Returned from the server in response to a WhoWasMessage to indicate there is no history information for that nick. </summary>
   [Serializable]
-  public class WasNoSuchNickMessage : ErrorMessage {
+  class WasNoSuchNickMessage : ErrorMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="WasNoSuchNickMessage"/> class. </summary>

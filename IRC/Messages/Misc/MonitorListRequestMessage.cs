@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A Monitor system message that requests the list of nicks currently being monitored. </summary>
   [Serializable]
-  public class MonitorListRequestMessage : MonitorMessage {
+  class MonitorListRequestMessage : MonitorMessage {
 
     /// <summary>
     ///   Determines if the message can be parsed by this type. </summary>

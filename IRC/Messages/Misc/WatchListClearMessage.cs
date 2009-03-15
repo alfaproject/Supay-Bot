@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A Message that clears the list of users on your watch list. </summary>
   [Serializable]
-  public class WatchListClearMessage : WatchMessage {
+  class WatchListClearMessage : WatchMessage {
 
     #region Parsing
 

@@ -9,7 +9,7 @@ using BigSister.Irc.Network;
 namespace BigSister.Irc {
   /// <summary>
   ///   Represents a single irc channel, with it's users. </summary>
-  public class Channel : INotifyPropertyChanged {
+  class Channel : INotifyPropertyChanged {
 
     private Client _client;
     private UserCollection _users = new UserCollection();

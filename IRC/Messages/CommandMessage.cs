@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The base for all message which send a text command. </summary>
   [Serializable]
-  public abstract class CommandMessage : IrcMessage {
+  abstract class CommandMessage : IrcMessage {
 
     /// <summary>
     /// Gets the Irc command associated with this message.

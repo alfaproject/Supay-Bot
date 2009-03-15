@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   ///   The ErrorMessage received when the client attempts to remove a nick from his accept list
   ///   when that nick does not exist on the list. </summary>
   [Serializable]
-  public class AcceptDoesNotExistMessage : ErrorMessage {
+  class AcceptDoesNotExistMessage : ErrorMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="AcceptDoesNotExistMessage"/> class. </summary>

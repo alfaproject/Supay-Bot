@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 namespace BigSister.Irc {
   /// <summary>
   ///   The journal of messages and related information related to an irc channel or query. </summary>
-  public class Journal : ObservableCollection<JournalEntry> {
+  class Journal : ObservableCollection<JournalEntry> {
 
     /// <summary>
     ///   Creates a new instance of the Journal class. </summary>

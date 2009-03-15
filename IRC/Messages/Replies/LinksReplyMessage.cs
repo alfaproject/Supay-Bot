@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The reply to the <see cref="LinksMessage"/> query. </summary>
   [Serializable]
-  public class LinksReplyMessage : NumericMessage {
+  class LinksReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="LinksReplyMessage"/>. </summary>

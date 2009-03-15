@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The message received informing the user of a channel's creation time. </summary>
   [Serializable]
-  public class ChannelCreationTimeMessage : NumericMessage, IChannelTargetedMessage {
+  class ChannelCreationTimeMessage : NumericMessage, IChannelTargetedMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="ChannelCreationTimeMessage"/> class. </summary>

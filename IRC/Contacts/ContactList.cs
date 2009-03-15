@@ -6,7 +6,7 @@ namespace BigSister.Irc.Contacts {
   /// <remarks>
   ///   The ContactList will use Watch, Monitor, or IsOn, depending on server support. User status changes 
   ///   will be updated via the User.OnlineStatus property. </remarks>
-  public class ContactList : IDisposable {
+  class ContactList : IDisposable {
 
     /// <summary>
     /// Gets the collection of users being tracked as a contact list.

@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Used to indicate the nickname parameter supplied to a command is currently unused. </summary>
   [Serializable]
-  public class NoSuchNickMessage : ErrorMessage {
+  class NoSuchNickMessage : ErrorMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="NoSuchNickMessage"/> class. </summary>

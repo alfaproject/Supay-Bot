@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   ///   This message is received from the server when it acknowledges a client's
   ///   <see cref="BackMessage"/>. </summary>
   [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Un"), Serializable]
-  public class SelfUnAwayMessage : NumericMessage {
+  class SelfUnAwayMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="SelfUnAwayMessage"/> class. </summary>

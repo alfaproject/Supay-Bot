@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A Message that edits the list of users on your accept list. </summary>
   [Serializable]
-  public class AcceptListEditorMessage : CommandMessage {
+  class AcceptListEditorMessage : CommandMessage {
 
     /// <summary>
     /// Gets the Irc command associated with this message.

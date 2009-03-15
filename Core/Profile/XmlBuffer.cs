@@ -15,7 +15,7 @@ namespace BigSister {
   ///   Since an XmlProfile object can only have one buffer attached to it at a time, this class may not
   ///   be instanciated directly.  Instead, use the <see cref="XmlProfile.Buffer(bool)" /> method of the profile object. </para></remarks>
   /// <seealso cref="XmlProfile.Buffer(bool)" />
-  public class XmlBuffer : IDisposable {
+  class XmlBuffer : IDisposable {
 
     private XmlProfile _profile;
     private XmlDocument _doc;

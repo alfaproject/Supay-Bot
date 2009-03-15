@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The ErrorMessage sent when a TextMessage is sent with an empty Text property. </summary>
   [Serializable]
-  public class NoTextToSendMessage : ErrorMessage {
+  class NoTextToSendMessage : ErrorMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="NoTextToSendMessage"/> class. </summary>

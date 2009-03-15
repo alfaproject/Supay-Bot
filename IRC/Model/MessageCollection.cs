@@ -6,7 +6,7 @@ namespace BigSister.Irc {
   /// <summary>
   ///   A collection that stores <see cref='BigSister.Irc.Messages.IrcMessage'/> objects. </summary>
   [Serializable()]
-  public class MessageCollection : ObservableCollection<IrcMessage> {
+  class MessageCollection : ObservableCollection<IrcMessage> {
 
   }
 }

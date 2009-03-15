@@ -9,7 +9,7 @@ namespace BigSister.Irc.Messages {
   ///   all other servers automatically add the user to the channel when it is received from other servers.
   ///   This message wraps the JOIN command. </remarks>
   [Serializable]
-  public class JoinMessage : CommandMessage, IChannelTargetedMessage {
+  class JoinMessage : CommandMessage, IChannelTargetedMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="JoinMessage"/> class.

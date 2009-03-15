@@ -9,7 +9,7 @@ namespace BigSister.Irc.Messages {
   ///   Only a channel operator may kick another user out of a channel.
   ///   This message wraps the KICK message. </remarks>
   [Serializable]
-  public class KickMessage : CommandMessage, IChannelTargetedMessage {
+  class KickMessage : CommandMessage, IChannelTargetedMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="KickMessage"/> class.

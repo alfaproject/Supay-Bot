@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Sent to a user who sends a PingMessage which doesn't have a valid origin. </summary>
   [Serializable]
-  public class NoPingOriginSpecifiedMessage : ErrorMessage {
+  class NoPingOriginSpecifiedMessage : ErrorMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="NoPingOriginSpecifiedMessage"/> class. </summary>

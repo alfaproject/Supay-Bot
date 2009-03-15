@@ -1,7 +1,7 @@
 namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   This mode signifies that the user is an operator on the current server. </summary>
-  public class ServerOperatorMode : UserMode {
+  class ServerOperatorMode : UserMode {
 
     /// <summary>
     /// Creates a new instance of the <see cref="ServerOperatorMode"/> class.

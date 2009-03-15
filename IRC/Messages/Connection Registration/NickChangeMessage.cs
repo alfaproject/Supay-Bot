@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   NickChangeMessage is used to give a user a nickname or change the previous one. </summary>
   [Serializable]
-  public class NickChangeMessage : CommandMessage {
+  class NickChangeMessage : CommandMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="NickChangeMessage"/> class.

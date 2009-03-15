@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   An unknown <see cref="CtcpReplyMessage"/>. </summary>
   [Serializable]
-  public class GenericCtcpReplyMessage : CtcpReplyMessage {
+  class GenericCtcpReplyMessage : CtcpReplyMessage {
 
     /// <summary>
     /// Gets or sets the information packaged with the ctcp command.

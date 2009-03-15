@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 
 namespace BigSister {
-  public abstract class ASkillItem {
+  abstract class ASkillItem {
 
     protected ASkillItem(string[] tokens) {
       this.Skill = tokens[0];

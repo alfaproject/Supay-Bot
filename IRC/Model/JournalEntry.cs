@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace BigSister.Irc {
   /// <summary>
   ///   A single entry in the journal of messages and related information related to an irc channel or query. </summary>
-  public class JournalEntry : INotifyPropertyChanged {
+  class JournalEntry : INotifyPropertyChanged {
 
     private DateTime _time;
     private Object _item;

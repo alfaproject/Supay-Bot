@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A single reply to the <see cref="NamesMessage"/> query. </summary>
   [Serializable]
-  public class NamesReplyMessage : NumericMessage, IChannelTargetedMessage {
+  class NamesReplyMessage : NumericMessage, IChannelTargetedMessage {
 
     /// <summary>
     /// The list of channel visibility settings for the <see cref="NamesReplyMessage"/>.

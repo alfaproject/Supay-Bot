@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Returned when a <see cref="NickChangeMessage"/> is processed that results in an attempt to change to a currently existing nickname. </summary>
   [Serializable]
-  public class NickInUseMessage : ErrorMessage {
+  class NickInUseMessage : ErrorMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="NickInUseMessage"/> class. </summary>

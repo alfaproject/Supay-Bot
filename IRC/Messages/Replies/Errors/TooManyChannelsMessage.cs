@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Sent to a user when they have joined the maximum number of allowed channels and they try to join another channel. </summary>
   [Serializable]
-  public class TooManyChannelsMessage : ErrorMessage, IChannelTargetedMessage {
+  class TooManyChannelsMessage : ErrorMessage, IChannelTargetedMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="TooManyChannelsMessage"/> class. </summary>

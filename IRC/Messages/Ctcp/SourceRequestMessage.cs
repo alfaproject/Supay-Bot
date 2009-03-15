@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A request to know where the target's client be downloaded from. </summary>
   [Serializable]
-  public class SourceRequestMessage : CtcpRequestMessage {
+  class SourceRequestMessage : CtcpRequestMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="SourceRequestMessage"/> class. </summary>

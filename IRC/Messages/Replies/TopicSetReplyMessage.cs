@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The reply sent when the server acknowledges that a channel's topic has been changed. </summary>
   [Serializable]
-  public class TopicSetReplyMessage : NumericMessage, IChannelTargetedMessage {
+  class TopicSetReplyMessage : NumericMessage, IChannelTargetedMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="TopicSetReplyMessage"/> class. </summary>

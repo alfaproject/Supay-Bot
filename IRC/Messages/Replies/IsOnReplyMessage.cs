@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The server reply to an <see cref="IsOnMessage"/>. </summary>
   [Serializable]
-  public class IsOnReplyMessage : NumericMessage {
+  class IsOnReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="IsOnReplyMessage"/> class. </summary>

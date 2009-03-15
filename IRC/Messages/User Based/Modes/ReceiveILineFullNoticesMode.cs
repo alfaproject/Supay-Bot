@@ -1,7 +1,7 @@
 namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   This mode signifies that the user will receive 'I-line is full' messages. </summary>
-  public class ReceiveILineFullNoticesMode : UserMode {
+  class ReceiveILineFullNoticesMode : UserMode {
 
     /// <summary>
     /// Creates a new instance of the <see cref="ReceiveILineFullNoticesMode"/> class.

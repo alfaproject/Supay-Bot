@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace BigSister {
-  public abstract class Hiscore : IFormattable {
+  abstract class Hiscore : IFormattable {
 
     public Hiscore() {
     }

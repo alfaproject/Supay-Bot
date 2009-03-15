@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Marks the start of the replies to the <see cref="ListMessage"/> query. </summary>
   [Serializable]
-  public class ListStartReplyMessage : NumericMessage {
+  class ListStartReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="ListStartReplyMessage"/> class. </summary>

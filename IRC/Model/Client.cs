@@ -11,7 +11,7 @@ namespace BigSister.Irc {
   /// <remarks>
   ///   A gui frontend should use one instance of these per client/server <see cref="ClientConnection"/> it wants to make. </remarks>
   [System.ComponentModel.DesignerCategory("Code")]
-  public class Client : IDisposable {
+  class Client : IDisposable {
 
     #region Constructors
 

@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   I see no real need for this message... but it should generate an <see cref="ErrorReplyMessage"/> from the target. </summary>
   [Serializable]
-  public class ErrorRequestMessage : CtcpRequestMessage {
+  class ErrorRequestMessage : CtcpRequestMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="ErrorRequestMessage"/> class.

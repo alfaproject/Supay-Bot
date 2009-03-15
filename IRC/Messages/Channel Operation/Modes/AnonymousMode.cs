@@ -7,7 +7,7 @@ namespace BigSister.Irc.Messages.Modes {
   ///   and the origin is a user, then it MUST be masked. 
   ///   To mask the message, the origin is changed to "anonymous!anonymous@anonymous."
   ///   </p> </remarks>
-  public class AnonymousMode : FlagMode {
+  class AnonymousMode : FlagMode {
 
     /// <summary>
     /// Creates a new instance of the <see cref="AnonymousMode"/> class.

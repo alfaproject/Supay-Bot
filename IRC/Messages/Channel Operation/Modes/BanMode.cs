@@ -1,7 +1,7 @@
 namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   This mode defines a mask for users not allowed to join a channel. </summary>
-  public class BanMode : AccessControlMode {
+  class BanMode : AccessControlMode {
 
     /// <summary>
     /// Creates a new instance of the <see cref="BanMode"/> class.

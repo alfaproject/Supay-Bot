@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The ErrorMessage sent when a user tries to change his nick too many times too quickly. </summary>
   [Serializable]
-  public class NickChangeTooFastMessage : ErrorMessage {
+  class NickChangeTooFastMessage : ErrorMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="NickChangeTooFastMessage"/> class. </summary>

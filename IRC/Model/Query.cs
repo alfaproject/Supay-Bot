@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace BigSister.Irc {
   /// <summary>
   ///   Represents a query window for private chat with one User. </summary>
-  public class Query : INotifyPropertyChanged {
+  class Query : INotifyPropertyChanged {
 
     #region CTor
 

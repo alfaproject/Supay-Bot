@@ -8,7 +8,7 @@ namespace BigSister.Irc.Messages {
   ///   Modes include such things as channel user limits and passwords, as well as the bans list and settings ops.
   ///   This message wraps the MODE command. </remarks>
   [Serializable]
-  public class ChannelModeMessage : CommandMessage, IChannelTargetedMessage {
+  class ChannelModeMessage : CommandMessage, IChannelTargetedMessage {
 
     /// <summary>
     /// Gets the Irc command associated with this message.

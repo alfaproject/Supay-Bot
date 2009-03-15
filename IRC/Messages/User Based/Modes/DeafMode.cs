@@ -1,7 +1,7 @@
 namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   This mode signifies that the user does not receive channel chat messages. </summary>
-  public class DeafMode : UserMode {
+  class DeafMode : UserMode {
 
     /// <summary>
     /// Creates a new instance of the <see cref="DeafMode"/> class.

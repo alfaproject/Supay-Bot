@@ -7,7 +7,7 @@ namespace BigSister.Irc.Messages {
   ///   when they attempt to send a message to a user who
   ///   is marked as away using the <see cref="AwayMessage"/>. </summary>
   [Serializable]
-  public class UserAwayMessage : NumericMessage {
+  class UserAwayMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="UserAwayMessage"/>. </summary>

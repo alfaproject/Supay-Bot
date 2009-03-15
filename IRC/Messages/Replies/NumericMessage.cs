@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The base class for all numeric messages sent from the server to the client. </summary>
   [Serializable]
-  public abstract class NumericMessage : IrcMessage {
+  abstract class NumericMessage : IrcMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="NumericMessage"/> class with the numeric command. </summary>

@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   This message is sent when the client has been elevated to network operator status. </summary>
   [Serializable]
-  public class OperReplyMessage : NumericMessage {
+  class OperReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="OperReplyMessage"/> class. </summary>

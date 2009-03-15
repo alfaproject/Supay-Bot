@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   ///   The ErrorMessage received when the client attempts to add a nick to his accept list
   ///   when that nick is already on the list. </summary>
   [Serializable]
-  public class AcceptAlreadyExistsMessage : ErrorMessage {
+  class AcceptAlreadyExistsMessage : ErrorMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="AcceptAlreadyExistsMessage"/> class. </summary>

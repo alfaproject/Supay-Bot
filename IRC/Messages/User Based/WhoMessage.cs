@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Requests information about the given user or users. </summary>
   [Serializable]
-  public class WhoMessage : CommandMessage {
+  class WhoMessage : CommandMessage {
 
     /// <summary>
     /// Gets or sets the mask which is matched for users to return information about.

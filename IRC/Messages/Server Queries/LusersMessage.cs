@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Requests that the server send information about the size of the IRC network. </summary>
   [Serializable]
-  public class LusersMessage : ServerQueryBase {
+  class LusersMessage : ServerQueryBase {
 
     /// <summary>
     /// Gets the Irc command associated with this message.

@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace BigSister {
-  public class RSUtil {
+  class RSUtil {
 
     private static int CalculateCombat(int neutralBonus, int meleeBonus, int magicBonus, int rangeBonus) {
       return (int)Math.Floor((double)(neutralBonus * 100 + Math.Max(meleeBonus, Math.Max(magicBonus, rangeBonus)) * 130) / 400.0);

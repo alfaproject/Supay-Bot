@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   ///   This message is sent directly after connecting, 
   ///   giving the client information about the server software in use. </summary>
   [Serializable]
-  public class YourHostMessage : NumericMessage {
+  class YourHostMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="YourHostMessage"/> class. </summary>

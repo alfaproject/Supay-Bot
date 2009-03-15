@@ -7,7 +7,7 @@ namespace BigSister.Irc.Messages {
   ///   The reply to a <see cref="SourceRequestMessage"/>, 
   ///   telling the requestor where to download this client. </summary>
   [Serializable]
-  public class SourceReplyMessage : CtcpReplyMessage {
+  class SourceReplyMessage : CtcpReplyMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="SourceReplyMessage"/> class.

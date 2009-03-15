@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Marks the end of the replies to the <see cref="SilenceMessage"/> query. </summary>
   [Serializable]
-  public class SilenceEndReplyMessage : NumericMessage {
+  class SilenceEndReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="SilenceEndReplyMessage"/> class. </summary>

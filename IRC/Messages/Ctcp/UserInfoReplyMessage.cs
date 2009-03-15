@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The reply for the <see cref="UserInfoRequestMessage"/> query. </summary>
   [Serializable]
-  public class UserInfoReplyMessage : CtcpReplyMessage {
+  class UserInfoReplyMessage : CtcpReplyMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="UserInfoReplyMessage"/> class.

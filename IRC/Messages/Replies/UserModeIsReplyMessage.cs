@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   This is the reply to an empty <see cref="UserModeMessage"/>. </summary>
   [Serializable]
-  public class UserModeIsReplyMessage : NumericMessage {
+  class UserModeIsReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="UserModeIsReplyMessage"/> class. </summary>

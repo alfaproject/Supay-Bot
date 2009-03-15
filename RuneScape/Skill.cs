@@ -2,7 +2,7 @@
 using System.Globalization;
 
 namespace BigSister {
-  public class Skill : Hiscore, IComparable<Skill> {
+  class Skill : Hiscore, IComparable<Skill> {
 
     public const string OVER = "Overall";
     public const string ATTA = "Attack";

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace BigSister {
-  public class Monster {
+  class Monster {
 
     public int ID;
     public DateTime LastUpdate;

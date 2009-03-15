@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Marks the end of the replies to the <see cref="LinksMessage"/> query. </summary>
   [Serializable]
-  public class LinksEndReplyMessage : NumericMessage {
+  class LinksEndReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="LinksEndReplyMessage"/> class. </summary>

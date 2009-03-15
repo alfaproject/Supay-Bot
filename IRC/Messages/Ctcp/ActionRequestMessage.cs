@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   ///   This is much like the <see cref="ChatMessage"/> message, 
   ///   except the intent is to describe an "action" that the sender is doing. </summary>
   [Serializable]
-  public class ActionRequestMessage : CtcpRequestMessage {
+  class ActionRequestMessage : CtcpRequestMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="ActionRequestMessage"/> class.

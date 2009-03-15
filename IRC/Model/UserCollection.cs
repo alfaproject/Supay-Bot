@@ -6,7 +6,7 @@ namespace BigSister.Irc {
   /// <summary>
   ///   A collection that stores <see cref='BigSister.Irc.User'/> objects. </summary>
   [Serializable()]
-  public class UserCollection : ObservableCollection<User> {
+  class UserCollection : ObservableCollection<User> {
 
     /// <summary>
     ///   Removes the first User in the collection which is matched by the Predicate. </summary>

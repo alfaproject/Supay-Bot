@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A Watch system notification that a watched user's status has changed. </summary>
   [Serializable]
-  public abstract class WatchedUserChangedMessage : NumericMessage {
+  abstract class WatchedUserChangedMessage : NumericMessage {
 
     /// <summary>
     /// Gets or sets the watched User who's status has changed.

@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A reply to a <see cref="WhoIsMessage"/> that specifies what server they are on. </summary>
   [Serializable]
-  public class WhoIsServerReplyMessage : NumericMessage {
+  class WhoIsServerReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="WhoIsServerReplyMessage"/> class. </summary>

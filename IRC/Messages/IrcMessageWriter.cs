@@ -7,7 +7,7 @@ using System.IO;
 namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Writes <see cref="BigSister.Irc.Messages.IrcMessage"/> data to a <see cref="TextWriter"/> in irc protocol format. </summary>
-  public class IrcMessageWriter : IDisposable {
+  class IrcMessageWriter : IDisposable {
 
     #region Constructors
 

@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The ErrorMessage sent when a command would result in too many lines in the reply. </summary>
   [Serializable]
-  public class TooManyLinesMessage : ErrorMessage {
+  class TooManyLinesMessage : ErrorMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="TooManyLinesMessage"/> class. </summary>

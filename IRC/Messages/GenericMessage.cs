@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Represents a single generic rfc1459 irc message to or from an irc server. </summary>
   [Serializable]
-  public class GenericMessage : IrcMessage {
+  class GenericMessage : IrcMessage {
 
     #region Properties
 

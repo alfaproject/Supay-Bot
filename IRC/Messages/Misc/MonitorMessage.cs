@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A Message that participates in the Monitor system. </summary>
   [Serializable]
-  public abstract class MonitorMessage : CommandMessage {
+  abstract class MonitorMessage : CommandMessage {
 
     /// <summary>
     /// Gets the Irc command associated with this message.

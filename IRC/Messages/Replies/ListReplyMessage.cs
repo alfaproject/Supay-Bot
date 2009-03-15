@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A single reply to the <see cref="ListMessage"/> query. </summary>
   [Serializable]
-  public class ListReplyMessage : NumericMessage, IChannelTargetedMessage {
+  class ListReplyMessage : NumericMessage, IChannelTargetedMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="ListReplyMessage"/> class. </summary>

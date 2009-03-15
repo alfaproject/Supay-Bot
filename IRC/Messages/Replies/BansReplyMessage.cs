@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Contains a Channel and BanId as one of possible many replies to a ban list request. </summary>
   [Serializable]
-  public class BansReplyMessage : NumericMessage, IChannelTargetedMessage {
+  class BansReplyMessage : NumericMessage, IChannelTargetedMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="BansReplyMessage"/> class. </summary>

@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   ///   This message is sent from the server after connection,
   ///   and contains information about the creation of the server. </summary>
   [Serializable]
-  public class ServerCreatedMessage : NumericMessage {
+  class ServerCreatedMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="ServerCreatedMessage"/> class. </summary>

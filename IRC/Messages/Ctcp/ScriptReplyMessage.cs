@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The reply to a <see cref="ScriptRequestMessage"/>. </summary>
   [Serializable]
-  public class ScriptReplyMessage : CtcpReplyMessage {
+  class ScriptReplyMessage : CtcpReplyMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="ScriptReplyMessage"/> class.

@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A Message that edits the list of users on your watch list. </summary>
   [Serializable]
-  public class WatchListEditorMessage : WatchMessage {
+  class WatchListEditorMessage : WatchMessage {
 
     #region Properties
 

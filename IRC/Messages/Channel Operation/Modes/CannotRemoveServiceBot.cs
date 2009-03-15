@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The ErrorMessage received when a user tries to kill, kick, or deop a bot which provides channel services. </summary>
   [Serializable]
-  public class CannotRemoveServiceBotMessage : ErrorMessage {
+  class CannotRemoveServiceBotMessage : ErrorMessage {
     //:irc.dkom.at 484 _aLfa_ chanserv #aLfBot :Cannot kill, kick or deop channel service
 
     /// <summary>

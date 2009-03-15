@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   ///   This message is a request that the target of the message reply with a human-readable
   ///   list stating what Ctcp commands they support. </summary>
   [Serializable]
-  public class ClientInfoRequestMessage : CtcpRequestMessage {
+  class ClientInfoRequestMessage : CtcpRequestMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="ClientInfoRequestMessage"/> class

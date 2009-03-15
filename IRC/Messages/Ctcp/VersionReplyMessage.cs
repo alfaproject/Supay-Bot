@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The reply to a <see cref="VersionRequestMessage"/>. </summary>
   [Serializable]
-  public class VersionReplyMessage : CtcpReplyMessage {
+  class VersionReplyMessage : CtcpReplyMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="VersionReplyMessage"/> class.

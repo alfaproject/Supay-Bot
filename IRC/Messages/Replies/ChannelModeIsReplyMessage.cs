@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   This is the reply to an empty <see cref="ChannelModeMessage"/>. </summary>
   [Serializable]
-  public class ChannelModeIsReplyMessage : NumericMessage, IChannelTargetedMessage {
+  class ChannelModeIsReplyMessage : NumericMessage, IChannelTargetedMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="ChannelModeIsReplyMessage"/> class. </summary>

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 
 namespace BigSister {
-  public class Players : List<Player> {
+  class Players : List<Player> {
 
     public Players()
       : base() {

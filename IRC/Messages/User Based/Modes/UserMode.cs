@@ -3,7 +3,7 @@ using System;
 namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   The list of known user modes sent in a <see cref="UserModeMessage"/> in its <see cref="UserModeMessage.ModeChanges"/> property. </summary>
-  public abstract class UserMode {
+  abstract class UserMode {
 
     /// <summary>
     /// Gets the irc string representation of the mode being changed or applied.

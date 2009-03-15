@@ -29,7 +29,7 @@ namespace BigSister {
   ///     &lt;/section&gt;
   ///   &lt;/profile&gt;
   ///   </code></remarks>
-  public class XmlProfile : IDisposable {
+  class XmlProfile : IDisposable {
 
     // Fields
     private string _name;

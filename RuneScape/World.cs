@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace BigSister {
-  public class World : IComparable<World> {
+  class World : IComparable<World> {
 
     public int Number;
     public bool Member;

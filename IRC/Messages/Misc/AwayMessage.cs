@@ -8,7 +8,7 @@ namespace BigSister.Irc.Messages {
   ///   The automatic reply is sent by the server to client sending the <see cref="ChatMessage"/>.
   ///   The only replying server is the one to which the sending client is connected to. </remarks>
   [Serializable]
-  public class AwayMessage : CommandMessage {
+  class AwayMessage : CommandMessage {
 
     /// <summary>
     /// Creates a new instance of the AwayMessage class.

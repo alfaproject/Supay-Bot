@@ -9,7 +9,7 @@ namespace BigSister.Irc {
   /// <summary>
   ///   Represents a User on an irc server. </summary>
   [Serializable]
-  public sealed class User : INotifyPropertyChanged {
+  sealed class User : INotifyPropertyChanged {
 
     private string _nick = string.Empty;
     private string _userName = string.Empty;

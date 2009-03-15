@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The reply to the <see cref="SilenceMessage"/> query. </summary>
   [Serializable]
-  public class SilenceReplyMessage : NumericMessage {
+  class SilenceReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="SilenceReplyMessage"/>. </summary>

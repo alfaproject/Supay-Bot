@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   One line of data in a reply to the <see cref="MotdMessage"/> query. </summary>
   [Serializable]
-  public class MotdReplyMessage : NumericMessage {
+  class MotdReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="MotdReplyMessage"/> class. </summary>

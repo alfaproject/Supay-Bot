@@ -5,7 +5,7 @@ using System.Globalization;
 namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   ChannelModesCreator parses, builds, and writes the modes used by the <see cref="ChannelModeMessage"/> class. </summary>
-  public class ChannelModesCreator {
+  class ChannelModesCreator {
 
     /// <summary>
     /// Creates a new instance of the <see cref="ChannelModesCreator"/> class.

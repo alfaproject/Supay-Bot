@@ -1,7 +1,7 @@
 namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   This mode sets or unsets a password on a channel. </summary>
-  public class KeyMode : FlagMode {
+  class KeyMode : FlagMode {
 
     /// <summary>
     /// Creates a new instance of the <see cref="KeyMode"/> class.

@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The astract base class for all irc messages. </summary>
   [Serializable]
-  public abstract class IrcMessage {
+  abstract class IrcMessage {
 
     /// <summary>
     /// Creates an instance of whatever type is deriving from IrcMessage.

@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   One of the responses to the <see cref="LusersMessage"/> query. </summary>
   [Serializable]
-  public class LusersReplyMessage : NumericMessage {
+  class LusersReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="LusersReplyMessage"/> class. </summary>

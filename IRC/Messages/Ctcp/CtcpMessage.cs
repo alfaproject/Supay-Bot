@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A Message which carries a ctcp command. </summary>
   [Serializable]
-  public abstract class CtcpMessage : IrcMessage, IChannelTargetedMessage, IQueryTargetedMessage {
+  abstract class CtcpMessage : IrcMessage, IChannelTargetedMessage, IQueryTargetedMessage {
 
     /// <summary>
     /// Gets the targets of this <see cref="CtcpMessage"/>.

@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A reply to a <see cref="WhoIsMessage"/> when the user is an irc operator. </summary>
   [Serializable]
-  public class WhoIsOperReplyMessage : NumericMessage {
+  class WhoIsOperReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="WhoIsOperReplyMessage"/> class. </summary>

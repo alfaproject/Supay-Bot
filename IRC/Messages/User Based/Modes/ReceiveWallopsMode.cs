@@ -1,7 +1,7 @@
 namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   This mode signifies that the user will receive wallop messages. </summary>
-  public class ReceiveWallopsMode : UserMode {
+  class ReceiveWallopsMode : UserMode {
 
     /// <summary>
     /// Creates a new instance of the <see cref="ReceiveWallopsMode"/> class.

@@ -8,7 +8,7 @@ namespace BigSister.Irc.Messages {
   /// <remarks>
   ///   The purpose of this error condition is to help stop spammers. </remarks>
   [Serializable]
-  public class TargetChangeTooFastMessage : ErrorMessage, IChannelTargetedMessage {
+  class TargetChangeTooFastMessage : ErrorMessage, IChannelTargetedMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="TargetChangeTooFastMessage"/> class. </summary>

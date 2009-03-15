@@ -10,7 +10,7 @@ namespace BigSister.Irc.Messages {
   ///   not all networks will tell you when the list is full. 
   ///   (they will simply ignore extra bans.) </remarks>
   [Serializable]
-  public class BanListFullMessage : ErrorMessage, IChannelTargetedMessage {
+  class BanListFullMessage : ErrorMessage, IChannelTargetedMessage {
     //:irc.dkom.at 478 _aLfa_ #aLfBot *!*@aol.com :Channel ban/ignore list is full
 
     /// <summary>

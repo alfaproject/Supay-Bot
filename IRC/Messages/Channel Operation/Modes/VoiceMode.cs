@@ -2,7 +2,7 @@ namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   This mode is used to give and take voice privilege to/from a channel member. 
   ///   Users with this privilege can talk on moderated channels. (<see cref="ModeratedMode"/>) </summary>
-  public class VoiceMode : MemberStatusMode {
+  class VoiceMode : MemberStatusMode {
 
     /// <summary>
     /// Creates a new instance of the <see cref="VoiceMode"/> class.

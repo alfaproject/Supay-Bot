@@ -8,7 +8,7 @@ namespace BigSister.Irc.Messages {
   ///   Both messages have the same api and have the same impact for any watch tracking component,
   ///   but are replies sent in reponse to different commands. </remarks>
   [Serializable]
-  public abstract class WatchedUserOnlineMessage : WatchedUserChangedMessage {
+  abstract class WatchedUserOnlineMessage : WatchedUserChangedMessage {
     /// <summary>
     /// Notifies the given <see cref="MessageConduit"/> by raising the appropriate event for the current <see cref="IrcMessage"/> subclass.
     /// </summary>

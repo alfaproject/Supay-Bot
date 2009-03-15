@@ -3,7 +3,7 @@ using System.Diagnostics;
 namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   UserModesCreator parses, builds, and writes the modes used by the <see cref="UserModeMessage"/> class. </summary>
-  public class UserModesCreator {
+  class UserModesCreator {
 
     /// <summary>
     /// Creates a new instance of the <see cref="UserModesCreator"/> class.

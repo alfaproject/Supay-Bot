@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The ErrorMessage received when a user's silence list is full, and a SilenceMessage is sent adding a User to the list. </summary>
   [Serializable]
-  public class SilenceListFullMessage : ErrorMessage {
+  class SilenceListFullMessage : ErrorMessage {
     //:irc.dkom.at 511 _aLfa_ *!*@*aol.com :Your silence list is full
 
     /// <summary>

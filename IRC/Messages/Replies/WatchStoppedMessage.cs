@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A Watch system notification that a user has been removed from your watch list. </summary>
   [Serializable]
-  public class WatchStoppedMessage : WatchedUserChangedMessage {
+  class WatchStoppedMessage : WatchedUserChangedMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="WatchStoppedMessage"/>.

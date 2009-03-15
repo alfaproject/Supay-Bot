@@ -2,7 +2,7 @@ namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   When this mode is set, 
   ///   new members are only accepted if their nick is registered. </summary>
-  public class RegisteredNicksOnlyMode : ChannelMode {
+  class RegisteredNicksOnlyMode : ChannelMode {
 
     /// <summary>
     /// Creates a new instance of the <see cref="RegisteredNicksOnlyMode"/> class.

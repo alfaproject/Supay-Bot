@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Reply for the <see cref="UserHostMessage"/> to list replies to the query list. </summary>
   [Serializable]
-  public class UserHostReplyMessage : NumericMessage {
+  class UserHostReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="UserHostReplyMessage"/> class. </summary>

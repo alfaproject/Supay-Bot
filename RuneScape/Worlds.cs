@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 
 namespace BigSister {
-  public class Worlds : Dictionary<int, World> {
+  class Worlds : Dictionary<int, World> {
 
     public List<World> FindActivity(string activity) {
       List<World> ret = new List<World>();

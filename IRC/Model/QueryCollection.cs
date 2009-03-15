@@ -3,7 +3,7 @@
 namespace BigSister.Irc {
   /// <summary>
   ///   A collection of <see href="Query" /> objects. </summary>
-  public class QueryCollection : ObservableCollection<Query> {
+  class QueryCollection : ObservableCollection<Query> {
 
     /// <summary>
     /// Finds the <see href="Query" /> instance within the colleciton which is with the given user.

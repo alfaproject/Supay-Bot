@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Requests the target's name and idle time. </summary>
   [Serializable]
-  public class FingerRequestMessage : CtcpRequestMessage {
+  class FingerRequestMessage : CtcpRequestMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="FingerRequestMessage"/> class.

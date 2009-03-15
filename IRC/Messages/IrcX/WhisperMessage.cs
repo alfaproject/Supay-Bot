@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   With the WhisperMessage, clients can send messages to people within the context of a channel. </summary>
   [Serializable]
-  public class WhisperMessage : CommandMessage, IChannelTargetedMessage {
+  class WhisperMessage : CommandMessage, IChannelTargetedMessage {
 
     /// <summary>
     /// Creates a new instance of the WhisperMessage class.

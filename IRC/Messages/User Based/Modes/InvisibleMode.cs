@@ -1,7 +1,7 @@
 namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   This mode signifies that the user is invisible to other users. </summary>
-  public class InvisibleMode : UserMode {
+  class InvisibleMode : UserMode {
 
     /// <summary>
     /// Creates a new instance of the <see cref="InvisibleMode"/> class.

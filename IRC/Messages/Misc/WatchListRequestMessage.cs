@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A Watch system message that requests the list of nicks currently being watched. </summary>
   [Serializable]
-  public class WatchListRequestMessage : WatchMessage {
+  class WatchListRequestMessage : WatchMessage {
 
     #region Properties
 

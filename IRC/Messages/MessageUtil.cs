@@ -10,7 +10,7 @@ namespace BigSister.Irc.Messages {
   ///   Provides simple utilities for parsing and generating messages. </summary>
   /// <remarks>
   ///   Client code will probably not need to use most of these routines. </remarks>
-  public static class MessageUtil {
+  static class MessageUtil {
 
     /// <summary>
     /// Takes the given channel name, and returns a name that is valid according to the given server support.

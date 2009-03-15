@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A Monitor system notification that contains a list of nicks. </summary>
   [Serializable]
-  public abstract class MonitoredNicksListMessage : NumericMessage {
+  abstract class MonitoredNicksListMessage : NumericMessage {
 
     /// <summary>
     /// Gets the collection of nicks of users for the message.

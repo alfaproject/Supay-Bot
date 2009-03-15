@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   An <see cref="IrcMessage"/> which carries communication from a person to another person or channel. </summary>
   [Serializable]
-  public abstract class TextMessage : CommandMessage, IChannelTargetedMessage, IQueryTargetedMessage {
+  abstract class TextMessage : CommandMessage, IChannelTargetedMessage, IQueryTargetedMessage {
 
     /// <summary>
     /// Gets the target of this <see cref="TextMessage"/>.

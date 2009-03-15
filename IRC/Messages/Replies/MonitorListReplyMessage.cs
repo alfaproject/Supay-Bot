@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   /// <remarks>
   ///   You may receive more than 1 of these replies in response to a <see cref="T:MonitorListRequestMessage" />. </remarks>
   [Serializable]
-  public class MonitorListReplyMessage : MonitoredNicksListMessage {
+  class MonitorListReplyMessage : MonitoredNicksListMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="MonitorListReplyMessage"/>.

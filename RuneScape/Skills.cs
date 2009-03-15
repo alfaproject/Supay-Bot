@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace BigSister {
-  public class Skills : OrderedDictionary<string, Skill> {
+  class Skills : OrderedDictionary<string, Skill> {
 
     public Skills()
       : base(26) {

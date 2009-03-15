@@ -1,7 +1,7 @@
 namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   This mode signifies that the user using CallerId. </summary>
-  public class CallerIdMode : UserMode {
+  class CallerIdMode : UserMode {
 
     /// <summary>
     /// Creates a new instance of the <see cref="CallerIdMode"/> class.

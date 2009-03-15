@@ -3,7 +3,7 @@ using System.Globalization;
 namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   A user limit may be set on channels by using this mode. </summary>
-  public class LimitMode : FlagMode {
+  class LimitMode : FlagMode {
 
     /// <summary>
     /// Creates a new instance of the <see cref="LimitMode"/> class.

@@ -8,7 +8,7 @@ namespace BigSister.Irc.Messages {
   ///   PingMessage is sent at regular intervals if no other activity detected coming from a connection. 
   ///   If a connection fails to respond to a PingMessage within a set amount of time, that connection is closed. </remarks>
   [Serializable]
-  public class PingMessage : CommandMessage {
+  class PingMessage : CommandMessage {
 
     /// <summary>
     /// Gets or sets the target of the ping.

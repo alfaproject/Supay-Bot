@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Sends a request for the version of the target's client code. </summary>
   [Serializable]
-  public class VersionRequestMessage : CtcpRequestMessage {
+  class VersionRequestMessage : CtcpRequestMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="VersionRequestMessage"/> class.

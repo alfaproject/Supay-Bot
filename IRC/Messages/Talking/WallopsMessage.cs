@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   ///   This message is sent to all users with <see cref="BigSister.Irc.Messages.Modes.ReceiveWallopsMode"/>,
   ///   <see cref="BigSister.Irc.Messages.Modes.NetworkOperatorMode"/>, or <see cref="BigSister.Irc.Messages.Modes.ServerOperatorMode"/> user modes. </summary>
   [Serializable]
-  public class WallopsMessage : CommandMessage {
+  class WallopsMessage : CommandMessage {
 
     /// <summary>
     /// Gets or sets the text of the <see cref="WallopsMessage"/>.

@@ -5,7 +5,7 @@ using System.Globalization;
 namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Provides clients with a correct <see cref="IrcMessage"/> for a given raw message string. </summary>
-  public sealed class MessageParserService {
+  sealed class MessageParserService {
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MessageParserService"/> class.

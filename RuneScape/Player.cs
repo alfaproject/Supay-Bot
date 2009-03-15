@@ -4,7 +4,7 @@ using System.Data.SQLite;
 using System.Net;
 
 namespace BigSister {
-  public class Player {
+  class Player {
 
     private int _id;
     private string _name;

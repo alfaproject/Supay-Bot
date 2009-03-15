@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The ErrorMessage sent when a command is sent which doesn't contain all the required parameters. </summary>
   [Serializable]
-  public class NotEnoughParametersMessage : ErrorMessage {
+  class NotEnoughParametersMessage : ErrorMessage {
     //:irc.dkom.at 443 _aLfa_ KICK :not enough parameters
 
     /// <summary>

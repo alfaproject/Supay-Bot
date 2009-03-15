@@ -7,7 +7,7 @@ namespace BigSister.Irc.Messages {
   /// <remarks>
   ///   You may receive more than 1 of these in response to the request. </remarks>
   [Serializable]
-  public class WatchStatusNicksReplyMessage : NumericMessage {
+  class WatchStatusNicksReplyMessage : NumericMessage {
     // :mesra.kl.my.dal.net 606 _aLfa_ :aLfBot2 aLfBot
 
     /// <summary>

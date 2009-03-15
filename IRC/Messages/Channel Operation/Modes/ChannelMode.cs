@@ -3,7 +3,7 @@ using System;
 namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   A channel mode sent in a <see cref="ChannelModeMessage"/> in its <see cref="ChannelModeMessage.ModeChanges"/> property. </summary>
-  public abstract class ChannelMode {
+  abstract class ChannelMode {
 
     /// <summary>
     /// Gets the irc string representation of the mode being changed or applied.

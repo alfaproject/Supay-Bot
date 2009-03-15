@@ -6,7 +6,7 @@ namespace BigSister.Irc {
   /// <summary>
   ///   A collection that stores <see cref='BigSister.Irc.Channel'/> objects. </summary>
   [Serializable()]
-  public class ChannelCollection : ObservableCollection<Channel> {
+  class ChannelCollection : ObservableCollection<Channel> {
 
     /// <summary>
     ///   Finds the <see href="Channel" /> in the collection with the given name. </summary>

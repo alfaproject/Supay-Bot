@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The notification to the channel that a user has knocked on their channel. </summary>
   [Serializable]
-  public class KnockRequestMessage : NumericMessage {
+  class KnockRequestMessage : NumericMessage {
     // :irc.foxlink.net 710 #_aLfa_2 #_aLfa_2 _aLfa_!_aLfa_@12-255-177-172 :has asked for an invite.
 
     /// <summary>

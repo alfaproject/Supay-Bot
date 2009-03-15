@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The <see cref="VersionMessage"/> is used to query the version of the server program. </summary>
   [Serializable]
-  public class VersionMessage : ServerQueryBase {
+  class VersionMessage : ServerQueryBase {
 
     /// <summary>
     /// Gets the Irc command associated with this message.

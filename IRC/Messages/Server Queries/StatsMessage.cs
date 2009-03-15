@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A request for some information about the server. </summary>
   [Serializable]
-  public class StatsMessage : ServerQueryBase {
+  class StatsMessage : ServerQueryBase {
 
     /// <summary>
     /// Gets the Irc command associated with this message.

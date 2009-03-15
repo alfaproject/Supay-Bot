@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The UserNotificationMessage is used at the beginning of connection to specify the username, _hostName and realname of a new user. </summary>
   [Serializable]
-  public class UserNotificationMessage : CommandMessage {
+  class UserNotificationMessage : CommandMessage {
 
     /// <summary>
     /// Gets the Irc command associated with this message.

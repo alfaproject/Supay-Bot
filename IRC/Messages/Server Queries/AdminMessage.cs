@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The <see cref="AdminMessage"/> is used to find the name of the administrator of the given server, or current server if <see cref="ServerQueryBase.Target"/> is empty. </summary>
   [Serializable]
-  public class AdminMessage : ServerQueryBase {
+  class AdminMessage : ServerQueryBase {
 
     /// <summary>
     /// Gets the Irc command associated with this message.

@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The ErrorMessage received when a UserModeMessage was sent with a UserMode which the server didn't recognize. </summary>
   [Serializable]
-  public class UnknownUserModeMessage : ErrorMessage {
+  class UnknownUserModeMessage : ErrorMessage {
     //:irc.dkom.at 501 _aLfa_ :Unknown MODE flag
 
     /// <summary>

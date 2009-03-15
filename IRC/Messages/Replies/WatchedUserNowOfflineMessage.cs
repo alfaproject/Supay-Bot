@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A Watch system notification that a user is now offline. </summary>
   [Serializable]
-  public class WatchedUserNowOfflineMessage : WatchedUserOfflineMessage {
+  class WatchedUserNowOfflineMessage : WatchedUserOfflineMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="WatchedUserNowOfflineMessage"/>.

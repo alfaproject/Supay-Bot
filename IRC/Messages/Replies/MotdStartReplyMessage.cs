@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Signifies the start of the motd sent by the server. </summary>
   [Serializable]
-  public class MotdStartReplyMessage : NumericMessage {
+  class MotdStartReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="MotdStartReplyMessage"/> class. </summary>

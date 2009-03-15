@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The reply to the <see cref="TimeRequestMessage"/> query. </summary>
   [Serializable]
-  public class TimeReplyMessage : CtcpReplyMessage {
+  class TimeReplyMessage : CtcpReplyMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="TimeReplyMessage"/> class.

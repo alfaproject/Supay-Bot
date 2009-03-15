@@ -7,7 +7,7 @@ namespace BigSister.Irc.Messages {
   ///   (This does not refer to channel ops)
   ///   The correct combination of <see cref="Name"/> and <see cref="Password"/> are required to gain Operator privileges. </summary>
   [Serializable]
-  public class OperMessage : CommandMessage {
+  class OperMessage : CommandMessage {
 
     /// <summary>
     /// Creates a new instance of the OperMessage class.

@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The ErrorMessage received when a ChannelModeMessage was sent with a ChannelMode which the server didn't recognize. </summary>
   [Serializable]
-  public class UnknownChannelModeMessage : ErrorMessage {
+  class UnknownChannelModeMessage : ErrorMessage {
     //:irc.dkom.at 472 _aLfa_ g :is unknown mode char to me
 
     /// <summary>

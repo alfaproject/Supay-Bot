@@ -1,7 +1,7 @@
 namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   This mode signifies that the user is away. </summary>
-  public class AwayMode : UserMode {
+  class AwayMode : UserMode {
 
     /// <summary>
     /// Creates a new instance of the <see cref="AwayMode"/> class.

@@ -9,7 +9,7 @@ namespace BigSister.Irc.Messages {
   ///   Once that many users are in the channel, any other users attempting to join will get this reply.
   ///   On some networks, an Invite allows a user to bypass the limit. </remarks>
   [Serializable]
-  public class ChannelLimitReachedMessage : ErrorMessage {
+  class ChannelLimitReachedMessage : ErrorMessage {
     //:irc.dkom.at 471 _aLfa_ #chaos :Cannot join channel (+l)
 
     /// <summary>

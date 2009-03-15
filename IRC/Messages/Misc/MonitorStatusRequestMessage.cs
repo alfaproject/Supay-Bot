@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A Monitor system message that requests that status of the users on your monitor list. </summary>
   [Serializable]
-  public class MonitorStatusRequestMessage : MonitorMessage {
+  class MonitorStatusRequestMessage : MonitorMessage {
 
     /// <summary>
     ///   Determines if the message can be parsed by this type. </summary>

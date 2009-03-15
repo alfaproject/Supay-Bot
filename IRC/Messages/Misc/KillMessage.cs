@@ -8,7 +8,7 @@ namespace BigSister.Irc.Messages {
   ///   KillMessage is used by servers when they encounter a duplicate entry in the list of valid nicknames and is used to remove both entries. 
   ///   It is also available to operators. </remarks>
   [Serializable]
-  public class KillMessage : CommandMessage {
+  class KillMessage : CommandMessage {
     private string nick = string.Empty;
     private string reason = string.Empty;
 

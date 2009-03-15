@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Marks the end of the replies to the <see cref="ListMessage"/> query. </summary>
   [Serializable]
-  public class ListEndReplyMessage : NumericMessage {
+  class ListEndReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="ListEndReplyMessage"/>. </summary>

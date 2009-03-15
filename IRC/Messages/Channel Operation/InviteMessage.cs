@@ -7,7 +7,7 @@ namespace BigSister.Irc.Messages {
   /// <remarks>
   ///   This message wraps the INVITE command. </remarks>
   [Serializable]
-  public class InviteMessage : CommandMessage, IChannelTargetedMessage {
+  class InviteMessage : CommandMessage, IChannelTargetedMessage {
 
     private string channel = string.Empty;
     private string nick = string.Empty;

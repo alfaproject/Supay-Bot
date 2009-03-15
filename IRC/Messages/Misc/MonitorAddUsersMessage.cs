@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A Monitor system message that adds users to your monitor list. </summary>
   [Serializable]
-  public class MonitorAddUsersMessage : MonitorMessage {
+  class MonitorAddUsersMessage : MonitorMessage {
 
     /// <summary>
     /// Gets the collection of nicks being added to the monitor list.

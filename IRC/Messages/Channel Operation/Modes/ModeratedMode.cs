@@ -3,7 +3,7 @@ namespace BigSister.Irc.Messages.Modes {
   ///   This mode is used to control who may speak on a channel. 
   ///   When it is set, only channel operators, 
   ///   and members who have been given the voice privilege may send messages to the channel. </summary>
-  public class ModeratedMode : FlagMode {
+  class ModeratedMode : FlagMode {
 
     /// <summary>
     /// Creates a new instance of the <see cref="ModeratedMode"/> class.

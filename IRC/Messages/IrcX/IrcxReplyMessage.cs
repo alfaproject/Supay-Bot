@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A reply to a <see cref="IrcxMessage"/> or a <see cref="IsIrcxMessage"/>. </summary>
   [Serializable]
-  public class IrcxReplyMessage : NumericMessage {
+  class IrcxReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="IrcxReplyMessage"/>. </summary>

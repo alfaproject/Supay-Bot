@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Signals the end of the <see cref="WhoReplyMessage"/> list. </summary>
   [Serializable]
-  public class WhoEndReplyMessage : NumericMessage {
+  class WhoEndReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="WhoEndReplyMessage"/> class. </summary>

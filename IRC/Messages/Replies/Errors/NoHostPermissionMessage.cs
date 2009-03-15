@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Returned to a client which attempts to register with a server which has not been setup to allow connections from which the host attempted connection. </summary>
   [Serializable]
-  public class NoHostPermissionMessage : ErrorMessage {
+  class NoHostPermissionMessage : ErrorMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="NoHostPermissionMessage"/> class. </summary>

@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A Monitor system message that clears the list of users on your monitor list. </summary>
   [Serializable]
-  public class MonitorListClearMessage : MonitorMessage {
+  class MonitorListClearMessage : MonitorMessage {
 
     /// <summary>
     ///   Determines if the message can be parsed by this type. </summary>

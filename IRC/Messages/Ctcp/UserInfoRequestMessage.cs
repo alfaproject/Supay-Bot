@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Sends a request for user info from the target client. </summary>
   [Serializable]
-  public class UserInfoRequestMessage : CtcpRequestMessage {
+  class UserInfoRequestMessage : CtcpRequestMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="UserInfoRequestMessage"/> class.

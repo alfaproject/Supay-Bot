@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Reply to a <see cref="WhoIsMessage"/>, stating the channels a user is in. </summary>
   [Serializable]
-  public class WhoIsChannelsReplyMessage : NumericMessage, IChannelTargetedMessage {
+  class WhoIsChannelsReplyMessage : NumericMessage, IChannelTargetedMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="WhoIsChannelsReplyMessage"/> class. </summary>

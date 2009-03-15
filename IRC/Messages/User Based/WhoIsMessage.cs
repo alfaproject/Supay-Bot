@@ -19,7 +19,7 @@ namespace BigSister.Irc.Messages {
   ///   <see cref="T:UserAwayMessage" />
   ///   <see cref="T:WhoIsEndReplyMessage"/> </remarks>
   [Serializable]
-  public class WhoIsMessage : CommandMessage {
+  class WhoIsMessage : CommandMessage {
 
     /// <summary>
     /// Gets the collection of users that information is requested for.

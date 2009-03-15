@@ -12,7 +12,7 @@ namespace BigSister.Irc.Messages {
   ///   It is possible to send multiple PASS commands before registering 
   ///   but only the last one sent is used for verification and it may not be changed once registered. </remarks>
   [Serializable]
-  public class PasswordMessage : CommandMessage {
+  class PasswordMessage : CommandMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="PasswordMessage"/> class.

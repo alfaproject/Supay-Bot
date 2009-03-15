@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Returned after receiving a <see cref="NickChangeMessage"/> which contains characters which do not fall in the defined set. </summary>
   [Serializable]
-  public class ErroneousNickMessage : ErrorMessage {
+  class ErroneousNickMessage : ErrorMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="ErroneousNickMessage"/> class. </summary>

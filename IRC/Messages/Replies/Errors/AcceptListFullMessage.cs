@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The ErrorMessage received when a user adds too many users to his Accept list. </summary>
   [Serializable]
-  public class AcceptListFullMessage : ErrorMessage {
+  class AcceptListFullMessage : ErrorMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="AcceptListFullMessage"/> class. </summary>

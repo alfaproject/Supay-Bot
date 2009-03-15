@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   ///   The reply to a <see cref="TopicMessage"/> which requests the topic, 
   ///   and there is none set. </summary>
   [Serializable]
-  public class TopicNoneReplyMessage : NumericMessage, IChannelTargetedMessage {
+  class TopicNoneReplyMessage : NumericMessage, IChannelTargetedMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="TopicNoneReplyMessage"/> class. </summary>

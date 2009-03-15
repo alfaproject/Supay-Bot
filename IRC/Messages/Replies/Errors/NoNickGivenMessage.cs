@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Returned when a nickname parameter expected for a command and isn't found. </summary>
   [Serializable]
-  public class NoNickGivenMessage : ErrorMessage {
+  class NoNickGivenMessage : ErrorMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="NoNickGivenMessage"/> class. </summary>

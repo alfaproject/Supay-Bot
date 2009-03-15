@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Signifies the end of the reply listing Bans on a channel. </summary>
   [Serializable]
-  public class BansEndReplyMessage : NumericMessage, IChannelTargetedMessage {
+  class BansEndReplyMessage : NumericMessage, IChannelTargetedMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="BansEndReplyMessage"/> class. </summary>

@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Used to indicate the given channel name is invalid. </summary>
   [Serializable]
-  public class NoSuchChannelMessage : ErrorMessage, IChannelTargetedMessage {
+  class NoSuchChannelMessage : ErrorMessage, IChannelTargetedMessage {
     // :irc.easynews.com 403 aLfBot #qwe9r8wjfq98wer :No such channel
 
     /// <summary>

@@ -1,7 +1,7 @@
 namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   This mode signifies that the user has a restricted connection. </summary>
-  public class RestrictedMode : UserMode {
+  class RestrictedMode : UserMode {
 
     /// <summary>
     /// Creates a new instance of the <see cref="RestrictedMode"/> class.

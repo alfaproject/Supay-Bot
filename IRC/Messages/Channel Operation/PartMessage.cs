@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   ///   The PartMessage causes the client sending the message to be removed 
   ///   from the list of active users for all given channels listed in the <see cref="PartMessage.Channels"/> property. </summary>
   [Serializable]
-  public class PartMessage : CommandMessage, IChannelTargetedMessage {
+  class PartMessage : CommandMessage, IChannelTargetedMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="PartMessage"/> class.

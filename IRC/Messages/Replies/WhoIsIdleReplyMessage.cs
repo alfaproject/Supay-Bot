@@ -7,7 +7,7 @@ namespace BigSister.Irc.Messages {
   ///   As a reply to the <see cref="WhoIsMessage"/> message,
   ///   carries information about idle time and such. </summary>
   [Serializable]
-  public class WhoIsIdleReplyMessage : NumericMessage {
+  class WhoIsIdleReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="WhoIsIdleReplyMessage"/> class. </summary>

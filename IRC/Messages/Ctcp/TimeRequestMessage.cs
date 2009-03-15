@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Sends a request for the current time on the target's machine. </summary>
   [Serializable]
-  public class TimeRequestMessage : CtcpRequestMessage {
+  class TimeRequestMessage : CtcpRequestMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="TimeRequestMessage"/> class. </summary>

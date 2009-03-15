@@ -1,7 +1,7 @@
 namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   This mode defines an exception for any <see cref="BanMode"/> masks set for the channel. </summary>
-  public class BanExceptionMode : AccessControlMode {
+  class BanExceptionMode : AccessControlMode {
 
     /// <summary>
     /// Creates a new instance of the <see cref="BanExceptionMode"/> class.

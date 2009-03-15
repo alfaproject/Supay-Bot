@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A Monitor system notification that a monitored user is online. </summary>
   [Serializable]
-  public class MonitoredUserOfflineMessage : MonitoredNicksListMessage {
+  class MonitoredUserOfflineMessage : MonitoredNicksListMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="MonitoredUserOfflineMessage"/>.

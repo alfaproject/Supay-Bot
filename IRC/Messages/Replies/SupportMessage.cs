@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   ///   This is a message sent from a server to a client upon connection 
   ///   to tell the client what irc features the server supports. </summary>
   [Serializable]
-  public class SupportMessage : NumericMessage {
+  class SupportMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="SupportMessage"/> class. </summary>

@@ -1,7 +1,7 @@
 namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   This mode signifies that the user will receive debug messages. </summary>
-  public class ReceiveDebugMode : UserMode {
+  class ReceiveDebugMode : UserMode {
 
     /// <summary>
     /// Creates a new instance of the <see cref="ReceiveDebugMode"/> class.

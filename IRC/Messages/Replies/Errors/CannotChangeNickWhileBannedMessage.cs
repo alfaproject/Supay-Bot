@@ -7,7 +7,7 @@ namespace BigSister.Irc.Messages {
   /// <remarks>
   ///   This is error code is also defined as "Resource Unavailable", but this message variant is more common. </remarks>
   [Serializable]
-  public class CannotChangeNickWhileBannedMessage : ErrorMessage, IChannelTargetedMessage {
+  class CannotChangeNickWhileBannedMessage : ErrorMessage, IChannelTargetedMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="CannotChangeNickWhileBannedMessage"/> class. </summary>

@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The UserNotificationServerSideMessage is passed between servers to notify of a new user on the network. </summary>
   [Serializable]
-  public class UserNotificationServerSideMessage : CommandMessage {
+  class UserNotificationServerSideMessage : CommandMessage {
 
     /// <summary>
     /// Gets the Irc command associated with this message.

@@ -7,7 +7,7 @@ namespace BigSister.Irc.Messages {
   /// <remarks>
   ///   Channel names which they can see are those which aren't private ( <see cref="BigSister.Irc.Messages.Modes.PrivateMode"/> ) or secret ( <see cref="BigSister.Irc.Messages.Modes.SecretMode"/> ) or those which they are actually on. </remarks>
   [Serializable]
-  public class NamesMessage : CommandMessage {
+  class NamesMessage : CommandMessage {
 
 
     /// <summary>

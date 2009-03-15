@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A client-to-client ping request message. </summary>
   [Serializable]
-  public class PingRequestMessage : CtcpRequestMessage {
+  class PingRequestMessage : CtcpRequestMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="PingRequestMessage"/> class.

@@ -8,7 +8,7 @@ namespace BigSister.Irc.Messages {
   ///   A channel must have its key removed before setting a new one.
   ///   This is done with a ChannelModeMessage and the KeyMode mode. </remarks>
   [Serializable]
-  public class ChannelKeyAlreadySetMessage : ErrorMessage, IChannelTargetedMessage {
+  class ChannelKeyAlreadySetMessage : ErrorMessage, IChannelTargetedMessage {
     //:irc.dkom.at 467 _aLfa_ #locked :Channel key already set
 
     /// <summary>

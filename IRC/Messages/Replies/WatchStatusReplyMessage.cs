@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A reply for the <see cref="WatchStatusRequestMessage"/> query. </summary>
   [Serializable]
-  public class WatchStatusReplyMessage : NumericMessage {
+  class WatchStatusReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="WatchStatusReplyMessage"/>. </summary>

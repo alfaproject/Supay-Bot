@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A Monitor system message that removes users to your monitor list. </summary>
   [Serializable]
-  public class MonitorRemoveUsersMessage : MonitorMessage {
+  class MonitorRemoveUsersMessage : MonitorMessage {
 
     /// <summary>
     /// Gets the collection of nicks being removed from the monitor list.

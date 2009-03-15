@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Requests information about a user who is no longer connected to irc. </summary>
   [Serializable]
-  public class WhoWasMessage : CommandMessage {
+  class WhoWasMessage : CommandMessage {
 
     /// <summary>
     /// Gets or sets the nick of the user being examined.

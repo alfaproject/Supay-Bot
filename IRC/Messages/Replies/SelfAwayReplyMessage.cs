@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   ///   This message is received from the server when it acknowledges a client's
   ///   <see cref="AwayMessage"/>. </summary>
   [Serializable]
-  public class SelfAwayMessage : NumericMessage {
+  class SelfAwayMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="SelfAwayMessage"/> class. </summary>

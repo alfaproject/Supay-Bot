@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Sends a request for the script version of the target's client. </summary>
   [Serializable]
-  public class ScriptRequestMessage : CtcpRequestMessage {
+  class ScriptRequestMessage : CtcpRequestMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="ScriptRequestMessage"/> class. </summary>

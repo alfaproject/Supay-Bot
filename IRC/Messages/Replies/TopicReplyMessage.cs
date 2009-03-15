@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The reply for the <see cref="TopicMessage"/>. </summary>
   [Serializable]
-  public class TopicReplyMessage : NumericMessage, IChannelTargetedMessage {
+  class TopicReplyMessage : NumericMessage, IChannelTargetedMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="TopicReplyMessage"/> class. </summary>

@@ -2,7 +2,7 @@ namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   This mode is only available on channels which name begins with the character '!' 
   ///   and may only be toggled by the "channel creator". </summary>
-  public class ServerReopMode : FlagMode {
+  class ServerReopMode : FlagMode {
 
     /// <summary>
     /// Creates a new instance of the <see cref="ServerReopMode"/> class.

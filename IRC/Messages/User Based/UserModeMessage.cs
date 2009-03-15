@@ -8,7 +8,7 @@ namespace BigSister.Irc.Messages {
   ///   Modes include such things as invisibility and irc operator.
   ///   This message wraps the MODE command. </remarks>
   [Serializable]
-  public class UserModeMessage : CommandMessage {
+  class UserModeMessage : CommandMessage {
 
     /// <summary>
     /// Gets the Irc command associated with this message.

@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   One of the responses to the <see cref="LusersMessage"/> query. </summary>
   [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "Op"), Serializable]
-  public class LusersOpReplyMessage : NumericMessage {
+  class LusersOpReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="LusersOpReplyMessage"/> class </summary>

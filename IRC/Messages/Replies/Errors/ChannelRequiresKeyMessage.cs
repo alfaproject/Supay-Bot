@@ -7,7 +7,7 @@ namespace BigSister.Irc.Messages {
   /// <remarks>
   ///   A channel can require a key with the ChannelModeMessage with a RegisteredNicksOnlyMode. </remarks>
   [Serializable]
-  public class ChannelRequiresKeyMessage : ErrorMessage, IChannelTargetedMessage {
+  class ChannelRequiresKeyMessage : ErrorMessage, IChannelTargetedMessage {
     //:irc.dkom.at 475 _aLfa_ #chaos :Cannot join channel (+k)
 
     /// <summary>

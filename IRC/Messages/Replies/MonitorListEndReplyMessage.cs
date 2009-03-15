@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A Monitor system message signaling the end of a monitor list request. </summary>
   [Serializable]
-  public class MonitorListEndReplyMessage : NumericMessage {
+  class MonitorListEndReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="MonitorListReplyMessage"/>. </summary>

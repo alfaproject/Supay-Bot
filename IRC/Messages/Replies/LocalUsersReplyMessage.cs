@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   This message indicates the number of local-server users. </summary>
   [Serializable]
-  public class LocalUsersReplyMessage : NumericMessage {
+  class LocalUsersReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="LocalUsersReplyMessage"/> class. </summary>

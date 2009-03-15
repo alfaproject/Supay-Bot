@@ -1,7 +1,7 @@
 namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   This mode is used to restrict the usage of the <see cref="BigSister.Irc.Messages.TopicMessage"/> to channel operators. </summary>
-  public class TopicGuardedMode : FlagMode {
+  class TopicGuardedMode : FlagMode {
 
     /// <summary>
     /// Creates a new instance of the <see cref="TopicGuardedMode"/> class.

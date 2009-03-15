@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Marks the end of the replies to a <see cref="NamesMessage"/> query. </summary>
   [Serializable]
-  public class NamesEndReplyMessage : NumericMessage, IChannelTargetedMessage {
+  class NamesEndReplyMessage : NumericMessage, IChannelTargetedMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="NamesEndReplyMessage"/> class. </summary>

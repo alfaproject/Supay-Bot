@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   This message is sent to all channel operators. </summary>
   [Serializable]
-  public class WallchopsMessage : CommandMessage, IChannelTargetedMessage {
+  class WallchopsMessage : CommandMessage, IChannelTargetedMessage {
 
     /// <summary>
     /// Gets or sets the text of the <see cref="WallchopsMessage"/>.

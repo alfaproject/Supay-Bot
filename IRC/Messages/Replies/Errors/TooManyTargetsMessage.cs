@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The error recieved when a message containing target parameters has too many targets specified. </summary>
   [Serializable]
-  public class TooManyTargetsMessage : ErrorMessage {
+  class TooManyTargetsMessage : ErrorMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="TooManyTargetsMessage"/> class. </summary>

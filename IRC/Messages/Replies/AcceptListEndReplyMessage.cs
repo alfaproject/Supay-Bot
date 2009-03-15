@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   An Accept/CallerId system message marking the end of the responses to an AcceptListRequestMessage. </summary>
   [Serializable]
-  public class AcceptListEndReplyMessage : NumericMessage {
+  class AcceptListEndReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="AcceptListEndReplyMessage"/>. </summary>

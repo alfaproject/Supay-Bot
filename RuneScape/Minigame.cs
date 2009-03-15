@@ -2,7 +2,7 @@
 using System.Globalization;
 
 namespace BigSister {
-  public class Minigame : Hiscore, IComparable<Minigame> {
+  class Minigame : Hiscore, IComparable<Minigame> {
 
     public const string DUEL = "Duel Tournament";
     public const string BOUN = "Bounty Hunters";

@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A Message that requests the status of the users on your watch list. </summary>
   [Serializable]
-  public class WatchStatusRequestMessage : WatchMessage {
+  class WatchStatusRequestMessage : WatchMessage {
 
     #region Parsing
 

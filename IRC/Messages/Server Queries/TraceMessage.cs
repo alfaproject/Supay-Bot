@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Request a network path from the local server to the specified server. </summary>
   [Serializable]
-  public class TraceMessage : ServerQueryBase {
+  class TraceMessage : ServerQueryBase {
 
     /// <summary>
     /// Gets the Irc command associated with this message.

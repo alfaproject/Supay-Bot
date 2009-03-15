@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Sent to a user who is either (a) not on a channel which is mode +n or (b) not a chanop (or mode +v) on a channel which has mode +m set or where the user is	banned and is trying to send a PRIVMSG message to	that channel. </summary>
   [Serializable]
-  public class CannotSendToChannelMessage : ErrorMessage, IChannelTargetedMessage {
+  class CannotSendToChannelMessage : ErrorMessage, IChannelTargetedMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="CannotSendToChannelMessage"/> class. </summary>

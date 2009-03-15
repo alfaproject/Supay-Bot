@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The <see cref="LinksMessage" /> asks the server to send a list all servers which are known by the server answering the message. </summary>
   [Serializable]
-  public class LinksMessage : ServerQueryBase {
+  class LinksMessage : ServerQueryBase {
 
     /// <summary>
     /// Gets the Irc command associated with this message.

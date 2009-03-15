@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   This message is the standard communication message for irc. </summary>
   [Serializable]
-  public class ChatMessage : TextMessage {
+  class ChatMessage : TextMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="ChatMessage"/> class.

@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   With the SilenceMessage, clients can tell a server to never send messages to them from a given user. This, effectively, is a serverside ignore command. </summary>
   [Serializable]
-  public class SilenceMessage : CommandMessage {
+  class SilenceMessage : CommandMessage {
 
     /// <summary>
     /// Creates a new instance of the SilenceMessage class.

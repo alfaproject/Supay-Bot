@@ -1,7 +1,7 @@
 namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   This mode conceals the existence of the channel from other users. </summary>
-  public class PrivateMode : FlagMode {
+  class PrivateMode : FlagMode {
 
     /// <summary>
     /// Creates a new instance of the <see cref="PrivateMode"/> class.

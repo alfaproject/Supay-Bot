@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   With the BackMessage, clients can set disable the automatic reply string set by an <see cref="AwayMessage"/>. </summary>
   [Serializable]
-  public class BackMessage : CommandMessage {
+  class BackMessage : CommandMessage {
 
     /// <summary>
     /// Gets the Irc command associated with this message.

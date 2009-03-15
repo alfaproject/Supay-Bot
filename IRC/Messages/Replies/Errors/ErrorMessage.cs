@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   This class of message is sent to a client from a server when something bad happens. </summary>
   [Serializable]
-  public abstract class ErrorMessage : NumericMessage {
+  abstract class ErrorMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="ErrorMessage"/> class with the numeric command. </summary>

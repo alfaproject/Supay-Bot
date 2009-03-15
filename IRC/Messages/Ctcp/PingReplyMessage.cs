@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The response to a <see cref="PingRequestMessage"/>. </summary>
   [Serializable]
-  public class PingReplyMessage : CtcpReplyMessage {
+  class PingReplyMessage : CtcpReplyMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="PingReplyMessage"/> class.

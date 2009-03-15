@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   ///   its version, when it was compiled, the patchlevel, when it was started, 
   ///   and any other miscellaneous information which may be considered to be relevant. </summary>
   [Serializable]
-  public class InfoMessage : ServerQueryBase {
+  class InfoMessage : ServerQueryBase {
 
     /// <summary>
     /// Gets the Irc command associated with this message.

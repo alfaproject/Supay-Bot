@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Returned after an attempt to connect and register yourself with a server which has been setup to explicitly deny connections to you. </summary>
   [Serializable]
-  public class YouAreBannedMessage : ErrorMessage {
+  class YouAreBannedMessage : ErrorMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="YouAreBannedMessage"/> class. </summary>

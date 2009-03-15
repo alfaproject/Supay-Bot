@@ -10,7 +10,7 @@ namespace BigSister.Irc.Messages {
   ///   you can send in a time frame. However, they will let channel operators send this chat message
   ///   as often as they want to people who are in that channel. </remarks>
   [Serializable]
-  public class ChannelScopedChatMessage : CommandMessage, IChannelTargetedMessage {
+  class ChannelScopedChatMessage : CommandMessage, IChannelTargetedMessage {
 
     #region Constructors
 

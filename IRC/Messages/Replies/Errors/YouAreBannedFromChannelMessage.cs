@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The ErrorMessage received when attempting to join a channel on which the user is banned. </summary>
   [Serializable]
-  public class YouAreBannedFromChannelMessage : ErrorMessage, IChannelTargetedMessage {
+  class YouAreBannedFromChannelMessage : ErrorMessage, IChannelTargetedMessage {
     //:irc.dkom.at 474 _aLfa_ #chaos :Cannot join channel (+b)
 
     /// <summary>

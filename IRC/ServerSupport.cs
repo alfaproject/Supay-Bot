@@ -13,7 +13,7 @@ namespace BigSister.Irc {
   /// This most likely makes it unneccesary to catch this message's received event.
   /// </remarks>
   [Serializable]
-  public class ServerSupport {
+  class ServerSupport {
 
     /// <summary>
     /// The extended parameters which the server can support on a List message.

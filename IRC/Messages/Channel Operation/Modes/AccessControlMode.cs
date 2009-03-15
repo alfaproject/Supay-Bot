@@ -1,7 +1,7 @@
 namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   This category of modes is used to control access to a channel. </summary>
-  public abstract class AccessControlMode : ChannelMode {
+  abstract class AccessControlMode : ChannelMode {
 
     /// <summary>
     /// Gets or sets the mask applied to this mode.

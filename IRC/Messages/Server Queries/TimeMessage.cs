@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A request for the current server time. </summary>
   [Serializable]
-  public class TimeMessage : ServerQueryBase {
+  class TimeMessage : ServerQueryBase {
 
     /// <summary>
     /// Gets the Irc command associated with this message.

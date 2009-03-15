@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   PongMessage is a reply to ping message. </summary>
   [Serializable]
-  public class PongMessage : CommandMessage {
+  class PongMessage : CommandMessage {
 
     /// <summary>
     /// Gets the Irc command associated with this message.

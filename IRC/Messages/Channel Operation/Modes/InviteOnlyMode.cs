@@ -3,7 +3,7 @@ namespace BigSister.Irc.Messages.Modes {
   ///   When thi mode is set,
   ///   new members are only accepted if their mask matches Invite-list (See <see cref="InvitationExceptionMode"/>)
   ///   or they have been invited by a channel operator. </summary>
-  public class InviteOnlyMode : ChannelMode {
+  class InviteOnlyMode : ChannelMode {
 
     /// <summary>
     /// Creates a new instance of the <see cref="InviteOnlyMode"/> class.

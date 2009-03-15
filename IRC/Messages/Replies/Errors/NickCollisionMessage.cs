@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Returned by a server to a client when it detects a nickname collision. </summary>
   [Serializable]
-  public class NickCollisionMessage : ErrorMessage {
+  class NickCollisionMessage : ErrorMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="NickCollisionMessage"/> class. </summary>

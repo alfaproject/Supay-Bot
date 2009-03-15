@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A reply to a <see cref="WhoMessage"/> query. </summary>
   [Serializable]
-  public class WhoReplyMessage : NumericMessage, IChannelTargetedMessage {
+  class WhoReplyMessage : NumericMessage, IChannelTargetedMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="WhoReplyMessage"/> class. </summary>

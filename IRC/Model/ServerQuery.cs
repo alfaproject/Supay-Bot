@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace BigSister.Irc {
   /// <summary>
   ///   Represents a status window for communication between the user and the server. </summary>
-  public class ServerQuery : INotifyPropertyChanged {
+  class ServerQuery : INotifyPropertyChanged {
 
     #region CTor
 

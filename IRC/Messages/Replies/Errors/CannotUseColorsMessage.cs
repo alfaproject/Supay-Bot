@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Sent to a user who is trying to send control codes to a channel that is set +c. </summary>
   [Serializable]
-  public class CannotUseColorsMessage : ErrorMessage, IChannelTargetedMessage {
+  class CannotUseColorsMessage : ErrorMessage, IChannelTargetedMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="CannotUseColorsMessage"/> class. </summary>

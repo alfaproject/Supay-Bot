@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The reply to a <see cref="WhoWasMessage"/> query. </summary>
   [Serializable]
-  public class WhoWasUserReplyMessage : NumericMessage {
+  class WhoWasUserReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="WhoWasUserReplyMessage"/> class. </summary>

@@ -9,7 +9,7 @@ namespace BigSister.Irc.Messages {
   ///   You will often get this if you attempt to kick a user but someone else kicks them before you do. 
   ///   If the user does not actually exist at all, 401 will be returned instead. </remarks>
   [Serializable]
-  public class NotOnChannelMessage : ErrorMessage, IChannelTargetedMessage {
+  class NotOnChannelMessage : ErrorMessage, IChannelTargetedMessage {
     //:irc.dkom.at 441 _aLfa_ bob #aLfBot :They aren't on that channel
 
     /// <summary>

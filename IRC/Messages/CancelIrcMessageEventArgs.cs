@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The information for a handler of an IrcMessage event which can be canceled. </summary>
   [Serializable]
-  public class CancelIrcMessageEventArgs<T> : EventArgs where T : IrcMessage {
+  class CancelIrcMessageEventArgs<T> : EventArgs where T : IrcMessage {
 
     /// <summary>
     /// Initializes a new instance of the <see cref="IrcMessageEventArgs&lt;T&gt;"/> class with the given <see cref="IrcMessage"/>.

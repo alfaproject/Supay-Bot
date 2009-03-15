@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Marks the end of the replies to a <see cref="ChannelPropertyMessage"/> designed to read one or all channel properties. </summary>
   [Serializable]
-  public class ChannelPropertyEndReplyMessage : NumericMessage {
+  class ChannelPropertyEndReplyMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="ChannelPropertyEndReplyMessage"/> class. </summary>

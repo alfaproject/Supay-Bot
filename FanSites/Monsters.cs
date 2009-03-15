@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 
 namespace BigSister {
-  public class Monsters : Dictionary<string, Monster> {
+  class Monsters : Dictionary<string, Monster> {
 
     public List<Monster> SearchOnline(string Criteria) {
       List<Monster> ResultList = new List<Monster>();

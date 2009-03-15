@@ -9,7 +9,7 @@ namespace BigSister.Irc.Messages {
   ///   Call <see cref="m:Prioritize"/> on frequently accessed nodes in order to make
   ///   finding common messages faster. </remarks>
   [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix"), Serializable]
-  public class PrioritizedMessageList : System.Collections.Generic.LinkedList<IrcMessage> {
+  class PrioritizedMessageList : System.Collections.Generic.LinkedList<IrcMessage> {
 
     /// <summary>
     /// Creates a new instances of the <see cref="PrioritizedMessageList"/> class.

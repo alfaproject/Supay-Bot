@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Used to indicate the server name given currently doesn't exist. </summary>
   [Serializable]
-  public class NoSuchServerMessage : ErrorMessage {
+  class NoSuchServerMessage : ErrorMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="NoSuchServerMessage"/> class. </summary>

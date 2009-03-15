@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   With the KnockMessage, clients can request an invite to a invitation-only channel. </summary>
   [Serializable]
-  public class KnockMessage : CommandMessage, IChannelTargetedMessage {
+  class KnockMessage : CommandMessage, IChannelTargetedMessage {
 
     /// <summary>
     /// Creates a new instance of the KnockMessage class.

@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A reply to a <see cref="ChannelPropertyMessage"/> designed to read one or all channel properties. </summary>
   [Serializable]
-  public class ChannelPropertyReplyMessage : NumericMessage, IChannelTargetedMessage {
+  class ChannelPropertyReplyMessage : NumericMessage, IChannelTargetedMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="ChannelPropertyReplyMessage"/>. </summary>

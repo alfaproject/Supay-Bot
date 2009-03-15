@@ -1,7 +1,7 @@
 namespace BigSister.Irc.Messages.Modes {
   /// <summary>
   ///   This mode is used to toggle the operator status of a channel member. </summary>
-  public class OperatorMode : MemberStatusMode {
+  class OperatorMode : MemberStatusMode {
 
     /// <summary>
     /// Creates a new instance of the <see cref="OperatorMode"/> class.

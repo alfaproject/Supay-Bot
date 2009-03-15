@@ -4,7 +4,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   A Message that participates in the Watch framework. </summary>
   [Serializable]
-  public abstract class WatchMessage : CommandMessage {
+  abstract class WatchMessage : CommandMessage {
 
     /// <summary>
     /// Gets the Irc command associated with this message.

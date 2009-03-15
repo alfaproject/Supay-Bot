@@ -11,7 +11,7 @@ namespace BigSister.Irc.Messages {
   ///   Unsure if this is server only or network wide. 
   ///   Note that if there are no unknown connections, this will not be sent. </remarks>
   [Serializable]
-  public class UnknownConnectionsMessage : NumericMessage {
+  class UnknownConnectionsMessage : NumericMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="UnknownConnectionsMessage"/> class. </summary>

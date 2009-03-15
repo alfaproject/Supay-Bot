@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Contains basic information about a server. </summary>
   [Serializable]
-  public class ServerInfoMessage : NumericMessage {
+  class ServerInfoMessage : NumericMessage {
 
     // :irc2.secsup.org 004 _aLfa_ irc2.secsup.org 2.8/hybrid-6.3.1 oOiwszcrkfydnxb biklmnopstve
 

@@ -13,7 +13,7 @@ namespace BigSister.Irc.Network {
   /// <remarks>
   ///   Use the <see cref="ClientConnection"/> class to send a <see cref="BigSister.Irc.Messages.IrcMessage"/> to an irc server, and to be notified when it returns a <see cref="BigSister.Irc.Messages.IrcMessage"/>. </remarks>
   [System.ComponentModel.DesignerCategory("Code")]
-  public class ClientConnection : Component {
+  class ClientConnection : Component {
 
     #region Constructors
 

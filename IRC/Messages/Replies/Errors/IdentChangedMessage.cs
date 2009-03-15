@@ -9,7 +9,7 @@ namespace BigSister.Irc.Messages {
   ///   Not all networks will send this message, some will silently change your ident,
   ///   while others will simply disconnect you. </remarks>
   [Serializable]
-  public class IdentChangedMessage : ErrorMessage {
+  class IdentChangedMessage : ErrorMessage {
     //:irc.dkom.at 443 _aLfa_ :Your username a//b//c contained the invalid character(s) //// and has been changed to abc. Please use only the characters 0-9 a-z A-Z _ - or . in your username. Your username is the part before the @ in your email address.
 
     /// <summary>

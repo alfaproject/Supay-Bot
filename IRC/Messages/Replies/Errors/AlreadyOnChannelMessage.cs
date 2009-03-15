@@ -6,7 +6,7 @@ namespace BigSister.Irc.Messages {
   ///   The ErrorMessage sent when a user tries to invite a person onto a channel which they
   ///   are already on. </summary>
   [Serializable]
-  public class AlreadyOnChannelMessage : ErrorMessage, IChannelTargetedMessage {
+  class AlreadyOnChannelMessage : ErrorMessage, IChannelTargetedMessage {
     //:irc.dkom.at 443 _aLfa_ bob #aLfBot :is already on channel
 
     /// <summary>

@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The <see cref="TopicMessage"/> is used to change or view the topic of a channel. </summary>
   [Serializable]
-  public class TopicMessage : CommandMessage, IChannelTargetedMessage {
+  class TopicMessage : CommandMessage, IChannelTargetedMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="TopicMessage"/> class.

@@ -8,7 +8,7 @@ namespace BigSister.Irc.Messages {
   /// <remarks>
   ///   Some other commands may also send this when no recipients are specified. </remarks>
   [Serializable]
-  public class NoRecipientGivenMessage : ErrorMessage {
+  class NoRecipientGivenMessage : ErrorMessage {
 
     /// <summary>
     ///   Creates a new instance of the <see cref="NoRecipientGivenMessage"/> class. </summary>

@@ -9,7 +9,7 @@ namespace BigSister.Irc.Messages {
   ///   A server sent a <see cref="ListMessage"/> will reply with a 
   ///   <see cref="ListStartReplyMessage"/>, <see cref="ListReplyMessage"/>, and a <see cref="ListEndReplyMessage"/>. </remarks>
   [Serializable]
-  public class ListMessage : CommandMessage {
+  class ListMessage : CommandMessage {
 
     /// <summary>
     /// Creates a new instance of the <see cref="ListMessage"/> class.

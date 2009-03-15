@@ -5,7 +5,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   The base class for server query messages. </summary>
   [Serializable]
-  public abstract class ServerQueryBase : CommandMessage {
+  abstract class ServerQueryBase : CommandMessage {
 
     /// <summary>
     /// Gets or sets the target server of the query.

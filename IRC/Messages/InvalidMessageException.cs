@@ -7,7 +7,7 @@ namespace BigSister.Irc.Messages {
   /// <summary>
   ///   Exception thrown when a message parsed from a string is invalid. </summary>
   [Serializable()]
-  public class InvalidMessageException : Exception, ISerializable {
+  class InvalidMessageException : Exception, ISerializable {
 
     /// <summary>
     /// Initializes a new instance of the InvalidMessageException class.
