@@ -399,7 +399,6 @@
     <Compile Include="IRC\Model\Channel.cs" />
     <Compile Include="IRC\Model\ChannelCollection.cs" />
     <Compile Include="IRC\Model\Client.cs" />
-    <Compile Include="IRC\Model\ClientCollection.cs" />
     <Compile Include="IRC\Model\Journal.cs" />
     <Compile Include="IRC\Model\JournalEntry.cs" />
     <Compile Include="IRC\Model\MessageCollection.cs" />
