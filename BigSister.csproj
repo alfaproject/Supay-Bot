@@ -6,7 +6,7 @@
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{57B7C0C0-AD4E-4B1F-A763-C5F294B5F2B8}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BigSister</RootNamespace>
     <AssemblyName>BigSister</AssemblyName>
@@ -23,8 +23,7 @@
     <GenerateManifests>false</GenerateManifests>
     <TargetZone>LocalIntranet</TargetZone>
     <TargetFrameworkSubset>Full</TargetFrameworkSubset>
-    <StartupObject>
-    </StartupObject>
+    <StartupObject>BigSister.Program</StartupObject>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
