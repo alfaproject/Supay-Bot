@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace BigSister {
   static class CmdTracker {
@@ -41,7 +42,7 @@ namespace BigSister {
 
       string rsn = bc.MessageTokens.Join(1).ToRSN();
       if (Database.GetValue("players", "id", "rsn='" + rsn + "'") != null) {
-        int pid = Convert.ToInt32(Database.GetValue("players", "id", "rsn='" + rsn + "'"));
+        int pid = Convert.ToInt32(Database.GetValue("players", "id", "rsn='" + rsn + "'"), CultureInfo.InvariantCulture);
         Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + pid + ";");
         Database.ExecuteNonQuery("DELETE FROM players WHERE id=" + pid + ";");
         bc.SendReply(string.Format("\\b{0}\\b was removed from tracker.", rsn));
