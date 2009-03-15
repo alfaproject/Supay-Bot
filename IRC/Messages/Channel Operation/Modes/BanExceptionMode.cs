@@ -4,35 +4,32 @@ namespace BigSister.Irc.Messages.Modes {
   class BanExceptionMode : AccessControlMode {
 
     /// <summary>
-    /// Creates a new instance of the <see cref="BanExceptionMode"/> class.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="BanExceptionMode"/> class. </summary>
     public BanExceptionMode() {
     }
 
     /// <summary>
-    /// Creates a new instance of the <see cref="BanExceptionMode"/> class with the given <see cref="ModeAction"/>.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="BanExceptionMode"/> class with the given <see cref="ModeAction"/>. </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
     public BanExceptionMode(ModeAction action) {
-      this.Action = action;
+      base.Action = action;
     }
 
     /// <summary>
-    /// Creates a new instance of the <see cref="BanExceptionMode"/> class 
-    /// with the given <see cref="ModeAction"/> and <see cref="User"/>.
-    /// </summary>
+    ///   Creates a new instance of the <see cref="BanExceptionMode"/> class 
+    ///   with the given <see cref="ModeAction"/> and <see cref="User"/>. </summary>
     public BanExceptionMode(ModeAction action, User mask) {
       base.Action = action;
       base.Mask = mask;
     }
 
     /// <summary>
-    /// Gets the irc string representation of the mode being changed or applied.
-    /// </summary>
+    ///   Gets the irc string representation of the mode being changed or applied. </summary>
     protected override string Symbol {
       get {
         return "e";
       }
     }
 
-  }
-}
+  } //class BanExceptionMode
+} //namespace BigSister.Irc.Messages.Modes
