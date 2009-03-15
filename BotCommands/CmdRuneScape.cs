@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace BigSister {
-  class CmdRuneScape {
+  static class CmdRuneScape {
 
     public static void Stats(CommandContext bc) {
       // get @next

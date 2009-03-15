@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace BigSister {
-  class CmdHiscores {
+  static class CmdHiscores {
 
     public static void Top(CommandContext bc) {
       string rsn = bc.From.RSN;

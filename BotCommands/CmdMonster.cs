@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace BigSister {
-  class CmdMonster {
+  static class CmdMonster {
 
     public static void Search(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {

@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 
 namespace BigSister {
-  class CmdCompare {
+  static class CmdCompare {
 
     public static void Compare(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {

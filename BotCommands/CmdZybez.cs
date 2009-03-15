@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace BigSister {
-  class CmdZybez {
+  static class CmdZybez {
 
     public static void ItemInfo(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {

@@ -2,7 +2,7 @@
 using System.Data.SQLite;
 
 namespace BigSister {
-  class CmdTimers {
+  static class CmdTimers {
 
     public static void Start(CommandContext bc) {
       // get rsn

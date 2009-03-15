@@ -1,5 +1,5 @@
 ﻿namespace BigSister {
-  class CmdUtil {
+  static class CmdUtil {
 
     //setname <rsn>
     public static void SetName(CommandContext bc) {

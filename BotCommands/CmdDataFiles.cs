@@ -5,7 +5,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 
 namespace BigSister {
-  class CmdDataFiles {
+  static class CmdDataFiles {
 
     public static void Coord(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {

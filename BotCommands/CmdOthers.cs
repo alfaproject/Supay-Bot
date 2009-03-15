@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 
 namespace BigSister {
-  class CmdOthers {
+  static class CmdOthers {
 
     public static void Percent(CommandContext bc) {
       // get rsn

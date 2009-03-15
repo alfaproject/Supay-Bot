@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace BigSister {
-  class CmdRuneHead {
+  static class CmdRuneHead {
 
     private static List<string[]> _GetClans(string rsn, string url) {
       List<string[]> clans = new List<string[]>(5);

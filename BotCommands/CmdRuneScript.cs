@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace BigSister {
-  class CmdRuneScript {
+  static class CmdRuneScript {
 
     public static void Graph(CommandContext bc) {
       string skill = "Overall";

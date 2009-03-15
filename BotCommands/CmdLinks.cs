@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 
 namespace BigSister {
-  class CmdLinks {
+  static class CmdLinks {
 
     public static void Qfc(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {

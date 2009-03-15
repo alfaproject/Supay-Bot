@@ -2,7 +2,7 @@
 using System.Globalization;
 
 namespace BigSister {
-  class CmdGrandExchange {
+  static class CmdGrandExchange {
 
     public static void Price(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {

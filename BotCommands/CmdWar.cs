@@ -2,7 +2,7 @@
 using System.Globalization;
 
 namespace BigSister {
-  class CmdWar {
+  static class CmdWar {
 
     public static void Start(CommandContext bc) {
       if (!bc.From.IsAdmin)

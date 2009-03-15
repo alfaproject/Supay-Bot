@@ -4,7 +4,7 @@ using System.Data.SQLite;
 using System.Text.RegularExpressions;
 
 namespace BigSister {
-  class CmdTracker {
+  static class CmdTracker {
 
     public static void Add(CommandContext bc) {
       if (!bc.From.IsAdmin)

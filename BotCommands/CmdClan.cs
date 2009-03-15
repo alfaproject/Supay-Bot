@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 
 namespace BigSister {
-  class CmdClan {
+  static class CmdClan {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void Top(CommandContext bc) {
