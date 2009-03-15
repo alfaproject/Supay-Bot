@@ -3,7 +3,7 @@
 namespace BigSister {
   public abstract class ASkillItem {
 
-    public ASkillItem(string[] tokens) {
+    protected ASkillItem(string[] tokens) {
       this.Skill = tokens[0];
       this.Level = int.Parse(tokens[1], CultureInfo.InvariantCulture);
       this.Exp = double.Parse(tokens[2], CultureInfo.InvariantCulture);
@@ -30,6 +30,7 @@ namespace BigSister {
       set;
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Colour")]
     public abstract string IrcColour {
       get;
     }
