@@ -13,7 +13,7 @@ namespace BigSister.Irc.Messages.Modes {
     /// Creates a new instance of the <see cref="AwayMode"/> class with the given <see cref="ModeAction"/>.
     /// </summary>
     public AwayMode(ModeAction action) {
-      this.Action = action;
+      base.Action = action;
     }
 
     /// <summary>

@@ -21,8 +21,8 @@ namespace BigSister.Irc.Messages.Modes {
     /// with the given <see cref="ModeAction"/> and <see cref="User"/>.
     /// </summary>
     public BanMode(ModeAction action, User mask) {
-      this.Action = action;
-      this.Mask = mask;
+      base.Action = action;
+      base.Mask = mask;
     }
 
     /// <summary>
