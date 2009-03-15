@@ -11,6 +11,7 @@ namespace BigSister {
     ///   The first array element in value to use. </param>
     /// <param name="separator">
     ///   A System.String. </param>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2233:OperationsShouldNotOverflow", MessageId = "startIndex+1")]
     public static string Join(this string[] value, int startIndex, string separator) {
       if (value.Length == startIndex + 1) {
         return value[startIndex];
@@ -35,14 +36,14 @@ namespace BigSister {
 
     /// <summary>
     ///   Converts the specified string representation of a date (and time) to its DateTime equivalent. </summary>
-    public static DateTime ToDateTime(this string s) {
-      switch (s.Length) {
+    public static DateTime ToDateTime(this string date) {
+      switch (date.Length) {
         case 8:
-          return DateTime.ParseExact(s, "yyyyMMdd", CultureInfo.InvariantCulture);
+          return DateTime.ParseExact(date, "yyyyMMdd", CultureInfo.InvariantCulture);
         case 12:
-          return DateTime.ParseExact(s, "yyyyMMddHHmm", CultureInfo.InvariantCulture);
+          return DateTime.ParseExact(date, "yyyyMMddHHmm", CultureInfo.InvariantCulture);
         case 14:
-          return DateTime.ParseExact(s, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+          return DateTime.ParseExact(date, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
         default:
           return DateTime.MinValue;
       }
