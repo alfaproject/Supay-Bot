@@ -148,6 +148,7 @@ namespace BigSister {
       _updatePlayers(null);
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions")]
     private void btnConnect_Click(object sender, EventArgs e) {
       btnConnect.Enabled = false;
 

@@ -16,11 +16,13 @@ namespace BigSister {
       Application.Run(new Main());
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions")]
     static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e) {
       Exception ex = (Exception)e.ExceptionObject;
       MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions")]
     static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e) {
       MessageBox.Show(e.Exception.Message + "\n" + e.Exception.StackTrace);
     }
