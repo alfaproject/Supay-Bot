@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Globalization;
 
 namespace BigSister.Irc.Messages.Modes {
   /// <summary>
@@ -33,8 +34,8 @@ namespace BigSister.Irc.Messages.Modes {
       }
       ModeAction currentAction = ModeAction.Add;
       foreach (char c in modeChanges) {
-        if (ModeAction.IsDefined(c.ToString())) {
-          currentAction = ModeAction.Parse(c.ToString());
+        if (ModeAction.IsDefined(c.ToString(CultureInfo.InvariantCulture))) {
+          currentAction = ModeAction.Parse(c.ToString(CultureInfo.InvariantCulture));
         } else {
           // PONDER This probably won't correctly parse incorrect mode messages, should I?
           switch (c) {
@@ -66,8 +67,8 @@ namespace BigSister.Irc.Messages.Modes {
               this.modes.Add(new RestrictedMode(currentAction));
               break;
             default:
-              this.modes.Add(new UnknownUserMode(currentAction, c.ToString()));
-              Trace.WriteLine("Unknown UserMode '" + c.ToString() + "'");
+              this.modes.Add(new UnknownUserMode(currentAction, c.ToString(CultureInfo.InvariantCulture)));
+              Trace.WriteLine("Unknown UserMode '" + c.ToString(CultureInfo.InvariantCulture) + "'");
               break;
           }
         }

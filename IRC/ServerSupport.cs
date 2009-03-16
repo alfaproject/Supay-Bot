@@ -686,7 +686,7 @@ namespace BigSister.Irc {
               int limit = -1;
               if (int.TryParse(chanLimitInfo.Value, out limit)) {
                 foreach (char c in chanLimitInfo.Key) {
-                  this.ChannelLimits.Add(c.ToString(), limit);
+                  this.ChannelLimits.Add(c.ToString(CultureInfo.InvariantCulture), limit);
                 }
               }
             }
@@ -832,7 +832,7 @@ namespace BigSister.Irc {
 
     private static void AddChars(StringCollection target, string source) {
       foreach (char c in source) {
-        target.Add(c.ToString());
+        target.Add(c.ToString(CultureInfo.InvariantCulture));
       }
     }
 

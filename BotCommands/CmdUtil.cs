@@ -1,4 +1,6 @@
-﻿namespace BigSister {
+﻿using System.Globalization;
+
+namespace BigSister {
   static class CmdUtil {
 
     //setname <rsn>
@@ -20,22 +22,22 @@
       }
       bc.From.RSN = rsn;
 
-      bc.SendReply(string.Format("Your default RuneScape name is now \\b{0}\\b. This RSN is associated with the address \\u*!*{1}\\u.", rsn, bc.From.FingerPrint));
+      bc.SendReply(string.Format(CultureInfo.InvariantCulture, "Your default RuneScape name is now \\b{0}\\b. This RSN is associated with the address \\u*!*{1}\\u.", rsn, bc.From.FingerPrint));
     }
 
     //whois <nick>
     public static void Whois(CommandContext bc) {
       if (bc.MessageTokens.Length <= 1) {
-        bc.SendReply(string.Format("{0}'s RSN is \\b{1}\\b.", bc.From.Nick, bc.From.RSN));
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "{0}'s RSN is \\b{1}\\b.", bc.From.Nick, bc.From.RSN));
         return;
       }
 
       string nick = bc.MessageTokens.Join(1, "_");
       BigSister.Irc.User u = bc.Users.Find(nick);
       if (u != null)
-        bc.SendReply(string.Format("{0}'s RSN is \\b{1}\\b.", u.Nick, u.RSN));
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "{0}'s RSN is \\b{1}\\b.", u.Nick, u.RSN));
       else
-        bc.SendReply(string.Format("\\c07{0}\\c must be in a channel monitored by the bot for you to look up their RSN.", nick));
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\c07{0}\\c must be in a channel monitored by the bot for you to look up their RSN.", nick));
     }
 
     //calc <expression>

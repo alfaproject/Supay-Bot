@@ -646,47 +646,47 @@ namespace BigSister {
         } else {
           switch (c) {
             case '+':
-              ret.Add(new Token(c.ToString(), ADD));
+              ret.Add(new Token(c.ToString(CultureInfo.InvariantCulture), ADD));
               break;
             case '-':
               if (ret.Count == 0 || (ret[ret.Count - 1].Type != VAL && ret[ret.Count - 1].Type != FACT && ret[ret.Count - 1].Type != RPAR)) {
                 // if it's first token or 
                 // if previous token isn't a number or right parenthesis then it's unary "-" 
-                ret.Add(new Token(c.ToString(), UMI));
+                ret.Add(new Token(c.ToString(CultureInfo.InvariantCulture), UMI));
               } else {
-                ret.Add(new Token(c.ToString(), SUB));
+                ret.Add(new Token(c.ToString(CultureInfo.InvariantCulture), SUB));
               }
               break;
             case '*':
-              ret.Add(new Token(c.ToString(), MUL));
+              ret.Add(new Token(c.ToString(CultureInfo.InvariantCulture), MUL));
               break;
             case '/':
-              ret.Add(new Token(c.ToString(), DIV));
+              ret.Add(new Token(c.ToString(CultureInfo.InvariantCulture), DIV));
               break;
             case '%':
-              ret.Add(new Token(c.ToString(), MOD));
+              ret.Add(new Token(c.ToString(CultureInfo.InvariantCulture), MOD));
               break;
             case '\\':
-              ret.Add(new Token(c.ToString(), DIVI));
+              ret.Add(new Token(c.ToString(CultureInfo.InvariantCulture), DIVI));
               break;
             case '^':
-              ret.Add(new Token(c.ToString(), POW));
+              ret.Add(new Token(c.ToString(CultureInfo.InvariantCulture), POW));
               break;
             case '!':
-              ret.Add(new Token(c.ToString(), FACT));
+              ret.Add(new Token(c.ToString(CultureInfo.InvariantCulture), FACT));
               break;
             case '(':
               if (ret.Count > 0 && ret[ret.Count - 1].Type == RPAR) {
                 // implicit multiplication: (...)(...)
                 ret.Add(new Token(string.Empty, MUL));
               }
-              ret.Add(new Token(c.ToString(), LPAR));
+              ret.Add(new Token(c.ToString(CultureInfo.InvariantCulture), LPAR));
               break;
             case ')':
-              ret.Add(new Token(c.ToString(), RPAR));
+              ret.Add(new Token(c.ToString(CultureInfo.InvariantCulture), RPAR));
               break;
             case ';':
-              ret.Add(new Token(c.ToString(), SCOL));
+              ret.Add(new Token(c.ToString(CultureInfo.InvariantCulture), SCOL));
               break;
             default:
               throw new Exception("Illegal character \"" + c + "\" at position " + _currentpos + ".");

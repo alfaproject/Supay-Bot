@@ -44,12 +44,12 @@ namespace BigSister {
       int InputLessThan = 0;
       Match M = Regex.Match(bc.Message, " <(\\d+m|\\d+k|\\d+)");
       if (M.Success) {
-        if (M.Groups[1].Value.EndsWith("m"))
-          InputLessThan = 1000000 * int.Parse(M.Groups[1].Value.Substring(0, M.Groups[1].Value.Length - 1));
-        else if (M.Groups[1].Value.EndsWith("k"))
-          InputLessThan = 1000 * int.Parse(M.Groups[1].Value.Substring(0, M.Groups[1].Value.Length - 1));
+        if (M.Groups[1].Value.EndsWith("m", StringComparison.InvariantCulture))
+          InputLessThan = 1000000 * int.Parse(M.Groups[1].Value.Substring(0, M.Groups[1].Value.Length - 1), CultureInfo.InvariantCulture);
+        else if (M.Groups[1].Value.EndsWith("k", StringComparison.InvariantCulture))
+          InputLessThan = 1000 * int.Parse(M.Groups[1].Value.Substring(0, M.Groups[1].Value.Length - 1), CultureInfo.InvariantCulture);
         else
-          InputLessThan = int.Parse(M.Groups[1].Value);
+          InputLessThan = int.Parse(M.Groups[1].Value, CultureInfo.InvariantCulture);
         if (InputLessThan < 127)
           InputLessThan = InputLessThan.ToExp();
         bc.Message = Regex.Replace(bc.Message, " <(\\d+m|\\d+k|\\d+)", string.Empty);
@@ -59,12 +59,12 @@ namespace BigSister {
       int InputGreaterThan = 0;
       M = Regex.Match(bc.Message, " >(\\d+m|\\d+k|\\d+)");
       if (M.Success) {
-        if (M.Groups[1].Value.EndsWith("m"))
-          InputGreaterThan = 1000000 * int.Parse(M.Groups[1].Value.Substring(0, M.Groups[1].Value.Length - 1));
-        else if (M.Groups[1].Value.EndsWith("k"))
-          InputGreaterThan = 1000 * int.Parse(M.Groups[1].Value.Substring(0, M.Groups[1].Value.Length - 1));
+        if (M.Groups[1].Value.EndsWith("m", StringComparison.InvariantCulture))
+          InputGreaterThan = 1000000 * int.Parse(M.Groups[1].Value.Substring(0, M.Groups[1].Value.Length - 1), CultureInfo.InvariantCulture);
+        else if (M.Groups[1].Value.EndsWith("k", StringComparison.InvariantCulture))
+          InputGreaterThan = 1000 * int.Parse(M.Groups[1].Value.Substring(0, M.Groups[1].Value.Length - 1), CultureInfo.InvariantCulture);
         else
-          InputGreaterThan = int.Parse(M.Groups[1].Value);
+          InputGreaterThan = int.Parse(M.Groups[1].Value, CultureInfo.InvariantCulture);
         if (InputGreaterThan < 127)
           InputGreaterThan = InputGreaterThan.ToExp();
         bc.Message = Regex.Replace(bc.Message, " >(\\d+m|\\d+k|\\d+)", string.Empty);
@@ -79,7 +79,7 @@ namespace BigSister {
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
-        bc.SendReply(string.Format("\\b{0}\\b doesn't feature Hiscores.", rsn));
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b doesn't feature Hiscores.", rsn));
         return;
       }
 
@@ -88,7 +88,7 @@ namespace BigSister {
         List<Skill> skills = p.Skills.SortedByExpToNextVLevel;
         for (int i = 0; i < skills.Count; i++) {
           if (i == 0 || i == 15)
-            reply = string.Format("Exp. to next level of \\b{0}\\b:", rsn);
+            reply = string.Format(CultureInfo.InvariantCulture, "Exp. to next level of \\b{0}\\b:", rsn);
           reply += string.Format(CultureInfo.InvariantCulture, " \\c{0}{1:N0}\\c {2};", (skills[i].VLevel > 98 ? "04" : "03"), skills[i].ExpToVLevel, skills[i].Name);
           if (i == 14 || i == skills.Count - 1)
             bc.SendReply(reply);
@@ -109,7 +109,7 @@ namespace BigSister {
 
         int AvgSkill = totalLevel / (p.Skills.Count - 2);
 
-        string reply = string.Format("\\b{0}\\b \\c07overall\\c | level: \\c07{1:N0}\\c (\\c07{2}\\c avg.) | exp: \\c07{3:e}\\c (\\c07{4}%\\c of {5}) | rank: \\c07{3:R}\\c",
+        string reply = string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b \\c07overall\\c | level: \\c07{1:N0}\\c (\\c07{2}\\c avg.) | exp: \\c07{3:e}\\c (\\c07{4}%\\c of {5}) | rank: \\c07{3:R}\\c",
                                      rsn,
                                      totalLevel,
                                      Math.Round((double)totalLevel / (p.Skills.Count - 2), 1),
@@ -121,7 +121,7 @@ namespace BigSister {
         Players ssplayers = new Players("SS");
         if (ssplayers.Contains(p.Name)) {
           ssplayers.SortBySkill("Overall", false);
-          reply += string.Format(" (SS rank: \\c07{0}\\c)", ssplayers.IndexOf(rsn) + 1);
+          reply += string.Format(CultureInfo.InvariantCulture, " (SS rank: \\c07{0}\\c)", ssplayers.IndexOf(rsn) + 1);
         }
 
         bc.SendReply(reply);
@@ -148,7 +148,7 @@ namespace BigSister {
           if (InputLessThan > 0 && InputGreaterThan > 0 && s.Exp >= InputLessThan && s.Exp <= InputGreaterThan)
             continue;
 
-          reply = string.Format(format,
+          reply = string.Format(CultureInfo.InvariantCulture, format,
             s,
             (VLevel ? s.VLevel : s.Level) > AvgSkill + 7 ? 3 : ((VLevel ? s.VLevel : s.Level) < AvgSkill - 7 ? 4 : 7),
             s.Exp == p.Skills.Highest[0].Exp ? "\\u" : string.Empty);
@@ -158,7 +158,7 @@ namespace BigSister {
           else
             replyCombat += reply;
         }
-        bc.SendReply(replyCombat + string.Format(format.Substring(0, format.Length - 1) + " (\\c07{3}\\c)", p.Skills[Skill.COMB], 7, string.Empty, p.CombatClass));
+        bc.SendReply(replyCombat + string.Format(CultureInfo.InvariantCulture, format.Substring(0, format.Length - 1) + " (\\c07{3}\\c)", p.Skills[Skill.COMB], 7, string.Empty, p.CombatClass));
         bc.SendReply(replyOther);
 
         bool ranked = false;
@@ -193,7 +193,7 @@ namespace BigSister {
           Players ssplayers = new Players("SS");
           if (ssplayers.Contains(p.Name)) {
             ssplayers.SortByMinigame(minigame.Name);
-            reply += string.Format(" (SS rank: \\c07{0}\\c)", ssplayers.IndexOf(rsn) + 1);
+            reply += string.Format(CultureInfo.InvariantCulture, " (SS rank: \\c07{0}\\c)", ssplayers.IndexOf(rsn) + 1);
           }
 
           bc.SendReply(reply);
@@ -230,13 +230,13 @@ namespace BigSister {
                 reply += perf;
             }
             if (reply.Length > 0)
-              bc.SendReply(reply.EndsWith(" | ") ? reply.Substring(0, reply.Length - 3) : reply);
+              bc.SendReply(reply.EndsWith(" | ", StringComparison.InvariantCulture) ? reply.Substring(0, reply.Length - 3) : reply);
           }
 
           return;
         }
       }
-      bc.SendReply(string.Format("\\b{0}\\b doesn't feature Hiscores.", rsn));
+      bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b doesn't feature Hiscores.", rsn));
     }
 
     public static void SkillInfo(CommandContext bc) {
@@ -281,7 +281,7 @@ namespace BigSister {
           } else {
             target_exp = target_level.ToExp();
           }
-        } else if (goal.StartsWith("r")) {
+        } else if (goal.StartsWith("r", StringComparison.InvariantCulture)) {
           // get rank
           int goalrank;
           if (int.TryParse(goal.Substring(1), out goalrank)) {
@@ -331,12 +331,12 @@ namespace BigSister {
               oa_exp += Math.Min(13034431, s.Exp);
           target_level = (p.Skills.Count - 2) * 99;
           int max_exp = 13034431 * (p.Skills.Count - 2);
-          percent_done = Math.Round(oa_exp / (double)max_exp * 100.0, 1).ToString();
+          percent_done = Math.Round(oa_exp / (double)max_exp * 100.0, 1).ToString(CultureInfo.InvariantCulture);
 
           item = null;
         } else {
           exp_to_go = target_exp - skill.Exp;
-          percent_done = Math.Round(100 - exp_to_go / (double)(target_exp - skill.VLevel.ToExp()) * 100, 1).ToString();
+          percent_done = Math.Round(100 - exp_to_go / (double)(target_exp - skill.VLevel.ToExp()) * 100, 1).ToString(CultureInfo.InvariantCulture);
         }
 
         string reply = string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b \\c07{1}\\c | level: \\c07{1:v}\\c | exp: \\c07{1:e}\\c (\\c07{2}%\\c of {3}) | rank: \\c07{1:R}\\c",
@@ -346,12 +346,12 @@ namespace BigSister {
         Players ssplayers = new Players("SS");
         if (ssplayers.Contains(p.Name)) {
           ssplayers.SortBySkill(skill.Name, false);
-          reply += string.Format(" (SS rank: \\c07{0}\\c)", ssplayers.IndexOf(rsn) + 1);
+          reply += string.Format(CultureInfo.InvariantCulture, " (SS rank: \\c07{0}\\c)", ssplayers.IndexOf(rsn) + 1);
         }
 
         // Add exp to go and items
         if (exp_to_go > 0) {
-          reply += string.Format(" | \\c07{0:N0}\\c exp. to go", exp_to_go);
+          reply += string.Format(CultureInfo.InvariantCulture, " | \\c07{0:N0}\\c exp. to go", exp_to_go);
 
           if (item != null && item.Length > 0) {
             string item_name;
@@ -363,26 +363,26 @@ namespace BigSister {
               case "Strength":
               case "Ranged":
                 if (_GetMonster(item, out item_name, out monster_hp))
-                  reply += string.Format(" (\\c07{0}\\c {1})", Math.Ceiling((double)exp_to_go / (monster_hp * 4)), item_name);
+                  reply += string.Format(CultureInfo.InvariantCulture, " (\\c07{0}\\c {1})", Math.Ceiling((double)exp_to_go / (monster_hp * 4)), item_name);
                 else
                   reply += " (unknown monster)";
                 break;
               case "Hitpoints":
                 if (_GetMonster(item, out item_name, out monster_hp))
-                  reply += string.Format(" (\\c07{0}\\c {1})", Math.Ceiling((double)exp_to_go / (monster_hp * (4 / 3))), item_name);
+                  reply += string.Format(CultureInfo.InvariantCulture, " (\\c07{0}\\c {1})", Math.Ceiling((double)exp_to_go / (monster_hp * (4 / 3))), item_name);
                 else
                   reply += " (unknown monster)";
                 break;
               case "Slayer":
                 if (_GetMonster(item, out item_name, out monster_hp))
-                  reply += string.Format(" (\\c07{0}\\c {1})", Math.Ceiling((double)exp_to_go / monster_hp), item_name);
+                  reply += string.Format(CultureInfo.InvariantCulture, " (\\c07{0}\\c {1})", Math.Ceiling((double)exp_to_go / monster_hp), item_name);
                 else
                   reply += " (unknown monster)";
                 break;
               default:
                 ASkillItem itemFound = _GetItem(skill.Name, item);
                 if (itemFound != null)
-                  reply += string.Format(" (\\c07{1}\\c \\c{0}{2}\\c)", itemFound.IrcColour, Math.Ceiling(exp_to_go / itemFound.Exp), itemFound.Name);
+                  reply += string.Format(CultureInfo.InvariantCulture, " (\\c07{1}\\c \\c{0}{2}\\c)", itemFound.IrcColour, Math.Ceiling(exp_to_go / itemFound.Exp), itemFound.Name);
                 else
                   reply += " (unknown item)";
                 break;
@@ -455,11 +455,11 @@ namespace BigSister {
         // ***** end war *****
 
         if (reply.Length > 0)
-          bc.SendReply(reply.EndsWith(" | ") ? reply.Substring(0, reply.Length - 3) : reply);
+          bc.SendReply(reply.EndsWith(" | ", StringComparison.InvariantCulture) ? reply.Substring(0, reply.Length - 3) : reply);
 
         return;
       }
-      bc.SendReply(string.Format("\\b{0}\\b doesn't feature Hiscores.", rsn));
+      bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b doesn't feature Hiscores.", rsn));
     }
 
     private static ASkillItem _GetItem(string skill, string input_item) {
@@ -480,7 +480,7 @@ namespace BigSister {
       int level = 0;
       Match M = Regex.Match(input_monster, "\\((\\d+)\\)");
       if (M.Success) {
-        level = int.Parse(M.Groups[1].Value);
+        level = int.Parse(M.Groups[1].Value, CultureInfo.InvariantCulture);
         input_monster = Regex.Replace(input_monster, "\\((\\d+)\\)", string.Empty).Trim();
       }
 
@@ -575,7 +575,7 @@ namespace BigSister {
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
-        bc.SendReply(string.Format("\\b{0}\\b doesn't feature Hiscores.", rsn));
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b doesn't feature Hiscores.", rsn));
         return;
       }
 
@@ -605,7 +605,7 @@ namespace BigSister {
       Players ssplayers = new Players("SS");
       if (ssplayers.Contains(rsn)) {
         ssplayers.SortBySkill("Combat", false);
-        reply += string.Format(" | SS rank: \\c07{0}\\c", ssplayers.IndexOf(rsn) + 1);
+        reply += string.Format(CultureInfo.InvariantCulture, " | SS rank: \\c07{0}\\c", ssplayers.IndexOf(rsn) + 1);
       }
 
       bc.SendReply(reply);
@@ -636,7 +636,7 @@ namespace BigSister {
         if (s.Exp == p.Skills.Highest[0].Exp)
           reply += "\\u";
 
-        reply += string.Format(format,
+        reply += string.Format(CultureInfo.InvariantCulture, format,
           s, (VLevel ? s.VLevel : s.Level) > AvgSkill + 7 ? 3 : ((VLevel ? s.VLevel : s.Level) < AvgSkill - 7 ? 4 : 7));
 
         if (!Rank) {
@@ -729,7 +729,7 @@ namespace BigSister {
             reply += perf;
         }
         if (reply.Length > 0)
-          bc.SendReply(reply.EndsWith(" | ") ? reply.Substring(0, reply.Length - 3) : reply);
+          bc.SendReply(reply.EndsWith(" | ", StringComparison.InvariantCulture) ? reply.Substring(0, reply.Length - 3) : reply);
       }
     }
 
@@ -749,7 +749,7 @@ namespace BigSister {
         else if (skilldif.Rank < 0)
           result += "\\c04" + skilldif.Rank + "\\c rank" + (skilldif.Rank < 1 ? "s" : string.Empty);
 
-        return (result.EndsWith(", ") ? result.Substring(0, result.Length - 2) : result);
+        return (result.EndsWith(", ", StringComparison.InvariantCulture) ? result.Substring(0, result.Length - 2) : result);
       }
       return null;
     }
@@ -767,7 +767,7 @@ namespace BigSister {
         else if (mg_dif.Rank < 0)
           result += "\\c04" + mg_dif.Rank + "\\c rank" + (mg_dif.Rank < 1 ? "s" : string.Empty) + ";";
 
-        return (result.EndsWith(", ") ? result.Substring(0, result.Length - 2) + ";" : result);
+        return (result.EndsWith(", ", StringComparison.InvariantCulture) ? result.Substring(0, result.Length - 2) + ";" : result);
       }
       return null;
     }

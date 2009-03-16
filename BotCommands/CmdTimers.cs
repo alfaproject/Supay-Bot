@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SQLite;
+using System.Globalization;
 
 namespace BigSister {
   static class CmdTimers {
@@ -10,13 +11,13 @@ namespace BigSister {
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
-        bc.SendReply(string.Format("\\b{0}\\b doesn't feature Hiscores.", rsn));
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b doesn't feature Hiscores.", rsn));
         return;
       }
 
       // get timer name
       string name = string.Empty;
-      int indexofsharp = bc.Message.IndexOf("#");
+      int indexofsharp = bc.Message.IndexOf("#", StringComparison.InvariantCulture);
       if (indexofsharp > 0) {
         name = bc.Message.Substring(indexofsharp + 1);
         bc.Message = bc.Message.Substring(0, indexofsharp - 1);
@@ -34,9 +35,9 @@ namespace BigSister {
       Database.Insert("timers_exp", "fingerprint", bc.From.FingerPrint,
                                     "name", name,
                                     "skill", skill,
-                                    "exp", p.Skills[skill].Exp.ToString(),
-                                    "datetime", DateTime.Now.ToString("yyyyMMddHHmmss"));
-      bc.SendReply(string.Format("\\b{0}\\b starting exp of \\c07{1:e}\\c in \\u{1:n}\\u has been recorded{2}.", rsn, p.Skills[skill], name.Length > 0 ? " on timer \\c07" + name + "\\c" : string.Empty));
+                                    "exp", p.Skills[skill].Exp.ToString(CultureInfo.InvariantCulture),
+                                    "datetime", DateTime.Now.ToString("yyyyMMddHHmmss", CultureInfo.InvariantCulture));
+      bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b starting exp of \\c07{1:e}\\c in \\u{1:n}\\u has been recorded{2}.", rsn, p.Skills[skill], name.Length > 0 ? " on timer \\c07" + name + "\\c" : string.Empty));
     }
 
     public static void Check(CommandContext bc) {
@@ -45,13 +46,13 @@ namespace BigSister {
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
-        bc.SendReply(string.Format("\\b{0}\\b doesn't feature Hiscores.", rsn));
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b doesn't feature Hiscores.", rsn));
         return;
       }
 
       // get timer name
       string name = string.Empty;
-      int indexofsharp = bc.Message.IndexOf("#");
+      int indexofsharp = bc.Message.IndexOf("#", StringComparison.InvariantCulture);
       if (indexofsharp > 0) {
         name = bc.Message.Substring(indexofsharp + 1);
         bc.Message = bc.Message.Substring(0, indexofsharp - 1);
@@ -64,9 +65,9 @@ namespace BigSister {
         int gained_exp = p.Skills[skill].Exp - rs.GetInt32(1);
         TimeSpan time = DateTime.Now - rs.GetString(2).ToDateTime();
 
-        string reply = string.Format("You gained \\c07{0:N0}\\c \\u{1}\\u exp in \\c07{2}\\c. That's \\c07{3:N0}\\c exp/h.", gained_exp, skill.ToLowerInvariant(), time.ToLongString(), (double)gained_exp / (double)time.TotalHours);
-        if (skill != "Overall" && skill != "Combat" && p.Skills[skill].VLevel < 126)
-          reply += string.Format(" Estimated time to level up: \\c07{0}\\c", TimeSpan.FromSeconds((double)p.Skills[skill].ExpToVLevel * (double)time.TotalSeconds / (double)gained_exp).ToLongString());
+        string reply = string.Format(CultureInfo.InvariantCulture, "You gained \\c07{0:N0}\\c \\u{1}\\u exp in \\c07{2}\\c. That's \\c07{3:N0}\\c exp/h.", gained_exp, skill.ToLowerInvariant(), time.ToLongString(), (double)gained_exp / (double)time.TotalHours);
+        if (gained_exp > 0 && skill != "Overall" && skill != "Combat" && p.Skills[skill].VLevel < 126)
+          reply += string.Format(CultureInfo.InvariantCulture, " Estimated time to level up: \\c07{0}\\c", TimeSpan.FromSeconds((double)p.Skills[skill].ExpToVLevel * (double)time.TotalSeconds / (double)gained_exp).ToLongString());
         bc.SendReply(reply);
       } else {
         if (name.Length > 0)
@@ -82,13 +83,13 @@ namespace BigSister {
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
-        bc.SendReply(string.Format("\\b{0}\\b doesn't feature Hiscores.", rsn));
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b doesn't feature Hiscores.", rsn));
         return;
       }
 
       // get timer name
       string name = string.Empty;
-      int indexofsharp = bc.Message.IndexOf("#");
+      int indexofsharp = bc.Message.IndexOf("#", StringComparison.InvariantCulture);
       if (indexofsharp > 0) {
         name = bc.Message.Substring(indexofsharp + 1);
         bc.Message = bc.Message.Substring(0, indexofsharp - 1);
@@ -101,9 +102,9 @@ namespace BigSister {
         int gained_exp = p.Skills[skill].Exp - rs.GetInt32(1);
         TimeSpan time = DateTime.Now - rs.GetString(2).ToDateTime();
 
-        string reply = string.Format("You gained \\c07{0:N0}\\c \\u{1}\\u exp in \\c07{2}\\c. That's \\c07{3:N0}\\c exp/h.", gained_exp, skill.ToLowerInvariant(), time.ToLongString(), (double)gained_exp / (double)time.TotalHours);
-        if (skill != "Overall" && skill != "Combat" && p.Skills[skill].VLevel < 126)
-          reply += string.Format(" Estimated time to level up: \\c07{0}\\c", TimeSpan.FromSeconds((double)p.Skills[skill].ExpToVLevel / ((double)gained_exp / (double)time.TotalSeconds)).ToLongString());
+        string reply = string.Format(CultureInfo.InvariantCulture, "You gained \\c07{0:N0}\\c \\u{1}\\u exp in \\c07{2}\\c. That's \\c07{3:N0}\\c exp/h.", gained_exp, skill.ToLowerInvariant(), time.ToLongString(), (double)gained_exp / (double)time.TotalHours);
+        if (gained_exp > 0 && skill != "Overall" && skill != "Combat" && p.Skills[skill].VLevel < 126)
+          reply += string.Format(CultureInfo.InvariantCulture, " Estimated time to level up: \\c07{0}\\c", TimeSpan.FromSeconds((double)p.Skills[skill].ExpToVLevel / ((double)gained_exp / (double)time.TotalSeconds)).ToLongString());
         bc.SendReply(reply);
 
         // remove the timer with this name
@@ -125,11 +126,11 @@ namespace BigSister {
           timers++;
           DateTime start = rsTimer.GetString(2).ToDateTime();
           DateTime end = start.AddSeconds(rsTimer.GetDouble(1));
-          reply += string.Format(" \\b#{0}\\b timer (\\c07{1}\\c) ends in \\c07{2}\\c, at \\c07{3}\\c;", timers, rsTimer.GetString(0), (end - DateTime.Now).ToLongString(), end.ToString("yyyy/MM/dd HH:mm:ss"));
+          reply += string.Format(CultureInfo.InvariantCulture, " \\b#{0}\\b timer (\\c07{1}\\c) ends in \\c07{2}\\c, at \\c07{3}\\c;", timers, rsTimer.GetString(0), (end - DateTime.Now).ToLongString(), end.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture));
         }
         rsTimer.Close();
         if (timers > 0)
-          bc.SendReply(string.Format("Found \\c07{0}\\c timers:", timers) + reply);
+          bc.SendReply(string.Format(CultureInfo.InvariantCulture, "Found \\c07{0}\\c timers:", timers) + reply);
         else
           bc.SendReply("Syntax: !timer <duration>");
 
@@ -168,9 +169,9 @@ namespace BigSister {
       Database.Insert("timers", "fingerprint", bc.From.FingerPrint,
                                 "nick", bc.From.Nick,
                                 "name", name,
-                                "duration", (duration * 60).ToString(),
-                                "started", DateTime.Now.ToString("yyyyMMddHHmmss"));
-      bc.SendReply(string.Format("Timer started to \\b{0}\\b. Timer will end at \\c07{1}\\c.", bc.From.Nick, DateTime.Now.AddMinutes(duration).ToString("yyyy/MM/dd HH:mm:ss")));
+                                "duration", (duration * 60).ToString(CultureInfo.InvariantCulture),
+                                "started", DateTime.Now.ToString("yyyyMMddHHmmss", CultureInfo.InvariantCulture));
+      bc.SendReply(string.Format(CultureInfo.InvariantCulture, "Timer started to \\b{0}\\b. Timer will end at \\c07{1}\\c.", bc.From.Nick, DateTime.Now.AddMinutes(duration).ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture)));
     }
 
   } //class CmdTimers

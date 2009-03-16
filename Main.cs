@@ -50,7 +50,7 @@ namespace BigSister {
 
     private void _updatePlayers(object stateInfo) {
       DateTime now = DateTime.UtcNow;
-      SQLiteDataReader rs = Database.ExecuteReader("SELECT rsn FROM players WHERE lastupdate!='" + now.ToString("yyyyMMdd") + "';");
+      SQLiteDataReader rs = Database.ExecuteReader("SELECT rsn FROM players WHERE lastupdate!='" + now.ToString("yyyyMMdd", CultureInfo.InvariantCulture) + "';");
       while (rs.Read()) {
         Player p = new Player(rs.GetString(0));
         txt.Invoke(new delOutputMessage(_OutputMessage), "***** UPDATING ***** " + p.Name);
@@ -61,7 +61,7 @@ namespace BigSister {
           tries++;
         }
         if (p.Ranked) {
-          p.SaveToDB(now.ToString("yyyyMMdd"));
+          p.SaveToDB(now.ToString("yyyyMMdd", CultureInfo.InvariantCulture));
         }
       }
       rs.Close();
@@ -76,7 +76,7 @@ namespace BigSister {
 
         string pricesRegex = @"<a href=""./viewitem.ws\?obj=(\d+)&amp;scale=-1"">([^<]+)</a>\s+</td>\s+<td>[^<]+</td>\s+<td>([^<]+)</td>";
         foreach (Match priceMatch in Regex.Matches(pricesPage, pricesRegex, RegexOptions.Singleline)) {
-          Price newPrice = new Price(int.Parse(priceMatch.Groups[1].Value), priceMatch.Groups[2].Value, Util.ParseNumber(priceMatch.Groups[3].Value.Trim()));
+          Price newPrice = new Price(int.Parse(priceMatch.Groups[1].Value, CultureInfo.InvariantCulture), priceMatch.Groups[2].Value, Util.ParseNumber(priceMatch.Groups[3].Value.Trim()));
           Price oldPrice = new Price(newPrice.Id);
           oldPrice.LoadFromDB();
 
@@ -109,7 +109,7 @@ namespace BigSister {
 
     void _timerMain_Tick(object sender, EventArgs e) {
       // update utc timer label
-      lblUtcTimer.Text = string.Format("UTC: {0:T}", DateTime.UtcNow);
+      lblUtcTimer.Text = string.Format(CultureInfo.InvariantCulture, "UTC: {0:T}", DateTime.UtcNow);
 
       // update time to next morning update
       TimeSpan nextMorning;
@@ -117,7 +117,7 @@ namespace BigSister {
         nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, UPDATE_HOUR, 0, 0).Subtract(DateTime.UtcNow);
       else
         nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, UPDATE_HOUR, 0, 0).AddDays(1D).Subtract(DateTime.UtcNow);
-      lblUpdateTimer.Text = string.Format("Next update in: {0}:{1}:{2}", nextMorning.Hours, nextMorning.Minutes, nextMorning.Seconds);
+      lblUpdateTimer.Text = string.Format(CultureInfo.InvariantCulture, "Next update in: {0}:{1}:{2}", nextMorning.Hours, nextMorning.Minutes, nextMorning.Seconds);
 
       if (_irc != null) {
         // check for pending timers
@@ -130,8 +130,8 @@ namespace BigSister {
             foreach (User u in _irc.Peers)
               if (u.FingerPrint == fingerprint || u.Nick == nick) {
                 Database.ExecuteNonQuery("DELETE FROM timers WHERE fingerprint='" + fingerprint + "' AND started='" + rsTimer.GetString(4) + "';");
-                _irc.Send(new NoticeMessage(string.Format("\\c07{0}\\c timer ended for \\b{1}\\b.", rsTimer.GetString(2), u.Nick), u.Nick));
-                _irc.SendChat(string.Format("\\c07{0}\\c timer ended for \\b{1}\\b.", rsTimer.GetString(2), u.Nick), u.Nick);
+                _irc.Send(new NoticeMessage(string.Format(CultureInfo.InvariantCulture, "\\c07{0}\\c timer ended for \\b{1}\\b.", rsTimer.GetString(2), u.Nick), u.Nick));
+                _irc.SendChat(string.Format(CultureInfo.InvariantCulture, "\\c07{0}\\c timer ended for \\b{1}\\b.", rsTimer.GetString(2), u.Nick), u.Nick);
               }
           }
         }
@@ -206,9 +206,9 @@ namespace BigSister {
     void IrcChat(object sender, IrcMessageEventArgs<TextMessage> e) {
       if (string.Compare(e.Message.Targets[0], _irc.User.Nick, StringComparison.OrdinalIgnoreCase) == 0) {
         // private message
-        if (e.Message.Text.StartsWith("raw"))
+        if (e.Message.Text.StartsWith("raw", StringComparison.InvariantCulture))
           _irc.Connection.Write(e.Message.Text.Substring(4));
-        else if (e.Message.Text.StartsWith("listchannel"))
+        else if (e.Message.Text.StartsWith("listchannel", StringComparison.InvariantCulture))
           foreach (Channel c in _irc.Channels)
             foreach (User u in c.Users)
               _irc.SendChat(c.Name + " » " + u.ToString(), e.Message.Sender.Nick);
@@ -577,10 +577,10 @@ namespace BigSister {
             default:
               string command = null;
 
-              if (bc.MessageTokens[0].ToUpperInvariant().StartsWith("LAST")) {
+              if (bc.MessageTokens[0].ToUpperInvariant().StartsWith("LAST", StringComparison.InvariantCulture)) {
                 // !lastNdays
                 ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTracker.Performance), bc);
-              } else if (bc.MessageTokens[0].ToUpperInvariant().StartsWith("SSLAST") || bc.MessageTokens[0].ToUpperInvariant().StartsWith("TSLAST") || bc.MessageTokens[0].ToUpperInvariant().StartsWith("PTLAST") || bc.MessageTokens[0].ToUpperInvariant().StartsWith("TUGALAST")) {
+              } else if (bc.MessageTokens[0].ToUpperInvariant().StartsWith("SSLAST", StringComparison.InvariantCulture) || bc.MessageTokens[0].ToUpperInvariant().StartsWith("TSLAST") || bc.MessageTokens[0].ToUpperInvariant().StartsWith("PTLAST", StringComparison.InvariantCulture) || bc.MessageTokens[0].ToUpperInvariant().StartsWith("TUGALAST", StringComparison.InvariantCulture)) {
                 // !<clan>lastNdays
                 ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdClan.Performance), bc);
               } else if (Minigame.TryParse(bc.MessageTokens[0], ref command)) {

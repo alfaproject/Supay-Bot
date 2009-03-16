@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SQLite;
+using System.Globalization;
 
 namespace BigSister {
   public sealed class Database {
@@ -45,7 +46,7 @@ namespace BigSister {
       if (result == null)
         return defaultValue;
       else
-        return Convert.ToInt32(result);
+        return Convert.ToInt32(result, CultureInfo.InvariantCulture);
     }
 
     public static string GetString(string sql, string defaultValue) {

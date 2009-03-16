@@ -23,7 +23,7 @@ namespace BigSister {
 
         switch (items.Count) {
           case 0:
-            bc.SendReply(string.Format("\\c12www.tip.it\\c doesn't have any record for item \"{0}\".", query));
+            bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\c12www.tip.it\\c doesn't have any record for item \"{0}\".", query));
             return;
           case 1:
             item = items[0];
@@ -41,15 +41,15 @@ namespace BigSister {
       }
 
       if (item.Name == null) {
-        bc.SendReply(string.Format("\\c12www.tip.it\\c doesn't have any record for item \\c07#{0}\\c.", itemId));
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\c12www.tip.it\\c doesn't have any record for item \\c07#{0}\\c.", itemId));
       } else {
-        bc.SendReply(string.Format("\\c07{0}\\c | Alch: \\c07{1}/{2}\\c | MarketPrice: \\c07{3}\\c | Location: \\c07{4}\\c | \\c12www.tip.it/runescape/index.php?rs2item_id={5}\\c",
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\c07{0}\\c | Alch: \\c07{1}/{2}\\c | MarketPrice: \\c07{3}\\c | Location: \\c07{4}\\c | \\c12www.tip.it/runescape/index.php?rs2item_id={5}\\c",
                                    item.Name,
                                    item.HighAlch.ToShortString(1), item.LowAlch.ToShortString(1),
                                    item.MarketPrice.ToShortString(1),
                                    item.Location,
                                    item.Id));
-        bc.SendReply(string.Format("Members? \\c{0}\\c | Quest: \\c{1}\\c | Tradeable? \\c{2}\\c | Stackable? \\c{3}\\c | Weight? \\c07{4}Kg\\c | Examine: \\c07{5}\\c",
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "Members? \\c{0}\\c | Quest: \\c{1}\\c | Tradeable? \\c{2}\\c | Stackable? \\c{3}\\c | Weight? \\c07{4}Kg\\c | Examine: \\c07{5}\\c",
                                    item.Members ? "3Yes" : "4No",
                                    item.Quest ? "3Yes" : "4No",
                                    item.Tradable ? "3Yes" : "4No",
@@ -91,7 +91,7 @@ namespace BigSister {
             totalLow += (int)qty * lowAlch;
             totalItem += "\\c07" + qty + "\\c " + itemName + " + ";
           } else {
-            bc.SendReply(string.Format("\\c12www.zybez.net\\c doesn't have any record for item \"{0}\". You can use !item to search for correct item names.", inputItem));
+            bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\c12www.zybez.net\\c doesn't have any record for item \"{0}\". You can use !item to search for correct item names.", inputItem));
             return;
           }
         }
@@ -115,9 +115,9 @@ namespace BigSister {
         if (int.TryParse(input_item, out item_id)) {
           Item item = new Item(item_id);
           if (item.Name == null)
-            bc.SendReply(string.Format("\\c12www.zybez.net\\c doesn't have any record for item \\c07#{0}\\c.", item_id));
+            bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\c12www.zybez.net\\c doesn't have any record for item \\c07#{0}\\c.", item_id));
           else
-            bc.SendReply(string.Format("\\c07{0}\\c | HighAlch: \\c07{1:N0}\\c | LowAlch: \\c07{2:N0}\\c | \\c12www.zybez.net/items.php?id={3}\\c",
+            bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\c07{0}\\c | HighAlch: \\c07{1:N0}\\c | LowAlch: \\c07{2:N0}\\c | \\c12www.zybez.net/items.php?id={3}\\c",
                                        item.Name, qty * item.HighAlch, qty * item.LowAlch, item.Id));
           return;
         }
@@ -129,11 +129,11 @@ namespace BigSister {
             // items search page
             MatchCollection items = Regex.Matches(items_page, "id=(\\d+)[^.]+\\.htm\">([^<]+)</a></td>\\s+<td class=\"tablebottom\">", RegexOptions.Singleline);
             if (items.Count == 0) {
-              bc.SendReply(string.Format("\\c12www.zybez.net\\c doesn't have any record for item \"{0}\".", input_item));
+              bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\c12www.zybez.net\\c doesn't have any record for item \"{0}\".", input_item));
             } else {
-              string reply = string.Format("\\c12www.zybez.net\\c found \\c07{0}\\c results", M.Groups[1].Value);
+              string reply = string.Format(CultureInfo.InvariantCulture, "\\c12www.zybez.net\\c found \\c07{0}\\c results", M.Groups[1].Value);
               for (int i = 0; i < Math.Min(14, items.Count); i++)
-                reply += string.Format(" | \\c07#{0}\\c {1}", items[i].Groups[1].Value, items[i].Groups[2].Value);
+                reply += string.Format(CultureInfo.InvariantCulture, " | \\c07#{0}\\c {1}", items[i].Groups[1].Value, items[i].Groups[2].Value);
               if (items.Count > 14)
                 reply += " | (...)";
               bc.SendReply(reply);
@@ -160,7 +160,7 @@ namespace BigSister {
         } else {
           foreach (Match itemMatch in items) {
             if (itemMatch.Groups[2].Value.ToUpperInvariant() == itemName.ToUpperInvariant()) {
-              Item item = new Item(int.Parse(itemMatch.Groups[1].Value));
+              Item item = new Item(int.Parse(itemMatch.Groups[1].Value, CultureInfo.InvariantCulture));
               name = item.Name;
               highAlch = item.HighAlch;
               lowAlch = item.LowAlch;

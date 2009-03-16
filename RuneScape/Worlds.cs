@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace BigSister {
@@ -22,7 +23,7 @@ namespace BigSister {
       foreach (Match W in worlds) {
         World NewWorld = new World();
         NewWorld.Member = (W.Groups[1].Value == "m");
-        NewWorld.Number = int.Parse(W.Groups[2].Value);
+        NewWorld.Number = int.Parse(W.Groups[2].Value, CultureInfo.InvariantCulture);
 
         switch (W.Groups[3].Value.ToUpperInvariant()) {
           case "FULL":
@@ -34,7 +35,7 @@ namespace BigSister {
             NewWorld.Status = "Offline";
             break;
           default:
-            NewWorld.Players = int.Parse(W.Groups[3].Value.Split(' ')[0]);
+            NewWorld.Players = int.Parse(W.Groups[3].Value.Split(' ')[0], CultureInfo.InvariantCulture);
             NewWorld.Status = "Online";
             break;
         }

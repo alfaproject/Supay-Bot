@@ -90,7 +90,7 @@ namespace BigSister {
 
         int componentsPrice = 0;
         foreach (string component in this.ComponentsIds.Split('+')) {
-          Price price = new Price(int.Parse(component));
+          Price price = new Price(int.Parse(component, CultureInfo.InvariantCulture));
           price.LoadFromCache();
           componentsPrice += price.MarketPrice;
         }

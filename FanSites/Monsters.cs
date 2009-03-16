@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace BigSister {
@@ -15,9 +16,9 @@ namespace BigSister {
           if (this.ContainsKey(M.Groups[3].Value.ToUpperInvariant())) {
             ResultList.Add(this[M.Groups[3].Value.ToUpperInvariant()]);
           } else {
-            Monster NewMonster = new Monster(int.Parse(M.Groups[2].Value));
+            Monster NewMonster = new Monster(int.Parse(M.Groups[2].Value, CultureInfo.InvariantCulture));
             NewMonster.Name = M.Groups[3].Value;
-            NewMonster.Level = int.Parse(M.Groups[1].Value);
+            NewMonster.Level = int.Parse(M.Groups[1].Value, CultureInfo.InvariantCulture);
             this.Add(M.Groups[3].Value.ToUpperInvariant(), NewMonster);
 
             ResultList.Add(NewMonster);

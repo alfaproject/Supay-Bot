@@ -59,13 +59,13 @@ namespace BigSister {
     /// <param name="hiscoreLine">Tokens of the hiscore line</param>
     public Skill(int id, string[] hiscoreLine) {
       Name = IdToName(id);
-      Rank = int.Parse(hiscoreLine[0]);
+      Rank = int.Parse(hiscoreLine[0], CultureInfo.InvariantCulture);
       if (Rank == -1) {
         _level = -1;
         _exp = -1;
       } else {
-        _level = int.Parse(hiscoreLine[1]);
-        _exp = int.Parse(hiscoreLine[2]);
+        _level = int.Parse(hiscoreLine[1], CultureInfo.InvariantCulture);
+        _exp = int.Parse(hiscoreLine[2], CultureInfo.InvariantCulture);
       }
     }
 

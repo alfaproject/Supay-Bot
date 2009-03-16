@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace BigSister {
@@ -18,12 +19,12 @@ namespace BigSister {
       List<Monster> results = monsters.SearchOnline(search_terms);
 
       if (results.Count > 0) {
-        string reply = string.Format("\\c12www.tip.it\\c found \\c07{0}\\c results:", results.Count);
+        string reply = string.Format(CultureInfo.InvariantCulture, "\\c12www.tip.it\\c found \\c07{0}\\c results:", results.Count);
         for (int i = 0; i < Math.Min(15, results.Count); i++)
           reply += " \\c07" + results[i].Name + "\\c (" + results[i].Level + ");";
         bc.SendReply(reply);
       } else {
-        bc.SendReply(string.Format("\\c12www.tip.it\\c doesn't have any record for \"{0}\".", search_terms));
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\c12www.tip.it\\c doesn't have any record for \"{0}\".", search_terms));
       }
     }
 
@@ -40,7 +41,7 @@ namespace BigSister {
       int level = 0;
       Match M = Regex.Match(search_terms, "\\((\\d+)\\)");
       if (M.Success) {
-        level = int.Parse(M.Groups[1].Value);
+        level = int.Parse(M.Groups[1].Value, CultureInfo.InvariantCulture);
         search_terms = Regex.Replace(search_terms, "\\((\\d+)\\)", string.Empty).Trim();
       }
 
@@ -80,12 +81,12 @@ namespace BigSister {
             }
 
         if (monster == null) {
-          bc.SendReply(string.Format("\\c12www.tip.it\\c doesn't have any record for \"{0}\".", search_terms));
+          bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\c12www.tip.it\\c doesn't have any record for \"{0}\".", search_terms));
         } else {
           monster.Update();
-          bc.SendReply(string.Format("Name: \\c07{0}\\c | Level: \\c07{1}\\c | Hitpoints: \\c07{2}\\c | Race: \\c07{3}\\c | \\c12www.tip.it/runescape/index.php?rs2monster_id={4}\\c",
+          bc.SendReply(string.Format(CultureInfo.InvariantCulture, "Name: \\c07{0}\\c | Level: \\c07{1}\\c | Hitpoints: \\c07{2}\\c | Race: \\c07{3}\\c | \\c12www.tip.it/runescape/index.php?rs2monster_id={4}\\c",
                                      monster.Name, monster.Level, monster.Hits, monster.Race, monster.ID));
-          bc.SendReply(string.Format("Aggressive? \\c{0}\\c | Retreats? \\c{1}\\c | Quest? \\c{2}\\c | Members? \\c{3}\\c | Poisonous? \\c{4}\\c | Habitat: \\c07{5}\\c",
+          bc.SendReply(string.Format(CultureInfo.InvariantCulture, "Aggressive? \\c{0}\\c | Retreats? \\c{1}\\c | Quest? \\c{2}\\c | Members? \\c{3}\\c | Poisonous? \\c{4}\\c | Habitat: \\c07{5}\\c",
                                      monster.Aggressive ? "3Yes" : "4No",
                                      monster.Retreats ? "3Yes" : "4No",
                                      monster.Quest ? "3Yes" : "4No",
@@ -94,7 +95,7 @@ namespace BigSister {
                                      monster.Habitat.Count > 0 ? monster.Habitat[0] : "Unknown"));
         }
       } else {
-        bc.SendReply(string.Format("\\c12www.tip.it\\c doesn't have any record for \"{0}\".", search_terms));
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\c12www.tip.it\\c doesn't have any record for \"{0}\".", search_terms));
       }
     }
 

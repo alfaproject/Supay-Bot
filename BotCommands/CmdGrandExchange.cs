@@ -22,18 +22,18 @@ namespace BigSister {
 
       Prices price_list = new Prices(search_term);
       if (price_list.Count == 0) {
-        bc.SendReply(string.Format("\\c12www.runescape.com\\c doesn't have any record for \"{0}\".", search_term));
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\c12www.runescape.com\\c doesn't have any record for \"{0}\".", search_term));
         return;
       }
 
-      string reply = string.Format("\\c12www.runescape.com\\c found \\c07{0}\\c results", price_list.TotalItems);
+      string reply = string.Format(CultureInfo.InvariantCulture, "\\c12www.runescape.com\\c found \\c07{0}\\c results", price_list.TotalItems);
       for (int i = 0; i < Math.Min(10, price_list.Count); i++) {
-        reply += string.Format(" | {0}: \\c07{1}", price_list[i].Name, (qty * price_list[i].MarketPrice).ToShortString(1));
+        reply += string.Format(CultureInfo.InvariantCulture, " | {0}: \\c07{1}", price_list[i].Name, (qty * price_list[i].MarketPrice).ToShortString(1));
         reply += "\\c";
         if (price_list[i].ChangeToday > 0)
-          reply += string.Format(" \\c3[+{0}]\\c", price_list[i].ChangeToday.ToShortString(1));
+          reply += string.Format(CultureInfo.InvariantCulture, " \\c3[+{0}]\\c", price_list[i].ChangeToday.ToShortString(1));
         else if (price_list[i].ChangeToday < 0)
-          reply += string.Format(" \\c4[{0}]\\c", price_list[i].ChangeToday.ToShortString(1));
+          reply += string.Format(CultureInfo.InvariantCulture, " \\c4[{0}]\\c", price_list[i].ChangeToday.ToShortString(1));
       }
       if (price_list.TotalItems > 10)
         reply += " | (...)";
@@ -59,7 +59,7 @@ namespace BigSister {
 
         switch (prices.Count) {
           case 0:
-            bc.SendReply(string.Format("\\c12www.runescape.com\\c doesn't have any record for \"{0}\".", query));
+            bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\c12www.runescape.com\\c doesn't have any record for \"{0}\".", query));
             return;
           case 1:
             price = prices[0];
@@ -98,8 +98,8 @@ namespace BigSister {
     }
 
     public static void LastUpdate(CommandContext bc) {
-      DateTime lastUpdate = Database.GetString("SELECT lastUpdate FROM prices ORDER BY lastUpdate DESC LIMIT 1;", DateTime.UtcNow.ToString("yyyyMMddHHmm")).ToDateTime();
-      bc.SendReply(string.Format("The GE was last updated \\c07{0}\\c ago. ({1:R})", (DateTime.UtcNow - lastUpdate).ToLongString(), lastUpdate));
+      DateTime lastUpdate = Database.GetString("SELECT lastUpdate FROM prices ORDER BY lastUpdate DESC LIMIT 1;", DateTime.UtcNow.ToString("yyyyMMddHHmm", CultureInfo.InvariantCulture)).ToDateTime();
+      bc.SendReply(string.Format(CultureInfo.InvariantCulture, "The GE was last updated \\c07{0}\\c ago. ({1:R})", (DateTime.UtcNow - lastUpdate).ToLongString(), lastUpdate));
     }
 
   } //class CmdGrandExchange

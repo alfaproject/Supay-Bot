@@ -21,13 +21,13 @@ namespace BigSister {
         Player p = new Player(rsn);
         if (p.Ranked) {
           Database.Insert("players", "rsn", rsn, "clan", string.Empty, "lastupdate", string.Empty);
-          p.SaveToDB(DateTime.UtcNow.ToString("yyyyMMdd"));
-          bc.SendReply(string.Format("\\b{0}\\b is now being tracked.", rsn));
+          p.SaveToDB(DateTime.UtcNow.ToString("yyyyMMdd", CultureInfo.InvariantCulture));
+          bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b is now being tracked.", rsn));
         } else {
-          bc.SendReply(string.Format("\\b{0}\\b doesn't feature Hiscores.", rsn));
+          bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b doesn't feature Hiscores.", rsn));
         }
       } catch {
-        bc.SendReply(string.Format("\\b{0}\\b was already being tracked.", rsn));
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b was already being tracked.", rsn));
       }
     }
 
@@ -45,9 +45,9 @@ namespace BigSister {
         int pid = Convert.ToInt32(Database.GetValue("players", "id", "rsn='" + rsn + "'"), CultureInfo.InvariantCulture);
         Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + pid + ";");
         Database.ExecuteNonQuery("DELETE FROM players WHERE id=" + pid + ";");
-        bc.SendReply(string.Format("\\b{0}\\b was removed from tracker.", rsn));
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b was removed from tracker.", rsn));
       } else {
-        bc.SendReply(string.Format("\\b{0}\\b wasn't being tracked.", rsn));
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b wasn't being tracked.", rsn));
       }
     }
 
@@ -72,12 +72,12 @@ namespace BigSister {
       }
       dr.Close();
       Database.ExecuteNonQuery("DELETE FROM players WHERE clan ='" + clan + "';");
-      bc.SendReply(string.Format("\\b{0}\\b players were removed from tracker.", playersRemoved));
+      bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b players were removed from tracker.", playersRemoved));
 
       Database.ExecuteNonQuery("VACUUM;");
 
       int playersLeft = Database.GetInteger("SELECT Count(*) FROM players;", 0);
-      bc.SendReply(string.Format("There are \\b{0}\\b players left in the tracker.", playersLeft));
+      bc.SendReply(string.Format(CultureInfo.InvariantCulture, "There are \\b{0}\\b players left in the tracker.", playersLeft));
     }
 
     public static void RemoveFromClan(CommandContext bc) {
@@ -92,9 +92,9 @@ namespace BigSister {
       string rsn = bc.MessageTokens.Join(1).ToRSN();
       try {
         Database.Update("players", "rsn='" + rsn + "'", "clan", string.Empty);
-        bc.SendReply(string.Format("\\b{0}\\b is now being tracked under no clan.", rsn));
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b is now being tracked under no clan.", rsn));
       } catch {
-        bc.SendReply(string.Format("\\b{0}\\b wasn't being tracked."));
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b wasn't being tracked."));
       }
     }
 
@@ -164,7 +164,7 @@ namespace BigSister {
       } else {
         Match M = Regex.Match(bc.MessageTokens[0], "last(\\d+)days");
         if (M.Success) {
-          days = int.Parse(M.Groups[1].Value);
+          days = int.Parse(M.Groups[1].Value, CultureInfo.InvariantCulture);
           interval = "Last " + days + " days";
           lastday = lastupdate;
           firstday = lastday.AddDays(-days);
@@ -178,9 +178,9 @@ namespace BigSister {
       if (!PlayerOld.Ranked) {
         // Get data from RuneScript
         PlayerOld = new Player(rsn, (int)(DateTime.Now - firstday).TotalSeconds);
-        bc.SendReply(string.Format("\\c07{0}\\c information retrieved from RuneScript database. (This data may not be 100% accurate)", firstday.ToString("yyyy/MMM/dd")));
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\c07{0}\\c information retrieved from RuneScript database. (This data may not be 100% accurate)", firstday.ToString("yyyy/MMM/dd", CultureInfo.InvariantCulture)));
         if (!PlayerOld.Ranked) {
-          bc.SendReply(string.Format("\\b{0}\\b wasn't being tracked on \\c07{1}\\c.", rsn, firstday.ToString("yyyy/MMM/dd")));
+          bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b wasn't being tracked on \\c07{1}\\c.", rsn, firstday.ToString("yyyy/MMM/dd", CultureInfo.InvariantCulture)));
           return;
         }
       }
@@ -193,42 +193,42 @@ namespace BigSister {
         PlayerNew = new Player(rsn, lastday);
       if (!PlayerNew.Ranked) {
         if (lastday == DateTime.MaxValue) {
-          bc.SendReply(string.Format("\\b{0}\\b doesn't feature Hiscores.", rsn));
+          bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b doesn't feature Hiscores.", rsn));
           return;
         } else {
           // Get data from RuneScript
           PlayerNew = new Player(rsn, (int)(DateTime.Now - lastday).TotalSeconds);
-          bc.SendReply(string.Format("\\c07{0}\\c information retrieved from RuneScript database. (This data may not be 100% accurate)", lastday.ToString("yyyy/MMM/dd")));
+          bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\c07{0}\\c information retrieved from RuneScript database. (This data may not be 100% accurate)", lastday.ToString("yyyy/MMM/dd", CultureInfo.InvariantCulture)));
           if (!PlayerNew.Ranked) {
-            bc.SendReply(string.Format("\\b{0}\\b wasn't being tracked on \\c07{1}\\c.", rsn, lastday.ToString("yyyy/MMM/dd")));
+            bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b wasn't being tracked on \\c07{1}\\c.", rsn, lastday.ToString("yyyy/MMM/dd", CultureInfo.InvariantCulture)));
             return;
           }
         }
       }
 
       // 1st line: overall / combat
-      string ReplyMsg = string.Format("\\b{0}\\b \\u{1}\\u skills:", rsn, interval.ToLowerInvariant());
+      string ReplyMsg = string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b \\u{1}\\u skills:", rsn, interval.ToLowerInvariant());
       Skill OverallDif = PlayerNew.Skills["Overall"] - PlayerOld.Skills["Overall"];
       if (OverallDif.Exp <= 0) {
-        bc.SendReply(string.Format("No performance for \\b{0}\\b within this period.", rsn));
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "No performance for \\b{0}\\b within this period.", rsn));
       } else {
         Skill CombatDif = PlayerNew.Skills["Combat"] - PlayerOld.Skills["Combat"];
 
         string DifLevel = string.Empty;
         if (OverallDif.Level > 0)
-          DifLevel = string.Format(" [\\b+{0}\\b]", OverallDif.Level);
+          DifLevel = string.Format(CultureInfo.InvariantCulture, " [\\b+{0}\\b]", OverallDif.Level);
         if (days == 1) {
-          ReplyMsg += string.Format(" \\c07Overall\\c lvl {0} \\c03+{1}\\c xp (Avg. hourly exp.: \\c07{2}\\c)", PlayerNew.Skills["Overall"].Level + DifLevel, OverallDif.Exp.ToShortString(1), ((double)OverallDif.Exp / 24.0).ToShortString(0));
+          ReplyMsg += string.Format(CultureInfo.InvariantCulture, " \\c07Overall\\c lvl {0} \\c03+{1}\\c xp (Avg. hourly exp.: \\c07{2}\\c)", PlayerNew.Skills["Overall"].Level + DifLevel, OverallDif.Exp.ToShortString(1), ((double)OverallDif.Exp / 24.0).ToShortString(0));
         } else {
-          ReplyMsg += string.Format(" \\c07Overall\\c lvl {0} \\c03+{1}\\c xp (Avg. daily exp.: \\c07{2}\\c)", PlayerNew.Skills["Overall"].Level + DifLevel, OverallDif.Exp.ToShortString(1), ((double)OverallDif.Exp / (double)days).ToShortString(0));
+          ReplyMsg += string.Format(CultureInfo.InvariantCulture, " \\c07Overall\\c lvl {0} \\c03+{1}\\c xp (Avg. daily exp.: \\c07{2}\\c)", PlayerNew.Skills["Overall"].Level + DifLevel, OverallDif.Exp.ToShortString(1), ((double)OverallDif.Exp / (double)days).ToShortString(0));
         }
         DifLevel = string.Empty;
         if (CombatDif.Level > 0) {
-          DifLevel = string.Format(" [\\b+{0}\\b]", CombatDif.Level);
+          DifLevel = string.Format(CultureInfo.InvariantCulture, " [\\b+{0}\\b]", CombatDif.Level);
         }
-        ReplyMsg += string.Format("; \\c07Combat\\c lvl {0} \\c03+{1}\\c xp (\\c07{2}%\\c)", PlayerNew.Skills["Combat"].Level + DifLevel, CombatDif.Exp.ToShortString(1), ((double)CombatDif.Exp / (double)OverallDif.Exp * 100.0).ToShortString(1));
+        ReplyMsg += string.Format(CultureInfo.InvariantCulture, "; \\c07Combat\\c lvl {0} \\c03+{1}\\c xp (\\c07{2}%\\c)", PlayerNew.Skills["Combat"].Level + DifLevel, CombatDif.Exp.ToShortString(1), ((double)CombatDif.Exp / (double)OverallDif.Exp * 100.0).ToShortString(1));
 
-        ReplyMsg += string.Format("; Interval: \\c07{0}\\c -> \\c07{1}\\c", firstday.ToString("yyyy/MMM/dd"), lastday == DateTime.MaxValue ? "Now" : lastday.ToString("yyyy/MMM/dd"));
+        ReplyMsg += string.Format(CultureInfo.InvariantCulture, "; Interval: \\c07{0}\\c -> \\c07{1}\\c", firstday.ToString("yyyy/MMM/dd", CultureInfo.InvariantCulture), lastday == DateTime.MaxValue ? "Now" : lastday.ToString("yyyy/MMM/dd", CultureInfo.InvariantCulture));
         bc.SendReply(ReplyMsg);
 
         // 2nd line: skills list
@@ -241,14 +241,14 @@ namespace BigSister {
         SkillsDif.Sort();
 
         bool has_performance = false;
-        ReplyMsg = string.Format("\\b{0}\\b \\u{1}\\u skills:", rsn, interval.ToLowerInvariant());
+        ReplyMsg = string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b \\u{1}\\u skills:", rsn, interval.ToLowerInvariant());
         for (int i = 0; i < 10; i++) {
           if (SkillsDif[i].Exp > 0) {
             has_performance = true;
             DifLevel = string.Empty;
             if (SkillsDif[i].Level > 0)
-              DifLevel = string.Format(" [\\b+{0}\\b]", SkillsDif[i].Level);
-            ReplyMsg += string.Format(" \\c7{0}\\c lvl {1} \\c3+{2}\\c xp;", SkillsDif[i].Name, PlayerNew.Skills[SkillsDif[i].Name].Level + DifLevel, SkillsDif[i].Exp.ToShortString(1));
+              DifLevel = string.Format(CultureInfo.InvariantCulture, " [\\b+{0}\\b]", SkillsDif[i].Level);
+            ReplyMsg += string.Format(CultureInfo.InvariantCulture, " \\c7{0}\\c lvl {1} \\c3+{2}\\c xp;", SkillsDif[i].Name, PlayerNew.Skills[SkillsDif[i].Name].Level + DifLevel, SkillsDif[i].Exp.ToShortString(1));
           }
         }
         if (has_performance)
@@ -264,11 +264,11 @@ namespace BigSister {
 
         if (MinigamesDif.Count > 0) {
           has_performance = false;
-          ReplyMsg = string.Format("\\b{0}\\b \\u{1}\\u minigames:", rsn, interval.ToLowerInvariant());
+          ReplyMsg = string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b \\u{1}\\u minigames:", rsn, interval.ToLowerInvariant());
           for (int i = 0; i < MinigamesDif.Count; i++) {
             if (MinigamesDif[i].Score > 0) {
               has_performance = true;
-              ReplyMsg += string.Format(" \\c7{0}\\c \\c3+{1}\\c score;", MinigamesDif[i].Name, MinigamesDif[i].Score);
+              ReplyMsg += string.Format(CultureInfo.InvariantCulture, " \\c7{0}\\c \\c3+{1}\\c score;", MinigamesDif[i].Name, MinigamesDif[i].Score);
             }
           }
           if (has_performance)

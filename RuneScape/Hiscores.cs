@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace BigSister {
@@ -17,9 +18,9 @@ namespace BigSister {
 
         foreach (Match M in Regex.Matches(hiscore_page, "<td class=\"[^\"]+\">([^<]+)</td>\\s+<td class=\"alL\"><[^>]+>([^<]+)</a></td>\\s+<td class=\"[^\"]+\">([\\d,]+)</td>\\s+<td class=\"[^\"]+\">([\\d,]+)</td>", RegexOptions.Singleline)) {
           this.Add(new Skill(Name,
-                             int.Parse(M.Groups[1].Value.Replace(",", string.Empty)),
-                             int.Parse(M.Groups[3].Value.Replace(",", string.Empty)),
-                             int.Parse(M.Groups[4].Value.Replace(",", string.Empty))));
+                             int.Parse(M.Groups[1].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture),
+                             int.Parse(M.Groups[3].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture),
+                             int.Parse(M.Groups[4].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture)));
           this[this.Count - 1].RSN = M.Groups[2].Value.Replace(' ', '_');
         }
 
@@ -31,8 +32,8 @@ namespace BigSister {
 
         foreach (Match M in Regex.Matches(hiscore_page, "<td class=\"[^\"]+\">([^<]+)</td>\\s+<td class=\"alL\"><[^>]+>([^<]+)</a></td>\\s+<td class=\"[^\"]+\">([\\d,]+)</td>", RegexOptions.Singleline)) {
           this.Add(new Minigame(Name,
-                                int.Parse(M.Groups[1].Value.Replace(",", string.Empty)),
-                                int.Parse(M.Groups[3].Value.Replace(",", string.Empty))));
+                                int.Parse(M.Groups[1].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture),
+                                int.Parse(M.Groups[3].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture)));
           this[this.Count - 1].RSN = M.Groups[2].Value.Replace(' ', '_');
         }
 

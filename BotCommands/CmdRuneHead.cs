@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace BigSister {
@@ -22,11 +23,11 @@ namespace BigSister {
 
       string reply;
       if (clans.Count == 1) {
-        reply = string.Format("\\b{0}\\b is in \\c07{1}\\c {2} (\\c12{3}\\c).", rsn, clans[0][0], type, clans[0][1]);
+        reply = string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b is in \\c07{1}\\c {2} (\\c12{3}\\c).", rsn, clans[0][0], type, clans[0][1]);
       } else {
-        reply = string.Format("\\b{0}\\b is in \\c07{1}\\c {2}s:", rsn, clans.Count, type);
+        reply = string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b is in \\c07{1}\\c {2}s:", rsn, clans.Count, type);
         foreach (string[] clan in clans)
-          reply += string.Format(" \\c07{0}\\c;", clan[0]);
+          reply += string.Format(CultureInfo.InvariantCulture, " \\c07{0}\\c;", clan[0]);
       }
       bc.SendReply(reply);
     }
@@ -54,7 +55,7 @@ namespace BigSister {
 
         // User not found
         if (clanCount == 0)
-          bc.SendReply(string.Format("\\c12www.runehead.com\\c doesn't have any record for \\b{0}\\b.", rsn));
+          bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\c12www.runehead.com\\c doesn't have any record for \\b{0}\\b.", rsn));
 
       } catch {
         bc.SendReply("\\c12www.runehead.com\\c seems to be down.");
@@ -79,10 +80,10 @@ namespace BigSister {
         }
 
         if (clans.Count > 0) {
-          bc.SendReply(string.Format("[\\c07{0}\\c] \\c07{1}\\c (\\c12{2}\\c) | Members: \\c07{3}\\c | Avg: Cmb: (F2P: \\c07{4}\\c | P2P: \\c07{5}\\c) Hp: \\c07{6}\\c Magic: \\c07{7}\\c Ranged: \\c07{8}\\c Skill Total: \\c07{9}\\c | \\c07{10}\\c based (Homeworld \\c07{11}\\c) | Cape: \\c07{12}\\c | RuneHead: \\c12{13}\\c",
+          bc.SendReply(string.Format(CultureInfo.InvariantCulture, "[\\c07{0}\\c] \\c07{1}\\c (\\c12{2}\\c) | Members: \\c07{3}\\c | Avg: Cmb: (F2P: \\c07{4}\\c | P2P: \\c07{5}\\c) Hp: \\c07{6}\\c Magic: \\c07{7}\\c Ranged: \\c07{8}\\c Skill Total: \\c07{9}\\c | \\c07{10}\\c based (Homeworld \\c07{11}\\c) | Cape: \\c07{12}\\c | RuneHead: \\c12{13}\\c",
             clans[0][4], clans[0][0], clans[0][1], clans[0][5], clans[0][15], clans[0][6], clans[0][7], clans[0][9], clans[0][10], clans[0][8], clans[0][11], clans[0][14], clans[0][13], clans[0][2]));
         } else {
-          bc.SendReply(string.Format("\\c12www.runehead.com\\c doesn't have any record for \\b{0}\\b.", query));
+          bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\c12www.runehead.com\\c doesn't have any record for \\b{0}\\b.", query));
         }
       } catch {
         bc.SendReply("\\c12www.runehead.com\\c seems to be down.");
@@ -121,7 +122,7 @@ namespace BigSister {
       foreach (Player p in clanPlayers) {
         if (!clanMembers.Contains(p.Name)) {
           Database.Update("players", "id=" + p.Id, "clan", string.Empty);
-          bc.SendReply(string.Format("\\b{0}\\b is now being tracked under no clan.", p.Name));
+          bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b is now being tracked under no clan.", p.Name));
         }
       }
 
@@ -132,11 +133,11 @@ namespace BigSister {
             Database.Insert("players", "rsn", rsn, "clan", clanInitials, "lastupdate", string.Empty);
             Player p = new Player(rsn);
             if (p.Ranked)
-              p.SaveToDB(DateTime.UtcNow.ToString("yyyyMMdd"));
+              p.SaveToDB(DateTime.UtcNow.ToString("yyyyMMdd", CultureInfo.InvariantCulture));
           } catch {
             Database.Update("players", "rsn='" + rsn + "'", "clan", clanInitials);
           }
-          bc.SendReply(string.Format("\\b{0}\\b is now being tracked under \\c07{1}\\c clan.", rsn, clanName));
+          bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b is now being tracked under \\c07{1}\\c clan.", rsn, clanName));
         }
       }
     }

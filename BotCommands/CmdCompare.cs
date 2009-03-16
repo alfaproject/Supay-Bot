@@ -56,13 +56,13 @@ namespace BigSister {
 
       Player p1 = new Player(rsn1);
       if (!p1.Ranked) {
-        bc.SendReply(string.Format("\\b{0}\\b doesn't feature Hiscores.", rsn1));
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b doesn't feature Hiscores.", rsn1));
         return;
       }
 
       Player p2 = new Player(rsn2);
       if (!p2.Ranked) {
-        bc.SendReply(string.Format("\\b{0}\\b doesn't feature Hiscores.", rsn2));
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b doesn't feature Hiscores.", rsn2));
         return;
       }
 
@@ -73,29 +73,29 @@ namespace BigSister {
         Skill pskill2 = p2.Skills[skill1];
 
         if (pskill1.Level == pskill2.Level) {
-          reply = string.Format("Both \\b{0}\\b and \\b{1}\\b have level \\c07{2}\\c", p1.Name, p2.Name, pskill1.Level);
+          reply = string.Format(CultureInfo.InvariantCulture, "Both \\b{0}\\b and \\b{1}\\b have level \\c07{2}\\c", p1.Name, p2.Name, pskill1.Level);
           if (pskill1.Exp == pskill2.Exp)
             reply += string.Format(CultureInfo.InvariantCulture, " and \\c07{0:e}\\c experience.", pskill1);
           else if (pskill1.Exp > pskill2.Exp)
-            reply += string.Format(", but \\b{0}\\b has \\c07{1:N0}\\c more experience.", p1.Name, pskill1.Exp - pskill2.Exp);
+            reply += string.Format(CultureInfo.InvariantCulture, ", but \\b{0}\\b has \\c07{1:N0}\\c more experience.", p1.Name, pskill1.Exp - pskill2.Exp);
           else
-            reply += string.Format(", but \\b{0}\\b has \\c07{1:N0}\\c less experience.", p1.Name, pskill2.Exp - pskill1.Exp);
+            reply += string.Format(CultureInfo.InvariantCulture, ", but \\b{0}\\b has \\c07{1:N0}\\c less experience.", p1.Name, pskill2.Exp - pskill1.Exp);
         } else if (pskill1.Level > pskill2.Level) {
-          reply = string.Format("\\b{0}\\b has \\c07{2}\\c more level{3} than \\b{1}\\b.", p1.Name, p2.Name, pskill1.Level - pskill2.Level, pskill1.Level - pskill2.Level == 1 ? string.Empty : "s");
+          reply = string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b has \\c07{2}\\c more level{3} than \\b{1}\\b.", p1.Name, p2.Name, pskill1.Level - pskill2.Level, pskill1.Level - pskill2.Level == 1 ? string.Empty : "s");
           if (pskill1.Exp == pskill2.Exp)
-            reply += string.Format(", but both have \\c07{0:e}\\c experience.", pskill1);
+            reply += string.Format(CultureInfo.InvariantCulture, ", but both have \\c07{0:e}\\c experience.", pskill1);
           else if (pskill1.Exp > pskill2.Exp)
-            reply += string.Format(" and has \\c07{0:N0}\\c more experience.", pskill1.Exp - pskill2.Exp);
+            reply += string.Format(CultureInfo.InvariantCulture, " and has \\c07{0:N0}\\c more experience.", pskill1.Exp - pskill2.Exp);
           else
-            reply += string.Format(", but \\b{0}\\b has \\c07{1:N0}\\c less experience.", p1.Name, pskill2.Exp - pskill1.Exp);
+            reply += string.Format(CultureInfo.InvariantCulture, ", but \\b{0}\\b has \\c07{1:N0}\\c less experience.", p1.Name, pskill2.Exp - pskill1.Exp);
         } else {
-          reply = string.Format("\\b{0}\\b has \\c07{2}\\c less level{3} than \\b{1}\\b.", p1.Name, p2.Name, pskill2.Level - pskill1.Level, pskill2.Level - pskill1.Level == 1 ? string.Empty : "s");
+          reply = string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b has \\c07{2}\\c less level{3} than \\b{1}\\b.", p1.Name, p2.Name, pskill2.Level - pskill1.Level, pskill2.Level - pskill1.Level == 1 ? string.Empty : "s");
           if (pskill1.Exp == pskill2.Exp)
-            reply += string.Format(", but both have \\c07{0:e}\\c experience.", pskill1);
+            reply += string.Format(CultureInfo.InvariantCulture, ", but both have \\c07{0:e}\\c experience.", pskill1);
           else if (pskill1.Exp > pskill2.Exp)
-            reply += string.Format(", but \\b{0}\\b has \\c07{1:N0}\\c more experience.", p1.Name, pskill1.Exp - pskill2.Exp);
+            reply += string.Format(CultureInfo.InvariantCulture, ", but \\b{0}\\b has \\c07{1:N0}\\c more experience.", p1.Name, pskill1.Exp - pskill2.Exp);
           else
-            reply += string.Format(" and has \\c07{0:N0}\\c less experience.", pskill2.Exp - pskill1.Exp);
+            reply += string.Format(CultureInfo.InvariantCulture, " and has \\c07{0:N0}\\c less experience.", pskill2.Exp - pskill1.Exp);
         }
         bc.SendReply(reply);
 
@@ -110,7 +110,7 @@ namespace BigSister {
               if (p2.Ranked) {
                 Skill skilldif1 = pskill1 - p1.Skills[skill1];
                 Skill skilldif2 = pskill2 - p2.Skills[skill1];
-                bc.SendReply(string.Format("Today \\b{0}\\b did \\c07{1:e}\\c exp. while \\b{2}\\b did \\c07{3:e}\\c exp.", rsn1, skilldif1, rsn2, skilldif2));
+                bc.SendReply(string.Format(CultureInfo.InvariantCulture, "Today \\b{0}\\b did \\c07{1:e}\\c exp. while \\b{2}\\b did \\c07{3:e}\\c exp.", rsn1, skilldif1, rsn2, skilldif2));
               }
             }
           }
@@ -121,20 +121,20 @@ namespace BigSister {
         Minigame pminigame2 = p2.Minigames[minigame1];
 
         if (pminigame1.Rank == -1) {
-          bc.SendReply(string.Format("\\b{0}\\b doesn't feature Hiscores.", rsn1));
+          bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b doesn't feature Hiscores.", rsn1));
           return;
         }
         if (pminigame2.Rank == -1) {
-          bc.SendReply(string.Format("\\b{0}\\b doesn't feature Hiscores.", rsn2));
+          bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b doesn't feature Hiscores.", rsn2));
           return;
         }
 
         if (pminigame1.Score == pminigame2.Score)
-          reply = string.Format("Both \\b{0}\\b and \\b{1}\\b have \\c07{2}\\c score.", rsn1, rsn2, pminigame1.Score);
+          reply = string.Format(CultureInfo.InvariantCulture, "Both \\b{0}\\b and \\b{1}\\b have \\c07{2}\\c score.", rsn1, rsn2, pminigame1.Score);
         else if (pminigame1.Score > pminigame2.Score)
-          reply = string.Format("\\b{0}\\b has \\c07{2}\\c more score than \\b{1}\\b.", rsn1, rsn2, pminigame1.Score - pminigame2.Score);
+          reply = string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b has \\c07{2}\\c more score than \\b{1}\\b.", rsn1, rsn2, pminigame1.Score - pminigame2.Score);
         else
-          reply = string.Format("\\b{0}\\b has \\c07{2}\\c less score than \\b{1}\\b.", rsn1, rsn2, pminigame2.Score - pminigame1.Score);
+          reply = string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b has \\c07{2}\\c less score than \\b{1}\\b.", rsn1, rsn2, pminigame2.Score - pminigame1.Score);
         bc.SendReply(reply);
 
         // get these players last update time
@@ -148,7 +148,7 @@ namespace BigSister {
               if (p2.Ranked && p2.Minigames[minigame1].Rank > 0) {
                 Minigame minigamedif1 = pminigame1 - p1.Minigames[minigame1];
                 Minigame minigamedif2 = pminigame2 - p2.Minigames[minigame1];
-                bc.SendReply(string.Format("Today \\b{0}\\b did \\c07{1:s}\\c score while \\b{2}\\b did \\c07{3:s}\\c score.", rsn1, minigamedif1, rsn2, minigamedif2));
+                bc.SendReply(string.Format(CultureInfo.InvariantCulture, "Today \\b{0}\\b did \\c07{1:s}\\c score while \\b{2}\\b did \\c07{3:s}\\c score.", rsn1, minigamedif1, rsn2, minigamedif2));
               }
             }
           }

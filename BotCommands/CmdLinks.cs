@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace BigSister {
   static class CmdLinks {
@@ -13,7 +14,7 @@ namespace BigSister {
       if (!qfc.Success) {
         bc.SendReply("Syntax: !Qfc <qfc>");
       } else {
-        bc.SendReply(string.Format("Quick find code \\c07{0}-{1}-{2}-{3}\\c: \\c12http://forum.runescape.com/forums.ws?{0},{1},{2},{3}\\c", qfc.Groups[1].Value, qfc.Groups[2].Value, qfc.Groups[3].Value, qfc.Groups[4].Value));
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "Quick find code \\c07{0}-{1}-{2}-{3}\\c: \\c12http://forum.runescape.com/forums.ws?{0},{1},{2},{3}\\c", qfc.Groups[1].Value, qfc.Groups[2].Value, qfc.Groups[3].Value, qfc.Groups[4].Value));
       }
     }
 

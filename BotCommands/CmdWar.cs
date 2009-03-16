@@ -28,9 +28,9 @@ namespace BigSister {
           _config.SetValue(rsn, "StartLevel", p.Skills[skill].Level);
           _config.SetValue(rsn, "StartRank", p.Skills[skill].Rank);
           if (count % 2 == 0)
-            reply += string.Format("\\c7{0} ({1:e});\\c ", rsn, p.Skills[skill]);
+            reply += string.Format(CultureInfo.InvariantCulture, "\\c7{0} ({1:e});\\c ", rsn, p.Skills[skill]);
           else
-            reply += string.Format("{0} ({1:e}); ", rsn, p.Skills[skill]);
+            reply += string.Format(CultureInfo.InvariantCulture, "{0} ({1:e}); ", rsn, p.Skills[skill]);
           count++;
           if (count % 4 == 0) {
             bc.SendReply(reply);
@@ -43,7 +43,7 @@ namespace BigSister {
         bc.SendReply(reply);
 
       _config.SetValue("Setup", "StartTime", DateTime.Now);
-      bc.SendReply(string.Format("\\b{0}\\b war started on \\u{1}\\u for these players. \\bYou can now login and good luck!\\b", skill, DateTime.Now));
+      bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b war started on \\u{1}\\u for these players. \\bYou can now login and good luck!\\b", skill, DateTime.Now));
     }
 
     public static void End(CommandContext bc) {
@@ -64,9 +64,9 @@ namespace BigSister {
         if (rsn != "Setup") {
           Player p = new Player(rsn);
           if (count % 2 == 0)
-            reply += string.Format("\\c7{0} ({1:e});\\c ", rsn, p.Skills[skill]);
+            reply += string.Format(CultureInfo.InvariantCulture, "\\c7{0} ({1:e});\\c ", rsn, p.Skills[skill]);
           else
-            reply += string.Format("{0} ({1:e}); ", rsn, p.Skills[skill]);
+            reply += string.Format(CultureInfo.InvariantCulture, "{0} ({1:e}); ", rsn, p.Skills[skill]);
           count++;
           if (count % 4 == 0) {
             bc.SendReply(reply);
@@ -78,7 +78,7 @@ namespace BigSister {
       if (count > 0)
         bc.SendReply(reply);
 
-      bc.SendReply(string.Format("\\b{0}\\b war ended on \\u{1}\\u for these players.", skill, DateTime.Now));
+      bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b war ended on \\u{1}\\u for these players.", skill, DateTime.Now));
 
       if (System.IO.File.Exists(@"Data\War.xml"))
         System.IO.File.Delete(@"Data\War.xml");
@@ -101,7 +101,7 @@ namespace BigSister {
         string rsn = dirtyRsn.Trim().ToRSN();
 
         if (_config.HasEntry(rsn, "Signed")) {
-          bc.SendReply(string.Format("\\b{0}\\b was already signed to current war.", rsn));
+          bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b was already signed to current war.", rsn));
         } else {
           Player p = new Player(rsn);
           if (p.Ranked) {
@@ -112,9 +112,9 @@ namespace BigSister {
               _config.SetValue(rsn, "StartLevel", p.Skills[skill].Level);
               _config.SetValue(rsn, "StartRank", p.Skills[skill].Rank);
             }
-            bc.SendReply(string.Format("\\b{0}\\b is now signed to current war.", rsn));
+            bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b is now signed to current war.", rsn));
           } else {
-            bc.SendReply(string.Format("\\b{0}\\b doesn't feature Hiscores.", rsn));
+            bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b doesn't feature Hiscores.", rsn));
           }
         }
       }
@@ -136,9 +136,9 @@ namespace BigSister {
 
       if (_config.HasSection(rsn)) {
         _config.RemoveSection(rsn);
-        bc.SendReply(string.Format("\\b{0}\\b was removed from current war.", rsn));
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b was removed from current war.", rsn));
       } else {
-        bc.SendReply(string.Format("\\b{0}\\b isn't signed to current war.", rsn));
+        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b isn't signed to current war.", rsn));
       }
     }
 
