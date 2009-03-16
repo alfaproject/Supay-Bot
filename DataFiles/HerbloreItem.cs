@@ -63,13 +63,18 @@ namespace BigSister {
 
     public int Price {
       get {
+        if (_potionId == 0) {
+          return 0;
+        }
+
         int qty = 1;
-        if (_price == null && _potionId != 0) {
+        if (_price == null) {
           _price = new Price(_potionId);
           _price.LoadFromCache();
           Match matchQty = Regex.Match(this.Name, @"(\d+)x ");
-          if (matchQty.Success)
+          if (matchQty.Success) {
             qty = int.Parse(matchQty.Groups[1].Value, CultureInfo.InvariantCulture);
+          }
         }
         return qty * _price.MarketPrice;
       }
