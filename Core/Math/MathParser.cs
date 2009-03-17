@@ -111,6 +111,7 @@ namespace BigSister {
       _lastAnswer = lastAnswer;
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public string Expression {
       get {
         if (_tokens == null)

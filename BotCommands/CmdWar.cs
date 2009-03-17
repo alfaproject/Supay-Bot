@@ -142,6 +142,7 @@ namespace BigSister {
       }
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void Top(CommandContext bc) {
       string rsn = bc.From.RSN;
       int rank = 1;
@@ -171,7 +172,7 @@ namespace BigSister {
       if (bc.MessageTokens.Length > 1) {
         if (int.TryParse(bc.MessageTokens[1], out rank)) {
           // !War <rank>
-        } else if (bc.MessageTokens[1].ToLowerInvariant() == "@last") {
+        } else if (bc.MessageTokens[1].EqualsI("@last")) {
           // !War @last
           rank = warPlayers.Count;
         } else {
@@ -227,6 +228,7 @@ namespace BigSister {
       bc.SendReply(reply);
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void TopAll(CommandContext bc) {
       if (!bc.From.IsAdmin)
         return;

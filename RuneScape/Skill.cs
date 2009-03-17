@@ -407,6 +407,7 @@ namespace BigSister {
     }
 
     // IFormattable {ToString}
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public override string ToString(string format, IFormatProvider provider) {
       if (format == null)
         format = "N";

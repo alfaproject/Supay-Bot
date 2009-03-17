@@ -4,6 +4,7 @@ using System.Globalization;
 namespace BigSister {
   static class CmdHiscores {
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void Top(CommandContext bc) {
       string rsn = bc.From.RSN;
       string skill = null, minigame = null;

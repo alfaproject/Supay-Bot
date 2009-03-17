@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 namespace BigSister {
   static class CmdRuneScript {
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void Graph(CommandContext bc) {
       string skill = "Overall";
       string rsn = bc.From.RSN;

@@ -105,6 +105,7 @@ namespace BigSister {
         return new Minigame(newMinigame.Name, oldMinigame.Rank - newMinigame.Rank, newMinigame.Score - oldMinigame.Score);
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public override string ToString(string format, IFormatProvider provider) {
       if (format == null)
         format = "N";
@@ -120,6 +121,8 @@ namespace BigSister {
           return this.Name;
         case "n":
           return this.Name.ToLowerInvariant();
+        case "R":
+          return (this.Rank == -1 ? "Not ranked" : this.Rank.ToString("N0", CultureInfo.InvariantCulture));
         case "r":
           return (this.Rank == -1 ? "NR" : this.Rank.ToString("N0", CultureInfo.InvariantCulture));
         case "s":

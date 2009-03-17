@@ -220,283 +220,284 @@ namespace BigSister {
         if (e.Message.Text[0] == '!' || e.Message.Text[0] == '.' || e.Message.Text[0] == '@') {
           CommandContext bc = new CommandContext(_irc, _irc.Peers, e.Message.Sender, _irc.Channels.Find(e.Message.Targets[0]), e.Message.Text);
 
-          switch (bc.MessageTokens[0].ToLowerInvariant()) {
+          switch (bc.MessageTokens[0].ToUpperInvariant()) {
             // Utility
-            case "setname":
-            case "defname":
-            case "addme":
+            case "SETNAME":
+            case "DEFNAME":
+            case "SETRSN":
+            case "ADDME":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdUtil.SetName), bc);
               break;
-            case "rsn":
-            case "whois":
+            case "RSN":
+            case "WHOIS":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdUtil.Whois), bc);
               break;
-            case "calc":
-            case "c":
+            case "CALC":
+            case "C":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdUtil.Calc), bc);
               break;
 
             // Tracker
-            case "addtracker":
+            case "ADDTRACKER":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTracker.Add), bc);
               break;
-            case "removetracker":
+            case "REMOVETRACKER":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTracker.Remove), bc);
               break;
-            case "removetrackerfromclan":
+            case "REMOVETRACKERFROMCLAN":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTracker.RemoveTrackerFromClan), bc);
               break;
-            case "removefromss":
-            case "removesser":
+            case "REMOVEFROMSS":
+            case "REMOVESSER":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTracker.RemoveFromClan), bc);
               break;
-            case "today":
-            case "week":
-            case "month":
-            case "year":
-            case "yesterday":
-            case "yday":
-            case "lastweek":
-            case "lweek":
-            case "lastmonth":
-            case "lmonth":
-            case "lastyear":
-            case "lyear":
+            case "TODAY":
+            case "WEEK":
+            case "MONTH":
+            case "YEAR":
+            case "YESTERDAY":
+            case "YDAY":
+            case "LASTWEEK":
+            case "LWEEK":
+            case "LASTMONTH":
+            case "LMONTH":
+            case "LASTYEAR":
+            case "LYEAR":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTracker.Performance), bc);
               break;
 
             // RuneScript
-            case "graph":
+            case "GRAPH":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneScript.Graph), bc);
               break;
-            case "track":
-            case "tracker":
+            case "TRACK":
+            case "TRACKER":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneScript.Track), bc);
               break;
 
             // Clan
-            case "pttop":
-            case "tugatop":
-            case "sstop":
-            case "tstop":
+            case "PTTOP":
+            case "TUGATOP":
+            case "SSTOP":
+            case "TSTOP":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdClan.Top), bc);
               break;
-            case "ptweek":
-            case "ptmonth":
-            case "ptyear":
-            case "ptyesterday":
-            case "ptyday":
-            case "ptlastweek":
-            case "ptlweek":
-            case "ptlastmonth":
-            case "ptlmonth":
-            case "ptlastyear":
-            case "ptlyear":
-            case "tugaweek":
-            case "tugamonth":
-            case "tugayear":
-            case "tugayesterday":
-            case "tugayday":
-            case "tugalastweek":
-            case "tugalweek":
-            case "tugalastmonth":
-            case "tugalmonth":
-            case "tugalastyear":
-            case "tugalyear":
-            case "ssweek":
-            case "ssmonth":
-            case "ssyear":
-            case "ssyesterday":
-            case "ssyday":
-            case "sslastweek":
-            case "sslweek":
-            case "sslastmonth":
-            case "sslmonth":
-            case "sslastyear":
-            case "sslyear":
-            case "tsweek":
-            case "tsmonth":
-            case "tsyear":
-            case "tsyesterday":
-            case "tsyday":
-            case "tslastweek":
-            case "tslweek":
-            case "tslastmonth":
-            case "tslmonth":
-            case "tslastyear":
-            case "tslyear":
+            case "PTWEEK":
+            case "PTMONTH":
+            case "PTYEAR":
+            case "PTYESTERDAY":
+            case "PTYDAY":
+            case "PTLASTWEEK":
+            case "PTLWEEK":
+            case "PTLASTMONTH":
+            case "PTLMONTH":
+            case "PTLASTYEAR":
+            case "PTLYEAR":
+            case "TUGAWEEK":
+            case "TUGAMONTH":
+            case "TUGAYEAR":
+            case "TUGAYESTERDAY":
+            case "TUGAYDAY":
+            case "TUGALASTWEEK":
+            case "TUGALWEEK":
+            case "TUGALASTMONTH":
+            case "TUGALMONTH":
+            case "TUGALASTYEAR":
+            case "TUGALYEAR":
+            case "SSWEEK":
+            case "SSMONTH":
+            case "SSYEAR":
+            case "SSYESTERDAY":
+            case "SSYDAY":
+            case "SSLASTWEEK":
+            case "SSLWEEK":
+            case "SSLASTMONTH":
+            case "SSLMONTH":
+            case "SSLASTYEAR":
+            case "SSLYEAR":
+            case "TSWEEK":
+            case "TSMONTH":
+            case "TSYEAR":
+            case "TSYESTERDAY":
+            case "TSYDAY":
+            case "TSLASTWEEK":
+            case "TSLWEEK":
+            case "TSLASTMONTH":
+            case "TSLMONTH":
+            case "TSLASTYEAR":
+            case "TSLYEAR":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdClan.Performance), bc);
               break;
-            case "ss":
-            case "ssavg":
-            case "ssstats":
+            case "SS":
+            case "SSAVG":
+            case "SSSTATS":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdClan.Stats), bc);
               break;
 
             // Grand Exchange
-            case "prices":
-            case "price":
-            case "ge":
+            case "PRICES":
+            case "PRICE":
+            case "GE":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdGrandExchange.Price), bc);
               break;
-            case "priceinfo":
-            case "geinfo":
+            case "PRICEINFO":
+            case "GEINFO":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdGrandExchange.PriceInfo), bc);
               break;
-            case "gelastupdate":
-            case "geupdate":
+            case "GELASTUPDATE":
+            case "GEUPDATE":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdGrandExchange.LastUpdate), bc);
               break;
 
             // RuneScape
-            case "all":
-            case "stats":
-            case "skills":
+            case "ALL":
+            case "STATS":
+            case "SKILLS":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneScape.Stats), bc);
               break;
-            case "compare":
-            case "comp":
-            case "cmp":
+            case "COMPARE":
+            case "COMP":
+            case "CMP":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdCompare.Compare), bc);
               break;
-            case "combat":
-            case "comb":
-            case "cmb":
-            case "cb":
+            case "COMBAT":
+            case "COMB":
+            case "CMB":
+            case "CB":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneScape.Combat), bc);
               break;
 
             // Hiscores
-            case "top":
-            case "table":
+            case "TOP":
+            case "TABLE":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdHiscores.Top), bc);
               break;
-            case "rank":
+            case "RANK":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdHiscores.Rank), bc);
               break;
 
             // Zybez
-            case "item":
+            case "ITEM":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdZybez.ItemInfo), bc);
               break;
-            case "highalchemy":
-            case "highalch":
-            case "lowalchemy":
-            case "lowalch":
-            case "alchemy":
-            case "alch":
+            case "HIGHALCHEMY":
+            case "HIGHALCH":
+            case "LOWALCHEMY":
+            case "LOWALCH":
+            case "ALCHEMY":
+            case "ALCH":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdZybez.HighAlch), bc);
               break;
 
             // RuneHead
-            case "clan":
+            case "CLAN":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneHead.Clan), bc);
               break;
-            case "claninfo":
-            case "ml":
+            case "CLANINFO":
+            case "ML":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneHead.ClanInfo), bc);
               break;
-            case "parsess":
-            case "updatess":
-            case "parsept":
-            case "updatept":
-            case "parsets":
-            case "updatets":
+            case "PARSESS":
+            case "UPDATESS":
+            case "PARSEPT":
+            case "UPDATEPT":
+            case "PARSETS":
+            case "UPDATETS":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneHead.ParseClan), bc);
               break;
 
             // Tip.It
-            case "monstersearch":
-            case "npcsearch":
-            case "mdbsearch":
+            case "MONSTERSEARCH":
+            case "NPCSEARCH":
+            case "MDBSEARCH":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdMonster.Search), bc);
               break;
-            case "monsterinfo":
-            case "mdbinfo":
-            case "monster":
-            case "mdb":
+            case "MONSTERINFO":
+            case "MDBINFO":
+            case "MONSTER":
+            case "MDB":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdMonster.Info), bc);
               break;
 
             // Timers
-            case "start":
+            case "START":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTimers.Start), bc);
               break;
-            case "check":
+            case "CHECK":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTimers.Check), bc);
               break;
-            case "stop":
-            case "end":
+            case "STOP":
+            case "END":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTimers.Stop), bc);
               break;
-            case "timer":
+            case "TIMER":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTimers.Timer), bc);
               break;
 
             // DataFiles
-            case "coords":
-            case "coord":
+            case "COORDS":
+            case "COORD":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Coord), bc);
               break;
-            case "anagram":
+            case "ANAGRAM":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Anagram), bc);
               break;
-            case "challenge":
+            case "CHALLENGE":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Challenge), bc);
               break;
-            case "npc":
-            case "person":
+            case "NPC":
+            case "PERSON":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Npc), bc);
               break;
-            case "riddle":
+            case "RIDDLE":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Riddle), bc);
               break;
-            case "search":
+            case "SEARCH":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Search), bc);
               break;
-            case "uri":
+            case "URI":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Uri), bc);
               break;
-            case "fairy":
+            case "FAIRY":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Fairy), bc);
               break;
-            case "payment":
-            case "farmer":
-            case "plant":
+            case "PAYMENT":
+            case "FARMER":
+            case "PLANT":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Farmer), bc);
               break;
-            case "cape":
+            case "CAPE":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Cape), bc);
               break;
-            case "exp":
-            case "xp":
+            case "EXP":
+            case "XP":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Exp), bc);
               break;
-            case "req":
-            case "reqs":
+            case "REQ":
+            case "REQS":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Reqs), bc);
               break;
-            case "po":
-            case "pouch":
-            case "pouches":
-            case "fam":
-            case "familiar":
-            case "familiars":
+            case "PO":
+            case "POUCH":
+            case "POUCHES":
+            case "FAM":
+            case "FAMILIAR":
+            case "FAMILIARS":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Pouch), bc);
               break;
-            case "ch":
-            case "charm":
-            case "charms":
+            case "CH":
+            case "CHARM":
+            case "CHARMS":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Charms), bc);
               break;
-            case "pot":
-            case "potion":
-            case "potions":
+            case "POT":
+            case "POTION":
+            case "POTIONS":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Potion), bc);
               break;
-            case "sp":
-            case "spell":
-            case "spells":
+            case "SP":
+            case "SPELL":
+            case "SPELLS":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Spell), bc);
               break;
 
@@ -504,72 +505,83 @@ namespace BigSister {
             case "%":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.Percent), bc);
               break;
-            case "combat%":
-            case "comb%":
-            case "cmb%":
-            case "cb%":
+            case "COMBAT%":
+            case "COMB%":
+            case "CMB%":
+            case "CB%":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.CombatPercent), bc);
               break;
-            case "slayer%":
-            case "slay%":
-            case "sl%":
+            case "SLAYER%":
+            case "SLAY%":
+            case "SL%":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.SlayerPercent), bc);
               break;
-            case "f2p%":
-            case "f2p":
+            case "F2P%":
+            case "F2P":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.F2pPercent), bc);
               break;
-            case "pc%":
+            case "PC%":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.PcPercent), bc);
               break;
 
-            case "players":
-            case "worlds":
-            case "world":
-            case "w":
+            case "PLAYERS":
+            case "WORLDS":
+            case "WORLD":
+            case "W":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.Players), bc);
               break;
 
-            case "grats":
-            case "gratz":
-            case "g":
+            case "GRATS":
+            case "GRATZ":
+            case "G":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.Grats), bc);
               break;
 
-            case "highlow":
-            case "lowhigh":
-            case "hilo":
-            case "lohi":
+            case "HIGHLOW":
+            case "LOWHIGH":
+            case "HILOW":
+            case "LOWHI":
+            case "HIGHLO":
+            case "LOHIGH":
+            case "HILO":
+            case "LOHI":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.HighLow), bc);
               break;
-            case "calccombat":
-            case "cmb-est":
+            case "CALCCOMBAT":
+            case "CALCCOMB":
+            case "CALCCMB":
+            case "CALCCB":
+            case "CMB-EST":
+            case "CMBEST":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.CalcCombat), bc);
               break;
 
             // Links
-            case "quickfind":
-            case "qfc":
+            case "QUICKFIND":
+            case "QFC":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdLinks.Qfc), bc);
               break;
 
             // Wars
-            case "warstart":
+            case "WARSTART":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdWar.Start), bc);
               break;
-            case "waradd":
+            case "WARADD":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdWar.Add), bc);
               break;
-            case "warremove":
+            case "WARREMOVE":
+            case "WARDELETE":
+            case "WARDEL":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdWar.Remove), bc);
               break;
-            case "warend":
+            case "WAREND":
+            case "WARSTOP":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdWar.End), bc);
               break;
-            case "wartop":
+            case "WARTOP":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdWar.Top), bc);
               break;
-            case "wartopall":
+            case "WARTOPALL":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdWar.TopAll), bc);
               break;
 

@@ -98,6 +98,7 @@ namespace BigSister {
       }
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void Performance(CommandContext bc) {
       // get rsn
       string rsn;

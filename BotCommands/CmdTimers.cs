@@ -40,6 +40,7 @@ namespace BigSister {
       bc.SendReply("\\b{0}\\b starting exp of \\c07{1:e}\\c in \\u{1:n}\\u has been recorded{2}.".FormatWith(rsn, p.Skills[skill], name.Length > 0 ? " on timer \\c07" + name + "\\c" : string.Empty));
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void Check(CommandContext bc) {
       // get rsn
       string rsn = bc.From.RSN;
@@ -77,6 +78,7 @@ namespace BigSister {
       }
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void Stop(CommandContext bc) {
       // get rsn
       string rsn = bc.From.RSN;
@@ -117,6 +119,7 @@ namespace BigSister {
       }
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void Timer(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         SQLiteDataReader rsTimer = Database.ExecuteReader("SELECT name, duration, started FROM timers WHERE fingerprint='" + bc.From.FingerPrint + "' OR nick='" + bc.From.Nick + "';");

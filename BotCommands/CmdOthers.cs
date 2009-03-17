@@ -246,6 +246,7 @@ namespace BigSister {
       }
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void Grats(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !grats <skill> <level>");

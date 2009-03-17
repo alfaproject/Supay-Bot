@@ -105,6 +105,12 @@ namespace BigSister {
     }
 
     /// <summary>
+    ///   Determines whether this instance and another specified String object have the same value. (case insensitive)</summary>
+    public static bool EqualsI(this string self, string value) {
+      return self.Equals(value, StringComparison.OrdinalIgnoreCase);
+    }
+
+    /// <summary>
     ///   Replaces the format items of this instance with the text equivalent of the value of a corresponding Object instance in a specified array. </summary>
     /// <param name="args">
     ///   An Object array containing zero or more objects to format. </param>
