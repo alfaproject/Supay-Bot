@@ -252,14 +252,14 @@ namespace BigSister.Irc.Messages {
       StringBuilder param = new StringBuilder();
       for (int i = startIndex; i < rawMessage.Length; i++) {
         char c = rawMessage[i];
-        if (c.ToString() == " ") {
+        if (c == ' ') {
           parameters.Add(param.ToString());
           param = new StringBuilder();
         } else if (i + 1 == rawMessage.Length) {
           param.Append(c);
           parameters.Add(param.ToString());
           param = new StringBuilder();
-        } else if (c.ToString() == ":" && param.Length == 0) {
+        } else if (c == ':' && param.Length == 0) {
           parameters.Add(rawMessage.Substring(i + 1));
           break;
         } else {
