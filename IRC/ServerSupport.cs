@@ -629,8 +629,7 @@ namespace BigSister.Irc {
     private NameValueCollection unknownItems = new NameValueCollection();
 
     /// <summary>
-    /// Loads support information from the given <see cref="BigSister.Irc.Messages.SupportMessage"/>.
-    /// </summary>
+    ///   Loads support information from the given <see cref="BigSister.Irc.Messages.SupportMessage"/>. </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
     public void LoadInfo(BigSister.Irc.Messages.SupportMessage msg) {
       NameValueCollection items = msg.SupportedItems;
@@ -810,13 +809,13 @@ namespace BigSister.Irc {
             foreach (InfoPair maxListInfoPair in CreateInfoPairs(value)) {
               int maxLength = -1;
               if (int.TryParse(maxListInfoPair.Value, NumberStyles.Integer, CultureInfo.InvariantCulture, out maxLength)) {
-                if (maxListInfoPair.Key.IndexOf("b", StringComparison.Ordinal) != -1) {
+                if (maxListInfoPair.Key.IndexOf('b') != -1) {
                   this.MaxBans = maxLength;
                 }
-                if (maxListInfoPair.Key.IndexOf("e", StringComparison.Ordinal) != -1) {
+                if (maxListInfoPair.Key.IndexOf('e') != -1) {
                   this.MaxBanExceptions = maxLength;
                 }
-                if (maxListInfoPair.Key.IndexOf("I", StringComparison.Ordinal) != -1) {
+                if (maxListInfoPair.Key.IndexOf('I') != -1) {
                   this.MaxInvitationExceptions = maxLength;
                 }
               }

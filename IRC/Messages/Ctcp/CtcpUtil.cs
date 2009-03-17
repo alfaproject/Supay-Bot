@@ -57,25 +57,23 @@ namespace BigSister.Irc.Messages {
     }
 
     /// <summary>
-    /// Extracts the actual Ctcp command from the given message string.
-    /// </summary>
+    ///   Extracts the actual Ctcp command from the given message string. </summary>
     public static string GetInternalCommand(string rawMessage) {
       string ctcpMessage = MessageUtil.GetLastParameter(rawMessage);
-      if (ctcpMessage.IndexOf(" ", StringComparison.Ordinal) > 0) {
-        return ctcpMessage.Substring(1, ctcpMessage.IndexOf(" ", StringComparison.Ordinal) - 1);
+      if (ctcpMessage.IndexOf(' ') > 0) {
+        return ctcpMessage.Substring(1, ctcpMessage.IndexOf(' ') - 1);
       } else {
         return ctcpMessage.Substring(1, ctcpMessage.Length - 2);
       }
     }
 
     /// <summary>
-    /// Extracts the extended data section of a Ctcp message.
-    /// </summary>
+    ///   Extracts the extended data section of a Ctcp message. </summary>
     public static string GetExtendedData(string rawMessage) {
       string ctcpMessage = MessageUtil.GetLastParameter(rawMessage);
       string extendedData = string.Empty;
-      if (ctcpMessage.IndexOf(" ", StringComparison.Ordinal) > 0) {
-        extendedData = ctcpMessage.Substring(ctcpMessage.IndexOf(" ", StringComparison.Ordinal) + 1);
+      if (ctcpMessage.IndexOf(' ') > 0) {
+        extendedData = ctcpMessage.Substring(ctcpMessage.IndexOf(' ') + 1);
         extendedData = extendedData.Substring(0, extendedData.Length - 1);
       }
       return CtcpUtil.Unescape(extendedData);

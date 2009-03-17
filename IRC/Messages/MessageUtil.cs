@@ -177,19 +177,17 @@ namespace BigSister.Irc.Messages {
 
 
     /// <summary>
-    /// Extracts the Prefix from a string message.
-    /// </summary>
+    ///   Extracts the Prefix from a string message. </summary>
     public static string GetPrefix(string rawMessage) {
       if (!string.IsNullOrEmpty(rawMessage) && rawMessage.StartsWith(":", StringComparison.Ordinal)) {
-        return rawMessage.Substring(1, rawMessage.IndexOf(" ", StringComparison.Ordinal)).Trim();
+        return rawMessage.Substring(1, rawMessage.IndexOf(' ')).Trim();
       } else {
         return string.Empty;
       }
     }
 
     /// <summary>
-    /// Extracts the Command from a string message.
-    /// </summary>
+    ///   Extracts the Command from a string message. </summary>
     public static string GetCommand(string rawMessage) {
       if (string.IsNullOrEmpty(rawMessage)) {
         return string.Empty;
@@ -197,14 +195,14 @@ namespace BigSister.Irc.Messages {
 
       // remove prefix
       if (rawMessage.StartsWith(":", StringComparison.Ordinal)) {
-        rawMessage = rawMessage.Substring(rawMessage.IndexOf(" ", 1, StringComparison.Ordinal) + 1);
+        rawMessage = rawMessage.Substring(rawMessage.IndexOf(' ', 1) + 1);
         if (string.IsNullOrEmpty(rawMessage)) {
           return string.Empty;
         }
       }
 
       // the first token is the command
-      int indexOfFirstSpace = rawMessage.IndexOf(" ", StringComparison.Ordinal);
+      int indexOfFirstSpace = rawMessage.IndexOf(' ');
       if (indexOfFirstSpace == -1) {
         return rawMessage;
       }

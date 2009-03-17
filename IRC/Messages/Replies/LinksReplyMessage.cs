@@ -81,15 +81,14 @@ namespace BigSister.Irc.Messages {
     }
 
     /// <summary>
-    /// Parses the parameters portion of the message.
-    /// </summary>
+    ///   Parses the parameters portion of the message. </summary>
     protected override void ParseParameters(StringCollection parameters) {
       base.ParseParameters(parameters);
       if (parameters.Count == 4) {
         this.Mask = parameters[1];
         this.Server = parameters[2];
         string trailing = parameters[3];
-        string first = trailing.Substring(0, trailing.IndexOf(" ", StringComparison.Ordinal));
+        string first = trailing.Substring(0, trailing.IndexOf(' '));
         this.HopCount = Convert.ToInt32(first, CultureInfo.InvariantCulture);
         this.ServerInfo = trailing.Substring(first.Length);
       } else {

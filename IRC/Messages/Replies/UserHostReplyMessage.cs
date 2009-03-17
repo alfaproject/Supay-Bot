@@ -45,20 +45,19 @@ namespace BigSister.Irc.Messages {
     }
 
     /// <summary>
-    /// Parses the parameters portion of the message.
-    /// </summary>
+    ///   Parses the parameters portion of the message. </summary>
     protected override void ParseParameters(StringCollection parameters) {
       base.ParseParameters(parameters);
       this.Users.Clear();
       string[] userInfo = parameters[parameters.Count - 1].Split(' ');
       foreach (string info in userInfo) {
-        string nick = info.Substring(0, info.IndexOf("=", StringComparison.Ordinal));
+        string nick = info.Substring(0, info.IndexOf('='));
         bool oper = false;
         if (nick.EndsWith("*", StringComparison.Ordinal)) {
           oper = true;
           nick = nick.Substring(0, nick.Length - 1);
         }
-        string away = info.Substring(info.IndexOf("=", StringComparison.Ordinal) + 1, 1);
+        string away = info.Substring(info.IndexOf('=') + 1, 1);
         string standardHost = info.Substring(info.IndexOf(away, StringComparison.Ordinal));
 
         User user = new User();

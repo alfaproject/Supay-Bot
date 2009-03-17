@@ -17,7 +17,7 @@ namespace BigSister {
 
       // get timer name
       string name = string.Empty;
-      int indexofsharp = bc.Message.IndexOf("#", StringComparison.InvariantCulture);
+      int indexofsharp = bc.Message.IndexOf('#');
       if (indexofsharp > 0) {
         name = bc.Message.Substring(indexofsharp + 1);
         bc.Message = bc.Message.Substring(0, indexofsharp - 1);
@@ -52,7 +52,7 @@ namespace BigSister {
 
       // get timer name
       string name = string.Empty;
-      int indexofsharp = bc.Message.IndexOf("#", StringComparison.InvariantCulture);
+      int indexofsharp = bc.Message.IndexOf('#');
       if (indexofsharp > 0) {
         name = bc.Message.Substring(indexofsharp + 1);
         bc.Message = bc.Message.Substring(0, indexofsharp - 1);
@@ -89,7 +89,7 @@ namespace BigSister {
 
       // get timer name
       string name = string.Empty;
-      int indexofsharp = bc.Message.IndexOf("#", StringComparison.InvariantCulture);
+      int indexofsharp = bc.Message.IndexOf('#');
       if (indexofsharp > 0) {
         name = bc.Message.Substring(indexofsharp + 1);
         bc.Message = bc.Message.Substring(0, indexofsharp - 1);

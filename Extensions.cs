@@ -89,7 +89,7 @@ namespace BigSister {
     }
 
     /// <summary>
-    ///   Returns a value indicating whether the specified System.String object occurs within this string (ignoring the case). </summary>
+    ///   Returns a value indicating whether the specified System.String object occurs within this string. (case insensitive) </summary>
     /// <param name="value">
     ///   The System.String object to seek. </param>
     public static bool ContainsI(this string self, string value) {

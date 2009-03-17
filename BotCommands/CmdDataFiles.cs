@@ -321,7 +321,7 @@ namespace BigSister {
       string reqs_line;
       while ((reqs_line = reqs_file.ReadLine()) != null)
         if (reqs_line.ContainsI(bc.Channel)) {
-          bc.SendReply(reqs_line.Substring(reqs_line.IndexOf("|", StringComparison.InvariantCulture) + 1));
+          bc.SendReply(reqs_line.Substring(reqs_line.IndexOf('|') + 1));
           break;
         }
       reqs_file.Close();

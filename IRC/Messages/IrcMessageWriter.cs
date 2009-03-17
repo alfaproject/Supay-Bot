@@ -137,7 +137,7 @@ namespace BigSister.Irc.Messages {
           writer.Write(" ");
         }
         string lastParam = GetParamValue(paramCount - 1);
-        if (lastParam.IndexOf(" ", StringComparison.Ordinal) > 0) {
+        if (lastParam.IndexOf(' ') > 0) {
           this.writer.Write(":");
         }
         this.writer.Write(lastParam);

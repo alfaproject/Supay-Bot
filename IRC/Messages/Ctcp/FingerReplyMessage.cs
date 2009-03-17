@@ -83,18 +83,17 @@ namespace BigSister.Irc.Messages {
     private double idleSeconds;
 
     /// <summary>
-    /// Parses the given string to populate this <see cref="IrcMessage"/>.
-    /// </summary>
+    ///   Parses the given string to populate this <see cref="IrcMessage"/>. </summary>
     public override void Parse(string unparsedMessage) {
       base.Parse(unparsedMessage);
       string payload = CtcpUtil.GetExtendedData(unparsedMessage);
       if (payload.StartsWith(":", StringComparison.Ordinal)) {
         payload = payload.Substring(1);
       }
-      this.RealName = payload.Substring(0, payload.IndexOf(" ", StringComparison.Ordinal));
+      this.RealName = payload.Substring(0, payload.IndexOf(' '));
 
       int startOfLoginName = payload.IndexOf(" (", StringComparison.Ordinal);
-      int endOfLoginName = payload.IndexOf(")", StringComparison.Ordinal);
+      int endOfLoginName = payload.IndexOf(')');
       if (startOfLoginName > 0) {
         startOfLoginName += 2;
         this.LoginName = payload.Substring(startOfLoginName, endOfLoginName - startOfLoginName);

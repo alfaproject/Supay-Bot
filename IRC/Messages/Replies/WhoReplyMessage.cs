@@ -118,8 +118,7 @@ namespace BigSister.Irc.Messages {
     }
 
     /// <summary>
-    /// Parses the parameters portion of the message.
-    /// </summary>
+    ///   Parses the parameters portion of the message. </summary>
     protected override void ParseParameters(StringCollection parameters) {
       base.ParseParameters(parameters);
       this.User = new User();
@@ -133,7 +132,7 @@ namespace BigSister.Irc.Messages {
 
         string levels = parameters[6];
         // TODO I'm going to ignore the H/G issue until i know what it means.
-        this.IsOper = (levels.IndexOf("*", StringComparison.Ordinal) != -1);
+        this.IsOper = (levels.IndexOf('*') != -1);
         string lastLetter = levels.Substring(levels.Length - 1);
         if (ChannelStatus.Exists(lastLetter)) {
           //HACK this.Status = ChannelStatus.GetInstance(lastLetter);
@@ -142,8 +141,8 @@ namespace BigSister.Irc.Messages {
         }
 
         string trailing = parameters[7];
-        this.HopCount = Convert.ToInt32(trailing.Substring(0, trailing.IndexOf(" ", StringComparison.Ordinal)), CultureInfo.InvariantCulture);
-        this.User.RealName = trailing.Substring(trailing.IndexOf(" ", StringComparison.Ordinal));
+        this.HopCount = Convert.ToInt32(trailing.Substring(0, trailing.IndexOf(' ')), CultureInfo.InvariantCulture);
+        this.User.RealName = trailing.Substring(trailing.IndexOf(' '));
       }
     }
 

@@ -46,15 +46,14 @@ namespace BigSister.Irc.Messages {
     private string areSupported = "are supported by this server";
 
     /// <summary>
-    /// Parses the parameters portion of the message.
-    /// </summary>
+    ///   Parses the parameters portion of the message. </summary>
     protected override void ParseParameters(StringCollection parameters) {
       base.ParseParameters(parameters);
       for (int i = 1; i < parameters.Count - 1; i++) {
         string nameValue = parameters[i];
         string name;
         string value;
-        int indexOfEquals = nameValue.IndexOf("=", StringComparison.Ordinal);
+        int indexOfEquals = nameValue.IndexOf('=');
         if (indexOfEquals > 0) {
           name = nameValue.Substring(0, indexOfEquals);
           value = nameValue.Substring(indexOfEquals + 1);

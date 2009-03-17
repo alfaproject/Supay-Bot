@@ -303,15 +303,15 @@ namespace BigSister.Irc {
     }
 
     /// <summary>
-    /// Parses the given string as a mask to populate this user object.
-    /// </summary>
-    /// <param name="rawMask">The mask to parse.</param>
+    ///   Parses the given string as a mask to populate this user object. </summary>
+    /// <param name="rawMask">
+    ///   The mask to parse. </param>
     public void Parse(string rawMask) {
       this.Reset();
 
       string mask = rawMask;
-      int indexOfBang = mask.IndexOf("!", StringComparison.Ordinal);
-      int indexOfAt = mask.LastIndexOf("@", StringComparison.Ordinal);
+      int indexOfBang = mask.IndexOf('!');
+      int indexOfAt = mask.LastIndexOf('@');
 
       if (indexOfAt > 1) {
         this.HostName = mask.Substring(indexOfAt + 1);
