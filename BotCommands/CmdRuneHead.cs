@@ -96,11 +96,11 @@ namespace BigSister {
       string pageRuneHead;
       string clanInitials;
       string clanName;
-      if (bc.Message.ToUpperInvariant().Contains("SS")) {
+      if (bc.Message.ContainsI("SS")) {
         clanInitials = "SS";
         clanName = "Supreme Skillers";
         pageRuneHead = new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=lovvel");
-      } else if (bc.Message.ToUpperInvariant().Contains("TS")) {
+      } else if (bc.Message.ContainsI("TS")) {
         clanInitials = "TS";
         clanName = "True Skillers";
         pageRuneHead = new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=trueskillers");

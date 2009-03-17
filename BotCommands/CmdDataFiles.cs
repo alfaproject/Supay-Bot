@@ -64,7 +64,7 @@ namespace BigSister {
         if (!clueLine.StartsWith("Riddle", StringComparison.InvariantCulture))
           continue;
         string[] clueTokens = clueLine.Split('|');
-        if (clueTokens[1].ToUpperInvariant().Contains(query.ToUpperInvariant())) {
+        if (clueTokens[1].ContainsI(query)) {
           bc.SendReply(string.Format(CultureInfo.InvariantCulture, @"Riddle: \c07{0}\c | Tip: \c07{1}\c", clueTokens[1], clueTokens[2]));
           clueFile.Close();
           return;
@@ -88,7 +88,7 @@ namespace BigSister {
         if (!clueLine.StartsWith("Anagram", StringComparison.InvariantCulture))
           continue;
         string[] clueTokens = clueLine.Split('|');
-        if (clueTokens[1].ToUpperInvariant().Contains(query.ToUpperInvariant())) {
+        if (clueTokens[1].ContainsI(query)) {
           bc.SendReply(string.Format(CultureInfo.InvariantCulture, @"Anagram: \c07{0}\c | NPC: \c07{1}\c | Location: \c07{2}\c", clueTokens[1], clueTokens[2], clueTokens[3]));
           clueFile.Close();
           return;
@@ -112,7 +112,7 @@ namespace BigSister {
         if (!clueLine.StartsWith("Challenge", StringComparison.InvariantCulture))
           continue;
         string[] clueTokens = clueLine.Split('|');
-        if (clueTokens[1].ToUpperInvariant().Contains(query.ToUpperInvariant())) {
+        if (clueTokens[1].ContainsI(query)) {
           bc.SendReply(string.Format(CultureInfo.InvariantCulture, @"Challenge: \c07{0}\c | Answer: \c07{1}\c", clueTokens[1], clueTokens[2]));
           clueFile.Close();
           return;
@@ -136,7 +136,7 @@ namespace BigSister {
         if (!clueLine.StartsWith("NPC", StringComparison.InvariantCulture))
           continue;
         string[] clueTokens = clueLine.Split('|');
-        if (clueTokens[1].ToUpperInvariant().Contains(query.ToUpperInvariant())) {
+        if (clueTokens[1].ContainsI(query)) {
           bc.SendReply(string.Format(CultureInfo.InvariantCulture, @"NPC: \c07{0}\c | Location: \c07{1}\c", clueTokens[1], clueTokens[2]));
           clueFile.Close();
           return;
@@ -160,7 +160,7 @@ namespace BigSister {
         if (!clueLine.StartsWith("Search", StringComparison.InvariantCulture))
           continue;
         string[] clueTokens = clueLine.Split('|');
-        if (clueTokens[1].ToUpperInvariant().Contains(query.ToUpperInvariant())) {
+        if (clueTokens[1].ContainsI(query)) {
           bc.SendReply(string.Format(CultureInfo.InvariantCulture, @"Search: \c07{0}\c | Tip: \c07{1}\c", clueTokens[1], clueTokens[2]));
           clueFile.Close();
           return;
@@ -184,7 +184,7 @@ namespace BigSister {
         if (!clueLine.StartsWith("Uri", StringComparison.InvariantCulture))
           continue;
         string[] clueTokens = clueLine.Split('|');
-        if (clueTokens[1].ToUpperInvariant().Contains(query.ToUpperInvariant())) {
+        if (clueTokens[1].ContainsI(query)) {
           bc.SendReply(string.Format(CultureInfo.InvariantCulture, @"Uri: \c07{0}\c | Equipment: \c07{1}\c | Location: \c07{2}\c", clueTokens[1], clueTokens[2], clueTokens[3]));
           clueFile.Close();
           return;
@@ -206,7 +206,7 @@ namespace BigSister {
       string fairy_line;
       int results = 0;
       while (results < 2 && (fairy_line = fairy_file.ReadLine()) != null) {
-        if (fairy_line.ToLowerInvariant().Contains(search_terms.ToLowerInvariant())) {
+        if (fairy_line.ContainsI(search_terms)) {
           results++;
           string[] fairy = fairy_line.Split('|');
           bc.SendReply(string.Format(CultureInfo.InvariantCulture, "Code: \\c07{0}\\c | Location: \\c07{1}\\c | Nearby features: \\c07{2}\\c", fairy[0], fairy[1], fairy[2]));
@@ -232,7 +232,7 @@ namespace BigSister {
         query = bc.MessageTokens.Join(1);
       }
 
-      FarmingItem plant = (FarmingItem)new SkillItems(Skill.FARM).Find(f => f.Name.ToUpperInvariant().Contains(query.ToUpperInvariant()));
+      FarmingItem plant = (FarmingItem)new SkillItems(Skill.FARM).Find(f => f.Name.ContainsI(query));
       if (plant == null) {
         bc.SendReply(string.Format(CultureInfo.InvariantCulture, @"No plant found matching \c07{0}\c.", query));
       } else {
@@ -305,7 +305,7 @@ namespace BigSister {
         }
       }
 
-      List<ASkillItem> items = new SkillItems().FindAll(f => f.Name.ToUpperInvariant().Contains(query.ToUpperInvariant()));
+      List<ASkillItem> items = new SkillItems().FindAll(f => f.Name.ContainsI(query));
       if (items.Count > 0) {
         string reply = string.Empty;
         foreach (ASkillItem item in items)
@@ -320,7 +320,7 @@ namespace BigSister {
       StreamReader reqs_file = new StreamReader("Data\\Reqs.txt");
       string reqs_line;
       while ((reqs_line = reqs_file.ReadLine()) != null)
-        if (reqs_line.ToLowerInvariant().Contains(bc.Channel.ToLowerInvariant())) {
+        if (reqs_line.ContainsI(bc.Channel)) {
           bc.SendReply(reqs_line.Substring(reqs_line.IndexOf("|", StringComparison.InvariantCulture) + 1));
           break;
         }
@@ -342,7 +342,7 @@ namespace BigSister {
         query = bc.MessageTokens.Join(1);
       }
 
-      SummoningItem familiar = (SummoningItem)new SkillItems(Skill.SUMM).Find(f => f.Name.ToUpperInvariant().Contains(query.ToUpperInvariant()));
+      SummoningItem familiar = (SummoningItem)new SkillItems(Skill.SUMM).Find(f => f.Name.ContainsI(query));
       if (familiar == null) {
         bc.SendReply(string.Format(CultureInfo.InvariantCulture, "No pouch found matching \\c07{0}\\c.", query));
       } else {
@@ -457,7 +457,7 @@ namespace BigSister {
         query = bc.MessageTokens.Join(1);
       }
 
-      HerbloreItem potion = (HerbloreItem)new SkillItems(Skill.HERB).Find(f => f.Name.ToUpperInvariant().Contains(query.ToUpperInvariant()));
+      HerbloreItem potion = (HerbloreItem)new SkillItems(Skill.HERB).Find(f => f.Name.ContainsI(query));
       if (potion == null) {
         bc.SendReply(string.Format(CultureInfo.InvariantCulture, @"No potion found matching \c07{0}\c.", query));
       } else {
@@ -491,7 +491,7 @@ namespace BigSister {
         query = bc.MessageTokens.Join(1);
       }
 
-      MagicItem spell = (MagicItem)new SkillItems(Skill.MAGI).Find(f => f.Name.ToUpperInvariant().Contains(query.ToUpperInvariant()));
+      MagicItem spell = (MagicItem)new SkillItems(Skill.MAGI).Find(f => f.Name.ContainsI(query));
       if (spell == null) {
         bc.SendReply(string.Format(CultureInfo.InvariantCulture, @"No spell found matching \c07{0}\c.", query));
       } else {

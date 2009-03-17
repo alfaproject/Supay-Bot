@@ -60,7 +60,7 @@ namespace BigSister {
           // search for partial match at name and level
           if (monster == null)
             foreach (Monster m in results)
-              if (m.Name.ToUpperInvariant().Contains(search_terms.ToUpperInvariant()) && m.Level == level) {
+              if (m.Name.ContainsI(search_terms) && m.Level == level) {
                 monster = m;
                 break;
               }
@@ -75,7 +75,7 @@ namespace BigSister {
         // search for partial match at name
         if (monster == null)
           foreach (Monster m in results)
-            if (m.Name.ToUpperInvariant().Contains(search_terms.ToUpperInvariant())) {
+            if (m.Name.ContainsI(search_terms)) {
               monster = m;
               break;
             }

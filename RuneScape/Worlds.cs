@@ -8,7 +8,7 @@ namespace BigSister {
     public List<World> FindActivity(string activity) {
       List<World> ret = new List<World>();
       foreach (World world in this.Values)
-        if (world.Activity.ToLowerInvariant().Contains(activity.ToLowerInvariant()))
+        if (world.Activity.ContainsI(activity))
           ret.Add(world);
       return ret;
     }

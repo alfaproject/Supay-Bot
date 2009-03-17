@@ -10,10 +10,10 @@ namespace BigSister {
     public static void Top(CommandContext bc) {
       string clanInitials;
       string clanName;
-      if (bc.Message.ToUpperInvariant().Contains("SS")) {
+      if (bc.Message.ContainsI("SS")) {
         clanInitials = "SS";
         clanName = "Supreme Skillers";
-      } else if (bc.Message.ToUpperInvariant().Contains("TS")) {
+      } else if (bc.Message.ContainsI("TS")) {
         clanInitials = "TS";
         clanName = "True Skillers";
       } else {
@@ -192,10 +192,10 @@ namespace BigSister {
     public static void Performance(CommandContext bc) {
       string clanInitials;
       string clanName;
-      if (bc.Message.ToUpperInvariant().Contains("SS")) {
+      if (bc.Message.ContainsI("SS")) {
         clanInitials = "SS";
         clanName = "Supreme Skillers";
-      } else if (bc.Message.ToUpperInvariant().Contains("TS")) {
+      } else if (bc.Message.ContainsI("TS")) {
         clanInitials = "TS";
         clanName = "True Skillers";
       } else {

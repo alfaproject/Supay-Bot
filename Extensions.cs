@@ -88,5 +88,13 @@ namespace BigSister {
       return result.ToString();
     }
 
+    /// <summary>
+    ///   Returns a value indicating whether the specified System.String object occurs within this string (ignoring the case). </summary>
+    /// <param name="value">
+    ///   The System.String object to seek. </param>
+    public static bool ContainsI(this string self, string value) {
+      return (self.IndexOf(value, StringComparison.OrdinalIgnoreCase) != -1);
+    }
+
   } //class Extensions
 } //namespace BigSister

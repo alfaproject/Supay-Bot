@@ -470,7 +470,7 @@ namespace BigSister {
       ASkillItem item = items.Find(f => f.Name.ToUpperInvariant() == input_item.ToUpperInvariant());
       // Search for a partial match if the exact fails
       if (item == null)
-        item = items.Find(f => f.Name.ToUpperInvariant().Contains(input_item.ToUpperInvariant()));
+        item = items.Find(f => f.Name.ContainsI(input_item));
 
       return item;
     }
@@ -499,7 +499,7 @@ namespace BigSister {
           // search for partial match at name and level
           if (monster == null)
             foreach (Monster m in results)
-              if (m.Name.ToUpperInvariant().Contains(input_monster.ToUpperInvariant()) && m.Level == level) {
+              if (m.Name.ContainsI(input_monster) && m.Level == level) {
                 monster = m;
                 break;
               }
@@ -514,7 +514,7 @@ namespace BigSister {
         // search for partial match at name
         if (monster == null)
           foreach (Monster m in results)
-            if (m.Name.ToUpperInvariant().Contains(input_monster.ToUpperInvariant())) {
+            if (m.Name.ContainsI(input_monster)) {
               monster = m;
               break;
             }
