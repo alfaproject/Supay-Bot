@@ -29,7 +29,7 @@ namespace BigSister {
         StreamReader clueFile = new StreamReader(@"Data\Clues.txt");
         string clueLine;
         while ((clueLine = clueFile.ReadLine()) != null) {
-          if (!clueLine.StartsWith("Coords", StringComparison.InvariantCulture))
+          if (!clueLine.StartsWith("Coords", StringComparison.Ordinal))
             continue;
           string[] clueTokens = clueLine.Split('|');
           if (int.Parse(clueTokens[1].Substring(0, 2), CultureInfo.InvariantCulture) == lat1 &&
@@ -61,7 +61,7 @@ namespace BigSister {
       StreamReader clueFile = new StreamReader(@"Data\Clues.txt");
       string clueLine;
       while ((clueLine = clueFile.ReadLine()) != null) {
-        if (!clueLine.StartsWith("Riddle", StringComparison.InvariantCulture))
+        if (!clueLine.StartsWith("Riddle", StringComparison.Ordinal))
           continue;
         string[] clueTokens = clueLine.Split('|');
         if (clueTokens[1].ContainsI(query)) {
@@ -85,7 +85,7 @@ namespace BigSister {
       StreamReader clueFile = new StreamReader(@"Data\Clues.txt");
       string clueLine;
       while ((clueLine = clueFile.ReadLine()) != null) {
-        if (!clueLine.StartsWith("Anagram", StringComparison.InvariantCulture))
+        if (!clueLine.StartsWith("Anagram", StringComparison.Ordinal))
           continue;
         string[] clueTokens = clueLine.Split('|');
         if (clueTokens[1].ContainsI(query)) {
@@ -109,7 +109,7 @@ namespace BigSister {
       StreamReader clueFile = new StreamReader(@"Data\Clues.txt");
       string clueLine;
       while ((clueLine = clueFile.ReadLine()) != null) {
-        if (!clueLine.StartsWith("Challenge", StringComparison.InvariantCulture))
+        if (!clueLine.StartsWith("Challenge", StringComparison.Ordinal))
           continue;
         string[] clueTokens = clueLine.Split('|');
         if (clueTokens[1].ContainsI(query)) {
@@ -133,7 +133,7 @@ namespace BigSister {
       StreamReader clueFile = new StreamReader(@"Data\Clues.txt");
       string clueLine;
       while ((clueLine = clueFile.ReadLine()) != null) {
-        if (!clueLine.StartsWith("NPC", StringComparison.InvariantCulture))
+        if (!clueLine.StartsWith("NPC", StringComparison.Ordinal))
           continue;
         string[] clueTokens = clueLine.Split('|');
         if (clueTokens[1].ContainsI(query)) {
@@ -157,7 +157,7 @@ namespace BigSister {
       StreamReader clueFile = new StreamReader(@"Data\Clues.txt");
       string clueLine;
       while ((clueLine = clueFile.ReadLine()) != null) {
-        if (!clueLine.StartsWith("Search", StringComparison.InvariantCulture))
+        if (!clueLine.StartsWith("Search", StringComparison.Ordinal))
           continue;
         string[] clueTokens = clueLine.Split('|');
         if (clueTokens[1].ContainsI(query)) {
@@ -181,7 +181,7 @@ namespace BigSister {
       StreamReader clueFile = new StreamReader(@"Data\Clues.txt");
       string clueLine;
       while ((clueLine = clueFile.ReadLine()) != null) {
-        if (!clueLine.StartsWith("Uri", StringComparison.InvariantCulture))
+        if (!clueLine.StartsWith("Uri", StringComparison.Ordinal))
           continue;
         string[] clueTokens = clueLine.Split('|');
         if (clueTokens[1].ContainsI(query)) {
@@ -264,7 +264,7 @@ namespace BigSister {
       StreamReader cape_file = new StreamReader("Data\\Capes.txt");
       string cape_line;
       while ((cape_line = cape_file.ReadLine()) != null) {
-        if (cape_line.StartsWith(skill, StringComparison.InvariantCulture)) {
+        if (cape_line.StartsWith(skill, StringComparison.Ordinal)) {
           string[] cape = cape_line.Split('|');
           bc.SendReply(string.Format(CultureInfo.InvariantCulture, "Skill: \\c07{0}\\c | NPC: \\c07{1}\\c | Where: \\c07{2}\\c", cape[0], cape[1], cape[2]));
           cape_file.Close();

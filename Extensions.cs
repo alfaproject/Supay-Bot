@@ -96,5 +96,13 @@ namespace BigSister {
       return (self.IndexOf(value, StringComparison.OrdinalIgnoreCase) != -1);
     }
 
+    /// <summary>
+    ///   Determines whether the beginning of this instance matches the specified string. (case insensitive) </summary>
+    /// <param name="value">
+    ///   The System.String object to seek. </param>
+    public static bool StartsWithI(this string self, string value) {
+      return self.StartsWith(value, StringComparison.OrdinalIgnoreCase);
+    }
+
   } //class Extensions
 } //namespace BigSister

@@ -206,15 +206,14 @@ namespace BigSister {
     void IrcChat(object sender, IrcMessageEventArgs<TextMessage> e) {
       if (string.Compare(e.Message.Targets[0], _irc.User.Nick, StringComparison.OrdinalIgnoreCase) == 0) {
         // private message
-        if (e.Message.Text.StartsWith("raw", StringComparison.InvariantCulture))
+        if (e.Message.Text.StartsWithI("raw"))
           _irc.Connection.Write(e.Message.Text.Substring(4));
-        else if (e.Message.Text.StartsWith("listchannel", StringComparison.InvariantCulture))
+        else if (e.Message.Text.StartsWithI("listchannel"))
           foreach (Channel c in _irc.Channels)
             foreach (User u in c.Users)
               _irc.SendChat(c.Name + " » " + u.ToString(), e.Message.Sender.Nick);
       } else {
         // channel message
-        System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
         if (e.Message.Text[0] == '%')
           e.Message.Text = "." + e.Message.Text;
 
@@ -577,10 +576,10 @@ namespace BigSister {
             default:
               string command = null;
 
-              if (bc.MessageTokens[0].ToUpperInvariant().StartsWith("LAST", StringComparison.InvariantCulture)) {
+              if (bc.MessageTokens[0].StartsWithI("LAST")) {
                 // !lastNdays
                 ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTracker.Performance), bc);
-              } else if (bc.MessageTokens[0].ToUpperInvariant().StartsWith("SSLAST", StringComparison.InvariantCulture) || bc.MessageTokens[0].ToUpperInvariant().StartsWith("TSLAST") || bc.MessageTokens[0].ToUpperInvariant().StartsWith("PTLAST", StringComparison.InvariantCulture) || bc.MessageTokens[0].ToUpperInvariant().StartsWith("TUGALAST", StringComparison.InvariantCulture)) {
+              } else if (bc.MessageTokens[0].StartsWithI("SSLAST") || bc.MessageTokens[0].StartsWithI("TSLAST") || bc.MessageTokens[0].StartsWithI("PTLAST") || bc.MessageTokens[0].StartsWithI("TUGALAST")) {
                 // !<clan>lastNdays
                 ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdClan.Performance), bc);
               } else if (Minigame.TryParse(bc.MessageTokens[0], ref command)) {

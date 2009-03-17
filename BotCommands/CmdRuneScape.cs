@@ -281,7 +281,7 @@ namespace BigSister {
           } else {
             target_exp = target_level.ToExp();
           }
-        } else if (goal.StartsWith("r", StringComparison.InvariantCulture)) {
+        } else if (goal.StartsWithI("r")) {
           // get rank
           int goalrank;
           if (int.TryParse(goal.Substring(1), out goalrank)) {
