@@ -84,7 +84,8 @@ namespace BigSister {
         result.Append(self.Hours + "hour" + (self.Hours == 1 ? " " : "s "));
       if (self.Minutes > 0)
         result.Append(self.Minutes + "min" + (self.Minutes == 1 ? " " : "s "));
-      result.Append(self.Seconds + "sec" + (self.Seconds == 1 ? string.Empty : "s"));
+      if (self.Seconds > 0 || (self.Days == 0 && self.Hours == 0 && self.Minutes == 0))
+        result.Append(self.Seconds + "sec" + (self.Seconds == 1 ? string.Empty : "s"));
       return result.ToString();
     }
 
