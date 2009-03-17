@@ -401,7 +401,7 @@ namespace BigSister.Irc.Messages {
     ///   Determines if the given strings match eachother using <see href="StringComparison.InvariantCultureIgnoreCase" /> matching. </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "b"),
      System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "a"),
-     System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1309:UseOrdinalStringComparison", MessageId = "System.string.Compare(System.string,System.string,System.StringComparison)")]
+     System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1309:UseOrdinalStringComparison", MessageId = "System.String.Compare(System.String,System.String,System.StringComparison)")]
     public static bool IsIgnoreCaseMatch(string a, string b) {
       return (string.Compare(a, b, StringComparison.InvariantCultureIgnoreCase) == 0);
     }
