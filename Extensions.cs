@@ -12,11 +12,11 @@ namespace BigSister {
     /// <param name="separator">
     ///   A System.String. </param>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2233:OperationsShouldNotOverflow", MessageId = "startIndex+1")]
-    public static string Join(this string[] value, int startIndex, string separator) {
-      if (value.Length == startIndex + 1) {
-        return value[startIndex];
+    public static string Join(this string[] self, int startIndex, string separator) {
+      if (self.Length == startIndex + 1) {
+        return self[startIndex];
       } else {
-        return string.Join(separator, value, startIndex, value.Length - startIndex);
+        return string.Join(separator, self, startIndex, self.Length - startIndex);
       }
     }
 
@@ -24,26 +24,26 @@ namespace BigSister {
     ///   Concatenates a space between each element of a specified string array, yielding a single concatenated string. </summary>
     /// <param name="startIndex">
     ///   The first array element in value to use. </param>
-    public static string Join(this string[] value, int startIndex) {
-      return value.Join(startIndex, " ");
+    public static string Join(this string[] self, int startIndex) {
+      return self.Join(startIndex, " ");
     }
 
     /// <summary>
     ///   Concatenates a space between each element of a specified string array, yielding a single concatenated string. </summary>
-    public static string Join(this string[] value) {
-      return value.Join(0);
+    public static string Join(this string[] self) {
+      return self.Join(0);
     }
 
     /// <summary>
     ///   Converts the specified string representation of a date (and time) to its DateTime equivalent. </summary>
-    public static DateTime ToDateTime(this string date) {
-      switch (date.Length) {
+    public static DateTime ToDateTime(this string self) {
+      switch (self.Length) {
         case 8:
-          return DateTime.ParseExact(date, "yyyyMMdd", CultureInfo.InvariantCulture);
+          return DateTime.ParseExact(self, "yyyyMMdd", CultureInfo.InvariantCulture);
         case 12:
-          return DateTime.ParseExact(date, "yyyyMMddHHmm", CultureInfo.InvariantCulture);
+          return DateTime.ParseExact(self, "yyyyMMddHHmm", CultureInfo.InvariantCulture);
         case 14:
-          return DateTime.ParseExact(date, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+          return DateTime.ParseExact(self, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
         default:
           return DateTime.MinValue;
       }
@@ -53,16 +53,16 @@ namespace BigSister {
     ///   Converts the numeric value of this instance to its equivalent short string (k/m/b) representation up to a maximum number of decimals. </summary>
     /// <param name="decimals">
     ///   Max number of decimals allowed. </param>
-    public static string ToShortString(this double value, int decimals) {
+    public static string ToShortString(this double self, int decimals) {
       string format = "#,##0." + new string('#', decimals);
-      if (value >= 1000000000 || value <= -1000000000) {
-        return Math.Round(value / 1000000000, decimals).ToString(format, CultureInfo.InvariantCulture) + "b";
-      } else if (value >= 1000000 || value <= -1000000) {
-        return Math.Round(value / 1000000, decimals).ToString(format, CultureInfo.InvariantCulture) + "m";
-      } else if (value >= 1000 || value <= -1000) {
-        return Math.Round(value / 1000, decimals).ToString(format, CultureInfo.InvariantCulture) + "k";
+      if (self >= 1000000000 || self <= -1000000000) {
+        return Math.Round(self / 1000000000, decimals).ToString(format, CultureInfo.InvariantCulture) + "b";
+      } else if (self >= 1000000 || self <= -1000000) {
+        return Math.Round(self / 1000000, decimals).ToString(format, CultureInfo.InvariantCulture) + "m";
+      } else if (self >= 1000 || self <= -1000) {
+        return Math.Round(self / 1000, decimals).ToString(format, CultureInfo.InvariantCulture) + "k";
       } else {
-        return Math.Round(value, decimals).ToString(format, CultureInfo.InvariantCulture);
+        return Math.Round(self, decimals).ToString(format, CultureInfo.InvariantCulture);
       }
     }
 
@@ -70,21 +70,21 @@ namespace BigSister {
     ///   Converts the numeric value of this instance to its equivalent short string (k/m/b) representation up to a maximum number of decimals. </summary>
     /// <param name="decimals">
     ///   Max number of decimals allowed. </param>
-    public static string ToShortString(this int value, int decimals) {
-      return ((double)value).ToShortString(decimals);
+    public static string ToShortString(this int self, int decimals) {
+      return ((double)self).ToShortString(decimals);
     }
 
     /// <summary>
     ///   Returns the string representation of the value of this instance in the format: ##days ##hours ##mins ##secs. </summary>
-    public static string ToLongString(this TimeSpan timeSpan) {
+    public static string ToLongString(this TimeSpan self) {
       StringBuilder result = new StringBuilder(30);
-      if (timeSpan.Days > 0)
-        result.Append(timeSpan.Days + "day" + (timeSpan.Days == 1 ? " " : "s "));
-      if (timeSpan.Hours > 0)
-        result.Append(timeSpan.Hours + "hour" + (timeSpan.Hours == 1 ? " " : "s "));
-      if (timeSpan.Minutes > 0)
-        result.Append(timeSpan.Minutes + "min" + (timeSpan.Minutes == 1 ? " " : "s "));
-      result.Append(timeSpan.Seconds + "sec" + (timeSpan.Seconds == 1 ? string.Empty : "s"));
+      if (self.Days > 0)
+        result.Append(self.Days + "day" + (self.Days == 1 ? " " : "s "));
+      if (self.Hours > 0)
+        result.Append(self.Hours + "hour" + (self.Hours == 1 ? " " : "s "));
+      if (self.Minutes > 0)
+        result.Append(self.Minutes + "min" + (self.Minutes == 1 ? " " : "s "));
+      result.Append(self.Seconds + "sec" + (self.Seconds == 1 ? string.Empty : "s"));
       return result.ToString();
     }
 
