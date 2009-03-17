@@ -44,9 +44,9 @@ namespace BigSister {
       int InputLessThan = 0;
       Match M = Regex.Match(bc.Message, " <(\\d+m|\\d+k|\\d+)");
       if (M.Success) {
-        if (M.Groups[1].Value.EndsWith("m", StringComparison.InvariantCulture))
+        if (M.Groups[1].Value.EndsWithI("m"))
           InputLessThan = 1000000 * int.Parse(M.Groups[1].Value.Substring(0, M.Groups[1].Value.Length - 1), CultureInfo.InvariantCulture);
-        else if (M.Groups[1].Value.EndsWith("k", StringComparison.InvariantCulture))
+        else if (M.Groups[1].Value.EndsWithI("k"))
           InputLessThan = 1000 * int.Parse(M.Groups[1].Value.Substring(0, M.Groups[1].Value.Length - 1), CultureInfo.InvariantCulture);
         else
           InputLessThan = int.Parse(M.Groups[1].Value, CultureInfo.InvariantCulture);
@@ -59,9 +59,9 @@ namespace BigSister {
       int InputGreaterThan = 0;
       M = Regex.Match(bc.Message, " >(\\d+m|\\d+k|\\d+)");
       if (M.Success) {
-        if (M.Groups[1].Value.EndsWith("m", StringComparison.InvariantCulture))
+        if (M.Groups[1].Value.EndsWithI("m"))
           InputGreaterThan = 1000000 * int.Parse(M.Groups[1].Value.Substring(0, M.Groups[1].Value.Length - 1), CultureInfo.InvariantCulture);
-        else if (M.Groups[1].Value.EndsWith("k", StringComparison.InvariantCulture))
+        else if (M.Groups[1].Value.EndsWithI("k"))
           InputGreaterThan = 1000 * int.Parse(M.Groups[1].Value.Substring(0, M.Groups[1].Value.Length - 1), CultureInfo.InvariantCulture);
         else
           InputGreaterThan = int.Parse(M.Groups[1].Value, CultureInfo.InvariantCulture);
@@ -230,7 +230,7 @@ namespace BigSister {
                 reply += perf;
             }
             if (reply.Length > 0)
-              bc.SendReply(reply.EndsWith(" | ", StringComparison.InvariantCulture) ? reply.Substring(0, reply.Length - 3) : reply);
+              bc.SendReply(reply.EndsWithI(" | ") ? reply.Substring(0, reply.Length - 3) : reply);
           }
 
           return;
@@ -455,7 +455,7 @@ namespace BigSister {
         // ***** end war *****
 
         if (reply.Length > 0)
-          bc.SendReply(reply.EndsWith(" | ", StringComparison.InvariantCulture) ? reply.Substring(0, reply.Length - 3) : reply);
+          bc.SendReply(reply.EndsWithI(" | ") ? reply.Substring(0, reply.Length - 3) : reply);
 
         return;
       }
@@ -729,7 +729,7 @@ namespace BigSister {
             reply += perf;
         }
         if (reply.Length > 0)
-          bc.SendReply(reply.EndsWith(" | ", StringComparison.InvariantCulture) ? reply.Substring(0, reply.Length - 3) : reply);
+          bc.SendReply(reply.EndsWithI(" | ") ? reply.Substring(0, reply.Length - 3) : reply);
       }
     }
 
@@ -749,7 +749,7 @@ namespace BigSister {
         else if (skilldif.Rank < 0)
           result += "\\c04" + skilldif.Rank + "\\c rank" + (skilldif.Rank < 1 ? "s" : string.Empty);
 
-        return (result.EndsWith(", ", StringComparison.InvariantCulture) ? result.Substring(0, result.Length - 2) : result);
+        return (result.EndsWithI(", ") ? result.Substring(0, result.Length - 2) : result);
       }
       return null;
     }
@@ -767,7 +767,7 @@ namespace BigSister {
         else if (mg_dif.Rank < 0)
           result += "\\c04" + mg_dif.Rank + "\\c rank" + (mg_dif.Rank < 1 ? "s" : string.Empty) + ";";
 
-        return (result.EndsWith(", ", StringComparison.InvariantCulture) ? result.Substring(0, result.Length - 2) + ";" : result);
+        return (result.EndsWithI(", ") ? result.Substring(0, result.Length - 2) + ";" : result);
       }
       return null;
     }

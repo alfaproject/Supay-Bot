@@ -105,6 +105,14 @@ namespace BigSister {
     }
 
     /// <summary>
+    ///   Determines whether the ending of this instance matches the specified string. (case insensitive) </summary>
+    /// <param name="value">
+    ///   The System.String object to seek. </param>
+    public static bool EndsWithI(this string self, string value) {
+      return self.EndsWith(value, StringComparison.OrdinalIgnoreCase);
+    }
+
+    /// <summary>
     ///   Determines whether this instance and another specified String object have the same value. (case insensitive)</summary>
     public static bool EqualsI(this string self, string value) {
       return self.Equals(value, StringComparison.OrdinalIgnoreCase);
