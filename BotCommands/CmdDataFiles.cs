@@ -243,7 +243,7 @@ namespace BigSister {
         if (plant.CheckHealthExp != 0)
           reply += @" | Check-health xp: \c07{0:#,##0.#}\c".FormatWith(qty * plant.CheckHealthExp);
 
-        reply += @" | Grow time: \c07{0}\c".FormatWith(TimeSpan.FromHours(qty * plant.GrowTime).ToLongString());
+        reply += @" | Grow time: \c07{0}\c".FormatWith(TimeSpan.FromMinutes(qty * plant.GrowTime).ToLongString());
 
         if (plant.Payment != "-")
           reply += @" | Payment: \c07{0}\c (\c07{1:N0} gp)".FormatWith(plant.Payment, qty * plant.PaymentPrice);
