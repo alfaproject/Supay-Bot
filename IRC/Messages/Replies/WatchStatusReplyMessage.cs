@@ -45,7 +45,7 @@ namespace BigSister.Irc.Messages {
     /// </summary>
     protected override void AddParametersToFormat(IrcMessageWriter writer) {
       base.AddParametersToFormat(writer);
-      writer.AddParameter(string.Format(CultureInfo.InvariantCulture, "You have {0} and are on {1} WATCH entries", this.WatchListCount, this.UsersWatchingYou));
+      writer.AddParameter("You have {0} and are on {1} WATCH entries".FormatWith(this.WatchListCount, this.UsersWatchingYou));
     }
 
     /// <summary>

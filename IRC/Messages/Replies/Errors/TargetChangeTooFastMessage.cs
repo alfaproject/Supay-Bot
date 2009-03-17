@@ -47,7 +47,7 @@ namespace BigSister.Irc.Messages {
     protected override void AddParametersToFormat(IrcMessageWriter writer) {
       base.AddParametersToFormat(writer);
       writer.AddParameter(this.TargetChanged);
-      writer.AddParameter(string.Format(CultureInfo.InvariantCulture, "Target change too fast. Please wait {0} seconds.", this.Seconds));
+      writer.AddParameter("Target change too fast. Please wait {0} seconds.".FormatWith(this.Seconds));
     }
 
     /// <exclude />

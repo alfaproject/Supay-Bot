@@ -79,7 +79,7 @@ namespace BigSister.Irc.Messages {
           return modeAction;
         }
       }
-      throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "ModeAction '{0}' does not exist.", value), "value");
+      throw new ArgumentException("ModeAction '{0}' does not exist.".FormatWith(value), "value");
     }
 
     #endregion
@@ -181,7 +181,7 @@ namespace BigSister.Irc.Messages {
       }
       ModeAction ma = obj as ModeAction;
       if (ma == null) {
-        throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Object must be of type {0}.", "ModeAction"), "obj");
+        throw new ArgumentException("Object must be of type ModeAction.", "obj");
       }
       return string.Compare(this.ircName, ma.ircName, StringComparison.Ordinal);
     }

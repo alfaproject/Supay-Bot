@@ -48,7 +48,7 @@ namespace BigSister.Irc.Messages {
     protected override void AddParametersToFormat(IrcMessageWriter writer) {
       base.AddParametersToFormat(writer);
       writer.AddParameter(this.Channel);
-      writer.AddParameter(string.Format(CultureInfo.InvariantCulture, "Cannot join channel ({0})", this.Reason));
+      writer.AddParameter("Cannot join channel ({0})".FormatWith(this.Reason));
     }
 
     /// <exclude />

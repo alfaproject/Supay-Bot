@@ -193,7 +193,7 @@ namespace BigSister.Irc {
       if (channelUser == null)
         throw new ArgumentNullException("channelUser");
       if (!Users.Contains(channelUser))
-        throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "User '{0}' is not in channel '{1}'.", channelUser.Nick, this.Name), "channelUser");
+        throw new ArgumentException("User '{0}' is not in channel '{1}'.".FormatWith(channelUser.Nick, this.Name), "channelUser");
     }
 
     #endregion

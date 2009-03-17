@@ -77,7 +77,7 @@ namespace BigSister {
         Player p = clanPlayers.Find(rsn);
         if (p != null) {
           // individual skill ranks
-          string reply = string.Format(CultureInfo.InvariantCulture, "[{0}] \\b{1}\\b skill ranks:", clanInitials, rsn);
+          string reply = "[{0}] \\b{1}\\b skill ranks:".FormatWith(clanInitials, rsn);
           foreach (Skill s in p.Skills.Values) {
             if (s.Exp > 0) {
               clanPlayers.SortBySkill(s.Name, false);
@@ -88,7 +88,7 @@ namespace BigSister {
 
           // individual minigame ranks
           bool ranked = false;
-          reply = string.Format(CultureInfo.InvariantCulture, "[{0}] \\b{1}\\b minigame ranks:", clanInitials, rsn);
+          reply = "[{0}] \\b{1}\\b minigame ranks:".FormatWith(clanInitials, rsn);
           foreach (Minigame mg in p.Minigames.Values) {
             if (mg.Score > 0) {
               ranked = true;
@@ -99,7 +99,7 @@ namespace BigSister {
           if (ranked)
             bc.SendReply(reply);
         } else {
-          bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b isn't at {1}.", rsn, clanName));
+          bc.SendReply("\\b{0}\\b isn't at {1}.".FormatWith(rsn, clanName));
         }
       } else {
         // Get input player rank
@@ -283,7 +283,7 @@ namespace BigSister {
         Player p = clanPlayers.Find(rsn);
         if (p != null) {
           // individual skill ranks
-          string reply = string.Format(CultureInfo.InvariantCulture, "[{0}] \\b{1}\\b skill ranks:", clanInitials, rsn);
+          string reply = "[{0}] \\b{1}\\b skill ranks:".FormatWith(clanInitials, rsn);
           foreach (Skill s in p.Skills.Values) {
             if (s.Exp > 0) {
               clanPlayers.SortBySkill(s.Name, true);
@@ -292,7 +292,7 @@ namespace BigSister {
           }
           bc.SendReply(reply);
         } else {
-          bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b wasn't at {1}.", rsn, clanName));
+          bc.SendReply("\\b{0}\\b wasn't at {1}.".FormatWith(rsn, clanName));
         }
       } else {
         // Get input player rank
@@ -359,7 +359,7 @@ namespace BigSister {
         }
       }
 
-      bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\bSupreme Skillers\\b | Forum: \\c12www.supremeskillers.com\\c | \\u{0}\\u average level: \\c07{1}\\c (\\c07{2:N0}\\c average exp.) | Members (\\c07{3}\\c): \\c12http://runehead.com/clans/ml.php?clan=lovvel\\c", skill, totallevel / ssplayers.Count, totalexp / ssplayers.Count, ssplayers.Count));
+      bc.SendReply("\\bSupreme Skillers\\b | Forum: \\c12www.supremeskillers.com\\c | \\u{0}\\u average level: \\c07{1}\\c (\\c07{2:N0}\\c average exp.) | Members (\\c07{3}\\c): \\c12http://runehead.com/clans/ml.php?clan=lovvel\\c".FormatWith(skill, totallevel / ssplayers.Count, totalexp / ssplayers.Count, ssplayers.Count));
     }
 
   } //class CmdClan

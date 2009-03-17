@@ -200,7 +200,7 @@ namespace BigSister.Irc.Messages {
 
     private static void VerifySupport(ServerSupport serverSupport, ServerSupport.ExtendedListParameters parameter) {
       if ((serverSupport.ExtendedList & parameter) != parameter) {
-        throw new InvalidMessageException(string.Format(CultureInfo.InvariantCulture, "Server does not support extended list parameter '{0}'.", parameter.ToString()));
+        throw new InvalidMessageException("Server does not support extended list parameter '{0}'.".FormatWith(parameter.ToString()));
       }
     }
 

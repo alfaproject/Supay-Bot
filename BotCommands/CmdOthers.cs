@@ -15,7 +15,7 @@ namespace BigSister {
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
-        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b doesn't feature Hiscores.", rsn));
+        bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn));
         return;
       }
 
@@ -31,7 +31,7 @@ namespace BigSister {
       int expected_combat_xp = p.Skills["Hitpoints"].Exp + p.Skills["Hitpoints"].Exp * 12 / 4;
       int current_combat_xp = p.Skills["Hitpoints"].Exp + p.Skills["Attack"].Exp + p.Skills["Strength"].Exp + p.Skills["Defence"].Exp + p.Skills["Ranged"].Exp;
 
-      bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b statistic percentages | Total exp: \\c07{1:N0}\\c | Combat exp: \\c07{2:N0}\\c (\\c07{3:0.##}%\\c) | F2P exp: \\c07{4:N0}\\c (\\c07{5:0.##}%\\c) | Slayer%: \\c07{6:0.##}% - {7:0.##}%\\c | PestControl%: \\c07{8:0.##}%\\c",
+      bc.SendReply("\\b{0}\\b statistic percentages | Total exp: \\c07{1:N0}\\c | Combat exp: \\c07{2:N0}\\c (\\c07{3:0.##}%\\c) | F2P exp: \\c07{4:N0}\\c (\\c07{5:0.##}%\\c) | Slayer%: \\c07{6:0.##}% - {7:0.##}%\\c | PestControl%: \\c07{8:0.##}%\\c".FormatWith(
                                  rsn, totalExp,
                                  combatExp, (double)combatExp / totalExp * 100,
                                  f2pExp, (double)f2pExp / totalExp * 100,
@@ -50,11 +50,11 @@ namespace BigSister {
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
-        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b doesn't feature Hiscores.", rsn));
+        bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn));
         return;
       }
 
-      bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b is \\c07{1:0.##}%\\c combat based, with \\c07{2:e}\\c combat based exp. and \\c07{3:e}\\c total exp.", rsn, (double)p.Skills[Skill.COMB].Exp / (double)p.Skills[Skill.OVER].Exp * 100.0, p.Skills[Skill.COMB], p.Skills[Skill.OVER]));
+      bc.SendReply("\\b{0}\\b is \\c07{1:0.##}%\\c combat based, with \\c07{2:e}\\c combat based exp. and \\c07{3:e}\\c total exp.".FormatWith(rsn, (double)p.Skills[Skill.COMB].Exp / (double)p.Skills[Skill.OVER].Exp * 100.0, p.Skills[Skill.COMB], p.Skills[Skill.OVER]));
     }
 
     public static void F2pPercent(CommandContext bc) {
@@ -67,11 +67,11 @@ namespace BigSister {
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
-        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b doesn't feature Hiscores.", rsn));
+        bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn));
         return;
       }
 
-      bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b is \\c07{1:0.##}%\\c f2p based, with \\c07{2:N0}\\c f2p based exp. and \\c07{3:e}\\c total exp.", rsn, (double)p.Skills.F2pExp / (double)p.Skills[Skill.OVER].Exp * 100, p.Skills.F2pExp, p.Skills[Skill.OVER]));
+      bc.SendReply("\\b{0}\\b is \\c07{1:0.##}%\\c f2p based, with \\c07{2:N0}\\c f2p based exp. and \\c07{3:e}\\c total exp.".FormatWith(rsn, (double)p.Skills.F2pExp / (double)p.Skills[Skill.OVER].Exp * 100, p.Skills.F2pExp, p.Skills[Skill.OVER]));
     }
 
     public static void SlayerPercent(CommandContext bc) {
@@ -84,14 +84,14 @@ namespace BigSister {
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
-        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b doesn't feature Hiscores.", rsn));
+        bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn));
         return;
       }
 
       int hits_exp_gained = p.Skills[Skill.HITP].Exp - 1154;
       double expected_max_slayer_exp = (double)hits_exp_gained * 3.0 / 4.0;
 
-      bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b \\c07{1:0.##}% - {2:0.##}%\\c of combat exp. is slayer based, with \\c07{3:N0}\\c combat slayer exp. and \\c07{4:N0}\\c combat total exp. (This percentage isn't accurate, mostly because of monster hp regeneration ratio and cannon slayering.)",
+      bc.SendReply("\\b{0}\\b \\c07{1:0.##}% - {2:0.##}%\\c of combat exp. is slayer based, with \\c07{3:N0}\\c combat slayer exp. and \\c07{4:N0}\\c combat total exp. (This percentage isn't accurate, mostly because of monster hp regeneration ratio and cannon slayering.)".FormatWith(
                                  rsn, (double)p.Skills[Skill.SLAY].Exp / expected_max_slayer_exp * 100.0,
                                  (double)p.Skills[Skill.SLAY].Exp / (expected_max_slayer_exp - ((double)hits_exp_gained / 133.0)) * 100.0,
                                  (double)p.Skills[Skill.SLAY].Exp * 16.0 / 3.0, hits_exp_gained + hits_exp_gained * 3));
@@ -107,14 +107,14 @@ namespace BigSister {
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
-        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b doesn't feature Hiscores.", rsn));
+        bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn));
         return;
       }
 
       int expected_combat_xp = p.Skills[Skill.HITP].Exp + p.Skills[Skill.HITP].Exp * 12 / 4;
       int current_combat_xp = p.Skills[Skill.HITP].Exp + p.Skills[Skill.ATTA].Exp + p.Skills[Skill.STRE].Exp + p.Skills[Skill.DEFE].Exp + p.Skills[Skill.RANG].Exp;
 
-      bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b \\c07{1:0.##}%\\c of combat exp. was pest controled and/or cannoned, with \\c07{2:N0}\\c normal combat exp. and \\c07{3:N0}\\c total combat exp. (This percentage might not be accurate; magic isn't included in calculations.)",
+      bc.SendReply("\\b{0}\\b \\c07{1:0.##}%\\c of combat exp. was pest controled and/or cannoned, with \\c07{2:N0}\\c normal combat exp. and \\c07{3:N0}\\c total combat exp. (This percentage might not be accurate; magic isn't included in calculations.)".FormatWith(
                                  rsn, (double)(current_combat_xp - expected_combat_xp) / (double)current_combat_xp * 100.0,
                                  expected_combat_xp, current_combat_xp));
     }
@@ -131,7 +131,7 @@ namespace BigSister {
           string players;
           switch (world.Status) {
             case "Online":
-              players = string.Format(CultureInfo.InvariantCulture, "\\c07{0}\\c (\\c07{1}%\\c capacity)", world.Players, Math.Round(world.Players / 2000.0 * 100, 1));
+              players = "\\c07{0}\\c (\\c07{1}%\\c capacity)".FormatWith(world.Players, Math.Round(world.Players / 2000.0 * 100, 1));
               break;
             case "Offline":
               players = "\\c07Offline\\c";
@@ -141,15 +141,15 @@ namespace BigSister {
               break;
           }
 
-          string reply = string.Format(CultureInfo.InvariantCulture, "World: \\c07{0}\\c (\\c07{1}\\c) | Players: {2} | Type: \\c07{3}\\c", inputworld, world.Location, players, world.Member ? "P2P" : "F2P");
+          string reply = "World: \\c07{0}\\c (\\c07{1}\\c) | Players: {2} | Type: \\c07{3}\\c".FormatWith(inputworld, world.Location, players, world.Member ? "P2P" : "F2P");
           if (world.Activity != "-")
-            reply += string.Format(CultureInfo.InvariantCulture, " | Activity: \\c07{0}\\c", world.Activity);
+            reply += " | Activity: \\c07{0}\\c".FormatWith(world.Activity);
 
           reply += " | LootShare: \\c" + (world.LootShare ? "03Yes" : "04No") + "\\c";
           reply += " | Quickchat: \\c" + (world.QuickChat ? "03Yes" : "04No") + "\\c";
           reply += " | PVP: \\c" + (world.PVP ? "03Yes" : "04No") + "\\c";
 
-          bc.SendReply(reply + string.Format(CultureInfo.InvariantCulture, " | Link: \\c12http://world{0}.runescape.com/a2,m0,j0,o0\\c", world.Number));
+          bc.SendReply(reply + " | Link: \\c12http://world{0}.runescape.com/a2,m0,j0,o0\\c".FormatWith(world.Number));
           return;
         } else {
           // get @p2p
@@ -220,9 +220,9 @@ namespace BigSister {
             if (act_worlds[0].Activity != "-")
               activity += " " + act_worlds[0].Activity;
 
-            string reply = string.Format(CultureInfo.InvariantCulture, "\\c07{0}\\c worlds:", activity);
+            string reply = "\\c07{0}\\c worlds:".FormatWith(activity);
             foreach (World w in act_worlds)
-              reply += string.Format(CultureInfo.InvariantCulture, " \\c{0}#{1}\\c ({2});", (w.Member ? "7" : "14"), w.Number, w.Players);
+              reply += " \\c{0}#{1}\\c ({2});".FormatWith((w.Member ? "7" : "14"), w.Number, w.Players);
             bc.SendReply(reply);
             return;
           }
@@ -236,7 +236,7 @@ namespace BigSister {
         total_players += world.Players;
 
       if (total_players > 0) {
-        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "There are currently \\c07{0:N0}\\c players online over \\c07{1}\\c worlds. (\\c07{2}\\c/world - \\c07{3:0.##}%\\c capacity.)",
+        bc.SendReply("There are currently \\c07{0:N0}\\c players online over \\c07{1}\\c worlds. (\\c07{2}\\c/world - \\c07{3:0.##}%\\c capacity.)".FormatWith(
                                    total_players,
                                    worlds.Count,
                                    total_players / worlds.Count,
@@ -288,9 +288,9 @@ namespace BigSister {
 
       bc.ReplyNotice = false;
       if (level > 0)
-        bc.SendReply(string.Format(CultureInfo.InvariantCulture, ":D\\-< ¤.¡*°*¡.¤ Woo! Congrats on your \\c07{0} level {1} {2}\\c!! ¤.¡*°*¡.¤ :D/-<", skill.ToLowerInvariant(), level, rsn));
+        bc.SendReply(":D\\-< ¤.¡*°*¡.¤ Woo! Congrats on your \\c07{0} level {1} {2}\\c!! ¤.¡*°*¡.¤ :D/-<".FormatWith(skill.ToLowerInvariant(), level, rsn));
       else
-        bc.SendReply(string.Format(CultureInfo.InvariantCulture, ":D\\-< ¤.¡*°*¡.¤ Woo! Congrats on your \\c07{0} level {1}\\c!! ¤.¡*°*¡.¤ :D/-<", skill.ToLowerInvariant(), rsn));
+        bc.SendReply(":D\\-< ¤.¡*°*¡.¤ Woo! Congrats on your \\c07{0} level {1}\\c!! ¤.¡*°*¡.¤ :D/-<".FormatWith(skill.ToLowerInvariant(), rsn));
     }
 
     public static void HighLow(CommandContext bc) {
@@ -311,7 +311,7 @@ namespace BigSister {
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
-        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b doesn't feature Hiscores.", p.Name));
+        bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(p.Name));
         return;
       }
 
@@ -322,54 +322,54 @@ namespace BigSister {
       if (rank) {
         highest = p.Skills.HighestRanked;
         int highestRank = highest[0].Rank;
-        reply = string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b \\uhighest\\u skills:", rsn);
+        reply = "\\b{0}\\b \\uhighest\\u skills:".FormatWith(rsn);
         for (i = 0; i < highest.Count; i++) {
           if (highest[i].Rank == highestRank)
-            reply += string.Format(CultureInfo.InvariantCulture, " \\c07{0}\\c,", highest[i].Name);
+            reply += " \\c07{0}\\c,".FormatWith(highest[i].Name);
           else
             break;
         }
-        reply = reply.Substring(0, reply.Length - 1) + string.Format(CultureInfo.InvariantCulture, " level \\c07{0:rv}\\c ranked \\c07#{0:r}\\c", highest[0]);
-        reply += string.Format(CultureInfo.InvariantCulture, " \\ufollowed by\\u \\c07{0:N}\\c level \\c07{0:rv}\\c ranked \\c07#{0:r}\\c.", highest[i]);
+        reply = reply.Substring(0, reply.Length - 1) + " level \\c07{0:rv}\\c ranked \\c07#{0:r}\\c".FormatWith(highest[0]);
+        reply += " \\ufollowed by\\u \\c07{0:N}\\c level \\c07{0:rv}\\c ranked \\c07#{0:r}\\c.".FormatWith(highest[i]);
         bc.SendReply(reply);
 
         lowest = p.Skills.LowestRanked;
         int lowestRank = lowest[0].Rank;
-        reply = string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b \\ulowest\\u skills:", rsn);
+        reply = "\\b{0}\\b \\ulowest\\u skills:".FormatWith(rsn);
         for (i = 0; i < lowest.Count; i++) {
           if (lowest[i].Rank == lowestRank)
-            reply += string.Format(CultureInfo.InvariantCulture, " \\c07{0}\\c,", lowest[i].Name);
+            reply += " \\c07{0}\\c,".FormatWith(lowest[i].Name);
           else
             break;
         }
-        reply = reply.Substring(0, reply.Length - 1) + string.Format(CultureInfo.InvariantCulture, " level \\c07{0:rv}\\c ranked \\c07#{0:r}\\c", lowest[0]);
-        reply += string.Format(CultureInfo.InvariantCulture, " \\ufollowed by\\u \\c07{0:N}\\c level \\c07{0:rv}\\c ranked \\c07#{0:r}\\c.", lowest[i]);
+        reply = reply.Substring(0, reply.Length - 1) + " level \\c07{0:rv}\\c ranked \\c07#{0:r}\\c".FormatWith(lowest[0]);
+        reply += " \\ufollowed by\\u \\c07{0:N}\\c level \\c07{0:rv}\\c ranked \\c07#{0:r}\\c.".FormatWith(lowest[i]);
         bc.SendReply(reply);
       } else {
         highest = p.Skills.Highest;
         int highestExp = highest[0].Exp;
-        reply = string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b \\uhighest\\u skills:", rsn);
+        reply = "\\b{0}\\b \\uhighest\\u skills:".FormatWith(rsn);
         for (i = 0; i < highest.Count; i++) {
           if (highest[i].Exp == highestExp)
-            reply += string.Format(CultureInfo.InvariantCulture, " \\c07{0}\\c,", highest[i].Name);
+            reply += " \\c07{0}\\c,".FormatWith(highest[i].Name);
           else
             break;
         }
-        reply = reply.Substring(0, reply.Length - 1) + string.Format(CultureInfo.InvariantCulture, " level \\c07{0:rv}\\c with \\c07{0:e}\\c exp.", highest[0]);
-        reply += string.Format(CultureInfo.InvariantCulture, " \\ufollowed by\\u \\c07{0:N}\\c level \\c07{0:rv}\\c with \\c07{0:e}\\c exp.", highest[i]);
+        reply = reply.Substring(0, reply.Length - 1) + " level \\c07{0:rv}\\c with \\c07{0:e}\\c exp.".FormatWith(highest[0]);
+        reply += " \\ufollowed by\\u \\c07{0:N}\\c level \\c07{0:rv}\\c with \\c07{0:e}\\c exp.".FormatWith(highest[i]);
         bc.SendReply(reply);
 
         lowest = p.Skills.Lowest;
         int lowestExp = lowest[0].Exp;
-        reply = string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b \\ulowest\\u skills:", rsn);
+        reply = "\\b{0}\\b \\ulowest\\u skills:".FormatWith(rsn);
         for (i = 0; i < lowest.Count; i++) {
           if (lowest[i].Exp == lowestExp)
-            reply += string.Format(CultureInfo.InvariantCulture, " \\c07{0}\\c,", lowest[i].Name);
+            reply += " \\c07{0}\\c,".FormatWith(lowest[i].Name);
           else
             break;
         }
-        reply = reply.Substring(0, reply.Length - 1) + string.Format(CultureInfo.InvariantCulture, " level \\c07{0:rv}\\c with \\c07{0:e}\\c exp.", lowest[0]);
-        reply += string.Format(CultureInfo.InvariantCulture, " \\ufollowed by\\u \\c07{0:N}\\c level \\c07{0:rv}\\c with \\c07{0:e}\\c exp.", lowest[i]);
+        reply = reply.Substring(0, reply.Length - 1) + " level \\c07{0:rv}\\c with \\c07{0:e}\\c exp.".FormatWith(lowest[0]);
+        reply += " \\ufollowed by\\u \\c07{0:N}\\c level \\c07{0:rv}\\c with \\c07{0:e}\\c exp.".FormatWith(lowest[i]);
         bc.SendReply(reply);
       }
     }
@@ -437,7 +437,7 @@ namespace BigSister {
 
       string cmbclass = RSUtil.CombatClass(Att, Str, Ran, Mag);
       int cmblevel = RSUtil.CalculateCombat(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
-      bc.SendReply(string.Format(CultureInfo.InvariantCulture, "Combat: \\c07{0}\\c | Class: \\c07{1}\\c | Stats: \\c07{2} {3} {4}\\c {5} \\c07{6} {7}\\c {8} {9}", cmblevel, cmbclass, Att, Str, Def, Hit, Pray, Sum, Ran, Mag));
+      bc.SendReply("Combat: \\c07{0}\\c | Class: \\c07{1}\\c | Stats: \\c07{2} {3} {4}\\c {5} \\c07{6} {7}\\c {8} {9}".FormatWith(cmblevel, cmbclass, Att, Str, Def, Hit, Pray, Sum, Ran, Mag));
 
       int nextAS = RSUtil.NextCombatAttStr(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
       int nextDH = RSUtil.NextCombatDefHp(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
@@ -445,7 +445,7 @@ namespace BigSister {
       int nextS = RSUtil.NextCombatSum(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
       int nextR = RSUtil.NextCombatRan(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
       int nextM = RSUtil.NextCombatMag(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
-      bc.SendReply(string.Format(CultureInfo.InvariantCulture, "Stats to level | Att/Str: \\c{0}\\c | Def/Hp: \\c{1}\\c | Pray: \\c{2}\\c | Sum: \\c{3}\\c | Range: \\c{4}\\c | Mage: \\c{5}\\c",
+      bc.SendReply("Stats to level | Att/Str: \\c{0}\\c | Def/Hp: \\c{1}\\c | Pray: \\c{2}\\c | Sum: \\c{3}\\c | Range: \\c{4}\\c | Mage: \\c{5}\\c".FormatWith(
                                  (Att + nextAS > 99 && Str + nextAS > 99 ? "04" : "03") + nextAS,
                                  (Def + nextDH > 99 && Hit + nextDH > 99 ? "04" : "03") + nextDH,
                                  (Pray + nextP > 99 ? "04" : "03") + nextP,

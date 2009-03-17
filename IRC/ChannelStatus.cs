@@ -238,7 +238,7 @@ namespace BigSister.Irc {
       }
       ChannelStatus other = obj as ChannelStatus;
       if (other == null) {
-        throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Object must be of type {0}.", "ChannelStatus"), "obj");
+        throw new ArgumentException("Object must be of type ChannelStatus.", "obj");
       }
       return string.Compare(this.symbol, other.symbol, StringComparison.OrdinalIgnoreCase);
     }

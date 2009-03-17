@@ -34,7 +34,7 @@ namespace BigSister.Irc.Messages {
     /// </summary>
     protected override void AddParametersToFormat(IrcMessageWriter writer) {
       base.AddParametersToFormat(writer);
-      writer.AddParameter(string.Format(CultureInfo.InvariantCulture, "No recipient given ({0})", this.Command));
+      writer.AddParameter("No recipient given ({0})".FormatWith(this.Command));
     }
 
     /// <summary>

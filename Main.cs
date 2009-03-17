@@ -92,7 +92,7 @@ namespace BigSister {
           pricesChanged.Sort((p1, p2) => -p1.MarketPrice.CompareTo(p2.MarketPrice));
           string reply = "\\bGrand Exchange\\b database has updated: ";
           for (int i = 0; i < 13; i++)
-            reply += string.Format(CultureInfo.InvariantCulture, @"\u{0}\u: {1} | ", pricesChanged[i].Name, pricesChanged[i].MarketPrice.ToShortString(1));
+            reply += @"\u{0}\u: {1} | ".FormatWith(pricesChanged[i].Name, pricesChanged[i].MarketPrice.ToShortString(1));
           reply += "(...)";
           foreach (Channel c in _irc.Channels)
             _irc.SendChat(reply, c.Name);
@@ -109,7 +109,7 @@ namespace BigSister {
 
     void _timerMain_Tick(object sender, EventArgs e) {
       // update utc timer label
-      lblUtcTimer.Text = string.Format(CultureInfo.InvariantCulture, "UTC: {0:T}", DateTime.UtcNow);
+      lblUtcTimer.Text = "UTC: {0:T}".FormatWith(DateTime.UtcNow);
 
       // update time to next morning update
       TimeSpan nextMorning;
@@ -117,7 +117,7 @@ namespace BigSister {
         nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, UPDATE_HOUR, 0, 0).Subtract(DateTime.UtcNow);
       else
         nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, UPDATE_HOUR, 0, 0).AddDays(1D).Subtract(DateTime.UtcNow);
-      lblUpdateTimer.Text = string.Format(CultureInfo.InvariantCulture, "Next update in: {0}:{1}:{2}", nextMorning.Hours, nextMorning.Minutes, nextMorning.Seconds);
+      lblUpdateTimer.Text = "Next update in: {0}:{1}:{2}".FormatWith(nextMorning.Hours, nextMorning.Minutes, nextMorning.Seconds);
 
       if (_irc != null) {
         // check for pending timers
@@ -130,8 +130,8 @@ namespace BigSister {
             foreach (User u in _irc.Peers)
               if (u.FingerPrint == fingerprint || u.Nick == nick) {
                 Database.ExecuteNonQuery("DELETE FROM timers WHERE fingerprint='" + fingerprint + "' AND started='" + rsTimer.GetString(4) + "';");
-                _irc.Send(new NoticeMessage(string.Format(CultureInfo.InvariantCulture, "\\c07{0}\\c timer ended for \\b{1}\\b.", rsTimer.GetString(2), u.Nick), u.Nick));
-                _irc.SendChat(string.Format(CultureInfo.InvariantCulture, "\\c07{0}\\c timer ended for \\b{1}\\b.", rsTimer.GetString(2), u.Nick), u.Nick);
+                _irc.Send(new NoticeMessage("\\c07{0}\\c timer ended for \\b{1}\\b.".FormatWith(rsTimer.GetString(2), u.Nick), u.Nick));
+                _irc.SendChat("\\c07{0}\\c timer ended for \\b{1}\\b.".FormatWith(rsTimer.GetString(2), u.Nick), u.Nick);
               }
           }
         }

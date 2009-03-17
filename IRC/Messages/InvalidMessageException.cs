@@ -99,7 +99,7 @@ namespace BigSister.Irc.Messages {
     /// </summary>
     public override string Message {
       get {
-        string s = string.Format(CultureInfo.InvariantCulture, "ReceivedMessage: {0}", receivedMessage);
+        string s = "ReceivedMessage: {0}".FormatWith(receivedMessage);
         return base.Message + Environment.NewLine + s;
       }
     }

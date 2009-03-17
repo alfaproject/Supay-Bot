@@ -71,9 +71,9 @@ namespace BigSister {
             reply += "\\b";
 
           if (level)
-            reply += string.Format(CultureInfo.InvariantCulture, "\\c07#{0:r}\\c {1} ({0:l})", (Skill)hiscores[i], hiscores[i].RSN);
+            reply += "\\c07#{0:r}\\c {1} ({0:l})".FormatWith((Skill)hiscores[i], hiscores[i].RSN);
           else
-            reply += string.Format(CultureInfo.InvariantCulture, "\\c07#{0:r}\\c {1} ({0:e})", (Skill)hiscores[i], hiscores[i].RSN);
+            reply += "\\c07#{0:r}\\c {1} ({0:e})".FormatWith((Skill)hiscores[i], hiscores[i].RSN);
 
           if (hiscores[i].Rank == rank)
             reply += "\\b";
@@ -84,7 +84,7 @@ namespace BigSister {
           reply += " ";
           if (hiscores[i].Rank == rank)
             reply += "\\b";
-          reply += string.Format(CultureInfo.InvariantCulture, "\\c07#{0}\\c {1} ({2})", hiscores[i].Rank, hiscores[i].RSN, ((Minigame)hiscores[i]).Score);
+          reply += "\\c07#{0}\\c {1} ({2})".FormatWith(hiscores[i].Rank, hiscores[i].RSN, ((Minigame)hiscores[i]).Score);
           if (hiscores[i].Rank == rank)
             reply += "\\b";
           reply += ";";
@@ -133,7 +133,7 @@ namespace BigSister {
         }
 
       if (rsn == null) {
-        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\u{0}\\u hiscores don't have rank \\c07{1}\\c.", skill == null ? minigame : skill, rank));
+        bc.SendReply("\\u{0}\\u hiscores don't have rank \\c07{1}\\c.".FormatWith(skill == null ? minigame : skill, rank));
         return;
       }
 

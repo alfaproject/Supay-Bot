@@ -22,18 +22,18 @@ namespace BigSister {
 
       Prices price_list = new Prices(search_term);
       if (price_list.Count == 0) {
-        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\c12www.runescape.com\\c doesn't have any record for \"{0}\".", search_term));
+        bc.SendReply("\\c12www.runescape.com\\c doesn't have any record for \"{0}\".".FormatWith(search_term));
         return;
       }
 
-      string reply = string.Format(CultureInfo.InvariantCulture, "\\c12www.runescape.com\\c found \\c07{0}\\c results", price_list.TotalItems);
+      string reply = "\\c12www.runescape.com\\c found \\c07{0}\\c results".FormatWith(price_list.TotalItems);
       for (int i = 0; i < Math.Min(10, price_list.Count); i++) {
-        reply += string.Format(CultureInfo.InvariantCulture, " | {0}: \\c07{1}", price_list[i].Name, (qty * price_list[i].MarketPrice).ToShortString(1));
+        reply += " | {0}: \\c07{1}".FormatWith(price_list[i].Name, (qty * price_list[i].MarketPrice).ToShortString(1));
         reply += "\\c";
         if (price_list[i].ChangeToday > 0)
-          reply += string.Format(CultureInfo.InvariantCulture, " \\c3[+{0}]\\c", price_list[i].ChangeToday.ToShortString(1));
+          reply += " \\c3[+{0}]\\c".FormatWith(price_list[i].ChangeToday.ToShortString(1));
         else if (price_list[i].ChangeToday < 0)
-          reply += string.Format(CultureInfo.InvariantCulture, " \\c4[{0}]\\c", price_list[i].ChangeToday.ToShortString(1));
+          reply += " \\c4[{0}]\\c".FormatWith(price_list[i].ChangeToday.ToShortString(1));
       }
       if (price_list.TotalItems > 10)
         reply += " | (...)";
@@ -59,15 +59,15 @@ namespace BigSister {
 
         switch (prices.Count) {
           case 0:
-            bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\c12www.runescape.com\\c doesn't have any record for \"{0}\".", query));
+            bc.SendReply("\\c12www.runescape.com\\c doesn't have any record for \"{0}\".".FormatWith(query));
             return;
           case 1:
             price = prices[0];
             break;
           default:
-            string reply = string.Format(CultureInfo.InvariantCulture, "Results: \\c07{0}\\c", prices.Count);
+            string reply = "Results: \\c07{0}\\c".FormatWith(prices.Count);
             for (int i = 0; i < Math.Min(15, prices.Count); i++)
-              reply += string.Format(CultureInfo.InvariantCulture, " | \\c07#{0}\\c {1}", prices[i].Id, prices[i].Name);
+              reply += " | \\c07#{0}\\c {1}".FormatWith(prices[i].Id, prices[i].Name);
             if (prices.Count > 15)
               reply += " | ...";
             bc.SendReply(reply);
@@ -79,27 +79,27 @@ namespace BigSister {
 
       string change7days;
       if (price.Change7days < 0)
-        change7days = string.Format(CultureInfo.InvariantCulture, "\\c04{0:0.#}%\\c", price.Change7days);
+        change7days = "\\c04{0:0.#}%\\c".FormatWith(price.Change7days);
       else if (price.Change7days > 0)
-        change7days = string.Format(CultureInfo.InvariantCulture, "\\c03+{0:0.#}%\\c", price.Change7days);
+        change7days = "\\c03+{0:0.#}%\\c".FormatWith(price.Change7days);
       else
-        change7days = string.Format(CultureInfo.InvariantCulture, "\\c07{0:0.#}%\\c", price.Change7days);
+        change7days = "\\c07{0:0.#}%\\c".FormatWith(price.Change7days);
 
       string change30days;
       if (price.Change30days < 0)
-        change30days = string.Format(CultureInfo.InvariantCulture, "\\c04{0:0.#}%\\c", price.Change30days);
+        change30days = "\\c04{0:0.#}%\\c".FormatWith(price.Change30days);
       else if (price.Change30days > 0)
-        change30days = string.Format(CultureInfo.InvariantCulture, "\\c03+{0:0.#}%\\c", price.Change30days);
+        change30days = "\\c03+{0:0.#}%\\c".FormatWith(price.Change30days);
       else
-        change30days = string.Format(CultureInfo.InvariantCulture, "\\c07{0:0.#}%\\c", price.Change30days);
+        change30days = "\\c07{0:0.#}%\\c".FormatWith(price.Change30days);
 
-      bc.SendReply(string.Format(CultureInfo.InvariantCulture, @"Name: \c07{0}\c | Market price: \c07{1}\c (\c07{2}\c - \c07{3}\c) | Last 7 days: {4} | Last 30 days: {5} | Examine: \c07{6}\c", 
+      bc.SendReply(@"Name: \c07{0}\c | Market price: \c07{1}\c (\c07{2}\c - \c07{3}\c) | Last 7 days: {4} | Last 30 days: {5} | Examine: \c07{6}\c".FormatWith( 
                                  price.Name, price.MarketPrice.ToShortString(1), price.MinimumPrice.ToShortString(1), price.MaximumPrice.ToShortString(1), change7days, change30days, price.Examine));
     }
 
     public static void LastUpdate(CommandContext bc) {
       DateTime lastUpdate = Database.GetString("SELECT lastUpdate FROM prices ORDER BY lastUpdate DESC LIMIT 1;", DateTime.UtcNow.ToString("yyyyMMddHHmm", CultureInfo.InvariantCulture)).ToDateTime();
-      bc.SendReply(string.Format(CultureInfo.InvariantCulture, "The GE was last updated \\c07{0}\\c ago. ({1:R})", (DateTime.UtcNow - lastUpdate).ToLongString(), lastUpdate));
+      bc.SendReply("The GE was last updated \\c07{0}\\c ago. ({1:R})".FormatWith((DateTime.UtcNow - lastUpdate).ToLongString(), lastUpdate));
     }
 
   } //class CmdGrandExchange

@@ -65,7 +65,7 @@ namespace BigSister.Irc.Messages {
         unparsedMessage = string.Empty;
       }
       if (unparsedMessage.Length < MinMessageLength || MaxMessageLength < unparsedMessage.Length) {
-        InvalidMessageException e = new InvalidMessageException(string.Format(CultureInfo.InvariantCulture, "A message should not be empty, nor greater than 512 characters. This message was {0} characters long.", unparsedMessage.Length), unparsedMessage);
+        InvalidMessageException e = new InvalidMessageException("A message should not be empty, nor greater than 512 characters. This message was {0} characters long.".FormatWith(unparsedMessage.Length), unparsedMessage);
         throw (e);
       }
 

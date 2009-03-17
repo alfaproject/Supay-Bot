@@ -19,7 +19,7 @@ namespace BigSister {
         }
       }
 
-      bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b \\c07{1}\\c graph | level: \\c12http://t.rscript.org/graph-{0}.{2}.lvl.png\\c | exp: \\c12http://t.rscript.org/graph-{0}.{2}.png\\c | rank: \\c12http://t.rscript.org/graph-{0}.{2}.rank.png\\c", rsn, skill.ToLowerInvariant(), Skill.NameToId(skill)));
+      bc.SendReply("\\b{0}\\b \\c07{1}\\c graph | level: \\c12http://t.rscript.org/graph-{0}.{2}.lvl.png\\c | exp: \\c12http://t.rscript.org/graph-{0}.{2}.png\\c | rank: \\c12http://t.rscript.org/graph-{0}.{2}.rank.png\\c".FormatWith(rsn, skill.ToLowerInvariant(), Skill.NameToId(skill)));
     }
 
     public static void Track(CommandContext bc) {
@@ -86,33 +86,33 @@ namespace BigSister {
       // Get new player
       Player PlayerNew = new Player(rsn);
       if (!PlayerNew.Ranked) {
-        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b doesn't feature Hiscores.", rsn));
+        bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn));
         return;
       }
 
       // Get old player
       Player PlayerOld = new Player(rsn, intervalTime);
       if (!PlayerOld.Ranked) {
-        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b wasn't being tracked on {1}.", rsn, DateTime.Now.AddSeconds(-intervalTime).ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture)));
+        bc.SendReply("\\b{0}\\b wasn't being tracked on {1}.".FormatWith(rsn, DateTime.Now.AddSeconds(-intervalTime).ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture)));
         return;
       }
 
       // 1st line: overall / combat
-      string ReplyMsg = string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b \\u{1}\\u skills:", rsn, intervalName);
+      string ReplyMsg = "\\b{0}\\b \\u{1}\\u skills:".FormatWith(rsn, intervalName);
       Skill OverallDif = PlayerNew.Skills["Overall"] - PlayerOld.Skills["Overall"];
       if (OverallDif.Exp <= 0) {
-        bc.SendReply(string.Format(CultureInfo.InvariantCulture, "No performance for \\b{0}\\b within this period.", rsn));
+        bc.SendReply("No performance for \\b{0}\\b within this period.".FormatWith(rsn));
       } else {
         Skill CombatDif = PlayerNew.Skills["Combat"] - PlayerOld.Skills["Combat"];
 
         string DifLevel = string.Empty;
         if (OverallDif.Level > 0)
-          DifLevel = string.Format(CultureInfo.InvariantCulture, " [\\b+{0}\\b]", OverallDif.Level);
-        ReplyMsg += string.Format(CultureInfo.InvariantCulture, " \\c07Overall\\c lvl {0} \\c03+{1}\\c xp (Avg. hourly exp.: \\c07{2}\\c)", PlayerNew.Skills["Overall"].Level + DifLevel, OverallDif.Exp.ToShortString(1), (OverallDif.Exp / (intervalTime / 3600.0)).ToShortString(0));
+          DifLevel = " [\\b+{0}\\b]".FormatWith(OverallDif.Level);
+        ReplyMsg += " \\c07Overall\\c lvl {0} \\c03+{1}\\c xp (Avg. hourly exp.: \\c07{2}\\c)".FormatWith(PlayerNew.Skills["Overall"].Level + DifLevel, OverallDif.Exp.ToShortString(1), (OverallDif.Exp / (intervalTime / 3600.0)).ToShortString(0));
         DifLevel = string.Empty;
         if (CombatDif.Level > 0)
-          DifLevel = string.Format(CultureInfo.InvariantCulture, " [\\b+{0}\\b]", CombatDif.Level);
-        ReplyMsg += string.Format(CultureInfo.InvariantCulture, "; \\c07Combat\\c lvl {0} \\c03+{1}\\c xp (\\c07{2}%\\c)", PlayerNew.Skills["Combat"].Level + DifLevel, CombatDif.Exp.ToShortString(1), ((double)CombatDif.Exp / (double)OverallDif.Exp * 100.0).ToShortString(1));
+          DifLevel = " [\\b+{0}\\b]".FormatWith(CombatDif.Level);
+        ReplyMsg += "; \\c07Combat\\c lvl {0} \\c03+{1}\\c xp (\\c07{2}%\\c)".FormatWith(PlayerNew.Skills["Combat"].Level + DifLevel, CombatDif.Exp.ToShortString(1), ((double)CombatDif.Exp / (double)OverallDif.Exp * 100.0).ToShortString(1));
         bc.SendReply(ReplyMsg);
 
         // 2nd line: skills list
@@ -122,13 +122,13 @@ namespace BigSister {
             SkillsDif.Add(SkillNow - PlayerOld.Skills[SkillNow.Name]);
         SkillsDif.Sort();
 
-        ReplyMsg = string.Format(CultureInfo.InvariantCulture, "\\b{0}\\b \\u{1}\\u skills:", rsn, intervalName);
+        ReplyMsg = "\\b{0}\\b \\u{1}\\u skills:".FormatWith(rsn, intervalName);
         for (int i = 0; i < 10; i++) {
           if (SkillsDif[i].Exp > 0) {
             DifLevel = string.Empty;
             if (SkillsDif[i].Level > 0)
-              DifLevel = string.Format(CultureInfo.InvariantCulture, " [\\b+{0}\\b]", SkillsDif[i].Level);
-            ReplyMsg += string.Format(CultureInfo.InvariantCulture, " \\c7{0}\\c lvl {1} \\c3+{2}\\c xp;", SkillsDif[i].Name, PlayerNew.Skills[SkillsDif[i].Name].Level + DifLevel, SkillsDif[i].Exp.ToShortString(1));
+              DifLevel = " [\\b+{0}\\b]".FormatWith(SkillsDif[i].Level);
+            ReplyMsg += " \\c7{0}\\c lvl {1} \\c3+{2}\\c xp;".FormatWith(SkillsDif[i].Name, PlayerNew.Skills[SkillsDif[i].Name].Level + DifLevel, SkillsDif[i].Exp.ToShortString(1));
           }
         }
         bc.SendReply(ReplyMsg);

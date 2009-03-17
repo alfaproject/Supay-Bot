@@ -104,5 +104,13 @@ namespace BigSister {
       return self.StartsWith(value, StringComparison.OrdinalIgnoreCase);
     }
 
+    /// <summary>
+    ///   Replaces the format items of this instance with the text equivalent of the value of a corresponding Object instance in a specified array. </summary>
+    /// <param name="args">
+    ///   An Object array containing zero or more objects to format. </param>
+    public static string FormatWith(this string self, params object[] args) {
+      return string.Format(CultureInfo.InvariantCulture, self, args);
+    }
+
   } //class Extensions
 } //namespace BigSister
