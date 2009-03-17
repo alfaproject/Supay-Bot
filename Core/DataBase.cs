@@ -3,7 +3,7 @@ using System.Data.SQLite;
 using System.Globalization;
 
 namespace BigSister {
-  public sealed class Database {
+  public sealed class Database : IDisposable {
 
     private static readonly Database _instance = new Database();
 
@@ -107,6 +107,28 @@ namespace BigSister {
     public static object GetValue(string table, string field) {
       return Database.GetValue(table, field, null);
     }
+
+
+    #region IDisposable Members
+
+    private bool _disposed;
+
+    private void Dispose(bool disposing) {
+      if (!_disposed) {
+        if (disposing && _con != null) {
+          _con.Dispose();
+        }
+        _con = null;
+        _disposed = true;
+      }
+    }
+
+    public void Dispose() {
+      Dispose(true);
+      GC.SuppressFinalize(this);
+    }
+
+    #endregion
 
   } //class DataBase
 } //namespace BigSister
