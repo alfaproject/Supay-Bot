@@ -16,7 +16,7 @@ namespace BigSister {
         return;
       }
 
-      string rsn = bc.MessageTokens.Join(1).ToRSN();
+      string rsn = bc.MessageTokens.Join(1).ToRsn();
       try {
         Player p = new Player(rsn);
         if (p.Ranked) {
@@ -40,7 +40,7 @@ namespace BigSister {
         return;
       }
 
-      string rsn = bc.MessageTokens.Join(1).ToRSN();
+      string rsn = bc.MessageTokens.Join(1).ToRsn();
       if (Database.GetValue("players", "id", "rsn='" + rsn + "'") != null) {
         int pid = Convert.ToInt32(Database.GetValue("players", "id", "rsn='" + rsn + "'"), CultureInfo.InvariantCulture);
         Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + pid + ";");
@@ -89,7 +89,7 @@ namespace BigSister {
         return;
       }
 
-      string rsn = bc.MessageTokens.Join(1).ToRSN();
+      string rsn = bc.MessageTokens.Join(1).ToRsn();
       try {
         Database.Update("players", "rsn='" + rsn + "'", "clan", string.Empty);
         bc.SendReply("\\b{0}\\b is now being tracked under no clan.".FormatWith(rsn));

@@ -138,12 +138,12 @@ namespace BigSister.Irc {
     public string RSN {
       get {
         if (this.FingerPrint.Length == 0)
-          return _nick.ToRSN();
+          return _nick.ToRsn();
 
         if (_rsn == null) {
           _rsn = (string)Database.GetValue("users", "rsn", "fingerprint='" + this.FingerPrint + "'");
           if (_rsn == null)
-            return _nick.ToRSN();
+            return _nick.ToRsn();
         }
         return _rsn;
       }

@@ -6,7 +6,7 @@ namespace BigSister {
   public static partial class Extensions {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
-    public static string ToRSN(this string rsn) {
+    public static string ToRsn(this string rsn) {
       StringBuilder fixedRSN = new StringBuilder(rsn.Substring(0, Math.Min(12, rsn.Length)).ToLowerInvariant(), 12);
       bool toUpper = true;
       for (int i = 0; i < fixedRSN.Length; i++) {

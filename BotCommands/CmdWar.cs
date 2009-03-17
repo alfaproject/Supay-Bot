@@ -98,7 +98,7 @@ namespace BigSister {
 
       string[] rsns = bc.MessageTokens.Join(1).Split(new char[] { ',', ';', '+' });
       foreach (string dirtyRsn in rsns) {
-        string rsn = dirtyRsn.Trim().ToRSN();
+        string rsn = dirtyRsn.Trim().ToRsn();
 
         if (_config.HasEntry(rsn, "Signed")) {
           bc.SendReply("\\b{0}\\b was already signed to current war.".FormatWith(rsn));
@@ -129,7 +129,7 @@ namespace BigSister {
         return;
       }
 
-      string rsn = bc.MessageTokens.Join(1).ToRSN();
+      string rsn = bc.MessageTokens.Join(1).ToRsn();
 
       XmlProfile _config = new XmlProfile("Data\\War.xml");
       _config.RootName = bc.Channel.Substring(1);

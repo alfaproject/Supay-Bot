@@ -58,7 +58,7 @@ namespace BigSister {
         return (string)result;
     }
 
-    public static int PlayerID(string rsn) {
+    public static int PlayerId(string rsn) {
       return Database.GetInteger("SELECT id FROM players WHERE rsn='" + rsn + "';", 0);
     }
 
@@ -66,24 +66,24 @@ namespace BigSister {
       return Database.GetString("SELECT lastupdate FROM players WHERE rsn='" + rsn + "';", string.Empty);
     }
 
-    public static void Insert(string table, params string[] fields_values) {
+    public static void Insert(string table, params string[] fieldsValues) {
       string sql = "INSERT INTO `" + table + "` (";
       int i;
-      for (i = fields_values.GetLowerBound(0); i <= fields_values.GetUpperBound(0) - 1; i += 2) {
-        sql += "`" + fields_values[i] + "`, ";
+      for (i = fieldsValues.GetLowerBound(0); i <= fieldsValues.GetUpperBound(0) - 1; i += 2) {
+        sql += "`" + fieldsValues[i] + "`, ";
       }
       sql = sql.Substring(0, sql.Length - 2) + ") VALUES (";
-      for (i = fields_values.GetLowerBound(0) + 1; i <= fields_values.GetUpperBound(0); i += 2) {
-        sql += "'" + fields_values[i].Replace("'", "''") + "', ";
+      for (i = fieldsValues.GetLowerBound(0) + 1; i <= fieldsValues.GetUpperBound(0); i += 2) {
+        sql += "'" + fieldsValues[i].Replace("'", "''") + "', ";
       }
 
       Database.ExecuteNonQuery(sql.Substring(0, sql.Length - 2) + ");");
     }
 
-    public static void Update(string table, string condition, params string[] fields_values) {
+    public static void Update(string table, string condition, params string[] fieldsValues) {
       string sql = "UPDATE `" + table + "` SET ";
-      for (int i = fields_values.GetLowerBound(0); i <= fields_values.GetUpperBound(0) - 1; i += 2) {
-        sql += "`" + fields_values[i] + "` = '" + fields_values[i + 1].Replace("'", "''") + "', ";
+      for (int i = fieldsValues.GetLowerBound(0); i <= fieldsValues.GetUpperBound(0) - 1; i += 2) {
+        sql += "`" + fieldsValues[i] + "` = '" + fieldsValues[i + 1].Replace("'", "''") + "', ";
       }
       sql = sql.Substring(0, sql.Length - 2);
 

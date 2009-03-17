@@ -10,7 +10,7 @@ namespace BigSister {
         return;
       }
 
-      string rsn = bc.MessageTokens.Join(1).ToRSN();
+      string rsn = bc.MessageTokens.Join(1).ToRsn();
 
       // add/update to database
       if (Database.GetValue("users", "rsn", "fingerprint='" + bc.From.FingerPrint + "'") == null) {

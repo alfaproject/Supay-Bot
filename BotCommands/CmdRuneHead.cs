@@ -114,7 +114,7 @@ namespace BigSister {
       }
 
       foreach (Match clanMember in Regex.Matches(pageRuneHead, "\\?name=([^&]+)&"))
-        clanMembers.Add(clanMember.Groups[1].Value.ToRSN());
+        clanMembers.Add(clanMember.Groups[1].Value.ToRsn());
 
       Players clanPlayers = new Players(clanInitials);
 
