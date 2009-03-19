@@ -15,7 +15,6 @@ namespace BigSister {
 
     private Client _irc;
 
-    System.Threading.Timer _timerDaily;
     System.Windows.Forms.Timer _timerMain;
 
     private const int UPDATE_HOUR = 6;
@@ -35,7 +34,7 @@ namespace BigSister {
       if (DateTime.UtcNow.Hour >= UPDATE_HOUR) {
         nextMorning += TimeSpan.FromDays(1.0);
       }
-      new System.Threading.Timer(new TimerCallback(_timerDaily_Elapsed), null, nextMorning, TimeSpan.FromDays(1.0));
+      new System.Threading.Timer(_timerDaily_Elapsed, null, nextMorning, TimeSpan.FromDays(1.0));
 
       _timerMain = new System.Windows.Forms.Timer();
       _timerMain.Tick += new EventHandler(_timerMain_Tick);
@@ -44,7 +43,7 @@ namespace BigSister {
 
       // update all missing players
       if (DateTime.UtcNow.Hour >= UPDATE_HOUR) {
-        ThreadPool.QueueUserWorkItem(new WaitCallback(_updatePlayers), null);
+        ThreadPool.QueueUserWorkItem(_updatePlayers);
       }
     }
 
@@ -139,7 +138,7 @@ namespace BigSister {
 
       // GE check every 5 minutes
       if (DateTime.UtcNow.Second == 0 && DateTime.UtcNow.Minute % 5 == 0)
-        ThreadPool.QueueUserWorkItem(new WaitCallback(_updateGE), null);
+        ThreadPool.QueueUserWorkItem(_updateGE);
     }
 
     private void _timerDaily_Elapsed(object stateInfo) {

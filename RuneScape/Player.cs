@@ -295,7 +295,7 @@ namespace BigSister {
         string HiscorePage = WC.DownloadString("http://hiscore.runescape.com/index_lite.ws?player=" + _name);
 
         // Update RuneScript tracker database
-        System.Threading.ThreadPool.QueueUserWorkItem(new System.Threading.WaitCallback(_updateRuneScriptTracker), rsn);
+        System.Threading.ThreadPool.QueueUserWorkItem(_updateRuneScriptTracker, rsn);
 
         // Initialize variables 
         _skills = new Skills();
