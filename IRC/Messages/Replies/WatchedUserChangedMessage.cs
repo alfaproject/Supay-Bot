@@ -50,7 +50,7 @@ namespace BigSister.Irc.Messages {
       writer.AddParameter(this.WatchedUser.Nick);
       writer.AddParameter(this.WatchedUser.UserName);
       writer.AddParameter(this.WatchedUser.HostName);
-      writer.AddParameter(MessageUtil.ConvertToUnixTime(this.TimeOfChange).ToString(CultureInfo.InvariantCulture));
+      writer.AddParameter(MessageUtil.ConvertToUnixTime(this.TimeOfChange).ToStringI());
       writer.AddParameter(this.ChangeMessage);
     }
 

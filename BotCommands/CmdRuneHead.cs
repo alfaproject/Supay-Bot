@@ -133,7 +133,7 @@ namespace BigSister {
             Database.Insert("players", "rsn", rsn, "clan", clanInitials, "lastupdate", string.Empty);
             Player p = new Player(rsn);
             if (p.Ranked)
-              p.SaveToDB(DateTime.UtcNow.ToString("yyyyMMdd", CultureInfo.InvariantCulture));
+              p.SaveToDB(DateTime.UtcNow.ToStringI("yyyyMMdd"));
           } catch {
             Database.Update("players", "rsn='" + rsn + "'", "clan", clanInitials);
           }

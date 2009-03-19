@@ -204,7 +204,7 @@ namespace BigSister {
 
       string reply = "War \\u" + skill.ToLowerInvariant() + "\\u ranking:";
       if (input_player_rank > 0 && input_player_rank <= MinRank)
-        reply += " \\c07#" + input_player_rank + "\\c \\u" + warPlayers[input_player_rank - 1].Name + "\\u (" + warPlayers[input_player_rank - 1].Skills[skill].ToString("e", CultureInfo.InvariantCulture) + ");";
+        reply += " \\c07#" + input_player_rank + "\\c \\u" + warPlayers[input_player_rank - 1].Name + "\\u (" + warPlayers[input_player_rank - 1].Skills[skill].ToStringI("e") + ");";
 
       for (int i = MinRank; i < Math.Min(MinRank + 11, warPlayers.Count); i++) {
         reply += " ";
@@ -216,14 +216,14 @@ namespace BigSister {
         reply += warPlayers[i].Name;
         if (i == input_player_rank - 1)
           reply += "\\u";
-        reply += " (" + warPlayers[i].Skills[skill].ToString("e", CultureInfo.InvariantCulture) + ")";
+        reply += " (" + warPlayers[i].Skills[skill].ToStringI("e") + ")";
         if (i == rank - 1)
           reply += "\\b";
         reply += ";";
       }
 
       if (input_player_rank > 0 && input_player_rank > MinRank + 11)
-        reply += " \\c07#" + input_player_rank + "\\c \\u" + warPlayers[input_player_rank - 1].Name + "\\u (" + warPlayers[input_player_rank - 1].Skills[skill].ToString("e", CultureInfo.InvariantCulture) + ");";
+        reply += " \\c07#" + input_player_rank + "\\c \\u" + warPlayers[input_player_rank - 1].Name + "\\u (" + warPlayers[input_player_rank - 1].Skills[skill].ToStringI("e") + ");";
 
       bc.SendReply(reply);
     }
@@ -259,7 +259,7 @@ namespace BigSister {
             bc.SendReply(reply);
           reply = "War \\u" + skill.ToLowerInvariant() + "\\u ranking:";
         }
-        reply += " \\c07#" + (i + 1) + "\\c " + warPlayers[i].Name + " (" + warPlayers[i].Skills[skill].ToString("e", CultureInfo.InvariantCulture) + ");";
+        reply += " \\c07#" + (i + 1) + "\\c " + warPlayers[i].Name + " (" + warPlayers[i].Skills[skill].ToStringI("e") + ");";
         i++;
       }
 

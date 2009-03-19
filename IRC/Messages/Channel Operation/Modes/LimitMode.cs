@@ -64,7 +64,7 @@ namespace BigSister.Irc.Messages.Modes {
     /// <param name="msg">The message which will be modified to include this mode.</param>
     protected override void AddParameter(BigSister.Irc.Messages.ChannelModeMessage msg) {
       if (this.UserLimit != -1) {
-        msg.ModeArguments.Add(this.userLimit.ToString(CultureInfo.InvariantCulture));
+        msg.ModeArguments.Add(this.userLimit.ToStringI());
       }
     }
 

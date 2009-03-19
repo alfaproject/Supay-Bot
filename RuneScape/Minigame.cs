@@ -122,11 +122,11 @@ namespace BigSister {
         case "n":
           return this.Name.ToLowerInvariant();
         case "R":
-          return (this.Rank == -1 ? "Not ranked" : this.Rank.ToString("N0", CultureInfo.InvariantCulture));
+          return (this.Rank == -1 ? "Not ranked" : this.Rank.ToString("N0", provider));
         case "r":
-          return (this.Rank == -1 ? "NR" : this.Rank.ToString("N0", CultureInfo.InvariantCulture));
+          return (this.Rank == -1 ? "NR" : this.Rank.ToString("N0", provider));
         case "s":
-          return this.Score.ToString("N0", CultureInfo.InvariantCulture);
+          return this.Score.ToString("N0", provider);
         default:
           return Name;
       }

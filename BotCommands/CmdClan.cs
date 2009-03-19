@@ -128,7 +128,7 @@ namespace BigSister {
           if (clanPlayers.Count > 0) {
             string reply = "[" + clanInitials + "] \\u" + skill.ToLowerInvariant() + "\\u ranking:";
             if (input_player_rank > 0 && input_player_rank <= MinRank)
-              reply += " \\c07#" + input_player_rank + "\\c \\u" + clanPlayers[input_player_rank - 1].Name + "\\u (" + clanPlayers[input_player_rank - 1].Skills[skill].ToString(skillFormat, CultureInfo.InvariantCulture) + ");";
+              reply += " \\c07#" + input_player_rank + "\\c \\u" + clanPlayers[input_player_rank - 1].Name + "\\u (" + clanPlayers[input_player_rank - 1].Skills[skill].ToStringI(skillFormat) + ");";
 
             for (int i = MinRank; i < Math.Min(MinRank + 11, clanPlayers.Count); i++) {
               reply += " ";
@@ -141,7 +141,7 @@ namespace BigSister {
               if (i == input_player_rank - 1)
                 reply += "\\u";
 
-              reply += " (" + clanPlayers[i].Skills[skill].ToString(skillFormat, CultureInfo.InvariantCulture) + ")";
+              reply += " (" + clanPlayers[i].Skills[skill].ToStringI(skillFormat) + ")";
 
               if (i == rank - 1)
                 reply += "\\b";
@@ -149,7 +149,7 @@ namespace BigSister {
             }
 
             if (input_player_rank > 0 && input_player_rank > MinRank + 11)
-              reply += " \\c07#" + input_player_rank + "\\c \\u" + clanPlayers[input_player_rank - 1].Name + "\\u (" + clanPlayers[input_player_rank - 1].Skills[skill].ToString(skillFormat, CultureInfo.InvariantCulture) + ");";
+              reply += " \\c07#" + input_player_rank + "\\c \\u" + clanPlayers[input_player_rank - 1].Name + "\\u (" + clanPlayers[input_player_rank - 1].Skills[skill].ToStringI(skillFormat) + ");";
 
             bc.SendReply(reply);
           } else {
@@ -316,7 +316,7 @@ namespace BigSister {
         if (clanPlayers.Count > 0) {
           string reply = "[" + clanInitials + "] \\u" + skill.ToLowerInvariant() + "\\u ranking:";
           if (input_player_rank > 0 && input_player_rank <= MinRank)
-            reply += " \\c07#" + input_player_rank + "\\c \\u" + clanPlayers[input_player_rank - 1].Name + "\\u (" + clanPlayers[input_player_rank - 1].Skills[skill].ToString("e", CultureInfo.InvariantCulture) + ");";
+            reply += " \\c07#" + input_player_rank + "\\c \\u" + clanPlayers[input_player_rank - 1].Name + "\\u (" + clanPlayers[input_player_rank - 1].Skills[skill].ToStringI("e") + ");";
 
           for (int i = MinRank; i < Math.Min(MinRank + 11, clanPlayers.Count); i++) {
             reply += " ";
@@ -328,14 +328,14 @@ namespace BigSister {
             reply += clanPlayers[i].Name;
             if (i == input_player_rank - 1)
               reply += "\\u";
-            reply += " (" + clanPlayers[i].Skills[skill].ToString("e", CultureInfo.InvariantCulture) + ")";
+            reply += " (" + clanPlayers[i].Skills[skill].ToStringI("e") + ")";
             if (i == rank - 1)
               reply += "\\b";
             reply += ";";
           }
 
           if (input_player_rank > 0 && input_player_rank > MinRank + 11)
-            reply += " \\c07#" + input_player_rank + "\\c \\u" + clanPlayers[input_player_rank - 1].Name + "\\u (" + clanPlayers[input_player_rank - 1].Skills[skill].ToString("e", CultureInfo.InvariantCulture) + ");";
+            reply += " \\c07#" + input_player_rank + "\\c \\u" + clanPlayers[input_player_rank - 1].Name + "\\u (" + clanPlayers[input_player_rank - 1].Skills[skill].ToStringI("e") + ");";
 
           bc.SendReply(reply);
         } else {

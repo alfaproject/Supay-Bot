@@ -91,7 +91,7 @@ namespace BigSister.Irc.Messages {
         modeBitMask += 8;
       if (this.InitialWallops)
         modeBitMask += 4;
-      writer.AddParameter(modeBitMask.ToString(CultureInfo.InvariantCulture));
+      writer.AddParameter(modeBitMask.ToStringI());
       writer.AddParameter("*");
       writer.AddParameter(this.RealName);
     }

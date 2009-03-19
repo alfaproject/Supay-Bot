@@ -77,7 +77,7 @@ namespace BigSister.Irc.Messages {
       base.AddParametersToFormat(writer);
       writer.AddParameter(this.Mask);
       writer.AddParameter(this.Server);
-      writer.AddParameter(this.HopCount.ToString(CultureInfo.InvariantCulture) + " " + this.ServerInfo);
+      writer.AddParameter(this.HopCount.ToStringI() + " " + this.ServerInfo);
     }
 
     /// <summary>

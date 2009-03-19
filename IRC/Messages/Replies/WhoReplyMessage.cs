@@ -114,7 +114,7 @@ namespace BigSister.Irc.Messages {
         writer.AddParameter("H");
       }
       writer.AddParameter(this.Status.ToString());
-      writer.AddParameter(this.HopCount.ToString(CultureInfo.InvariantCulture) + " " + this.User.RealName);
+      writer.AddParameter(this.HopCount.ToStringI() + " " + this.User.RealName);
     }
 
     /// <summary>

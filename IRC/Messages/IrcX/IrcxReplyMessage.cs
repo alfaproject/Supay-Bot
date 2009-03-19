@@ -91,7 +91,7 @@ namespace BigSister.Irc.Messages {
       }
       writer.AddParameter(this.Version);
       writer.AddList(this.AuthenticationPackages, ",", false);
-      writer.AddParameter(this.MaximumMessageLength.ToString(CultureInfo.InvariantCulture));
+      writer.AddParameter(this.MaximumMessageLength.ToStringI());
       writer.AddParameter(this.Tokens);
     }
 

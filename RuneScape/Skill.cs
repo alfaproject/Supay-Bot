@@ -424,21 +424,21 @@ namespace BigSister {
         case "n":
           return this.Name.ToLowerInvariant();
         case "R":
-          return (this.Rank == -1 || this.Rank == int.MaxValue ? "Not ranked" : this.Rank.ToString("N0", CultureInfo.InvariantCulture));
+          return (this.Rank == -1 || this.Rank == int.MaxValue ? "Not ranked" : this.Rank.ToString("N0", provider));
         case "r":
-          return (this.Rank == -1 || this.Rank == int.MaxValue ? "NR" : this.Rank.ToString("N0", CultureInfo.InvariantCulture));
+          return (this.Rank == -1 || this.Rank == int.MaxValue ? "NR" : this.Rank.ToString("N0", provider));
         case "e":
-          return _exp.ToString("N0", CultureInfo.InvariantCulture);
+          return _exp.ToString("N0", provider);
         case "l":
-          return _level.ToString("N0", CultureInfo.InvariantCulture);
+          return _level.ToString("N0", provider);
         case "v":
-          return this.VLevel.ToString("N0", CultureInfo.InvariantCulture);
+          return this.VLevel.ToString("N0", provider);
         case "re":
-          return (this.Rank == -1 ? "~" : string.Empty) + _exp.ToString("N0", CultureInfo.InvariantCulture);
+          return (this.Rank == -1 ? "~" : string.Empty) + _exp.ToString("N0", provider);
         case "rl":
-          return (this.Rank == -1 ? "~" : string.Empty) + _level.ToString("N0", CultureInfo.InvariantCulture);
+          return (this.Rank == -1 ? "~" : string.Empty) + _level.ToString("N0", provider);
         case "rv":
-          return (this.Rank == -1 ? "~" : string.Empty) + this.VLevel.ToString("N0", CultureInfo.InvariantCulture);
+          return (this.Rank == -1 ? "~" : string.Empty) + this.VLevel.ToString("N0", provider);
         default:
           return this.Name;
       }

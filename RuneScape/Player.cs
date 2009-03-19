@@ -135,37 +135,37 @@ namespace BigSister {
       _id = Convert.ToInt32(Database.GetValue("players", "id", "rsn='" + _name + "'"), CultureInfo.InvariantCulture);
 
       if (this.Ranked) {
-        Database.Insert("tracker", "pid", _id.ToString(CultureInfo.InvariantCulture),
+        Database.Insert("tracker", "pid", _id.ToStringI(),
                                    "date", s_date,
-                                   "overall_level", _skills[0].Level.ToString(CultureInfo.InvariantCulture), "overall_xp", _skills[0].Exp.ToString(CultureInfo.InvariantCulture), "overall_rank", _skills[0].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "attack_xp", _skills[1].Exp.ToString(CultureInfo.InvariantCulture), "attack_rank", _skills[1].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "defence_xp", _skills[2].Exp.ToString(CultureInfo.InvariantCulture), "defence_rank", _skills[2].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "strength_xp", _skills[3].Exp.ToString(CultureInfo.InvariantCulture), "strength_rank", _skills[3].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "hitpoints_xp", _skills[4].Exp.ToString(CultureInfo.InvariantCulture), "hitpoints_rank", _skills[4].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "range_xp", _skills[5].Exp.ToString(CultureInfo.InvariantCulture), "range_rank", _skills[5].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "prayer_xp", _skills[6].Exp.ToString(CultureInfo.InvariantCulture), "prayer_rank", _skills[6].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "magic_xp", _skills[7].Exp.ToString(CultureInfo.InvariantCulture), "magic_rank", _skills[7].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "cook_xp", _skills[8].Exp.ToString(CultureInfo.InvariantCulture), "cook_rank", _skills[8].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "woodcut_xp", _skills[9].Exp.ToString(CultureInfo.InvariantCulture), "woodcut_rank", _skills[9].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "fletch_xp", _skills[10].Exp.ToString(CultureInfo.InvariantCulture), "fletch_rank", _skills[10].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "fish_xp", _skills[11].Exp.ToString(CultureInfo.InvariantCulture), "fish_rank", _skills[11].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "firemake_xp", _skills[12].Exp.ToString(CultureInfo.InvariantCulture), "firemake_rank", _skills[12].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "craft_xp", _skills[13].Exp.ToString(CultureInfo.InvariantCulture), "craft_rank", _skills[13].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "smith_xp", _skills[14].Exp.ToString(CultureInfo.InvariantCulture), "smith_rank", _skills[14].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "mine_xp", _skills[15].Exp.ToString(CultureInfo.InvariantCulture), "mine_rank", _skills[15].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "herb_xp", _skills[16].Exp.ToString(CultureInfo.InvariantCulture), "herb_rank", _skills[16].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "agility_xp", _skills[17].Exp.ToString(CultureInfo.InvariantCulture), "agility_rank", _skills[17].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "thief_xp", _skills[18].Exp.ToString(CultureInfo.InvariantCulture), "thief_rank", _skills[18].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "slay_xp", _skills[19].Exp.ToString(CultureInfo.InvariantCulture), "slay_rank", _skills[19].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "farm_xp", _skills[20].Exp.ToString(CultureInfo.InvariantCulture), "farm_rank", _skills[20].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "runecraft_xp", _skills[21].Exp.ToString(CultureInfo.InvariantCulture), "runecraft_rank", _skills[21].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "hunt_xp", _skills[22].Exp.ToString(CultureInfo.InvariantCulture), "hunt_rank", _skills[22].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "construction_xp", _skills[23].Exp.ToString(CultureInfo.InvariantCulture), "construction_rank", _skills[23].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "summ_xp", _skills[24].Exp.ToString(CultureInfo.InvariantCulture), "summ_rank", _skills[24].Rank.ToString(CultureInfo.InvariantCulture),
-                                   "dt_rank", _minigames[Minigame.DUEL].Rank.ToString(CultureInfo.InvariantCulture), "dt_score", _minigames[Minigame.DUEL].Score.ToString(CultureInfo.InvariantCulture),
-                                   "bh_rank", _minigames[Minigame.BOUN].Rank.ToString(CultureInfo.InvariantCulture), "bh_score", _minigames[Minigame.BOUN].Score.ToString(CultureInfo.InvariantCulture),
-                                   "bhr_rank", _minigames[Minigame.ROGU].Rank.ToString(CultureInfo.InvariantCulture), "bhr_score", _minigames[Minigame.ROGU].Score.ToString(CultureInfo.InvariantCulture),
-                                   "fist_rank", _minigames[Minigame.FIST].Rank.ToString(CultureInfo.InvariantCulture), "fist_score", _minigames[Minigame.FIST].Score.ToString(CultureInfo.InvariantCulture));
+                                   "overall_level", _skills[0].Level.ToStringI(), "overall_xp", _skills[0].Exp.ToStringI(), "overall_rank", _skills[0].Rank.ToStringI(),
+                                   "attack_xp", _skills[1].Exp.ToStringI(), "attack_rank", _skills[1].Rank.ToStringI(),
+                                   "defence_xp", _skills[2].Exp.ToStringI(), "defence_rank", _skills[2].Rank.ToStringI(),
+                                   "strength_xp", _skills[3].Exp.ToStringI(), "strength_rank", _skills[3].Rank.ToStringI(),
+                                   "hitpoints_xp", _skills[4].Exp.ToStringI(), "hitpoints_rank", _skills[4].Rank.ToStringI(),
+                                   "range_xp", _skills[5].Exp.ToStringI(), "range_rank", _skills[5].Rank.ToStringI(),
+                                   "prayer_xp", _skills[6].Exp.ToStringI(), "prayer_rank", _skills[6].Rank.ToStringI(),
+                                   "magic_xp", _skills[7].Exp.ToStringI(), "magic_rank", _skills[7].Rank.ToStringI(),
+                                   "cook_xp", _skills[8].Exp.ToStringI(), "cook_rank", _skills[8].Rank.ToStringI(),
+                                   "woodcut_xp", _skills[9].Exp.ToStringI(), "woodcut_rank", _skills[9].Rank.ToStringI(),
+                                   "fletch_xp", _skills[10].Exp.ToStringI(), "fletch_rank", _skills[10].Rank.ToStringI(),
+                                   "fish_xp", _skills[11].Exp.ToStringI(), "fish_rank", _skills[11].Rank.ToStringI(),
+                                   "firemake_xp", _skills[12].Exp.ToStringI(), "firemake_rank", _skills[12].Rank.ToStringI(),
+                                   "craft_xp", _skills[13].Exp.ToStringI(), "craft_rank", _skills[13].Rank.ToStringI(),
+                                   "smith_xp", _skills[14].Exp.ToStringI(), "smith_rank", _skills[14].Rank.ToStringI(),
+                                   "mine_xp", _skills[15].Exp.ToStringI(), "mine_rank", _skills[15].Rank.ToStringI(),
+                                   "herb_xp", _skills[16].Exp.ToStringI(), "herb_rank", _skills[16].Rank.ToStringI(),
+                                   "agility_xp", _skills[17].Exp.ToStringI(), "agility_rank", _skills[17].Rank.ToStringI(),
+                                   "thief_xp", _skills[18].Exp.ToStringI(), "thief_rank", _skills[18].Rank.ToStringI(),
+                                   "slay_xp", _skills[19].Exp.ToStringI(), "slay_rank", _skills[19].Rank.ToStringI(),
+                                   "farm_xp", _skills[20].Exp.ToStringI(), "farm_rank", _skills[20].Rank.ToStringI(),
+                                   "runecraft_xp", _skills[21].Exp.ToStringI(), "runecraft_rank", _skills[21].Rank.ToStringI(),
+                                   "hunt_xp", _skills[22].Exp.ToStringI(), "hunt_rank", _skills[22].Rank.ToStringI(),
+                                   "construction_xp", _skills[23].Exp.ToStringI(), "construction_rank", _skills[23].Rank.ToStringI(),
+                                   "summ_xp", _skills[24].Exp.ToStringI(), "summ_rank", _skills[24].Rank.ToStringI(),
+                                   "dt_rank", _minigames[Minigame.DUEL].Rank.ToStringI(), "dt_score", _minigames[Minigame.DUEL].Score.ToStringI(),
+                                   "bh_rank", _minigames[Minigame.BOUN].Rank.ToStringI(), "bh_score", _minigames[Minigame.BOUN].Score.ToStringI(),
+                                   "bhr_rank", _minigames[Minigame.ROGU].Rank.ToStringI(), "bhr_score", _minigames[Minigame.ROGU].Score.ToStringI(),
+                                   "fist_rank", _minigames[Minigame.FIST].Rank.ToStringI(), "fist_score", _minigames[Minigame.FIST].Score.ToStringI());
 
         Database.Update("players", "id=" + _id, "lastupdate", s_date);
       }
@@ -235,7 +235,7 @@ namespace BigSister {
 
       try {
         // Query database
-        SQLiteDataReader rs = Database.ExecuteReader("SELECT tracker.* FROM tracker INNER JOIN players ON tracker.pid=players.id WHERE players.rsn='" + _name + "' AND tracker.date='" + day.ToString("yyyyMMdd", CultureInfo.InvariantCulture) + "';");
+        SQLiteDataReader rs = Database.ExecuteReader("SELECT tracker.* FROM tracker INNER JOIN players ON tracker.pid=players.id WHERE players.rsn='" + _name + "' AND tracker.date='" + day.ToStringI("yyyyMMdd") + "';");
         if (rs.Read()) {
           // Initialize variables
           _id = Convert.ToInt32(rs["pid"], CultureInfo.InvariantCulture);

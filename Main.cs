@@ -50,7 +50,7 @@ namespace BigSister {
 
     private void _updatePlayers(object stateInfo) {
       DateTime now = DateTime.UtcNow;
-      SQLiteDataReader rs = Database.ExecuteReader("SELECT rsn FROM players WHERE lastupdate!='" + now.ToString("yyyyMMdd", CultureInfo.InvariantCulture) + "';");
+      SQLiteDataReader rs = Database.ExecuteReader("SELECT rsn FROM players WHERE lastupdate!='" + now.ToStringI("yyyyMMdd") + "';");
       while (rs.Read()) {
         Player p = new Player(rs.GetString(0));
         txt.Invoke(new delOutputMessage(_OutputMessage), "***** UPDATING ***** " + p.Name);
@@ -61,7 +61,7 @@ namespace BigSister {
           tries++;
         }
         if (p.Ranked) {
-          p.SaveToDB(now.ToString("yyyyMMdd", CultureInfo.InvariantCulture));
+          p.SaveToDB(now.ToStringI("yyyyMMdd"));
         }
       }
       rs.Close();

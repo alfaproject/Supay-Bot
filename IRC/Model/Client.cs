@@ -191,7 +191,6 @@ namespace BigSister.Irc {
         message.Format(writer);
         this.Connection.Write(myInnerWriter.ToString());
 
-
         this.writer.InnerWriter = originalWriter;
       }
 

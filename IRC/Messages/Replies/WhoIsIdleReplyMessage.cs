@@ -76,8 +76,8 @@ namespace BigSister.Irc.Messages {
     protected override void AddParametersToFormat(IrcMessageWriter writer) {
       base.AddParametersToFormat(writer);
       writer.AddParameter(this.Nick);
-      writer.AddParameter(this.IdleLength.ToString(CultureInfo.InvariantCulture));
-      writer.AddParameter(MessageUtil.ConvertToUnixTime(SignOnTime).ToString(CultureInfo.InvariantCulture));
+      writer.AddParameter(this.IdleLength.ToStringI());
+      writer.AddParameter(MessageUtil.ConvertToUnixTime(SignOnTime).ToStringI());
       writer.AddParameter(this.Info);
     }
 

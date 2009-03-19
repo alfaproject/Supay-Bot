@@ -35,8 +35,8 @@ namespace BigSister {
       Database.Insert("timers_exp", "fingerprint", bc.From.FingerPrint,
                                     "name", name,
                                     "skill", skill,
-                                    "exp", p.Skills[skill].Exp.ToString(CultureInfo.InvariantCulture),
-                                    "datetime", DateTime.Now.ToString("yyyyMMddHHmmss", CultureInfo.InvariantCulture));
+                                    "exp", p.Skills[skill].Exp.ToStringI(),
+                                    "datetime", DateTime.Now.ToStringI("yyyyMMddHHmmss"));
       bc.SendReply("\\b{0}\\b starting exp of \\c07{1:e}\\c in \\u{1:n}\\u has been recorded{2}.".FormatWith(rsn, p.Skills[skill], name.Length > 0 ? " on timer \\c07" + name + "\\c" : string.Empty));
     }
 
@@ -129,7 +129,7 @@ namespace BigSister {
           timers++;
           DateTime start = rsTimer.GetString(2).ToDateTime();
           DateTime end = start.AddSeconds(rsTimer.GetDouble(1));
-          reply += " \\b#{0}\\b timer (\\c07{1}\\c) ends in \\c07{2}\\c, at \\c07{3}\\c;".FormatWith(timers, rsTimer.GetString(0), (end - DateTime.Now).ToLongString(), end.ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture));
+          reply += " \\b#{0}\\b timer (\\c07{1}\\c) ends in \\c07{2}\\c, at \\c07{3}\\c;".FormatWith(timers, rsTimer.GetString(0), (end - DateTime.Now).ToLongString(), end.ToStringI("yyyy/MM/dd HH:mm:ss"));
         }
         rsTimer.Close();
         if (timers > 0)
@@ -172,9 +172,9 @@ namespace BigSister {
       Database.Insert("timers", "fingerprint", bc.From.FingerPrint,
                                 "nick", bc.From.Nick,
                                 "name", name,
-                                "duration", (duration * 60).ToString(CultureInfo.InvariantCulture),
-                                "started", DateTime.Now.ToString("yyyyMMddHHmmss", CultureInfo.InvariantCulture));
-      bc.SendReply("Timer started to \\b{0}\\b. Timer will end at \\c07{1}\\c.".FormatWith(bc.From.Nick, DateTime.Now.AddMinutes(duration).ToString("yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture)));
+                                "duration", (duration * 60).ToStringI(),
+                                "started", DateTime.Now.ToStringI("yyyyMMddHHmmss"));
+      bc.SendReply("Timer started to \\b{0}\\b. Timer will end at \\c07{1}\\c.".FormatWith(bc.From.Nick, DateTime.Now.AddMinutes(duration).ToStringI("yyyy/MM/dd HH:mm:ss")));
     }
 
   } //class CmdTimers

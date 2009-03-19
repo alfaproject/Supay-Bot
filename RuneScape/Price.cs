@@ -80,19 +80,19 @@ namespace BigSister {
     public void SaveToDB(bool updateDate) {
       string lastUpdate;
       if (updateDate)
-        lastUpdate = DateTime.UtcNow.ToString("yyyyMMddHHmm", CultureInfo.InvariantCulture);
+        lastUpdate = DateTime.UtcNow.ToStringI("yyyyMMddHHmm");
       else
         lastUpdate = Database.GetString("SELECT lastUpdate FROM prices ORDER BY lastUpdate DESC LIMIT 1;", "");
 
       try {
-        Database.Insert("prices", "id", this.Id.ToString(CultureInfo.InvariantCulture),
+        Database.Insert("prices", "id", this.Id.ToStringI(),
                                   "name", this.Name,
-                                  "price", this.MarketPrice.ToString(CultureInfo.InvariantCulture),
+                                  "price", this.MarketPrice.ToStringI(),
                                   "lastUpdate", lastUpdate);
       } catch {
-        Database.Update("prices", "id=" + this.Id.ToString(CultureInfo.InvariantCulture),
+        Database.Update("prices", "id=" + this.Id.ToStringI(),
                                   "name", this.Name,
-                                  "price", this.MarketPrice.ToString(CultureInfo.InvariantCulture),
+                                  "price", this.MarketPrice.ToStringI(),
                                   "lastUpdate", lastUpdate);
       }
     }

@@ -60,7 +60,7 @@ namespace BigSister.Irc.Messages {
     protected override void AddParametersToFormat(IrcMessageWriter writer) {
       base.AddParametersToFormat(writer);
       writer.AddParameter(this.Channel);
-      writer.AddParameter(this.MemberCount.ToString(CultureInfo.InvariantCulture));
+      writer.AddParameter(this.MemberCount.ToStringI());
       writer.AddParameter(this.Topic);
     }
 

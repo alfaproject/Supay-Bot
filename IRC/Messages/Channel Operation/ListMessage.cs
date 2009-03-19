@@ -200,7 +200,7 @@ namespace BigSister.Irc.Messages {
 
     private static void VerifySupport(ServerSupport serverSupport, ServerSupport.ExtendedListParameters parameter) {
       if ((serverSupport.ExtendedList & parameter) != parameter) {
-        throw new InvalidMessageException("Server does not support extended list parameter '{0}'.".FormatWith(parameter.ToString()));
+        throw new InvalidMessageException("Server does not support extended list parameter '{0}'.".FormatWith(parameter.ToStringI()));
       }
     }
 
@@ -212,16 +212,16 @@ namespace BigSister.Irc.Messages {
 
       StringCollection options = new StringCollection();
       if (this.MaxUsers >= 0) {
-        options.Add("<" + this.MaxUsers.ToString(CultureInfo.InvariantCulture));
+        options.Add("<" + this.MaxUsers.ToStringI());
       }
       if (this.MinUsers >= 0) {
-        options.Add(">" + this.MinUsers.ToString(CultureInfo.InvariantCulture));
+        options.Add(">" + this.MinUsers.ToStringI());
       }
       if (this.YoungerThan >= 0) {
-        options.Add("C<" + this.YoungerThan.ToString(CultureInfo.InvariantCulture));
+        options.Add("C<" + this.YoungerThan.ToStringI());
       }
       if (this.OlderThan >= 0) {
-        options.Add("C>" + this.OlderThan.ToString(CultureInfo.InvariantCulture));
+        options.Add("C>" + this.OlderThan.ToStringI());
       }
       if (!string.IsNullOrEmpty(MatchMask)) {
         options.Add("*" + this.MatchMask + "*");
@@ -230,10 +230,10 @@ namespace BigSister.Irc.Messages {
         options.Add("!*" + this.NotMatchMask + "*");
       }
       if (this.TopicOlderThan >= 0) {
-        options.Add("T>" + this.TopicOlderThan.ToString(CultureInfo.InvariantCulture));
+        options.Add("T>" + this.TopicOlderThan.ToStringI());
       }
       if (this.TopicYoungerThan >= 0) {
-        options.Add("T<" + this.TopicYoungerThan.ToString(CultureInfo.InvariantCulture));
+        options.Add("T<" + this.TopicYoungerThan.ToStringI());
       }
 
 

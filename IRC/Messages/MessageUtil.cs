@@ -170,7 +170,6 @@ namespace BigSister.Irc.Messages {
         result.Remove(result.Length - delimiter.Length, delimiter.Length);
       }
       return result.ToString();
-
     }
 
     #endregion

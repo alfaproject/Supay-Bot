@@ -47,8 +47,8 @@ namespace BigSister.Irc.Messages.Modes {
       ModeAction currentAction = ModeAction.Add;
       int argIndex = 0;
       foreach (char c in modeChanges) {
-        if (ModeAction.IsDefined(c.ToString(CultureInfo.InvariantCulture))) {
-          currentAction = ModeAction.Parse(c.ToString(CultureInfo.InvariantCulture));
+        if (ModeAction.IsDefined(c.ToStringI())) {
+          currentAction = ModeAction.Parse(c.ToStringI());
         } else {
           // PONDER This probably won't correctly parse incorrect mode messages, should I?
           switch (c) {
@@ -135,7 +135,7 @@ namespace BigSister.Irc.Messages.Modes {
               this.modes.Add(voiceMode);
               break;
             default:
-              string unknownMode = c.ToString(CultureInfo.InvariantCulture);
+              string unknownMode = c.ToStringI();
               if (this.serverSupports.ModesWithParameters.Contains(unknownMode) || (this.serverSupports.ModesWithParametersWhenSet.Contains(unknownMode) && currentAction == ModeAction.Add)) {
                 // I want to yank a parameter	
                 this.modes.Add(new UnknownChannelMode(currentAction, unknownMode, modeArguments[argIndex]));

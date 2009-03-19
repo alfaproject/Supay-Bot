@@ -44,7 +44,7 @@ namespace BigSister.Irc.Messages {
     /// <exclude />
     protected override void AddParametersToFormat(IrcMessageWriter writer) {
       base.AddParametersToFormat(writer);
-      writer.AddParameter(this.Limit.ToString(CultureInfo.InvariantCulture));
+      writer.AddParameter(this.Limit.ToStringI());
       writer.AddParameter(MessageUtil.CreateList(this.Nicks, ","));
       writer.AddParameter("Monitor list is full.");
     }

@@ -34,8 +34,8 @@ namespace BigSister.Irc.Messages.Modes {
       }
       ModeAction currentAction = ModeAction.Add;
       foreach (char c in modeChanges) {
-        if (ModeAction.IsDefined(c.ToString(CultureInfo.InvariantCulture))) {
-          currentAction = ModeAction.Parse(c.ToString(CultureInfo.InvariantCulture));
+        if (ModeAction.IsDefined(c.ToStringI())) {
+          currentAction = ModeAction.Parse(c.ToStringI());
         } else {
           // PONDER This probably won't correctly parse incorrect mode messages, should I?
           switch (c) {
@@ -67,8 +67,8 @@ namespace BigSister.Irc.Messages.Modes {
               this.modes.Add(new RestrictedMode(currentAction));
               break;
             default:
-              this.modes.Add(new UnknownUserMode(currentAction, c.ToString(CultureInfo.InvariantCulture)));
-              Trace.WriteLine("Unknown UserMode '" + c.ToString(CultureInfo.InvariantCulture) + "'");
+              this.modes.Add(new UnknownUserMode(currentAction, c.ToStringI()));
+              Trace.WriteLine("Unknown UserMode '" + c.ToStringI() + "'");
               break;
           }
         }

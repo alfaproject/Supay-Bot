@@ -38,7 +38,7 @@ namespace BigSister.Irc.Messages {
     protected override void AddParametersToFormat(IrcMessageWriter writer) {
       // :irc.ptptech.com 253 _aLfa_ 15 :unknown connection(s)
       base.AddParametersToFormat(writer);
-      writer.AddParameter(this.UnknownConnectionCount.ToString(CultureInfo.InvariantCulture));
+      writer.AddParameter(this.UnknownConnectionCount.ToStringI());
       writer.AddParameter("unknown connection(s)");
     }
 

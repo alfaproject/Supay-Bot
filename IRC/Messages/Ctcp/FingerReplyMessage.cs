@@ -65,7 +65,7 @@ namespace BigSister.Irc.Messages {
         result.Append(" (");
         result.Append(this.LoginName);
         result.Append(") - Idle ");
-        result.Append(this.IdleSeconds.ToString(CultureInfo.InvariantCulture));
+        result.Append(this.IdleSeconds.ToStringI());
         result.Append(" seconds");
         return result.ToString();
       }

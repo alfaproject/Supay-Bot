@@ -44,7 +44,7 @@ namespace BigSister.Irc.Messages {
     /// </summary>
     protected override void AddParametersToFormat(IrcMessageWriter writer) {
       base.AddParametersToFormat(writer);
-      writer.AddParameter(this.OpCount.ToString(CultureInfo.InvariantCulture));
+      writer.AddParameter(this.OpCount.ToStringI());
       writer.AddParameter(this.Info);
     }
 

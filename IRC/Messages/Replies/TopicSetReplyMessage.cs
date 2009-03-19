@@ -60,7 +60,7 @@ namespace BigSister.Irc.Messages {
       base.AddParametersToFormat(writer);
       writer.AddParameter(this.Channel);
       writer.AddParameter(this.User.ToString());
-      writer.AddParameter(MessageUtil.ConvertToUnixTime(this.TimeSet).ToString(CultureInfo.InvariantCulture));
+      writer.AddParameter(MessageUtil.ConvertToUnixTime(this.TimeSet).ToStringI());
     }
 
     /// <summary>

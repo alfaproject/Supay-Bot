@@ -167,7 +167,7 @@ namespace BigSister {
           else
             return "{error}";
         else
-          return ((double)_value).ToString("#,##0.######", CultureInfo.InvariantCulture);
+          return ((double)_value).ToStringI("#,##0.######");
       }
     }
 
@@ -616,11 +616,11 @@ namespace BigSister {
           _currentpos++;
         } else if (char.IsDigit(c)) {
           double number = ScanReal(ref _currentpos);
-          ret.Add(new Token(number.ToString(CultureInfo.InvariantCulture), VAL, number));
+          ret.Add(new Token(number.ToStringI(), VAL, number));
         } else if (c == '.') {
           _currentpos++;
           double number = ScanFrac(ref _currentpos, 0.0);
-          ret.Add(new Token(number.ToString(CultureInfo.InvariantCulture), VAL, number));
+          ret.Add(new Token(number.ToStringI(), VAL, number));
         } else if (char.IsLetter(c)) {
           string identifier = ScanIdentifier(ref _currentpos);
           if (_currentpos < _expression.Length && _expression[_currentpos] == '(') {
@@ -647,47 +647,47 @@ namespace BigSister {
         } else {
           switch (c) {
             case '+':
-              ret.Add(new Token(c.ToString(CultureInfo.InvariantCulture), ADD));
+              ret.Add(new Token(c.ToStringI(), ADD));
               break;
             case '-':
               if (ret.Count == 0 || (ret[ret.Count - 1].Type != VAL && ret[ret.Count - 1].Type != FACT && ret[ret.Count - 1].Type != RPAR)) {
                 // if it's first token or 
                 // if previous token isn't a number or right parenthesis then it's unary "-" 
-                ret.Add(new Token(c.ToString(CultureInfo.InvariantCulture), UMI));
+                ret.Add(new Token(c.ToStringI(), UMI));
               } else {
-                ret.Add(new Token(c.ToString(CultureInfo.InvariantCulture), SUB));
+                ret.Add(new Token(c.ToStringI(), SUB));
               }
               break;
             case '*':
-              ret.Add(new Token(c.ToString(CultureInfo.InvariantCulture), MUL));
+              ret.Add(new Token(c.ToStringI(), MUL));
               break;
             case '/':
-              ret.Add(new Token(c.ToString(CultureInfo.InvariantCulture), DIV));
+              ret.Add(new Token(c.ToStringI(), DIV));
               break;
             case '%':
-              ret.Add(new Token(c.ToString(CultureInfo.InvariantCulture), MOD));
+              ret.Add(new Token(c.ToStringI(), MOD));
               break;
             case '\\':
-              ret.Add(new Token(c.ToString(CultureInfo.InvariantCulture), DIVI));
+              ret.Add(new Token(c.ToStringI(), DIVI));
               break;
             case '^':
-              ret.Add(new Token(c.ToString(CultureInfo.InvariantCulture), POW));
+              ret.Add(new Token(c.ToStringI(), POW));
               break;
             case '!':
-              ret.Add(new Token(c.ToString(CultureInfo.InvariantCulture), FACT));
+              ret.Add(new Token(c.ToStringI(), FACT));
               break;
             case '(':
               if (ret.Count > 0 && ret[ret.Count - 1].Type == RPAR) {
                 // implicit multiplication: (...)(...)
                 ret.Add(new Token(string.Empty, MUL));
               }
-              ret.Add(new Token(c.ToString(CultureInfo.InvariantCulture), LPAR));
+              ret.Add(new Token(c.ToStringI(), LPAR));
               break;
             case ')':
-              ret.Add(new Token(c.ToString(CultureInfo.InvariantCulture), RPAR));
+              ret.Add(new Token(c.ToStringI(), RPAR));
               break;
             case ';':
-              ret.Add(new Token(c.ToString(CultureInfo.InvariantCulture), SCOL));
+              ret.Add(new Token(c.ToStringI(), SCOL));
               break;
             default:
               throw new Exception("Illegal character \"" + c + "\" at position " + _currentpos + ".");

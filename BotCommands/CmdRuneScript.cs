@@ -94,7 +94,7 @@ namespace BigSister {
       // Get old player
       Player PlayerOld = new Player(rsn, intervalTime);
       if (!PlayerOld.Ranked) {
-        bc.SendReply("\\b{0}\\b wasn't being tracked on {1}.".FormatWith(rsn, DateTime.Now.AddSeconds(-intervalTime).ToString("yyyy-MMM-dd", CultureInfo.InvariantCulture)));
+        bc.SendReply("\\b{0}\\b wasn't being tracked on {1}.".FormatWith(rsn, DateTime.Now.AddSeconds(-intervalTime).ToStringI("yyyy-MMM-dd")));
         return;
       }
 

@@ -99,7 +99,7 @@ namespace BigSister.Irc.Messages {
     ///   Indicates if the parameters can be split across messages written. </param>
     public void AddList(IList value, string separator, bool splittable) {
       this.parameters.Add(value);
-      this.listParams[(this.parameters.Count - 1).ToString(CultureInfo.InvariantCulture)] = separator;
+      this.listParams[(this.parameters.Count - 1).ToStringI()] = separator;
       if (splittable) {
         this.AddSplittableParameter();
       }
@@ -166,7 +166,7 @@ namespace BigSister.Irc.Messages {
     private NameValueCollection splitParams = new NameValueCollection();
 
     private void AddSplittableParameter() {
-      splitParams[parameters.Count.ToString(CultureInfo.InvariantCulture)] = string.Empty;
+      splitParams[parameters.Count.ToStringI()] = string.Empty;
     }
 
     private string GetParamValue(int index) {
@@ -174,13 +174,13 @@ namespace BigSister.Irc.Messages {
 
       StringCollection thisParamAsCollection = thisParam as StringCollection;
       if (thisParamAsCollection != null) {
-        string seperator = this.listParams[index.ToString(CultureInfo.InvariantCulture)];
+        string seperator = this.listParams[index.ToStringI()];
         return BigSister.Irc.Messages.MessageUtil.CreateList(thisParamAsCollection, seperator);
       }
 
       IList thisParamAsList = thisParam as IList;
       if (thisParamAsList != null) {
-        string seperator = this.listParams[index.ToString(CultureInfo.InvariantCulture)];
+        string seperator = this.listParams[index.ToStringI()];
         return BigSister.Irc.Messages.MessageUtil.CreateList(thisParamAsList, seperator);
       }
 

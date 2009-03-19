@@ -331,12 +331,12 @@ namespace BigSister {
               oa_exp += Math.Min(13034431, s.Exp);
           target_level = (p.Skills.Count - 2) * 99;
           int max_exp = 13034431 * (p.Skills.Count - 2);
-          percent_done = Math.Round(oa_exp / (double)max_exp * 100.0, 1).ToString(CultureInfo.InvariantCulture);
+          percent_done = Math.Round(oa_exp / (double)max_exp * 100.0, 1).ToStringI();
 
           item = null;
         } else {
           exp_to_go = target_exp - skill.Exp;
-          percent_done = Math.Round(100 - exp_to_go / (double)(target_exp - skill.VLevel.ToExp()) * 100, 1).ToString(CultureInfo.InvariantCulture);
+          percent_done = Math.Round(100 - exp_to_go / (double)(target_exp - skill.VLevel.ToExp()) * 100, 1).ToStringI();
         }
 
         string reply = "\\b{0}\\b \\c07{1}\\c | level: \\c07{1:v}\\c | exp: \\c07{1:e}\\c (\\c07{2}%\\c of {3}) | rank: \\c07{1:R}\\c".FormatWith(

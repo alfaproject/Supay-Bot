@@ -21,7 +21,7 @@ namespace BigSister {
         Player p = new Player(rsn);
         if (p.Ranked) {
           Database.Insert("players", "rsn", rsn, "clan", string.Empty, "lastupdate", string.Empty);
-          p.SaveToDB(DateTime.UtcNow.ToString("yyyyMMdd", CultureInfo.InvariantCulture));
+          p.SaveToDB(DateTime.UtcNow.ToStringI("yyyyMMdd"));
           bc.SendReply("\\b{0}\\b is now being tracked.".FormatWith(rsn));
         } else {
           bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn));
@@ -179,9 +179,9 @@ namespace BigSister {
       if (!PlayerOld.Ranked) {
         // Get data from RuneScript
         PlayerOld = new Player(rsn, (int)(DateTime.Now - firstday).TotalSeconds);
-        bc.SendReply("\\c07{0}\\c information retrieved from RuneScript database. (This data may not be 100% accurate)".FormatWith(firstday.ToString("yyyy/MMM/dd", CultureInfo.InvariantCulture)));
+        bc.SendReply("\\c07{0}\\c information retrieved from RuneScript database. (This data may not be 100% accurate)".FormatWith(firstday.ToStringI("yyyy/MMM/dd")));
         if (!PlayerOld.Ranked) {
-          bc.SendReply("\\b{0}\\b wasn't being tracked on \\c07{1}\\c.".FormatWith(rsn, firstday.ToString("yyyy/MMM/dd", CultureInfo.InvariantCulture)));
+          bc.SendReply("\\b{0}\\b wasn't being tracked on \\c07{1}\\c.".FormatWith(rsn, firstday.ToStringI("yyyy/MMM/dd")));
           return;
         }
       }
@@ -199,9 +199,9 @@ namespace BigSister {
         } else {
           // Get data from RuneScript
           PlayerNew = new Player(rsn, (int)(DateTime.Now - lastday).TotalSeconds);
-          bc.SendReply("\\c07{0}\\c information retrieved from RuneScript database. (This data may not be 100% accurate)".FormatWith(lastday.ToString("yyyy/MMM/dd", CultureInfo.InvariantCulture)));
+          bc.SendReply("\\c07{0}\\c information retrieved from RuneScript database. (This data may not be 100% accurate)".FormatWith(lastday.ToStringI("yyyy/MMM/dd")));
           if (!PlayerNew.Ranked) {
-            bc.SendReply("\\b{0}\\b wasn't being tracked on \\c07{1}\\c.".FormatWith(rsn, lastday.ToString("yyyy/MMM/dd", CultureInfo.InvariantCulture)));
+            bc.SendReply("\\b{0}\\b wasn't being tracked on \\c07{1}\\c.".FormatWith(rsn, lastday.ToStringI("yyyy/MMM/dd")));
             return;
           }
         }
@@ -229,7 +229,7 @@ namespace BigSister {
         }
         ReplyMsg += "; \\c07Combat\\c lvl {0} \\c03+{1}\\c xp (\\c07{2}%\\c)".FormatWith(PlayerNew.Skills["Combat"].Level + DifLevel, CombatDif.Exp.ToShortString(1), ((double)CombatDif.Exp / (double)OverallDif.Exp * 100.0).ToShortString(1));
 
-        ReplyMsg += "; Interval: \\c07{0}\\c -> \\c07{1}\\c".FormatWith(firstday.ToString("yyyy/MMM/dd", CultureInfo.InvariantCulture), lastday == DateTime.MaxValue ? "Now" : lastday.ToString("yyyy/MMM/dd", CultureInfo.InvariantCulture));
+        ReplyMsg += "; Interval: \\c07{0}\\c -> \\c07{1}\\c".FormatWith(firstday.ToStringI("yyyy/MMM/dd"), lastday == DateTime.MaxValue ? "Now" : lastday.ToStringI("yyyy/MMM/dd"));
         bc.SendReply(ReplyMsg);
 
         // 2nd line: skills list

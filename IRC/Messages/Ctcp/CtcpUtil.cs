@@ -18,8 +18,8 @@ namespace BigSister.Irc.Messages {
     /// Escapes the given text for use in a ctcp message.
     /// </summary>
     public static string Escape(string text) {
-      string escaper = '\x0014'.ToString();
-      string NUL = '\x0000'.ToString();
+      string escaper = '\x0014'.ToStringI();
+      string NUL = '\x0000'.ToStringI();
       string result = text;
       result = System.Text.RegularExpressions.Regex.Replace(result, escaper, escaper + escaper);
       result = System.Text.RegularExpressions.Regex.Replace(result, NUL, escaper + "0");
@@ -32,8 +32,8 @@ namespace BigSister.Irc.Messages {
     ///   Unescapes the given text for use outside a ctcp message. </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Unescape")]
     public static string Unescape(string text) {
-      string escaper = '\x0014'.ToString();
-      string NUL = '\x0000'.ToString();
+      string escaper = '\x0014'.ToStringI();
+      string NUL = '\x0000'.ToStringI();
       string result = text;
 
       result = System.Text.RegularExpressions.Regex.Replace(result, escaper + "0", NUL);
@@ -87,7 +87,7 @@ namespace BigSister.Irc.Messages {
         return false;
       }
       string payLoad = p[1];
-      if (!(payLoad.StartsWith(CtcpUtil.ExtendedDataMarker.ToString(), StringComparison.Ordinal) && payLoad.EndsWith(CtcpUtil.ExtendedDataMarker.ToString(), StringComparison.Ordinal))) {
+      if (!(payLoad.StartsWith(CtcpUtil.ExtendedDataMarker.ToStringI(), StringComparison.Ordinal) && payLoad.EndsWith(CtcpUtil.ExtendedDataMarker.ToStringI(), StringComparison.Ordinal))) {
         return false;
       }
       return true;

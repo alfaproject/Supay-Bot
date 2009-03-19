@@ -50,7 +50,7 @@ namespace BigSister.Irc.Messages {
 
       base.AddParametersToFormat(writer);
       writer.AddParameter(this.Channel);
-      writer.AddParameter(MessageUtil.ConvertToUnixTime(this.TimeCreated).ToString(CultureInfo.InvariantCulture));
+      writer.AddParameter(MessageUtil.ConvertToUnixTime(this.TimeCreated).ToStringI());
     }
 
     /// <summary>

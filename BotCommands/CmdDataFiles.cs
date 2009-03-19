@@ -38,7 +38,7 @@ namespace BigSister {
               int.Parse(clueTokens[1].Substring(5, 2), CultureInfo.InvariantCulture) == lon1 &&
               int.Parse(clueTokens[1].Substring(7, 2), CultureInfo.InvariantCulture) == lon2 &&
               clueTokens[1][9] == lon) {
-            bc.SendReply(@"Lat: \c07{0}º{1}'{2}\c | Lon: \c07{3}º{4}'{5}\c | Location: \c07{6}\c (\c12http://www.tip.it/runescape/img2/{0:00}_{1:00}{2}_{3:00}_{4:00}{5}.gif\c)".FormatWith(lat1, lat2, lat.ToString(CultureInfo.InvariantCulture).ToUpperInvariant(), lon1, lon2, lon.ToString(CultureInfo.InvariantCulture).ToUpperInvariant(), clueTokens[2]));
+            bc.SendReply(@"Lat: \c07{0}º{1}'{2}\c | Lon: \c07{3}º{4}'{5}\c | Location: \c07{6}\c (\c12http://www.tip.it/runescape/img2/{0:00}_{1:00}{2}_{3:00}_{4:00}{5}.gif\c)".FormatWith(lat1, lat2, lat.ToStringI().ToUpperInvariant(), lon1, lon2, lon.ToStringI().ToUpperInvariant(), clueTokens[2]));
             clueFile.Close();
             return;
           }

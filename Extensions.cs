@@ -56,13 +56,13 @@ namespace BigSister {
     public static string ToShortString(this double self, int decimals) {
       string format = "#,##0." + new string('#', decimals);
       if (self >= 1000000000 || self <= -1000000000) {
-        return Math.Round(self / 1000000000, decimals).ToString(format, CultureInfo.InvariantCulture) + "b";
+        return Math.Round(self / 1000000000, decimals).ToStringI(format) + "b";
       } else if (self >= 1000000 || self <= -1000000) {
-        return Math.Round(self / 1000000, decimals).ToString(format, CultureInfo.InvariantCulture) + "m";
+        return Math.Round(self / 1000000, decimals).ToStringI(format) + "m";
       } else if (self >= 1000 || self <= -1000) {
-        return Math.Round(self / 1000, decimals).ToString(format, CultureInfo.InvariantCulture) + "k";
+        return Math.Round(self / 1000, decimals).ToStringI(format) + "k";
       } else {
-        return Math.Round(self, decimals).ToString(format, CultureInfo.InvariantCulture);
+        return Math.Round(self, decimals).ToStringI(format);
       }
     }
 
@@ -125,6 +125,26 @@ namespace BigSister {
     ///   An Object array containing zero or more objects to format. </param>
     public static string FormatWith(this string self, params object[] args) {
       return string.Format(CultureInfo.InvariantCulture, self, args);
+    }
+
+    /// <summary>
+    ///   Converts the value of this instance to its equivalent string representation. </summary>
+    public static string ToStringI(this char self) {
+      return self.ToString(CultureInfo.InvariantCulture);
+    }
+
+    /// <summary>
+    ///   Converts the value of this instance to its equivalent string representation. </summary>
+    public static string ToStringI<T>(this T self) where T : IFormattable {
+      return self.ToString(null, CultureInfo.InvariantCulture);
+    }
+
+    /// <summary>
+    ///   Formats the value of the current instance using the specified format. </summary>
+    /// <param name="format">
+    ///   The System.String specifying the format to use. </param>
+    public static string ToStringI<T>(this T self, string format) where T : IFormattable {
+      return self.ToString(format, CultureInfo.InvariantCulture);
     }
 
   } //class Extensions

@@ -28,7 +28,7 @@ namespace BigSister.Irc.Messages {
     /// </summary>
     protected override void AddParametersToFormat(IrcMessageWriter writer) {
       base.AddParametersToFormat(writer);
-      writer.AddParameter(_internalNumeric.ToString("000", CultureInfo.InvariantCulture));
+      writer.AddParameter(_internalNumeric.ToStringI("000"));
       if (this.Target.Length != 0) {
         writer.AddParameter(this.Target);
       }

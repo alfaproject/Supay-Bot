@@ -65,7 +65,7 @@ namespace BigSister.Irc.Messages {
       writer.AddParameter(this.Nick);
 
       if (this.MaximumResults > 0) {
-        writer.AddParameter(this.MaximumResults.ToString(CultureInfo.InvariantCulture));
+        writer.AddParameter(this.MaximumResults.ToStringI());
         if (this.Server.Length != 0) {
           writer.AddParameter(this.Server);
         }
