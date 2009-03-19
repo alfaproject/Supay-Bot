@@ -31,12 +31,11 @@ namespace BigSister {
       Trace.Listeners.Add(defaultListener);
       defaultListener.LogFileName = Path.Combine(Application.StartupPath, "Log.txt");
 
-      DateTime nextMorning;
-      if (DateTime.UtcNow.Hour < UPDATE_HOUR)
-        nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, UPDATE_HOUR, 0, 0);
-      else
-        nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, UPDATE_HOUR, 0, 0).AddDays(1D);
-      _timerDaily = new System.Threading.Timer(new TimerCallback(_timerDaily_Elapsed), null, nextMorning.Subtract(DateTime.UtcNow), TimeSpan.FromDays(24));
+      TimeSpan nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, UPDATE_HOUR, 0, 0).Subtract(DateTime.UtcNow);
+      if (DateTime.UtcNow.Hour >= UPDATE_HOUR) {
+        nextMorning += TimeSpan.FromDays(1.0);
+      }
+      new System.Threading.Timer(new TimerCallback(_timerDaily_Elapsed), null, nextMorning, TimeSpan.FromDays(1.0));
 
       _timerMain = new System.Windows.Forms.Timer();
       _timerMain.Tick += new EventHandler(_timerMain_Tick);
@@ -44,8 +43,9 @@ namespace BigSister {
       _timerMain.Start();
 
       // update all missing players
-      if (DateTime.UtcNow.Hour >= UPDATE_HOUR)
+      if (DateTime.UtcNow.Hour >= UPDATE_HOUR) {
         ThreadPool.QueueUserWorkItem(new WaitCallback(_updatePlayers), null);
+      }
     }
 
     private void _updatePlayers(object stateInfo) {
@@ -112,11 +112,10 @@ namespace BigSister {
       lblUtcTimer.Text = "UTC: {0:T}".FormatWith(DateTime.UtcNow);
 
       // update time to next morning update
-      TimeSpan nextMorning;
-      if (DateTime.UtcNow.Hour < UPDATE_HOUR)
-        nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, UPDATE_HOUR, 0, 0).Subtract(DateTime.UtcNow);
-      else
-        nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, UPDATE_HOUR, 0, 0).AddDays(1D).Subtract(DateTime.UtcNow);
+      TimeSpan nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, UPDATE_HOUR, 0, 0).Subtract(DateTime.UtcNow);
+      if (DateTime.UtcNow.Hour >= UPDATE_HOUR) {
+        nextMorning += TimeSpan.FromDays(1.0);
+      }
       lblUpdateTimer.Text = "Next update in: {0}:{1}:{2}".FormatWith(nextMorning.Hours, nextMorning.Minutes, nextMorning.Seconds);
 
       if (_irc != null) {
