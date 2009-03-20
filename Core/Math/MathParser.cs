@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace BigSister {
   class MathParser {
@@ -47,6 +46,10 @@ namespace BigSister {
         this.Expr = expr;
         this.Type = type;
         this.Value = 0;
+      }
+
+      public Token(char expr, int type)
+        : this(expr.ToStringI(), type) {
       }
     }
 
@@ -647,47 +650,47 @@ namespace BigSister {
         } else {
           switch (c) {
             case '+':
-              ret.Add(new Token(c.ToStringI(), ADD));
+              ret.Add(new Token(c, ADD));
               break;
             case '-':
               if (ret.Count == 0 || (ret[ret.Count - 1].Type != VAL && ret[ret.Count - 1].Type != FACT && ret[ret.Count - 1].Type != RPAR)) {
                 // if it's first token or 
                 // if previous token isn't a number or right parenthesis then it's unary "-" 
-                ret.Add(new Token(c.ToStringI(), UMI));
+                ret.Add(new Token(c, UMI));
               } else {
-                ret.Add(new Token(c.ToStringI(), SUB));
+                ret.Add(new Token(c, SUB));
               }
               break;
             case '*':
-              ret.Add(new Token(c.ToStringI(), MUL));
+              ret.Add(new Token(c, MUL));
               break;
             case '/':
-              ret.Add(new Token(c.ToStringI(), DIV));
+              ret.Add(new Token(c, DIV));
               break;
             case '%':
-              ret.Add(new Token(c.ToStringI(), MOD));
+              ret.Add(new Token(c, MOD));
               break;
             case '\\':
-              ret.Add(new Token(c.ToStringI(), DIVI));
+              ret.Add(new Token(c, DIVI));
               break;
             case '^':
-              ret.Add(new Token(c.ToStringI(), POW));
+              ret.Add(new Token(c, POW));
               break;
             case '!':
-              ret.Add(new Token(c.ToStringI(), FACT));
+              ret.Add(new Token(c, FACT));
               break;
             case '(':
               if (ret.Count > 0 && ret[ret.Count - 1].Type == RPAR) {
                 // implicit multiplication: (...)(...)
                 ret.Add(new Token(string.Empty, MUL));
               }
-              ret.Add(new Token(c.ToStringI(), LPAR));
+              ret.Add(new Token(c, LPAR));
               break;
             case ')':
-              ret.Add(new Token(c.ToStringI(), RPAR));
+              ret.Add(new Token(c, RPAR));
               break;
             case ';':
-              ret.Add(new Token(c.ToStringI(), SCOL));
+              ret.Add(new Token(c, SCOL));
               break;
             default:
               throw new Exception("Illegal character \"" + c + "\" at position " + _currentpos + ".");
