@@ -176,8 +176,7 @@ namespace BigSister {
       time = (int)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds - time;
       try {
         // Get the tracker SOAP for this RSN
-        RScript.RScriptLookupPortTypeClient RScriptClient = new BigSister.RScript.RScriptLookupPortTypeClient();
-        RScript.skills RScriptSkills = RScriptClient.trackGetTimeAll(rsn, time);
+        RuneScript.skills RScriptSkills = new RuneScript.RScriptLookup().trackGetTimeAll(rsn, time);
 
         // Initialize variables
         _skills = new Skills();
@@ -336,10 +335,9 @@ namespace BigSister {
       }
     }
 
-    private static void _updateRuneScriptTracker(Object rsn) {
+    private static void _updateRuneScriptTracker(object rsn) {
       try {
-        RScript.RScriptLookupPortTypeClient RScriptClient = new BigSister.RScript.RScriptLookupPortTypeClient();
-        RScriptClient.trackUpdateUser((string)rsn);
+        new RuneScript.RScriptLookup().trackUpdateUser((string)rsn);
       } catch {
       }
     }
