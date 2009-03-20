@@ -1,4 +1,6 @@
-*.user
+*.pidb
+*~
+*.user*
 *.sln
 *.suo
 bin
