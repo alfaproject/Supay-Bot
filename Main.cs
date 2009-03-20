@@ -18,6 +18,8 @@ namespace BigSister {
     System.Windows.Forms.Timer _timerMain;
 
     private const int UPDATE_HOUR = 6;
+    private const int UPDATE_MINUTE = 0;
+    System.Threading.Timer _timerDaily;
 
     private delegate void ExecuteBotCommand(CommandContext bc);
 
@@ -30,11 +32,11 @@ namespace BigSister {
       Trace.Listeners.Add(defaultListener);
       defaultListener.LogFileName = Path.Combine(Application.StartupPath, "Log.txt");
 
-      TimeSpan nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, UPDATE_HOUR, 0, 0).Subtract(DateTime.UtcNow);
-      if (DateTime.UtcNow.Hour >= UPDATE_HOUR) {
+      TimeSpan nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, UPDATE_HOUR, UPDATE_MINUTE, 0).Subtract(DateTime.UtcNow);
+      if (nextMorning.Ticks < 0) {
         nextMorning += TimeSpan.FromDays(1.0);
       }
-      new System.Threading.Timer(_timerDaily_Elapsed, null, nextMorning, TimeSpan.FromDays(1.0));
+      _timerDaily = new System.Threading.Timer(_timerDaily_Elapsed, null, nextMorning, TimeSpan.FromDays(1.0));
 
       _timerMain = new System.Windows.Forms.Timer();
       _timerMain.Tick += new EventHandler(_timerMain_Tick);
@@ -42,7 +44,7 @@ namespace BigSister {
       _timerMain.Start();
 
       // update all missing players
-      if (DateTime.UtcNow.Hour >= UPDATE_HOUR) {
+      if (DateTime.UtcNow.Hour >= UPDATE_HOUR && DateTime.UtcNow.Minute >= UPDATE_MINUTE) {
         ThreadPool.QueueUserWorkItem(_updatePlayers);
       }
     }
@@ -111,11 +113,11 @@ namespace BigSister {
       lblUtcTimer.Text = "UTC: {0:T}".FormatWith(DateTime.UtcNow);
 
       // update time to next morning update
-      TimeSpan nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, UPDATE_HOUR, 0, 0).Subtract(DateTime.UtcNow);
-      if (DateTime.UtcNow.Hour >= UPDATE_HOUR) {
+      TimeSpan nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, UPDATE_HOUR, UPDATE_MINUTE, 0).Subtract(DateTime.UtcNow);
+      if (nextMorning.Ticks < 0) {
         nextMorning += TimeSpan.FromDays(1.0);
       }
-      lblUpdateTimer.Text = "Next update in: {0}:{1}:{2}".FormatWith(nextMorning.Hours, nextMorning.Minutes, nextMorning.Seconds);
+      lblUpdateTimer.Text = "Next update in " + nextMorning.ToLongString();
 
       if (_irc != null) {
         // check for pending timers
