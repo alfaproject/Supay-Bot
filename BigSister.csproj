@@ -97,7 +97,7 @@
     <Compile Include="BotCommands\CmdTracker.cs" />
     <Compile Include="BotCommands\CmdUtil.cs" />
     <Compile Include="BotCommands\CmdZybez.cs" />
-    <Compile Include="Core\DataBase.cs" />
+    <Compile Include="Core\Database.cs" />
     <Compile Include="Core\Math\Math2.cs" />
     <Compile Include="Core\Math\MathParser.cs" />
     <Compile Include="Core\OrderedDictionary.cs" />
