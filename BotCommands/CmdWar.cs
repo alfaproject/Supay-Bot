@@ -14,7 +14,7 @@ namespace BigSister {
         return;
       }
 
-      XmlProfile _config = new XmlProfile("Data\\War.xml");
+      XmlProfile _config = new XmlProfile("Data/War.xml");
       _config.RootName = bc.Channel.Substring(1);
 
       _config.SetValue("Setup", "Skill", skill);
@@ -50,7 +50,7 @@ namespace BigSister {
       if (!bc.From.IsAdmin)
         return;
 
-      XmlProfile _config = new XmlProfile(@"Data\War.xml");
+      XmlProfile _config = new XmlProfile("Data/War.xml");
       _config.RootName = bc.Channel.Substring(1);
 
       if (!_config.HasSection("Setup"))
@@ -80,8 +80,8 @@ namespace BigSister {
 
       bc.SendReply("\\b{0}\\b war ended on \\u{1}\\u for these players.".FormatWith(skill, DateTime.Now));
 
-      if (System.IO.File.Exists(@"Data\War.xml"))
-        System.IO.File.Delete(@"Data\War.xml");
+      if (System.IO.File.Exists("Data/War.xml"))
+        System.IO.File.Delete("Data/War.xml");
     }
 
     public static void Add(CommandContext bc) {
@@ -93,7 +93,7 @@ namespace BigSister {
         return;
       }
 
-      XmlProfile _config = new XmlProfile("Data\\War.xml");
+      XmlProfile _config = new XmlProfile("Data/War.xml");
       _config.RootName = bc.Channel.Substring(1);
 
       string[] rsns = bc.MessageTokens.Join(1).Split(new char[] { ',', ';', '+' });
@@ -131,7 +131,7 @@ namespace BigSister {
 
       string rsn = bc.MessageTokens.Join(1).ToRsn();
 
-      XmlProfile _config = new XmlProfile("Data\\War.xml");
+      XmlProfile _config = new XmlProfile("Data/War.xml");
       _config.RootName = bc.Channel.Substring(1);
 
       if (_config.HasSection(rsn)) {
@@ -148,7 +148,7 @@ namespace BigSister {
       int rank = 1;
 
       // Get the war configuration file
-      XmlProfile _config = new XmlProfile("Data\\War.xml");
+      XmlProfile _config = new XmlProfile("Data/War.xml");
       _config.RootName = bc.Channel.Substring(1);
 
       if (!_config.HasSection("Setup"))
@@ -234,7 +234,7 @@ namespace BigSister {
         return;
 
       // Get the war configuration file
-      XmlProfile _config = new XmlProfile("Data\\War.xml");
+      XmlProfile _config = new XmlProfile("Data/War.xml");
       _config.RootName = bc.Channel.Substring(1);
       string skill = _config.GetValue("Setup", "Skill", "Overall");
 

@@ -14,7 +14,7 @@ namespace BigSister {
     }
 
     private Database() {
-      _con = new SQLiteConnection(@"Data Source=Data\BigSister.db");
+      _con = new SQLiteConnection(@"Data Source=Data/BigSister.db");
       _con.Open();
     }
 

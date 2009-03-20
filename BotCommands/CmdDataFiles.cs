@@ -26,7 +26,7 @@ namespace BigSister {
         lon2 = int.Parse(M.Groups[5].Value, CultureInfo.InvariantCulture);
         lon = M.Groups[6].Value[0];
 
-        StreamReader clueFile = new StreamReader(@"Data\Clues.txt");
+        StreamReader clueFile = new StreamReader("Data/Clues.txt");
         string clueLine;
         while ((clueLine = clueFile.ReadLine()) != null) {
           if (!clueLine.StartsWith("Coords", StringComparison.Ordinal))
@@ -58,7 +58,7 @@ namespace BigSister {
 
       string query = bc.MessageTokens.Join(1);
 
-      StreamReader clueFile = new StreamReader(@"Data\Clues.txt");
+      StreamReader clueFile = new StreamReader("Data/Clues.txt");
       string clueLine;
       while ((clueLine = clueFile.ReadLine()) != null) {
         if (!clueLine.StartsWith("Riddle", StringComparison.Ordinal))
@@ -82,7 +82,7 @@ namespace BigSister {
 
       string query = bc.MessageTokens.Join(1);
 
-      StreamReader clueFile = new StreamReader(@"Data\Clues.txt");
+      StreamReader clueFile = new StreamReader("Data/Clues.txt");
       string clueLine;
       while ((clueLine = clueFile.ReadLine()) != null) {
         if (!clueLine.StartsWith("Anagram", StringComparison.Ordinal))
@@ -106,7 +106,7 @@ namespace BigSister {
 
       string query = bc.MessageTokens.Join(1);
 
-      StreamReader clueFile = new StreamReader(@"Data\Clues.txt");
+      StreamReader clueFile = new StreamReader("Data/Clues.txt");
       string clueLine;
       while ((clueLine = clueFile.ReadLine()) != null) {
         if (!clueLine.StartsWith("Challenge", StringComparison.Ordinal))
@@ -130,7 +130,7 @@ namespace BigSister {
 
       string query = bc.MessageTokens.Join(1);
 
-      StreamReader clueFile = new StreamReader(@"Data\Clues.txt");
+      StreamReader clueFile = new StreamReader("Data/Clues.txt");
       string clueLine;
       while ((clueLine = clueFile.ReadLine()) != null) {
         if (!clueLine.StartsWith("NPC", StringComparison.Ordinal))
@@ -154,7 +154,7 @@ namespace BigSister {
 
       string query = bc.MessageTokens.Join(1);
 
-      StreamReader clueFile = new StreamReader(@"Data\Clues.txt");
+      StreamReader clueFile = new StreamReader("Data/Clues.txt");
       string clueLine;
       while ((clueLine = clueFile.ReadLine()) != null) {
         if (!clueLine.StartsWith("Search", StringComparison.Ordinal))
@@ -178,7 +178,7 @@ namespace BigSister {
 
       string query = bc.MessageTokens.Join(1);
 
-      StreamReader clueFile = new StreamReader(@"Data\Clues.txt");
+      StreamReader clueFile = new StreamReader("Data/Clues.txt");
       string clueLine;
       while ((clueLine = clueFile.ReadLine()) != null) {
         if (!clueLine.StartsWith("Uri", StringComparison.Ordinal))
@@ -202,7 +202,7 @@ namespace BigSister {
 
       string search_terms = bc.MessageTokens.Join(1);
 
-      StreamReader fairy_file = new StreamReader("Data\\Fairy.txt");
+      StreamReader fairy_file = new StreamReader("Data/Fairy.txt");
       string fairy_line;
       int results = 0;
       while (results < 2 && (fairy_line = fairy_file.ReadLine()) != null) {
@@ -261,7 +261,7 @@ namespace BigSister {
       string skill = "Quest";
       Skill.TryParse(bc.MessageTokens[1], ref skill);
 
-      StreamReader cape_file = new StreamReader("Data\\Capes.txt");
+      StreamReader cape_file = new StreamReader("Data/Capes.txt");
       string cape_line;
       while ((cape_line = cape_file.ReadLine()) != null) {
         if (cape_line.StartsWith(skill, StringComparison.Ordinal)) {
@@ -317,7 +317,7 @@ namespace BigSister {
     }
 
     public static void Reqs(CommandContext bc) {
-      StreamReader reqs_file = new StreamReader("Data\\Reqs.txt");
+      StreamReader reqs_file = new StreamReader("Data/Reqs.txt");
       string reqs_line;
       while ((reqs_line = reqs_file.ReadLine()) != null)
         if (reqs_line.ContainsI(bc.Channel)) {

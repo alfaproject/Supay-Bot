@@ -151,7 +151,7 @@ namespace BigSister {
       btnConnect.Enabled = false;
 
       // Create a new client to the given address with the given nick
-      XmlProfile config = new XmlProfile("Data\\BigSister.xml");
+      XmlProfile config = new XmlProfile("Data/BigSister.xml");
       config.RootName = "BigSister";
       string address = config.GetValue("Connection", "Address", "irc.swiftirc.net");
       string nick = config.GetValue("Connection", "Nick", "aLfPet");
@@ -195,7 +195,7 @@ namespace BigSister {
     }
 
     void Irc_Ready(object sender, EventArgs e) {
-      StreamReader PerformFile = new StreamReader("Data\\Perform.txt");
+      StreamReader PerformFile = new StreamReader("Data/Perform.txt");
       while (!PerformFile.EndOfStream)
         _irc.Connection.Write(PerformFile.ReadLine());
       PerformFile.Close();

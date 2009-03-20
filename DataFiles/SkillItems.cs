@@ -7,7 +7,7 @@ namespace BigSister {
     public SkillItems(string skill)
       : base() {
 
-      StreamReader dataFile = new StreamReader(@"Data\Items.txt");
+      StreamReader dataFile = new StreamReader("Data/Items.txt");
       string dataLine;
       while ((dataLine = dataFile.ReadLine()) != null) {
         string[] tokens = dataLine.Split('\t');
@@ -37,7 +37,7 @@ namespace BigSister {
     public SkillItems()
       : base() {
 
-      StreamReader dataFile = new StreamReader(@"Data\Items.txt");
+      StreamReader dataFile = new StreamReader("Data/Items.txt");
       string dataLine;
       while ((dataLine = dataFile.ReadLine()) != null) {
         string[] tokens = dataLine.Split('\t');
