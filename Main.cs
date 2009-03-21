@@ -15,11 +15,9 @@ namespace BigSister {
 
     private Client _irc;
 
-    System.Windows.Forms.Timer _timerMain;
-
-    private const int UPDATE_HOUR = 6;
-    private const int UPDATE_MINUTE = 0;
-    System.Threading.Timer _timerDaily;
+    // timers
+    private System.Windows.Forms.Timer _timerMain;
+    private System.Threading.Timer _timerDaily;
 
     private delegate void ExecuteBotCommand(CommandContext bc);
 
@@ -32,21 +30,22 @@ namespace BigSister {
       Trace.Listeners.Add(defaultListener);
       defaultListener.LogFileName = Path.Combine(Application.StartupPath, "Log.txt");
 
-      TimeSpan nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, UPDATE_HOUR, UPDATE_MINUTE, 0).Subtract(DateTime.UtcNow);
+      // set up daily timer
+      TimeSpan updateTime = Properties.Settings.Default.DailyUpdateTime;
+      TimeSpan nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, updateTime.Hours, updateTime.Minutes, updateTime.Seconds).Subtract(DateTime.UtcNow);
       if (nextMorning.Ticks < 0) {
         nextMorning += TimeSpan.FromDays(1.0);
+        
+        // update all missing players
+        ThreadPool.QueueUserWorkItem(_updatePlayers);
       }
       _timerDaily = new System.Threading.Timer(_timerDaily_Elapsed, null, nextMorning, TimeSpan.FromDays(1.0));
 
+      // set up clock timer
       _timerMain = new System.Windows.Forms.Timer();
       _timerMain.Tick += new EventHandler(_timerMain_Tick);
       _timerMain.Interval = 1000;
       _timerMain.Start();
-
-      // update all missing players
-      if (DateTime.UtcNow.Hour >= UPDATE_HOUR && DateTime.UtcNow.Minute >= UPDATE_MINUTE) {
-        ThreadPool.QueueUserWorkItem(_updatePlayers);
-      }
     }
 
     private void _updatePlayers(object stateInfo) {
@@ -113,7 +112,8 @@ namespace BigSister {
       lblUtcTimer.Text = "UTC: {0:T}".FormatWith(DateTime.UtcNow);
 
       // update time to next morning update
-      TimeSpan nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, UPDATE_HOUR, UPDATE_MINUTE, 0).Subtract(DateTime.UtcNow);
+      TimeSpan updateTime = Properties.Settings.Default.DailyUpdateTime;
+      TimeSpan nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, updateTime.Hours, updateTime.Minutes, updateTime.Seconds).Subtract(DateTime.UtcNow);
       if (nextMorning.Ticks < 0) {
         nextMorning += TimeSpan.FromDays(1.0);
       }
@@ -180,8 +180,12 @@ namespace BigSister {
     }
 
     private void Main_FormClosing(object sender, FormClosingEventArgs e) {
+      // Quit IRC.
       if (_irc.Connection.Status == BigSister.Irc.Network.ConnectionStatus.Connected)
         _irc.SendQuit("Copyright (c) _aLfa_ 2007-2009");
+
+      // Persist application settings.
+      Properties.Settings.Default.Save();
     }
 
     private void btnExit_Click(object sender, EventArgs e) {

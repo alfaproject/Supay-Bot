@@ -154,9 +154,15 @@ namespace BigSister.Irc {
 
     public bool IsAdmin {
       get {
-        return (_nick.ToUpperInvariant() == "_ALFA_" ||
-                _nick.ToUpperInvariant() == "ALLAR" ||
-                _nick.ToUpperInvariant() == "BULLDOZAH");
+        if (_nick.EqualsI("_aLfa_")) {
+          return true;
+        }
+        foreach (string admin in Properties.Settings.Default.Administrators.Split(';')) {
+          if (_nick.EqualsI(admin)) {
+            return true;
+          }
+        }
+        return false;
       }
     }
 
