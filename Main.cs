@@ -206,7 +206,7 @@ namespace BigSister {
       
       // Join the channels in the channel list.
       foreach (string channel in Properties.Settings.Default.Channels.Split(';')) {
-        _irc.SendJoin(channel);
+        _irc.Connection.Write("JOIN " + channel);
       }
     }
 
