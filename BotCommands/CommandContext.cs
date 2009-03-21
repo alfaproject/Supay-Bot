@@ -25,7 +25,11 @@ namespace BigSister {
         _replyNotice = false;
       }
 
-      this.Message = message;
+      if (message[0] == '!' || message[0] == '.' || message[0] == '@') {
+        this.Message = message.Substring(1);
+      } else {
+        this.Message = message;
+      }
     }
 
     public UserCollection Users {

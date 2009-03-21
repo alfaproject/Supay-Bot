@@ -241,7 +241,7 @@ namespace BigSister {
           e.Message.Text = "." + e.Message.Text;
 
         if (e.Message.Text[0] == '!' || e.Message.Text[0] == '.' || e.Message.Text[0] == '@') {
-          CommandContext bc = new CommandContext(_irc, _irc.Peers, e.Message.Sender, _irc.Channels.Find(e.Message.Targets[0]), e.Message.Text.Substring(1));
+          CommandContext bc = new CommandContext(_irc, _irc.Peers, e.Message.Sender, _irc.Channels.Find(e.Message.Targets[0]), e.Message.Text);
 
           switch (bc.MessageTokens[0].ToUpperInvariant()) {
             // Utility
