@@ -152,11 +152,9 @@ namespace BigSister {
     private void btnConnect_Click(object sender, EventArgs e) {
       btnConnect.Enabled = false;
 
-      // Create a new client to the given address with the given nick
-      XmlProfile config = new XmlProfile("Data/BigSister.xml");
-      config.RootName = "BigSister";
-      string address = config.GetValue("Connection", "Address", "irc.swiftirc.net");
-      string nick = config.GetValue("Connection", "Nick", "aLfPet");
+      // Create a new client to the given address with the given nick.
+      string address = Properties.Settings.Default.ServerAddress;
+      string nick = Properties.Settings.Default.Nick;
       _irc = new Client(address, nick, "Supreme Skillers IRC bot");
 
       _irc.DataSent += new EventHandler<BigSister.Irc.Network.ConnectionDataEventArgs>(Irc_DataSent);
@@ -201,10 +199,15 @@ namespace BigSister {
     }
 
     void Irc_Ready(object sender, EventArgs e) {
-      StreamReader PerformFile = new StreamReader("Data/Perform.txt");
-      while (!PerformFile.EndOfStream)
-        _irc.Connection.Write(PerformFile.ReadLine());
-      PerformFile.Close();
+      // Perform the commands in the perform list.
+      foreach (string command in Properties.Settings.Default.Perform.Split(';')) {
+        _irc.Connection.Write(command);
+      }
+      
+      // Join the channels in the channel list.
+      foreach (string channel in Properties.Settings.Default.Channels.Split(';')) {
+        _irc.SendJoin(channel);
+      }
     }
 
     void IrcChat(object sender, IrcMessageEventArgs<TextMessage> e) {
@@ -637,9 +640,9 @@ namespace BigSister {
     }
 
     /// <summary>
-    /// Clean up any resources being used.
-    /// </summary>
-    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    ///   Clean up any resources being used. </summary>
+    /// <param name="disposing">
+    ///   True if managed resources should be disposed; otherwise, false. </param>
     protected override void Dispose(bool disposing) {
       if (disposing) {
         if (components != null)
