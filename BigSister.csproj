@@ -101,8 +101,6 @@
     <Compile Include="Core\Math\Math2.cs" />
     <Compile Include="Core\Math\MathParser.cs" />
     <Compile Include="Core\OrderedDictionary.cs" />
-    <Compile Include="Core\Profile\XmlProfile.cs" />
-    <Compile Include="Core\Profile\XmlBuffer.cs" />
     <Compile Include="Core\ThreadUtil.cs" />
     <Compile Include="DataFiles\ASkillItem.cs" />
     <Compile Include="DataFiles\FarmingItem.cs" />
