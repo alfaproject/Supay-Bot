@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -443,12 +444,10 @@ namespace BigSister {
         }
 
         // ***** start war *****
-        XmlProfile _config = new XmlProfile("Data/War.xml");
-        _config.RootName = bc.Channel.Substring(1);
-
-        if (_config.GetValue("Setup", "Skill", "Overall") == skill.Name && _config.HasEntry(rsn, "StartExp")) {
-          Skill oldskill = new Skill(_config.GetValue("Setup", "Skill", "Overall"), _config.GetValue(rsn, "StartRank", -1), _config.GetValue(rsn, "StartLevel", 1), _config.GetValue(rsn, "StartExp", 0));
-          perf = GetPerformance("War", oldskill, skill);
+        SQLiteDataReader warPlayer = Database.ExecuteReader("SELECT startrank, startlevel, startexp FROM warplayers WHERE channel='" + bc.Channel + "' AND rsn='" + rsn + "';");
+        if (warPlayer.Read() && Database.GetString("SELECT skill FROM wars WHERE channel='" + bc.Channel + "';", null) == skill.Name) {
+          Skill oldSkill = new Skill(skill.Name, warPlayer.GetInt32(0), warPlayer.GetInt32(1), warPlayer.GetInt32(2));
+          perf = GetPerformance("War", oldSkill, skill);
           if (perf != null)
             reply += perf;
         }
