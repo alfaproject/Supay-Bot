@@ -7,26 +7,25 @@ namespace BigSister {
     private Client _irc;
     private UserCollection _users;
 
-    private User _from;
     private Channel _channel;
     private string _message;
-    private string[] _messagetokens;
-    private bool _replynotice;
+    private string[] _messageTokens;
+    private bool _replyNotice;
 
     public CommandContext(Client irc, UserCollection users, User from, Channel channel, string message) {
       _irc = irc;
       _users = users;
 
-      _from = from;
+      this.From = from;
       _channel = channel;
 
       if (message[0] == '!' || message[0] == '.') {
-        _replynotice = true;
+        _replyNotice = true;
       } else {
-        _replynotice = false;
+        _replyNotice = false;
       }
 
-      this.Message = message.Substring(1);
+      this.Message = message;
     }
 
     public UserCollection Users {
@@ -42,34 +41,36 @@ namespace BigSister {
       set {
         if (_message != value) {
           _message = value;
-          _messagetokens = _message.Split(' ');
+          _messageTokens = _message.Split(' ');
         }
       }
     }
 
     public string[] MessageTokens {
       get {
-        return _messagetokens;
+        return _messageTokens;
       }
     }
 
     public User From {
-      get {
-        return _from;
-      }
+      get;
+      private set;
     }
 
     public bool ReplyNotice {
       get {
-        return _replynotice;
+        return _replyNotice;
       }
       set {
-        _replynotice = value;
+        _replyNotice = value;
       }
     }
 
     public string Channel {
       get {
+        if (_channel == null) {
+          return null;
+        }
         return _channel.Name;
       }
     }
@@ -82,13 +83,14 @@ namespace BigSister {
     }
 
     public void SendReply(string message) {
-      if (_replynotice) {
-        _irc.Send(new NoticeMessage(message, _from.Nick));
+      if (_replyNotice) {
+        _irc.Send(new NoticeMessage(message, this.From.Nick));
       } else {
-        if (_channel == null)
-          _irc.SendChat(message, _from.Nick);
-        else
+        if (_channel == null) {
+          _irc.SendChat(message, this.From.Nick);
+        } else {
           _irc.SendChat(message, _channel.Name);
+        }
       }
     }
 

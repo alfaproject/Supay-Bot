@@ -211,21 +211,37 @@ namespace BigSister {
     }
 
     void IrcChat(object sender, IrcMessageEventArgs<TextMessage> e) {
-      if (string.Compare(e.Message.Targets[0], _irc.User.Nick, StringComparison.OrdinalIgnoreCase) == 0) {
+      if (e.Message.Targets[0].EqualsI(_irc.User.Nick)) {
         // private message
-        if (e.Message.Text.StartsWithI("raw"))
-          _irc.Connection.Write(e.Message.Text.Substring(4));
-        else if (e.Message.Text.StartsWithI("listchannel"))
-          foreach (Channel c in _irc.Channels)
-            foreach (User u in c.Users)
-              _irc.SendChat(c.Name + " » " + u.ToString(), e.Message.Sender.Nick);
+        if (!e.Message.Sender.IsAdmin) {
+          return;
+        }
+
+        CommandContext bc = new CommandContext(_irc, _irc.Peers, e.Message.Sender, null, e.Message.Text);
+        switch (bc.MessageTokens[0].ToUpperInvariant()) {
+          case "RAW":
+            _irc.Connection.Write(bc.MessageTokens.Join(1));
+            break;
+          case "SQL":
+            try {
+              Database.ExecuteNonQuery(bc.MessageTokens.Join(1));
+            } catch (Exception ex) {
+              bc.SendReply(ex.Message.Replace("\r\n", " » "));
+            }
+            break;
+          case "LISTCHANNELS":
+            foreach (Channel c in _irc.Channels)
+              foreach (User u in c.Users)
+                _irc.SendChat(c.Name + " » " + u.ToString(), e.Message.Sender.Nick);
+            break;
+        }
       } else {
         // channel message
         if (e.Message.Text[0] == '%')
           e.Message.Text = "." + e.Message.Text;
 
         if (e.Message.Text[0] == '!' || e.Message.Text[0] == '.' || e.Message.Text[0] == '@') {
-          CommandContext bc = new CommandContext(_irc, _irc.Peers, e.Message.Sender, _irc.Channels.Find(e.Message.Targets[0]), e.Message.Text);
+          CommandContext bc = new CommandContext(_irc, _irc.Peers, e.Message.Sender, _irc.Channels.Find(e.Message.Targets[0]), e.Message.Text.Substring(1));
 
           switch (bc.MessageTokens[0].ToUpperInvariant()) {
             // Utility
