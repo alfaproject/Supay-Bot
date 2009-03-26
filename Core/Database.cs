@@ -121,7 +121,7 @@ namespace BigSister {
     public static void SetStringParam(string table, string field, string condition, string param, string value) {
       string fieldValue = Database.GetString("SELECT `" + field + "` FROM `" + table + "` WHERE " + condition + " LIMIT 1;", string.Empty);
       if (fieldValue.ContainsI(param)) {
-        fieldValue = Regex.Replace(fieldValue, param + ":([^;]+)", param + ":" + value);
+        fieldValue = Regex.Replace(fieldValue, param + ":([^;]*)", param + ":" + value);
       } else {
         fieldValue += param + ":" + value + ";";
       }
