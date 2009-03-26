@@ -146,9 +146,9 @@ namespace BigSister {
       if (priceMatch.Success) {
         this.Name = priceMatch.Groups[1].Value;
         this.Examine = priceMatch.Groups[2].Value;
-        this.MinimumPrice = Util.ParseNumber(priceMatch.Groups[3].Value);
-        this.MarketPrice = Util.ParseNumber(priceMatch.Groups[4].Value);
-        this.MaximumPrice = Util.ParseNumber(priceMatch.Groups[5].Value);
+        this.MinimumPrice = priceMatch.Groups[3].Value.ToInt32();
+        this.MarketPrice = priceMatch.Groups[4].Value.ToInt32();
+        this.MaximumPrice = priceMatch.Groups[5].Value.ToInt32();
         this.Change7days = double.Parse(priceMatch.Groups[6].Value, CultureInfo.InvariantCulture);
         this.Change30days = double.Parse(priceMatch.Groups[7].Value, CultureInfo.InvariantCulture);
       }

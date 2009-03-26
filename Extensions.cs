@@ -147,5 +147,21 @@ namespace BigSister {
       return self.ToString(format, CultureInfo.InvariantCulture);
     }
 
+    /// <summary>
+    ///   Converts the string representation of a number to it's 32-bit signed integer equivalent. </summary>
+    public static int ToInt32(this string self) {
+      string number = self.TrimEnd();
+      switch (number[number.Length - 1]) {
+        case 'm':
+        case 'M':
+          return (int)(1000000.0 * double.Parse(number.Substring(0, number.Length - 1), NumberStyles.AllowLeadingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture));
+        case 'k':
+        case 'K':
+          return (int)(1000.0 * double.Parse(number.Substring(0, number.Length - 1), NumberStyles.AllowLeadingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture));
+        default:
+          return int.Parse(number, NumberStyles.AllowLeadingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
+      }
+    }  
+
   } //class Extensions
 } //namespace BigSister

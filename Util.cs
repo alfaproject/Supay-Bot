@@ -24,16 +24,5 @@ namespace BigSister {
       return false;
     }
 
-    public static int ParseNumber(string number) {
-      switch (number.Substring(number.Length - 1).ToUpperInvariant()) {
-        case "M":
-          return (int)(1000000 * double.Parse(number.Substring(0, number.Length - 1), NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture));
-        case "K":
-          return (int)(1000 * double.Parse(number.Substring(0, number.Length - 1), NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture));
-        default:
-          return int.Parse(number, NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
-      }
-    }
-
   } //class Util
 } //namespace BigSister
