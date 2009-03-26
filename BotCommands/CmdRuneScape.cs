@@ -241,12 +241,18 @@ namespace BigSister {
     }
 
     public static void SkillInfo(CommandContext bc) {
+      // get skill name
+      string skillName = Skill.Parse(bc.MessageTokens[0]);
+
       // get goal
       string goal = "nl";
       Match M = Regex.Match(bc.Message, " (#|goal=)([\\dnlr]+)( |$)");
       if (M.Success) {
         goal = M.Groups[2].Value;
         bc.Message = Regex.Replace(bc.Message, " (#|goal=)[\\dnlr]+$?", string.Empty);
+        Database.SetStringParam("users", "goals", "fingerprint='" + bc.From.FingerPrint + "'", skillName, goal);
+      } else {
+        goal = Database.GetStringParam("users", "goals", "fingerprint='" + bc.From.FingerPrint + "'", skillName, "nl");
       }
 
       // get item
@@ -266,7 +272,7 @@ namespace BigSister {
 
       Player p = new Player(rsn);
       if (p.Ranked) {
-        Skill skill = p.Skills[BigSister.Skill.Parse(bc.MessageTokens[0])];
+        Skill skill = p.Skills[skillName];
 
         // parse goal
         int target_level = 0;
