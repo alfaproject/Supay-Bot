@@ -245,22 +245,27 @@ namespace BigSister {
       string skillName = Skill.Parse(bc.MessageTokens[0]);
 
       // get goal
-      string goal = "nl";
-      Match M = Regex.Match(bc.Message, " (#|goal=)([\\dnlr]+)( |$)");
+      string goal;
+      Match M = Regex.Match(bc.Message, @"(?:#|goal=)(\d+|nl|nr|r\d+)");
       if (M.Success) {
-        goal = M.Groups[2].Value;
-        bc.Message = Regex.Replace(bc.Message, " (#|goal=)[\\dnlr]+$?", string.Empty);
+        goal = M.Groups[1].Value;
+        bc.Message = Regex.Replace(bc.Message, @"(?:#|goal=)" + goal, string.Empty);
+        bc.Message = Regex.Replace(bc.Message, @"\s+", " ").TrimEnd();
         Database.SetStringParam("users", "goals", "fingerprint='" + bc.From.FingerPrint + "'", skillName, goal);
       } else {
         goal = Database.GetStringParam("users", "goals", "fingerprint='" + bc.From.FingerPrint + "'", skillName, "nl");
       }
 
       // get item
-      string item = null;
-      M = Regex.Match(bc.Message, " (@|§)(.+)");
+      string item;
+      M = Regex.Match(bc.Message, "(?:@|§)(.+)");
       if (M.Success) {
-        item = M.Groups[2].Value;
-        bc.Message = Regex.Replace(bc.Message, " (@|§).+", string.Empty);
+        item = M.Groups[1].Value;
+        bc.Message = Regex.Replace(bc.Message, "(?:@|§)" + item, string.Empty);
+        bc.Message = Regex.Replace(bc.Message, @"\s+", " ").TrimEnd();
+        Database.SetStringParam("users", "items", "fingerprint='" + bc.From.FingerPrint + "'", skillName, item);
+      } else {
+        item = Database.GetStringParam("users", "items", "fingerprint='" + bc.From.FingerPrint + "'", skillName, null);
       }
 
       // get rsn
