@@ -12,7 +12,7 @@ namespace BigSister {
 
       string search_term;
       double qty = 0;
-      if (bc.MessageTokens.Length > 2 && Util.TryCalc(bc.MessageTokens[1], out qty)) {
+      if (bc.MessageTokens.Length > 2 && MathParser.TryCalc(bc.MessageTokens[1], out qty)) {
         qty = Math.Round(qty, 1);
         search_term = bc.MessageTokens.Join(2);
       } else {

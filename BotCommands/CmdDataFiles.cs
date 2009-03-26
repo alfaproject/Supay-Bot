@@ -284,7 +284,7 @@ namespace BigSister {
       string query = bc.MessageTokens.Join(1);
 
       if (bc.MessageTokens.Length > 1) {
-        if (Util.TryCalc(bc.MessageTokens[1], out qty)) {
+        if (MathParser.TryCalc(bc.MessageTokens[1], out qty)) {
           if (bc.MessageTokens.Length == 2) {
             // !Exp <xp>
             qty = Math.Floor(qty);

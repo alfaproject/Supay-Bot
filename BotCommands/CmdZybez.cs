@@ -74,7 +74,7 @@ namespace BigSister {
 
           double qty;
           string inputItem;
-          if (itemLine.Length > 1 && Util.TryCalc(itemLine[0], out qty)) {
+          if (itemLine.Length > 1 && MathParser.TryCalc(itemLine[0], out qty)) {
             // <qty> <item>
             qty = Math.Max(1, Math.Floor(qty));
             inputItem = itemLine.Join(1);
@@ -101,7 +101,7 @@ namespace BigSister {
         // SINGLE ITEM ALCHEMY
         double qty;
         string input_item;
-        if (bc.MessageTokens.Length > 2 && Util.TryCalc(bc.MessageTokens[1], out qty)) {
+        if (bc.MessageTokens.Length > 2 && MathParser.TryCalc(bc.MessageTokens[1], out qty)) {
           // !alch <qty> <item>
           qty = Math.Max(1, Math.Floor(qty));
           input_item = bc.MessageTokens.Join(2);

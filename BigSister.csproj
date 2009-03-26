@@ -438,7 +438,6 @@
     <Compile Include="RuneScape\Skills.cs" />
     <Compile Include="RuneScape\World.cs" />
     <Compile Include="RuneScape\Worlds.cs" />
-    <Compile Include="Util.cs" />
     <Compile Include="FanSites\RuneScript\RScriptLookup.cs" />
   </ItemGroup>
   <ItemGroup>
