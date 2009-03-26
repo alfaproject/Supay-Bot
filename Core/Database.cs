@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.SQLite;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace BigSister {
   public sealed class Database : IDisposable {
@@ -52,7 +53,7 @@ namespace BigSister {
     public static string GetString(string sql, string defaultValue) {
       SQLiteCommand com = new SQLiteCommand(sql, Database.Instance.Connection);
       object result = com.ExecuteScalar();
-      if (result == null)
+      if (result == null || result is System.DBNull)
         return defaultValue;
       else
         return (string)result;
@@ -108,6 +109,24 @@ namespace BigSister {
       return Database.GetValue(table, field, null);
     }
 
+    public static string GetStringParam(string table, string field, string condition, string param, string defaultValue) {
+      string fieldValue = Database.GetString("SELECT `" + field + "` FROM `" + table + "` WHERE " + condition + " LIMIT 1;", string.Empty);
+      if (fieldValue.ContainsI(param)) {
+        return Regex.Match(fieldValue, param + ":([^;]+)").Groups[1].Value;
+      } else {
+        return defaultValue;
+      }
+    }
+
+    public static void SetStringParam(string table, string field, string condition, string param, string value) {
+      string fieldValue = Database.GetString("SELECT `" + field + "` FROM `" + table + "` WHERE " + condition + " LIMIT 1;", string.Empty);
+      if (fieldValue.ContainsI(param)) {
+        fieldValue = Regex.Replace(fieldValue, param + ":([^;]+)", param + ":" + value);
+      } else {
+        fieldValue += param + ":" + value + ";";
+      }
+      Database.Update(table, condition, field, fieldValue);
+    }
 
     #region IDisposable Members
 
