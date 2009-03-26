@@ -209,25 +209,25 @@ namespace BigSister {
 
       // 1st line: overall / combat
       string ReplyMsg = "\\b{0}\\b \\u{1}\\u skills:".FormatWith(rsn, interval.ToLowerInvariant());
-      Skill OverallDif = PlayerNew.Skills["Overall"] - PlayerOld.Skills["Overall"];
+      Skill OverallDif = PlayerNew.Skills[Skill.OVER] - PlayerOld.Skills[Skill.OVER];
       if (OverallDif.Exp <= 0) {
         bc.SendReply("No performance for \\b{0}\\b within this period.".FormatWith(rsn));
       } else {
-        Skill CombatDif = PlayerNew.Skills["Combat"] - PlayerOld.Skills["Combat"];
+        Skill CombatDif = PlayerNew.Skills[Skill.COMB] - PlayerOld.Skills[Skill.COMB];
 
         string DifLevel = string.Empty;
         if (OverallDif.Level > 0)
           DifLevel = " [\\b+{0}\\b]".FormatWith(OverallDif.Level);
         if (days == 1) {
-          ReplyMsg += " \\c07Overall\\c lvl {0} \\c03+{1}\\c xp (Avg. hourly exp.: \\c07{2}\\c)".FormatWith(PlayerNew.Skills["Overall"].Level + DifLevel, OverallDif.Exp.ToShortString(1), ((double)OverallDif.Exp / 24.0).ToShortString(0));
+          ReplyMsg += " \\c07Overall\\c lvl {0} \\c03+{1}\\c xp (Avg. hourly exp.: \\c07{2}\\c)".FormatWith(PlayerNew.Skills[Skill.OVER].Level + DifLevel, OverallDif.Exp.ToShortString(1), ((double)OverallDif.Exp / 24.0).ToShortString(0));
         } else {
-          ReplyMsg += " \\c07Overall\\c lvl {0} \\c03+{1}\\c xp (Avg. daily exp.: \\c07{2}\\c)".FormatWith(PlayerNew.Skills["Overall"].Level + DifLevel, OverallDif.Exp.ToShortString(1), ((double)OverallDif.Exp / (double)days).ToShortString(0));
+          ReplyMsg += " \\c07Overall\\c lvl {0} \\c03+{1}\\c xp (Avg. daily exp.: \\c07{2}\\c)".FormatWith(PlayerNew.Skills[Skill.OVER].Level + DifLevel, OverallDif.Exp.ToShortString(1), ((double)OverallDif.Exp / (double)days).ToShortString(0));
         }
         DifLevel = string.Empty;
         if (CombatDif.Level > 0) {
           DifLevel = " [\\b+{0}\\b]".FormatWith(CombatDif.Level);
         }
-        ReplyMsg += "; \\c07Combat\\c lvl {0} \\c03+{1}\\c xp (\\c07{2}%\\c)".FormatWith(PlayerNew.Skills["Combat"].Level + DifLevel, CombatDif.Exp.ToShortString(1), ((double)CombatDif.Exp / (double)OverallDif.Exp * 100.0).ToShortString(1));
+        ReplyMsg += "; \\c07Combat\\c lvl {0} \\c03+{1}\\c xp (\\c07{2}%\\c)".FormatWith(PlayerNew.Skills[Skill.COMB].Level + DifLevel, CombatDif.Exp.ToShortString(1), ((double)CombatDif.Exp / (double)OverallDif.Exp * 100.0).ToShortString(1));
 
         ReplyMsg += "; Interval: \\c07{0}\\c -> \\c07{1}\\c".FormatWith(firstday.ToStringI("yyyy/MMM/dd"), lastday == DateTime.MaxValue ? "Now" : lastday.ToStringI("yyyy/MMM/dd"));
         bc.SendReply(ReplyMsg);
@@ -235,7 +235,7 @@ namespace BigSister {
         // 2nd line: skills list
         List<Skill> SkillsDif = new List<Skill>();
         foreach (Skill SkillNow in PlayerNew.Skills.Values) {
-          if (SkillNow.Name != "Overall" && SkillNow.Name != "Combat") {
+          if (SkillNow.Name != Skill.OVER && SkillNow.Name != Skill.COMB) {
             SkillsDif.Add(SkillNow - PlayerOld.Skills[SkillNow.Name]);
           }
         }

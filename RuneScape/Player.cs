@@ -128,7 +128,7 @@ namespace BigSister {
       _combatclass = RSUtil.CombatClass(_skills, false);
       int CmbLevel = RSUtil.CalculateCombat(_skills, false, false);
       int CmbExp = _skills[Skill.ATTA].Exp + _skills[Skill.STRE].Exp + _skills[Skill.DEFE].Exp + _skills[Skill.HITP].Exp + _skills[Skill.RANG].Exp + _skills[Skill.PRAY].Exp + _skills[Skill.MAGI].Exp + _skills[Skill.SUMM].Exp;
-      _skills.Add("Combat", new Skill("Combat", -1, CmbLevel, CmbExp));
+      _skills.Add(Skill.COMB, new Skill(Skill.COMB, -1, CmbLevel, CmbExp));
     }
 
     public void SaveToDB(string s_date) {

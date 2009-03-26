@@ -345,7 +345,7 @@ namespace BigSister {
     }
 
     public static void Stats(CommandContext bc) {
-      string skill = "Overall";
+      string skill = Skill.OVER;
       if (bc.MessageTokens.Length > 1)
         Skill.TryParse(bc.MessageTokens[1], ref skill);
 

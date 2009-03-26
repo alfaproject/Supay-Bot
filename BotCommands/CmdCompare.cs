@@ -23,7 +23,7 @@ namespace BigSister {
           rsn2 = bc.NickToRSN(bc.MessageTokens.Join(3));
         } else {
           // !compare <player2>
-          skill1 = "Overall";
+          skill1 = Skill.OVER;
           rsn1 = bc.From.RSN;
           rsn2 = bc.NickToRSN(bc.MessageTokens[1]);
         }
@@ -38,18 +38,18 @@ namespace BigSister {
           rsn2 = bc.NickToRSN(bc.MessageTokens.Join(3));
         } else {
           // !compare <player2>
-          skill1 = "Overall";
+          skill1 = Skill.OVER;
           rsn1 = bc.From.RSN;
           rsn2 = bc.NickToRSN(bc.MessageTokens[1]);
         }
       } else if (bc.MessageTokens.Length == 2) {
         // !compare <player2>
-        skill1 = "Overall";
+        skill1 = Skill.OVER;
         rsn1 = bc.From.RSN;
         rsn2 = bc.NickToRSN(bc.MessageTokens[1]);
       } else {
         // !compare <player1> <player2>
-        skill1 = "Overall";
+        skill1 = Skill.OVER;
         rsn1 = bc.NickToRSN(bc.MessageTokens[1]);
         rsn2 = bc.NickToRSN(bc.MessageTokens.Join(2));
       }

@@ -121,7 +121,7 @@ namespace BigSister {
         // add up SS rank if applicable
         Players ssplayers = new Players("SS");
         if (ssplayers.Contains(p.Name)) {
-          ssplayers.SortBySkill("Overall", false);
+          ssplayers.SortBySkill(Skill.OVER, false);
           reply += " (SS rank: \\c07{0}\\c)".FormatWith(ssplayers.IndexOf(rsn) + 1);
         }
 
@@ -325,10 +325,10 @@ namespace BigSister {
         // calculate % done
         int exp_to_go = 0;
         string percent_done;
-        if (skill.Name == "Overall") {
+        if (skill.Name == Skill.OVER) {
           int oa_exp = 0;
           foreach (Skill s in p.Skills.Values)
-            if (s.Name != "Overall" && s.Name != "Combat")
+            if (s.Name != Skill.OVER && s.Name != Skill.COMB)
               oa_exp += Math.Min(13034431, s.Exp);
           target_level = (p.Skills.Count - 2) * 99;
           int max_exp = 13034431 * (p.Skills.Count - 2);
@@ -359,22 +359,22 @@ namespace BigSister {
             int monster_hp;
 
             switch (skill.Name) {
-              case "Attack":
-              case "Defence":
-              case "Strength":
-              case "Ranged":
+              case Skill.ATTA:
+              case Skill.DEFE:
+              case Skill.STRE:
+              case Skill.RANG:
                 if (_GetMonster(item, out item_name, out monster_hp))
                   reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling((double)exp_to_go / (monster_hp * 4)), item_name);
                 else
                   reply += " (unknown monster)";
                 break;
-              case "Hitpoints":
+              case Skill.HITP:
                 if (_GetMonster(item, out item_name, out monster_hp))
                   reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling((double)exp_to_go / (monster_hp * (4 / 3))), item_name);
                 else
                   reply += " (unknown monster)";
                 break;
-              case "Slayer":
+              case Skill.SLAY:
                 if (_GetMonster(item, out item_name, out monster_hp))
                   reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling((double)exp_to_go / monster_hp), item_name);
                 else
@@ -580,7 +580,7 @@ namespace BigSister {
 
       int AvgSkill = p.Skills[0].Level / (p.Skills.Count - 2);
 
-      int expected_max_slayer_exp = (int)((p.Skills["Hitpoints"].Exp - 1154) * 3 / 4.0);
+      int expected_max_slayer_exp = (int)((p.Skills[Skill.HITP].Exp - 1154) * 3 / 4.0);
 
       int combatLevel, combatF2pLevel;
       string combatClass;
@@ -603,7 +603,7 @@ namespace BigSister {
       // Add up SS rank if applicable
       Players ssplayers = new Players("SS");
       if (ssplayers.Contains(rsn)) {
-        ssplayers.SortBySkill("Combat", false);
+        ssplayers.SortBySkill(Skill.COMB, false);
         reply += " | SS rank: \\c07{0}\\c".FormatWith(ssplayers.IndexOf(rsn) + 1);
       }
 
@@ -705,25 +705,25 @@ namespace BigSister {
 
         Player p_old = new Player(rsn, lastupdate);
         if (p_old.Ranked) {
-          perf = GetPerformance("Today", p_old.Skills["Combat"], p.Skills["Combat"]);
+          perf = GetPerformance("Today", p_old.Skills[Skill.COMB], p.Skills[Skill.COMB]);
           if (perf != null)
             reply += perf + " | ";
         }
         p_old = new Player(rsn, lastupdate.AddDays(-((int)lastupdate.DayOfWeek)));
         if (p_old.Ranked) {
-          perf = GetPerformance("Week", p_old.Skills["Combat"], p.Skills["Combat"]);
+          perf = GetPerformance("Week", p_old.Skills[Skill.COMB], p.Skills[Skill.COMB]);
           if (perf != null)
             reply += perf + " | ";
         }
         p_old = new Player(rsn, lastupdate.AddDays(1 - lastupdate.Day));
         if (p_old.Ranked) {
-          perf = GetPerformance("Month", p_old.Skills["Combat"], p.Skills["Combat"]);
+          perf = GetPerformance("Month", p_old.Skills[Skill.COMB], p.Skills[Skill.COMB]);
           if (perf != null)
             reply += perf + " | ";
         }
         p_old = new Player(rsn, lastupdate.AddDays(1 - lastupdate.DayOfYear));
         if (p_old.Ranked) {
-          perf = GetPerformance("Year", p_old.Skills["Combat"], p.Skills["Combat"]);
+          perf = GetPerformance("Year", p_old.Skills[Skill.COMB], p.Skills[Skill.COMB]);
           if (perf != null)
             reply += perf;
         }

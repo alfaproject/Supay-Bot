@@ -8,7 +8,7 @@ namespace BigSister {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void Graph(CommandContext bc) {
-      string skill = "Overall";
+      string skill = Skill.OVER;
       string rsn = bc.From.RSN;
 
       if (bc.MessageTokens.Length > 1) {
@@ -100,26 +100,26 @@ namespace BigSister {
 
       // 1st line: overall / combat
       string ReplyMsg = "\\b{0}\\b \\u{1}\\u skills:".FormatWith(rsn, intervalName);
-      Skill OverallDif = PlayerNew.Skills["Overall"] - PlayerOld.Skills["Overall"];
+      Skill OverallDif = PlayerNew.Skills[Skill.OVER] - PlayerOld.Skills[Skill.OVER];
       if (OverallDif.Exp <= 0) {
         bc.SendReply("No performance for \\b{0}\\b within this period.".FormatWith(rsn));
       } else {
-        Skill CombatDif = PlayerNew.Skills["Combat"] - PlayerOld.Skills["Combat"];
+        Skill CombatDif = PlayerNew.Skills[Skill.COMB] - PlayerOld.Skills[Skill.COMB];
 
         string DifLevel = string.Empty;
         if (OverallDif.Level > 0)
           DifLevel = " [\\b+{0}\\b]".FormatWith(OverallDif.Level);
-        ReplyMsg += " \\c07Overall\\c lvl {0} \\c03+{1}\\c xp (Avg. hourly exp.: \\c07{2}\\c)".FormatWith(PlayerNew.Skills["Overall"].Level + DifLevel, OverallDif.Exp.ToShortString(1), (OverallDif.Exp / (intervalTime / 3600.0)).ToShortString(0));
+        ReplyMsg += " \\c07Overall\\c lvl {0} \\c03+{1}\\c xp (Avg. hourly exp.: \\c07{2}\\c)".FormatWith(PlayerNew.Skills[Skill.OVER].Level + DifLevel, OverallDif.Exp.ToShortString(1), (OverallDif.Exp / (intervalTime / 3600.0)).ToShortString(0));
         DifLevel = string.Empty;
         if (CombatDif.Level > 0)
           DifLevel = " [\\b+{0}\\b]".FormatWith(CombatDif.Level);
-        ReplyMsg += "; \\c07Combat\\c lvl {0} \\c03+{1}\\c xp (\\c07{2}%\\c)".FormatWith(PlayerNew.Skills["Combat"].Level + DifLevel, CombatDif.Exp.ToShortString(1), ((double)CombatDif.Exp / (double)OverallDif.Exp * 100.0).ToShortString(1));
+        ReplyMsg += "; \\c07Combat\\c lvl {0} \\c03+{1}\\c xp (\\c07{2}%\\c)".FormatWith(PlayerNew.Skills[Skill.COMB].Level + DifLevel, CombatDif.Exp.ToShortString(1), ((double)CombatDif.Exp / (double)OverallDif.Exp * 100.0).ToShortString(1));
         bc.SendReply(ReplyMsg);
 
         // 2nd line: skills list
         List<Skill> SkillsDif = new List<Skill>();
         foreach (Skill SkillNow in PlayerNew.Skills.Values)
-          if (SkillNow.Name != "Overall" && SkillNow.Name != "Combat")
+          if (SkillNow.Name != Skill.OVER && SkillNow.Name != Skill.COMB)
             SkillsDif.Add(SkillNow - PlayerOld.Skills[SkillNow.Name]);
         SkillsDif.Sort();
 

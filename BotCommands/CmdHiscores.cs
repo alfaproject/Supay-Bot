@@ -23,7 +23,7 @@ namespace BigSister {
       if (bc.MessageTokens.Length == 1) {
         // !Top
         rank = 1;
-        skill = "Overall";
+        skill = Skill.OVER;
       } else if (Minigame.TryParse(bc.MessageTokens[1], ref minigame) || Skill.TryParse(bc.MessageTokens[1], ref skill)) {
         // !Top Skill/Minigame
         rank = 1;
@@ -45,11 +45,11 @@ namespace BigSister {
         }
       } else if (int.TryParse(bc.MessageTokens[1], out rank)) {
         // !Top Rank
-        skill = "Overall";
+        skill = Skill.OVER;
       } else {
         // !Top RSN
         rank = 1;
-        skill = "Overall";
+        skill = Skill.OVER;
         rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
         Player p = new Player(rsn);
         if (p.Ranked) {
@@ -110,7 +110,7 @@ namespace BigSister {
             // !rank <rank> <skill/minigame>
           } else {
             // !rank <rank>
-            skill = "Overall";
+            skill = Skill.OVER;
           }
         } else if (Skill.TryParse(bc.MessageTokens[1], ref skill) || Minigame.TryParse(bc.MessageTokens[1], ref minigame)) {
           if (bc.MessageTokens.Length > 2 && int.TryParse(bc.MessageTokens[2], out rank)) {

@@ -24,12 +24,12 @@ namespace BigSister {
       int f2pExp = p.Skills.F2pExp;
 
       // slayer
-      int hits_exp_gained = p.Skills["Hitpoints"].Exp - 1154;
+      int hits_exp_gained = p.Skills[Skill.HITP].Exp - 1154;
       int expected_max_slayer_exp = (int)(hits_exp_gained * 3.0 / 4.0);
 
       // pc
-      int expected_combat_xp = p.Skills["Hitpoints"].Exp + p.Skills["Hitpoints"].Exp * 12 / 4;
-      int current_combat_xp = p.Skills["Hitpoints"].Exp + p.Skills["Attack"].Exp + p.Skills["Strength"].Exp + p.Skills["Defence"].Exp + p.Skills["Ranged"].Exp;
+      int expected_combat_xp = p.Skills[Skill.HITP].Exp + p.Skills[Skill.HITP].Exp * 12 / 4;
+      int current_combat_xp = p.Skills[Skill.HITP].Exp + p.Skills[Skill.ATTA].Exp + p.Skills[Skill.STRE].Exp + p.Skills[Skill.DEFE].Exp + p.Skills[Skill.RANG].Exp;
 
       bc.SendReply("\\b{0}\\b statistic percentages | Total exp: \\c07{1:N0}\\c | Combat exp: \\c07{2:N0}\\c (\\c07{3:0.##}%\\c) | F2P exp: \\c07{4:N0}\\c (\\c07{5:0.##}%\\c) | Slayer%: \\c07{6:0.##}% - {7:0.##}%\\c | PestControl%: \\c07{8:0.##}%\\c".FormatWith(
                                  rsn, totalExp,
@@ -282,9 +282,9 @@ namespace BigSister {
         return;
       }
 
-      if (skill == "Combat")
+      if (skill == Skill.COMB)
         level = Math.Min(138, level);
-      else if (skill != "Overall")
+      else if (skill != Skill.OVER)
         level = Math.Min(126, level);
 
       bc.ReplyNotice = false;
@@ -402,21 +402,21 @@ namespace BigSister {
       Player p = new Player(bc.From.RSN);
       if (p.Ranked) {
         if (Att <= 0)
-          Att = p.Skills["Attack"].VLevel;
+          Att = p.Skills[Skill.ATTA].VLevel;
         if (Str <= 0)
-          Str = p.Skills["Strength"].VLevel;
+          Str = p.Skills[Skill.STRE].VLevel;
         if (Def <= 0)
-          Def = p.Skills["Defence"].VLevel;
+          Def = p.Skills[Skill.DEFE].VLevel;
         if (Hit <= 0)
-          Hit = p.Skills["Hitpoints"].VLevel;
+          Hit = p.Skills[Skill.HITP].VLevel;
         if (Pray <= 0)
           Pray = p.Skills[Skill.PRAY].VLevel;
         if (Sum <= 0)
           Sum = p.Skills[Skill.SUMM].VLevel;
         if (Ran <= 0)
-          Ran = p.Skills["Ranged"].VLevel;
+          Ran = p.Skills[Skill.RANG].VLevel;
         if (Mag <= 0)
-          Mag = p.Skills["Magic"].VLevel;
+          Mag = p.Skills[Skill.MAGI].VLevel;
       } else {
         if (Att <= 0)
           Att = 1;

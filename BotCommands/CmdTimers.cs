@@ -24,7 +24,7 @@ namespace BigSister {
       }
 
       // get skill
-      string skill = "Overall";
+      string skill = Skill.OVER;
       if (bc.MessageTokens.Length > 1)
         Skill.TryParse(bc.MessageTokens[1], ref skill);
 
@@ -67,7 +67,7 @@ namespace BigSister {
         TimeSpan time = DateTime.Now - rs.GetString(2).ToDateTime();
 
         string reply = "You gained \\c07{0:N0}\\c \\u{1}\\u exp in \\c07{2}\\c. That's \\c07{3:N0}\\c exp/h.".FormatWith(gained_exp, skill.ToLowerInvariant(), time.ToLongString(), (double)gained_exp / (double)time.TotalHours);
-        if (gained_exp > 0 && skill != "Overall" && skill != "Combat" && p.Skills[skill].VLevel < 126)
+        if (gained_exp > 0 && skill != Skill.OVER && skill != Skill.COMB && p.Skills[skill].VLevel < 126)
           reply += " Estimated time to level up: \\c07{0}\\c".FormatWith(TimeSpan.FromSeconds((double)p.Skills[skill].ExpToVLevel * (double)time.TotalSeconds / (double)gained_exp).ToLongString());
         bc.SendReply(reply);
       } else {
@@ -105,7 +105,7 @@ namespace BigSister {
         TimeSpan time = DateTime.Now - rs.GetString(2).ToDateTime();
 
         string reply = "You gained \\c07{0:N0}\\c \\u{1}\\u exp in \\c07{2}\\c. That's \\c07{3:N0}\\c exp/h.".FormatWith(gained_exp, skill.ToLowerInvariant(), time.ToLongString(), (double)gained_exp / (double)time.TotalHours);
-        if (gained_exp > 0 && skill != "Overall" && skill != "Combat" && p.Skills[skill].VLevel < 126)
+        if (gained_exp > 0 && skill != Skill.OVER && skill != Skill.COMB && p.Skills[skill].VLevel < 126)
           reply += " Estimated time to level up: \\c07{0}\\c".FormatWith(TimeSpan.FromSeconds((double)p.Skills[skill].ExpToVLevel / ((double)gained_exp / (double)time.TotalSeconds)).ToLongString());
         bc.SendReply(reply);
 
