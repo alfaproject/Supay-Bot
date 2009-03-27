@@ -18,6 +18,7 @@ namespace BigSister {
           SetGoal(bc);
           break;
         case "ITEM":
+          SetItem(bc);
           break;
         default:
           bc.SendReply("Error: Unknown parameter.");
@@ -98,6 +99,29 @@ namespace BigSister {
         }
       }
       Database.SetStringParam("users", "goals", "fingerprint='" + bc.From.FingerPrint + "'", skill, goal);
+    }
+
+    private static void SetItem(CommandContext bc) {
+      if (bc.MessageTokens.Length < 4) {
+        bc.SendReply("Syntax: !set item <skill> <item>");
+        return;
+      }
+
+      string skill = Skill.OVER;
+      if (!Skill.TryParse(bc.MessageTokens[2], ref skill)) {
+        bc.SendReply("Error: Invalid skill name.");
+        return;
+      }
+
+      string item = bc.MessageTokens.Join(3).Replace(";", string.Empty).ToLowerInvariant();
+
+      // Add this player to database if he never set a default name.
+      if (Database.GetString("SELECT fingerprint FROM users WHERE fingerprint='" + bc.From.FingerPrint + "'", null) == null) {
+        Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.From.Rsn);
+      }
+
+      Database.SetStringParam("users", "items", "fingerprint='" + bc.From.FingerPrint + "'", skill, item);
+      bc.SendReply(@"Your default item for \b{0}\b is now set to \u{1}\u.".FormatWith(skill, item));
     }
 
   } //class Command
