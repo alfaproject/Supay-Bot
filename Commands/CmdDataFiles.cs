@@ -372,7 +372,7 @@ namespace BigSister {
       }
 
       // Get player summoning level
-      Player player = new Player(bc.From.RSN);
+      Player player = new Player(bc.From.Rsn);
       if (!player.Ranked) {
         bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(player.Name));
         return;

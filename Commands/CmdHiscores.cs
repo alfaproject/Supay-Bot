@@ -6,7 +6,7 @@ namespace BigSister {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void Top(CommandContext bc) {
-      string rsn = bc.From.RSN;
+      string rsn = bc.From.Rsn;
       string skill = null, minigame = null;
       int rank = 0;
 

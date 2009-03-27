@@ -82,7 +82,7 @@ namespace BigSister {
     public string NickToRSN(string nick) {
       User u = _users.Find(nick);
       if (u != null)
-        return u.RSN;
+        return u.Rsn;
       return nick.ToRsn();
     }
 

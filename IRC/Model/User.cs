@@ -16,7 +16,6 @@ namespace BigSister.Irc {
     private string _hostName = string.Empty;
 
     private string _fingerPrint;
-    private string _rsn;
 
     #region CTor
 
@@ -122,7 +121,7 @@ namespace BigSister.Irc {
     public string FingerPrint {
       get {
         if (string.IsNullOrEmpty(_hostName) || string.IsNullOrEmpty(_userName))
-          return "";
+          return string.Empty;
 
         if (_fingerPrint == null) {
           int indexofpoint = _hostName.IndexOf('.');
@@ -135,26 +134,23 @@ namespace BigSister.Irc {
       }
     }
 
-    public string RSN {
+    public string Rsn {
       get {
         if (this.FingerPrint.Length == 0)
           return _nick.ToRsn();
 
-        if (_rsn == null) {
-          _rsn = (string)Database.GetValue("users", "rsn", "fingerprint='" + this.FingerPrint + "'");
-          if (_rsn == null)
-            return _nick.ToRsn();
+        string rsn = (string)Database.GetValue("users", "rsn", "fingerprint='" + this.FingerPrint + "'");
+        if (rsn == null) {
+          return _nick.ToRsn();
+        } else {
+          return rsn;
         }
-        return _rsn;
-      }
-      set {
-        _rsn = value;
       }
     }
 
     public bool IsAdmin {
       get {
-        if (_nick.EqualsI("_aLfa_")) {
+        if (_nick.EqualsI("_aLfa_") || _nick.EqualsI("_aLfa_|work")) {
           return true;
         }
         foreach (string admin in Properties.Settings.Default.Administrators.Split(';')) {
@@ -427,7 +423,6 @@ namespace BigSister.Irc {
       }
 
       _fingerPrint = null;
-      _rsn = null;
     }
 
     private static string makeRegexPattern(string wildcardString) {

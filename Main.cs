@@ -245,11 +245,18 @@ namespace BigSister {
 
           switch (bc.MessageTokens[0].ToUpperInvariant()) {
             // Utility
+            case "SET":
+            case "DEF":
+            case "DEFAULT":
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Set), bc);
+              break;
             case "SETNAME":
-            case "DEFNAME":
             case "SETRSN":
+            case "DEFNAME":
+            case "DEFRSN":
             case "ADDME":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdUtil.SetName), bc);
+              bc.Message = bc.Message.Replace(bc.MessageTokens[0], "set name");
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Set), bc);
               break;
             case "RSN":
             case "WHOIS":

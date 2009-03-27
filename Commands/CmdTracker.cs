@@ -105,7 +105,7 @@ namespace BigSister {
       if (bc.MessageTokens.Length > 1)
         rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
-        rsn = bc.From.RSN;
+        rsn = bc.From.Rsn;
 
       // get this player last update time
       DateTime lastupdate;

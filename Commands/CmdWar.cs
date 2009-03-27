@@ -167,7 +167,7 @@ namespace BigSister {
       warPlayers.SortBySkill(skill, true);
 
       // Parse command arguments
-      string rsn = bc.From.RSN;
+      string rsn = bc.From.Rsn;
       int rank = 1;
       if (bc.MessageTokens.Length > 1) {
         if (int.TryParse(bc.MessageTokens[1], out rank)) {
@@ -185,8 +185,8 @@ namespace BigSister {
 
       // Get input player rank
       int input_player_rank = 0;
-      if (warPlayers.Contains(bc.From.RSN))
-        input_player_rank = warPlayers.IndexOf(bc.From.RSN) + 1;
+      if (warPlayers.Contains(bc.From.Rsn))
+        input_player_rank = warPlayers.IndexOf(bc.From.Rsn) + 1;
 
       // fix rank
       if (rank < 1)

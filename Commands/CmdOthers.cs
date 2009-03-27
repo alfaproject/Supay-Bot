@@ -11,7 +11,7 @@ namespace BigSister {
       if (bc.MessageTokens.Length > 1)
         rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
-        rsn = bc.From.RSN;
+        rsn = bc.From.Rsn;
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
@@ -46,7 +46,7 @@ namespace BigSister {
       if (bc.MessageTokens.Length > 1)
         rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
-        rsn = bc.From.RSN;
+        rsn = bc.From.Rsn;
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
@@ -63,7 +63,7 @@ namespace BigSister {
       if (bc.MessageTokens.Length > 1)
         rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
-        rsn = bc.From.RSN;
+        rsn = bc.From.Rsn;
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
@@ -80,7 +80,7 @@ namespace BigSister {
       if (bc.MessageTokens.Length > 1)
         rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
-        rsn = bc.From.RSN;
+        rsn = bc.From.Rsn;
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
@@ -103,7 +103,7 @@ namespace BigSister {
       if (bc.MessageTokens.Length > 1)
         rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
-        rsn = bc.From.RSN;
+        rsn = bc.From.Rsn;
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
@@ -254,7 +254,7 @@ namespace BigSister {
       }
 
       // get rsn
-      string rsn = bc.From.RSN;
+      string rsn = bc.From.Rsn;
 
       string skill = null;
       int level;
@@ -308,7 +308,7 @@ namespace BigSister {
       if (bc.MessageTokens.Length > 1)
         rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
-        rsn = bc.From.RSN;
+        rsn = bc.From.Rsn;
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
@@ -399,7 +399,7 @@ namespace BigSister {
       if (bc.MessageTokens.Length > 8)
         int.TryParse(bc.MessageTokens[8], out Mag);
 
-      Player p = new Player(bc.From.RSN);
+      Player p = new Player(bc.From.Rsn);
       if (p.Ranked) {
         if (Att <= 0)
           Att = p.Skills[Skill.ATTA].VLevel;

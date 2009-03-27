@@ -9,7 +9,7 @@ namespace BigSister {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void Graph(CommandContext bc) {
       string skill = Skill.OVER;
-      string rsn = bc.From.RSN;
+      string rsn = bc.From.Rsn;
 
       if (bc.MessageTokens.Length > 1) {
         if (Skill.TryParse(bc.MessageTokens[1], ref skill)) {
@@ -82,7 +82,7 @@ namespace BigSister {
       if (bc.MessageTokens.Length > 1)
         rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
-        rsn = bc.From.RSN;
+        rsn = bc.From.Rsn;
 
       // Get new player
       Player PlayerNew = new Player(rsn);
