@@ -20,6 +20,9 @@ namespace BigSister {
         case "ITEM":
           SetItem(bc);
           break;
+        case "SPEED":
+          SetSpeed(bc);
+          break;
         default:
           bc.SendReply("Error: Unknown parameter.");
           break;
@@ -122,6 +125,39 @@ namespace BigSister {
 
       Database.SetStringParam("users", "items", "fingerprint='" + bc.From.FingerPrint + "'", skill, item);
       bc.SendReply(@"Your default item for \b{0}\b is now set to \u{1}\u.".FormatWith(skill, item));
+    }
+
+    private static void SetSpeed(CommandContext bc) {
+      if (bc.MessageTokens.Length < 4) {
+        bc.SendReply("Syntax: !set speed <skill> <average exp. per hour>");
+        return;
+      }
+
+      string skill = Skill.OVER;
+      if (!Skill.TryParse(bc.MessageTokens[2], ref skill)) {
+        bc.SendReply("Error: Invalid skill name.");
+        return;
+      }
+
+      string speed = bc.MessageTokens[3].ToLowerInvariant();
+      if (!Regex.Match(speed, @"\d+(?:\.\d+)?(?:m|k)?").Success) {
+        bc.SendReply("Error: Invalid average exp. per hour.");
+        return;
+      }
+
+      // Add this player to database if he never set a default name.
+      if (Database.GetString("SELECT fingerprint FROM users WHERE fingerprint='" + bc.From.FingerPrint + "'", null) == null) {
+        Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.From.Rsn);
+      }
+
+      int speedValue = speed.ToInt32();
+      Database.SetStringParam("users", "speeds", "fingerprint='" + bc.From.FingerPrint + "'", skill, speedValue.ToStringI());
+
+      if (speedValue > 0) {
+        bc.SendReply(@"Your speed for \b{0}\b is now set to \u{1} average exp. per hour\u.".FormatWith(skill, speedValue.ToShortString(1)));
+      } else {
+        bc.SendReply(@"Your speed for \b{0}\b is now deleted.".FormatWith(skill));
+      }
     }
 
   } //class Command

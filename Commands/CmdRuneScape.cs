@@ -334,7 +334,7 @@ namespace BigSister {
         }
 
         // calculate % done
-        int exp_to_go = 0;
+        int expToGo = 0;
         string percent_done;
         if (skill.Name == Skill.OVER) {
           int oa_exp = 0;
@@ -347,8 +347,8 @@ namespace BigSister {
 
           item = null;
         } else {
-          exp_to_go = target_exp - skill.Exp;
-          percent_done = Math.Round(100 - exp_to_go / (double)(target_exp - skill.VLevel.ToExp()) * 100, 1).ToStringI();
+          expToGo = target_exp - skill.Exp;
+          percent_done = Math.Round(100 - expToGo / (double)(target_exp - skill.VLevel.ToExp()) * 100, 1).ToStringI();
         }
 
         string reply = "\\b{0}\\b \\c07{1}\\c | level: \\c07{1:v}\\c | exp: \\c07{1:e}\\c (\\c07{2}%\\c of {3}) | rank: \\c07{1:R}\\c".FormatWith(
@@ -362,8 +362,13 @@ namespace BigSister {
         }
 
         // Add exp to go and items
-        if (exp_to_go > 0) {
-          reply += " | \\c07{0:N0}\\c exp. to go".FormatWith(exp_to_go);
+        if (expToGo > 0) {
+          reply += " | \\c07{0:N0}\\c exp. to go".FormatWith(expToGo);
+
+          int speed = int.Parse(Database.GetStringParam("users", "speeds", "fingerprint='" + bc.From.FingerPrint + "'", skillName, "0"), CultureInfo.InvariantCulture);
+          if (speed > 0) {
+            reply += @" (\c07{0}\c)".FormatWith(TimeSpan.FromHours((double)expToGo / (double)speed).ToLongString());
+          }
 
           if (item != null && item.Length > 0) {
             string item_name;
@@ -375,26 +380,26 @@ namespace BigSister {
               case Skill.STRE:
               case Skill.RANG:
                 if (_GetMonster(item, out item_name, out monster_hp))
-                  reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling((double)exp_to_go / (monster_hp * 4)), item_name);
+                  reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling((double)expToGo / (monster_hp * 4)), item_name);
                 else
                   reply += " (unknown monster)";
                 break;
               case Skill.HITP:
                 if (_GetMonster(item, out item_name, out monster_hp))
-                  reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling((double)exp_to_go / (monster_hp * (4 / 3))), item_name);
+                  reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling((double)expToGo / (monster_hp * (4 / 3))), item_name);
                 else
                   reply += " (unknown monster)";
                 break;
               case Skill.SLAY:
                 if (_GetMonster(item, out item_name, out monster_hp))
-                  reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling((double)exp_to_go / monster_hp), item_name);
+                  reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling((double)expToGo / monster_hp), item_name);
                 else
                   reply += " (unknown monster)";
                 break;
               default:
                 ASkillItem itemFound = _GetItem(skill.Name, item);
                 if (itemFound != null)
-                  reply += " (\\c07{1}\\c \\c{0}{2}\\c)".FormatWith(itemFound.IrcColour, Math.Ceiling(exp_to_go / itemFound.Exp), itemFound.Name);
+                  reply += " (\\c07{1}\\c \\c{0}{2}\\c)".FormatWith(itemFound.IrcColour, Math.Ceiling(expToGo / itemFound.Exp), itemFound.Name);
                 else
                   reply += " (unknown item)";
                 break;
