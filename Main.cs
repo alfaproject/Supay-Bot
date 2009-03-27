@@ -243,6 +243,13 @@ namespace BigSister {
         if (e.Message.Text[0] == '!' || e.Message.Text[0] == '.' || e.Message.Text[0] == '@') {
           CommandContext bc = new CommandContext(_irc, _irc.Peers, e.Message.Sender, _irc.Channels.Find(e.Message.Targets[0]), e.Message.Text);
 
+          if (bc.MessageTokens[0].Length == 0) {
+            string defaultSkill = Database.GetString("SELECT skill FROM users WHERE fingerprint='" + e.Message.Sender.FingerPrint + "';", null);
+            if (defaultSkill != null) {
+              bc.MessageTokens[0] = defaultSkill;
+            }
+          }
+
           switch (bc.MessageTokens[0].ToUpperInvariant()) {
             // Utility
             case "SET":

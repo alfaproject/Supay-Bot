@@ -23,6 +23,9 @@ namespace BigSister {
         case "SPEED":
           SetSpeed(bc);
           break;
+        case "SKILL":
+          SetSkill(bc);
+          break;
         default:
           bc.SendReply("Error: Unknown parameter.");
           break;
@@ -158,6 +161,27 @@ namespace BigSister {
       } else {
         bc.SendReply(@"Your speed for \b{0}\b is now deleted.".FormatWith(skill));
       }
+    }
+
+    private static void SetSkill(CommandContext bc) {
+      if (bc.MessageTokens.Length < 3) {
+        bc.SendReply("Syntax: !set skill <skill>");
+        return;
+      }
+
+      string skill = Skill.OVER;
+      if (!Skill.TryParse(bc.MessageTokens[2], ref skill)) {
+        bc.SendReply("Error: Invalid skill name.");
+        return;
+      }
+
+      // Add this player to database if he never set a default name.
+      if (Database.GetString("SELECT fingerprint FROM users WHERE fingerprint='" + bc.From.FingerPrint + "'", null) == null) {
+        Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.From.Rsn);
+      }
+
+      Database.Update("users", "fingerprint='" + bc.From.FingerPrint + "'", "skill", skill);
+      bc.SendReply(@"Your default skill is now set to \b{0}\b.".FormatWith(skill));
     }
 
   } //class Command
