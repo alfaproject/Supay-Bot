@@ -253,7 +253,6 @@ namespace BigSister {
           switch (bc.MessageTokens[0].ToUpperInvariant()) {
             // Utility
             case "SET":
-            case "DEF":
             case "DEFAULT":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Set), bc);
               break;
