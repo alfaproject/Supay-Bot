@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 
 namespace BigSister {
-  partial class Command {
+  static partial class Command {
 
     public static void Set(CommandContext bc) {
       if (bc.MessageTokens.Length < 2) {
