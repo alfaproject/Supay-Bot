@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SQLite;
+using System.Text.RegularExpressions;
 
 namespace BigSister {
   static partial class Command {
@@ -11,37 +12,55 @@ namespace BigSister {
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
-        bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn));
+        bc.SendReply(@"\b{0}\b doesn't feature Hiscores.".FormatWith(rsn));
         return;
+      }
+
+      // get @set or @save
+      bool set = bc.Message.ContainsI("@set") || bc.Message.ContainsI("@save");
+      if (set) {
+        bc.Message = Regex.Replace(bc.Message, @"\s*@s(?:et|ave)\s*", string.Empty);
       }
 
       // get timer name
       string name = string.Empty;
-      int indexofsharp = bc.Message.IndexOf('#');
-      if (indexofsharp > 0) {
-        name = bc.Message.Substring(indexofsharp + 1);
-        bc.Message = bc.Message.Substring(0, indexofsharp - 1);
+      int indexOfSharp = bc.Message.IndexOf('#');
+      if (indexOfSharp > 0) {
+        name = bc.Message.Substring(indexOfSharp + 1);
+        bc.Message = bc.Message.Substring(0, indexOfSharp - 1);
       }
 
       SQLiteDataReader rs = Database.ExecuteReader("SELECT skill, exp, datetime FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "' LIMIT 1;");
       if (rs.Read()) {
         string skill = rs.GetString(0);
 
-        int gained_exp = p.Skills[skill].Exp - rs.GetInt32(1);
+        int gainedExp = p.Skills[skill].Exp - rs.GetInt32(1);
         TimeSpan time = DateTime.Now - rs.GetString(2).ToDateTime();
 
-        string reply = "You gained \\c07{0:N0}\\c \\u{1}\\u exp in \\c07{2}\\c. That's \\c07{3:N0}\\c exp/h.".FormatWith(gained_exp, skill.ToLowerInvariant(), time.ToLongString(), (double)gained_exp / (double)time.TotalHours);
-        if (gained_exp > 0 && skill != Skill.OVER && skill != Skill.COMB && p.Skills[skill].VLevel < 126)
-          reply += " Estimated time to level up: \\c07{0}\\c".FormatWith(TimeSpan.FromSeconds((double)p.Skills[skill].ExpToVLevel / ((double)gained_exp / (double)time.TotalSeconds)).ToLongString());
+        string reply = @"You gained \c07{0:N0}\c \u{1}\u exp in \c07{2}\c. That's \c07{3:N0}\c exp/h.".FormatWith(gainedExp, skill.ToLowerInvariant(), time.ToLongString(), (double)gainedExp / time.TotalHours);
+        if (gainedExp > 0 && skill != Skill.OVER && skill != Skill.COMB && p.Skills[skill].VLevel < 126) {
+          reply += @" Estimated time to level up: \c07{0}\c".FormatWith(TimeSpan.FromSeconds((double)p.Skills[skill].ExpToVLevel / ((double)gainedExp / time.TotalSeconds)).ToLongString());
+        }
         bc.SendReply(reply);
+
+        if (gainedExp > 0) {
+          // Add this player to database if he never set a default name.
+          if (Database.GetString("SELECT fingerprint FROM users WHERE fingerprint='" + bc.From.FingerPrint + "'", null) == null) {
+            Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.From.Rsn);
+          }
+
+          // Set exp. made in an hour in this skill.
+          Database.SetStringParam("users", "speeds", "fingerprint='" + bc.From.FingerPrint + "'", skill, ((int)((double)gainedExp / time.TotalHours)).ToStringI());
+        }
 
         // remove the timer with this name
         Database.ExecuteNonQuery("DELETE FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "';");
       } else {
-        if (name.Length > 0)
+        if (name.Length > 0) {
           bc.SendReply("You must start timing a skill on that timer first.");
-        else
+        } else {
           bc.SendReply("You must start timing a skill first.");
+        }
       }
     }
 
