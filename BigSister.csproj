@@ -93,11 +93,14 @@
     <Compile Include="Commands\CmdRuneScape.cs" />
     <Compile Include="Commands\CmdRuneScript.cs" />
     <Compile Include="Commands\CmdWar.cs" />
-    <Compile Include="Commands\CmdTimers.cs" />
+    <Compile Include="Commands\Timers\Check.cs" />
+    <Compile Include="Commands\Timers\Timer.cs" />
     <Compile Include="Commands\CmdTracker.cs" />
     <Compile Include="Commands\CmdUtil.cs" />
     <Compile Include="Commands\CmdZybez.cs" />
     <Compile Include="Commands\Set.cs" />
+    <Compile Include="Commands\Timers\End.cs" />
+    <Compile Include="Commands\Timers\Start.cs" />
     <Compile Include="Core\Database.cs" />
     <Compile Include="Core\Math\Math2.cs" />
     <Compile Include="Core\Math\MathParser.cs" />

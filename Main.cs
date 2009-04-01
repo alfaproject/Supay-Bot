@@ -457,17 +457,17 @@ namespace BigSister {
 
             // Timers
             case "START":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTimers.Start), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Start), bc);
               break;
             case "CHECK":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTimers.Check), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Check), bc);
               break;
             case "STOP":
             case "END":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTimers.Stop), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.End), bc);
               break;
             case "TIMER":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTimers.Timer), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Timer), bc);
               break;
 
             // DataFiles
