@@ -49,7 +49,7 @@ namespace BigSister {
                                  "rsn", rsn);
       }
 
-      bc.SendReply("Your default RuneScape name is now \\b{0}\\b. This RSN is associated with the address \\u*!*{1}\\u.".FormatWith(rsn, bc.From.FingerPrint));
+      bc.SendReply(@"Your default RuneScape name is now \b{0}\b. This RSN is associated with the address \u*!*{1}\u.".FormatWith(rsn, bc.From.FingerPrint));
     }
 
     private static void SetGoal(CommandContext bc) {
