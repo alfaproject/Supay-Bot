@@ -53,7 +53,7 @@ namespace BigSister {
     public static string GetString(string sql, string defaultValue) {
       SQLiteCommand com = new SQLiteCommand(sql, Database.Instance.Connection);
       object result = com.ExecuteScalar();
-      if (result == null || result is System.DBNull)
+      if (result == null || result is DBNull)
         return defaultValue;
       else
         return (string)result;
