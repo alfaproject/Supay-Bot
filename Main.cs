@@ -63,6 +63,7 @@ namespace BigSister {
         if (p.Ranked) {
           p.SaveToDB(now.ToStringI("yyyyMMdd"));
         }
+        Thread.Sleep(250);
       }
       rs.Close();
     }
