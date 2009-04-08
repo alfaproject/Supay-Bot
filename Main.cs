@@ -375,15 +375,15 @@ namespace BigSister {
             case "PRICES":
             case "PRICE":
             case "GE":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdGrandExchange.Price), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Price), bc);
               break;
             case "PRICEINFO":
             case "GEINFO":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdGrandExchange.PriceInfo), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.PriceInfo), bc);
               break;
             case "GELASTUPDATE":
             case "GEUPDATE":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdGrandExchange.LastUpdate), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.LastUpdate), bc);
               break;
 
             // RuneScape

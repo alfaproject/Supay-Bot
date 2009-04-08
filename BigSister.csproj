@@ -84,7 +84,8 @@
     <Compile Include="Commands\CmdClan.cs" />
     <Compile Include="Commands\CmdCompare.cs" />
     <Compile Include="Commands\CmdDataFiles.cs" />
-    <Compile Include="Commands\CmdGrandExchange.cs" />
+    <Compile Include="Commands\GrandExchange\LastUpdate.cs" />
+    <Compile Include="Commands\GrandExchange\Price.cs" />
     <Compile Include="Commands\CmdHiscores.cs" />
     <Compile Include="Commands\CmdLinks.cs" />
     <Compile Include="Commands\CmdMonster.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Commands\CmdRuneScape.cs" />
     <Compile Include="Commands\CmdRuneScript.cs" />
     <Compile Include="Commands\CmdWar.cs" />
+    <Compile Include="Commands\GrandExchange\PriceInfo.cs" />
     <Compile Include="Commands\Timers\Check.cs" />
     <Compile Include="Commands\Timers\Timer.cs" />
     <Compile Include="Commands\CmdTracker.cs" />

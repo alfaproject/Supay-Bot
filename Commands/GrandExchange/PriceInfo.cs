@@ -1,44 +1,7 @@
 ﻿using System;
-using System.Globalization;
 
 namespace BigSister {
-  static class CmdGrandExchange {
-
-    public static void Price(CommandContext bc) {
-      if (bc.MessageTokens.Length == 1) {
-        bc.SendReply("Syntax: !Price [qty] <item>");
-        return;
-      }
-
-      string search_term;
-      double qty = 0;
-      if (bc.MessageTokens.Length > 2 && MathParser.TryCalc(bc.MessageTokens[1], out qty)) {
-        qty = Math.Round(qty, 1);
-        search_term = bc.MessageTokens.Join(2);
-      } else {
-        qty = 1;
-        search_term = bc.MessageTokens.Join(1);
-      }
-
-      Prices price_list = new Prices(search_term);
-      if (price_list.Count == 0) {
-        bc.SendReply("\\c12www.runescape.com\\c doesn't have any record for \"{0}\".".FormatWith(search_term));
-        return;
-      }
-
-      string reply = "\\c12www.runescape.com\\c found \\c07{0}\\c results".FormatWith(price_list.TotalItems);
-      for (int i = 0; i < Math.Min(10, price_list.Count); i++) {
-        reply += " | {0}: \\c07{1}".FormatWith(price_list[i].Name, (qty * price_list[i].MarketPrice).ToShortString(1));
-        reply += "\\c";
-        if (price_list[i].ChangeToday > 0)
-          reply += " \\c3[+{0}]\\c".FormatWith(price_list[i].ChangeToday.ToShortString(1));
-        else if (price_list[i].ChangeToday < 0)
-          reply += " \\c4[{0}]\\c".FormatWith(price_list[i].ChangeToday.ToShortString(1));
-      }
-      if (price_list.TotalItems > 10)
-        reply += " | (...)";
-      bc.SendReply(reply);
-    }
+  static partial class Command {
 
     public static void PriceInfo(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
@@ -93,14 +56,9 @@ namespace BigSister {
       else
         change30days = "\\c07{0:0.#}%\\c".FormatWith(price.Change30days);
 
-      bc.SendReply(@"Name: \c07{0}\c | Market price: \c07{1}\c (\c07{2}\c - \c07{3}\c) | Last 7 days: {4} | Last 30 days: {5} | Examine: \c07{6}\c".FormatWith( 
+      bc.SendReply(@"Name: \c07{0}\c | Market price: \c07{1}\c (\c07{2}\c - \c07{3}\c) | Last 7 days: {4} | Last 30 days: {5} | Examine: \c07{6}\c".FormatWith(
                                  price.Name, price.MarketPrice.ToShortString(1), price.MinimumPrice.ToShortString(1), price.MaximumPrice.ToShortString(1), change7days, change30days, price.Examine));
     }
 
-    public static void LastUpdate(CommandContext bc) {
-      DateTime lastUpdate = Database.GetString("SELECT lastUpdate FROM prices ORDER BY lastUpdate DESC LIMIT 1;", DateTime.UtcNow.ToStringI("yyyyMMddHHmm")).ToDateTime();
-      bc.SendReply("The GE was last updated \\c07{0}\\c ago. ({1:R})".FormatWith((DateTime.UtcNow - lastUpdate).ToLongString(), lastUpdate));
-    }
-
-  } //class CmdGrandExchange
+  } //class Command
 } //namespace BigSister
