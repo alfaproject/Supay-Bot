@@ -53,7 +53,7 @@ namespace BigSister {
 
       price.LoadFromGE();
       if (price.Name == null) {
-        bc.SendReply(@"Grand Exchange doesn't have item \c07{0}\c.".FormatWith(price.Id));
+        bc.SendReply(@"Grand Exchange doesn't have the item \c07#{0}\c.".FormatWith(price.Id));
       } else {
         bc.SendReply(@"Name: \c07{0}\c | Minimum price: \c07{1}\c | Players: \c07{2:N0}\c | Player share: \c07{3:N0}\c | \c12http://itemdb-rs.runescape.com/viewitem.ws?obj={4}\c".FormatWith(
                      price.Name, price.MinimumPrice.ToShortString(1), players, price.MinimumPrice / players, price.Id));
