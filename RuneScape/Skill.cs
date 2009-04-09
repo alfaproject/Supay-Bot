@@ -168,14 +168,18 @@ namespace BigSister {
       switch (s.ToUpperInvariant()) {
         case "OA":
         case "OV":
+        case "TOTAL":
         case "OVERALL":
           return OVER;
+        case "AT":
         case "ATT":
         case "ATTACK":
           return ATTA;
+        case "DE":
         case "DEF":
         case "DEFENCE":
           return DEFE;
+        case "ST":
         case "STR":
         case "STRENGTH":
           return STRE;
@@ -221,6 +225,7 @@ namespace BigSister {
         case "FIREMAKING":
           return FIRE;
         case "CR":
+        case "CRAF":
         case "CRAFT":
         case "CRAFTING":
           return CRAF;
@@ -264,7 +269,6 @@ namespace BigSister {
         case "HUNTING":
           return HUNT;
         case "CO":
-        case "CS":
         case "CON":
         case "CONS":
         case "CONST":
