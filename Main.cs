@@ -385,6 +385,11 @@ namespace BigSister {
             case "GEUPDATE":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.LastUpdate), bc);
               break;
+            case "COINSHARE":
+            case "COINS":
+            case "CS":
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.CoinShare), bc);
+              break;
 
             // RuneScape
             case "ALL":

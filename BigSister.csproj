@@ -56,7 +56,8 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
@@ -84,6 +85,7 @@
     <Compile Include="Commands\CmdClan.cs" />
     <Compile Include="Commands\CmdCompare.cs" />
     <Compile Include="Commands\CmdDataFiles.cs" />
+    <Compile Include="Commands\GrandExchange\CoinShare.cs" />
     <Compile Include="Commands\GrandExchange\LastUpdate.cs" />
     <Compile Include="Commands\GrandExchange\Price.cs" />
     <Compile Include="Commands\CmdHiscores.cs" />
