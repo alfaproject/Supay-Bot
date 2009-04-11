@@ -25,7 +25,7 @@ namespace BigSister.Irc.Messages {
         watchesYouHave = value;
       }
     }
-    private int watchesYouHave = 0;
+    private int watchesYouHave;
 
     /// <summary>
     /// Gets or sets the number of users which you on their watch list.
@@ -38,7 +38,7 @@ namespace BigSister.Irc.Messages {
         watchesThatHaveYou = value;
       }
     }
-    private int watchesThatHaveYou = 0;
+    private int watchesThatHaveYou;
 
     /// <summary>
     /// Overrides <see cref="IrcMessage.AddParametersToFormat"/>

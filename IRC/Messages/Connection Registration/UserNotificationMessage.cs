@@ -52,7 +52,7 @@ namespace BigSister.Irc.Messages {
         initialWallops = value;
       }
     }
-    private bool initialWallops = false;
+    private bool initialWallops;
 
     /// <summary>
     /// Gets or sets the real name of the client.

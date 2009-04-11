@@ -19,7 +19,7 @@ namespace BigSister.Irc.Messages {
         onlineOnly = value;
       }
     }
-    private bool onlineOnly = false;
+    private bool onlineOnly;
 
     #endregion
 

@@ -24,7 +24,7 @@ namespace BigSister.Irc.Messages {
         this.isIrcxClientMode = value;
       }
     }
-    private bool isIrcxClientMode = false;
+    private bool isIrcxClientMode;
 
     /// <summary>
     /// Gets or sets the version of Ircx the server implements.

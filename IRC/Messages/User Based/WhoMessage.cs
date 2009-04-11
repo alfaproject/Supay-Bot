@@ -30,7 +30,7 @@ namespace BigSister.Irc.Messages {
         restrictToOps = value;
       }
     }
-    private bool restrictToOps = false;
+    private bool restrictToOps;
 
     /// <summary>
     /// Gets the Irc command associated with this message.

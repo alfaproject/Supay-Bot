@@ -313,7 +313,7 @@ namespace BigSister.Irc {
         this._banExceptions = value;
       }
     }
-    private bool _banExceptions = false;
+    private bool _banExceptions;
 
     /// <summary>
     ///   Gets or sets if the server supports channel invitation exceptions.</summary>
@@ -325,7 +325,7 @@ namespace BigSister.Irc {
         this._invitationExceptions = value;
       }
     }
-    private bool _invitationExceptions = false;
+    private bool _invitationExceptions;
 
     /// <summary>
     /// Gets or sets the maximum number of silence ( serverside ignore ) listings a client can store.
@@ -338,7 +338,7 @@ namespace BigSister.Irc {
         this._maxSilences = value;
       }
     }
-    private int _maxSilences = 0;
+    private int _maxSilences;
 
     /// <summary>
     ///   Gets or sets if the server supports messages to channel operators. </summary>
@@ -353,7 +353,7 @@ namespace BigSister.Irc {
         this._messagesToOperators = value;
       }
     }
-    private bool _messagesToOperators = false;
+    private bool _messagesToOperators;
 
     /// <summary>
     /// Gets or sets the case mapping supported by the server.
@@ -392,7 +392,7 @@ namespace BigSister.Irc {
         this._rfc2812 = value;
       }
     }
-    private bool _rfc2812 = false;
+    private bool _rfc2812;
 
     /// <summary>
     /// Gets or sets the length of channel ids.
@@ -417,7 +417,7 @@ namespace BigSister.Irc {
         this._penalties = value;
       }
     }
-    private bool _penalties = false;
+    private bool _penalties;
 
     /// <summary>
     ///   Gets or sets if the server will change your nick automatticly when it needs to. </summary>
@@ -429,7 +429,7 @@ namespace BigSister.Irc {
         this._forcedNickChanges = value;
       }
     }
-    private bool _forcedNickChanges = false;
+    private bool _forcedNickChanges;
 
     /// <summary>
     ///   Gets or sets if the server supports the USERIP command. </summary>
@@ -441,7 +441,7 @@ namespace BigSister.Irc {
         this._userIp = value;
       }
     }
-    private bool _userIp = false;
+    private bool _userIp;
 
     /// <summary>
     ///   Gets or sets if the server supports the CPRIVMSG command. </summary>
@@ -453,7 +453,7 @@ namespace BigSister.Irc {
         this._channelMessages = value;
       }
     }
-    private bool _channelMessages = false;
+    private bool _channelMessages;
 
     /// <summary>
     ///   Gets or sets if the server supports the CNOTICE command. </summary>
@@ -465,7 +465,7 @@ namespace BigSister.Irc {
         this._channelNotices = value;
       }
     }
-    private bool _channelNotices = false;
+    private bool _channelNotices;
 
     /// <summary>
     /// Gets or sets the maximum number of targets allowed on targetted messages, grouped by message command
@@ -487,7 +487,7 @@ namespace BigSister.Irc {
         this._knock = value;
       }
     }
-    private bool _knock = false;
+    private bool _knock;
 
     /// <summary>
     ///   Gets or sets if the server supports virtual channels. </summary>
@@ -499,7 +499,7 @@ namespace BigSister.Irc {
         this._virtualChannels = value;
       }
     }
-    private bool _virtualChannels = false;
+    private bool _virtualChannels;
 
     /// <summary>
     ///   Gets or sets if the <see cref="BigSister.Irc.Messages.ListReplyMessage"/> is sent in multiple itterations. </summary>
@@ -511,7 +511,7 @@ namespace BigSister.Irc {
         this._safeList = value;
       }
     }
-    private bool _safeList = false;
+    private bool _safeList;
 
     /// <summary>
     /// Gets or sets the extended parameters the server supports for a <see cref="T:BigSister.Irc.Messages.ListMessage"/>.
@@ -549,7 +549,7 @@ namespace BigSister.Irc {
         this._whoX = value;
       }
     }
-    private bool _whoX = false;
+    private bool _whoX;
 
     /// <summary>
     ///   Gets or sets if the server suports callerid-style ignore. </summary>
@@ -561,7 +561,7 @@ namespace BigSister.Irc {
         this._callerId = value;
       }
     }
-    private bool _callerId = false;
+    private bool _callerId;
 
     /// <summary>
     ///   Gets or sets if the server supports ETrace. </summary>
@@ -573,7 +573,7 @@ namespace BigSister.Irc {
         this.eTrace = value;
       }
     }
-    private bool eTrace = false;
+    private bool eTrace;
 
     /// <summary>
     /// Gets or sets the maximum number of user monitors a user is allowed to set.
@@ -591,7 +591,7 @@ namespace BigSister.Irc {
         _maxMonitors = value;
       }
     }
-    private int _maxMonitors = 0;
+    private int _maxMonitors;
 
     /// <summary>
     /// Gets the collection of safe channel prefix lengths, grouped by the channel type they apply to.

@@ -65,7 +65,7 @@ namespace BigSister.Irc.Messages {
     }
 
     private string nick = string.Empty;
-    private int idleTime = 0;
+    private int idleTime;
     private DateTime signOnTime = DateTime.Now;
     private string info = string.Empty;
 

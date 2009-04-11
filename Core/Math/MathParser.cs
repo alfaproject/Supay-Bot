@@ -99,12 +99,6 @@ namespace BigSister {
 
       // initialize random number generator with a system timer based seed
       _randomizer = new Random();
-
-      // no operations done so far
-      _operations = 0;
-
-      // last answer is 0 before we do anything
-      _lastAnswer = 0;
     }
 
     public MathParser(double lastAnswer)

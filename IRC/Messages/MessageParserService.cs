@@ -167,7 +167,7 @@ namespace BigSister.Irc.Messages {
     private PrioritizedMessageList numerics = new PrioritizedMessageList();
     private PrioritizedMessageList commands = new PrioritizedMessageList();
     private PrioritizedMessageList ctcps = new PrioritizedMessageList();
-    private PrioritizedMessageList customs = null;
+    private PrioritizedMessageList customs;
 
   }
 }

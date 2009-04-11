@@ -93,7 +93,7 @@ namespace BigSister.Irc.Messages {
     private User user = new User();
     private string server = string.Empty;
     private int hopCount = -1;
-    private bool isOper = false;
+    private bool isOper;
     private ChannelStatus status = ChannelStatus.None;
 
 
