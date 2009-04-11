@@ -395,7 +395,7 @@ namespace BigSister {
             case "ALL":
             case "STATS":
             case "SKILLS":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneScape.Stats), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Stats), bc);
               break;
             case "COMPARE":
             case "COMP":
@@ -406,7 +406,7 @@ namespace BigSister {
             case "COMB":
             case "CMB":
             case "CB":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneScape.Combat), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Combat), bc);
               break;
 
             // Hiscores
@@ -638,10 +638,10 @@ namespace BigSister {
                 ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdClan.Performance), bc);
               } else if (Minigame.TryParse(bc.MessageTokens[0], ref command)) {
                 // !<minigame>
-                ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneScape.Minigame), bc);
+                ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Minigame), bc);
               } else if (Skill.TryParse(bc.MessageTokens[0], ref command)) {
                 // !<skill>
-                ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneScape.SkillInfo), bc);
+                ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.SkillInfo), bc);
               }
               break;
           }

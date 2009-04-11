@@ -141,10 +141,10 @@ namespace BigSister {
       // redirect command to the apropriate sections
       if (minigame == null) {
         bc.Message = skill + " " + rsn;
-        CmdRuneScape.SkillInfo(bc);
+        Command.SkillInfo(bc);
       } else {
         bc.Message = minigame.Replace(" ", string.Empty) + " " + rsn;
-        CmdRuneScape.Minigame(bc);
+        Command.Minigame(bc);
       }
     }
 
