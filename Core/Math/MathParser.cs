@@ -196,7 +196,7 @@ namespace BigSister {
       switch (ops.Peek().Type) {
         case ADD: // E = E + E
           if (vals.Count < 2)
-            throw new Exception("Syntax error");
+            throw new InvalidOperationException("Syntax error");
           temp2 = vals.Pop();
           temp1 = vals.Pop();
           vals.Push(temp1 + temp2);
@@ -204,7 +204,7 @@ namespace BigSister {
 
         case SUB: // E = E - E
           if (vals.Count < 2)
-            throw new Exception("Syntax error");
+            throw new InvalidOperationException("Syntax error");
           temp2 = vals.Pop();
           temp1 = vals.Pop();
           vals.Push(temp1 - temp2);
@@ -212,7 +212,7 @@ namespace BigSister {
 
         case MUL: // E = E * E
           if (vals.Count < 2)
-            throw new Exception("Syntax error");
+            throw new InvalidOperationException("Syntax error");
           temp2 = vals.Pop();
           temp1 = vals.Pop();
           vals.Push(temp1 * temp2);
@@ -220,7 +220,7 @@ namespace BigSister {
 
         case DIV: // E = E / E
           if (vals.Count < 2)
-            throw new Exception("Syntax error");
+            throw new InvalidOperationException("Syntax error");
           temp2 = vals.Pop();
           temp1 = vals.Pop();
           vals.Push(temp1 / temp2);
@@ -228,7 +228,7 @@ namespace BigSister {
 
         case MOD: // E = E % E
           if (vals.Count < 2)
-            throw new Exception("Syntax error");
+            throw new InvalidOperationException("Syntax error");
           temp2 = vals.Pop();
           temp1 = vals.Pop();
           vals.Push(temp1 % temp2);
@@ -236,7 +236,7 @@ namespace BigSister {
 
         case DIVI: // E = E \ E
           if (vals.Count < 2)
-            throw new Exception("Syntax error");
+            throw new InvalidOperationException("Syntax error");
 
           temp2 = vals.Pop();
           temp1 = vals.Pop();
@@ -245,7 +245,7 @@ namespace BigSister {
 
         case POW: // E = E ^ E
           if (vals.Count < 2)
-            throw new Exception("Syntax error");
+            throw new InvalidOperationException("Syntax error");
           temp2 = vals.Pop();
           temp1 = vals.Pop();
           vals.Push(Math.Pow(temp1, temp2));
@@ -253,14 +253,14 @@ namespace BigSister {
 
         case UMI: // E = -E
           if (vals.Count < 1)
-            throw new Exception("Syntax error");
+            throw new InvalidOperationException("Syntax error");
           temp1 = vals.Pop();
           vals.Push(-temp1);
           break;
 
         case FACT: // E = E!
           if (vals.Count < 1)
-            throw new Exception("Syntax error");
+            throw new InvalidOperationException("Syntax error");
           temp1 = vals.Pop();
           vals.Push(Math2.Factorial(temp1));
           break;
@@ -470,7 +470,7 @@ namespace BigSister {
             case "pow":
             case "power":
               if (vals.Count < 1)
-                throw new Exception("Syntax error");
+                throw new InvalidOperationException("Syntax error");
               temp2 = temp1;
               temp1 = vals.Pop();
               vals.Push(Math.Pow(temp1, temp2));
@@ -478,7 +478,7 @@ namespace BigSister {
 
             case "min":
               if (vals.Count < 1)
-                throw new Exception("Syntax error");
+                throw new InvalidOperationException("Syntax error");
               temp2 = temp1;
               temp1 = vals.Pop();
               vals.Push(Math.Min(temp1, temp2));
@@ -486,7 +486,7 @@ namespace BigSister {
 
             case "max":
               if (vals.Count < 1)
-                throw new Exception("Syntax error");
+                throw new InvalidOperationException("Syntax error");
               temp2 = temp1;
               temp1 = vals.Pop();
               vals.Push(Math.Max(temp1, temp2));
@@ -495,7 +495,7 @@ namespace BigSister {
             case "rand":
             case "random":
               if (vals.Count < 1)
-                throw new Exception("Syntax error");
+                throw new InvalidOperationException("Syntax error");
               temp2 = temp1;
               temp1 = vals.Pop();
               vals.Push(_randomizer.Next((int)temp1, (int)temp2));
@@ -507,7 +507,7 @@ namespace BigSister {
             case "npr":
               // p(n,r): permutations, n objects, r at a time
               if (vals.Count < 1)
-                throw new Exception("Syntax error");
+                throw new InvalidOperationException("Syntax error");
               temp2 = temp1;
               temp1 = vals.Pop();
               vals.Push(Math2.Permutation(temp1, temp2));
@@ -518,14 +518,14 @@ namespace BigSister {
             case "ncr":
               // c(n,r): combinations, n objects, r at a time
               if (vals.Count < 1)
-                throw new Exception("Syntax error");
+                throw new InvalidOperationException("Syntax error");
               temp2 = temp1;
               temp1 = vals.Pop();
               vals.Push(Math2.Combination(temp1, temp2));
               break;
 
             default:
-              throw new Exception("Syntax error");
+              throw new InvalidOperationException("Syntax error");
           }
           break;
 
@@ -687,7 +687,7 @@ namespace BigSister {
               ret.Add(new Token(c, SCOL));
               break;
             default:
-              throw new Exception("Illegal character \"" + c + "\" at position " + _currentpos + ".");
+              throw new InvalidOperationException("Illegal character \"" + c + "\" at position " + _currentpos + ".");
           }
           _currentpos++;
         }
@@ -744,16 +744,16 @@ namespace BigSister {
                   _lastAnswer = (double)_value;
                   return _value;
                 } else {
-                  throw new Exception("Syntax error");
+                  throw new InvalidOperationException("Syntax error");
                 }
               case ERROR1:
-                throw new Exception("Missing right parenthesis");
+                throw new InvalidOperationException("Missing right parenthesis");
               case ERROR2:
-                throw new Exception("Missing operator");
+                throw new InvalidOperationException("Missing operator");
               case ERROR3:
-                throw new Exception("Unbalanced right parenthesis");
+                throw new InvalidOperationException("Unbalanced right parenthesis");
               case ERROR4:
-                throw new Exception("Invalid function argument");
+                throw new InvalidOperationException("Invalid function argument");
             }
           }
         } while (true);
