@@ -400,7 +400,7 @@ namespace BigSister {
             case "COMPARE":
             case "COMP":
             case "CMP":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdCompare.Compare), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Compare), bc);
               break;
             case "COMBAT":
             case "COMB":

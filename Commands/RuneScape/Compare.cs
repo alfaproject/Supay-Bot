@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 
 namespace BigSister {
-  static class CmdCompare {
+  static partial class Command {
 
     public static void Compare(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
@@ -27,7 +27,7 @@ namespace BigSister {
           rsn1 = bc.From.Rsn;
           rsn2 = bc.NickToRSN(bc.MessageTokens[1]);
         }
-      } else if (Minigame.TryParse(bc.MessageTokens[1], ref minigame1)) {
+      } else if (BigSister.Minigame.TryParse(bc.MessageTokens[1], ref minigame1)) {
         if (bc.MessageTokens.Length == 3) {
           // !compare <minigame> <player2>
           rsn1 = bc.From.Rsn;
@@ -156,5 +156,5 @@ namespace BigSister {
       }
     }
 
-  } //class CmdCompare
+  } //class Command
 } //namespace BigSister
