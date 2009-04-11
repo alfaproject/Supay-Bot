@@ -412,10 +412,10 @@ namespace BigSister {
             // Hiscores
             case "TOP":
             case "TABLE":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdHiscores.Top), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Top), bc);
               break;
             case "RANK":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdHiscores.Rank), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Rank), bc);
               break;
 
             // Zybez

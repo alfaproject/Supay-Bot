@@ -88,7 +88,7 @@
     <Compile Include="Commands\GrandExchange\CoinShare.cs" />
     <Compile Include="Commands\GrandExchange\LastUpdate.cs" />
     <Compile Include="Commands\GrandExchange\Price.cs" />
-    <Compile Include="Commands\CmdHiscores.cs" />
+    <Compile Include="Commands\RuneScape\Top.cs" />
     <Compile Include="Commands\CmdLinks.cs" />
     <Compile Include="Commands\CmdMonster.cs" />
     <Compile Include="Commands\CmdOthers.cs" />
@@ -98,6 +98,7 @@
     <Compile Include="Commands\GrandExchange\PriceInfo.cs" />
     <Compile Include="Commands\RuneScape\Combat.cs" />
     <Compile Include="Commands\RuneScape\Minigame.cs" />
+    <Compile Include="Commands\RuneScape\Rank.cs" />
     <Compile Include="Commands\RuneScape\Skill.cs" />
     <Compile Include="Commands\RuneScape\Stats.cs" />
     <Compile Include="Commands\Timers\Check.cs" />
