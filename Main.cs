@@ -418,6 +418,13 @@ namespace BigSister {
               ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Rank), bc);
               break;
 
+            // MiniGames
+            case "SW":
+            case "SOULWAR":
+            case "SOULWARS":
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.SoulWarExp), bc);
+              break;
+
             // Zybez
             case "ITEM":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdZybez.ItemInfo), bc);
