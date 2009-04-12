@@ -317,7 +317,7 @@ namespace BigSister {
             case "TUGATOP":
             case "SSTOP":
             case "TSTOP":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdClan.Top), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.ClanTop), bc);
               break;
             case "PTWEEK":
             case "PTMONTH":
@@ -363,12 +363,13 @@ namespace BigSister {
             case "TSLMONTH":
             case "TSLASTYEAR":
             case "TSLYEAR":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdClan.Performance), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.ClanPerformance), bc);
               break;
             case "SS":
             case "SSAVG":
             case "SSSTATS":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdClan.Stats), bc);
+            case "SSINFO":
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.ClanInfo), bc);
               break;
 
             // Grand Exchange
@@ -635,7 +636,7 @@ namespace BigSister {
                 ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTracker.Performance), bc);
               } else if (bc.MessageTokens[0].StartsWithI("SSLAST") || bc.MessageTokens[0].StartsWithI("TSLAST") || bc.MessageTokens[0].StartsWithI("PTLAST") || bc.MessageTokens[0].StartsWithI("TUGALAST")) {
                 // !<clan>lastNdays
-                ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdClan.Performance), bc);
+                ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.ClanPerformance), bc);
               } else if (Minigame.TryParse(bc.MessageTokens[0], ref command)) {
                 // !<minigame>
                 ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Minigame), bc);

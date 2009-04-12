@@ -81,8 +81,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Clan\Performance.cs" />
+    <Compile Include="Commands\Clan\Top.cs" />
     <Compile Include="Commands\CommandContext.cs" />
-    <Compile Include="Commands\CmdClan.cs" />
+    <Compile Include="Commands\Clan\Info.cs" />
     <Compile Include="Commands\RuneScape\Compare.cs" />
     <Compile Include="Commands\CmdDataFiles.cs" />
     <Compile Include="Commands\GrandExchange\CoinShare.cs" />
