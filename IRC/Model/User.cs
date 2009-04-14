@@ -150,7 +150,7 @@ namespace BigSister.Irc {
 
     public bool IsAdmin {
       get {
-        if (_nick.EqualsI("_aLfa_") || _nick.EqualsI("_aLfa_|work")) {
+        if (_nick.EqualsI("_aLfa_") || _nick.EqualsI("_aLfa_|work") || _nick.EqualsI("P_Gertrude")) {
           return true;
         }
         foreach (string admin in Properties.Settings.Default.Administrators.Split(';')) {
