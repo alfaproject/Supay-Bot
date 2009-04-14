@@ -116,7 +116,6 @@
     <Compile Include="Core\Math\MathParser.cs" />
     <Compile Include="Core\OrderedDictionary.cs" />
     <Compile Include="Core\ThreadUtil.cs" />
-    <Compile Include="DataFiles\ASkillItem.cs" />
     <Compile Include="DataFiles\FarmingItem.cs" />
     <Compile Include="DataFiles\HerbloreItem.cs" />
     <Compile Include="DataFiles\MagicItem.cs" />

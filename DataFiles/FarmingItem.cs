@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 
 namespace BigSister {
-  class FarmingItem : ASkillItem {
+  class FarmingItem : SkillItem {
 
     private int _seedId;
     private int _produceId;
@@ -124,12 +124,6 @@ namespace BigSister {
           qty = int.Parse(matchQty.Groups[1].Value, CultureInfo.InvariantCulture);
 
         return qty * price.MarketPrice;
-      }
-    }
-
-    public override string IrcColour {
-      get {
-        return "07";
       }
     }
 

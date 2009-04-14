@@ -305,10 +305,10 @@ namespace BigSister {
         }
       }
 
-      List<ASkillItem> items = new SkillItems().FindAll(f => f.Name.ContainsI(query));
+      List<SkillItem> items = new SkillItems().FindAll(f => f.Name.ContainsI(query));
       if (items.Count > 0) {
         string reply = string.Empty;
-        foreach (ASkillItem item in items)
+        foreach (SkillItem item in items)
           reply += " | {1} (\\c{0}{2}\\c): \\c07{3:#,##0.#}\\c".FormatWith(item.IrcColour, item.Skill, item.Name, qty * item.Exp);
         bc.SendReply(reply.Substring(2));
       } else {

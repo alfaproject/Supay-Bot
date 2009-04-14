@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 
 namespace BigSister {
-  class HerbloreItem : ASkillItem {
+  class HerbloreItem : SkillItem {
 
     private int _potionId;
     private Price _price;
@@ -87,12 +87,6 @@ namespace BigSister {
           if (price != 0)
             cost += price;
         return cost;
-      }
-    }
-
-    public override string IrcColour {
-      get {
-        return "07";
       }
     }
 

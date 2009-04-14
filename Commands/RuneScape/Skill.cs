@@ -164,7 +164,7 @@ namespace BigSister {
                   reply += " (unknown monster)";
                 break;
               default:
-                ASkillItem itemFound = _GetItem(skill.Name, item);
+                SkillItem itemFound = _GetItem(skill.Name, item);
                 if (itemFound != null)
                   reply += " (\\c07{1}\\c \\c{0}{2}\\c)".FormatWith(itemFound.IrcColour, Math.Ceiling(expToGo / itemFound.Exp), itemFound.Name);
                 else
@@ -244,12 +244,12 @@ namespace BigSister {
       bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn));
     }
 
-    private static ASkillItem _GetItem(string skill, string input_item) {
+    private static SkillItem _GetItem(string skill, string input_item) {
       // Load items data file
       SkillItems items = new SkillItems(skill);
 
       // Search for an exact match
-      ASkillItem item = items.Find(f => f.Name.ToUpperInvariant() == input_item.ToUpperInvariant());
+      SkillItem item = items.Find(f => f.Name.ToUpperInvariant() == input_item.ToUpperInvariant());
       // Search for a partial match if the exact fails
       if (item == null)
         item = items.Find(f => f.Name.ContainsI(input_item));

@@ -2,7 +2,7 @@
 using System.Globalization;
 
 namespace BigSister {
-  class SummoningItem : ASkillItem {
+  class SummoningItem : SkillItem {
 
     private int _pouchId;
 
@@ -60,7 +60,7 @@ namespace BigSister {
       set;
     }
 
-    public override string IrcColour {
+    public new string IrcColour {
       get {
         switch (this.Charm) {
           case "Crimson":

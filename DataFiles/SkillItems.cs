@@ -2,7 +2,7 @@
 using System.IO;
 
 namespace BigSister {
-  class SkillItems : List<ASkillItem> {
+  class SkillItems : List<SkillItem> {
 
     public SkillItems(string skill)
       : base() {

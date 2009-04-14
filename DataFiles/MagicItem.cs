@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 
 namespace BigSister {
-  class MagicItem : ASkillItem {
+  class MagicItem : SkillItem {
 
     public MagicItem(string[] tokens)
       : base(tokens) {
@@ -98,12 +98,6 @@ namespace BigSister {
     public string Effect {
       get;
       set;
-    }
-
-    public override string IrcColour {
-      get {
-        return "07";
-      }
     }
 
   } //class MagicItem
