@@ -425,6 +425,10 @@ namespace BigSister {
             case "SOULWARS":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.SoulWarExp), bc);
               break;
+            case "PC":
+            case "PESTCONTROL":
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.PestControl), bc);
+              break;
 
             // Zybez
             case "ITEM":
