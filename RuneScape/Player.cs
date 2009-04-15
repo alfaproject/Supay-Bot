@@ -9,7 +9,6 @@ namespace BigSister {
 
     private int _id;
     private string _name;
-    private string _clan;
     private string _combatclass;
     private DateTime _lastupdate;
     private bool _ranked;
@@ -35,12 +34,6 @@ namespace BigSister {
     public string Name {
       get {
         return _name;
-      }
-    }
-
-    public string Clan {
-      get {
-        return _clan;
       }
     }
 
