@@ -12,19 +12,19 @@ namespace BigSister {
       switch (bc.MessageTokens[1].ToUpperInvariant()) {
         case "RSN":
         case "NAME":
-          SetName(bc);
+          _SetName(bc);
           break;
         case "GOAL":
-          SetGoal(bc);
+          _SetGoal(bc);
           break;
         case "ITEM":
-          SetItem(bc);
+          _SetItem(bc);
           break;
         case "SPEED":
-          SetSpeed(bc);
+          _SetSpeed(bc);
           break;
         case "SKILL":
-          SetSkill(bc);
+          _SetSkill(bc);
           break;
         default:
           bc.SendReply("Error: Unknown parameter.");
@@ -32,7 +32,7 @@ namespace BigSister {
       }
     }
 
-    private static void SetName(CommandContext bc) {
+    private static void _SetName(CommandContext bc) {
       if (bc.MessageTokens.Length < 3) {
         bc.SendReply("Syntax: !set name <rsn>");
         return;
@@ -52,7 +52,7 @@ namespace BigSister {
       bc.SendReply(@"Your default RuneScape name is now \b{0}\b. This RSN is associated with the address \u*!*{1}\u.".FormatWith(rsn, bc.From.FingerPrint));
     }
 
-    private static void SetGoal(CommandContext bc) {
+    private static void _SetGoal(CommandContext bc) {
       if (bc.MessageTokens.Length < 3) {
         bc.SendReply("Syntax: !set goal <skill> [goal]");
         return;
@@ -118,7 +118,7 @@ namespace BigSister {
       Database.SetStringParam("users", "goals", "fingerprint='" + bc.From.FingerPrint + "'", skill, goal);
     }
 
-    private static void SetItem(CommandContext bc) {
+    private static void _SetItem(CommandContext bc) {
       if (bc.MessageTokens.Length < 4) {
         bc.SendReply("Syntax: !set item <skill> <item>");
         return;
@@ -138,10 +138,10 @@ namespace BigSister {
       }
 
       Database.SetStringParam("users", "items", "fingerprint='" + bc.From.FingerPrint + "'", skill, item);
-      bc.SendReply(@"Your default item for \b{0}\b is now set to \u{1}\u.".FormatWith(skill, item));
+      bc.SendReply(@"Your default item for \b{0}\b is currently set to \u{1}\u.".FormatWith(skill, item));
     }
 
-    private static void SetSpeed(CommandContext bc) {
+    private static void _SetSpeed(CommandContext bc) {
       if (bc.MessageTokens.Length < 4) {
         bc.SendReply("Syntax: !set speed <skill> <average exp. per hour>");
         return;
@@ -168,13 +168,13 @@ namespace BigSister {
       Database.SetStringParam("users", "speeds", "fingerprint='" + bc.From.FingerPrint + "'", skill, speedValue.ToStringI());
 
       if (speedValue > 0) {
-        bc.SendReply(@"Your speed for \b{0}\b is now set to \u{1} average exp. per hour\u.".FormatWith(skill, speedValue.ToShortString(1)));
+        bc.SendReply(@"Your speed for \b{0}\b is currently set to \u{1} average exp. per hour\u.".FormatWith(skill, speedValue.ToShortString(1)));
       } else {
-        bc.SendReply(@"Your speed for \b{0}\b is now deleted.".FormatWith(skill));
+        bc.SendReply(@"Your speed for \b{0}\b was deleted.".FormatWith(skill));
       }
     }
 
-    private static void SetSkill(CommandContext bc) {
+    private static void _SetSkill(CommandContext bc) {
       if (bc.MessageTokens.Length < 3) {
         bc.SendReply("Syntax: !set skill <skill>");
         return;
@@ -192,7 +192,7 @@ namespace BigSister {
       }
 
       Database.Update("users", "fingerprint='" + bc.From.FingerPrint + "'", "skill", skill);
-      bc.SendReply(@"Your default skill is now set to \b{0}\b.".FormatWith(skill));
+      bc.SendReply(@"Your default skill is currently set to \b{0}\b.".FormatWith(skill));
     }
 
   } //class Command
