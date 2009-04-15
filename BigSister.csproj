@@ -108,11 +108,12 @@
     <Compile Include="Commands\Timers\Check.cs" />
     <Compile Include="Commands\Timers\Timer.cs" />
     <Compile Include="Commands\CmdTracker.cs" />
-    <Compile Include="Commands\CmdUtil.cs" />
     <Compile Include="Commands\CmdZybez.cs" />
-    <Compile Include="Commands\Set.cs" />
+    <Compile Include="Commands\Utils\Calc.cs" />
+    <Compile Include="Commands\Utils\Set.cs" />
     <Compile Include="Commands\Timers\End.cs" />
     <Compile Include="Commands\Timers\Start.cs" />
+    <Compile Include="Commands\Utils\Whois.cs" />
     <Compile Include="Core\Database.cs" />
     <Compile Include="Core\Math\Math2.cs" />
     <Compile Include="Core\Math\MathParser.cs" />

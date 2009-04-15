@@ -267,11 +267,11 @@ namespace BigSister {
               break;
             case "RSN":
             case "WHOIS":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdUtil.Whois), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Whois), bc);
               break;
             case "CALC":
             case "C":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdUtil.Calc), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Calc), bc);
               break;
 
             // Tracker
