@@ -102,7 +102,7 @@ namespace BigSister {
       return sum - initialSum;
     }
 
-    public static int SoulWarsExp(string skill, int level) {
+    public static int SoulWarsExpPerZeal(string skill, int level) {
       switch (skill) {
         case Skill.ATTA:
         case Skill.STRE:
