@@ -141,34 +141,59 @@ namespace BigSister {
             string item_name;
             int monster_hp;
 
-            switch (skill.Name) {
-              case Skill.ATTA:
-              case Skill.DEFE:
-              case Skill.STRE:
-              case Skill.RANG:
-                if (_GetMonster(item, out item_name, out monster_hp))
-                  reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling((double)expToGo / (monster_hp * 4)), item_name);
-                else
-                  reply += " (unknown monster)";
-                break;
-              case Skill.HITP:
-                if (_GetMonster(item, out item_name, out monster_hp))
-                  reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling((double)expToGo / (monster_hp * (4 / 3))), item_name);
-                else
-                  reply += " (unknown monster)";
-                break;
-              case Skill.SLAY:
-                if (_GetMonster(item, out item_name, out monster_hp))
-                  reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling((double)expToGo / monster_hp), item_name);
-                else
-                  reply += " (unknown monster)";
+            switch (item.ToUpperInvariant()) {
+              case "SW":
+              case "SOUL":
+              case "SOULS":
+              case "SOULWAR":
+              case "SOULWARS":
+                switch (skill.Name) {
+                  case Skill.ATTA:
+                  case Skill.STRE:
+                  case Skill.DEFE:
+                  case Skill.HITP:
+                  case Skill.RANG:
+                  case Skill.MAGI:
+                  case Skill.PRAY:
+                  case Skill.SLAY:
+                    reply += @" (\c07{0:N0}\c zeal / \c07{1:N0}\c zeal-100)".FormatWith(Util.SoulWarsZealToExp(skill.Name, skill.Exp, target_exp, false), Util.SoulWarsZealToExp(skill.Name, skill.Exp, target_exp, true));
+                    break;
+                  default:
+                    reply += " (unknown item)";
+                    break;
+                }
                 break;
               default:
-                SkillItem itemFound = _GetItem(skill.Name, item);
-                if (itemFound != null)
-                  reply += " (\\c07{1}\\c \\c{0}{2}\\c)".FormatWith(itemFound.IrcColour, Math.Ceiling(expToGo / itemFound.Exp), itemFound.Name);
-                else
-                  reply += " (unknown item)";
+                switch (skill.Name) {
+                  case Skill.ATTA:
+                  case Skill.DEFE:
+                  case Skill.STRE:
+                  case Skill.RANG:
+                    if (_GetMonster(item, out item_name, out monster_hp))
+                      reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling((double)expToGo / (monster_hp * 4)), item_name);
+                    else
+                      reply += " (unknown monster)";
+                    break;
+                  case Skill.HITP:
+                    if (_GetMonster(item, out item_name, out monster_hp))
+                      reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling((double)expToGo / (monster_hp * (4 / 3))), item_name);
+                    else
+                      reply += " (unknown monster)";
+                    break;
+                  case Skill.SLAY:
+                    if (_GetMonster(item, out item_name, out monster_hp))
+                      reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling((double)expToGo / monster_hp), item_name);
+                    else
+                      reply += " (unknown monster)";
+                    break;
+                  default:
+                    SkillItem itemFound = _GetItem(skill.Name, item);
+                    if (itemFound != null)
+                      reply += " (\\c07{1}\\c \\c{0}{2}\\c)".FormatWith(itemFound.IrcColour, Math.Ceiling(expToGo / itemFound.Exp), itemFound.Name);
+                    else
+                      reply += " (unknown item)";
+                    break;
+                }
                 break;
             }
           }

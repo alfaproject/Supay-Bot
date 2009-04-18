@@ -103,6 +103,9 @@ namespace BigSister {
     }
 
     public static int SoulWarsExpPerZeal(string skill, int level) {
+      if (level > 99) {
+        level = 99;
+      }
       switch (skill) {
         case Skill.ATTA:
         case Skill.STRE:
@@ -117,8 +120,23 @@ namespace BigSister {
         case Skill.SLAY:
           return (int)Math.Round((double)(level * level) / 337.5) * 45;
         default:
-          return -1;
+          throw new ArgumentOutOfRangeException("skill");
       }
+    }
+
+    public static int SoulWarsZealToExp(string skill, int startExp, int targetExp, bool bonus) {
+      int zeal = 0;
+      while (startExp < targetExp) {
+        int expPerZeal = Util.SoulWarsExpPerZeal(skill, startExp.ToLevel());
+        if (bonus) {
+          startExp += 100 * (int)(expPerZeal * 1.1);
+          zeal += 100;
+        } else {
+          startExp += expPerZeal;
+          zeal++;
+        }
+      }
+      return zeal;
     }
 
   } //class RSUtil
