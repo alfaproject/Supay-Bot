@@ -129,7 +129,7 @@ namespace BigSister {
       while (startExp < targetExp) {
         int expPerZeal = Util.SoulWarsExpPerZeal(skill, startExp.ToLevel());
         if (bonus) {
-          startExp += 100 * (int)(expPerZeal * 1.1);
+          startExp += (int)((double)(100 * expPerZeal) * 1.1);
           zeal += 100;
         } else {
           startExp += expPerZeal;
@@ -139,5 +139,48 @@ namespace BigSister {
       return zeal;
     }
 
-  } //class RSUtil
+    public static int PestControlExpPerPoint(string skill, int level) {
+      if (level > 99) {
+        level = 99;
+      }
+      int common = (int)Math.Ceiling((double)((level + 25) * (level - 24)) / 606.0);
+      switch (skill) {
+        case Skill.ATTA:
+        case Skill.STRE:
+        case Skill.DEFE:
+        case Skill.HITP:
+          return common * 35;
+        case Skill.RANG:
+        case Skill.MAGI:
+          return common * 32;
+        case Skill.PRAY:
+          return common * 18;
+        default:
+          throw new ArgumentOutOfRangeException("skill");
+      }
+    }
+
+    public static int PestControlPointsToExp(string skill, int startExp, int targetExp, int bonus) {
+      int points = 0;
+      while (startExp < targetExp) {
+        int expPerPoint = Util.PestControlExpPerPoint(skill, startExp.ToLevel());
+        switch (bonus) {
+          case 10:
+            startExp += (int)((double)(10 * expPerPoint) * 1.01);
+            points += 10;
+            break;
+          case 100:
+            startExp += (int)((double)(100 * expPerPoint) * 1.1);
+            points += 100;
+            break;
+          default:
+            startExp += expPerPoint;
+            points++;
+            break;
+        }
+      }
+      return points;
+    }
+
+  } //class Util
 } //namespace BigSister
