@@ -55,13 +55,13 @@ namespace BigSister {
       int combatLevel, combatF2pLevel;
       string combatClass;
       if (VLevel) {
-        combatClass = RSUtil.CombatClass(p.Skills, true);
-        combatLevel = RSUtil.CalculateCombat(p.Skills, true, false);
-        combatF2pLevel = RSUtil.CalculateCombat(p.Skills, true, true);
+        combatClass = Util.CombatClass(p.Skills, true);
+        combatLevel = Util.CalculateCombat(p.Skills, true, false);
+        combatF2pLevel = Util.CalculateCombat(p.Skills, true, true);
       } else {
-        combatClass = RSUtil.CombatClass(p.Skills, false);
-        combatLevel = RSUtil.CalculateCombat(p.Skills, false, false);
-        combatF2pLevel = RSUtil.CalculateCombat(p.Skills, false, true);
+        combatClass = Util.CombatClass(p.Skills, false);
+        combatLevel = Util.CalculateCombat(p.Skills, false, false);
+        combatF2pLevel = Util.CalculateCombat(p.Skills, false, true);
       }
 
       string reply = "\\b{0}\\b \\c07combat\\c | level: \\c07{1}\\c (f2p: \\c07{2}\\c) | exp: \\c07{3:e}\\c | combat%: \\c07{4:0.##}%\\c | slayer%: \\c07{5:0.##}%\\c | class: \\c07{6}\\c".FormatWith(
@@ -113,40 +113,40 @@ namespace BigSister {
             case Skill.ATTA:
             case Skill.STRE:
               if (VLevel)
-                next = RSUtil.NextCombatAttStr(p.Skills[Skill.ATTA].VLevel, p.Skills[Skill.STRE].VLevel, p.Skills[Skill.DEFE].VLevel, p.Skills[Skill.HITP].VLevel, p.Skills[Skill.RANG].VLevel, p.Skills[Skill.PRAY].VLevel, p.Skills[Skill.MAGI].VLevel, p.Skills[Skill.SUMM].VLevel);
+                next = Util.NextCombatAttStr(p.Skills[Skill.ATTA].VLevel, p.Skills[Skill.STRE].VLevel, p.Skills[Skill.DEFE].VLevel, p.Skills[Skill.HITP].VLevel, p.Skills[Skill.RANG].VLevel, p.Skills[Skill.PRAY].VLevel, p.Skills[Skill.MAGI].VLevel, p.Skills[Skill.SUMM].VLevel);
               else
-                next = RSUtil.NextCombatAttStr(p.Skills[Skill.ATTA].Level, p.Skills[Skill.STRE].Level, p.Skills[Skill.DEFE].Level, p.Skills[Skill.HITP].Level, p.Skills[Skill.RANG].Level, p.Skills[Skill.PRAY].Level, p.Skills[Skill.MAGI].Level, p.Skills[Skill.SUMM].Level);
+                next = Util.NextCombatAttStr(p.Skills[Skill.ATTA].Level, p.Skills[Skill.STRE].Level, p.Skills[Skill.DEFE].Level, p.Skills[Skill.HITP].Level, p.Skills[Skill.RANG].Level, p.Skills[Skill.PRAY].Level, p.Skills[Skill.MAGI].Level, p.Skills[Skill.SUMM].Level);
               break;
             case Skill.DEFE:
             case Skill.HITP:
               if (VLevel)
-                next = RSUtil.NextCombatDefHp(p.Skills[Skill.ATTA].VLevel, p.Skills[Skill.STRE].VLevel, p.Skills[Skill.DEFE].VLevel, p.Skills[Skill.HITP].VLevel, p.Skills[Skill.RANG].VLevel, p.Skills[Skill.PRAY].VLevel, p.Skills[Skill.MAGI].VLevel, p.Skills[Skill.SUMM].VLevel);
+                next = Util.NextCombatDefHp(p.Skills[Skill.ATTA].VLevel, p.Skills[Skill.STRE].VLevel, p.Skills[Skill.DEFE].VLevel, p.Skills[Skill.HITP].VLevel, p.Skills[Skill.RANG].VLevel, p.Skills[Skill.PRAY].VLevel, p.Skills[Skill.MAGI].VLevel, p.Skills[Skill.SUMM].VLevel);
               else
-                next = RSUtil.NextCombatDefHp(p.Skills[Skill.ATTA].Level, p.Skills[Skill.STRE].Level, p.Skills[Skill.DEFE].Level, p.Skills[Skill.HITP].Level, p.Skills[Skill.RANG].Level, p.Skills[Skill.PRAY].Level, p.Skills[Skill.MAGI].Level, p.Skills[Skill.SUMM].Level);
+                next = Util.NextCombatDefHp(p.Skills[Skill.ATTA].Level, p.Skills[Skill.STRE].Level, p.Skills[Skill.DEFE].Level, p.Skills[Skill.HITP].Level, p.Skills[Skill.RANG].Level, p.Skills[Skill.PRAY].Level, p.Skills[Skill.MAGI].Level, p.Skills[Skill.SUMM].Level);
               break;
             case Skill.PRAY:
               if (VLevel)
-                next = RSUtil.NextCombatPray(p.Skills[Skill.ATTA].VLevel, p.Skills[Skill.STRE].VLevel, p.Skills[Skill.DEFE].VLevel, p.Skills[Skill.HITP].VLevel, p.Skills[Skill.RANG].VLevel, p.Skills[Skill.PRAY].VLevel, p.Skills[Skill.MAGI].VLevel, p.Skills[Skill.SUMM].VLevel);
+                next = Util.NextCombatPray(p.Skills[Skill.ATTA].VLevel, p.Skills[Skill.STRE].VLevel, p.Skills[Skill.DEFE].VLevel, p.Skills[Skill.HITP].VLevel, p.Skills[Skill.RANG].VLevel, p.Skills[Skill.PRAY].VLevel, p.Skills[Skill.MAGI].VLevel, p.Skills[Skill.SUMM].VLevel);
               else
-                next = RSUtil.NextCombatPray(p.Skills[Skill.ATTA].Level, p.Skills[Skill.STRE].Level, p.Skills[Skill.DEFE].Level, p.Skills[Skill.HITP].Level, p.Skills[Skill.RANG].Level, p.Skills[Skill.PRAY].Level, p.Skills[Skill.MAGI].Level, p.Skills[Skill.SUMM].Level);
+                next = Util.NextCombatPray(p.Skills[Skill.ATTA].Level, p.Skills[Skill.STRE].Level, p.Skills[Skill.DEFE].Level, p.Skills[Skill.HITP].Level, p.Skills[Skill.RANG].Level, p.Skills[Skill.PRAY].Level, p.Skills[Skill.MAGI].Level, p.Skills[Skill.SUMM].Level);
               break;
             case Skill.SUMM:
               if (VLevel)
-                next = RSUtil.NextCombatSum(p.Skills[Skill.ATTA].VLevel, p.Skills[Skill.STRE].VLevel, p.Skills[Skill.DEFE].VLevel, p.Skills[Skill.HITP].VLevel, p.Skills[Skill.RANG].VLevel, p.Skills[Skill.PRAY].VLevel, p.Skills[Skill.MAGI].VLevel, p.Skills[Skill.SUMM].VLevel);
+                next = Util.NextCombatSum(p.Skills[Skill.ATTA].VLevel, p.Skills[Skill.STRE].VLevel, p.Skills[Skill.DEFE].VLevel, p.Skills[Skill.HITP].VLevel, p.Skills[Skill.RANG].VLevel, p.Skills[Skill.PRAY].VLevel, p.Skills[Skill.MAGI].VLevel, p.Skills[Skill.SUMM].VLevel);
               else
-                next = RSUtil.NextCombatSum(p.Skills[Skill.ATTA].Level, p.Skills[Skill.STRE].Level, p.Skills[Skill.DEFE].Level, p.Skills[Skill.HITP].Level, p.Skills[Skill.RANG].Level, p.Skills[Skill.PRAY].Level, p.Skills[Skill.MAGI].Level, p.Skills[Skill.SUMM].Level);
+                next = Util.NextCombatSum(p.Skills[Skill.ATTA].Level, p.Skills[Skill.STRE].Level, p.Skills[Skill.DEFE].Level, p.Skills[Skill.HITP].Level, p.Skills[Skill.RANG].Level, p.Skills[Skill.PRAY].Level, p.Skills[Skill.MAGI].Level, p.Skills[Skill.SUMM].Level);
               break;
             case Skill.MAGI:
               if (VLevel)
-                next = RSUtil.NextCombatMag(p.Skills[Skill.ATTA].VLevel, p.Skills[Skill.STRE].VLevel, p.Skills[Skill.DEFE].VLevel, p.Skills[Skill.HITP].VLevel, p.Skills[Skill.RANG].VLevel, p.Skills[Skill.PRAY].VLevel, p.Skills[Skill.MAGI].VLevel, p.Skills[Skill.SUMM].VLevel);
+                next = Util.NextCombatMag(p.Skills[Skill.ATTA].VLevel, p.Skills[Skill.STRE].VLevel, p.Skills[Skill.DEFE].VLevel, p.Skills[Skill.HITP].VLevel, p.Skills[Skill.RANG].VLevel, p.Skills[Skill.PRAY].VLevel, p.Skills[Skill.MAGI].VLevel, p.Skills[Skill.SUMM].VLevel);
               else
-                next = RSUtil.NextCombatMag(p.Skills[Skill.ATTA].Level, p.Skills[Skill.STRE].Level, p.Skills[Skill.DEFE].Level, p.Skills[Skill.HITP].Level, p.Skills[Skill.RANG].Level, p.Skills[Skill.PRAY].Level, p.Skills[Skill.MAGI].Level, p.Skills[Skill.SUMM].Level);
+                next = Util.NextCombatMag(p.Skills[Skill.ATTA].Level, p.Skills[Skill.STRE].Level, p.Skills[Skill.DEFE].Level, p.Skills[Skill.HITP].Level, p.Skills[Skill.RANG].Level, p.Skills[Skill.PRAY].Level, p.Skills[Skill.MAGI].Level, p.Skills[Skill.SUMM].Level);
               break;
             case Skill.RANG:
               if (VLevel)
-                next = RSUtil.NextCombatRan(p.Skills[Skill.ATTA].VLevel, p.Skills[Skill.STRE].VLevel, p.Skills[Skill.DEFE].VLevel, p.Skills[Skill.HITP].VLevel, p.Skills[Skill.RANG].VLevel, p.Skills[Skill.PRAY].VLevel, p.Skills[Skill.MAGI].VLevel, p.Skills[Skill.SUMM].VLevel);
+                next = Util.NextCombatRan(p.Skills[Skill.ATTA].VLevel, p.Skills[Skill.STRE].VLevel, p.Skills[Skill.DEFE].VLevel, p.Skills[Skill.HITP].VLevel, p.Skills[Skill.RANG].VLevel, p.Skills[Skill.PRAY].VLevel, p.Skills[Skill.MAGI].VLevel, p.Skills[Skill.SUMM].VLevel);
               else
-                next = RSUtil.NextCombatRan(p.Skills[Skill.ATTA].Level, p.Skills[Skill.STRE].Level, p.Skills[Skill.DEFE].Level, p.Skills[Skill.HITP].Level, p.Skills[Skill.RANG].Level, p.Skills[Skill.PRAY].Level, p.Skills[Skill.MAGI].Level, p.Skills[Skill.SUMM].Level);
+                next = Util.NextCombatRan(p.Skills[Skill.ATTA].Level, p.Skills[Skill.STRE].Level, p.Skills[Skill.DEFE].Level, p.Skills[Skill.HITP].Level, p.Skills[Skill.RANG].Level, p.Skills[Skill.PRAY].Level, p.Skills[Skill.MAGI].Level, p.Skills[Skill.SUMM].Level);
               break;
             default:
               next = 0;

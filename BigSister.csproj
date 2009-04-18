@@ -449,7 +449,7 @@
     <Compile Include="RuneScape\Minigames.cs" />
     <Compile Include="RuneScape\Player.cs" />
     <Compile Include="RuneScape\Players.cs" />
-    <Compile Include="RuneScape\RSUtil.cs" />
+    <Compile Include="RuneScape\Utils.cs" />
     <Compile Include="RuneScape\Skill.cs" />
     <Compile Include="RuneScape\Skills.cs" />
     <Compile Include="RuneScape\World.cs" />
