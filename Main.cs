@@ -421,11 +421,14 @@ namespace BigSister {
 
             // MiniGames
             case "SW":
+            case "SOUL":
+            case "SOULS":
             case "SOULWAR":
             case "SOULWARS":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.SoulWars), bc);
               break;
             case "PC":
+            case "PEST":
             case "PESTCONTROL":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.PestControl), bc);
               break;
