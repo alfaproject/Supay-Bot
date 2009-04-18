@@ -156,7 +156,7 @@ namespace BigSister {
                   case Skill.MAGI:
                   case Skill.PRAY:
                   case Skill.SLAY:
-                    reply += @" (\c07{0:N0}\c/\c07{1:N0}\c zeal)".FormatWith(Util.SoulWarsZealToExp(skill.Name, skill.Exp, target_exp, false), Util.SoulWarsZealToExp(skill.Name, skill.Exp, target_exp, true));
+                    reply += @" (\c07{0:N0}\c/\c07{1:N0}\c zeal)".FormatWith(Utils.SoulWarsZealToExp(skill.Name, skill.Exp, target_exp, false), Utils.SoulWarsZealToExp(skill.Name, skill.Exp, target_exp, true));
                     break;
                   default:
                     reply += " (unknown item)";
@@ -174,7 +174,7 @@ namespace BigSister {
                   case Skill.RANG:
                   case Skill.MAGI:
                   case Skill.PRAY:
-                    reply += @" (\c07{0:N0}\c/\c07{1:N0}\c/\c07{2:N0}\c points)".FormatWith(Util.PestControlPointsToExp(skill.Name, skill.Exp, target_exp, 1), Util.PestControlPointsToExp(skill.Name, skill.Exp, target_exp, 10), Util.PestControlPointsToExp(skill.Name, skill.Exp, target_exp, 100));
+                    reply += @" (\c07{0:N0}\c/\c07{1:N0}\c/\c07{2:N0}\c points)".FormatWith(Utils.PestControlPointsToExp(skill.Name, skill.Exp, target_exp, 1), Utils.PestControlPointsToExp(skill.Name, skill.Exp, target_exp, 10), Utils.PestControlPointsToExp(skill.Name, skill.Exp, target_exp, 100));
                     break;
                   default:
                     reply += " (unknown item)";

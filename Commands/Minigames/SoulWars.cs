@@ -53,7 +53,7 @@
         case Skill.MAGI:
         case Skill.PRAY:
         case Skill.SLAY:
-          int exp = Util.SoulWarsExpPerZeal(skill, level);
+          int exp = Utils.SoulWarsExpPerZeal(skill, level);
           bc.SendReply(@"For each point at level \c07{0}\c you will gain \c07{1:N0} {2}\c experience".FormatWith(level, exp, skill));
           break;
         default:

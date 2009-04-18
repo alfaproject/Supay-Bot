@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace BigSister {
-  static class Util {
+  static class Utils {
 
     private static int CalculateCombat(int neutralBonus, int meleeBonus, int magicBonus, int rangeBonus) {
       return (int)Math.Floor((double)(neutralBonus * 100 + Math.Max(meleeBonus, Math.Max(magicBonus, rangeBonus)) * 130) / 400.0);
@@ -127,7 +127,7 @@ namespace BigSister {
     public static int SoulWarsZealToExp(string skill, int startExp, int targetExp, bool bonus) {
       int zeal = 0;
       while (startExp < targetExp) {
-        int expPerZeal = Util.SoulWarsExpPerZeal(skill, startExp.ToLevel());
+        int expPerZeal = Utils.SoulWarsExpPerZeal(skill, startExp.ToLevel());
         if (bonus) {
           startExp += (int)((double)(100 * expPerZeal) * 1.1);
           zeal += 100;
@@ -163,7 +163,7 @@ namespace BigSister {
     public static int PestControlPointsToExp(string skill, int startExp, int targetExp, int bonus) {
       int points = 0;
       while (startExp < targetExp) {
-        int expPerPoint = Util.PestControlExpPerPoint(skill, startExp.ToLevel());
+        int expPerPoint = Utils.PestControlExpPerPoint(skill, startExp.ToLevel());
         switch (bonus) {
           case 10:
             startExp += (int)((double)(10 * expPerPoint) * 1.01);
@@ -182,5 +182,5 @@ namespace BigSister {
       return points;
     }
 
-  } //class Util
+  } //class Utils
 } //namespace BigSister

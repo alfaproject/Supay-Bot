@@ -436,16 +436,16 @@ namespace BigSister {
           Mag = 1;
       }
 
-      string cmbclass = Util.CombatClass(Att, Str, Ran, Mag);
-      int cmblevel = Util.CalculateCombat(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
+      string cmbclass = Utils.CombatClass(Att, Str, Ran, Mag);
+      int cmblevel = Utils.CalculateCombat(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
       bc.SendReply("Combat: \\c07{0}\\c | Class: \\c07{1}\\c | Stats: \\c07{2} {3} {4}\\c {5} \\c07{6} {7}\\c {8} {9}".FormatWith(cmblevel, cmbclass, Att, Str, Def, Hit, Pray, Sum, Ran, Mag));
 
-      int nextAS = Util.NextCombatAttStr(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
-      int nextDH = Util.NextCombatDefHp(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
-      int nextP = Util.NextCombatPray(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
-      int nextS = Util.NextCombatSum(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
-      int nextR = Util.NextCombatRan(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
-      int nextM = Util.NextCombatMag(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
+      int nextAS = Utils.NextCombatAttStr(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
+      int nextDH = Utils.NextCombatDefHp(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
+      int nextP = Utils.NextCombatPray(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
+      int nextS = Utils.NextCombatSum(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
+      int nextR = Utils.NextCombatRan(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
+      int nextM = Utils.NextCombatMag(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
       bc.SendReply("Stats to level | Att/Str: \\c{0}\\c | Def/Hp: \\c{1}\\c | Pray: \\c{2}\\c | Sum: \\c{3}\\c | Range: \\c{4}\\c | Mage: \\c{5}\\c".FormatWith(
                                  (Att + nextAS > 99 && Str + nextAS > 99 ? "04" : "03") + nextAS,
                                  (Def + nextDH > 99 && Hit + nextDH > 99 ? "04" : "03") + nextDH,
