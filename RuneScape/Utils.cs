@@ -102,5 +102,24 @@ namespace BigSister {
       return sum - initialSum;
     }
 
+    public static int SoulWarsExp(string skill, int level) {
+      switch (skill) {
+        case Skill.ATTA:
+        case Skill.STRE:
+        case Skill.DEFE:
+        case Skill.HITP:
+          return level * level / 600 * 525;
+        case Skill.RANG:
+        case Skill.MAGI:
+          return level * level / 600 * 480;
+        case Skill.PRAY:
+          return level * level / 600 * 270;
+        case Skill.SLAY:
+          return (int)Math.Round((double)(level * level) / 337.5) * 45;
+        default:
+          return -1;
+      }
+    }
+
   } //class RSUtil
 } //namespace BigSister

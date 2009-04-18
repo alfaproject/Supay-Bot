@@ -44,18 +44,22 @@
         level = skillInfo.Level;
       }
 
-      int points = 0;
-      if (skill == "Attack" || skill == "Strength" || skill == "Defence" || skill == "Hitpoints") {
-        points = (int)(level * level / 600) * 525;
-      } else if (skill == "Ranged" || skill == "Magic") {
-        points = (int)(level * level / 600) * 480;
-      } else if (skill == "Prayer") {
-        points = (int)(level * level / 600) * 270;
-      } else {
-        // Slayer formula
+      switch (skill) {
+        case Skill.ATTA:
+        case Skill.STRE:
+        case Skill.DEFE:
+        case Skill.HITP:
+        case Skill.RANG:
+        case Skill.MAGI:
+        case Skill.PRAY:
+        case Skill.SLAY:
+          int exp = Util.SoulWarsExp(skill, level);
+          bc.SendReply(@"For each point at level \c07{0}\c you will gain \c07{1:N0} {2}\c experience".FormatWith(level, exp, skill));
+          break;
+        default:
+          bc.SendReply("You can only calculate experience for Attack, Strength, Defence, Hitpoints, Prayer and Slayer at the moment.");
+          break;
       }
-
-      bc.SendReply("For each point at level \\c07" + level + "\\c you will gain \\c07" + points.ToStringI("#,##0") + " " + skill + "\\c experience");
     }
 
   } //class Command
