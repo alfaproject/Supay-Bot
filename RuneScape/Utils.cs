@@ -118,7 +118,11 @@ namespace BigSister {
         case Skill.PRAY:
           return level * level / 600 * 270;
         case Skill.SLAY:
-          return (int)Math.Round((double)(level * level) / 337.5) * 45;
+          if (level < 90) {
+            return (int)Math.Round((double)(level * level) / 337.5) * 45;
+          } else {
+            return (int)Math.Floor((double)(level * level) / 337.5) * 45;
+          }
         default:
           throw new ArgumentOutOfRangeException("skill");
       }
@@ -143,21 +147,25 @@ namespace BigSister {
       if (level > 99) {
         level = 99;
       }
-      int common = (int)Math.Ceiling((double)((level + 25) * (level - 24)) / 606.0);
+      int modifier;
       switch (skill) {
         case Skill.ATTA:
         case Skill.STRE:
         case Skill.DEFE:
         case Skill.HITP:
-          return common * 35;
+          modifier = 35;
+          break;
         case Skill.RANG:
         case Skill.MAGI:
-          return common * 32;
+          modifier = 32;
+          break;
         case Skill.PRAY:
-          return common * 18;
+          modifier = 18;
+          break;
         default:
           throw new ArgumentOutOfRangeException("skill");
       }
+      return (int)Math.Ceiling((double)((level + 25) * (level - 24)) / 606.0) * modifier;
     }
 
     public static int PestControlPointsToExp(string skill, int startExp, int targetExp, int bonus) {
@@ -180,6 +188,24 @@ namespace BigSister {
         }
       }
       return points;
+    }
+
+    public static int LampsToExp(int startExp, int targetExp) {
+      int lamps = 0;
+      while (startExp < targetExp) {
+        startExp += 10 * Math.Min(startExp.ToLevel(), 99);
+        lamps++;
+      }
+      return lamps;
+    }
+
+    public static int BooksToExp(int startExp, int targetExp) {
+      int books = 0;
+      while (startExp < targetExp) {
+        startExp += 15 * Math.Min(startExp.ToLevel(), 99);
+        books++;
+      }
+      return books;
     }
 
   } //class Utils

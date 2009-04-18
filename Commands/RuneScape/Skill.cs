@@ -142,6 +142,14 @@ namespace BigSister {
             int monster_hp;
 
             switch (item.ToUpperInvariant()) {
+              case "LAMP":
+              case "LAMPS":
+                reply += @" (\c07{0:N0}\c lamps)".FormatWith(Utils.LampsToExp(skill.Exp, target_exp));
+                break;
+              case "BOOK":
+              case "BOOKS":
+                reply += @" (\c07{0:N0}\c books)".FormatWith(Utils.BooksToExp(skill.Exp, target_exp));
+                break;
               case "SW":
               case "SOUL":
               case "SOULS":
