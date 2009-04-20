@@ -140,6 +140,7 @@ namespace BigSister {
           bc.SendReply("\\b{0}\\b is now being tracked under \\c07{1}\\c clan.".FormatWith(rsn, clanName));
         }
       }
+      bc.SendReply("Clan \\b{0}\\b is up to date.".FormatWith(clanName));
     }
 
   } //class CmdRuneHead
