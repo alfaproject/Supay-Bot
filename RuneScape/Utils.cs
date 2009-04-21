@@ -118,10 +118,10 @@ namespace BigSister {
         case Skill.PRAY:
           return level * level / 600 * 270;
         case Skill.SLAY:
-          if (level < 90) {
-            return (int)Math.Round((double)(level * level) / 337.5) * 45;
+          if (level < 30) {
+            return (int)Math.Round(6.7 * Math.Pow(1.1052, (double)level));
           } else {
-            return (int)Math.Floor((double)(level * level) / 337.5) * 45;
+            return (int)Math.Round(0.002848 * (double)(level * level) + 0.14 * Math.Log((double)level)) * 45;
           }
         default:
           throw new ArgumentOutOfRangeException("skill");
