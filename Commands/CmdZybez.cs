@@ -64,97 +64,56 @@ namespace BigSister {
         return;
       }
 
-      if (bc.Message.Contains("+")) {
-        // MULTIPLE ITEM ALCHEMY
-        int totalHigh = 0, totalLow = 0;
-        string totalItem = string.Empty;
-        bc.Message = bc.Message.Substring(bc.Message.IndexOf(' ') + 1);
-        foreach (string token in bc.Message.Split('+')) {
-          string[] itemLine = token.Trim().Split(' ');
+      int totalHigh = 0, totalLow = 0;
+      string totalItem = string.Empty;
+      bc.Message = bc.Message.Substring(bc.Message.IndexOf(' ') + 1);
+      foreach (string token in bc.Message.Split('+')) {
+        string[] itemLine = token.Trim().Split(' ');
 
-          double qty;
-          string inputItem;
-          if (itemLine.Length > 1 && MathParser.TryCalc(itemLine[0], out qty)) {
-            // <qty> <item>
-            qty = Math.Max(1, Math.Floor(qty));
-            inputItem = itemLine.Join(1);
-          } else {
-            // <item>
-            qty = 1;
-            inputItem = itemLine.Join();
-          }
+        double qty;
+        string inputItem;
+        if (itemLine.Length > 1 && MathParser.TryCalc(itemLine[0], out qty)) {
+          // <qty> <item>
+          qty = Math.Max(1, Math.Floor(qty));
+          inputItem = itemLine.Join(1);
+        } else {
+          // <item>
+          qty = 1;
+          inputItem = itemLine.Join();
+        }
 
-          int highAlch, lowAlch;
-          string itemName;
-          if (_GetAlch(inputItem, out itemName, out highAlch, out lowAlch)) {
-            totalHigh += (int)qty * highAlch;
-            totalLow += (int)qty * lowAlch;
-            totalItem += "\\c07" + qty + "\\c " + itemName + " + ";
-          } else {
-            bc.SendReply("\\c12www.zybez.net\\c doesn't have any record for item \"{0}\". You can use !item to search for correct item names.".FormatWith(inputItem));
+        int highAlch, lowAlch, itemID;
+        string itemName;
+        if (_GetAlch(inputItem, out itemName, out highAlch, out lowAlch)) {
+          totalHigh += (int)qty * highAlch;
+          totalLow += (int)qty * lowAlch;
+          totalItem += "\\c07" + qty + "\\c " + itemName + " + ";
+        } else if (int.TryParse(inputItem, out itemID)) {
+          Item item = new Item(itemID);
+          if (item.Name == null) {
+            bc.SendReply("\\c12www.tip.it\\c doesn't have any record for item \\c07#{0}\\c.".FormatWith(itemID));
             return;
           }
-        }
-        bc.SendReply("{0} | HighAlch: \\c07{1:N0}\\c | LowAlch: \\c07{2:N0}\\c".FormatWith(
-                                   totalItem.Substring(0, totalItem.Length - 3), totalHigh, totalLow));
-      } else {
-        // SINGLE ITEM ALCHEMY
-        double qty;
-        string input_item;
-        if (bc.MessageTokens.Length > 2 && MathParser.TryCalc(bc.MessageTokens[1], out qty)) {
-          // !alch <qty> <item>
-          qty = Math.Max(1, Math.Floor(qty));
-          input_item = bc.MessageTokens.Join(2);
+          totalHigh += (int)qty * item.HighAlch;
+          totalLow += (int)qty * item.LowAlch;
+          totalItem += "\\c07" + qty + "\\c " + item.Name + " + ";
         } else {
-          // !alch <item>
-          qty = 1;
-          input_item = bc.MessageTokens.Join(1);
-        }
-
-        int item_id;
-        if (int.TryParse(input_item, out item_id)) {
-          Item item = new Item(item_id);
-          if (item.Name == null)
-            bc.SendReply("\\c12www.zybez.net\\c doesn't have any record for item \\c07#{0}\\c.".FormatWith(item_id));
-          else
-            bc.SendReply("\\c07{0}\\c | HighAlch: \\c07{1:N0}\\c | LowAlch: \\c07{2:N0}\\c | \\c12www.zybez.net/items.php?id={3}\\c".FormatWith(
-                                       item.Name, qty * item.HighAlch, qty * item.LowAlch, item.Id));
-          return;
-        }
-
-        try {
-          string items_page = new System.Net.WebClient().DownloadString("http://www.zybez.net/items.php?search_area=name&search_term=" + input_item);
-          Match M = Regex.Match(items_page, "Browsing (\\d+) Items\\(s\\)");
-          if (M.Success) {
-            // items search page
-            MatchCollection items = Regex.Matches(items_page, "id=(\\d+)[^.]+\\.htm\">([^<]+)</a></td>\\s+<td class=\"tablebottom\">", RegexOptions.Singleline);
-            if (items.Count == 0) {
-              bc.SendReply("\\c12www.zybez.net\\c doesn't have any record for item \"{0}\".".FormatWith(input_item));
-            } else {
-              string reply = "\\c12www.zybez.net\\c found \\c07{0}\\c results".FormatWith(M.Groups[1].Value);
-              for (int i = 0; i < Math.Min(14, items.Count); i++)
-                reply += " | \\c07#{0}\\c {1}".FormatWith(items[i].Groups[1].Value, items[i].Groups[2].Value);
-              if (items.Count > 14)
-                reply += " | (...)";
-              bc.SendReply(reply);
-            }
-          }
-        } catch {
-          bc.SendReply("\\c12www.zybez.net\\c seems to be down.");
+          bc.SendReply("\\c12www.tip.it\\c doesn't have any record for item \"{0}\". You can use !item to search for correct item names.".FormatWith(inputItem));
         }
       }
+      bc.SendReply("{0} | HighAlch: \\c07{1:N0}\\c | LowAlch: \\c07{2:N0}\\c".FormatWith(
+                                 totalItem.Substring(0, totalItem.Length - 3), totalHigh, totalLow));
     }
 
     private static bool _GetAlch(string itemName, out string name, out int highAlch, out int lowAlch) {
       name = null;
       highAlch = 0;
       lowAlch = 0;
-
-      string items_page = new System.Net.WebClient().DownloadString("http://www.zybez.net/items.php?search_area=name&search_term=" + itemName);
-      Match M = Regex.Match(items_page, "Browsing (\\d+) Items\\(s\\)");
-      if (M.Success) {
+      string items_page = new System.Net.WebClient().DownloadString("http://www.tip.it/runescape/index.php?rs2item=&orderby=0&keywords={0}&Players=all&category=0&subcategory=0&cmd=8&action=Manage_Items&search=1&submit=Simple+Search".FormatWith(itemName));
+      Match M = Regex.Match(items_page, "<strong>(\\d+)<\\/strong> items matched your search.");
+      if (M.Groups[1].Value.ToInt32() > 0) {
         // items search page
-        MatchCollection items = Regex.Matches(items_page, "id=(\\d+)[^.]+\\.htm\">([^<]+)</a></td>\\s+<td class=\"tablebottom\">", RegexOptions.Singleline);
+        MatchCollection items = Regex.Matches(items_page, "item_id=(\\d+)\">([^<]+)<", RegexOptions.Singleline);
         if (items.Count == 0) {
           return false;
         } else {
@@ -169,7 +128,6 @@ namespace BigSister {
           }
         }
       }
-
       return false;
     }
 
