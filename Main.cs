@@ -433,9 +433,9 @@ namespace BigSister {
               ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.PestControl), bc);
               break;
 
-            // Zybez
+            // FanSites
             case "ITEM":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdZybez.ItemInfo), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Item), bc);
               break;
             case "HIGHALCHEMY":
             case "HIGHALCH":
@@ -443,7 +443,7 @@ namespace BigSister {
             case "LOWALCH":
             case "ALCHEMY":
             case "ALCH":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdZybez.HighAlch), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Alch), bc);
               break;
 
             // RuneHead
