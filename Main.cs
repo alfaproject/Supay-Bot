@@ -114,36 +114,39 @@ namespace BigSister {
         return;
       }
 
-      string forumPattern = @"<td class=""row4""><b><a href=""[^""]+"">([^<]+)</a></b><br /><span class='desc'>.+?</span></td>\s+" +
-                            @"<td class=""row2"" align=""center"">[^<]+</td>\s+<td class=""row2"" align=""center"">[^<]+</td>\s+" +
-                            @"<td class=""row2"" nowrap=""nowrap"">([^<]+)<br />In:.<a href='[^']+' title='Go to the last post'><img src='[^']+' border='0'  alt='Last Post' /></a><a href='([^']+)' title='Go to the first unread post'>([^<]+)</a><br />By: <a href='[^']+'>([^<]+)</a></td>";
+      string forumPattern = @"<td width='[^']+'> <a href='[^']+?showtopic=(\d+)\b[^']+?'>([^<]+)</a>\s*</td>\s+" +
+                            @"</tr>\s+" +
+                            @"</table>\s+" +
+                            @"<span class='\w+'>([^<]+)</span></td>\s+" +
+                            @"<td class='row\d+' width='\d+%' align='center'><[^>]+>([^<]+)</a></td>\s+" +
+                            @"<[^>]+><[^>]+>([^<]+)</a></td>\s+" +
+                            @"<td align='center' class='row\d+'>([\d,]+)</td>\s+" +
+                            @"<td align='center' class='row\d+'>([\d,]+)</td>\s+" +
+                            @"<td class='row\d+'>([^<]+)<br /><a href='[^']+'>Last Post by:</a>\s*<b><b><a href='[^']+'>([^<]+)</a></b></b></td>";
 
-      string forumPage = new System.Net.WebClient().DownloadString("http://z3.invisionfree.com/Supreme_Skillers/index.php?");
+      string forumPage = new System.Net.WebClient().DownloadString("http://z3.invisionfree.com/Supreme_Skillers/index.php?&act=Search&CODE=getnew");
       forumPage = System.Web.HttpUtility.HtmlDecode(forumPage);
-
-      foreach (Match newPost in Regex.Matches(forumPage, forumPattern, RegexOptions.Singleline)) {
-        string forum = newPost.Groups[1].Value;
+      foreach (Match newThread in Regex.Matches(forumPage, forumPattern, RegexOptions.Singleline)) {
+        string forum = newThread.Groups[4].Value;
         // Forum black list
         if (forum == "Everything") {
           continue;
         }
 
-        string dateTime = newPost.Groups[2].Value;
-        string url = Regex.Replace(newPost.Groups[3].Value, @"s=[a-f\d]+&", string.Empty);
-        string topic = newPost.Groups[4].Value;
-        string poster = newPost.Groups[5].Value;
+        string threadId = newThread.Groups[1].Value;
+        string url = "http://z3.invisionfree.com/Supreme_Skillers/index.php?showtopic=" + threadId;
+        string topic = newThread.Groups[2].Value;
+        string desc = newThread.Groups[3].Value;
+        string poster = newThread.Groups[5].Value;
         
         // Check if this topic was changed since last check
         string dbDateTime = Database.GetString("SELECT dateTime FROM forums WHERE topic='" + topic.Replace("'", "''") + "';", null);
         if (dbDateTime == null) {
-          Database.Insert("forums", "topic", topic, "dateTime", dateTime);
-        } else if (dbDateTime != dateTime) {
-          Database.Update("forums", "topic='" + topic.Replace("'", "''") + "'", "dateTime", dateTime);
+          Database.Insert("forums", "topic", topic.Replace("'", "''"), "dateTime", threadId);
         } else {
           continue;
         }
-
-        string reply = @"\bNew post!\b | Forum: \c07{0}\c | Topic: \c07{1}\c | By: \c07{2}\c | \c12{3}\c".FormatWith(forum, topic, poster, url);
+        string reply = @"\bNew Thread!\b | Forum: \c07{0}\c | Topic: \c07{1}\c (\c07{2}\c) | By: \c07{3}\c | \c12{4}\c".FormatWith(forum, topic, desc, poster, url);
         _irc.SendChat(reply, mainChannel);
         if (_irc.Channels.Find("#aasiwat") != null) {
           _irc.SendChat(reply, "#aasiwat");
