@@ -108,6 +108,49 @@ namespace BigSister {
       }
     }
 
+    private void _checkForum(object stateInfo) {
+      const string mainChannel = "#skillers";
+      if (_irc.Channels.Find(mainChannel) == null) {
+        return;
+      }
+
+      string forumPattern = @"<td class=""row4""><b><a href=""[^""]+"">([^<]+)</a></b><br /><span class='desc'>.+?</span></td>\s+" +
+                            @"<td class=""row2"" align=""center"">[^<]+</td>\s+<td class=""row2"" align=""center"">[^<]+</td>\s+" +
+                            @"<td class=""row2"" nowrap=""nowrap"">([^<]+)<br />In:.<a href='[^']+' title='Go to the last post'><img src='[^']+' border='0'  alt='Last Post' /></a><a href='([^']+)' title='Go to the first unread post'>([^<]+)</a><br />By: <a href='[^']+'>([^<]+)</a></td>";
+
+      string forumPage = new System.Net.WebClient().DownloadString("http://z3.invisionfree.com/Supreme_Skillers/index.php?");
+      forumPage = System.Web.HttpUtility.HtmlDecode(forumPage);
+
+      foreach (Match newPost in Regex.Matches(forumPage, forumPattern, RegexOptions.Singleline)) {
+        string forum = newPost.Groups[1].Value;
+        // Forum black list
+        if (forum == "Everything") {
+          continue;
+        }
+
+        string dateTime = newPost.Groups[2].Value;
+        string url = Regex.Replace(newPost.Groups[3].Value, @"s=[a-f\d]+&", string.Empty);
+        string topic = newPost.Groups[4].Value;
+        string poster = newPost.Groups[5].Value;
+        
+        // Check if this topic was changed since last check
+        string dbDateTime = Database.GetString("SELECT dateTime FROM forums WHERE topic='" + topic.Replace("'", "''") + "';", null);
+        if (dbDateTime == null) {
+          Database.Insert("forums", "topic", topic, "dateTime", dateTime);
+        } else if (dbDateTime != dateTime) {
+          Database.Update("forums", "topic='" + topic.Replace("'", "''") + "'", "dateTime", dateTime);
+        } else {
+          continue;
+        }
+
+        string reply = @"\bNew post!\b | Forum: \c07{0}\c | Topic: \c07{1}\c | By: \c07{2}\c | \c12{3}\c".FormatWith(forum, topic, poster, url);
+        _irc.SendChat(reply, mainChannel);
+        if (_irc.Channels.Find("#aasiwat") != null) {
+          _irc.SendChat(reply, "#aasiwat");
+        }
+      }
+    }
+
     void _timerMain_Tick(object sender, EventArgs e) {
       // update utc timer label
       lblUtcTimer.Text = "UTC: {0:T}".FormatWith(DateTime.UtcNow);
@@ -128,20 +171,23 @@ namespace BigSister {
             string fingerprint = rsTimer.GetString(0);
             string nick = rsTimer.GetString(1);
 
-            foreach (User u in _irc.Peers)
+            foreach (User u in _irc.Peers) {
               if (u.FingerPrint == fingerprint || u.Nick == nick) {
                 Database.ExecuteNonQuery("DELETE FROM timers WHERE fingerprint='" + fingerprint + "' AND started='" + rsTimer.GetString(4) + "';");
                 _irc.Send(new NoticeMessage("\\c07{0}\\c timer ended for \\b{1}\\b.".FormatWith(rsTimer.GetString(2), u.Nick), u.Nick));
                 _irc.SendChat("\\c07{0}\\c timer ended for \\b{1}\\b.".FormatWith(rsTimer.GetString(2), u.Nick), u.Nick);
               }
+            }
           }
         }
         rsTimer.Close();
       }
 
-      // GE check every 5 minutes
-      if (DateTime.UtcNow.Second == 0 && DateTime.UtcNow.Minute % 5 == 0)
+      // GE and Forum check every 5 minutes
+      if (DateTime.UtcNow.Second == 0 && DateTime.UtcNow.Minute % 5 == 0) {
         ThreadPool.QueueUserWorkItem(_updateGE);
+        ThreadPool.QueueUserWorkItem(_checkForum);
+      }
     }
 
     private void _timerDaily_Elapsed(object stateInfo) {
