@@ -401,7 +401,7 @@ namespace BigSister {
             case "SSAVG":
             case "SSSTATS":
             case "SSINFO":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.ClanInfo), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.ClanStats), bc);
               break;
 
             // Grand Exchange
@@ -480,11 +480,11 @@ namespace BigSister {
 
             // RuneHead
             case "CLAN":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneHead.Clan), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Clan), bc);
               break;
             case "CLANINFO":
             case "ML":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneHead.ClanInfo), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.ClanInfo), bc);
               break;
             case "PARSESS":
             case "UPDATESS":
@@ -492,7 +492,7 @@ namespace BigSister {
             case "UPDATEPT":
             case "PARSETS":
             case "UPDATETS":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneHead.ParseClan), bc);
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.ClanUpdate), bc);
               break;
 
             // Tip.It

@@ -85,10 +85,12 @@
     <Compile Include="Commands\Clan\Performance.cs" />
     <Compile Include="Commands\Clan\Top.cs" />
     <Compile Include="Commands\CommandContext.cs" />
-    <Compile Include="Commands\Clan\Info.cs" />
+    <Compile Include="Commands\Clan\Stats.cs" />
     <Compile Include="Commands\FanSites\Alch.cs" />
     <Compile Include="Commands\Minigames\PestControl.cs" />
     <Compile Include="Commands\Minigames\SoulWars.cs" />
+    <Compile Include="Commands\RuneHead\Clan.cs" />
+    <Compile Include="Commands\RuneHead\ClanInfo.cs" />
     <Compile Include="Commands\RuneScape\Compare.cs" />
     <Compile Include="Commands\CmdDataFiles.cs" />
     <Compile Include="Commands\GrandExchange\CoinShare.cs" />
@@ -98,7 +100,7 @@
     <Compile Include="Commands\CmdLinks.cs" />
     <Compile Include="Commands\CmdMonster.cs" />
     <Compile Include="Commands\CmdOthers.cs" />
-    <Compile Include="Commands\CmdRuneHead.cs" />
+    <Compile Include="Commands\RuneHead\ClanUpdate.cs" />
     <Compile Include="Commands\CmdRuneScript.cs" />
     <Compile Include="Commands\CmdWar.cs" />
     <Compile Include="Commands\GrandExchange\PriceInfo.cs" />

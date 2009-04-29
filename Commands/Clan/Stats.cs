@@ -3,7 +3,7 @@
 namespace BigSister {
   static partial class Command {
 
-    public static void ClanInfo(CommandContext bc) {
+    public static void ClanStats(CommandContext bc) {
       string skill = Skill.OVER;
       if (bc.MessageTokens.Length > 1)
         Skill.TryParse(bc.MessageTokens[1], ref skill);
