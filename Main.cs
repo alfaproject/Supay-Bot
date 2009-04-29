@@ -114,47 +114,36 @@ namespace BigSister {
         return;
       }
 
-      string forumPattern = @"<td width='[^']+'> <a href='[^']+?showtopic=(\d+)\b[^']+?'>([^<]+)</a>\s*</td>\s+" +
-                            @"</tr>\s+" +
-                            @"</table>\s+" +
-                            @"<span class='\w+'>([^<]+)</span></td>\s+" +
-                            @"<td class='row\d+' width='\d+%' align='center'><[^>]+>([^<]+)</a></td>\s+" +
-                            @"<[^>]+><[^>]+>([^<]+)</a></td>\s+" +
-                            @"<td align='center' class='row\d+'>([\d,]+)</td>\s+" +
-                            @"<td align='center' class='row\d+'>([\d,]+)</td>\s+" +
-                            @"<td class='row\d+'>([^<]+)<br /><a href='[^']+'>Last Post by:</a>\s*<b><b><a href='[^']+'>([^<]+)</a></b></b></td>";
+      string topicPattern = @"showtopic=(\d+)&hl='>([^<]+).+?showforum=\d+"">([^<]+)";
 
-      string forumPage = new System.Net.WebClient().DownloadString("http://z3.invisionfree.com/Supreme_Skillers/index.php?&act=Search&CODE=getnew");
+      string forumPage = new System.Net.WebClient().DownloadString("http://z3.invisionfree.com/Supreme_Skillers/index.php?act=Search&CODE=getactive");
       forumPage = System.Web.HttpUtility.HtmlDecode(forumPage);
-      foreach (Match newThread in Regex.Matches(forumPage, forumPattern, RegexOptions.Singleline)) {
-        string forum = newThread.Groups[4].Value;
-        // Forum black list
-        if (forum == "Everything") {
-          continue;
-        }
+      
+      foreach (Match newTopic in Regex.Matches(forumPage, topicPattern, RegexOptions.Singleline)) {
+        int topicId = int.Parse(newTopic.Groups[1].Value, CultureInfo.InvariantCulture);
+        string topic = newTopic.Groups[2].Value;
+        string forum = newTopic.Groups[3].Value;
 
-        string threadId = newThread.Groups[1].Value;
-        string url = "http://z3.invisionfree.com/Supreme_Skillers/index.php?showtopic=" + threadId;
-        string topic = newThread.Groups[2].Value;
-        string desc = newThread.Groups[3].Value;
-        string poster = newThread.Groups[5].Value;
-        
-        // Check if this topic was changed since last check
-        string dbDateTime = Database.GetString("SELECT dateTime FROM forums WHERE topic='" + topic.Replace("'", "''") + "';", null);
-        if (dbDateTime == null) {
-          Database.Insert("forums", "topic", topic.Replace("'", "''"), "dateTime", threadId);
-        } else {
-          continue;
-        }
-        string reply = @"\bNew Thread!\b | Forum: \c07{0}\c | Topic: \c07{1}\c (\c07{2}\c) | By: \c07{3}\c | \c12{4}\c".FormatWith(forum, topic, desc, poster, url);
-        _irc.SendChat(reply, mainChannel);
-        if (_irc.Channels.Find("#aasiwat") != null) {
-          _irc.SendChat(reply, "#aasiwat");
+        // Check if this topic exists in database
+        if (Database.GetInteger("SELECT topicId FROM forums WHERE topicId=" + topicId + ";", -1) != topicId) {
+          Database.Insert("forums", "topicId", topicId.ToStringI());
+          string reply = @"\bNew topic!\b | Forum: \c07{0}\c | Topic: \c07{1}\c | \c12http://z3.invisionfree.com/Supreme_Skillers/?showtopic={2}\c".FormatWith(forum, topic, topicId);
+          _irc.SendChat(reply, mainChannel);
         }
       }
     }
 
     void _timerMain_Tick(object sender, EventArgs e) {
+      // GE check every 5 minutes
+      if (DateTime.UtcNow.Second == 0 && DateTime.UtcNow.Minute % 5 == 0) {
+        ThreadPool.QueueUserWorkItem(_updateGE);
+      }
+
+      // Forum check every minute
+      if (DateTime.UtcNow.Second == 0) {
+        ThreadPool.QueueUserWorkItem(_checkForum);
+      }
+
       // update utc timer label
       lblUtcTimer.Text = "UTC: {0:T}".FormatWith(DateTime.UtcNow);
 
@@ -184,12 +173,6 @@ namespace BigSister {
           }
         }
         rsTimer.Close();
-      }
-
-      // GE and Forum check every 5 minutes
-      if (DateTime.UtcNow.Second == 0 && DateTime.UtcNow.Minute % 5 == 0) {
-        ThreadPool.QueueUserWorkItem(_updateGE);
-        ThreadPool.QueueUserWorkItem(_checkForum);
       }
     }
 
