@@ -494,6 +494,10 @@ namespace BigSister {
             case "UPDATETS":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.ClanUpdate), bc);
               break;
+            case "CLANCHECK":
+            case "CHECKCLAN":
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.ClanCheck), bc);
+              break;
 
             // Tip.It
             case "MONSTERSEARCH":
