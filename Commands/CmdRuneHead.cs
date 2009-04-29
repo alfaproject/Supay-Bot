@@ -110,7 +110,7 @@ namespace BigSister {
         pageRuneHead = new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=rsportugal");
         pageRuneHead += new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=rsportugal2");
         pageRuneHead += new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=rsportugal3");
-        pageRuneHead += new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=rsportugalf2p");
+        pageRuneHead += new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=portugalf2p");
       }
 
       foreach (Match clanMember in Regex.Matches(pageRuneHead, "\\?name=([^&]+)&"))
@@ -129,15 +129,19 @@ namespace BigSister {
       // add players that were added to clan listing to clan
       foreach (string rsn in clanMembers) {
         if (!clanPlayers.Contains(rsn)) {
+          bool f2p = false;
           try {
             Database.Insert("players", "rsn", rsn, "clan", clanInitials, "lastupdate", string.Empty);
             Player p = new Player(rsn);
-            if (p.Ranked)
+            if (p.Ranked) {
+              f2p = (p.Skills.F2pExp == p.Skills[Skill.OVER].Exp);
               p.SaveToDB(DateTime.UtcNow.ToStringI("yyyyMMdd"));
+            }
           } catch {
             Database.Update("players", "rsn='" + rsn + "'", "clan", clanInitials);
           }
-          bc.SendReply("\\b{0}\\b is now being tracked under \\c07{1}\\c clan.".FormatWith(rsn, clanName));
+          string reply = @"\b{0}\b is now being tracked under \c07{1}\c clan. \c{2}\c".FormatWith(rsn, clanName, f2p ? "14[F2P]" : "7[P2P]");
+          bc.SendReply(reply);
         }
       }
       bc.SendReply("Clan \\b{0}\\b is up to date.".FormatWith(clanName));
