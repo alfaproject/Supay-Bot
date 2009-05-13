@@ -114,22 +114,25 @@ namespace BigSister {
         return;
       }
 
-      string topicPattern = @"showtopic=(\d+)&hl='>([^<]+).+?showforum=\d+"">([^<]+)";
+      try {
+        string topicPattern = @"showtopic=(\d+)&hl='>([^<]+).+?showforum=\d+"">([^<]+)";
 
-      string forumPage = new System.Net.WebClient().DownloadString("http://z3.invisionfree.com/Supreme_Skillers/index.php?act=Search&CODE=getactive");
-      forumPage = System.Web.HttpUtility.HtmlDecode(forumPage);
-      
-      foreach (Match newTopic in Regex.Matches(forumPage, topicPattern, RegexOptions.Singleline)) {
-        int topicId = int.Parse(newTopic.Groups[1].Value, CultureInfo.InvariantCulture);
-        string topic = newTopic.Groups[2].Value;
-        string forum = newTopic.Groups[3].Value;
+        string forumPage = new System.Net.WebClient().DownloadString("http://z3.invisionfree.com/Supreme_Skillers/index.php?act=Search&CODE=getactive");
+        forumPage = System.Web.HttpUtility.HtmlDecode(forumPage);
 
-        // Check if this topic exists in database
-        if (Database.GetInteger("SELECT topicId FROM forums WHERE topicId=" + topicId + ";", -1) != topicId) {
-          Database.Insert("forums", "topicId", topicId.ToStringI());
-          string reply = @"\bNew topic!\b | Forum: \c07{0}\c | Topic: \c07{1}\c | \c12http://z3.invisionfree.com/Supreme_Skillers/?showtopic={2}\c".FormatWith(forum, topic, topicId);
-          _irc.SendChat(reply, mainChannel);
+        foreach (Match newTopic in Regex.Matches(forumPage, topicPattern, RegexOptions.Singleline)) {
+          int topicId = int.Parse(newTopic.Groups[1].Value, CultureInfo.InvariantCulture);
+          string topic = newTopic.Groups[2].Value;
+          string forum = newTopic.Groups[3].Value;
+
+          // Check if this topic exists in database
+          if (Database.GetInteger("SELECT topicId FROM forums WHERE topicId=" + topicId + ";", -1) != topicId) {
+            Database.Insert("forums", "topicId", topicId.ToStringI());
+            string reply = @"\bNew topic!\b | Forum: \c07{0}\c | Topic: \c07{1}\c | \c12http://z3.invisionfree.com/Supreme_Skillers/?showtopic={2}\c".FormatWith(forum, topic, topicId);
+            _irc.SendChat(reply, mainChannel);
+          }
         }
+      } catch {
       }
     }
 
