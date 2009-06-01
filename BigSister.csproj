@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{57B7C0C0-AD4E-4B1F-A763-C5F294B5F2B8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -89,8 +89,12 @@
     <Compile Include="Commands\FanSites\Alch.cs" />
     <Compile Include="Commands\Minigames\PestControl.cs" />
     <Compile Include="Commands\Minigames\SoulWars.cs" />
-    <Compile Include="Commands\RuneHead\Clan.cs" />
+    <Compile Include="Commands\RuneHead\Clan.cs">
+      <SubType>
+      </SubType>
+    </Compile>
     <Compile Include="Commands\RuneHead\ClanCheck.cs" />
+    <Compile Include="Commands\RuneHead\ClanCompare.cs" />
     <Compile Include="Commands\RuneHead\ClanInfo.cs" />
     <Compile Include="Commands\RuneScape\Compare.cs" />
     <Compile Include="Commands\CmdDataFiles.cs" />

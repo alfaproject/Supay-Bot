@@ -501,6 +501,18 @@ namespace BigSister {
             case "CHECKCLAN":
               ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.ClanCheck), bc);
               break;
+            case "CMPCL":
+            case "CMPCLAN":
+            case "COMPARECLAN":
+            case "CLCMP":
+            case "CLANCMP":
+            case "CLANCOMPARE":
+            case "MLCMP":
+            case "MLCOMPARE":
+            case "CMPML":
+            case "COMPAREML":
+              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.ClanCompare), bc);
+              break;
 
             // Tip.It
             case "MONSTERSEARCH":

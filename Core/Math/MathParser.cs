@@ -268,7 +268,7 @@ namespace BigSister {
         case FUN: // E = fun(arg1[, arg2])
           // functions must have at least 1 argument
           if (vals.Count < 1)
-            throw new InvalidOperationException("Function \"" + ops.Peek().Expr + "\" is missing the argument(s).");
+            throw new InvalidOperationException("Function \"" + ops.Peek().Expr + "\" has missing arguments.");
           temp1 = vals.Pop();
 
           switch (ops.Peek().Expr) {
