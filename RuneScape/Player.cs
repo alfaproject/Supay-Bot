@@ -158,7 +158,8 @@ namespace BigSister {
                                    "dt_rank", _minigames[Minigame.DUEL].Rank.ToStringI(), "dt_score", _minigames[Minigame.DUEL].Score.ToStringI(),
                                    "bh_rank", _minigames[Minigame.BOUN].Rank.ToStringI(), "bh_score", _minigames[Minigame.BOUN].Score.ToStringI(),
                                    "bhr_rank", _minigames[Minigame.ROGU].Rank.ToStringI(), "bhr_score", _minigames[Minigame.ROGU].Score.ToStringI(),
-                                   "fist_rank", _minigames[Minigame.FIST].Rank.ToStringI(), "fist_score", _minigames[Minigame.FIST].Score.ToStringI());
+                                   "fist_rank", _minigames[Minigame.FIST].Rank.ToStringI(), "fist_score", _minigames[Minigame.FIST].Score.ToStringI(),
+                                   "mob_rank", _minigames[Minigame.MOBI].Rank.ToStringI(), "mob_score", _minigames[Minigame.MOBI].Score.ToStringI());
 
         Database.Update("players", "id=" + _id, "lastupdate", s_date);
       }
@@ -265,6 +266,7 @@ namespace BigSister {
           _minigames.Add(Minigame.BOUN, new Minigame(Minigame.BOUN, Convert.ToInt32(rs["bh_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["bh_score"], CultureInfo.InvariantCulture)));
           _minigames.Add(Minigame.ROGU, new Minigame(Minigame.ROGU, Convert.ToInt32(rs["bhr_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["bhr_score"], CultureInfo.InvariantCulture)));
           _minigames.Add(Minigame.FIST, new Minigame(Minigame.FIST, Convert.ToInt32(rs["fist_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["fist_score"], CultureInfo.InvariantCulture)));
+          _minigames.Add(Minigame.MOBI, new Minigame(Minigame.MOBI, Convert.ToInt32(rs["mob_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["mob_score"], CultureInfo.InvariantCulture)));
 
           // Create combat skill and update combat class
           _CreateCombatSkill();

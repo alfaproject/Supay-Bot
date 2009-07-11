@@ -8,6 +8,7 @@ namespace BigSister {
     public const string BOUN = "Bounty Hunters";
     public const string ROGU = "Bounty Hunter Rogues";
     public const string FIST = "Fist of Guthix";
+    public const string MOBI = "Mobilising Armies";
 
     public Minigame(string name, int rank, int score)
       : base(rank) {
@@ -70,6 +71,18 @@ namespace BigSister {
         case "FISTING":
         case "FISTOFGUTHIX":
           return FIST;
+        case "MO":
+        case "AR":
+        case "MOB":
+        case "MOBIL":
+        case "MOBILISING":
+        case "ARMY":
+        case "ARMYS":
+        case "ARMIES":
+        case "MOA":
+        case "MOBA":
+        case "MOBILISINGARMIES":
+          return MOBI;
         default:
           throw new ArgumentException("Input minigame alias is invalid.", "s");
       }
@@ -81,6 +94,7 @@ namespace BigSister {
         case 1: return BOUN;
         case 2: return ROGU;
         case 3: return FIST;
+        case 4: return MOBI;
         default:
           return "Minigame" + id;
       }
@@ -92,6 +106,7 @@ namespace BigSister {
         case BOUN: return 1;
         case ROGU: return 2;
         case FIST: return 3;
+        case MOBI: return 4;
         default:
           return -1;
       }
