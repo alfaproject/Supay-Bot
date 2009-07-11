@@ -31,7 +31,9 @@ namespace BigSister {
     /// <summary>
     ///   Invokes the wrapped delegate synchronously. </summary>
     private static void InvokeWrappedDelegate(Delegate d, object[] args) {
-      d.DynamicInvoke(args);
+      try {
+        d.DynamicInvoke(args);
+      } catch { throw; }
     }
 
     /// <summary>
