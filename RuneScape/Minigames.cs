@@ -4,7 +4,7 @@ namespace BigSister {
   class Minigames : Dictionary<string, Minigame> {
 
     public Minigames()
-      : base(4) {
+      : base(5) {
     }
 
   } // class Minigames
