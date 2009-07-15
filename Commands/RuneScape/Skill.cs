@@ -213,12 +213,18 @@ namespace BigSister {
                       reply += " (unknown monster)";
                     break;
                   default:
-                    SkillItem itemFound = _GetItem(skill.Name, item);
-                    if (itemFound != null)
-                      reply += " (\\c07{1}\\c \\c{0}{2}\\c)".FormatWith(itemFound.IrcColour, Math.Ceiling(expToGo / itemFound.Exp), itemFound.Name);
-                    else
-                      reply += " (unknown item)";
-                    break;
+                    try {
+                      double itemExp = item.ToInt32();
+                      reply += " (\\c07{0} \\citems to go.)".FormatWith(Math.Ceiling(expToGo / itemExp));
+                      break;
+                    } catch {
+                      SkillItem itemFound = _GetItem(skill.Name, item);
+                      if (itemFound != null)
+                        reply += " (\\c07{1}\\c \\c{0}{2}\\c)".FormatWith(itemFound.IrcColour, Math.Ceiling(expToGo / itemFound.Exp), itemFound.Name);
+                      else
+                        reply += " (unknown item)";
+                      break;
+                    }
                 }
                 break;
             }
