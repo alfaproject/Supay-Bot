@@ -12,7 +12,7 @@
       string skill = null, minigame = null;
 
       if (bc.MessageTokens.Length > 1) {
-        if (int.TryParse(bc.MessageTokens[1], out rank)) {
+        if (bc.MessageTokens[1].TryInt32(out rank)) {
           if (bc.MessageTokens.Length > 2 && (Skill.TryParse(bc.MessageTokens[2], ref skill) || BigSister.Minigame.TryParse(bc.MessageTokens[2], ref minigame))) {
             // !rank <rank> <skill/minigame>
           } else {
@@ -20,7 +20,7 @@
             skill = Skill.OVER;
           }
         } else if (Skill.TryParse(bc.MessageTokens[1], ref skill) || BigSister.Minigame.TryParse(bc.MessageTokens[1], ref minigame)) {
-          if (bc.MessageTokens.Length > 2 && int.TryParse(bc.MessageTokens[2], out rank)) {
+          if (bc.MessageTokens.Length > 2 && bc.MessageTokens[2].TryInt32(out rank)) {
             // !rank <skill/minigame> <rank>
           } else {
             // !rank <skill/minigame>

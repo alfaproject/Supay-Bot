@@ -161,7 +161,30 @@ namespace BigSister {
         default:
           return int.Parse(number, NumberStyles.AllowLeadingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
       }
-    }  
+    }
+
+    /// <summary>
+    ///   Returns true if a string can be converted to a 32-bit signed integer.
+    public static bool TryInt32(this string self, out int value) {
+      string number = self.TrimEnd();
+      value = 0;
+      try {
+        switch (number[number.Length - 1]) {
+          case 'm':
+          case 'M':
+            value = (int)(1000000.0 * double.Parse(number.Substring(0, number.Length - 1), NumberStyles.AllowLeadingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture));
+            break;
+          case 'k':
+          case 'K':
+            value = (int)(1000.0 * double.Parse(number.Substring(0, number.Length - 1), NumberStyles.AllowLeadingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture));
+            break;
+          default:
+            value = int.Parse(number, NumberStyles.AllowLeadingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
+            break;
+        }
+        return true;
+      } catch { return false; }
+    }
 
   } //class Extensions
 } //namespace BigSister
