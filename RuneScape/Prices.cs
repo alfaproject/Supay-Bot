@@ -27,7 +27,7 @@ namespace BigSister {
         this.TotalItems = totalItems;
 
       try {
-        string pricesRegex = @"<a href=""./viewitem.ws\?obj=(\d+)"">([^<]+)</a></td>\s+<td>([^<]+)</td>\s+<td><span class=""\w+"">([^<]+)</span></td>\s+<td>\s+<img src=""http://www.runescape.com/img/main/serverlist/star_(\w+)";
+        string pricesRegex = @"<a href="".+?/viewitem.ws\?obj=(\d+)"">([^<]+)</a></td>\s+<td>([^<]+)</td>\s+<td><span class=""\w+"">([^<]+)</span></td>\s+<td>\s+<img src=""http://www.runescape.com/img/main/serverlist/star_(\w+)";
         foreach (Match priceMatch in Regex.Matches(pricesPage, pricesRegex, RegexOptions.Singleline)) {
           Price price = new Price(int.Parse(priceMatch.Groups[1].Value, CultureInfo.InvariantCulture), priceMatch.Groups[2].Value.Trim(), priceMatch.Groups[3].Value.ToInt32(), priceMatch.Groups[4].Value.ToInt32(), priceMatch.Groups[5].Value == "members");
           price.SaveToDB(false);
@@ -44,7 +44,7 @@ namespace BigSister {
       item = item.Replace("\"", string.Empty).Replace("*", string.Empty);
 
       string pricesPage = new System.Net.WebClient().DownloadString("http://itemdb-rs.runescape.com/results.ws?query=\"" + item + "\"&price=all&members=");
-      string pricesRegex = @"<a href=""./viewitem.ws\?obj=(\d+)"">([^<]+)</a></td>\s+<td>([^<]+)</td>\s+<td><span class=""\w+"">([^<]+)</span></td>\s+<td>\s+<img src=""http://www.runescape.com/img/main/serverlist/star_(\w+)";
+      string pricesRegex = @"<a href="".+?/viewitem.ws\?obj=(\d+)"">([^<]+)</a></td>\s+<td>([^<]+)</td>\s+<td><span class=""\w+"">([^<]+)</span></td>\s+<td>\s+<img src=""http://www.runescape.com/img/main/serverlist/star_(\w+)";
       foreach (Match priceMatch in Regex.Matches(pricesPage, pricesRegex, RegexOptions.Singleline)) {
         Price price = new Price(int.Parse(priceMatch.Groups[1].Value, CultureInfo.InvariantCulture), priceMatch.Groups[2].Value.Trim(), priceMatch.Groups[3].Value.ToInt32(), priceMatch.Groups[4].Value.ToInt32(), priceMatch.Groups[5].Value == "members");
         price.SaveToDB(false);

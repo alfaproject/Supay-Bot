@@ -40,14 +40,6 @@ namespace BigSister {
 
       price.LoadFromGE();
 
-      string change7days;
-      if (price.Change7days < 0)
-        change7days = "\\c04{0:0.#}%\\c".FormatWith(price.Change7days);
-      else if (price.Change7days > 0)
-        change7days = "\\c03+{0:0.#}%\\c".FormatWith(price.Change7days);
-      else
-        change7days = "\\c07{0:0.#}%\\c".FormatWith(price.Change7days);
-
       string change30days;
       if (price.Change30days < 0)
         change30days = "\\c04{0:0.#}%\\c".FormatWith(price.Change30days);
@@ -56,8 +48,24 @@ namespace BigSister {
       else
         change30days = "\\c07{0:0.#}%\\c".FormatWith(price.Change30days);
 
-      bc.SendReply(@"Name: \c07{0}\c | Market price: \c07{1}\c (\c07{2}\c - \c07{3}\c) | Last 7 days: {4} | Last 30 days: {5} | Examine: \c07{6}\c".FormatWith(
-                                 price.Name, price.MarketPrice.ToShortString(1), price.MinimumPrice.ToShortString(1), price.MaximumPrice.ToShortString(1), change7days, change30days, price.Examine));
+      string change90days;
+      if (price.Change90days < 0)
+        change90days = "\\c04{0:0.#}%\\c".FormatWith(price.Change90days);
+      else if (price.Change30days > 0)
+        change90days = "\\c03+{0:0.#}%\\c".FormatWith(price.Change90days);
+      else
+        change90days = "\\c07{0:0.#}%\\c".FormatWith(price.Change90days);
+
+      string change180days;
+      if (price.Change180days < 0)
+        change180days = "\\c04{0:0.#}%\\c".FormatWith(price.Change180days);
+      else if (price.Change30days > 0)
+        change180days = "\\c03+{0:0.#}%\\c".FormatWith(price.Change180days);
+      else
+        change180days = "\\c07{0:0.#}%\\c".FormatWith(price.Change180days);
+
+      bc.SendReply(@"Name: \c07{0}\c | Market price: \c07{1}\c (\c07{2}\c - \c07{3}\c) | Last 30 days: {4} | Last 90 days: {5} | Last 180 days: {6} | Examine: \c07{7}\c".FormatWith(
+                                 price.Name, price.MarketPrice.ToShortString(1), price.MinimumPrice.ToShortString(1), price.MaximumPrice.ToShortString(1), change30days, change90days, change180days, price.Examine));
     }
 
   } //class Command

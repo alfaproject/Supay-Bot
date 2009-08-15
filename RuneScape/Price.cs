@@ -62,12 +62,17 @@ namespace BigSister {
       private set;
     }
 
-    public double Change7days {
+    public double Change30days {
       get;
       private set;
     }
 
-    public double Change30days {
+    public double Change90days {
+      get;
+      private set;
+    }
+
+    public double Change180days {
       get;
       private set;
     }
@@ -114,33 +119,36 @@ namespace BigSister {
     }
 
     public void LoadFromGE() {
-      string pricePage = new System.Net.WebClient().DownloadString("http://itemdb-rs.runescape.com/viewitem.ws?obj=" + this.Id);
+      string  pricePage = new System.Net.WebClient().DownloadString("http://itemdb-rs.runescape.com/viewitem.ws?obj=" + this.Id);
 
       string priceRegex = @"<div class=""subsectionHeader"">\s+";
-      priceRegex += @"(.+)\s+";
+      priceRegex += @"(.+?)\s+";
       priceRegex += @"</div>\s+";
       priceRegex += @"<div id=""item_additional"" class=""inner_brown_box"">\s+";
-      priceRegex += @"<img id=""item_image"" src=""[^>]+>\s+";
-      priceRegex += @"(.+)\s+";
+      priceRegex += @"<img [^>]+>\s+";
+      priceRegex += @"(.+?)\s+";
       priceRegex += @"<br>\s+";
       priceRegex += @"<br>\s+";
       priceRegex += @"<b>Current market price range:</b><br>\s+";
       priceRegex += @"<span>\s+";
-      priceRegex += @"<b>Minimum price:</b> ([0-9.,mk]+)\s+";
+      priceRegex += @"<b>Minimum price:</b>\s*([0-9.mk]+)\s+";
       priceRegex += @"</span>\s+";
       priceRegex += @"<span class=""spaced_span"">\s+";
-      priceRegex += @"<b>Market price:</b> ([0-9.,mk]+)\s+";
+      priceRegex += @"<b>Market price:</b>\s*([0-9.mk]+)\s+";
       priceRegex += @"</span>\s+";
       priceRegex += @"<span>\s+";
-      priceRegex += @"<b>Maximum price:</b> ([0-9.,mk]+)\s+";
+      priceRegex += @"<b>Maximum price:</b>\s*([0-9.mk]+)\s+";
       priceRegex += @"</span>\s+";
       priceRegex += @"<br><br>\s+";
       priceRegex += @"<b>Change in price:</b><br>\s+";
-      priceRegex += @"<span>\s+";
-      priceRegex += @"<b>7 Days:</b> <span class=""\w+"">([0-9.+-]+)%</span>\s+";
+      priceRegex += @"<span[^>]*>\s+";
+      priceRegex += @"<b>30 Days:</b> <span class=""\w+"">([0-9.+-]+)%</span>\s+";
       priceRegex += @"</span>\s+";
-      priceRegex += @"<span class=""spaced_span"">\s+";
-      priceRegex += @"<b>30 Days:</b> <span class=""\w+"">([0-9.+-]+)";
+      priceRegex += @"<span[^>]*>\s+";
+      priceRegex += @"<b>90 Days:</b> <span class=""\w+"">([0-9.+-]+)%</span>\s+";
+      priceRegex += @"</span>\s+";
+      priceRegex += @"<span[^>]*>\s+";
+      priceRegex += @"<b>180 Days:</b> <span class=""\w+"">([0-9.+-]+)%";
 
       Match priceMatch = Regex.Match(pricePage, priceRegex, RegexOptions.Singleline);
       if (priceMatch.Success) {
@@ -149,8 +157,9 @@ namespace BigSister {
         this.MinimumPrice = priceMatch.Groups[3].Value.ToInt32();
         this.MarketPrice = priceMatch.Groups[4].Value.ToInt32();
         this.MaximumPrice = priceMatch.Groups[5].Value.ToInt32();
-        this.Change7days = double.Parse(priceMatch.Groups[6].Value, CultureInfo.InvariantCulture);
-        this.Change30days = double.Parse(priceMatch.Groups[7].Value, CultureInfo.InvariantCulture);
+        this.Change30days = double.Parse(priceMatch.Groups[6].Value, CultureInfo.InvariantCulture);
+        this.Change90days = double.Parse(priceMatch.Groups[7].Value, CultureInfo.InvariantCulture);
+        this.Change180days = double.Parse(priceMatch.Groups[8].Value, CultureInfo.InvariantCulture);
       }
 
       if (!string.IsNullOrEmpty(this.Name) && this.MarketPrice > 0)
