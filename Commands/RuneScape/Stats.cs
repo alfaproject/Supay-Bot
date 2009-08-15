@@ -15,7 +15,7 @@ namespace BigSister {
         bc.Message = bc.Message.Replace(" @n", string.Empty);
       }
 
-      // get @rank
+      // get @exp
       bool Exp = false;
       if (bc.Message.Contains(" @exp") || bc.Message.Contains(" @xp")) {
         Exp = true;
@@ -23,7 +23,7 @@ namespace BigSister {
         bc.Message = bc.Message.Replace(" @xp", string.Empty);
       }
 
-      // get @exp
+      // get @rank
       bool Rank = false;
       if (bc.Message.Contains(" @rank") || bc.Message.Contains(" @r")) {
         Rank = true;
@@ -106,16 +106,20 @@ namespace BigSister {
           for (int i = 1; i < p.Skills.Count - 1; i++)
             totalLevel += p.Skills[i].VLevel;
         }
-
-        int AvgSkill = totalLevel / (p.Skills.Count - 2);
+        double AvgSkilldouble = Math.Round((double)totalLevel / (double)(p.Skills.Count - 2), 1);
+        if (Exp) {
+          AvgSkilldouble = (double)((int)((double)p.Skills[0].Exp / (double)(p.Skills.Count - 2))).ToLevel();
+        }
 
         string reply = "\\b{0}\\b \\c07overall\\c | level: \\c07{1:N0}\\c (\\c07{2}\\c avg.) | exp: \\c07{3:e}\\c (\\c07{4}%\\c of {5}) | rank: \\c07{3:R}\\c".FormatWith(
                                      rsn,
                                      totalLevel,
-                                     Math.Round((double)totalLevel / (p.Skills.Count - 2), 1),
+                                     AvgSkilldouble,
                                      p.Skills[0],
                                      Math.Round((double)oa_exp / (13034431 * (p.Skills.Count - 2)) * 100.0, 1),
                                      (p.Skills.Count - 2) * 99);
+
+        int AvgSkill = (int)AvgSkilldouble;
 
         // add up SS rank if applicable
         Players ssplayers = new Players("SS");

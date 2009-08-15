@@ -164,7 +164,7 @@ namespace BigSister {
     }
 
     /// <summary>
-    ///   Returns true if a string can be converted to a 32-bit signed integer.
+    ///   Returns true if a string can be converted to a 32-bit signed integer. </summary>
     public static bool TryInt32(this string self, out int value) {
       string number = self.TrimEnd();
       value = 0;
