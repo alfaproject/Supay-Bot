@@ -398,17 +398,9 @@
     <Compile Include="IRC\Messages\Talking\WallopsMessage.cs" />
     <Compile Include="IRC\Messages\User Based\Modes\AwayMode.cs" />
     <Compile Include="IRC\Messages\User Based\Modes\CallerIdMode.cs" />
-    <Compile Include="IRC\Messages\User Based\Modes\DeafMode.cs" />
     <Compile Include="IRC\Messages\User Based\Modes\InvisibleMode.cs" />
     <Compile Include="IRC\Messages\User Based\Modes\NetworkOperatorMode.cs" />
-    <Compile Include="IRC\Messages\User Based\Modes\ReceiveBotNoticesMode.cs" />
-    <Compile Include="IRC\Messages\User Based\Modes\ReceiveConnectionNoticesMode.cs" />
-    <Compile Include="IRC\Messages\User Based\Modes\ReceiveDebugMode.cs" />
-    <Compile Include="IRC\Messages\User Based\Modes\ReceiveILineFullNoticesMode.cs" />
-    <Compile Include="IRC\Messages\User Based\Modes\ReceiveNickChangesMode.cs" />
-    <Compile Include="IRC\Messages\User Based\Modes\ReceiveOperWallopsMode.cs" />
     <Compile Include="IRC\Messages\User Based\Modes\ReceiveServerKillsMode.cs" />
-    <Compile Include="IRC\Messages\User Based\Modes\ReceiveServerNoticesMode.cs" />
     <Compile Include="IRC\Messages\User Based\Modes\ReceiveWallopsMode.cs" />
     <Compile Include="IRC\Messages\User Based\Modes\RestrictedMode.cs" />
     <Compile Include="IRC\Messages\User Based\Modes\ServerOperatorMode.cs" />
@@ -426,7 +418,6 @@
     <Compile Include="IRC\Model\Client.cs" />
     <Compile Include="IRC\Model\Journal.cs" />
     <Compile Include="IRC\Model\JournalEntry.cs" />
-    <Compile Include="IRC\Model\MessageCollection.cs" />
     <Compile Include="IRC\Model\Query.cs" />
     <Compile Include="IRC\Model\QueryCollection.cs" />
     <Compile Include="IRC\Model\ServerQuery.cs" />
