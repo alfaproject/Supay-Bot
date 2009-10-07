@@ -124,12 +124,8 @@ namespace BigSister.Irc.Network {
     /// <remarks>
     ///   This is usually the main form of the application. </remarks>
     public System.ComponentModel.ISynchronizeInvoke SynchronizationObject {
-      get {
-        return synchronizationObject;
-      }
-      set {
-        synchronizationObject = value;
-      }
+      get;
+      set;
     }
 
     /// <summary>
@@ -301,14 +297,13 @@ namespace BigSister.Irc.Network {
     }
 
     /// <summary>
-    /// Raises the <see cref="ClientConnection.Connected"/> event of the <see cref="ClientConnection"/> object.
-    /// </summary>
+    ///   Raises the <see cref="ClientConnection.Connected"/> event of the <see cref="ClientConnection"/> object. </summary>
     protected virtual void OnConnected(EventArgs e) {
-      if (this.synchronizationObject != null && this.synchronizationObject.InvokeRequired) {
+      if (this.SynchronizationObject != null && this.SynchronizationObject.InvokeRequired) {
         SyncInvoke del = delegate {
           this.OnConnected(e);
         };
-        this.synchronizationObject.Invoke(del, null);
+        this.SynchronizationObject.Invoke(del, null);
         return;
       }
 
@@ -318,15 +313,15 @@ namespace BigSister.Irc.Network {
     }
 
     /// <summary>
-    /// Raises the <see cref="ClientConnection.DataReceived"/> event of the <see cref="ClientConnection"/> object.
-    /// </summary>
-    /// <param name="e">A <see cref="ConnectionDataEventArgs"/> that contains the data.</param>
+    ///   Raises the <see cref="ClientConnection.DataReceived"/> event of the <see cref="ClientConnection"/> object. </summary>
+    /// <param name="e">
+    ///   A <see cref="ConnectionDataEventArgs"/> that contains the data. </param>
     protected virtual void OnDataReceived(ConnectionDataEventArgs e) {
-      if (this.synchronizationObject != null && this.synchronizationObject.InvokeRequired) {
+      if (this.SynchronizationObject != null && this.SynchronizationObject.InvokeRequired) {
         SyncInvoke del = delegate {
           this.OnDataReceived(e);
         };
-        this.synchronizationObject.Invoke(del, null);
+        this.SynchronizationObject.Invoke(del, null);
         return;
       }
 
@@ -346,14 +341,13 @@ namespace BigSister.Irc.Network {
     }
 
     /// <summary>
-    /// Raises the <see cref="ClientConnection.Disconnected"/> event of the <see cref="ClientConnection"/> object.
-    /// </summary>
+    ///   Raises the <see cref="ClientConnection.Disconnected"/> event of the <see cref="ClientConnection"/> object. </summary>
     protected virtual void OnDisconnected(ConnectionDataEventArgs e) {
-      if (this.synchronizationObject != null && this.synchronizationObject.InvokeRequired) {
+      if (this.SynchronizationObject != null && this.SynchronizationObject.InvokeRequired) {
         SyncInvoke del = delegate {
           this.OnDisconnected(e);
         };
-        this.synchronizationObject.Invoke(del, null);
+        this.SynchronizationObject.Invoke(del, null);
         return;
       }
 
@@ -458,7 +452,6 @@ namespace BigSister.Irc.Network {
     private StreamWriter chatWriter;
     private Thread connectionWorker;
 
-    private System.ComponentModel.ISynchronizeInvoke synchronizationObject;
     private delegate void SyncInvoke();
 
     #endregion
