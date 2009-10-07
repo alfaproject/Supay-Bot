@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 
 namespace BigSister {
   static partial class Command {
@@ -29,7 +30,7 @@ namespace BigSister {
           clan1Name = clans[0][0];
           clan1Initial = clans[0][4];
           clan1Members = clans[0][5].ToInt32();
-          clan1Combat = (int)double.Parse(clans[0][6]);
+          clan1Combat = (int)double.Parse(clans[0][6], CultureInfo.InvariantCulture);
           clan1Total = clans[0][8].ToInt32();
         } else {
           bc.SendReply("\\c12www.runehead.com\\c doesn't have any record for \\b{0}\\b.".FormatWith(clan1));
@@ -47,7 +48,7 @@ namespace BigSister {
           clan2Name = clans2[0][0];
           clan2Initial = clans2[0][4];
           clan2Members = clans2[0][5].ToInt32();
-          clan2Combat = (int)double.Parse(clans2[0][6]);
+          clan2Combat = (int)double.Parse(clans2[0][6], CultureInfo.InvariantCulture);
           clan2Total = clans2[0][8].ToInt32();
         } else {
           bc.SendReply("\\c12www.runehead.com\\c doesn't have any record for \\b{0}\\b.".FormatWith(clan2));

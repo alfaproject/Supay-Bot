@@ -94,7 +94,7 @@ namespace BigSister {
         int goalRank = goal.Substring(1).ToInt32();
         if (goalRank > 0 && goalRank <= 2000000) {
           bc.SendReply(@"Your goal for \b{0}\b is currently set to \urank {1}\u.".FormatWith(skill, goalRank.ToShortString(1)));
-          goal = "r" + goalRank.ToString();
+          goal = "r" + goalRank.ToStringI();
         } else {
           bc.SendReply(@"Your goal for \b{0}\b is currently set to \unext rank\u.".FormatWith(skill));
           goal = "nr";
@@ -103,13 +103,13 @@ namespace BigSister {
         int goalLevel = goal.ToInt32();
         if (goalLevel > 1 && goalLevel < 127) {
           bc.SendReply(@"Your goal for \b{0}\b is currently set to \ulevel {1}\u.".FormatWith(skill, goalLevel));
-          goal = goalLevel.ToString();
+          goal = goalLevel.ToStringI();
         } else if (goalLevel == 127) {
           bc.SendReply(@"Your goal for \b{0}\b is currently set to \u200m exp\u.".FormatWith(skill));
-          goal = goalLevel.ToString();
+          goal = goalLevel.ToStringI();
         } else if (goalLevel > 127 && goalLevel <= 200000000) {
           bc.SendReply(@"Your goal for \b{0}\b is currently set to \u{1} exp\u.".FormatWith(skill, goalLevel.ToShortString(1)));
-          goal = goalLevel.ToString();
+          goal = goalLevel.ToStringI();
         } else {
           bc.SendReply(@"Your goal for \b{0}\b is currently set to \unext level\u.".FormatWith(skill));
           goal = "nl";
