@@ -544,8 +544,8 @@ namespace BigSister.Irc {
 
       IrcMessage ircMessage = e.Message;
 
-      if (ircMessage is IQueryTargetedMessage) {
-        IQueryTargetedMessage queryMessage = (IQueryTargetedMessage)ircMessage;
+      IQueryTargetedMessage queryMessage = ircMessage as IQueryTargetedMessage;
+      if (queryMessage != null) {
         if (queryMessage.IsQueryToUser(this.User)) {
           User msgSender = this.Peers.EnsureUser(ircMessage.Sender);
           Query qry = this.Queries.EnsureQuery(msgSender, this);
@@ -554,8 +554,8 @@ namespace BigSister.Irc {
         }
       }
 
-      if (ircMessage is IChannelTargetedMessage) {
-        IChannelTargetedMessage channelMessage = (IChannelTargetedMessage)ircMessage;
+      IChannelTargetedMessage channelMessage = ircMessage as IChannelTargetedMessage;
+      if (channelMessage != null) {
         foreach (Channel channel in this.Channels) {
           if (channelMessage.IsTargetedAtChannel(channel.Name)) {
             channel.Journal.Add(new JournalEntry(ircMessage));
