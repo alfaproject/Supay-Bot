@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace BigSister {
-  public sealed class Database : IDisposable {
+  sealed class Database : IDisposable {
 
     private static readonly Database _instance = new Database();
 
@@ -109,21 +109,21 @@ namespace BigSister {
       return Database.GetValue(table, field, null);
     }
 
-    public static string GetStringParam(string table, string field, string condition, string param, string defaultValue) {
+    public static string GetStringParameter(string table, string field, string condition, string parameter, string defaultValue) {
       string fieldValue = Database.GetString("SELECT `" + field + "` FROM `" + table + "` WHERE " + condition + " LIMIT 1;", string.Empty);
-      if (fieldValue.ContainsI(param)) {
-        return Regex.Match(fieldValue, param + ":([^;]+)").Groups[1].Value;
+      if (fieldValue.ContainsI(parameter)) {
+        return Regex.Match(fieldValue, parameter + ":([^;]+)").Groups[1].Value;
       } else {
         return defaultValue;
       }
     }
 
-    public static void SetStringParam(string table, string field, string condition, string param, string value) {
+    public static void SetStringParameter(string table, string field, string condition, string parameter, string value) {
       string fieldValue = Database.GetString("SELECT `" + field + "` FROM `" + table + "` WHERE " + condition + " LIMIT 1;", string.Empty);
-      if (fieldValue.ContainsI(param)) {
-        fieldValue = Regex.Replace(fieldValue, param + ":([^;]*)", param + ":" + value);
+      if (fieldValue.ContainsI(parameter)) {
+        fieldValue = Regex.Replace(fieldValue, parameter + ":([^;]*)", parameter + ":" + value);
       } else {
-        fieldValue += param + ":" + value + ";";
+        fieldValue += parameter + ":" + value + ";";
       }
       Database.Update(table, condition, field, fieldValue);
     }

@@ -18,9 +18,9 @@ namespace BigSister {
         goal = M.Groups[1].Value;
         bc.Message = Regex.Replace(bc.Message, @"(?:#|goal=)" + goal, string.Empty);
         bc.Message = Regex.Replace(bc.Message, @"\s+", " ").TrimEnd();
-        Database.SetStringParam("users", "goals", "fingerprint='" + bc.From.FingerPrint + "'", skillName, goal);
+        Database.SetStringParameter("users", "goals", "fingerprint='" + bc.From.FingerPrint + "'", skillName, goal);
       } else {
-        goal = Database.GetStringParam("users", "goals", "fingerprint='" + bc.From.FingerPrint + "'", skillName, "nl");
+        goal = Database.GetStringParameter("users", "goals", "fingerprint='" + bc.From.FingerPrint + "'", skillName, "nl");
       }
 
       // get item
@@ -30,9 +30,9 @@ namespace BigSister {
         item = M.Groups[1].Value;
         bc.Message = Regex.Replace(bc.Message, "(?:@|§)" + item, string.Empty);
         bc.Message = Regex.Replace(bc.Message, @"\s+", " ").TrimEnd();
-        Database.SetStringParam("users", "items", "fingerprint='" + bc.From.FingerPrint + "'", skillName, item);
+        Database.SetStringParameter("users", "items", "fingerprint='" + bc.From.FingerPrint + "'", skillName, item);
       } else {
-        item = Database.GetStringParam("users", "items", "fingerprint='" + bc.From.FingerPrint + "'", skillName, null);
+        item = Database.GetStringParameter("users", "items", "fingerprint='" + bc.From.FingerPrint + "'", skillName, null);
       }
 
       // get rsn
@@ -132,7 +132,7 @@ namespace BigSister {
         if (expToGo > 0) {
           reply += " | \\c07{0:N0}\\c exp. to go".FormatWith(expToGo);
 
-          int speed = int.Parse(Database.GetStringParam("users", "speeds", "fingerprint='" + bc.From.FingerPrint + "'", skillName, "0"), CultureInfo.InvariantCulture);
+          int speed = int.Parse(Database.GetStringParameter("users", "speeds", "fingerprint='" + bc.From.FingerPrint + "'", skillName, "0"), CultureInfo.InvariantCulture);
           if (speed > 0) {
             reply += @" (\c07{0}\c)".FormatWith(TimeSpan.FromHours((double)expToGo / (double)speed).ToLongString());
           }

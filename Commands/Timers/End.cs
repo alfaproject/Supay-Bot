@@ -50,7 +50,7 @@ namespace BigSister {
           }
 
           // Set exp. made in an hour in this skill.
-          Database.SetStringParam("users", "speeds", "fingerprint='" + bc.From.FingerPrint + "'", skill, ((int)((double)gainedExp / time.TotalHours)).ToStringI());
+          Database.SetStringParameter("users", "speeds", "fingerprint='" + bc.From.FingerPrint + "'", skill, ((int)((double)gainedExp / time.TotalHours)).ToStringI());
         }
 
         // remove the timer with this name

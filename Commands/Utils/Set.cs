@@ -75,7 +75,7 @@ namespace BigSister {
 
       if (goal == null) {
         // Get goal from database
-        goal = Database.GetStringParam("users", "goals", "fingerprint='" + bc.From.FingerPrint + "'", skill, "nl");
+        goal = Database.GetStringParameter("users", "goals", "fingerprint='" + bc.From.FingerPrint + "'", skill, "nl");
       } else if (!Regex.Match(goal, @"n(?:l|r)|r?\d+(?:\.\d+)?(?:m|k)?").Success) {
         bc.SendReply("Error: Invalid goal.");
         return;
@@ -115,7 +115,7 @@ namespace BigSister {
           goal = "nl";
         }
       }
-      Database.SetStringParam("users", "goals", "fingerprint='" + bc.From.FingerPrint + "'", skill, goal);
+      Database.SetStringParameter("users", "goals", "fingerprint='" + bc.From.FingerPrint + "'", skill, goal);
     }
 
     private static void _SetItem(CommandContext bc) {
@@ -137,7 +137,7 @@ namespace BigSister {
         Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.From.Rsn);
       }
 
-      Database.SetStringParam("users", "items", "fingerprint='" + bc.From.FingerPrint + "'", skill, item);
+      Database.SetStringParameter("users", "items", "fingerprint='" + bc.From.FingerPrint + "'", skill, item);
       bc.SendReply(@"Your default item for \b{0}\b is currently set to \u{1}\u.".FormatWith(skill, item));
     }
 
@@ -165,7 +165,7 @@ namespace BigSister {
       }
 
       int speedValue = speed.ToInt32();
-      Database.SetStringParam("users", "speeds", "fingerprint='" + bc.From.FingerPrint + "'", skill, speedValue.ToStringI());
+      Database.SetStringParameter("users", "speeds", "fingerprint='" + bc.From.FingerPrint + "'", skill, speedValue.ToStringI());
 
       if (speedValue > 0) {
         bc.SendReply(@"Your speed for \b{0}\b is currently set to \u{1} average exp. per hour\u.".FormatWith(skill, speedValue.ToShortString(1)));
