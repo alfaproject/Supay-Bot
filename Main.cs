@@ -290,7 +290,7 @@ namespace BigSister {
             // Utility
             case "SET":
             case "DEFAULT":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Set), bc);
+              ThreadUtil.FireAndForget(Command.Set, bc);
               break;
             case "SETNAME":
             case "SETRSN":
@@ -298,30 +298,30 @@ namespace BigSister {
             case "DEFRSN":
             case "ADDME":
               bc.Message = bc.Message.Replace(bc.MessageTokens[0], "set name");
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Set), bc);
+              ThreadUtil.FireAndForget(Command.Set, bc);
               break;
             case "RSN":
             case "WHOIS":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Whois), bc);
+              ThreadUtil.FireAndForget(Command.Whois, bc);
               break;
             case "CALC":
             case "C":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Calc), bc);
+              ThreadUtil.FireAndForget(Command.Calc, bc);
               break;
 
             // Tracker
             case "ADDTRACKER":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTracker.Add), bc);
+              ThreadUtil.FireAndForget(CmdTracker.Add, bc);
               break;
             case "REMOVETRACKER":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTracker.Remove), bc);
+              ThreadUtil.FireAndForget(CmdTracker.Remove, bc);
               break;
             case "REMOVETRACKERFROMCLAN":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTracker.RemoveTrackerFromClan), bc);
+              ThreadUtil.FireAndForget(CmdTracker.RemoveTrackerFromClan, bc);
               break;
             case "REMOVEFROMSS":
             case "REMOVESSER":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTracker.RemoveFromClan), bc);
+              ThreadUtil.FireAndForget(CmdTracker.RemoveFromClan, bc);
               break;
             case "TODAY":
             case "WEEK":
@@ -335,16 +335,16 @@ namespace BigSister {
             case "LMONTH":
             case "LASTYEAR":
             case "LYEAR":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTracker.Performance), bc);
+              ThreadUtil.FireAndForget(CmdTracker.Performance, bc);
               break;
 
             // RuneScript
             case "GRAPH":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneScript.Graph), bc);
+              ThreadUtil.FireAndForget(CmdRuneScript.Graph, bc);
               break;
             case "TRACK":
             case "TRACKER":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdRuneScript.Track), bc);
+              ThreadUtil.FireAndForget(CmdRuneScript.Track, bc);
               break;
 
             // Clan
@@ -352,7 +352,7 @@ namespace BigSister {
             case "TUGATOP":
             case "SSTOP":
             case "TSTOP":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.ClanTop), bc);
+              ThreadUtil.FireAndForget(Command.ClanTop, bc);
               break;
             case "PTWEEK":
             case "PTMONTH":
@@ -398,60 +398,60 @@ namespace BigSister {
             case "TSLMONTH":
             case "TSLASTYEAR":
             case "TSLYEAR":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.ClanPerformance), bc);
+              ThreadUtil.FireAndForget(Command.ClanPerformance, bc);
               break;
             case "SS":
             case "SSAVG":
             case "SSSTATS":
             case "SSINFO":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.ClanStats), bc);
+              ThreadUtil.FireAndForget(Command.ClanStats, bc);
               break;
 
             // Grand Exchange
             case "PRICES":
             case "PRICE":
             case "GE":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Price), bc);
+              ThreadUtil.FireAndForget(Command.Price, bc);
               break;
             case "PRICEINFO":
             case "GEINFO":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.PriceInfo), bc);
+              ThreadUtil.FireAndForget(Command.PriceInfo, bc);
               break;
             case "GELASTUPDATE":
             case "GEUPDATE":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.LastUpdate), bc);
+              ThreadUtil.FireAndForget(Command.LastUpdate, bc);
               break;
             case "COINSHARE":
             case "COINS":
             case "CS":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.CoinShare), bc);
+              ThreadUtil.FireAndForget(Command.CoinShare, bc);
               break;
 
             // RuneScape
             case "ALL":
             case "STATS":
             case "SKILLS":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Stats), bc);
+              ThreadUtil.FireAndForget(Command.Stats, bc);
               break;
             case "COMPARE":
             case "COMP":
             case "CMP":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Compare), bc);
+              ThreadUtil.FireAndForget(Command.Compare, bc);
               break;
             case "COMBAT":
             case "COMB":
             case "CMB":
             case "CB":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Combat), bc);
+              ThreadUtil.FireAndForget(Command.Combat, bc);
               break;
 
             // Hiscores
             case "TOP":
             case "TABLE":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Top), bc);
+              ThreadUtil.FireAndForget(Command.Top, bc);
               break;
             case "RANK":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Rank), bc);
+              ThreadUtil.FireAndForget(Command.Rank, bc);
               break;
 
             // MiniGames
@@ -460,17 +460,17 @@ namespace BigSister {
             case "SOULS":
             case "SOULWAR":
             case "SOULWARS":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.SoulWars), bc);
+              ThreadUtil.FireAndForget(Command.SoulWars, bc);
               break;
             case "PC":
             case "PEST":
             case "PESTCONTROL":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.PestControl), bc);
+              ThreadUtil.FireAndForget(Command.PestControl, bc);
               break;
 
             // FanSites
             case "ITEM":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Item), bc);
+              ThreadUtil.FireAndForget(Command.Item, bc);
               break;
             case "HIGHALCHEMY":
             case "HIGHALCH":
@@ -478,16 +478,16 @@ namespace BigSister {
             case "LOWALCH":
             case "ALCHEMY":
             case "ALCH":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Alch), bc);
+              ThreadUtil.FireAndForget(Command.Alch, bc);
               break;
 
             // RuneHead
             case "CLAN":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Clan), bc);
+              ThreadUtil.FireAndForget(Command.Clan, bc);
               break;
             case "CLANINFO":
             case "ML":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.ClanInfo), bc);
+              ThreadUtil.FireAndForget(Command.ClanInfo, bc);
               break;
             case "PARSESS":
             case "UPDATESS":
@@ -495,11 +495,11 @@ namespace BigSister {
             case "UPDATEPT":
             case "PARSETS":
             case "UPDATETS":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.ClanUpdate), bc);
+              ThreadUtil.FireAndForget(Command.ClanUpdate, bc);
               break;
             case "CLANCHECK":
             case "CHECKCLAN":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.ClanCheck), bc);
+              ThreadUtil.FireAndForget(Command.ClanCheck, bc);
               break;
             case "CMPCL":
             case "CMPCLAN":
@@ -511,79 +511,79 @@ namespace BigSister {
             case "MLCOMPARE":
             case "CMPML":
             case "COMPAREML":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.ClanCompare), bc);
+              ThreadUtil.FireAndForget(Command.ClanCompare, bc);
               break;
 
             // Tip.It
             case "MONSTERSEARCH":
             case "NPCSEARCH":
             case "MDBSEARCH":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdMonster.Search), bc);
+              ThreadUtil.FireAndForget(CmdMonster.Search, bc);
               break;
             case "MONSTERINFO":
             case "MDBINFO":
             case "MONSTER":
             case "MDB":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdMonster.Info), bc);
+              ThreadUtil.FireAndForget(CmdMonster.Info, bc);
               break;
 
             // Timers
             case "START":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Start), bc);
+              ThreadUtil.FireAndForget(Command.Start, bc);
               break;
             case "CHECK":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Check), bc);
+              ThreadUtil.FireAndForget(Command.Check, bc);
               break;
             case "STOP":
             case "END":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.End), bc);
+              ThreadUtil.FireAndForget(Command.End, bc);
               break;
             case "TIMER":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Timer), bc);
+              ThreadUtil.FireAndForget(Command.Timer, bc);
               break;
 
             // DataFiles
             case "COORDS":
             case "COORD":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Coord), bc);
+              ThreadUtil.FireAndForget(CmdDataFiles.Coord, bc);
               break;
             case "ANAGRAM":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Anagram), bc);
+              ThreadUtil.FireAndForget(CmdDataFiles.Anagram, bc);
               break;
             case "CHALLENGE":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Challenge), bc);
+              ThreadUtil.FireAndForget(CmdDataFiles.Challenge, bc);
               break;
             case "NPC":
             case "PERSON":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Npc), bc);
+              ThreadUtil.FireAndForget(CmdDataFiles.Npc, bc);
               break;
             case "RIDDLE":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Riddle), bc);
+              ThreadUtil.FireAndForget(CmdDataFiles.Riddle, bc);
               break;
             case "SEARCH":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Search), bc);
+              ThreadUtil.FireAndForget(CmdDataFiles.Search, bc);
               break;
             case "URI":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Uri), bc);
+              ThreadUtil.FireAndForget(CmdDataFiles.Uri, bc);
               break;
             case "FAIRY":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Fairy), bc);
+              ThreadUtil.FireAndForget(CmdDataFiles.Fairy, bc);
               break;
             case "PAYMENT":
             case "FARMER":
             case "PLANT":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Farmer), bc);
+              ThreadUtil.FireAndForget(CmdDataFiles.Farmer, bc);
               break;
             case "CAPE":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Cape), bc);
+              ThreadUtil.FireAndForget(CmdDataFiles.Cape, bc);
               break;
             case "EXP":
             case "XP":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Exp), bc);
+              ThreadUtil.FireAndForget(CmdDataFiles.Exp, bc);
               break;
             case "REQ":
             case "REQS":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Reqs), bc);
+              ThreadUtil.FireAndForget(CmdDataFiles.Reqs, bc);
               break;
             case "PO":
             case "POUCH":
@@ -591,58 +591,58 @@ namespace BigSister {
             case "FAM":
             case "FAMILIAR":
             case "FAMILIARS":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Pouch), bc);
+              ThreadUtil.FireAndForget(CmdDataFiles.Pouch, bc);
               break;
             case "CH":
             case "CHARM":
             case "CHARMS":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Charms), bc);
+              ThreadUtil.FireAndForget(CmdDataFiles.Charms, bc);
               break;
             case "POT":
             case "POTION":
             case "POTIONS":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Potion), bc);
+              ThreadUtil.FireAndForget(CmdDataFiles.Potion, bc);
               break;
             case "SP":
             case "SPELL":
             case "SPELLS":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdDataFiles.Spell), bc);
+              ThreadUtil.FireAndForget(CmdDataFiles.Spell, bc);
               break;
 
             // Others
             case "%":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.Percent), bc);
+              ThreadUtil.FireAndForget(CmdOthers.Percent, bc);
               break;
             case "COMBAT%":
             case "COMB%":
             case "CMB%":
             case "CB%":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.CombatPercent), bc);
+              ThreadUtil.FireAndForget(CmdOthers.CombatPercent, bc);
               break;
             case "SLAYER%":
             case "SLAY%":
             case "SL%":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.SlayerPercent), bc);
+              ThreadUtil.FireAndForget(CmdOthers.SlayerPercent, bc);
               break;
             case "F2P%":
             case "F2P":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.F2pPercent), bc);
+              ThreadUtil.FireAndForget(CmdOthers.F2pPercent, bc);
               break;
             case "PC%":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.PcPercent), bc);
+              ThreadUtil.FireAndForget(CmdOthers.PcPercent, bc);
               break;
 
             case "PLAYERS":
             case "WORLDS":
             case "WORLD":
             case "W":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.Players), bc);
+              ThreadUtil.FireAndForget(CmdOthers.Players, bc);
               break;
 
             case "GRATS":
             case "GRATZ":
             case "G":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.Grats), bc);
+              ThreadUtil.FireAndForget(CmdOthers.Grats, bc);
               break;
 
             case "HIGHLOW":
@@ -653,7 +653,7 @@ namespace BigSister {
             case "LOHIGH":
             case "HILO":
             case "LOHI":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.HighLow), bc);
+              ThreadUtil.FireAndForget(CmdOthers.HighLow, bc);
               break;
             case "CALCCOMBAT":
             case "CALCCOMB":
@@ -661,36 +661,36 @@ namespace BigSister {
             case "CALCCB":
             case "CMB-EST":
             case "CMBEST":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdOthers.CalcCombat), bc);
+              ThreadUtil.FireAndForget(CmdOthers.CalcCombat, bc);
               break;
 
             // Links
             case "QUICKFIND":
             case "QFC":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdLinks.Qfc), bc);
+              ThreadUtil.FireAndForget(CmdLinks.Qfc, bc);
               break;
 
             // Wars
             case "WARSTART":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdWar.Start), bc);
+              ThreadUtil.FireAndForget(CmdWar.Start, bc);
               break;
             case "WARADD":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdWar.Add), bc);
+              ThreadUtil.FireAndForget(CmdWar.Add, bc);
               break;
             case "WARREMOVE":
             case "WARDELETE":
             case "WARDEL":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdWar.Remove), bc);
+              ThreadUtil.FireAndForget(CmdWar.Remove, bc);
               break;
             case "WAREND":
             case "WARSTOP":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdWar.End), bc);
+              ThreadUtil.FireAndForget(CmdWar.End, bc);
               break;
             case "WARTOP":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdWar.Top), bc);
+              ThreadUtil.FireAndForget(CmdWar.Top, bc);
               break;
             case "WARTOPALL":
-              ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdWar.TopAll), bc);
+              ThreadUtil.FireAndForget(CmdWar.TopAll, bc);
               break;
 
             default:
@@ -698,16 +698,16 @@ namespace BigSister {
 
               if (bc.MessageTokens[0].StartsWithI("LAST")) {
                 // !lastNdays
-                ThreadUtil.FireAndForget(new ExecuteBotCommand(CmdTracker.Performance), bc);
+                ThreadUtil.FireAndForget(CmdTracker.Performance, bc);
               } else if (bc.MessageTokens[0].StartsWithI("SSLAST") || bc.MessageTokens[0].StartsWithI("TSLAST") || bc.MessageTokens[0].StartsWithI("PTLAST") || bc.MessageTokens[0].StartsWithI("TUGALAST")) {
                 // !<clan>lastNdays
-                ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.ClanPerformance), bc);
+                ThreadUtil.FireAndForget(Command.ClanPerformance, bc);
               } else if (Minigame.TryParse(bc.MessageTokens[0], ref command)) {
                 // !<minigame>
-                ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.Minigame), bc);
+                ThreadUtil.FireAndForget(Command.Minigame, bc);
               } else if (Skill.TryParse(bc.MessageTokens[0], ref command)) {
                 // !<skill>
-                ThreadUtil.FireAndForget(new ExecuteBotCommand(Command.SkillInfo), bc);
+                ThreadUtil.FireAndForget(Command.SkillInfo, bc);
               }
               break;
           }
