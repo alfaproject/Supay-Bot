@@ -84,7 +84,6 @@ namespace BigSister.Irc.Messages.Modes {
       //TODO Implement CollapseModes
     }
 
-
     /// <summary>
     /// Applies the current modes to the given <see cref="UserModeMessage"/>.
     /// </summary>

@@ -844,7 +844,7 @@ namespace BigSister.Irc {
       }
     }
 
-    private List<InfoPair> CreateInfoPairs(string value) {
+    private static List<InfoPair> CreateInfoPairs(string value) {
       List<InfoPair> list = new List<InfoPair>();
       foreach (string chanLimitPair in value.Split(',')) {
         if (chanLimitPair.Contains(":")) {

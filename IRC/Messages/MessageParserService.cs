@@ -75,8 +75,8 @@ namespace BigSister.Irc.Messages {
         msg.Parse(unparsedMessage);
       }
 #pragma warning disable 0168
- catch (InvalidMessageException ex) {
-        throw;
+      catch (InvalidMessageException ex) {
+        throw ex;
       }
 #pragma warning restore 0168
  catch (Exception ex) {

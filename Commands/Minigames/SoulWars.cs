@@ -29,12 +29,12 @@
           rsn = bc.NickToRSN(bc.MessageTokens.Join(1).Trim());
         }
       }
-      if (skill == string.Empty || (rsn == string.Empty && level == 0)) {
+      if (string.IsNullOrEmpty(skill) || (string.IsNullOrEmpty(rsn) && level == 0)) {
         bc.SendReply("Syntax: !soulwars <level> <skill>");
         return;
       }
 
-      if (rsn != string.Empty) {
+      if (!string.IsNullOrEmpty(rsn)) {
         Player p = new Player(rsn);
         if (!p.Ranked) {
           bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn));

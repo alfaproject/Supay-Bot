@@ -50,11 +50,11 @@ namespace BigSister {
         bc.MessageTokens[bc.MessageTokens.Length - 1] = string.Empty;
         rsn = bc.NickToRSN(bc.MessageTokens.Join(1).Trim());
       }
-      if (rsn == string.Empty) {
+      if (!string.IsNullOrEmpty(rsn)) {
         rsn = bc.From.Rsn;
       }
 
-      if (skill == string.Empty) {
+      if (string.IsNullOrEmpty(skill)) {
         bc.SendReply("Syntax: !pestcontrol <skill> [rsn] #<target>");
         return;
       }
