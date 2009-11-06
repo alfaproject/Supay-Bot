@@ -4,15 +4,15 @@ namespace BigSister {
   class World : IComparable<World> {
 
     public int Number;
+
     public bool Member;
     public string Status; //Online, Offline, Full
     public string Activity;
     public int Players;
-    public string Location;
 
     public bool LootShare;
-    public bool QuickChat;
     public bool PVP;
+    public bool QuickChat;
 
     public World() {
     }

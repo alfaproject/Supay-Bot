@@ -19,7 +19,8 @@ namespace BigSister {
     }
 
     private void ParseWorldPage(string worldPage) {
-      MatchCollection worlds = Regex.Matches(worldPage, @"<td class=""(f|m).*?World (\d+).*?</td>\s+<td>([^<]+)</td>\s+<td class=""\w+"">([^<]+)</td>\s+<td[^>]*?>([^<]+)</td>\s+<td.*?title=""(Y|N)""></td>\s+<td.*?title=""(Y|N)""></td>\s+<td.*?title=""(Y|N)""></td>", RegexOptions.Singleline);
+      MatchCollection worlds = Regex.Matches(worldPage, @"<td class=""(f|m)"">\s+(?:<a[^>]*>)?World (\d+)(?:</a>)?\s+</td>\s+<td>([^<]+)</td>\s+<td class=""[^\x22]+"">([^<]+)</td>\s+<td[^>]*><img.+?title=""(Y|N)", RegexOptions.Singleline);
+
       foreach (Match W in worlds) {
         World NewWorld = new World();
         NewWorld.Member = (W.Groups[1].Value == "m");
@@ -40,12 +41,21 @@ namespace BigSister {
             break;
         }
 
-        NewWorld.Location = W.Groups[4].Value;
-        NewWorld.Activity = W.Groups[5].Value;
+        NewWorld.Activity = W.Groups[4].Value;
 
-        NewWorld.LootShare = (W.Groups[6].Value == "Y");
-        NewWorld.QuickChat = (W.Groups[7].Value == "Y");
-        NewWorld.PVP = (W.Groups[8].Value == "Y");
+        switch (NewWorld.Activity) {
+          case "PvP World":
+            NewWorld.PVP = true;
+            break;
+          case "Bounty World":
+          case "Bounty World (+1 item)":
+            NewWorld.QuickChat = true;
+            break;
+          default:
+            break;
+        }
+
+        NewWorld.LootShare = (W.Groups[5].Value == "Y");
 
         this.Add(NewWorld.Number, NewWorld);
       }

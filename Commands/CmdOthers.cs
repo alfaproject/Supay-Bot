@@ -124,7 +124,7 @@ namespace BigSister {
 
       int inputworld;
       if (bc.MessageTokens.Length > 1) {
-        if (int.TryParse(bc.MessageTokens[1], out inputworld) && worlds.ContainsKey(inputworld)) {
+        if (bc.MessageTokens[1].TryInt32(out inputworld) && worlds.ContainsKey(inputworld)) {
           // !players <world>
           World world = worlds[inputworld];
 
@@ -141,13 +141,11 @@ namespace BigSister {
               break;
           }
 
-          string reply = "World: \\c07{0}\\c (\\c07{1}\\c) | Players: {2} | Type: \\c07{3}\\c".FormatWith(inputworld, world.Location, players, world.Member ? "P2P" : "F2P");
+          string reply = "World: \\c07{0}\\c (\\c07{1}\\c) | Players: {2} | Type: \\c07{3}\\c".FormatWith(inputworld, world.Activity, players, world.Member ? "P2P" : "F2P");
           if (world.Activity != "-")
             reply += " | Activity: \\c07{0}\\c".FormatWith(world.Activity);
 
           reply += " | LootShare: \\c" + (world.LootShare ? "03Yes" : "04No") + "\\c";
-          reply += " | Quickchat: \\c" + (world.QuickChat ? "03Yes" : "04No") + "\\c";
-          reply += " | PVP: \\c" + (world.PVP ? "03Yes" : "04No") + "\\c";
 
           bc.SendReply(reply + " | Link: \\c12http://world{0}.runescape.com/a2,m0,j0,o0\\c".FormatWith(world.Number));
           return;
@@ -173,7 +171,7 @@ namespace BigSister {
           if (bc.Message.Contains(" @pvp")) {
             pvp = true;
             bc.Message = bc.Message.Replace(" @pvp", string.Empty);
-            activity += "[PVP]";
+            activity += "[PVP] PvP";
           }
 
           // get @lootshare
@@ -187,7 +185,7 @@ namespace BigSister {
             bc.Message = bc.Message.Replace(" @coin", string.Empty);
             bc.Message = bc.Message.Replace(" @cs", string.Empty);
             bc.Message = bc.Message.Replace(" @share", string.Empty);
-            activity += "[LS]";
+            activity += "[LS] LootShare";
           }
 
           // get @quickchat
@@ -198,7 +196,7 @@ namespace BigSister {
             bc.Message = bc.Message.Replace(" @quick", string.Empty);
             bc.Message = bc.Message.Replace(" @chat", string.Empty);
             bc.Message = bc.Message.Replace(" @qc", string.Empty);
-            activity += "[QC]";
+            activity += "[QC] QuickChat";
           }
 
           // !players <activity>
@@ -207,17 +205,17 @@ namespace BigSister {
             act_worlds.RemoveAll(w => !w.Member);
           if (f2p)
             act_worlds.RemoveAll(w => w.Member);
-          if (pvp)
-            act_worlds.RemoveAll(w => !w.PVP);
           if (lootShare)
             act_worlds.RemoveAll(w => !w.LootShare);
+          if (pvp)
+            act_worlds.RemoveAll(w => !w.PVP);
           if (quickChat)
             act_worlds.RemoveAll(w => !w.QuickChat);
 
           if (act_worlds.Count > 0) {
             act_worlds.Sort();
 
-            if (act_worlds[0].Activity != "-")
+            if (activity == string.Empty)
               activity += " " + act_worlds[0].Activity;
 
             string reply = "\\c07{0}\\c worlds:".FormatWith(activity);
