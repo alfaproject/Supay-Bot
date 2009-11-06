@@ -44,7 +44,7 @@ namespace BigSister {
 
       Database.ExecuteNonQuery("DELETE FROM wars WHERE channel='" + bc.Channel + "';");
       Database.Insert("wars", "channel", bc.Channel, "skill", skill, "startdate", DateTime.UtcNow.ToStringI("yyyyMMddHHmm"));
-      
+
       bc.SendReply(@"\b{0}\b war started on \u{1}\u for these players. \bYou can now login and good luck!\b".FormatWith(skill, DateTime.Now));
     }
 
@@ -65,6 +65,7 @@ namespace BigSister {
       SQLiteDataReader warPlayers = Database.ExecuteReader("SELECT rsn FROM warplayers WHERE channel='" + bc.Channel + "';");
       while (warPlayers.Read()) {
         Player p = new Player(warPlayers.GetString(0));
+        if (!p.Ranked) { bc.SendReply("Player " + p.Name + " has changed his/her name during the war, and cannot be tracked."); continue; }
         if (count % 2 == 0) {
           reply += @"\c7{0} ({1:e});\c ".FormatWith(p.Name, p.Skills[skill]);
         } else {
@@ -161,6 +162,7 @@ namespace BigSister {
       SQLiteDataReader warPlayersDr = Database.ExecuteReader("SELECT rsn, startrank, startlevel, startexp FROM warplayers WHERE channel='" + bc.Channel + "';");
       while (warPlayersDr.Read()) {
         Player warPlayer = new Player(warPlayersDr.GetString(0));
+        if (!warPlayer.Ranked) { continue; }
         warPlayer.Skills[skill] -= new Skill(skill, warPlayersDr.GetInt32(1), warPlayersDr.GetInt32(2), warPlayersDr.GetInt32(3));
         warPlayers.Add(warPlayer);
       }
@@ -247,6 +249,7 @@ namespace BigSister {
       SQLiteDataReader warPlayersDr = Database.ExecuteReader("SELECT rsn, startrank, startlevel, startexp FROM warplayers WHERE channel='" + bc.Channel + "';");
       while (warPlayersDr.Read()) {
         Player warPlayer = new Player(warPlayersDr.GetString(0));
+        if (!warPlayer.Ranked) { continue; }
         warPlayer.Skills[skill] -= new Skill(skill, warPlayersDr.GetInt32(1), warPlayersDr.GetInt32(2), warPlayersDr.GetInt32(3));
         warPlayers.Add(warPlayer);
       }
