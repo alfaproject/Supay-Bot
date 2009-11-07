@@ -129,7 +129,7 @@ namespace BigSister {
             DifLevel = string.Empty;
             if (SkillsDif[i].Level > 0)
               DifLevel = " [\\b+{0}\\b]".FormatWith(SkillsDif[i].Level);
-            ReplyMsg += " \\c7{0}\\c lvl {1} \\c3+{2}\\c xp;".FormatWith(SkillsDif[i].Name, PlayerNew.Skills[SkillsDif[i].Name].Level + DifLevel, SkillsDif[i].Exp.ToShortString(1));
+            ReplyMsg += " \\c07{0}\\c lvl {1} \\c3+{2}\\c xp;".FormatWith(SkillsDif[i].Name, PlayerNew.Skills[SkillsDif[i].Name].Level + DifLevel, SkillsDif[i].Exp.ToShortString(1));
           }
         }
         bc.SendReply(ReplyMsg);

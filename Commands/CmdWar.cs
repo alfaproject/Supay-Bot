@@ -27,7 +27,7 @@ namespace BigSister {
                                       "startexp", p.Skills[skill].Exp.ToStringI(),
                                       "startrank", p.Skills[skill].Rank.ToStringI());
         if (count % 2 == 0) {
-          reply += @"\c7{0} ({1:e});\c ".FormatWith(p.Name, p.Skills[skill]);
+          reply += @"\c07{0} ({1:e});\c ".FormatWith(p.Name, p.Skills[skill]);
         } else {
           reply += "{0} ({1:e}); ".FormatWith(p.Name, p.Skills[skill]);
         }
@@ -67,7 +67,7 @@ namespace BigSister {
         Player p = new Player(warPlayers.GetString(0));
         if (!p.Ranked) { bc.SendReply("Player " + p.Name + " has changed his/her name during the war, and cannot be tracked."); continue; }
         if (count % 2 == 0) {
-          reply += @"\c7{0} ({1:e});\c ".FormatWith(p.Name, p.Skills[skill]);
+          reply += @"\c07{0} ({1:e});\c ".FormatWith(p.Name, p.Skills[skill]);
         } else {
           reply += "{0} ({1:e}); ".FormatWith(p.Name, p.Skills[skill]);
         }

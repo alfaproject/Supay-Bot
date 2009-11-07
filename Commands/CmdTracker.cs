@@ -256,7 +256,7 @@ namespace BigSister {
             DifLevel = string.Empty;
             if (SkillsDif[i].Level > 0)
               DifLevel = " [\\b+{0}\\b]".FormatWith(SkillsDif[i].Level);
-            ReplyMsg += " \\c7{0}\\c lvl {1} \\c3+{2}\\c xp;".FormatWith(SkillsDif[i].Name, PlayerNew.Skills[SkillsDif[i].Name].Level + DifLevel, SkillsDif[i].Exp.ToShortString(1));
+            ReplyMsg += " \\c07{0}\\c lvl {1} \\c3+{2}\\c xp;".FormatWith(SkillsDif[i].Name, PlayerNew.Skills[SkillsDif[i].Name].Level + DifLevel, SkillsDif[i].Exp.ToShortString(1));
           }
           if ((i + 1) % 10 == 0) {
             bc.SendReply(ReplyMsg);
@@ -281,7 +281,7 @@ namespace BigSister {
           for (int i = 0; i < MinigamesDif.Count; i++) {
             if (MinigamesDif[i].Score > 0) {
               has_performance = true;
-              ReplyMsg += " \\c7{0}\\c \\c3+{1}\\c score;".FormatWith(MinigamesDif[i].Name, MinigamesDif[i].Score);
+              ReplyMsg += " \\c07{0}\\c \\c3+{1}\\c score;".FormatWith(MinigamesDif[i].Name, MinigamesDif[i].Score);
             }
           }
           if (has_performance)
