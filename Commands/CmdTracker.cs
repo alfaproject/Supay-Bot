@@ -100,6 +100,12 @@ namespace BigSister {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void Performance(CommandContext bc) {
+
+      bool showAll = false;
+      if (bc.Message.Contains(" @all")) {
+        showAll = true;
+        bc.Message = bc.Message.Replace(" @all", string.Empty);
+      }
       // get rsn
       string rsn;
       if (bc.MessageTokens.Length > 1)
@@ -241,15 +247,21 @@ namespace BigSister {
         }
         SkillsDif.Sort();
 
+        int skillLength = (showAll ? SkillsDif.Count : 10);
         bool has_performance = false;
         ReplyMsg = "\\b{0}\\b \\u{1}\\u skills:".FormatWith(rsn, interval.ToLowerInvariant());
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < skillLength; i++) {
           if (SkillsDif[i].Exp > 0) {
             has_performance = true;
             DifLevel = string.Empty;
             if (SkillsDif[i].Level > 0)
               DifLevel = " [\\b+{0}\\b]".FormatWith(SkillsDif[i].Level);
             ReplyMsg += " \\c7{0}\\c lvl {1} \\c3+{2}\\c xp;".FormatWith(SkillsDif[i].Name, PlayerNew.Skills[SkillsDif[i].Name].Level + DifLevel, SkillsDif[i].Exp.ToShortString(1));
+          }
+          if ((i + 1) % 10 == 0) {
+            bc.SendReply(ReplyMsg);
+            has_performance = false;
+            ReplyMsg = "\\b{0}\\b \\u{1}\\u skills:".FormatWith(rsn, interval.ToLowerInvariant());
           }
         }
         if (has_performance)
