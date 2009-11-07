@@ -131,13 +131,13 @@ namespace BigSister {
       priceRegex += @"<br>\s+";
       priceRegex += @"<b>Current market price range:</b><br>\s+";
       priceRegex += @"<span>\s+";
-      priceRegex += @"<b>Minimum price:</b>\s*([0-9.mk]+)\s+";
+      priceRegex += @"<b>Minimum price:</b>\s*([0-9,.mk]+)\s+";
       priceRegex += @"</span>\s+";
       priceRegex += @"<span class=""spaced_span"">\s+";
-      priceRegex += @"<b>Market price:</b>\s*([0-9.mk]+)\s+";
+      priceRegex += @"<b>Market price:</b>\s*([0-9,.mk]+)\s+";
       priceRegex += @"</span>\s+";
       priceRegex += @"<span>\s+";
-      priceRegex += @"<b>Maximum price:</b>\s*([0-9.mk]+)\s+";
+      priceRegex += @"<b>Maximum price:</b>\s*([0-9,.mk]+)\s+";
       priceRegex += @"</span>\s+";
       priceRegex += @"<br><br>\s+";
       priceRegex += @"<b>Change in price:</b><br>\s+";
