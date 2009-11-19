@@ -266,9 +266,13 @@ namespace BigSister {
             }
             break;
           case "LISTCHANNELS":
-            foreach (Channel c in _irc.Channels)
+            string users;
+            foreach (Channel c in _irc.Channels) {
+              users = "";
               foreach (User u in c.Users)
-                _irc.SendChat(c.Name + " » " + u.ToString(), e.Message.Sender.Nick);
+                users += " " + u.Nick;
+              _irc.SendChat(c.Name + " » " + users.Trim(), e.Message.Sender.Nick);
+            }
             break;
         }
       } else {
