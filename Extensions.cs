@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace BigSister {
+namespace Supay.Bot {
   public static partial class Extensions {
 
     /// <summary>
@@ -187,4 +187,4 @@ namespace BigSister {
     }
 
   } //class Extensions
-} //namespace BigSister
+} //namespace Supay.Bot

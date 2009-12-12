@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace BigSister {
+namespace Supay.Bot {
   static class CmdLinks {
 
     public static void Qfc(CommandContext bc) {
@@ -19,4 +19,4 @@ namespace BigSister {
     }
 
   } //class CmdLinks
-} //namespace BigSister
+} ////namespace Supay.Bot

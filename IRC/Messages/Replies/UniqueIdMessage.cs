@@ -2,7 +2,7 @@ using System;
 using System.Collections.Specialized;
 using System.Diagnostics;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   This message is sent by the server early during connection, and tells the user the alpha-numeric id the server uses to identify the user. </summary>
   [Serializable]
@@ -54,7 +54,7 @@ namespace BigSister.Irc.Messages {
     /// <summary>
     /// Notifies the given <see cref="MessageConduit"/> by raising the appropriate event for the current <see cref="IrcMessage"/> subclass.
     /// </summary>
-    public override void Notify(BigSister.Irc.Messages.MessageConduit conduit) {
+    public override void Notify(Supay.Bot.Irc.Messages.MessageConduit conduit) {
       conduit.OnUniqueId(new IrcMessageEventArgs<UniqueIdMessage>(this));
     }
 

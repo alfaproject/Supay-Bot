@@ -1,4 +1,4 @@
-namespace BigSister.Irc.Messages.Modes {
+namespace Supay.Bot.Irc.Messages.Modes {
   /// <summary>
   ///   When this mode is set, 
   ///   new members are only accepted if their nick is registered. </summary>

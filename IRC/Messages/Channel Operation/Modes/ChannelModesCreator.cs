@@ -2,7 +2,7 @@ using System;
 using System.Collections.Specialized;
 using System.Globalization;
 
-namespace BigSister.Irc.Messages.Modes {
+namespace Supay.Bot.Irc.Messages.Modes {
   /// <summary>
   ///   ChannelModesCreator parses, builds, and writes the modes used by the <see cref="ChannelModeMessage"/> class. </summary>
   class ChannelModesCreator {
@@ -14,9 +14,9 @@ namespace BigSister.Irc.Messages.Modes {
     }
 
     /// <summary>
-    ///   A <see cref="BigSister.Irc.ServerSupport"/> instance is required in order to parse non-standard modes. </summary>
+    ///   A <see cref="Supay.Bot.Irc.ServerSupport"/> instance is required in order to parse non-standard modes. </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-    public BigSister.Irc.ServerSupport ServerSupport {
+    public Supay.Bot.Irc.ServerSupport ServerSupport {
       get {
         return this.serverSupports;
       }
@@ -27,7 +27,7 @@ namespace BigSister.Irc.Messages.Modes {
         this.serverSupports = value;
       }
     }
-    private BigSister.Irc.ServerSupport serverSupports = new BigSister.Irc.ServerSupport();
+    private Supay.Bot.Irc.ServerSupport serverSupports = new Supay.Bot.Irc.ServerSupport();
 
     #region Parsing
 

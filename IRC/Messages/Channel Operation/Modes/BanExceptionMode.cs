@@ -1,4 +1,4 @@
-namespace BigSister.Irc.Messages.Modes {
+namespace Supay.Bot.Irc.Messages.Modes {
   /// <summary>
   ///   This mode defines an exception for any <see cref="BanMode"/> masks set for the channel. </summary>
   class BanExceptionMode : AccessControlMode {
@@ -32,4 +32,4 @@ namespace BigSister.Irc.Messages.Modes {
     }
 
   } //class BanExceptionMode
-} //namespace BigSister.Irc.Messages.Modes
+} ////namespace Supay.Bot.Irc.Messages.Modes

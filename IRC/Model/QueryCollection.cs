@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace BigSister.Irc {
+namespace Supay.Bot.Irc {
   /// <summary>
   ///   A collection of <see href="Query" /> objects. </summary>
   class QueryCollection : ObservableCollection<Query> {

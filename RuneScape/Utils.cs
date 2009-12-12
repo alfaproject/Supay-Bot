@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BigSister {
+namespace Supay.Bot {
   static class Utils {
 
     private static int CalculateCombat(int neutralBonus, int meleeBonus, int magicBonus, int rangeBonus) {
@@ -209,4 +209,4 @@ namespace BigSister {
     }
 
   } //class Utils
-} //namespace BigSister
+} ////namespace Supay.Bot

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Specialized;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   Represents a single generic rfc1459 irc message to or from an irc server. </summary>
   [Serializable]

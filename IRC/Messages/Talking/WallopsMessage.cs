@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Specialized;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
-  ///   This message is sent to all users with <see cref="BigSister.Irc.Messages.Modes.ReceiveWallopsMode"/>,
-  ///   <see cref="BigSister.Irc.Messages.Modes.NetworkOperatorMode"/>, or <see cref="BigSister.Irc.Messages.Modes.ServerOperatorMode"/> user modes. </summary>
+  ///   This message is sent to all users with <see cref="Modes.ReceiveWallopsMode"/>,
+  ///   <see cref="Modes.NetworkOperatorMode"/>, or <see cref="Modes.ServerOperatorMode"/> user modes. </summary>
   [Serializable]
   class WallopsMessage : CommandMessage {
 
@@ -53,7 +53,7 @@ namespace BigSister.Irc.Messages {
     /// <summary>
     /// Notifies the given <see cref="MessageConduit"/> by raising the appropriate event for the current <see cref="IrcMessage"/> subclass.
     /// </summary>
-    public override void Notify(BigSister.Irc.Messages.MessageConduit conduit) {
+    public override void Notify(Supay.Bot.Irc.Messages.MessageConduit conduit) {
       conduit.OnWallops(new IrcMessageEventArgs<WallopsMessage>(this));
     }
 

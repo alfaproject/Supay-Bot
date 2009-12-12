@@ -1,6 +1,6 @@
 using System;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   Returned after an attempt to connect and register yourself with a server which has been setup to explicitly deny connections to you. </summary>
   [Serializable]
@@ -23,7 +23,7 @@ namespace BigSister.Irc.Messages {
     /// <summary>
     /// Notifies the given <see cref="MessageConduit"/> by raising the appropriate event for the current <see cref="IrcMessage"/> subclass.
     /// </summary>
-    public override void Notify(BigSister.Irc.Messages.MessageConduit conduit) {
+    public override void Notify(Supay.Bot.Irc.Messages.MessageConduit conduit) {
       conduit.OnYouAreBanned(new IrcMessageEventArgs<YouAreBannedMessage>(this));
     }
 

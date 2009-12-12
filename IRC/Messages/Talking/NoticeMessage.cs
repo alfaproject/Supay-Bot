@@ -1,6 +1,6 @@
 using System;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   This message is similar to a <see cref="ChatMessage"/>, 
   ///   except that no auto-replies should ever be sent after receiving a <see cref="NoticeMessage"/>. </summary>
@@ -50,7 +50,7 @@ namespace BigSister.Irc.Messages {
     /// <summary>
     /// Notifies the given <see cref="MessageConduit"/> by raising the appropriate event for the current <see cref="IrcMessage"/> subclass.
     /// </summary>
-    public override void Notify(BigSister.Irc.Messages.MessageConduit conduit) {
+    public override void Notify(Supay.Bot.Irc.Messages.MessageConduit conduit) {
       conduit.OnNotice(new IrcMessageEventArgs<TextMessage>(this));
     }
 

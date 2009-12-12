@@ -6,12 +6,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("BigSister")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Supay Bot")]
+[assembly: AssemblyDescription("RuneScape IRC bot")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("_aLfa_")]
-[assembly: AssemblyProduct("BigSister")]
-[assembly: AssemblyCopyright("Copyright © _aLfa_ 2006 - 2009")]
+[assembly: AssemblyCompany("_aLfa_ and P_Gertrude")]
+[assembly: AssemblyProduct("Supay Bot")]
+[assembly: AssemblyCopyright("Copyright © _aLfa_ and P_Gertrude 2006 - 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

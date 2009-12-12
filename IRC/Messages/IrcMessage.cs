@@ -2,7 +2,7 @@ using System;
 using System.Collections.Specialized;
 using System.Globalization;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   The astract base class for all irc messages. </summary>
   [Serializable]
@@ -55,7 +55,7 @@ namespace BigSister.Irc.Messages {
     /// <summary>
     /// Validates this message against the given server support
     /// </summary>
-    public virtual void Validate(BigSister.Irc.ServerSupport serverSupport) {
+    public virtual void Validate(Supay.Bot.Irc.ServerSupport serverSupport) {
 
     }
 
@@ -85,7 +85,7 @@ namespace BigSister.Irc.Messages {
     /// <summary>
     /// Notifies the given <see cref="MessageConduit"/> by raising the appropriate event for the current <see cref="IrcMessage"/> subclass.
     /// </summary>
-    public abstract void Notify(BigSister.Irc.Messages.MessageConduit conduit);
+    public abstract void Notify(Supay.Bot.Irc.Messages.MessageConduit conduit);
 
     /// <summary>
     ///   Determines if the message can be parsed by this type. </summary>

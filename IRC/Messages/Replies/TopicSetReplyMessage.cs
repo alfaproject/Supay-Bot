@@ -2,7 +2,7 @@ using System;
 using System.Collections.Specialized;
 using System.Globalization;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   The reply sent when the server acknowledges that a channel's topic has been changed. </summary>
   [Serializable]
@@ -30,7 +30,7 @@ namespace BigSister.Irc.Messages {
     /// <summary>
     /// Gets or sets the user which changed the topic.
     /// </summary>
-    public virtual BigSister.Irc.User User {
+    public virtual Supay.Bot.Irc.User User {
       get {
         return user;
       }
@@ -38,7 +38,7 @@ namespace BigSister.Irc.Messages {
         user = value;
       }
     }
-    private BigSister.Irc.User user = new User();
+    private Supay.Bot.Irc.User user = new User();
 
     /// <summary>
     /// Gets or sets the time at which the topic was changed.
@@ -76,7 +76,7 @@ namespace BigSister.Irc.Messages {
     /// <summary>
     /// Notifies the given <see cref="MessageConduit"/> by raising the appropriate event for the current <see cref="IrcMessage"/> subclass.
     /// </summary>
-    public override void Notify(BigSister.Irc.Messages.MessageConduit conduit) {
+    public override void Notify(Supay.Bot.Irc.Messages.MessageConduit conduit) {
       conduit.OnTopicSetReply(new IrcMessageEventArgs<TopicSetReplyMessage>(this));
     }
 

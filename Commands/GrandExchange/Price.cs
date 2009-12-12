@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BigSister {
+namespace Supay.Bot {
   static partial class Command {
 
     public static void Price(CommandContext bc) {
@@ -40,4 +40,4 @@ namespace BigSister {
     }
 
   } //class Command
-} //namespace BigSister
+} ////namespace Supay.Bot

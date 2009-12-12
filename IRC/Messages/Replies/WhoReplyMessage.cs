@@ -2,7 +2,7 @@ using System;
 using System.Collections.Specialized;
 using System.Globalization;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   A reply to a <see cref="WhoMessage"/> query. </summary>
   [Serializable]
@@ -33,7 +33,7 @@ namespace BigSister.Irc.Messages {
     /// <summary>
     /// Gets or sets the user being examined.
     /// </summary>
-    public virtual BigSister.Irc.User User {
+    public virtual Supay.Bot.Irc.User User {
       get {
         return user;
       }
@@ -149,7 +149,7 @@ namespace BigSister.Irc.Messages {
     /// <summary>
     /// Notifies the given <see cref="MessageConduit"/> by raising the appropriate event for the current <see cref="IrcMessage"/> subclass.
     /// </summary>
-    public override void Notify(BigSister.Irc.Messages.MessageConduit conduit) {
+    public override void Notify(Supay.Bot.Irc.Messages.MessageConduit conduit) {
       conduit.OnWhoReply(new IrcMessageEventArgs<WhoReplyMessage>(this));
     }
 

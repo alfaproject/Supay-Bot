@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace BigSister {
+namespace Supay.Bot {
 
   class Hiscores : List<Hiscore> {
     public Hiscores(string skill, string minigame, int rank)
@@ -46,4 +46,4 @@ namespace BigSister {
     }
 
   } // class Hiscores
-} // namespace BigSister
+} // //namespace Supay.Bot

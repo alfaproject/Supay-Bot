@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Specialized;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   With the AwayMessage, clients can set an automatic reply string for any <see cref="ChatMessage"/>s directed at them (not to a channel they are on). </summary>
   /// <remarks>
@@ -80,7 +80,7 @@ namespace BigSister.Irc.Messages {
     /// <summary>
     /// Notifies the given <see cref="MessageConduit"/> by raising the appropriate event for the current <see cref="IrcMessage"/> subclass.
     /// </summary>
-    public override void Notify(BigSister.Irc.Messages.MessageConduit conduit) {
+    public override void Notify(Supay.Bot.Irc.Messages.MessageConduit conduit) {
       conduit.OnAway(new IrcMessageEventArgs<AwayMessage>(this));
     }
 

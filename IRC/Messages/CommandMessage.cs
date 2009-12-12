@@ -1,6 +1,6 @@
 using System;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   The base for all message which send a text command. </summary>
   [Serializable]

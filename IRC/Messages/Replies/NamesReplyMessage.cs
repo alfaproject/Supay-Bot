@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   A single reply to the <see cref="NamesMessage"/> query. </summary>
   [Serializable]
@@ -14,11 +14,11 @@ namespace BigSister.Irc.Messages {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible")]
     public enum ChannelVisibility {
       /// <summary>
-      /// The channel is in <see cref="BigSister.Irc.Messages.Modes.SecretMode"/>
+      /// The channel is in <see cref="Modes.SecretMode"/>
       /// </summary>
       Secret,
       /// <summary>
-      /// The channel is in <see cref="BigSister.Irc.Messages.Modes.PrivateMode"/>
+      /// The channel is in <see cref="Modes.PrivateMode"/>
       /// </summary>
       Private,
       /// <summary>
@@ -140,7 +140,7 @@ namespace BigSister.Irc.Messages {
     /// <summary>
     /// Notifies the given <see cref="MessageConduit"/> by raising the appropriate event for the current <see cref="IrcMessage"/> subclass.
     /// </summary>
-    public override void Notify(BigSister.Irc.Messages.MessageConduit conduit) {
+    public override void Notify(Supay.Bot.Irc.Messages.MessageConduit conduit) {
       conduit.OnNamesReply(new IrcMessageEventArgs<NamesReplyMessage>(this));
     }
 

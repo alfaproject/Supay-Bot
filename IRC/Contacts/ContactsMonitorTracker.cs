@@ -1,7 +1,7 @@
 using System;
-using BigSister.Irc.Messages;
+using Supay.Bot.Irc.Messages;
 
-namespace BigSister.Irc.Contacts {
+namespace Supay.Bot.Irc.Contacts {
   internal class ContactsMonitorTracker : ContactsTracker {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -10,8 +10,8 @@ namespace BigSister.Irc.Contacts {
     }
 
     public override void Initialize() {
-      this.Contacts.Client.Messages.MonitoredUserOffline += new EventHandler<BigSister.Irc.Messages.IrcMessageEventArgs<BigSister.Irc.Messages.MonitoredUserOfflineMessage>>(client_MonitoredUserOffline);
-      this.Contacts.Client.Messages.MonitoredUserOnline += new EventHandler<BigSister.Irc.Messages.IrcMessageEventArgs<BigSister.Irc.Messages.MonitoredUserOnlineMessage>>(client_MonitoredUserOnline);
+      this.Contacts.Client.Messages.MonitoredUserOffline += new EventHandler<Supay.Bot.Irc.Messages.IrcMessageEventArgs<Supay.Bot.Irc.Messages.MonitoredUserOfflineMessage>>(client_MonitoredUserOffline);
+      this.Contacts.Client.Messages.MonitoredUserOnline += new EventHandler<Supay.Bot.Irc.Messages.IrcMessageEventArgs<Supay.Bot.Irc.Messages.MonitoredUserOnlineMessage>>(client_MonitoredUserOnline);
       base.Initialize();
     }
 
@@ -37,7 +37,7 @@ namespace BigSister.Irc.Contacts {
 
     #region Reply Handlers
 
-    void client_MonitoredUserOnline(object sender, BigSister.Irc.Messages.IrcMessageEventArgs<BigSister.Irc.Messages.MonitoredUserOnlineMessage> e) {
+    void client_MonitoredUserOnline(object sender, Supay.Bot.Irc.Messages.IrcMessageEventArgs<Supay.Bot.Irc.Messages.MonitoredUserOnlineMessage> e) {
       foreach (User onlineUser in e.Message.Users) {
         User knownUser = this.Contacts.Users.Find(onlineUser.Nick);
         if (knownUser != null) {
@@ -49,7 +49,7 @@ namespace BigSister.Irc.Contacts {
       }
     }
 
-    void client_MonitoredUserOffline(object sender, BigSister.Irc.Messages.IrcMessageEventArgs<BigSister.Irc.Messages.MonitoredUserOfflineMessage> e) {
+    void client_MonitoredUserOffline(object sender, Supay.Bot.Irc.Messages.IrcMessageEventArgs<Supay.Bot.Irc.Messages.MonitoredUserOfflineMessage> e) {
       foreach (string offlineNick in e.Message.Nicks) {
         User knownUser = this.Contacts.Users.Find(offlineNick);
         if (knownUser != null) {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Specialized;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   A Message that edits the list of users on your accept list. </summary>
   [Serializable]

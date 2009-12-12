@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace BigSister {
+namespace Supay.Bot {
   class Minigame : Hiscore, IComparable<Minigame> {
 
     public const string DUEL = "Duel Tournament";
@@ -165,4 +165,4 @@ namespace BigSister {
     #endregion
 
   } // class Minigame
-} // namespace BigSister
+} // //namespace Supay.Bot

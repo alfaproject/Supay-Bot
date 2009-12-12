@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 
-namespace BigSister {
+namespace Supay.Bot {
   static partial class Command {
 
     public static void ClanCompare(CommandContext bc) {

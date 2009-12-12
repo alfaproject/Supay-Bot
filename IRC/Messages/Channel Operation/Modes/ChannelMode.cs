@@ -1,6 +1,6 @@
 using System;
 
-namespace BigSister.Irc.Messages.Modes {
+namespace Supay.Bot.Irc.Messages.Modes {
   /// <summary>
   ///   A channel mode sent in a <see cref="ChannelModeMessage"/> in its <see cref="ChannelModeMessage.ModeChanges"/> property. </summary>
   abstract class ChannelMode {

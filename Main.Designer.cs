@@ -1,4 +1,4 @@
-﻿namespace BigSister
+﻿namespace Supay.Bot
 {
   partial class Main
   {
@@ -77,7 +77,7 @@
       // notifyIcon1
       // 
       this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-      this.notifyIcon1.Text = "BigSister3";
+      this.notifyIcon1.Text = "Supay Bot";
       this.notifyIcon1.Visible = true;
       this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
       // 
@@ -158,7 +158,7 @@
       this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.MainMenuStrip = this.mnu;
       this.Name = "Main";
-      this.Text = "BigSister3 (c) _aLfa_";
+      this.Text = "Supay Bot (c) _aLfa_ and P_Gertrude 2006 - 2009";
       this.Shown += new System.EventHandler(this.Main_Shown);
       this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
       this.Resize += new System.EventHandler(this.Main_Resize);

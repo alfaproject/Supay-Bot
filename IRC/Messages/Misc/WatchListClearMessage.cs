@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Specialized;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   A Message that clears the list of users on your watch list. </summary>
   [Serializable]

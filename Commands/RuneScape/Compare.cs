@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace BigSister {
+namespace Supay.Bot {
   static partial class Command {
 
     public static void Compare(CommandContext bc) {
@@ -27,7 +27,7 @@ namespace BigSister {
           rsn1 = bc.From.Rsn;
           rsn2 = bc.NickToRSN(bc.MessageTokens[1]);
         }
-      } else if (BigSister.Minigame.TryParse(bc.MessageTokens[1], ref minigame1)) {
+      } else if (Supay.Bot.Minigame.TryParse(bc.MessageTokens[1], ref minigame1)) {
         if (bc.MessageTokens.Length == 3) {
           // !compare <minigame> <player2>
           rsn1 = bc.From.Rsn;
@@ -157,4 +157,4 @@ namespace BigSister {
     }
 
   } //class Command
-} //namespace BigSister
+} ////namespace Supay.Bot

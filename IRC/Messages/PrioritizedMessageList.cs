@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   A list which contains IrcMessages. </summary>
   /// <remarks>

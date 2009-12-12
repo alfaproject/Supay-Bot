@@ -1,11 +1,11 @@
 using System;
 using System.Globalization;
 using System.IO;
-using BigSister.Irc.Messages;
-using BigSister.Irc.Messages.Modes;
-using BigSister.Irc.Network;
+using Supay.Bot.Irc.Messages;
+using Supay.Bot.Irc.Messages.Modes;
+using Supay.Bot.Irc.Network;
 
-namespace BigSister.Irc {
+namespace Supay.Bot.Irc {
   /// <summary>
   ///   Represents an irc client. it has a connection, a user, etc. </summary>
   /// <remarks>
@@ -22,14 +22,14 @@ namespace BigSister.Irc {
       this.ServerSupports = new ServerSupport();
 
       this.Messages = new MessageConduit();
-      this.User = new BigSister.Irc.User();
+      this.User = new Supay.Bot.Irc.User();
       this.Connection = new ClientConnection();
 
       this.ServerQuery = new ServerQuery(this);
       this.Channels = new ChannelCollection();
       this.Queries = new QueryCollection();
       this.Peers = new UserCollection();
-      this.Contacts = new BigSister.Irc.Contacts.ContactList();
+      this.Contacts = new Supay.Bot.Irc.Contacts.ContactList();
 
       this.Peers.Add(this.User);
 
@@ -61,8 +61,8 @@ namespace BigSister.Irc {
     /// Initializes a new instance of the <see cref="Client"/> with the given address.
     /// </summary>
     /// <param name="address">The address that will be connected to.</param>
-    /// <param name="nick">The <see cref="BigSister.Irc.User.Nick"/> of the <see cref="Client.User"/></param>
-    /// <param name="realName">The <see cref="BigSister.Irc.User.RealName"/> of the <see cref="Client.User"/></param>
+    /// <param name="nick">The <see cref="User.Nick"/> of the <see cref="Client.User"/></param>
+    /// <param name="realName">The <see cref="User.RealName"/> of the <see cref="Client.User"/></param>
     public Client(string address, string nick, string realName)
       : this(address, nick) {
       this.User.RealName = realName;
@@ -157,7 +157,7 @@ namespace BigSister.Irc {
     }
 
     /// <summary>
-    ///   Gets the <see cref="BigSister.Irc.Contacts.ContactList" /> for this client. </summary>
+    ///   Gets the <see cref="Contacts.ContactList" /> for this client. </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
     public Contacts.ContactList Contacts {
       get;
@@ -266,7 +266,7 @@ namespace BigSister.Irc {
 
     /// <summary>
     ///   Determines if the given message originated from the currently connected server. </summary>
-    public virtual bool IsMessageFromServer(BigSister.Irc.Messages.IrcMessage msg) {
+    public virtual bool IsMessageFromServer(Supay.Bot.Irc.Messages.IrcMessage msg) {
       if (msg == null) {
         return false;
       }
@@ -281,7 +281,7 @@ namespace BigSister.Irc {
       IrcMessage msg = null;
       try {
         msg = MessageParserService.Service.Parse(messageData);
-      } catch (BigSister.Irc.Messages.InvalidMessageException ex) {
+      } catch (Supay.Bot.Irc.Messages.InvalidMessageException ex) {
         // Try one more time to load it as a generic message
         msg = new GenericMessage();
         if (msg.CanParse(messageData)) {

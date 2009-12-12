@@ -1,4 +1,4 @@
-namespace BigSister.Irc.Messages.Modes {
+namespace Supay.Bot.Irc.Messages.Modes {
   /// <summary>
   ///   This mode signifies that the user is an operator on the current network. </summary>
   class NetworkOperatorMode : UserMode {

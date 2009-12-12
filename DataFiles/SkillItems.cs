@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace BigSister {
+namespace Supay.Bot {
   class SkillItems : List<SkillItem> {
 
     public SkillItems(string skill)
@@ -64,4 +64,4 @@ namespace BigSister {
     }
 
   } //class SkillItems
-} //namespace BigSister
+} ////namespace Supay.Bot

@@ -1,4 +1,4 @@
-namespace BigSister.Irc.Messages.Modes {
+namespace Supay.Bot.Irc.Messages.Modes {
   /// <summary>
   ///   This mode signifies that the user will receive wallop messages. </summary>
   class ReceiveWallopsMode : UserMode {

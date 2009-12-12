@@ -1,6 +1,6 @@
 using System.Collections.Specialized;
 
-namespace BigSister.Irc.Contacts {
+namespace Supay.Bot.Irc.Contacts {
   internal abstract class ContactsTracker {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]

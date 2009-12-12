@@ -1,4 +1,4 @@
-﻿namespace BigSister {
+﻿namespace Supay.Bot {
   static partial class Command {
 
     public static void Calc(CommandContext bc) {
@@ -13,4 +13,4 @@
     }
 
   } //class Command
-} //namespace BigSister
+} ////namespace Supay.Bot

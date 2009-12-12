@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace BigSister {
+namespace Supay.Bot {
   class FarmingItem : SkillItem {
 
     private int _seedId;
@@ -128,4 +128,4 @@ namespace BigSister {
     }
 
   } //class FarmingItem
-} //namespace BigSister
+} ////namespace Supay.Bot

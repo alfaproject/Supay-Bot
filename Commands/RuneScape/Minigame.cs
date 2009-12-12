@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BigSister {
+namespace Supay.Bot {
   static partial class Command {
 
     public static void Minigame(CommandContext bc) {
@@ -13,7 +13,7 @@ namespace BigSister {
 
       Player p = new Player(rsn);
       if (p.Ranked) {
-        Minigame minigame = p.Minigames[BigSister.Minigame.Parse(bc.MessageTokens[0])];
+        Minigame minigame = p.Minigames[Supay.Bot.Minigame.Parse(bc.MessageTokens[0])];
         if (minigame.Rank > 0) {
           string reply = "\\b{0}\\b \\c07{1:n}\\c | score: \\c07{1:s}\\c | rank: \\c07{1:R}\\c".FormatWith(rsn, minigame);
 
@@ -86,4 +86,4 @@ namespace BigSister {
     }
 
   } //class Command
-} //namespace BigSister
+} ////namespace Supay.Bot

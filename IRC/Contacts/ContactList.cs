@@ -1,6 +1,6 @@
 using System;
 
-namespace BigSister.Irc.Contacts {
+namespace Supay.Bot.Irc.Contacts {
   /// <summary>
   ///   A contact list which tracks the online and offline status of the users within the Users collection property. </summary>
   /// <remarks>

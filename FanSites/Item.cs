@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace BigSister {
+namespace Supay.Bot {
   class Item {
 
     public Item(int id) {
@@ -127,4 +127,4 @@ namespace BigSister {
     }
 
   } //class Item
-} //namespace BigSister
+} ////namespace Supay.Bot

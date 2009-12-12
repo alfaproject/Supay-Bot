@@ -1,4 +1,4 @@
-namespace BigSister.Irc.Messages.Modes {
+namespace Supay.Bot.Irc.Messages.Modes {
   /// <summary>
   ///   When thi mode is set,
   ///   new members are only accepted if their mask matches Invite-list (See <see cref="InvitationExceptionMode"/>)

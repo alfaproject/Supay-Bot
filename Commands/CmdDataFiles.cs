@@ -4,7 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace BigSister {
+namespace Supay.Bot {
   static class CmdDataFiles {
 
     public static void Coord(CommandContext bc) {
@@ -507,4 +507,4 @@ namespace BigSister {
     }
 
   } //class CmdDataFiles
-} //namespace BigSister
+} ////namespace Supay.Bot

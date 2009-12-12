@@ -1,4 +1,4 @@
-﻿namespace BigSister {
+﻿namespace Supay.Bot {
   static partial class Command {
 
     public static void Whois(CommandContext bc) {
@@ -8,7 +8,7 @@
       }
 
       string nick = bc.MessageTokens.Join(1, "_");
-      BigSister.Irc.User u = bc.Users.Find(nick);
+      Supay.Bot.Irc.User u = bc.Users.Find(nick);
       if (u != null)
         bc.SendReply("{0}'s RSN is \\b{1}\\b.".FormatWith(u.Nick, u.Rsn));
       else
@@ -16,4 +16,4 @@
     }
 
   } //class Command
-} //namespace BigSister
+} ////namespace Supay.Bot

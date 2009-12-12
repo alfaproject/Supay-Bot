@@ -4,7 +4,7 @@ using System.Data.SQLite;
 using System.Text.RegularExpressions;
 using System.Globalization;
 
-namespace BigSister {
+namespace Supay.Bot {
   static class CmdTracker {
 
     public static void Add(CommandContext bc) {
@@ -291,4 +291,4 @@ namespace BigSister {
     }
 
   } //class CmdTracker
-} //namespace BigSister
+} ////namespace Supay.Bot

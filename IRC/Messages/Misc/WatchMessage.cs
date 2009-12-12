@@ -1,6 +1,6 @@
 using System;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   A Message that participates in the Watch framework. </summary>
   [Serializable]

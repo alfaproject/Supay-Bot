@@ -1,4 +1,4 @@
-namespace BigSister.Irc.Messages.Modes {
+namespace Supay.Bot.Irc.Messages.Modes {
   /// <summary>
   ///   For channels which have the invite-only flag set (<see cref="InviteOnlyMode"/>), 
   ///   users whose address matches an invitation mask set for the channel are allowed 

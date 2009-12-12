@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace BigSister {
+namespace Supay.Bot {
   class Items : List<Item> {
 
     public Items(string query)
@@ -18,4 +18,4 @@ namespace BigSister {
     }
 
   } //class Items
-} //namespace BigSister
+} ////namespace Supay.Bot

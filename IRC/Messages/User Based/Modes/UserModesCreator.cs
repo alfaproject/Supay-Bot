@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Globalization;
 
-namespace BigSister.Irc.Messages.Modes {
+namespace Supay.Bot.Irc.Messages.Modes {
   /// <summary>
   ///   UserModesCreator parses, builds, and writes the modes used by the <see cref="UserModeMessage"/> class. </summary>
   class UserModesCreator {
@@ -17,7 +17,7 @@ namespace BigSister.Irc.Messages.Modes {
     /// <summary>
     /// Loads the given mode data into this <see cref="UserModesCreator"/>
     /// </summary>
-    public void Parse(BigSister.Irc.Messages.UserModeMessage msg) {
+    public void Parse(Supay.Bot.Irc.Messages.UserModeMessage msg) {
       if (msg == null) {
         return;
       }
@@ -117,7 +117,7 @@ namespace BigSister.Irc.Messages.Modes {
       }
     }
 
-    private BigSister.Irc.Messages.Modes.UserModeCollection modes = new UserModeCollection();
+    private Supay.Bot.Irc.Messages.Modes.UserModeCollection modes = new UserModeCollection();
 
   }
 }

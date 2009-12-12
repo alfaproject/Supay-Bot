@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace BigSister {
+namespace Supay.Bot {
   class Skill : Hiscore, IComparable<Skill> {
 
     public const string OVER = "Overall";
@@ -471,4 +471,4 @@ namespace BigSister {
     #endregion
 
   } // class Skill
-} // namespace BigSister
+} // //namespace Supay.Bot

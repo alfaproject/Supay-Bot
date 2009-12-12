@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace BigSister {
+namespace Supay.Bot {
   class SummoningItem : SkillItem {
 
     private int _pouchId;
@@ -135,4 +135,4 @@ namespace BigSister {
     }
 
   } //class SummoningItem
-} //namespace BigSister
+} ////namespace Supay.Bot

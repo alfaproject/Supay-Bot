@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
-namespace BigSister.Irc {
+namespace Supay.Bot.Irc {
   /// <summary>
   /// The nick prefixes that represent user level status in a channel.
   /// </summary>

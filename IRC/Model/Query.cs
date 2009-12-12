@@ -1,7 +1,7 @@
 ﻿using System.Collections.Specialized;
 using System.ComponentModel;
 
-namespace BigSister.Irc {
+namespace Supay.Bot.Irc {
   /// <summary>
   ///   Represents a query window for private chat with one User. </summary>
   class Query : INotifyPropertyChanged {

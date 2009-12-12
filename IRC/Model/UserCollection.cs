@@ -1,10 +1,10 @@
 using System;
 using System.Collections.ObjectModel;
-using BigSister.Irc.Messages;
+using Supay.Bot.Irc.Messages;
 
-namespace BigSister.Irc {
+namespace Supay.Bot.Irc {
   /// <summary>
-  ///   A collection that stores <see cref='BigSister.Irc.User'/> objects. </summary>
+  ///   A collection that stores <see cref='User'/> objects. </summary>
   [Serializable()]
   class UserCollection : ObservableCollection<User> {
 
@@ -51,7 +51,7 @@ namespace BigSister.Irc {
     /// </summary>
     public User Find(string nick) {
       Predicate<User> match = delegate(User userToMatch) {
-        return BigSister.Irc.Messages.MessageUtil.IsIgnoreCaseMatch(userToMatch.Nick, nick);
+        return Supay.Bot.Irc.Messages.MessageUtil.IsIgnoreCaseMatch(userToMatch.Nick, nick);
       };
       return Find(match);
     }

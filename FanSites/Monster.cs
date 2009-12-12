@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace BigSister {
+namespace Supay.Bot {
   class Monster {
 
     public int ID;

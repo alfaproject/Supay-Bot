@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BigSister {
+namespace Supay.Bot {
   class Skills : OrderedDictionary<string, Skill> {
 
     public Skills()
@@ -64,4 +64,4 @@ namespace BigSister {
     }
 
   } //class Skills
-} //namespace BigSister
+} ////namespace Supay.Bot

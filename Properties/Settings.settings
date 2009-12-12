@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="BigSister.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Supay.Bot.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="DailyUpdateTime" Type="System.TimeSpan" Scope="Application">
@@ -12,13 +12,13 @@
       <Value Profile="(Default)">irc.swiftirc.net</Value>
     </Setting>
     <Setting Name="Nick" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">aLfBot</Value>
+      <Value Profile="(Default)">SupayBot</Value>
     </Setting>
     <Setting Name="Channels" Type="System.String" Scope="Application">
       <Value Profile="(Default)">#howdy</Value>
     </Setting>
     <Setting Name="Perform" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">MODE aLfBot +B</Value>
+      <Value Profile="(Default)">MODE SupayBot +B</Value>
     </Setting>
   </Settings>
 </SettingsFile>

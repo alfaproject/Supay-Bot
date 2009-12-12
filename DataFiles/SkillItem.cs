@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace BigSister {
+namespace Supay.Bot {
   class SkillItem {
 
     public SkillItem(string[] tokens) {
@@ -37,4 +37,4 @@ namespace BigSister {
     }
 
   } //class SkillItem
-} //namespace BigSister
+} ////namespace Supay.Bot

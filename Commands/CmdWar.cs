@@ -2,7 +2,7 @@
 using System.Data.SQLite;
 using System.Globalization;
 
-namespace BigSister {
+namespace Supay.Bot {
   static class CmdWar {
 
     public static void Start(CommandContext bc) {
@@ -272,4 +272,4 @@ namespace BigSister {
     }
 
   } //class CmdWar
-} //namespace BigSister
+} ////namespace Supay.Bot

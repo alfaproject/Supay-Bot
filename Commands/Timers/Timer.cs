@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.SQLite;
 
-namespace BigSister {
+namespace Supay.Bot {
   static partial class Command {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
@@ -63,4 +63,4 @@ namespace BigSister {
     }
 
   } //class Command
-} //namespace BigSister
+} ////namespace Supay.Bot

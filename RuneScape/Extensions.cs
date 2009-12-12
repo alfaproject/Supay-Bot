@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace BigSister {
+namespace Supay.Bot {
   public static partial class Extensions {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
@@ -39,4 +39,4 @@ namespace BigSister {
     }
 
   } //class Extensions
-} //namespace BigSister
+} ////namespace Supay.Bot

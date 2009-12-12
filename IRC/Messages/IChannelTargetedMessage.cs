@@ -1,6 +1,6 @@
 using System;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   An interface implemented by messages which are, or can be, within the context of a channel. </summary>
   public interface IChannelTargetedMessage {

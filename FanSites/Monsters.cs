@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace BigSister {
+namespace Supay.Bot {
   class Monsters : Dictionary<string, Monster> {
 
     public List<Monster> SearchOnline(string Criteria) {

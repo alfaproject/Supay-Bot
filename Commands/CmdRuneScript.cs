@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace BigSister {
+namespace Supay.Bot {
   static class CmdRuneScript {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
@@ -137,4 +137,4 @@ namespace BigSister {
     }
 
   } //class CmdRuneScript
-} //namespace BigSister
+} ////namespace Supay.Bot

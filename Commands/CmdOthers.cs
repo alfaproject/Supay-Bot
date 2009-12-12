@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace BigSister {
+namespace Supay.Bot {
   static class CmdOthers {
 
     public static void Percent(CommandContext bc) {
@@ -454,4 +454,4 @@ namespace BigSister {
     }
 
   } //class CmdOthers
-} //namespace BigSister
+} ////namespace Supay.Bot

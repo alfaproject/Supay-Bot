@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   Provides clients with a correct <see cref="IrcMessage"/> for a given raw message string. </summary>
   sealed class MessageParserService {

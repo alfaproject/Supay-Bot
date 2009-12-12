@@ -1,7 +1,7 @@
 ﻿using System.Collections.Specialized;
 using System.ComponentModel;
 
-namespace BigSister.Irc {
+namespace Supay.Bot.Irc {
   /// <summary>
   ///   Represents a status window for communication between the user and the server. </summary>
   class ServerQuery : INotifyPropertyChanged {

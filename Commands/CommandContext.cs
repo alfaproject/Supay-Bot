@@ -1,7 +1,7 @@
-﻿using BigSister.Irc;
-using BigSister.Irc.Messages;
+﻿using Supay.Bot.Irc;
+using Supay.Bot.Irc.Messages;
 
-namespace BigSister {
+namespace Supay.Bot {
   class CommandContext {
 
     private Client _irc;
@@ -99,4 +99,4 @@ namespace BigSister {
     }
 
   } //class CommandContext
-} //namespace BigSister
+} ////namespace Supay.Bot

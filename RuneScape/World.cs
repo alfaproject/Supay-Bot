@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BigSister {
+namespace Supay.Bot {
   class World : IComparable<World> {
 
     public int Number;

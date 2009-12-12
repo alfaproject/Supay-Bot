@@ -3,7 +3,7 @@ using System.Data.SQLite;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace BigSister {
+namespace Supay.Bot {
   class Price {
 
     public Price(int id, string name, int currentPrice) {
@@ -167,4 +167,4 @@ namespace BigSister {
     }
 
   } //class Price
-} //namespace BigSister
+} ////namespace Supay.Bot

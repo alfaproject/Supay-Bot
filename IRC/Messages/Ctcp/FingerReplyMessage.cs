@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using System.Text;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   The reply to the <see cref="FingerRequestMessage"/>, containing the user's name and idle time. </summary>
   [Serializable]
@@ -74,7 +74,7 @@ namespace BigSister.Irc.Messages {
     /// <summary>
     /// Notifies the given <see cref="MessageConduit"/> by raising the appropriate event for the current <see cref="IrcMessage"/> subclass.
     /// </summary>
-    public override void Notify(BigSister.Irc.Messages.MessageConduit conduit) {
+    public override void Notify(Supay.Bot.Irc.Messages.MessageConduit conduit) {
       conduit.OnFingerReply(new IrcMessageEventArgs<FingerReplyMessage>(this));
     }
 

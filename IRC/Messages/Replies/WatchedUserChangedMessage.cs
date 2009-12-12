@@ -2,7 +2,7 @@ using System;
 using System.Collections.Specialized;
 using System.Globalization;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   A Watch system notification that a watched user's status has changed. </summary>
   [Serializable]

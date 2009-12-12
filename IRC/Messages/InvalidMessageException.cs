@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   Exception thrown when a message parsed from a string is invalid. </summary>
   [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1064:ExceptionsShouldBePublic"), Serializable()]

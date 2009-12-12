@@ -1,7 +1,6 @@
 *.pidb
 *~
 *.user*
-*.sln
 *.suo
 bin
 obj

@@ -5,9 +5,9 @@ using System.Globalization;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
-  ///   Possible actions for each mode change in a <see cref="BigSister.Irc.Messages.ChannelModeMessage"/> or <see cref="BigSister.Irc.Messages.UserModeMessage"/> message. </summary>
+  ///   Possible actions for each mode change in a <see cref="ChannelModeMessage"/> or <see cref="UserModeMessage"/> message. </summary>
   [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2229:ImplementSerializationConstructors", Justification = "Using IObjectReference instead"), Serializable]
   public sealed class ModeAction : MarshalByRefObject, IComparable, ISerializable {
 

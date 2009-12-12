@@ -1,4 +1,4 @@
-namespace BigSister.Irc.Messages.Modes {
+namespace Supay.Bot.Irc.Messages.Modes {
   /// <summary>
   ///   Servers use this mode to give the user creating a safe channel the status of "channel creator". </summary>
   class CreatorMode : MemberStatusMode {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using System.Data.SQLite;
 
-namespace BigSister {
+namespace Supay.Bot {
   class Players : List<Player> {
 
     public Players()
@@ -76,4 +76,4 @@ namespace BigSister {
     }
 
   } //class Players
-} //namespace BigSister
+} ////namespace Supay.Bot

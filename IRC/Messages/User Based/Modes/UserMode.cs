@@ -1,6 +1,6 @@
 using System;
 
-namespace BigSister.Irc.Messages.Modes {
+namespace Supay.Bot.Irc.Messages.Modes {
   /// <summary>
   ///   The list of known user modes sent in a <see cref="UserModeMessage"/> in its <see cref="UserModeMessage.ModeChanges"/> property. </summary>
   abstract class UserMode {

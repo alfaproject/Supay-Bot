@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   The base class for classes which send and receive messages. </summary>
   [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling")]

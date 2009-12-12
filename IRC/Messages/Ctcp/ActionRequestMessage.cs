@@ -1,6 +1,6 @@
 using System;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   This is much like the <see cref="ChatMessage"/> message, 
   ///   except the intent is to describe an "action" that the sender is doing. </summary>

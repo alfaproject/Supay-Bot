@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace BigSister {
+namespace Supay.Bot {
   class Worlds : Dictionary<int, World> {
 
     public List<World> FindActivity(string activity) {

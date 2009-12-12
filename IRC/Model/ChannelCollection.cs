@@ -1,10 +1,10 @@
 using System;
 using System.Collections.ObjectModel;
-using BigSister.Irc.Messages;
+using Supay.Bot.Irc.Messages;
 
-namespace BigSister.Irc {
+namespace Supay.Bot.Irc {
   /// <summary>
-  ///   A collection that stores <see cref='BigSister.Irc.Channel'/> objects. </summary>
+  ///   A collection that stores <see cref='Channel'/> objects. </summary>
   [Serializable()]
   class ChannelCollection : ObservableCollection<Channel> {
 

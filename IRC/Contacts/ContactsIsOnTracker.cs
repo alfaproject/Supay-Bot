@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Specialized;
-using BigSister.Irc.Messages;
+using Supay.Bot.Irc.Messages;
 
-namespace BigSister.Irc.Contacts {
+namespace Supay.Bot.Irc.Contacts {
   internal class ContactsIsOnTracker : ContactsTracker, IDisposable {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -11,7 +11,7 @@ namespace BigSister.Irc.Contacts {
     }
 
     public override void Initialize() {
-      this.Contacts.Client.Messages.IsOnReply += new EventHandler<BigSister.Irc.Messages.IrcMessageEventArgs<BigSister.Irc.Messages.IsOnReplyMessage>>(client_IsOnReply);
+      this.Contacts.Client.Messages.IsOnReply += new EventHandler<Supay.Bot.Irc.Messages.IrcMessageEventArgs<Supay.Bot.Irc.Messages.IsOnReplyMessage>>(client_IsOnReply);
       base.Initialize();
       if (this.timer != null) {
         this.timer.Dispose();
@@ -22,7 +22,7 @@ namespace BigSister.Irc.Contacts {
     }
 
     void timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e) {
-      if (this.Contacts.Client.Connection.Status == BigSister.Irc.Network.ConnectionStatus.Connected) {
+      if (this.Contacts.Client.Connection.Status == Supay.Bot.Irc.Network.ConnectionStatus.Connected) {
         IsOnMessage ison = new IsOnMessage();
         foreach (string nick in this.trackedNicks) {
           ison.Nicks.Add(nick);
@@ -58,7 +58,7 @@ namespace BigSister.Irc.Contacts {
 
     #region Reply Handlers
 
-    void client_IsOnReply(object sender, BigSister.Irc.Messages.IrcMessageEventArgs<BigSister.Irc.Messages.IsOnReplyMessage> e) {
+    void client_IsOnReply(object sender, Supay.Bot.Irc.Messages.IrcMessageEventArgs<Supay.Bot.Irc.Messages.IsOnReplyMessage> e) {
       foreach (string onlineNick in e.Message.Nicks) {
         if (waitingOnNicks.Contains(onlineNick)) {
           waitingOnNicks.Remove(onlineNick);

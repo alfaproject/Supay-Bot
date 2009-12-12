@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
-using BigSister.Irc.Messages.Modes;
-using BigSister.Irc.Network;
+using Supay.Bot.Irc.Messages.Modes;
+using Supay.Bot.Irc.Network;
 
-namespace BigSister.Irc {
+namespace Supay.Bot.Irc {
   /// <summary>
   ///   Represents a single irc channel, with it's users. </summary>
   class Channel : INotifyPropertyChanged {

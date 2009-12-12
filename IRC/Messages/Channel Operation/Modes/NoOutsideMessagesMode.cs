@@ -1,4 +1,4 @@
-namespace BigSister.Irc.Messages.Modes {
+namespace Supay.Bot.Irc.Messages.Modes {
   /// <summary>
   ///   When this mode is set, only channel members can send messages to the channel. </summary>
   class NoOutsideMessagesMode : FlagMode {

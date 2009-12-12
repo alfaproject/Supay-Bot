@@ -1,6 +1,6 @@
 using System;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   A CallerId/Accept system message that requests the nicks of the users on your accept list. </summary>
   [Serializable]

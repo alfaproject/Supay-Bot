@@ -1,4 +1,4 @@
-namespace BigSister.Irc.Messages.Modes {
+namespace Supay.Bot.Irc.Messages.Modes {
   /// <summary>
   ///   This mode restricts the type of data sent to users about the channel operations: 
   ///   other user joins, parts and nick changes are not sent. </summary>

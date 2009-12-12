@@ -1,4 +1,4 @@
-namespace BigSister.Irc {
+namespace Supay.Bot.Irc {
 
   /// <summary>
   /// The enum of a user's online status.

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.ObjectModel;
 
-namespace BigSister.Irc.Messages.Modes {
+namespace Supay.Bot.Irc.Messages.Modes {
   /// <summary>
-  ///   A collection that stores <see cref='BigSister.Irc.Messages.Modes.ChannelMode'/> objects. </summary>
+  ///   A collection that stores <see cref='ChannelMode'/> objects. </summary>
   [Serializable()]
   class ChannelModeCollection : ObservableCollection<ChannelMode> {
 

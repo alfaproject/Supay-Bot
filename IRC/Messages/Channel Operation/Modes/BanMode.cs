@@ -1,4 +1,4 @@
-namespace BigSister.Irc.Messages.Modes {
+namespace Supay.Bot.Irc.Messages.Modes {
   /// <summary>
   ///   This mode defines a mask for users not allowed to join a channel. </summary>
   class BanMode : AccessControlMode {
@@ -32,4 +32,4 @@ namespace BigSister.Irc.Messages.Modes {
     }
 
   } //class BanMode
-} //namespace BigSister.Irc.Messages.Modes
+} ////namespace Supay.Bot.Irc.Messages.Modes

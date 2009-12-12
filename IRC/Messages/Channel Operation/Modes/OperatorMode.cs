@@ -1,4 +1,4 @@
-namespace BigSister.Irc.Messages.Modes {
+namespace Supay.Bot.Irc.Messages.Modes {
   /// <summary>
   ///   This mode is used to toggle the operator status of a channel member. </summary>
   class OperatorMode : MemberStatusMode {

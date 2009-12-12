@@ -4,7 +4,7 @@ using System.Data.SQLite;
 using System.Globalization;
 using System.Net;
 
-namespace BigSister {
+namespace Supay.Bot {
   class Player {
 
     private int _id;

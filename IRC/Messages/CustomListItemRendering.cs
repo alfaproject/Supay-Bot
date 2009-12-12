@@ -1,4 +1,4 @@
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
 
   /// <summary>
   ///   A delegate which provides custom format rendering for the items in a list. </summary>

@@ -1,6 +1,6 @@
 using System;
 
-namespace BigSister.Irc.Network {
+namespace Supay.Bot.Irc.Network {
   /// <summary>
   ///   Provides data for connection events that carry a data payload. </summary>
   class ConnectionDataEventArgs : EventArgs {

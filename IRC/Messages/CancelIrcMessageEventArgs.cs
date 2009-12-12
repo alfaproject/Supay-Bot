@@ -1,6 +1,6 @@
 using System;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   The information for a handler of an IrcMessage event which can be canceled. </summary>
   [Serializable]

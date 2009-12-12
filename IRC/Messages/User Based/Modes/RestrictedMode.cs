@@ -1,4 +1,4 @@
-namespace BigSister.Irc.Messages.Modes {
+namespace Supay.Bot.Irc.Messages.Modes {
   /// <summary>
   ///   This mode signifies that the user has a restricted connection. </summary>
   class RestrictedMode : UserMode {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BigSister {
+namespace Supay.Bot {
   static partial class Command {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
@@ -38,7 +38,7 @@ namespace BigSister {
       if (bc.MessageTokens.Length == 1) {
         // !ClanTop
         IsIndividual = true;
-      } else if (BigSister.Minigame.TryParse(bc.MessageTokens[1], ref minigame) || Skill.TryParse(bc.MessageTokens[1], ref skill)) {
+      } else if (Supay.Bot.Minigame.TryParse(bc.MessageTokens[1], ref minigame) || Skill.TryParse(bc.MessageTokens[1], ref skill)) {
         // !ClanTop Skill/Minigame
         rank = 1;
 
@@ -186,4 +186,4 @@ namespace BigSister {
     }
 
   } //class Command
-} //namespace BigSister
+} ////namespace Supay.Bot

@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace BigSister {
+namespace Supay.Bot {
   class HerbloreItem : SkillItem {
 
     private int _potionId;
@@ -91,4 +91,4 @@ namespace BigSister {
     }
 
   } //class HerbloreItem
-} //namespace BigSister
+} ////namespace Supay.Bot

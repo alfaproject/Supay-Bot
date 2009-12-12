@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace BigSister {
+namespace Supay.Bot {
   static class Program {
 
     /// <summary>
@@ -28,4 +28,4 @@ namespace BigSister {
     }
   
   } //class Program
-} //namespace BigSister
+} ////namespace Supay.Bot

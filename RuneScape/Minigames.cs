@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BigSister {
+namespace Supay.Bot {
   class Minigames : Dictionary<string, Minigame> {
 
     public Minigames()
@@ -8,4 +8,4 @@ namespace BigSister {
     }
 
   } // class Minigames
-} // namespace BigSister
+} // //namespace Supay.Bot

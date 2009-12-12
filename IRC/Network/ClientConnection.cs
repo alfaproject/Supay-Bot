@@ -7,11 +7,11 @@ using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 
-namespace BigSister.Irc.Network {
+namespace Supay.Bot.Irc.Network {
   /// <summary>
   ///   Represents a network connection to an irc server. </summary>
   /// <remarks>
-  ///   Use the <see cref="ClientConnection"/> class to send a <see cref="BigSister.Irc.Messages.IrcMessage"/> to an irc server, and to be notified when it returns a <see cref="BigSister.Irc.Messages.IrcMessage"/>. </remarks>
+  ///   Use the <see cref="ClientConnection"/> class to send a <see cref="Supay.Bot.Irc.Messages.IrcMessage"/> to an irc server, and to be notified when it returns a <see cref="Supay.Bot.Irc.Messages.IrcMessage"/>. </remarks>
   [System.ComponentModel.DesignerCategory("Code")]
   class ClientConnection : Component {
 
@@ -249,7 +249,7 @@ namespace BigSister.Irc.Network {
         data += "\r\n";
       }
       //if (data.Length > 512) {
-      //  throw new BigSister.Irc.Messages.InvalidMessageException("Messages are limited to 512 bytes.", data);
+      //  throw new Supay.Bot.Irc.Messages.InvalidMessageException("Messages are limited to 512 bytes.", data);
       //}
 
       try {

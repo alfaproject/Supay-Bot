@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace BigSister {
+namespace Supay.Bot {
   static partial class Command {
 
     public static void ClanCheck(CommandContext bc) {
@@ -52,4 +52,4 @@ namespace BigSister {
     }
 
   } //class Command
-} //namespace BigSister
+} ////namespace Supay.Bot

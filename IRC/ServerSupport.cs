@@ -4,12 +4,12 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Globalization;
 
-namespace BigSister.Irc {
+namespace Supay.Bot.Irc {
   /// <summary>
   /// Contains information about what irc extensions and such the server supports.
   /// </summary>
   /// <remarks>
-  /// This information is sent from a <see cref="Client"/> when it receives a <see cref="BigSister.Irc.Messages.SupportMessage"/>.
+  /// This information is sent from a <see cref="Client"/> when it receives a <see cref="Messages.SupportMessage"/>.
   /// This most likely makes it unneccesary to catch this message's received event.
   /// </remarks>
   [Serializable]
@@ -160,7 +160,7 @@ namespace BigSister.Irc {
     private StringCollection _modesWithoutParameters = new StringCollection();
 
     /// <summary>
-    /// Maximum number of channel modes with parameter allowed per <see cref="BigSister.Irc.Messages.ChannelModeMessage"/> command.
+    /// Maximum number of channel modes with parameter allowed per <see cref="Messages.ChannelModeMessage"/> command.
     /// </summary>
     public int MaxModes {
       get {
@@ -226,7 +226,7 @@ namespace BigSister.Irc {
     private int _maxTopicLength = -1;
 
     /// <summary>
-    /// Gets or sets the maximum length of the reason in a <see cref="BigSister.Irc.Messages.KickMessage"/>.
+    /// Gets or sets the maximum length of the reason in a <see cref="Messages.KickMessage"/>.
     /// </summary>
     public int MaxKickCommentLength {
       get {
@@ -343,7 +343,7 @@ namespace BigSister.Irc {
     /// <summary>
     ///   Gets or sets if the server supports messages to channel operators. </summary>
     /// <remarks>
-    ///   To send a message to channel operators, use a <see cref="BigSister.Irc.Messages.NoticeMessage"/>
+    ///   To send a message to channel operators, use a <see cref="Messages.NoticeMessage"/>
     ///   with a target in the format "@#channel". </remarks>
     public bool MessagesToOperators {
       get {
@@ -478,7 +478,7 @@ namespace BigSister.Irc {
     private Dictionary<string, int> _maxMessageTargets = new Dictionary<string, int>();
 
     /// <summary>
-    ///   Gets or sets if the server supports the <see cref="BigSister.Irc.Messages.KnockMessage"/>. </summary>
+    ///   Gets or sets if the server supports the <see cref="Messages.KnockMessage"/>. </summary>
     public bool Knock {
       get {
         return (this._knock);
@@ -502,7 +502,7 @@ namespace BigSister.Irc {
     private bool _virtualChannels;
 
     /// <summary>
-    ///   Gets or sets if the <see cref="BigSister.Irc.Messages.ListReplyMessage"/> is sent in multiple itterations. </summary>
+    ///   Gets or sets if the <see cref="Messages.ListReplyMessage"/> is sent in multiple itterations. </summary>
     public bool SafeList {
       get {
         return (this._safeList);
@@ -514,7 +514,7 @@ namespace BigSister.Irc {
     private bool _safeList;
 
     /// <summary>
-    /// Gets or sets the extended parameters the server supports for a <see cref="T:BigSister.Irc.Messages.ListMessage"/>.
+    /// Gets or sets the extended parameters the server supports for a <see cref="T:Messages.ListMessage"/>.
     /// </summary>
     public ExtendedListParameters ExtendedList {
       get {
@@ -540,7 +540,7 @@ namespace BigSister.Irc {
     private int _maxWatches = -1;
 
     /// <summary>
-    ///   Gets or sets if the <see cref="BigSister.Irc.Messages.WhoMessage"/> uses the WHOX protocol. </summary>
+    ///   Gets or sets if the <see cref="Messages.WhoMessage"/> uses the WHOX protocol. </summary>
     public bool WhoX {
       get {
         return (this._whoX);
@@ -629,9 +629,9 @@ namespace BigSister.Irc {
     private NameValueCollection unknownItems = new NameValueCollection();
 
     /// <summary>
-    ///   Loads support information from the given <see cref="BigSister.Irc.Messages.SupportMessage"/>. </summary>
+    ///   Loads support information from the given <see cref="Messages.SupportMessage"/>. </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
-    public void LoadInfo(BigSister.Irc.Messages.SupportMessage msg) {
+    public void LoadInfo(Supay.Bot.Irc.Messages.SupportMessage msg) {
       NameValueCollection items = msg.SupportedItems;
       foreach (string key in items.Keys) {
         string value = items[key] ?? string.Empty;

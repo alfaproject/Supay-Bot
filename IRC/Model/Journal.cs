@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace BigSister.Irc {
+namespace Supay.Bot.Irc {
   /// <summary>
   ///   The journal of messages and related information related to an irc channel or query. </summary>
   class Journal : ObservableCollection<JournalEntry> {

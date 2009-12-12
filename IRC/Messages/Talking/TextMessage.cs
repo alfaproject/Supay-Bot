@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Specialized;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   An <see cref="IrcMessage"/> which carries communication from a person to another person or channel. </summary>
   [Serializable]

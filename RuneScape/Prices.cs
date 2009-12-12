@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace BigSister {
+namespace Supay.Bot {
   class Prices : List<Price> {
 
     public Prices()
@@ -58,4 +58,4 @@ namespace BigSister {
     }
 
   } //class Prices
-} //namespace BigSister
+} ////namespace Supay.Bot

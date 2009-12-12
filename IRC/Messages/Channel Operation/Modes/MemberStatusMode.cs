@@ -1,4 +1,4 @@
-namespace BigSister.Irc.Messages.Modes {
+namespace Supay.Bot.Irc.Messages.Modes {
   /// <summary>
   ///   The modes in this category have a channel member nickname property, <see cref="MemberStatusMode.Nick"/> and affect the privileges given to this user. </summary>
   abstract class MemberStatusMode : ChannelMode {
@@ -20,7 +20,7 @@ namespace BigSister.Irc.Messages.Modes {
     /// Applies this mode to the ModeArguments property of the given <see cref="ChannelModeMessage" />.
     /// </summary>
     /// <param name="msg">The message which will be modified to include this mode.</param>
-    protected override void AddParameter(BigSister.Irc.Messages.ChannelModeMessage msg) {
+    protected override void AddParameter(Supay.Bot.Irc.Messages.ChannelModeMessage msg) {
       msg.ModeArguments.Add(this.Nick);
     }
 

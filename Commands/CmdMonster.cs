@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace BigSister {
+namespace Supay.Bot {
   static class CmdMonster {
 
     public static void Search(CommandContext bc) {
@@ -100,4 +100,4 @@ namespace BigSister {
     }
 
   } //class CmdMonster
-} //namespace BigSister
+} ////namespace Supay.Bot

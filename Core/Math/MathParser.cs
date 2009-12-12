@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BigSister {
+namespace Supay.Bot {
   class MathParser {
 
     // actions
@@ -791,4 +791,4 @@ namespace BigSister {
     }
 
   } //class MathParser
-} //namespace BigSister
+} ////namespace Supay.Bot

@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Specialized;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   By using the NamesMessage, a user can list all nicknames that are visible to them on any channel that they can see. </summary>
   /// <remarks>
-  ///   Channel names which they can see are those which aren't private ( <see cref="BigSister.Irc.Messages.Modes.PrivateMode"/> ) or secret ( <see cref="BigSister.Irc.Messages.Modes.SecretMode"/> ) or those which they are actually on. </remarks>
+  ///   Channel names which they can see are those which aren't private ( <see cref="Modes.PrivateMode"/> ) or secret ( <see cref="Modes.SecretMode"/> ) or those which they are actually on. </remarks>
   [Serializable]
   class NamesMessage : CommandMessage {
 
@@ -55,7 +55,7 @@ namespace BigSister.Irc.Messages {
     /// <summary>
     /// Notifies the given <see cref="MessageConduit"/> by raising the appropriate event for the current <see cref="IrcMessage"/> subclass.
     /// </summary>
-    public override void Notify(BigSister.Irc.Messages.MessageConduit conduit) {
+    public override void Notify(Supay.Bot.Irc.Messages.MessageConduit conduit) {
       conduit.OnNames(new IrcMessageEventArgs<NamesMessage>(this));
     }
 

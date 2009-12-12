@@ -1,6 +1,6 @@
 using System;
 
-namespace BigSister.Irc.Network {
+namespace Supay.Bot.Irc.Network {
 
   /// <summary>
   ///   Specifies the status of a <see cref="ClientConnection"/>. </summary>

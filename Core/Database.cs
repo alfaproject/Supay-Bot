@@ -3,7 +3,7 @@ using System.Data.SQLite;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace BigSister {
+namespace Supay.Bot {
   sealed class Database : IDisposable {
 
     private static readonly Database _instance = new Database();
@@ -150,4 +150,4 @@ namespace BigSister {
     #endregion
 
   } //class DataBase
-} //namespace BigSister
+} ////namespace Supay.Bot

@@ -8,7 +8,7 @@
     <ProjectGuid>{57B7C0C0-AD4E-4B1F-A763-C5F294B5F2B8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BigSister</RootNamespace>
+    <RootNamespace>Supay.Bot</RootNamespace>
     <AssemblyName>BigSister</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -23,7 +23,7 @@
     <GenerateManifests>false</GenerateManifests>
     <TargetZone>LocalIntranet</TargetZone>
     <TargetFrameworkSubset>Full</TargetFrameworkSubset>
-    <StartupObject>BigSister.Program</StartupObject>
+    <StartupObject>Supay.Bot.Program</StartupObject>
     <PublishUrl>C:\Documents and Settings\Paul\Desktop\Gerty.3\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -47,7 +47,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <EnvironmentVariables>
       <EnvironmentVariables />
     </EnvironmentVariables>

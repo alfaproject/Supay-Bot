@@ -5,7 +5,7 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.Text;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   Provides simple utilities for parsing and generating messages. </summary>
   /// <remarks>

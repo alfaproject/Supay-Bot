@@ -1,6 +1,6 @@
-namespace BigSister.Irc.Messages.Modes {
+namespace Supay.Bot.Irc.Messages.Modes {
   /// <summary>
-  ///   This mode is used to restrict the usage of the <see cref="BigSister.Irc.Messages.TopicMessage"/> to channel operators. </summary>
+  ///   This mode is used to restrict the usage of the <see cref="Supay.Bot.Irc.Messages.TopicMessage"/> to channel operators. </summary>
   class TopicGuardedMode : FlagMode {
 
     /// <summary>

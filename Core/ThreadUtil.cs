@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace BigSister {
+namespace Supay.Bot {
   static class ThreadUtil {
 
     /// <summary>
@@ -12,4 +12,4 @@ namespace BigSister {
     }
 
   } //class ThreadUtil
-} //namespace BigSister
+} ////namespace Supay.Bot

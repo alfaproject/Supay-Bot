@@ -4,9 +4,9 @@ using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
-  ///   Writes <see cref="BigSister.Irc.Messages.IrcMessage"/> data to a <see cref="TextWriter"/> in irc protocol format. </summary>
+  ///   Writes <see cref="IrcMessage"/> data to a <see cref="TextWriter"/> in irc protocol format. </summary>
   class IrcMessageWriter : IDisposable {
 
     #region Constructors
@@ -175,13 +175,13 @@ namespace BigSister.Irc.Messages {
       StringCollection thisParamAsCollection = thisParam as StringCollection;
       if (thisParamAsCollection != null) {
         string seperator = this.listParams[index.ToStringI()];
-        return BigSister.Irc.Messages.MessageUtil.CreateList(thisParamAsCollection, seperator);
+        return Supay.Bot.Irc.Messages.MessageUtil.CreateList(thisParamAsCollection, seperator);
       }
 
       IList thisParamAsList = thisParam as IList;
       if (thisParamAsList != null) {
         string seperator = this.listParams[index.ToStringI()];
-        return BigSister.Irc.Messages.MessageUtil.CreateList(thisParamAsList, seperator);
+        return Supay.Bot.Irc.Messages.MessageUtil.CreateList(thisParamAsList, seperator);
       }
 
       return thisParam.ToString();

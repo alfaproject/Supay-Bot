@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace BigSister.Irc.Messages.Modes {
+namespace Supay.Bot.Irc.Messages.Modes {
   /// <summary>
   ///   A user limit may be set on channels by using this mode. </summary>
   class LimitMode : FlagMode {
@@ -62,7 +62,7 @@ namespace BigSister.Irc.Messages.Modes {
     /// Applies this mode to the ModeArguments property of the given <see cref="ChannelModeMessage" />.
     /// </summary>
     /// <param name="msg">The message which will be modified to include this mode.</param>
-    protected override void AddParameter(BigSister.Irc.Messages.ChannelModeMessage msg) {
+    protected override void AddParameter(Supay.Bot.Irc.Messages.ChannelModeMessage msg) {
       if (this.UserLimit != -1) {
         msg.ModeArguments.Add(this.userLimit.ToStringI());
       }

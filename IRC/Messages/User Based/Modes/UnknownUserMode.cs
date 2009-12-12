@@ -1,4 +1,4 @@
-namespace BigSister.Irc.Messages.Modes {
+namespace Supay.Bot.Irc.Messages.Modes {
   /// <summary>
   ///   A user mode sent in a <see cref="UserModeMessage"/> which is not known. </summary>
   class UnknownUserMode : UserMode {

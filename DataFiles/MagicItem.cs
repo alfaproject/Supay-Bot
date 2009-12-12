@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace BigSister {
+namespace Supay.Bot {
   class MagicItem : SkillItem {
 
     public MagicItem(string[] tokens)
@@ -101,4 +101,4 @@ namespace BigSister {
     }
 
   } //class MagicItem
-} //namespace BigSister
+} ////namespace Supay.Bot

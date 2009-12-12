@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Specialized;
 
-namespace BigSister.Irc.Messages {
+namespace Supay.Bot.Irc.Messages {
   /// <summary>
   ///   Requests information about the given user or users. </summary>
   [Serializable]
@@ -10,7 +10,7 @@ namespace BigSister.Irc.Messages {
     /// <summary>
     /// Gets or sets the mask which is matched for users to return information about.
     /// </summary>
-    public virtual BigSister.Irc.User Mask {
+    public virtual Supay.Bot.Irc.User Mask {
       get {
         return this.mask;
       }
@@ -18,7 +18,7 @@ namespace BigSister.Irc.Messages {
         this.mask = value;
       }
     }
-    private User mask = new BigSister.Irc.User();
+    private User mask = new Supay.Bot.Irc.User();
 
     /// <summary>
     ///   Gets or sets if the results should only contain irc operators. </summary>
@@ -67,7 +67,7 @@ namespace BigSister.Irc.Messages {
     /// <summary>
     /// Notifies the given <see cref="MessageConduit"/> by raising the appropriate event for the current <see cref="IrcMessage"/> subclass.
     /// </summary>
-    public override void Notify(BigSister.Irc.Messages.MessageConduit conduit) {
+    public override void Notify(Supay.Bot.Irc.Messages.MessageConduit conduit) {
       conduit.OnWho(new IrcMessageEventArgs<WhoMessage>(this));
     }
 

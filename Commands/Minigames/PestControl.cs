@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace BigSister {
+namespace Supay.Bot {
   static partial class Command {
 
     public static void PestControl(CommandContext bc) {
@@ -130,4 +130,4 @@ namespace BigSister {
     }
 
   } //class Command
-} //namespace BigSister
+} ////namespace Supay.Bot

@@ -1,7 +1,7 @@
 using System;
-using BigSister.Irc.Messages;
+using Supay.Bot.Irc.Messages;
 
-namespace BigSister.Irc.Contacts {
+namespace Supay.Bot.Irc.Contacts {
   internal class ContactsWatchTracker : ContactsTracker {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -10,8 +10,8 @@ namespace BigSister.Irc.Contacts {
     }
 
     public override void Initialize() {
-      this.Contacts.Client.Messages.WatchedUserOffline += new EventHandler<BigSister.Irc.Messages.IrcMessageEventArgs<BigSister.Irc.Messages.WatchedUserOfflineMessage>>(client_WatchedUserOffline);
-      this.Contacts.Client.Messages.WatchedUserOnline += new EventHandler<BigSister.Irc.Messages.IrcMessageEventArgs<BigSister.Irc.Messages.WatchedUserOnlineMessage>>(client_WatchedUserOnline);
+      this.Contacts.Client.Messages.WatchedUserOffline += new EventHandler<Supay.Bot.Irc.Messages.IrcMessageEventArgs<Supay.Bot.Irc.Messages.WatchedUserOfflineMessage>>(client_WatchedUserOffline);
+      this.Contacts.Client.Messages.WatchedUserOnline += new EventHandler<Supay.Bot.Irc.Messages.IrcMessageEventArgs<Supay.Bot.Irc.Messages.WatchedUserOnlineMessage>>(client_WatchedUserOnline);
       base.Initialize();
     }
 
@@ -37,14 +37,14 @@ namespace BigSister.Irc.Contacts {
 
     #region Reply Handlers
 
-    void client_WatchedUserOnline(object sender, BigSister.Irc.Messages.IrcMessageEventArgs<BigSister.Irc.Messages.WatchedUserOnlineMessage> e) {
+    void client_WatchedUserOnline(object sender, Supay.Bot.Irc.Messages.IrcMessageEventArgs<Supay.Bot.Irc.Messages.WatchedUserOnlineMessage> e) {
       User knownUser = this.Contacts.Users.Find(e.Message.WatchedUser.Nick);
       if (knownUser != null && knownUser.OnlineStatus == UserOnlineStatus.Offline) {
         knownUser.OnlineStatus = UserOnlineStatus.Online;
       }
     }
 
-    void client_WatchedUserOffline(object sender, BigSister.Irc.Messages.IrcMessageEventArgs<BigSister.Irc.Messages.WatchedUserOfflineMessage> e) {
+    void client_WatchedUserOffline(object sender, Supay.Bot.Irc.Messages.IrcMessageEventArgs<Supay.Bot.Irc.Messages.WatchedUserOfflineMessage> e) {
       User knownUser = this.Contacts.Users.Find(e.Message.WatchedUser.Nick);
       if (knownUser != null) {
         knownUser.OnlineStatus = UserOnlineStatus.Offline;

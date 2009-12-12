@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace BigSister.Irc {
+namespace Supay.Bot.Irc {
   /// <summary>
   ///   Represents a User on an irc server. </summary>
   [Serializable]
@@ -228,12 +228,12 @@ namespace BigSister.Irc {
     /// <summary>
     /// Gets the modes which apply to the user.
     /// </summary>
-    public BigSister.Irc.Messages.Modes.UserModeCollection Modes {
+    public Supay.Bot.Irc.Messages.Modes.UserModeCollection Modes {
       get {
         return modes;
       }
     }
-    private BigSister.Irc.Messages.Modes.UserModeCollection modes = new BigSister.Irc.Messages.Modes.UserModeCollection();
+    private Supay.Bot.Irc.Messages.Modes.UserModeCollection modes = new Supay.Bot.Irc.Messages.Modes.UserModeCollection();
 
     #endregion
 
@@ -460,4 +460,4 @@ namespace BigSister.Irc {
     private List<string> dirtyProperties = new List<string>();
 
   } //class User
-} //namespace BigSister.Irc
+} ////namespace Supay.Bot.Irc

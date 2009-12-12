@@ -1,4 +1,4 @@
-namespace BigSister.Irc.Messages.Modes {
+namespace Supay.Bot.Irc.Messages.Modes {
   /// <summary>
   ///   This mode is used to give and take voice privilege to/from a channel member. 
   ///   Users with this privilege can talk on moderated channels. (<see cref="ModeratedMode"/>) </summary>

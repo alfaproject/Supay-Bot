@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BigSister {
+namespace Supay.Bot {
   abstract class Hiscore : IFormattable {
 
     public Hiscore() {
@@ -37,4 +37,4 @@ namespace BigSister {
     #endregion
 
   } // class Hiscore
-} // namespace BigSister
+} // //namespace Supay.Bot
