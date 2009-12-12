@@ -83,7 +83,7 @@ namespace Supay.Bot {
 
       // Add this player to database if he never set a default name.
       if (Database.GetString("SELECT fingerprint FROM users WHERE fingerprint='" + bc.From.FingerPrint + "'", null) == null) {
-        Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.From.Rsn);
+        Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.FromRsn);
       }
 
       if (goal.EqualsI("nl")) {
@@ -134,7 +134,7 @@ namespace Supay.Bot {
 
       // Add this player to database if he never set a default name.
       if (Database.GetString("SELECT fingerprint FROM users WHERE fingerprint='" + bc.From.FingerPrint + "'", null) == null) {
-        Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.From.Rsn);
+        Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.FromRsn);
       }
 
       Database.SetStringParameter("users", "items", "fingerprint='" + bc.From.FingerPrint + "'", skill, item);
@@ -161,7 +161,7 @@ namespace Supay.Bot {
 
       // Add this player to database if he never set a default name.
       if (Database.GetString("SELECT fingerprint FROM users WHERE fingerprint='" + bc.From.FingerPrint + "'", null) == null) {
-        Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.From.Rsn);
+        Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.FromRsn);
       }
 
       int speedValue = speed.ToInt32();
@@ -188,7 +188,7 @@ namespace Supay.Bot {
 
       // Add this player to database if he never set a default name.
       if (Database.GetString("SELECT fingerprint FROM users WHERE fingerprint='" + bc.From.FingerPrint + "'", null) == null) {
-        Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.From.Rsn);
+        Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.FromRsn);
       }
 
       Database.Update("users", "fingerprint='" + bc.From.FingerPrint + "'", "skill", skill);

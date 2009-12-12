@@ -6,7 +6,7 @@ namespace Supay.Bot {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void Top(CommandContext bc) {
-      string rsn = bc.From.Rsn;
+      string rsn = bc.FromRsn;
       string skill = null, minigame = null;
       int rank = 0;
 

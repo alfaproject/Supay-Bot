@@ -75,7 +75,7 @@ namespace Supay.Bot {
       if (bc.MessageTokens.Length > 1)
         rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
-        rsn = bc.From.Rsn;
+        rsn = bc.FromRsn;
 
       Player p = new Player(rsn);
       if (!p.Ranked) {

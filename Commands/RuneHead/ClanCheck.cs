@@ -4,7 +4,7 @@ namespace Supay.Bot {
   static partial class Command {
 
     public static void ClanCheck(CommandContext bc) {
-      if (!bc.From.IsAdmin) {
+      if (!bc.FromIsAdmin) {
         bc.SendReply("You need to be a bot administrator to use this command.");
         return;
       }

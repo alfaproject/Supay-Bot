@@ -134,34 +134,6 @@ namespace Supay.Bot.Irc {
       }
     }
 
-    public string Rsn {
-      get {
-        if (this.FingerPrint.Length == 0)
-          return _nick.ToRsn();
-
-        string rsn = (string)Database.GetValue("users", "rsn", "fingerprint='" + this.FingerPrint + "'");
-        if (rsn == null) {
-          return _nick.ToRsn();
-        } else {
-          return rsn;
-        }
-      }
-    }
-
-    public bool IsAdmin {
-      get {
-        if (_nick.EqualsI("_aLfa_") || _nick.EqualsI("_aLfa_|work") || _nick.EqualsI("P_Gertrude")) {
-          return true;
-        }
-        foreach (string admin in Properties.Settings.Default.Administrators.Split(';')) {
-          if (_nick.EqualsI(admin)) {
-            return true;
-          }
-        }
-        return false;
-      }
-    }
-
     /// <summary>
     /// Gets or sets the online status of this User
     /// </summary>

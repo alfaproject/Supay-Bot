@@ -8,7 +8,7 @@ namespace Supay.Bot {
   static class CmdTracker {
 
     public static void Add(CommandContext bc) {
-      if (!bc.From.IsAdmin)
+      if (!bc.FromIsAdmin)
         return;
 
       if (bc.MessageTokens.Length <= 1) {
@@ -32,7 +32,7 @@ namespace Supay.Bot {
     }
 
     public static void Remove(CommandContext bc) {
-      if (!bc.From.IsAdmin)
+      if (!bc.FromIsAdmin)
         return;
 
       if (bc.MessageTokens.Length <= 1) {
@@ -52,7 +52,7 @@ namespace Supay.Bot {
     }
 
     public static void RemoveTrackerFromClan(CommandContext bc) {
-      if (!bc.From.IsAdmin)
+      if (!bc.FromIsAdmin)
         return;
 
       if (bc.MessageTokens.Length == 1) {
@@ -81,7 +81,7 @@ namespace Supay.Bot {
     }
 
     public static void RemoveFromClan(CommandContext bc) {
-      if (!bc.From.IsAdmin)
+      if (!bc.FromIsAdmin)
         return;
 
       if (bc.MessageTokens.Length <= 1) {
@@ -111,7 +111,7 @@ namespace Supay.Bot {
       if (bc.MessageTokens.Length > 1)
         rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
-        rsn = bc.From.Rsn;
+        rsn = bc.FromRsn;
 
       // get this player last update time
       DateTime lastupdate;

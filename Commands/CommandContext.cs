@@ -61,6 +61,18 @@ namespace Supay.Bot {
       private set;
     }
 
+    public string FromRsn {
+      get {
+        return Utils.UserToRsn(this.From);
+      }
+    }
+
+    public bool FromIsAdmin {
+      get {
+        return Utils.UserIsAdmin(this.From);
+      }
+    }
+
     public bool ReplyNotice {
       get {
         return _replyNotice;
@@ -81,8 +93,9 @@ namespace Supay.Bot {
 
     public string NickToRSN(string nick) {
       User u = _users.Find(nick);
-      if (u != null)
-        return u.Rsn;
+      if (u != null) {
+        return Utils.UserToRsn(u);
+      }
       return nick.ToRsn();
     }
 

@@ -372,7 +372,7 @@ namespace Supay.Bot {
       }
 
       // Get player summoning level
-      Player player = new Player(bc.From.Rsn);
+      Player player = new Player(bc.FromRsn);
       if (!player.Ranked) {
         bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(player.Name));
         return;

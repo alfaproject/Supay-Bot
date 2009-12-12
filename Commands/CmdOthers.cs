@@ -11,7 +11,7 @@ namespace Supay.Bot {
       if (bc.MessageTokens.Length > 1)
         rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
-        rsn = bc.From.Rsn;
+        rsn = bc.FromRsn;
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
@@ -46,7 +46,7 @@ namespace Supay.Bot {
       if (bc.MessageTokens.Length > 1)
         rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
-        rsn = bc.From.Rsn;
+        rsn = bc.FromRsn;
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
@@ -63,7 +63,7 @@ namespace Supay.Bot {
       if (bc.MessageTokens.Length > 1)
         rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
-        rsn = bc.From.Rsn;
+        rsn = bc.FromRsn;
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
@@ -80,7 +80,7 @@ namespace Supay.Bot {
       if (bc.MessageTokens.Length > 1)
         rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
-        rsn = bc.From.Rsn;
+        rsn = bc.FromRsn;
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
@@ -103,7 +103,7 @@ namespace Supay.Bot {
       if (bc.MessageTokens.Length > 1)
         rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
-        rsn = bc.From.Rsn;
+        rsn = bc.FromRsn;
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
@@ -252,7 +252,7 @@ namespace Supay.Bot {
       }
 
       // get rsn
-      string rsn = bc.From.Rsn;
+      string rsn = bc.FromRsn;
 
       string skill = null;
       int level;
@@ -306,7 +306,7 @@ namespace Supay.Bot {
       if (bc.MessageTokens.Length > 1)
         rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
-        rsn = bc.From.Rsn;
+        rsn = bc.FromRsn;
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
@@ -397,7 +397,7 @@ namespace Supay.Bot {
       if (bc.MessageTokens.Length > 8)
         int.TryParse(bc.MessageTokens[8], out Mag);
 
-      Player p = new Player(bc.From.Rsn);
+      Player p = new Player(bc.FromRsn);
       if (p.Ranked) {
         if (Att <= 0)
           Att = p.Skills[Skill.ATTA].VLevel;

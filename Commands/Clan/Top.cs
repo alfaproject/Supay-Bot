@@ -18,7 +18,7 @@ namespace Supay.Bot {
         clanName = "Portugal";
       }
 
-      string rsn = bc.From.Rsn;
+      string rsn = bc.FromRsn;
       string skill = null, minigame = null;
       int rank = 0;
       bool IsIndividual = false;
@@ -101,8 +101,8 @@ namespace Supay.Bot {
       } else {
         // Get input player rank
         int input_player_rank = 0;
-        if (clanPlayers.Contains(bc.From.Rsn))
-          input_player_rank = clanPlayers.IndexOf(bc.From.Rsn) + 1;
+        if (clanPlayers.Contains(bc.FromRsn))
+          input_player_rank = clanPlayers.IndexOf(bc.FromRsn) + 1;
 
         // fix rank
         if (rank < 1)

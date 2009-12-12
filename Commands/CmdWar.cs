@@ -6,7 +6,7 @@ namespace Supay.Bot {
   static class CmdWar {
 
     public static void Start(CommandContext bc) {
-      if (!bc.From.IsAdmin) {
+      if (!bc.FromIsAdmin) {
         bc.SendReply("You need to be a bot administrator to use this command.");
         return;
       }
@@ -49,7 +49,7 @@ namespace Supay.Bot {
     }
 
     public static void End(CommandContext bc) {
-      if (!bc.From.IsAdmin) {
+      if (!bc.FromIsAdmin) {
         bc.SendReply("You need to be a bot administrator to use this command.");
         return;
       }
@@ -89,7 +89,7 @@ namespace Supay.Bot {
     }
 
     public static void Add(CommandContext bc) {
-      if (!bc.From.IsAdmin) {
+      if (!bc.FromIsAdmin) {
         bc.SendReply("You need to be a bot administrator to use this command.");
         return;
       }
@@ -127,7 +127,7 @@ namespace Supay.Bot {
     }
 
     public static void Remove(CommandContext bc) {
-      if (!bc.From.IsAdmin) {
+      if (!bc.FromIsAdmin) {
         bc.SendReply("You need to be a bot administrator to use this command.");
         return;
       }
@@ -169,7 +169,7 @@ namespace Supay.Bot {
       warPlayers.SortBySkill(skill, true);
 
       // Parse command arguments
-      string rsn = bc.From.Rsn;
+      string rsn = bc.FromRsn;
       int rank = 1;
       if (bc.MessageTokens.Length > 1) {
         if (int.TryParse(bc.MessageTokens[1], out rank)) {
@@ -187,8 +187,8 @@ namespace Supay.Bot {
 
       // Get input player rank
       int input_player_rank = 0;
-      if (warPlayers.Contains(bc.From.Rsn))
-        input_player_rank = warPlayers.IndexOf(bc.From.Rsn) + 1;
+      if (warPlayers.Contains(bc.FromRsn))
+        input_player_rank = warPlayers.IndexOf(bc.FromRsn) + 1;
 
       // fix rank
       if (rank < 1)
@@ -231,7 +231,7 @@ namespace Supay.Bot {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void TopAll(CommandContext bc) {
-      if (!bc.From.IsAdmin) {
+      if (!bc.FromIsAdmin) {
         bc.SendReply("You need to be a bot administrator to use this command.");
         return;
       }

@@ -249,7 +249,7 @@ namespace Supay.Bot {
     void IrcChat(object sender, IrcMessageEventArgs<TextMessage> e) {
       if (e.Message.Targets[0].EqualsI(_irc.User.Nick)) {
         // private message
-        if (!e.Message.Sender.IsAdmin) {
+        if (!Utils.UserIsAdmin(e.Message.Sender)) {
           return;
         }
 

@@ -9,7 +9,7 @@ namespace Supay.Bot {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void Graph(CommandContext bc) {
       string skill = Skill.OVER;
-      string rsn = bc.From.Rsn;
+      string rsn = bc.FromRsn;
 
       if (bc.MessageTokens.Length > 1) {
         if (Skill.TryParse(bc.MessageTokens[1], ref skill)) {
@@ -82,7 +82,7 @@ namespace Supay.Bot {
       if (bc.MessageTokens.Length > 1)
         rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
       else
-        rsn = bc.From.Rsn;
+        rsn = bc.FromRsn;
 
       // Get new player
       Player PlayerNew = new Player(rsn);

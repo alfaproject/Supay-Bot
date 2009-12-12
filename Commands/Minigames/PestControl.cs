@@ -51,7 +51,7 @@ namespace Supay.Bot {
         rsn = bc.NickToRSN(bc.MessageTokens.Join(1).Trim());
       }
       if (!string.IsNullOrEmpty(rsn)) {
-        rsn = bc.From.Rsn;
+        rsn = bc.FromRsn;
       }
 
       if (string.IsNullOrEmpty(skill)) {

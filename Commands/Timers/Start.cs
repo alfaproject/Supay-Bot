@@ -5,7 +5,7 @@ namespace Supay.Bot {
 
     public static void Start(CommandContext bc) {
       // get rsn
-      string rsn = bc.From.Rsn;
+      string rsn = bc.FromRsn;
 
       Player p = new Player(rsn);
       if (!p.Ranked) {

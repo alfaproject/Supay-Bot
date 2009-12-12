@@ -7,7 +7,7 @@
       string skill = string.Empty;
       int level = 0;
       if (bc.MessageTokens.Length == 2) {
-        rsn = bc.From.Rsn;
+        rsn = bc.FromRsn;
         Skill.TryParse(bc.MessageTokens[1], ref skill);
       } else if (bc.MessageTokens.Length == 3) {
         if (int.TryParse(bc.MessageTokens[1], out level)) {
