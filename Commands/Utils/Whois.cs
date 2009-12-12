@@ -1,4 +1,6 @@
-﻿namespace Supay.Bot {
+﻿using Supay.Irc;
+
+namespace Supay.Bot {
   static partial class Command {
 
     public static void Whois(CommandContext bc) {
@@ -8,7 +10,7 @@
       }
 
       string nick = bc.MessageTokens.Join(1, "_");
-      Supay.Bot.Irc.User u = bc.Users.Find(nick);
+      User u = bc.Users.Find(nick);
       if (u != null)
         bc.SendReply("{0}'s RSN is \\b{1}\\b.".FormatWith(u.Nick, Utils.UserToRsn(u)));
       else

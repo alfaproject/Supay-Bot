@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Supay.Bot.Irc;
+using Supay.Irc;
 
 namespace Supay.Bot {
   static partial class Utils {

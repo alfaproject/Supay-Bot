@@ -7,8 +7,8 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using Supay.Bot.Irc;
-using Supay.Bot.Irc.Messages;
+using Supay.Irc;
+using Supay.Irc.Messages;
 
 namespace Supay.Bot {
   public partial class Main : Form {
@@ -193,8 +193,8 @@ namespace Supay.Bot {
       string nick = Properties.Settings.Default.Nick;
       _irc = new Client(address, nick, "Supreme Skillers IRC bot");
 
-      _irc.DataSent += new EventHandler<Supay.Bot.Irc.Network.ConnectionDataEventArgs>(Irc_DataSent);
-      _irc.DataReceived += new EventHandler<Supay.Bot.Irc.Network.ConnectionDataEventArgs>(Irc_DataReceived);
+      _irc.DataSent += new EventHandler<Supay.Irc.Network.ConnectionDataEventArgs>(Irc_DataSent);
+      _irc.DataReceived += new EventHandler<Supay.Irc.Network.ConnectionDataEventArgs>(Irc_DataReceived);
       _irc.Ready += new EventHandler(Irc_Ready);
 
       _irc.Messages.Chat += new EventHandler<IrcMessageEventArgs<TextMessage>>(IrcChat);
@@ -215,7 +215,7 @@ namespace Supay.Bot {
 
     private void Main_FormClosing(object sender, FormClosingEventArgs e) {
       // Quit IRC.
-      if (_irc.Connection.Status == Supay.Bot.Irc.Network.ConnectionStatus.Connected)
+      if (_irc.Connection.Status == Supay.Irc.Network.ConnectionStatus.Connected)
         _irc.SendQuit("Copyright (c) _aLfa_ and P_Gertrude 2006 - 2009");
 
       // Persist application settings.
@@ -226,11 +226,11 @@ namespace Supay.Bot {
       this.Close();
     }
 
-    void Irc_DataSent(object sender, Supay.Bot.Irc.Network.ConnectionDataEventArgs e) {
+    void Irc_DataSent(object sender, Supay.Irc.Network.ConnectionDataEventArgs e) {
       txt.Invoke(new delOutputMessage(_OutputMessage), e.Data);
     }
 
-    void Irc_DataReceived(object sender, Supay.Bot.Irc.Network.ConnectionDataEventArgs e) {
+    void Irc_DataReceived(object sender, Supay.Irc.Network.ConnectionDataEventArgs e) {
       txt.Invoke(new delOutputMessage(_OutputMessage), e.Data);
     }
 

@@ -1,5 +1,5 @@
-﻿using Supay.Bot.Irc;
-using Supay.Bot.Irc.Messages;
+﻿using Supay.Irc;
+using Supay.Irc.Messages;
 
 namespace Supay.Bot {
   class CommandContext {
