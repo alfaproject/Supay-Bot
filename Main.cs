@@ -585,6 +585,10 @@ namespace Supay.Bot {
             case "XP":
               ThreadUtil.FireAndForget(CmdDataFiles.Exp, bc);
               break;
+            case "LVL":
+            case "LEVEL":
+              ThreadUtil.FireAndForget(CmdDataFiles.Lvl, bc);
+              break;
             case "REQ":
             case "REQS":
               ThreadUtil.FireAndForget(CmdDataFiles.Reqs, bc);

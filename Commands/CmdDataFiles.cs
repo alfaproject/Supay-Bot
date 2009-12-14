@@ -316,6 +316,18 @@ namespace Supay.Bot {
       }
     }
 
+    public static void Lvl(CommandContext bc) {
+      if (bc.MessageTokens.Length != 2) {
+        bc.SendReply("Syntax: !Lvl <exp>");
+        return;
+      }
+
+      int exp = 0;
+      bc.MessageTokens[1].TryInt32(out exp);
+      if (exp == 0 || exp > 200000000) { bc.SendReply("Invalid experience value."); return; }
+      bc.SendReply("The experience \\c07{0:#,##0.#}\\c is level \\c07{1}\\c, with \\c07{2:#,##0.#}\\c experience until level \\c07{3}".FormatWith(exp, exp.ToLevel(), ((exp.ToLevel() + 1).ToExp() - exp), (exp.ToLevel() + 1)));
+    }
+
     public static void Reqs(CommandContext bc) {
       StreamReader reqs_file = new StreamReader("Data/Reqs.txt");
       string reqs_line;
