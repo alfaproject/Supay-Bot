@@ -15,16 +15,15 @@ namespace Supay.Bot {
       // get search terms
       string search_terms = bc.MessageTokens.Join(1);
 
-      Monsters monsters = new Monsters();
-      List<Monster> results = monsters.SearchOnline(search_terms);
+      Monsters results = new Monsters(search_terms);
 
       if (results.Count > 0) {
-        string reply = "\\c12www.tip.it\\c found \\c07{0}\\c results:".FormatWith(results.Count);
+        string reply = "\\c12www.zybez.net\\c found \\c07{0}\\c results:".FormatWith(results.Count);
         for (int i = 0; i < Math.Min(15, results.Count); i++)
           reply += " \\c07" + results[i].Name + "\\c (" + results[i].Level + ");";
         bc.SendReply(reply);
       } else {
-        bc.SendReply("\\c12www.tip.it\\c doesn't have any record for \"{0}\".".FormatWith(search_terms));
+        bc.SendReply("\\c12www.zybez.net\\c doesn't have any record for \"{0}\".".FormatWith(search_terms));
       }
     }
 
@@ -45,8 +44,7 @@ namespace Supay.Bot {
         search_terms = Regex.Replace(search_terms, "\\((\\d+)\\)", string.Empty).Trim();
       }
 
-      Monsters monsters = new Monsters();
-      List<Monster> results = monsters.SearchOnline(search_terms);
+      Monsters results = new Monsters(search_terms);
 
       if (results.Count > 0) {
         Monster monster = null;
@@ -81,21 +79,18 @@ namespace Supay.Bot {
             }
 
         if (monster == null) {
-          bc.SendReply("\\c12www.tip.it\\c doesn't have any record for \"{0}\".".FormatWith(search_terms));
+          bc.SendReply("\\c12www.zybez.net\\c doesn't have any record for \"{0}\".".FormatWith(search_terms));
         } else {
           monster.Update();
-          bc.SendReply("Name: \\c07{0}\\c | Level: \\c07{1}\\c | Hitpoints: \\c07{2}\\c | Race: \\c07{3}\\c | \\c12www.tip.it/runescape/index.php?rs2monster_id={4}\\c".FormatWith(
-                                     monster.Name, monster.Level, monster.Hits, monster.Race, monster.ID));
-          bc.SendReply("Aggressive? \\c{0}\\c | Retreats? \\c{1}\\c | Quest? \\c{2}\\c | Members? \\c{3}\\c | Poisonous? \\c{4}\\c | Habitat: \\c07{5}\\c".FormatWith(
+          bc.SendReply("Name: \\c07{0}\\c | Level: \\c07{1}\\c | Hitpoints: \\c07{2}\\c | Examine: \\c07{3}\\c | \\c12www.zybez.net/npc.aspx?id={4}\\c".FormatWith(
+                                     monster.Name, monster.Level, monster.Hits, monster.Examine, monster.Id));
+          bc.SendReply("Aggressive? \\c{0}\\c | Members? \\c{1}\\c | Habitat: \\c07{2}\\c".FormatWith(
                                      monster.Aggressive ? "3Yes" : "4No",
-                                     monster.Retreats ? "3Yes" : "4No",
-                                     monster.Quest ? "3Yes" : "4No",
                                      monster.Members ? "3Yes" : "4No",
-                                     monster.Poisonous ? "3Yes" : "4No",
-                                     monster.Habitat.Count > 0 ? monster.Habitat[0] : "Unknown"));
+                                     monster.Habitat));
         }
       } else {
-        bc.SendReply("\\c12www.tip.it\\c doesn't have any record for \"{0}\".".FormatWith(search_terms));
+        bc.SendReply("\\c12www.zybez.net\\c doesn't have any record for \"{0}\".".FormatWith(search_terms));
       }
     }
 

@@ -323,8 +323,7 @@ namespace Supay.Bot {
         input_monster = Regex.Replace(input_monster, "\\((\\d+)\\)", string.Empty).Trim();
       }
 
-      Monsters monsters = new Monsters();
-      List<Monster> results = monsters.SearchOnline(input_monster);
+      Monsters results = new Monsters(input_monster);
 
       if (results.Count > 0) {
         Monster monster = null;

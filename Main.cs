@@ -484,6 +484,20 @@ namespace Supay.Bot {
             case "ALCH":
               ThreadUtil.FireAndForget(Command.Alch, bc);
               break;
+            case "MONSTERSEARCH":
+            case "NPCSEARCH":
+            case "MDBSEARCH":
+            case "MONSTERS":
+            case "NPCS":
+              ThreadUtil.FireAndForget(CmdMonster.Search, bc);
+              break;
+            case "MONSTERINFO":
+            case "NPCINFO":
+            case "MDBINFO":
+            case "MONSTER":
+            case "MDB":
+              ThreadUtil.FireAndForget(CmdMonster.Info, bc);
+              break;
 
             // RuneHead
             case "CLAN":
@@ -516,19 +530,6 @@ namespace Supay.Bot {
             case "CMPML":
             case "COMPAREML":
               ThreadUtil.FireAndForget(Command.ClanCompare, bc);
-              break;
-
-            // Tip.It
-            case "MONSTERSEARCH":
-            case "NPCSEARCH":
-            case "MDBSEARCH":
-              ThreadUtil.FireAndForget(CmdMonster.Search, bc);
-              break;
-            case "MONSTERINFO":
-            case "MDBINFO":
-            case "MONSTER":
-            case "MDB":
-              ThreadUtil.FireAndForget(CmdMonster.Info, bc);
               break;
 
             // Timers

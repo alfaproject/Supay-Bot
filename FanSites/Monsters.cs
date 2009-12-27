@@ -1,33 +1,29 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
-using System.Text.RegularExpressions;
+using Newtonsoft.Json.Linq;
 
 namespace Supay.Bot {
-  class Monsters : Dictionary<string, Monster> {
+  class Monsters : List<Monster> {
 
-    public List<Monster> SearchOnline(string Criteria) {
-      List<Monster> ResultList = new List<Monster>();
+    public Monsters(string query)
+      : base() {
+      try {
+        string resultsPage = new System.Net.WebClient().DownloadString("http://www.zybez.net/exResults.aspx?type=2&search=name=" + query);
+        JArray results = (JArray)JObject.Parse(resultsPage)["results"];
 
-      string MonsterSearchPage = new System.Net.WebClient().DownloadString("http://www.tip.it/runescape/index.php?rs2monster=&orderby=0&levels=All&race=0&keywords=" + Criteria);
-
-      MatchCollection Results = Regex.Matches(MonsterSearchPage, "<td>(\\d+)</td>\\s+<td><a href=\"\\?rs2monster_id=(\\d+)\">([^<]+)</a>");
-      if (Results.Count > 0) {
-        foreach (Match M in Results) {
-          if (this.ContainsKey(M.Groups[3].Value.ToUpperInvariant())) {
-            ResultList.Add(this[M.Groups[3].Value.ToUpperInvariant()]);
-          } else {
-            Monster NewMonster = new Monster(int.Parse(M.Groups[2].Value, CultureInfo.InvariantCulture));
-            NewMonster.Name = M.Groups[3].Value;
-            NewMonster.Level = int.Parse(M.Groups[1].Value, CultureInfo.InvariantCulture);
-            this.Add(M.Groups[3].Value.ToUpperInvariant(), NewMonster);
-
-            ResultList.Add(NewMonster);
-          }
+        foreach (JObject npc in results) {
+          this.Add(new Monster {
+            Id = (int)npc["id"],
+            Name = (string)npc["name"],
+            Examine = (string)npc["examine"],
+            Hits = (int)npc["hp"],
+            Level = (int)npc["combat"],
+            Members = (bool)npc["members"],
+            Habitat = (string)npc["locstring"]
+          });
         }
+      } catch {
       }
-
-      return ResultList;
     }
 
-  }
-}
+  } //class Monsters
+} //namespace Supay.Bot
