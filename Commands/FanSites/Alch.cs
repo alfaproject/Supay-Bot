@@ -39,14 +39,14 @@ namespace Supay.Bot {
 
           switch (items.Count) {
             case 0:
-              bc.SendReply(@"\c12www.tip.it\c doesn't have any record for item ""{0}"".".FormatWith(queryItem));
+              bc.SendReply(@"\c12www.zybez.net\c doesn't have any record for item ""{0}"".".FormatWith(queryItem));
               return;
             case 1:
               item = items[0];
               item.LoadFromWeb();
               break;
             default:
-              string reply = @"\c12www.tip.it\c has \c07{0}\c items matching ""{1}"":".FormatWith(items.Count, queryItem);
+              string reply = @"\c12www.zybez.net\c has \c07{0}\c items matching ""{1}"":".FormatWith(items.Count, queryItem);
               for (int i = 0; i < Math.Min(14, items.Count); i++) {
                 reply += @" \c07#{0}\c {1};".FormatWith(items[i].Id, items[i].Name);
               }
@@ -59,7 +59,7 @@ namespace Supay.Bot {
         }
 
         if (item.Name == null) {
-          bc.SendReply(@"\c12www.tip.it\c doesn't have any record for item \c07#{0}\c.".FormatWith(itemId));
+          bc.SendReply(@"\c12www.zybez.net\c doesn't have any record for item \c07#{0}\c.".FormatWith(itemId));
           return;
         } else {
           totalHigh += (int)queryQty * item.HighAlch;

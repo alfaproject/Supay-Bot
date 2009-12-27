@@ -1,5 +1,5 @@
 ﻿using System.Globalization;
-using System.Text.RegularExpressions;
+using Newtonsoft.Json.Linq;
 
 namespace Supay.Bot {
   class Item {
@@ -29,7 +29,7 @@ namespace Supay.Bot {
       set;
     }
 
-    public bool Quest {
+    public string Quests {
       get;
       set;
     }
@@ -76,52 +76,24 @@ namespace Supay.Bot {
 
     public void LoadFromWeb() {
       try {
-        string itemPage = new System.Net.WebClient().DownloadString("http://www.tip.it/runescape/index.php?rs2item_id=" + this.Id);
+        string itemPage = new System.Net.WebClient().DownloadString("http://www.zybez.net/exResults.aspx?type=1&id=" + this.Id);
+        JObject item = JObject.Parse(itemPage);
 
-        Match M = Regex.Match(itemPage, @"<td class=""header"" colspan=""3"">([^<]+?)</td>", RegexOptions.Singleline);
-        if (M.Success)
-          this.Name = M.Groups[1].Value.Trim();
+        this.Name = (string)item["name"];
+        this.Members = (bool)item["members"];
+        this.Quests = (string)item["item_quests"];
+        this.Tradable = (string)item["item_tradable"] == "True";
+        this.Stackable = (string)item["item_stackable"] == "True";
+        this.Examine = (string)item["examine"];
+        this.Weight = double.Parse((string)item["item_weight"], CultureInfo.InvariantCulture);
+        this.HighAlch = int.Parse((string)item["item_price_alchemy_max"], CultureInfo.InvariantCulture);
+        this.LowAlch = int.Parse((string)item["item_price_alchemy_min"], CultureInfo.InvariantCulture);
+        this.MarketPrice = (int)item["price"];
+        this.Location = (string)item["item_source_text_en"];
 
-        M = Regex.Match(itemPage, @"<b>Members\?</b>\s*?(No|Yes)", RegexOptions.Singleline);
-        if (M.Success)
-          this.Members = (M.Groups[1].Value == "Yes");
-
-        M = Regex.Match(itemPage, @"<b>Quest\?</b>\s*?(No|Yes)", RegexOptions.Singleline);
-        if (M.Success)
-          this.Quest = (M.Groups[1].Value == "Yes");
-
-        M = Regex.Match(itemPage, @"<b>Tradeable\?</b>\s*?(No|Yes)", RegexOptions.Singleline);
-        if (M.Success)
-          this.Tradable = (M.Groups[1].Value == "Yes");
-
-        M = Regex.Match(itemPage, @"<b>Stackable\?</b>\s*?(No|Yes)", RegexOptions.Singleline);
-        if (M.Success)
-          this.Stackable = (M.Groups[1].Value == "Yes");
-
-        M = Regex.Match(itemPage, @"<b>Examine:</b>([^<]+?)</td>", RegexOptions.Singleline);
-        if (M.Success)
-          this.Examine = M.Groups[1].Value.Trim();
-
-        M = Regex.Match(itemPage, @"<b>Weight:</b>(.*?)kg", RegexOptions.Singleline);
-        if (M.Success)
-          this.Weight = double.Parse(M.Groups[1].Value.Trim(), CultureInfo.InvariantCulture);
-
-        M = Regex.Match(itemPage, @"High Alchemy</td>\s+<td[^>]+>\s+(\d+)", RegexOptions.Singleline);
-        if (M.Success)
-          this.HighAlch = int.Parse(M.Groups[1].Value, CultureInfo.InvariantCulture);
-
-        M = Regex.Match(itemPage, @"Low Alchemy</td>\s+<td[^>]+>\s+(\d+)", RegexOptions.Singleline);
-        if (M.Success)
-          this.LowAlch = int.Parse(M.Groups[1].Value, CultureInfo.InvariantCulture);
-
-        M = Regex.Match(itemPage, @"Market Price</td>\s+<td>Maximum Price</td>\s+</tr>\s+<tr>\s+<td>[^<]+</td>\s+<td>\s+([\d,]+)", RegexOptions.Singleline);
-        if (M.Success)
-          this.MarketPrice = int.Parse(M.Groups[1].Value.Replace(",", ""), CultureInfo.InvariantCulture);
-
-        M = Regex.Match(itemPage, @"Location</td>\s+<td>([^<]+)</td>", RegexOptions.Singleline);
-        if (M.Success)
-          this.Location = M.Groups[1].Value.Trim();
-
+        if (this.Quests == "No") {
+          this.Quests = null;
+        }
       } catch {
       }
     }
