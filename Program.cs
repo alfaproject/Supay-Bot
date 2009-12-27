@@ -28,4 +28,4 @@ namespace Supay.Bot {
     }
   
   } //class Program
-} ////namespace Supay.Bot
+} //namespace Supay.Bot

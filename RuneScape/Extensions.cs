@@ -39,4 +39,4 @@ namespace Supay.Bot {
     }
 
   } //class Extensions
-} ////namespace Supay.Bot
+} //namespace Supay.Bot

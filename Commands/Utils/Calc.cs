@@ -13,4 +13,4 @@
     }
 
   } //class Command
-} ////namespace Supay.Bot
+} //namespace Supay.Bot

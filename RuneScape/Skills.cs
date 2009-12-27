@@ -64,4 +64,4 @@ namespace Supay.Bot {
     }
 
   } //class Skills
-} ////namespace Supay.Bot
+} //namespace Supay.Bot

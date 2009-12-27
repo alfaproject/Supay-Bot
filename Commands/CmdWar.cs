@@ -272,4 +272,4 @@ namespace Supay.Bot {
     }
 
   } //class CmdWar
-} ////namespace Supay.Bot
+} //namespace Supay.Bot

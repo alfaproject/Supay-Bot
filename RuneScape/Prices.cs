@@ -58,4 +58,4 @@ namespace Supay.Bot {
     }
 
   } //class Prices
-} ////namespace Supay.Bot
+} //namespace Supay.Bot

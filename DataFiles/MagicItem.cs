@@ -101,4 +101,4 @@ namespace Supay.Bot {
     }
 
   } //class MagicItem
-} ////namespace Supay.Bot
+} //namespace Supay.Bot

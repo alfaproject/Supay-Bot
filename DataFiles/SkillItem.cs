@@ -37,4 +37,4 @@ namespace Supay.Bot {
     }
 
   } //class SkillItem
-} ////namespace Supay.Bot
+} //namespace Supay.Bot

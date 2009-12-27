@@ -40,4 +40,4 @@ namespace Supay.Bot {
     }
 
   } //class Command
-} ////namespace Supay.Bot
+} //namespace Supay.Bot

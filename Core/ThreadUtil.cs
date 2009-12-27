@@ -12,4 +12,4 @@ namespace Supay.Bot {
     }
 
   } //class ThreadUtil
-} ////namespace Supay.Bot
+} //namespace Supay.Bot

@@ -150,4 +150,4 @@ namespace Supay.Bot {
     #endregion
 
   } //class DataBase
-} ////namespace Supay.Bot
+} //namespace Supay.Bot

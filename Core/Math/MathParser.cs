@@ -791,4 +791,4 @@ namespace Supay.Bot {
     }
 
   } //class MathParser
-} ////namespace Supay.Bot
+} //namespace Supay.Bot

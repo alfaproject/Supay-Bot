@@ -167,4 +167,4 @@ namespace Supay.Bot {
     }
 
   } //class Price
-} ////namespace Supay.Bot
+} //namespace Supay.Bot

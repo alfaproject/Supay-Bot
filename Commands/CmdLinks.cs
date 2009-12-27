@@ -19,4 +19,4 @@ namespace Supay.Bot {
     }
 
   } //class CmdLinks
-} ////namespace Supay.Bot
+} //namespace Supay.Bot

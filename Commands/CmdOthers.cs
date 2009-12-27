@@ -454,4 +454,4 @@ namespace Supay.Bot {
     }
 
   } //class CmdOthers
-} ////namespace Supay.Bot
+} //namespace Supay.Bot

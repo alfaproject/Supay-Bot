@@ -100,4 +100,4 @@ namespace Supay.Bot {
     }
 
   } //class CmdMonster
-} ////namespace Supay.Bot
+} //namespace Supay.Bot

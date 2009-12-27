@@ -519,4 +519,4 @@ namespace Supay.Bot {
     }
 
   } //class CmdDataFiles
-} ////namespace Supay.Bot
+} //namespace Supay.Bot
