@@ -14,14 +14,13 @@
     /// the contents of this method with the code editor.
     /// </summary>
     private void InitializeComponent() {
-      this.components = new System.ComponentModel.Container();
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
       this.mnu = new System.Windows.Forms.MenuStrip();
       this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
       this.btnConnect = new System.Windows.Forms.ToolStripMenuItem();
       this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
       this.btnExit = new System.Windows.Forms.ToolStripMenuItem();
-      this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+      this.notifyIcon1 = new System.Windows.Forms.NotifyIcon();
       this.stbMain = new System.Windows.Forms.StatusStrip();
       this.lblUtcTimer = new System.Windows.Forms.ToolStripStatusLabel();
       this.lblUpdateTimer = new System.Windows.Forms.ToolStripStatusLabel();
@@ -52,25 +51,25 @@
             this.toolStripSeparator1,
             this.btnExit});
       this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-      this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
+      this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
       this.fileToolStripMenuItem.Text = "&File";
       // 
       // btnConnect
       // 
       this.btnConnect.Name = "btnConnect";
-      this.btnConnect.Size = new System.Drawing.Size(114, 22);
+      this.btnConnect.Size = new System.Drawing.Size(119, 22);
       this.btnConnect.Text = "&Connect";
       this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
       // 
       // toolStripSeparator1
       // 
       this.toolStripSeparator1.Name = "toolStripSeparator1";
-      this.toolStripSeparator1.Size = new System.Drawing.Size(111, 6);
+      this.toolStripSeparator1.Size = new System.Drawing.Size(116, 6);
       // 
       // btnExit
       // 
       this.btnExit.Name = "btnExit";
-      this.btnExit.Size = new System.Drawing.Size(114, 22);
+      this.btnExit.Size = new System.Drawing.Size(119, 22);
       this.btnExit.Text = "E&xit";
       this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
       // 
@@ -86,9 +85,9 @@
       this.stbMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblUtcTimer,
             this.lblUpdateTimer});
-      this.stbMain.Location = new System.Drawing.Point(0, 316);
+      this.stbMain.Location = new System.Drawing.Point(0, 314);
       this.stbMain.Name = "stbMain";
-      this.stbMain.Size = new System.Drawing.Size(416, 22);
+      this.stbMain.Size = new System.Drawing.Size(416, 24);
       this.stbMain.TabIndex = 1;
       this.stbMain.Text = "statusStrip1";
       // 
@@ -99,7 +98,7 @@
                   | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
       this.lblUtcTimer.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
       this.lblUtcTimer.Name = "lblUtcTimer";
-      this.lblUtcTimer.Size = new System.Drawing.Size(100, 17);
+      this.lblUtcTimer.Size = new System.Drawing.Size(108, 19);
       this.lblUtcTimer.Text = "UTC: <hh:mm:ss>";
       // 
       // lblUpdateTimer
@@ -109,7 +108,7 @@
                   | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
       this.lblUpdateTimer.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
       this.lblUpdateTimer.Name = "lblUpdateTimer";
-      this.lblUpdateTimer.Size = new System.Drawing.Size(140, 17);
+      this.lblUpdateTimer.Size = new System.Drawing.Size(149, 19);
       this.lblUpdateTimer.Text = "Next update: <hh:mm:ss>";
       // 
       // splitContainer1
@@ -125,7 +124,7 @@
       // splitContainer1.Panel2
       // 
       this.splitContainer1.Panel2.Controls.Add(this.txt);
-      this.splitContainer1.Size = new System.Drawing.Size(416, 292);
+      this.splitContainer1.Size = new System.Drawing.Size(416, 290);
       this.splitContainer1.SplitterDistance = 138;
       this.splitContainer1.TabIndex = 2;
       // 
@@ -134,7 +133,7 @@
       this.tv.Dock = System.Windows.Forms.DockStyle.Fill;
       this.tv.Location = new System.Drawing.Point(0, 0);
       this.tv.Name = "tv";
-      this.tv.Size = new System.Drawing.Size(138, 292);
+      this.tv.Size = new System.Drawing.Size(138, 290);
       this.tv.TabIndex = 1;
       // 
       // txt
@@ -142,7 +141,7 @@
       this.txt.Dock = System.Windows.Forms.DockStyle.Fill;
       this.txt.Location = new System.Drawing.Point(0, 0);
       this.txt.Name = "txt";
-      this.txt.Size = new System.Drawing.Size(274, 292);
+      this.txt.Size = new System.Drawing.Size(274, 290);
       this.txt.TabIndex = 0;
       this.txt.Text = "";
       // 
@@ -159,8 +158,8 @@
       this.MainMenuStrip = this.mnu;
       this.Name = "Main";
       this.Text = "Supay Bot (c) _aLfa_ and P_Gertrude 2006 - 2009";
-      this.Shown += new System.EventHandler(this.Main_Shown);
       this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
+      this.Shown += new System.EventHandler(this.Main_Shown);
       this.Resize += new System.EventHandler(this.Main_Resize);
       this.mnu.ResumeLayout(false);
       this.mnu.PerformLayout();
