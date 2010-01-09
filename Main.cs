@@ -9,6 +9,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Supay.Irc;
 using Supay.Irc.Messages;
+using Newtonsoft.Json.Linq;
 
 namespace Supay.Bot {
   public partial class Main : Form {
@@ -136,10 +137,51 @@ namespace Supay.Bot {
       }
     }
 
+    private void _checkEvent(object stateInfo) {
+      const string mainChannel = "#howdy";
+      if (_irc.Channels.Find(mainChannel) == null) {
+        return;
+      }
+
+      try {
+        string desc, url;
+        DateTime startTime;
+        string eventPage = new System.Net.WebClient().DownloadString("http://ss.rsportugal.org/parser.php?type=event&channel=" + System.Web.HttpUtility.UrlEncode("#skillers"));
+        JObject nextEvent = JObject.Parse(eventPage);
+
+        startTime = DateTime.ParseExact((string)nextEvent["startTime"], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+        desc = (string)nextEvent["desc"];
+        url = (string)nextEvent["url"];
+        SQLiteDataReader rsTimer = Database.ExecuteReader("SELECT fingerprint, nick, name, duration, started FROM timers;");
+        while (rsTimer.Read()) {
+          if (rsTimer.GetString(2) == (string)nextEvent["id"])
+            return;
+        }
+
+        int[] noticeDuration = new int[] { 1440 , 720 , 360 , 180 , 90 , 60 , 40 , 20 , 10 , 5 };
+        for (int i = 0; i < 10; i++) {
+          if ((int)(startTime - DateTime.Now).TotalMinutes - noticeDuration[i] < 0)
+            continue;
+          Database.Insert("timers", "fingerprint", startTime.ToStringI("yyyyMMddHHmmss"),
+                                    "nick", "#howdy",
+                                    "name", (string)nextEvent["id"],
+                                    "duration", (((int)(startTime - DateTime.Now).TotalMinutes - noticeDuration[i]) * 60 + 60).ToString(),
+                                    "started", DateTime.Now.ToStringI("yyyyMMddHHmmss"));
+        }
+      } catch (Exception e) {
+        throw e;
+      }
+    }
+
     void _timerMain_Tick(object sender, EventArgs e) {
       // GE check every 5 minutes
       if (DateTime.UtcNow.Second == 0 && DateTime.UtcNow.Minute % 5 == 0) {
         ThreadPool.QueueUserWorkItem(_updateGE);
+      }
+
+      // Event check every hour
+      if (DateTime.UtcNow.Second == 0 && DateTime.UtcNow.Minute == 0) {
+          ThreadPool.QueueUserWorkItem(_checkEvent);
       }
 
       // Forum check every minute
@@ -160,19 +202,35 @@ namespace Supay.Bot {
 
       if (_irc != null) {
         // check for pending timers
+
         SQLiteDataReader rsTimer = Database.ExecuteReader("SELECT fingerprint, nick, name, duration, started FROM timers;");
         while (rsTimer.Read()) {
           if (DateTime.Now >= rsTimer.GetString(4).ToDateTime().AddSeconds(rsTimer.GetInt32(3))) {
             string fingerprint = rsTimer.GetString(0);
             string nick = rsTimer.GetString(1);
 
-            foreach (User u in _irc.Peers) {
-              if (u.FingerPrint == fingerprint || u.Nick == nick) {
-                Database.ExecuteNonQuery("DELETE FROM timers WHERE fingerprint='" + fingerprint + "' AND started='" + rsTimer.GetString(4) + "';");
-                _irc.Send(new NoticeMessage("\\c07{0}\\c timer ended for \\b{1}\\b.".FormatWith(rsTimer.GetString(2), u.Nick), u.Nick));
-                _irc.SendChat("\\c07{0}\\c timer ended for \\b{1}\\b.".FormatWith(rsTimer.GetString(2), u.Nick), u.Nick);
+            if (!nick.StartsWith("#")) {
+              foreach (User u in _irc.Peers) {
+                if (u.FingerPrint == fingerprint || u.Nick == nick) {
+                  Database.ExecuteNonQuery("DELETE FROM timers WHERE fingerprint='" + fingerprint + "' AND started='" + rsTimer.GetString(4) + "';");
+                  _irc.Send(new NoticeMessage("\\c07{0}\\c timer ended for \\b{1}\\b.".FormatWith(rsTimer.GetString(2), u.Nick), u.Nick));
+                  _irc.SendChat("\\c07{0}\\c timer ended for \\b{1}\\b.".FormatWith(rsTimer.GetString(2), u.Nick), u.Nick);
+                }
+              }
+            } else {
+              DateTime startTime = DateTime.ParseExact(rsTimer.GetString(4), "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+              DateTime fingerDate = DateTime.ParseExact(rsTimer.GetString(0), "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+              foreach (Channel c in _irc.Channels) {
+                if (c.Name == nick) {
+                  Database.ExecuteNonQuery("DELETE FROM timers WHERE nick='" + nick + "' AND name='" + rsTimer.GetString(2) + "' AND duration='" + rsTimer.GetInt32(3) + "';");
+                  if (rsTimer.GetInt32(3) < 3600)
+                    _irc.Send(new NoticeMessage("Next event starts in \\c07{0}\\c for more information type !event".FormatWith((fingerDate - DateTime.Now).ToLongString()), c.Name));
+                  else
+                    _irc.SendChat("Next event starts in \\c07{0}\\c for more information type !event".FormatWith((fingerDate - DateTime.Now).ToLongString()), c.Name);
+                }
               }
             }
+
           }
         }
         rsTimer.Close();
@@ -216,7 +274,7 @@ namespace Supay.Bot {
     private void Main_FormClosing(object sender, FormClosingEventArgs e) {
       // Quit IRC.
       if (_irc.Connection.Status == Supay.Irc.Network.ConnectionStatus.Connected)
-        _irc.SendQuit("Copyright (c) _aLfa_ and P_Gertrude 2006 - 2009");
+        _irc.SendQuit("Copyright (c) _aLfa_ and P_Gertrude 2006 - 2010");
 
       // Persist application settings.
       Properties.Settings.Default.Save();
@@ -409,6 +467,12 @@ namespace Supay.Bot {
             case "SSSTATS":
             case "SSINFO":
               ThreadUtil.FireAndForget(Command.ClanStats, bc);
+              break;
+            case "EVENT":
+            case "EVENTS":
+            case "NEXTEVENT":
+            case "NEXTEVENTS":
+              ThreadUtil.FireAndForget(Command.Event, bc);
               break;
 
             // Grand Exchange
