@@ -138,7 +138,7 @@ namespace Supay.Bot {
     }
 
     private void _checkEvent(object stateInfo) {
-      const string mainChannel = "#howdy";
+      const string mainChannel = "#skillers";
       if (_irc.Channels.Find(mainChannel) == null) {
         return;
       }
@@ -146,7 +146,7 @@ namespace Supay.Bot {
       try {
         string desc, url;
         DateTime startTime;
-        string eventPage = new System.Net.WebClient().DownloadString("http://ss.rsportugal.org/parser.php?type=event&channel=" + System.Web.HttpUtility.UrlEncode("#skillers"));
+        string eventPage = new System.Net.WebClient().DownloadString("http://ss.rsportugal.org/parser.php?type=event&channel=" + System.Web.HttpUtility.UrlEncode(mainChannel));
         JObject nextEvent = JObject.Parse(eventPage);
 
         startTime = DateTime.ParseExact((string)nextEvent["startTime"], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
@@ -163,13 +163,12 @@ namespace Supay.Bot {
           if ((int)(startTime - DateTime.Now).TotalMinutes - noticeDuration[i] < 0)
             continue;
           Database.Insert("timers", "fingerprint", startTime.ToStringI("yyyyMMddHHmmss"),
-                                    "nick", "#howdy",
+                                    "nick", "#skillers",
                                     "name", (string)nextEvent["id"],
                                     "duration", (((int)(startTime - DateTime.Now).TotalMinutes - noticeDuration[i]) * 60 + 60).ToString(),
                                     "started", DateTime.Now.ToStringI("yyyyMMddHHmmss"));
         }
-      } catch (Exception e) {
-        throw e;
+      } catch {
       }
     }
 
@@ -220,6 +219,8 @@ namespace Supay.Bot {
             } else {
               DateTime startTime = DateTime.ParseExact(rsTimer.GetString(4), "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
               DateTime fingerDate = DateTime.ParseExact(rsTimer.GetString(0), "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+              if (DateTime.Now.AddMinutes(-5) > fingerDate)
+                continue;
               foreach (Channel c in _irc.Channels) {
                 if (c.Name == nick) {
                   Database.ExecuteNonQuery("DELETE FROM timers WHERE nick='" + nick + "' AND name='" + rsTimer.GetString(2) + "' AND duration='" + rsTimer.GetInt32(3) + "';");
