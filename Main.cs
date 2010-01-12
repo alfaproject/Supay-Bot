@@ -160,13 +160,13 @@ namespace Supay.Bot {
 
         int[] noticeDuration = new int[] { 1440 , 720 , 360 , 180 , 90 , 60 , 40 , 20 , 10 , 5 };
         for (int i = 0; i < 10; i++) {
-          if ((int)(startTime - DateTime.Now).TotalMinutes - noticeDuration[i] < 0)
+          if ((int)(startTime - DateTime.UtcNow).TotalMinutes - noticeDuration[i] < 0)
             continue;
           Database.Insert("timers", "fingerprint", startTime.ToStringI("yyyyMMddHHmmss"),
                                     "nick", "#skillers",
                                     "name", (string)nextEvent["id"],
-                                    "duration", (((int)(startTime - DateTime.Now).TotalMinutes - noticeDuration[i]) * 60 + 60).ToString(),
-                                    "started", DateTime.Now.ToStringI("yyyyMMddHHmmss"));
+                                    "duration", (((int)(startTime - DateTime.UtcNow).TotalMinutes - noticeDuration[i]) * 60 + 60).ToString(),
+                                    "started", DateTime.UtcNow.ToStringI("yyyyMMddHHmmss"));
         }
       } catch {
       }
@@ -204,7 +204,7 @@ namespace Supay.Bot {
 
         SQLiteDataReader rsTimer = Database.ExecuteReader("SELECT fingerprint, nick, name, duration, started FROM timers;");
         while (rsTimer.Read()) {
-          if (DateTime.Now >= rsTimer.GetString(4).ToDateTime().AddSeconds(rsTimer.GetInt32(3))) {
+          if (DateTime.UtcNow >= rsTimer.GetString(4).ToDateTime().AddSeconds(rsTimer.GetInt32(3))) {
             string fingerprint = rsTimer.GetString(0);
             string nick = rsTimer.GetString(1);
 
@@ -219,15 +219,15 @@ namespace Supay.Bot {
             } else {
               DateTime startTime = DateTime.ParseExact(rsTimer.GetString(4), "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
               DateTime fingerDate = DateTime.ParseExact(rsTimer.GetString(0), "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
-              if (DateTime.Now.AddMinutes(-5) > fingerDate)
+              if (DateTime.UtcNow.AddMinutes(-5) > fingerDate)
                 continue;
               foreach (Channel c in _irc.Channels) {
-                if (c.Name == nick) {
+                if (c.Name.ToLowerInvariant() == nick) {
                   Database.ExecuteNonQuery("DELETE FROM timers WHERE nick='" + nick + "' AND name='" + rsTimer.GetString(2) + "' AND duration='" + rsTimer.GetInt32(3) + "';");
                   if (rsTimer.GetInt32(3) < 3600)
-                    _irc.Send(new NoticeMessage("Next event starts in \\c07{0}\\c for more information type !event".FormatWith((fingerDate - DateTime.Now).ToLongString()), c.Name));
+                    _irc.Send(new NoticeMessage("Next event starts in \\c07{0}\\c for more information type !event".FormatWith((fingerDate - DateTime.UtcNow).ToLongString()), c.Name));
                   else
-                    _irc.SendChat("Next event starts in \\c07{0}\\c for more information type !event".FormatWith((fingerDate - DateTime.Now).ToLongString()), c.Name);
+                    _irc.SendChat("Next event starts in \\c07{0}\\c for more information type !event".FormatWith((fingerDate - DateTime.UtcNow).ToLongString()), c.Name);
                 }
               }
             }

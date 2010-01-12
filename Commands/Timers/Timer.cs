@@ -14,7 +14,7 @@ namespace Supay.Bot {
           timers++;
           DateTime start = rsTimer.GetString(2).ToDateTime();
           DateTime end = start.AddSeconds(rsTimer.GetDouble(1));
-          reply += " \\b#{0}\\b timer (\\c07{1}\\c) ends in \\c07{2}\\c, at \\c07{3}\\c;".FormatWith(timers, rsTimer.GetString(0), (end - DateTime.Now).ToLongString(), end.ToStringI("yyyy/MM/dd HH:mm:ss"));
+          reply += " \\b#{0}\\b timer (\\c07{1}\\c) ends in \\c07{2}\\c, at \\c07{3}\\c;".FormatWith(timers, rsTimer.GetString(0), (end - DateTime.UtcNow).ToLongString(), end.ToStringI("yyyy/MM/dd HH:mm:ss"));
         }
         rsTimer.Close();
         if (timers > 0)
@@ -58,8 +58,8 @@ namespace Supay.Bot {
                                 "nick", bc.From.Nick,
                                 "name", name,
                                 "duration", (duration * 60).ToStringI(),
-                                "started", DateTime.Now.ToStringI("yyyyMMddHHmmss"));
-      bc.SendReply("Timer started to \\b{0}\\b. Timer will end at \\c07{1}\\c.".FormatWith(bc.From.Nick, DateTime.Now.AddMinutes(duration).ToStringI("yyyy/MM/dd HH:mm:ss")));
+                                "started", DateTime.UtcNow.ToStringI("yyyyMMddHHmmss"));
+      bc.SendReply("Timer started to \\b{0}\\b. Timer will end at \\c07{1}\\c.".FormatWith(bc.From.Nick, DateTime.UtcNow.AddMinutes(duration).ToStringI("yyyy/MM/dd HH:mm:ss")));
     }
 
   } //class Command

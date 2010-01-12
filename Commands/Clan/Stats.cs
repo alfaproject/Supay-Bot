@@ -33,7 +33,7 @@ namespace Supay.Bot {
         startTime = DateTime.ParseExact((string)nextEvent["startTime"], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
         desc = (string)nextEvent["desc"];
         url = (string)nextEvent["url"];
-        bc.SendReply("Next event: \\c07{0}\\c starts in \\c07{1}\\c for more information: \\c12{2}\\c".FormatWith(desc, (startTime - DateTime.Now).ToLongString(), url));
+        bc.SendReply("Next event: \\c07{0}\\c starts in \\c07{1}\\c for more information: \\c12{2}\\c".FormatWith(desc, (startTime - DateTime.UtcNow).ToLongString(), url));
       } catch {
         bc.SendReply("Error retrieving next event.");
         return;
