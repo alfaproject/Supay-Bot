@@ -21,7 +21,8 @@ namespace Supay.Bot {
                              int.Parse(M.Groups[1].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture),
                              int.Parse(M.Groups[3].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture),
                              int.Parse(M.Groups[4].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture)));
-          this[this.Count - 1].RSN = M.Groups[2].Value.Replace(' ', '_');
+          Regex newReg = new Regex(@"\W");
+          this[this.Count - 1].RSN = newReg.Replace(M.Groups[2].Value, "_");
         }
 
       } else {
