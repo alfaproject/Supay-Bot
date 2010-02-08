@@ -72,6 +72,7 @@ namespace Supay.Bot {
     }
 
     public void SortByMinigame(string minigame) {
+      this.RemoveAll(p => !p.Ranked);
       this.Sort((p1, p2) => p1.Minigames[minigame].CompareTo(p2.Minigames[minigame]));
     }
 
