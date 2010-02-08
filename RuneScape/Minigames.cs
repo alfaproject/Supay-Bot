@@ -4,7 +4,7 @@ namespace Supay.Bot {
   class Minigames : Dictionary<string, Minigame> {
 
     public Minigames()
-      : base(5) {
+      : base(9) {
     }
 
   } // class Minigames

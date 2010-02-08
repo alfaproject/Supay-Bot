@@ -9,6 +9,11 @@ namespace Supay.Bot {
     public const string ROGU = "Bounty Hunter Rogues";
     public const string FIST = "Fist of Guthix";
     public const string MOBI = "Mobilising Armies";
+    public const string BAAT = "BA Attacker";
+    public const string BADE = "BA Defender";
+    public const string BACO = "BA Collector";
+    public const string BAHE = "BA Healer";
+
 
     public Minigame(string name, int rank, int score)
       : base(rank) {
@@ -83,6 +88,24 @@ namespace Supay.Bot {
         case "MOBA":
         case "MOBILISINGARMIES":
           return MOBI;
+        case "BAAT":
+        case "BAATT":
+        case "BAATTACK":
+        case "BAATTACKER":
+          return BAAT;
+        case "BADE":
+        case "BADEF":
+        case "BADEFENDER":
+          return BADE;
+        case "BACO":
+        case "BACOL":
+        case "BACOLL":
+        case "BACOLLECTOR":
+          return BACO;
+        case "BAHE":
+        case "BAHEAL":
+        case "BAHEALER":
+          return BAHE;
         default:
           throw new ArgumentException("Input minigame alias is invalid.", "s");
       }
@@ -95,6 +118,10 @@ namespace Supay.Bot {
         case 2: return ROGU;
         case 3: return FIST;
         case 4: return MOBI;
+        case 5: return BAAT;
+        case 6: return BADE;
+        case 7: return BACO;
+        case 8: return BAHE;
         default:
           return "Minigame" + id;
       }
@@ -107,6 +134,10 @@ namespace Supay.Bot {
         case ROGU: return 2;
         case FIST: return 3;
         case MOBI: return 4;
+        case BAAT: return 5;
+        case BADE: return 6;
+        case BACO: return 7;
+        case BAHE: return 8;
         default:
           return -1;
       }

@@ -159,7 +159,11 @@ namespace Supay.Bot {
                                    "bh_rank", _minigames[Minigame.BOUN].Rank.ToStringI(), "bh_score", _minigames[Minigame.BOUN].Score.ToStringI(),
                                    "bhr_rank", _minigames[Minigame.ROGU].Rank.ToStringI(), "bhr_score", _minigames[Minigame.ROGU].Score.ToStringI(),
                                    "fist_rank", _minigames[Minigame.FIST].Rank.ToStringI(), "fist_score", _minigames[Minigame.FIST].Score.ToStringI(),
-                                   "mob_rank", _minigames[Minigame.MOBI].Rank.ToStringI(), "mob_score", _minigames[Minigame.MOBI].Score.ToStringI());
+                                   "mob_rank", _minigames[Minigame.MOBI].Rank.ToStringI(), "mob_score", _minigames[Minigame.MOBI].Score.ToStringI(),
+                                   "baat_rank", _minigames[Minigame.BAAT].Rank.ToStringI(), "baat_score", _minigames[Minigame.BAAT].Score.ToStringI(),
+                                   "bade_rank", _minigames[Minigame.BADE].Rank.ToStringI(), "bade_score", _minigames[Minigame.BADE].Score.ToStringI(),
+                                   "baco_rank", _minigames[Minigame.BACO].Rank.ToStringI(), "baco_score", _minigames[Minigame.BACO].Score.ToStringI(),
+                                   "bahe_rank", _minigames[Minigame.BAHE].Rank.ToStringI(), "bahe_score", _minigames[Minigame.BAHE].Score.ToStringI());
 
         Database.Update("players", "id=" + _id, "lastupdate", s_date);
       }
@@ -267,6 +271,10 @@ namespace Supay.Bot {
           _minigames.Add(Minigame.ROGU, new Minigame(Minigame.ROGU, Convert.ToInt32(rs["bhr_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["bhr_score"], CultureInfo.InvariantCulture)));
           _minigames.Add(Minigame.FIST, new Minigame(Minigame.FIST, Convert.ToInt32(rs["fist_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["fist_score"], CultureInfo.InvariantCulture)));
           _minigames.Add(Minigame.MOBI, new Minigame(Minigame.MOBI, Convert.ToInt32(rs["mob_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["mob_score"], CultureInfo.InvariantCulture)));
+          _minigames.Add(Minigame.BAAT, new Minigame(Minigame.BAAT, Convert.ToInt32(rs["baat_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["baat_score"], CultureInfo.InvariantCulture)));
+          _minigames.Add(Minigame.BADE, new Minigame(Minigame.BADE, Convert.ToInt32(rs["bade_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["bade_score"], CultureInfo.InvariantCulture)));
+          _minigames.Add(Minigame.BACO, new Minigame(Minigame.BACO, Convert.ToInt32(rs["baco_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["baco_score"], CultureInfo.InvariantCulture)));
+          _minigames.Add(Minigame.BAHE, new Minigame(Minigame.BAHE, Convert.ToInt32(rs["bahe_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["bahe_score"], CultureInfo.InvariantCulture)));
 
           // Create combat skill and update combat class
           _CreateCombatSkill();
