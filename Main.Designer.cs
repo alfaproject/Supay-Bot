@@ -27,6 +27,7 @@
       this.splitContainer1 = new System.Windows.Forms.SplitContainer();
       this.tv = new System.Windows.Forms.TreeView();
       this.txt = new System.Windows.Forms.RichTextBox();
+      this.btnReconnect = new System.Windows.Forms.ToolStripMenuItem();
       this.mnu.SuspendLayout();
       this.stbMain.SuspendLayout();
       this.splitContainer1.Panel1.SuspendLayout();
@@ -48,6 +49,7 @@
       // 
       this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnConnect,
+            this.btnReconnect,
             this.toolStripSeparator1,
             this.btnExit});
       this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -57,19 +59,19 @@
       // btnConnect
       // 
       this.btnConnect.Name = "btnConnect";
-      this.btnConnect.Size = new System.Drawing.Size(119, 22);
+      this.btnConnect.Size = new System.Drawing.Size(152, 22);
       this.btnConnect.Text = "&Connect";
       this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
       // 
       // toolStripSeparator1
       // 
       this.toolStripSeparator1.Name = "toolStripSeparator1";
-      this.toolStripSeparator1.Size = new System.Drawing.Size(116, 6);
+      this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
       // 
       // btnExit
       // 
       this.btnExit.Name = "btnExit";
-      this.btnExit.Size = new System.Drawing.Size(119, 22);
+      this.btnExit.Size = new System.Drawing.Size(152, 22);
       this.btnExit.Text = "E&xit";
       this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
       // 
@@ -145,6 +147,13 @@
       this.txt.TabIndex = 0;
       this.txt.Text = "";
       // 
+      // btnReconnect
+      // 
+      this.btnReconnect.Name = "btnReconnect";
+      this.btnReconnect.Size = new System.Drawing.Size(152, 22);
+      this.btnReconnect.Text = "&Reconnect";
+      this.btnReconnect.Click += new System.EventHandler(this.btnReconnect_Click);
+      // 
       // Main
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -187,6 +196,7 @@
     private System.Windows.Forms.RichTextBox txt;
     private System.Windows.Forms.ToolStripStatusLabel lblUtcTimer;
     private System.Windows.Forms.ToolStripStatusLabel lblUpdateTimer;
+    private System.Windows.Forms.ToolStripMenuItem btnReconnect;
   }
 }
 

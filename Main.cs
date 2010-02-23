@@ -682,6 +682,9 @@ namespace Supay.Bot {
             case "SPELLS":
               ThreadUtil.FireAndForget(CmdDataFiles.Spell, bc);
               break;
+            case "TASK":
+              ThreadUtil.FireAndForget(CmdDataFiles.Task, bc);
+              break;
 
             // Others
             case "%":
@@ -833,6 +836,15 @@ namespace Supay.Bot {
     private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e) {
       this.Show();
       this.WindowState = FormWindowState.Normal;
+    }
+
+    private void btnReconnect_Click(object sender, EventArgs e) {
+      if (_irc == null) {
+        btnConnect_Click(sender, e);
+      } else {
+        _irc.Dispose();
+        btnConnect_Click(sender, e);
+      }
     }
 
   }
