@@ -518,5 +518,42 @@ namespace Supay.Bot {
       }
     }
 
+    public static void Task(CommandContext bc) {
+      if (bc.Message.Length < 3) {
+        bc.SendReply("Syntax: !task <qty> <monster>");
+        return;
+      }
+
+      int qty = 1;
+      string monster = string.Empty;
+      if (bc.MessageTokens[1].TryInt32(out qty)) {
+        monster = bc.MessageTokens.Join(2).Trim();
+      } else if (bc.MessageTokens[bc.MessageTokens.GetLength(0) - 1].TryInt32(out qty)) {
+        bc.MessageTokens[bc.MessageTokens.GetLength(0) - 1] = string.Empty;
+        monster = bc.MessageTokens.Join(1).Trim();
+      } else {
+        bc.SendReply("Syntax: !task <qty> <monster>");
+        return;
+      }
+
+      List<SkillItem> items = new SkillItems("Slayer").FindAll(f => f.Name.ContainsI(monster));
+      if (items.Count < 1) {
+        bc.SendReply("No Slayer Monster matching \"\\c07" + monster + "\\c\"");
+        return;
+      }
+      Player p = new Player(bc.FromRsn);
+      if (!p.Ranked) {
+        bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(p.Name));
+        return;
+      }
+
+      int newExp = ((int)(p.Skills[Skill.SLAY].Exp + items[0].Exp * qty));
+
+      string reply = "Next task: \\c07{0} {1}\\c | current exp: \\c07{2:#,##0.#}\\c | experience this task: \\c07{3:#,##0.#}\\c | experience after task: \\c07{4:#,##0.#}\\c | which is level \\c07{5}\\c with \\c07{6:#,##0.#}\\c exp to go.".FormatWith(
+                        qty, items[0].Name, p.Skills[Skill.SLAY].Exp, (items[0].Exp * qty), newExp, newExp.ToLevel(), ((newExp.ToLevel() + 1).ToExp() - newExp));
+
+      bc.SendReply(reply);
+    }
+
   } //class CmdDataFiles
 } //namespace Supay.Bot
