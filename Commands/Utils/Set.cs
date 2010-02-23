@@ -26,6 +26,9 @@ namespace Supay.Bot {
         case "SKILL":
           _SetSkill(bc);
           break;
+        case "@":
+          _SetSkillToggle(bc);
+          break;
         default:
           bc.SendReply("Error: Unknown parameter.");
           break;
@@ -174,9 +177,32 @@ namespace Supay.Bot {
       }
     }
 
+    private static void _SetSkillToggle(CommandContext bc) {
+      if (bc.MessageTokens.Length < 3 || (bc.MessageTokens[2].ToLowerInvariant() != "on" && bc.MessageTokens[2].ToLowerInvariant() != "off")) {
+        bc.SendReply("Syntax: !set @ <on|off>");
+        return;
+      }
+      string state = bc.MessageTokens[2].ToLowerInvariant();
+      // Add this player to database if he never set a default name.
+      if (Database.GetString("SELECT fingerprint FROM users WHERE fingerprint='" + bc.From.FingerPrint + "'", null) == null) {
+        Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.FromRsn);
+      }
+      string publicSkill = "1";
+      if (state == "off") {
+        publicSkill = "0";
+      }
+      Database.Update("users", "fingerprint='" + bc.From.FingerPrint + "'", "publicSkill", publicSkill);
+      bc.SendReply("Your public trigger-only command have been turned " + state + ".");
+    }
+
     private static void _SetSkill(CommandContext bc) {
       if (bc.MessageTokens.Length < 3) {
         bc.SendReply("Syntax: !set skill <skill>");
+        return;
+      }
+
+      if (bc.MessageTokens[2].ToLowerInvariant() == "on" || bc.MessageTokens[2].ToLowerInvariant() == "off") {
+        _SetSkillToggle(bc);
         return;
       }
 
