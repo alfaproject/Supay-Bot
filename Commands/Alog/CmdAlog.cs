@@ -64,6 +64,7 @@ namespace Supay.Bot {
         M = Regex.Match(item.Title, levelRegex);
         if (M.Success) {
           AlogItem level = new AlogItem(item, M, "I gained");
+          level.Info[0] = Skill.Parse(level.Info[0]);
           if (alogItems["I gained"].ContainsKey(level.Info[0])) {
             alogItems["I gained"][level.Info[0]].Amount++;
           } else {
