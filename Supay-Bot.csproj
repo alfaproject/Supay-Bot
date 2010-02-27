@@ -90,6 +90,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Alog\AlogItem.cs" />
+    <Compile Include="Commands\Alog\CmdAlog.cs" />
+    <Compile Include="Commands\Alog\Rss.cs" />
     <Compile Include="Commands\Clan\Performance.cs" />
     <Compile Include="Commands\Clan\Top.cs" />
     <Compile Include="Commands\CommandContext.cs" />
@@ -230,6 +233,9 @@
       <Project>{DF3020D5-AA48-4A61-9C0B-4F7A2C9D08CE}</Project>
       <Name>Supay-IRC</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Commands\NewFolder1\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
