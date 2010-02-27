@@ -344,14 +344,13 @@ namespace Supay.Bot {
 
           if (bc.MessageTokens[0].Length == 0) {
             SQLiteDataReader defaultSkillInfo = Database.ExecuteReader("SELECT skill, publicSkill FROM users WHERE fingerprint='" + e.Message.Sender.FingerPrint + "';");
-            while (defaultSkillInfo.Read()) {
-              if (defaultSkillInfo.GetString(0) != null) {
+            if (defaultSkillInfo.Read()) {
+              if (!(defaultSkillInfo.GetValue(0) is DBNull)) {
                 if (defaultSkillInfo.GetInt32(1) == 0) {
                   bc = new CommandContext(_irc, _irc.Peers, e.Message.Sender, _irc.Channels.Find(e.Message.Targets[0]), ".");
                 }
                 bc.MessageTokens[0] = defaultSkillInfo.GetString(0);
               }
-              break;
             }
           }
 
