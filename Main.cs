@@ -691,6 +691,12 @@ namespace Supay.Bot {
               ThreadUtil.FireAndForget(CmdDataFiles.Task, bc);
               break;
 
+            // Alog
+            case "ALOG":
+            case "ACHIEVEMENTLOG":
+              ThreadUtil.FireAndForget(CmdAlog.Alog, bc);
+              break;
+
             // Others
             case "%":
               ThreadUtil.FireAndForget(CmdOthers.Percent, bc);
