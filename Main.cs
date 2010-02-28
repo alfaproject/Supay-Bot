@@ -210,10 +210,10 @@ namespace Supay.Bot {
 
             if (!nick.StartsWith("#")) {
               foreach (User u in _irc.Peers) {
-                if (u.FingerPrint == fingerprint || u.Nick == nick) {
+                if (u.FingerPrint == fingerprint || u.Nickname == nick) {
                   Database.ExecuteNonQuery("DELETE FROM timers WHERE fingerprint='" + fingerprint + "' AND started='" + rsTimer.GetString(4) + "';");
-                  _irc.Send(new NoticeMessage("\\c07{0}\\c timer ended for \\b{1}\\b.".FormatWith(rsTimer.GetString(2), u.Nick), u.Nick));
-                  _irc.SendChat("\\c07{0}\\c timer ended for \\b{1}\\b.".FormatWith(rsTimer.GetString(2), u.Nick), u.Nick);
+                  _irc.Send(new NoticeMessage("\\c07{0}\\c timer ended for \\b{1}\\b.".FormatWith(rsTimer.GetString(2), u.Nickname), u.Nickname));
+                  _irc.SendChat("\\c07{0}\\c timer ended for \\b{1}\\b.".FormatWith(rsTimer.GetString(2), u.Nickname), u.Nickname);
                 }
               }
             } else {
@@ -258,6 +258,10 @@ namespace Supay.Bot {
 
       _irc.Messages.Chat += new EventHandler<IrcMessageEventArgs<TextMessage>>(IrcChat);
       _irc.Messages.NamesEndReply += new EventHandler<IrcMessageEventArgs<NamesEndReplyMessage>>(Irc_NamesEndReply);
+
+      _irc.Connection.Disconnected += delegate(object dsender, Irc.Network.ConnectionDataEventArgs devent) {
+        txt.Invoke(new delOutputMessage(_OutputMessage), "[DISCONNECTED] " + devent.Data);
+      };
 
       try {
         // Since I'm a Windows.Forms application, I pass in this form to the Connect method so it can sync with me.
@@ -306,7 +310,7 @@ namespace Supay.Bot {
     }
 
     void IrcChat(object sender, IrcMessageEventArgs<TextMessage> e) {
-      if (e.Message.Targets[0].EqualsI(_irc.User.Nick)) {
+      if (e.Message.Targets[0].EqualsI(_irc.User.Nickname)) {
         // private message
         if (!Utils.UserIsAdmin(e.Message.Sender)) {
           return;
@@ -329,8 +333,8 @@ namespace Supay.Bot {
             foreach (Channel c in _irc.Channels) {
               users = "";
               foreach (User u in c.Users)
-                users += " " + u.Nick;
-              _irc.SendChat(c.Name + " » " + users.Trim(), e.Message.Sender.Nick);
+                users += " " + u.Nickname;
+              _irc.SendChat(c.Name + " » " + users.Trim(), e.Message.Sender.Nickname);
             }
             break;
         }
@@ -691,12 +695,6 @@ namespace Supay.Bot {
               ThreadUtil.FireAndForget(CmdDataFiles.Task, bc);
               break;
 
-            // Alog
-            case "ALOG":
-            case "ACHIEVEMENTLOG":
-              ThreadUtil.FireAndForget(CmdAlog.Alog, bc);
-              break;
-
             // Others
             case "%":
               ThreadUtil.FireAndForget(CmdOthers.Percent, bc);
@@ -807,7 +805,7 @@ namespace Supay.Bot {
           MathParser c = new MathParser();
           c.Evaluate(msg);
           if (c.LastError == null && c.Operations > 0)
-            _irc.Send(new NoticeMessage(c.Expression + " => " + c.ValueAsString, e.Message.Sender.Nick));
+            _irc.Send(new NoticeMessage(c.Expression + " => " + c.ValueAsString, e.Message.Sender.Nickname));
         }
 
       }

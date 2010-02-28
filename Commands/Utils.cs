@@ -9,24 +9,24 @@ namespace Supay.Bot {
 
     public static string UserToRsn(User user) {
       if (string.IsNullOrEmpty(user.FingerPrint)) {
-        return user.Nick.ToRsn();
+        return user.Nickname.ToRsn();
       }
 
       string rsn = (string)Database.GetValue("users", "rsn", "fingerprint='" + user.FingerPrint + "'");
       if (rsn == null) {
-        return user.Nick.ToRsn();
+        return user.Nickname.ToRsn();
       } else {
         return rsn;
       }
     }
 
     public static bool UserIsAdmin(User user) {
-      if (user.Nick.EqualsI("_aLfa_") || user.Nick.EqualsI("_aLfa_|work") || user.Nick.EqualsI("P_Gertrude")) {
+      if (user.Nickname.EqualsI("_aLfa_") || user.Nickname.EqualsI("_aLfa_|work") || user.Nickname.EqualsI("P_Gertrude")) {
         return true;
       }
 
       foreach (string admin in Properties.Settings.Default.Administrators.Split(';')) {
-        if (user.Nick.EqualsI(admin)) {
+        if (user.Nickname.EqualsI(admin)) {
           return true;
         }
       }

@@ -101,10 +101,10 @@ namespace Supay.Bot {
 
     public void SendReply(string message) {
       if (_replyNotice) {
-        _irc.Send(new NoticeMessage(message, this.From.Nick));
+        _irc.Send(new NoticeMessage(message, this.From.Nickname));
       } else {
         if (_channel == null) {
-          _irc.SendChat(message, this.From.Nick);
+          _irc.SendChat(message, this.From.Nickname);
         } else {
           _irc.SendChat(message, _channel.Name);
         }

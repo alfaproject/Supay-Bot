@@ -7,7 +7,7 @@ namespace Supay.Bot {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void Timer(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
-        SQLiteDataReader rsTimer = Database.ExecuteReader("SELECT name, duration, started FROM timers WHERE fingerprint='" + bc.From.FingerPrint + "' OR nick='" + bc.From.Nick + "';");
+        SQLiteDataReader rsTimer = Database.ExecuteReader("SELECT name, duration, started FROM timers WHERE fingerprint='" + bc.From.FingerPrint + "' OR nick='" + bc.From.Nickname + "';");
         int timers = 0;
         string reply = string.Empty;
         while (rsTimer.Read()) {
@@ -55,11 +55,11 @@ namespace Supay.Bot {
 
       // start a new timer for this duration
       Database.Insert("timers", "fingerprint", bc.From.FingerPrint,
-                                "nick", bc.From.Nick,
+                                "nick", bc.From.Nickname,
                                 "name", name,
                                 "duration", (duration * 60).ToStringI(),
                                 "started", DateTime.UtcNow.ToStringI("yyyyMMddHHmmss"));
-      bc.SendReply("Timer started to \\b{0}\\b. Timer will end at \\c07{1}\\c.".FormatWith(bc.From.Nick, DateTime.UtcNow.AddMinutes(duration).ToStringI("yyyy/MM/dd HH:mm:ss")));
+      bc.SendReply("Timer started to \\b{0}\\b. Timer will end at \\c07{1}\\c.".FormatWith(bc.From.Nickname, DateTime.UtcNow.AddMinutes(duration).ToStringI("yyyy/MM/dd HH:mm:ss")));
     }
 
   } //class Command
