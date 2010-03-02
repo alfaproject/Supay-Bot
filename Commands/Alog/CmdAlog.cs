@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
 namespace Supay.Bot {
-  static class CmdAlog {
+  static partial class Command {
 
     public static void Alog(CommandContext bc) {
       string rsn = bc.FromRsn;
@@ -23,6 +23,8 @@ namespace Supay.Bot {
       List<Rss.Item> list = reader.RssItems;
       Player p = new Player(rsn);
       list.Sort((i1, i2) => i2.Date.CompareTo(i1.Date));
+      if (list.Count > 15)
+        list.RemoveAll(i => i.Date < list[14].Date);
       if (list.Count == 0 || !p.Ranked) {
         bc.SendReply("alog for \\c07" + rsn + "\\c is unreachable at this time, the player may be f2p, have their alog on private, or may be misspelled... Or just have no recent achievements.");
         return;
@@ -52,7 +54,7 @@ namespace Supay.Bot {
         M = Regex.Match(item.Title, killRegex);
         if (M.Success) {
           AlogItem kill = new AlogItem(item, M, "I killed");
-          string npc = kill.Info[0];
+          string npc = Regex.Replace(kill.Info[0], @"\W", " ");
           if (alogItems["I killed"].ContainsKey(npc)) {
             alogItems["I killed"][npc].Amount += kill.Amount;
           } else {
@@ -122,5 +124,5 @@ namespace Supay.Bot {
       bc.SendReply(reply.Trim());
     }
 
-  } //class CmdAlog
+  } //class Command
 } //namespace Supay.Bot
