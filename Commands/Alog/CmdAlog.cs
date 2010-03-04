@@ -14,7 +14,7 @@ namespace Supay.Bot {
       if (timeInterval.Success) {
         TimeInterval timePeriod = new TimeInterval();
         if (timePeriod.Parse(timeInterval.Groups[1].Value)) {
-          timeSpan = timePeriod.Time;
+          timeSpan = (int)timePeriod.Time.TotalSeconds;
           timeSpanName = timePeriod.Name;
         } else if (timeInterval.Groups[1].Value == "all") {
           timeSpan = int.MaxValue;
