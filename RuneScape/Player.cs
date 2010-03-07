@@ -174,7 +174,7 @@ namespace Supay.Bot {
       time = (int)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds - time;
       try {
         // Get the tracker SOAP for this RSN
-        RuneScript.skills RScriptSkills = new RuneScript.RScriptLookup().trackGetTimeAll(rsn, time);
+        RuneScript.skills RScriptSkills = new RuneScript.RScriptLookupPortTypeClient().trackGetTimeAll(rsn, time);
 
         // Initialize variables
         _skills = new Skills();
@@ -182,7 +182,7 @@ namespace Supay.Bot {
         _skills.Add(Skill.ATTA, new Skill(Skill.ATTA, RScriptSkills.attack.rank, RScriptSkills.attack.exp));
         _skills.Add(Skill.DEFE, new Skill(Skill.DEFE, RScriptSkills.defence.rank, RScriptSkills.defence.exp));
         _skills.Add(Skill.STRE, new Skill(Skill.STRE, RScriptSkills.strength.rank, RScriptSkills.strength.exp));
-        _skills.Add(Skill.HITP, new Skill(Skill.HITP, RScriptSkills.hitpoints.rank, RScriptSkills.hitpoints.exp));
+        _skills.Add(Skill.HITP, new Skill(Skill.HITP, RScriptSkills.constitution.rank, RScriptSkills.constitution.exp));
         _skills.Add(Skill.RANG, new Skill(Skill.RANG, RScriptSkills.ranged.rank, RScriptSkills.ranged.exp));
         _skills.Add(Skill.PRAY, new Skill(Skill.PRAY, RScriptSkills.prayer.rank, RScriptSkills.prayer.exp));
         _skills.Add(Skill.MAGI, new Skill(Skill.MAGI, RScriptSkills.magic.rank, RScriptSkills.magic.exp));
@@ -340,7 +340,7 @@ namespace Supay.Bot {
 
     private static void _updateRuneScriptTracker(object rsn) {
       try {
-        new RuneScript.RScriptLookup().trackUpdateUser((string)rsn);
+        new RuneScript.RScriptLookupPortTypeClient().trackUpdateUser((string)rsn);
       } catch {
       }
     }
