@@ -51,6 +51,44 @@ namespace Supay.Bot {
       }
     }
 
+    public static void Rename(CommandContext bc) {
+      if (!bc.FromIsAdmin) {
+        return;
+      }
+
+      if (bc.MessageTokens.Length < 2) {
+        bc.SendReply("Syntax: !Rename <old_rsn> <new_rsn>");
+      }
+
+      string oldRsn = bc.MessageTokens[1].ToRsn();
+      string newRsn = bc.MessageTokens.Join(2).ToRsn();
+
+      int oldPlayerId = Database.GetInteger("SELECT id FROM players WHERE rsn='" + oldRsn + "'", -1);
+      if (oldPlayerId == -1) {
+        bc.SendReply(@"Player \b{0}\b wasn't being tracked.".FormatWith(oldRsn));
+        return;
+      }
+
+      int newPlayerId = Database.GetInteger("SELECT id FROM players WHERE rsn='" + newRsn + "'", -1);
+
+      // check if the new player already exists in the database
+      if (newPlayerId != -1) {
+        // delete the first record of the new player to prevent merge conflicts
+        Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + newPlayerId + " AND date=(SELECT date FROM tracker WHERE pid=" + newPlayerId + " ORDER BY date LIMIT 1)");
+
+        // merge both players data under the old player id
+        Database.Update("tracker", "pid=" + newPlayerId, "pid", oldPlayerId.ToStringI());
+
+        // remove the new player name
+        Database.ExecuteNonQuery("DELETE FROM players WHERE id=" + newPlayerId);
+      }
+
+      // rename the old player name with the new one
+      Database.Update("players", "id=" + oldPlayerId, "rsn", newRsn);
+
+      bc.SendReply(@"Player \b{0}\b was renamed or merged to \b{1}\b. If this player was in a clan, please double check his clan status.".FormatWith(oldRsn, newRsn));
+    }
+
     public static void RemoveTrackerFromClan(CommandContext bc) {
       if (!bc.FromIsAdmin)
         return;

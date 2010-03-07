@@ -42,12 +42,12 @@ namespace Supay.Bot {
     }
 
     public static int GetInteger(string sql, int defaultValue) {
-      SQLiteCommand com = new SQLiteCommand(sql, Database.Instance.Connection);
+      SQLiteCommand com = new SQLiteCommand(sql, Instance.Connection);
       object result = com.ExecuteScalar();
-      if (result == null)
+      if (result == null || result is DBNull) {
         return defaultValue;
-      else
-        return Convert.ToInt32(result, CultureInfo.InvariantCulture);
+      }
+      return Convert.ToInt32(result, CultureInfo.InvariantCulture);
     }
 
     public static string GetString(string sql, string defaultValue) {

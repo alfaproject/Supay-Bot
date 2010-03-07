@@ -36,7 +36,7 @@ namespace Supay.Bot {
       TimeSpan nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, updateTime.Hours, updateTime.Minutes, updateTime.Seconds).Subtract(DateTime.UtcNow);
       if (nextMorning.Ticks < 0) {
         nextMorning += TimeSpan.FromDays(1.0);
-        
+
         // update all missing players
         ThreadPool.QueueUserWorkItem(_updatePlayers);
       }
@@ -387,6 +387,10 @@ namespace Supay.Bot {
               break;
             case "REMOVETRACKER":
               ThreadUtil.FireAndForget(CmdTracker.Remove, bc);
+              break;
+            case "TRACKERRENAME":
+            case "TRACKERMERGE":
+              ThreadUtil.FireAndForget(CmdTracker.Rename, bc);
               break;
             case "REMOVETRACKERFROMCLAN":
               ThreadUtil.FireAndForget(CmdTracker.RemoveTrackerFromClan, bc);
