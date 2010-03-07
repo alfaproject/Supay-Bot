@@ -76,17 +76,17 @@ namespace Supay.Bot {
         // delete the first record of the new player to prevent merge conflicts
         Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + newPlayerId + " AND date=(SELECT date FROM tracker WHERE pid=" + newPlayerId + " ORDER BY date LIMIT 1)");
 
-        // merge both players data under the old player id
-        Database.Update("tracker", "pid=" + newPlayerId, "pid", oldPlayerId.ToStringI());
+        // merge both players data under the new player id
+        Database.Update("tracker", "pid=" + oldPlayerId, "pid", newPlayerId.ToStringI());
 
-        // remove the new player name
-        Database.ExecuteNonQuery("DELETE FROM players WHERE id=" + newPlayerId);
+        // remove the old player name
+        Database.ExecuteNonQuery("DELETE FROM players WHERE id=" + oldPlayerId);
+      } else {
+        // rename the old player name with the new one
+        Database.Update("players", "id=" + oldPlayerId, "rsn", newRsn);
       }
 
-      // rename the old player name with the new one
-      Database.Update("players", "id=" + oldPlayerId, "rsn", newRsn);
-
-      bc.SendReply(@"Player \b{0}\b was renamed or merged to \b{1}\b. If this player was in a clan, please double check his clan status.".FormatWith(oldRsn, newRsn));
+      bc.SendReply(@"Player \b{0}\b was renamed or merged to \b{1}\b.".FormatWith(oldRsn, newRsn));
     }
 
     public static void RemoveTrackerFromClan(CommandContext bc) {
