@@ -21,10 +21,10 @@ namespace Supay.Bot {
       if (M.Success) {
         lat1 = int.Parse(M.Groups[1].Value, CultureInfo.InvariantCulture);
         lat2 = int.Parse(M.Groups[2].Value, CultureInfo.InvariantCulture);
-        lat = M.Groups[3].Value[0];
+        lat = char.ToUpper(M.Groups[3].Value[0]);
         lon1 = int.Parse(M.Groups[4].Value, CultureInfo.InvariantCulture);
         lon2 = int.Parse(M.Groups[5].Value, CultureInfo.InvariantCulture);
-        lon = M.Groups[6].Value[0];
+        lon = char.ToUpper(M.Groups[6].Value[0]);
 
         StreamReader clueFile = new StreamReader("Data/Clues.txt");
         string clueLine;

@@ -1,11 +1,28 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using System.Globalization;
 using System.Collections.Generic;
 
 namespace Supay.Bot {
-  static class CmdAlog {
+  static partial class Command {
 
     public static void Alog(CommandContext bc) {
+
+      int timeSpan = 0;
+      string timeSpanName = string.Empty;
+      Match timeInterval = Regex.Match(bc.Message, @"@(.+?)( |$)");
+      if (timeInterval.Success) {
+        TimeInterval timePeriod = new TimeInterval();
+        if (timePeriod.Parse(timeInterval.Groups[1].Value)) {
+          timeSpan = (int)timePeriod.Time.TotalSeconds;
+          timeSpanName = timePeriod.Name;
+        } else if (timeInterval.Groups[1].Value == "all") {
+          timeSpan = int.MaxValue;
+        }
+        bc.Message = Regex.Replace(bc.Message, @"@(.+?)( |$)", string.Empty, RegexOptions.IgnoreCase);
+        bc.Message = bc.Message.Trim();
+      }
+
       string rsn = bc.FromRsn;
       if (bc.MessageTokens.GetLength(0) > 1) {
         rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
@@ -16,15 +33,21 @@ namespace Supay.Bot {
         string url = "http://services.runescape.com/m=adventurers-log/rssfeed?searchName=" + rsn;
         reader = new RssManager(url);
       } catch {
-        bc.SendReply("alog for \\c07" + rsn + "\\c is unreachable at this time, the player may be f2p, have their alog on private, or may be misspelled.");
+        bc.SendReply("No achievements found for \\c07" + rsn + "\\c" + (timeSpanName != string.Empty ? "in " + timeSpanName : "") + ". The profile may be private, the player may be f2p, or the rsn incorrect.");
         return;
       }
       reader.GetFeed();
       List<Rss.Item> list = reader.RssItems;
       Player p = new Player(rsn);
       list.Sort((i1, i2) => i2.Date.CompareTo(i1.Date));
+      if (timeSpan > 0) {
+        list.RemoveAll(i => (DateTime.UtcNow - i.Date).TotalSeconds > timeSpan);
+      } else if (list.Count > 15) {
+        list.RemoveAll(i => i.Date < list[14].Date);
+        timeSpanName = "recent";
+      }
       if (list.Count == 0 || !p.Ranked) {
-        bc.SendReply("alog for \\c07" + rsn + "\\c is unreachable at this time, the player may be f2p, have their alog on private, or may be misspelled... Or just have no recent achievements.");
+        bc.SendReply("No achievements found for \\c07" + rsn + "\\c" + (timeSpanName != string.Empty ? "in " + timeSpanName : "") + ". The profile may be private, the player may be f2p, or the rsn incorrect.");
         return;
       }
 
@@ -52,7 +75,7 @@ namespace Supay.Bot {
         M = Regex.Match(item.Title, killRegex);
         if (M.Success) {
           AlogItem kill = new AlogItem(item, M, "I killed");
-          string npc = kill.Info[0];
+          string npc = Regex.Replace(kill.Info[0], @"\W", " ");
           if (alogItems["I killed"].ContainsKey(npc)) {
             alogItems["I killed"][npc].Amount += kill.Amount;
           } else {
@@ -101,7 +124,7 @@ namespace Supay.Bot {
           continue;
         }
       }
-      string reply = rsn + "'s achievements: ";
+      string reply = rsn + "'s achievements" + (timeSpanName != string.Empty ? " (" + timeSpanName + ")" : "") + ": ";
       foreach (KeyValuePair<string, Dictionary<string, AlogItem>> category in alogItems) {
         if (category.Value.Count == 0) { continue; }
         reply += category.Key + ": ";
@@ -122,5 +145,5 @@ namespace Supay.Bot {
       bc.SendReply(reply.Trim());
     }
 
-  } //class CmdAlog
+  } //class Command
 } //namespace Supay.Bot
