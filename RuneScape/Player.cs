@@ -67,7 +67,7 @@ namespace Supay.Bot {
     private void _GuessMissingSkills() {
       // Check if Overall has exp.
       if (_skills[Skill.OVER].Exp == -1) {
-        // Fix Hitpoints
+        // Fix Constitution
         if (_skills[Skill.HITP].Exp == -1)
           _skills[Skill.HITP].Exp = 10.ToExp();
 
@@ -82,7 +82,7 @@ namespace Supay.Bot {
           _skills[Skill.OVER].Level += _skills[i].Level;
         }
       } else {
-        // Fix Hitpoints
+        // Fix Constitution
         if (_skills[Skill.HITP].Exp == -1)
           _skills[Skill.HITP].Level = 10;
 

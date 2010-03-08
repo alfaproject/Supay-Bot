@@ -8,7 +8,7 @@ namespace Supay.Bot {
     public const string ATTA = "Attack";
     public const string DEFE = "Defence";
     public const string STRE = "Strength";
-    public const string HITP = "Hitpoints";
+    public const string HITP = "Constitution";
     public const string RANG = "Ranged";
     public const string PRAY = "Prayer";
     public const string MAGI = "Magic";
@@ -187,6 +187,7 @@ namespace Supay.Bot {
         case "HIT":
         case "HITS":
         case "HITPOINTS":
+        case "CONSTITUTION":
           return HITP;
         case "RA":
         case "RAN":
@@ -240,6 +241,7 @@ namespace Supay.Bot {
         case "HE":
         case "HERB":
         case "HERBLORE":
+        case "HERBLAW":
           return HERB;
         case "AG":
         case "AGI":
