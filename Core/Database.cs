@@ -77,7 +77,11 @@ namespace Supay.Bot {
     public static T Lookup<T>(string field, string table, string condition = null, SQLiteParameter[] parameters = null, T defaultValue = default(T)) {
       string sql = "SELECT " + field + " FROM " + table;
       if (condition != null) {
-        sql += " WHERE " + condition;
+        if (condition.StartsWithI("ORDER BY")) {
+          sql += " " + condition;
+        } else {
+          sql += " WHERE " + condition;
+        }
       }
 
       SQLiteCommand command = new SQLiteCommand(sql + " LIMIT 1", _connection);

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
 using Supay.Irc;
 using Supay.Irc.Messages;
+using Supay.Irc.Network;
 using ThreadedTimer = System.Threading.Timer;
 
 namespace Supay.Bot {
@@ -47,8 +48,8 @@ namespace Supay.Bot {
       }
       _dailyPlayersUpdater = new ThreadedTimer(updatePlayers, null, nextMorning, TimeSpan.FromDays(1.0));
 
-      // set up ge checker (every 5 minutes)
-      _geChecker = new ThreadedTimer(checkGE, null, 0, 300000);
+      // set up ge checker (every minute)
+      _geChecker = new ThreadedTimer(checkGE, null, 15000, 60000);
 
       // set up clock timer
       _timerMain = new System.Windows.Forms.Timer();
@@ -58,6 +59,8 @@ namespace Supay.Bot {
     }
 
     private void updatePlayers(object stateInfo) {
+      textBox.Invoke(new delOutputMessage(outputMessage), "##### Begin players update");
+
       DateTime now = DateTime.UtcNow;
       SQLiteDataReader rs = Database.ExecuteReader("SELECT rsn FROM players WHERE lastUpdate!='" + now.ToStringI("yyyyMMdd") + "';");
       while (rs.Read()) {
@@ -67,52 +70,68 @@ namespace Supay.Bot {
           Player player = new Player(rs.GetString(0));
           if (player.Ranked) {
             player.SaveToDB(now.ToStringI("yyyyMMdd"));
-            textBox.Invoke(new delOutputMessage(_OutputMessage), "##### Player updated: " + player.Name);
+            textBox.Invoke(new delOutputMessage(outputMessage), "##### Player updated: " + player.Name);
             break;
           }
-          textBox.Invoke(new delOutputMessage(_OutputMessage), "##### Error updating player: " + player.Name);
+          textBox.Invoke(new delOutputMessage(outputMessage), "##### Error updating player: " + player.Name);
         } while (++tries < 3);
       }
       rs.Close();
+
+      textBox.Invoke(new delOutputMessage(outputMessage), "##### End players update");
     }
 
     private void checkGE(object stateInfo) {
+      string pricesPage;
       try {
-        List<Price> pricesChanged = new List<Price>();
-
-        string pricesPage = new System.Net.WebClient().DownloadString("http://itemdb-rs.runescape.com/top100.ws?list=2&scale=0");
+        pricesPage = new System.Net.WebClient().DownloadString("http://itemdb-rs.runescape.com/top100.ws?list=2&scale=0");
         pricesPage += new System.Net.WebClient().DownloadString("http://itemdb-rs.runescape.com/top100.ws?list=3&scale=0");
+      } catch (System.Net.WebException) {
+        textBox.Invoke(new delOutputMessage(outputMessage), "##### Abort GE check (prices page couldn't be downloaded)");
+        return;
+      }
 
-        string pricesRegex = @"<a href="".+?obj=(\d+)&amp;scale=-1"">([^<]+)</a>\s+</td>\s+<td>[^<]+</td>\s+<td>([^<]+)</td>\s+<td>[^<]+</td>";
-        foreach (Match priceMatch in Regex.Matches(pricesPage, pricesRegex, RegexOptions.Singleline)) {
-          Price newPrice = new Price(int.Parse(priceMatch.Groups[1].Value, CultureInfo.InvariantCulture), priceMatch.Groups[2].Value, priceMatch.Groups[3].Value.ToInt32());
-          Price oldPrice = new Price(newPrice.Id);
-          oldPrice.LoadFromDB();
+      List<Price> pricesChanged = new List<Price>();
+      const string pricesRegex = @"<a href="".+?obj=(\d+)&amp;scale=-1"">([^<]+)</a>\s+</td>\s+<td>[^<]+</td>\s+<td>([^<]+)</td>\s+<td>[^<]+</td>";
+      foreach (Match priceMatch in Regex.Matches(pricesPage, pricesRegex, RegexOptions.Singleline)) {
+        Price newPrice = new Price(int.Parse(priceMatch.Groups[1].Value, CultureInfo.InvariantCulture), priceMatch.Groups[2].Value, priceMatch.Groups[3].Value.ToInt32());
+        Price oldPrice = new Price(newPrice.Id);
+        oldPrice.LoadFromDB();
 
-          // If the last saved price is outdated
-          if (newPrice.MarketPrice != oldPrice.MarketPrice) {
-            newPrice.SaveToDB(true);
-            pricesChanged.Add(newPrice);
-          }
+        // if the last saved price is outdated, add it to the list of changed prices
+        newPrice.ChangeToday = newPrice.MarketPrice - oldPrice.MarketPrice;
+        if (newPrice.ChangeToday != 0) {
+          pricesChanged.Add(newPrice);
         }
+      }
 
-        // Announce all channels
-        if (pricesChanged.Count > 15) {
+      // display a debug message
+      if (pricesChanged.Count > 0) {
+        textBox.Invoke(new delOutputMessage(outputMessage), "##### GE updated items: " + pricesChanged.Count);
+      }
+
+      if (pricesChanged.Count > 15) {
+        // announce all channels
+        if (_irc != null && _irc.Connection.Status == ConnectionStatus.Connected) {
           pricesChanged.Sort((p1, p2) => -p1.MarketPrice.CompareTo(p2.MarketPrice));
-          string reply = "\\bGrand Exchange\\b database has updated: ";
-          for (int i = 0; i < 13; i++)
-            reply += @"\u{0}\u: {1} | ".FormatWith(pricesChanged[i].Name, pricesChanged[i].MarketPrice.ToShortString(1));
-          reply += "(...)";
-          foreach (Channel c in _irc.Channels)
+          string reply = @"\bGrand Exchange updated\b: ";
+          for (int i = 0; i < 5; i++) {
+            reply += @"{0}: \c07{1}\c {2} | ".FormatWith(
+              pricesChanged[i].Name,
+              pricesChanged[i].MarketPrice.ToShortString(1),
+              (pricesChanged[i].ChangeToday > 0 ? @"\c03[+]\c" : @"\c04[-]\c")
+            );
+          }
+          reply += "...";
+          foreach (Channel c in _irc.Channels) {
             _irc.SendChat(reply, c.Name);
-        } else {
-          // reverse the update if less than 5 prices were updated (it will catch up on next check)
-          foreach (Price p in pricesChanged) {
-            p.MarketPrice -= 1;
-            p.SaveToDB(false);
           }
         }
-      } catch {
+
+        // save the new prices
+        foreach (Price price in pricesChanged) {
+          price.SaveToDB(true);
+        }
       }
     }
 
@@ -257,7 +276,7 @@ namespace Supay.Bot {
       _irc.Messages.NamesEndReply += new EventHandler<IrcMessageEventArgs<NamesEndReplyMessage>>(Irc_NamesEndReply);
 
       _irc.Connection.Disconnected += delegate(object dsender, Irc.Network.ConnectionDataEventArgs devent) {
-        textBox.Invoke(new delOutputMessage(_OutputMessage), "[DISCONNECTED] " + devent.Data);
+        textBox.Invoke(new delOutputMessage(outputMessage), "[DISCONNECTED] " + devent.Data);
       };
 
       try {
@@ -288,11 +307,11 @@ namespace Supay.Bot {
     }
 
     void Irc_DataSent(object sender, Supay.Irc.Network.ConnectionDataEventArgs e) {
-      textBox.Invoke(new delOutputMessage(_OutputMessage), e.Data);
+      textBox.Invoke(new delOutputMessage(outputMessage), e.Data);
     }
 
     void Irc_DataReceived(object sender, Supay.Irc.Network.ConnectionDataEventArgs e) {
-      textBox.Invoke(new delOutputMessage(_OutputMessage), e.Data);
+      textBox.Invoke(new delOutputMessage(outputMessage), e.Data);
     }
 
     void Irc_Ready(object sender, EventArgs e) {
@@ -496,6 +515,7 @@ namespace Supay.Bot {
               break;
             case "GELASTUPDATE":
             case "GEUPDATE":
+            case "GU":
               ThreadUtil.FireAndForget(Command.LastUpdate, bc);
               break;
             case "COINSHARE":
@@ -827,7 +847,8 @@ namespace Supay.Bot {
     }
 
     private delegate void delOutputMessage(string message);
-    private void _OutputMessage(string message) {
+    private void outputMessage(string message) {
+      textBox.AppendText("(" + DateTime.UtcNow.ToLongTimeString() + ") ");
       textBox.AppendText(message + "\r\n");
       textBox.ScrollToCaret();
     }

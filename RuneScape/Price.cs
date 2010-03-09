@@ -54,7 +54,7 @@ namespace Supay.Bot {
 
     public int ChangeToday {
       get;
-      private set;
+      set;
     }
 
     public string Examine {
