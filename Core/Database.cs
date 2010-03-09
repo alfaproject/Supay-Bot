@@ -81,7 +81,9 @@ namespace Supay.Bot {
       }
 
       SQLiteCommand command = new SQLiteCommand(sql + " LIMIT 1", _connection);
-      command.Parameters.AddRange(parameters);
+      if (parameters != null) {
+        command.Parameters.AddRange(parameters);
+      }
       object result = command.ExecuteScalar();
       if (result == null || result is DBNull) {
         return defaultValue;
