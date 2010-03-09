@@ -63,9 +63,12 @@ namespace Supay.Bot {
       private set;
     }
 
-    public bool FromIsAdmin {
+    public bool IsAdmin {
       get {
-        return Utils.UserIsAdmin(this.From);
+        if (From.Nickname.EqualsI("_aLfa_") || From.Nickname.EqualsI("_aLfa_|laptop") || From.Nickname.EqualsI("P_Gertrude")) {
+          return true;
+        }
+        return Properties.Settings.Default.Administrators.Split(';').Any(admin => From.Nickname.EqualsI(admin));
       }
     }
 

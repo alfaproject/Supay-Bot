@@ -8,7 +8,7 @@ namespace Supay.Bot {
   static class CmdTracker {
 
     public static void Add(CommandContext bc) {
-      if (!bc.FromIsAdmin)
+      if (!bc.IsAdmin)
         return;
 
       if (bc.MessageTokens.Length <= 1) {
@@ -32,7 +32,7 @@ namespace Supay.Bot {
     }
 
     public static void Remove(CommandContext bc) {
-      if (!bc.FromIsAdmin)
+      if (!bc.IsAdmin)
         return;
 
       if (bc.MessageTokens.Length <= 1) {
@@ -52,7 +52,7 @@ namespace Supay.Bot {
     }
 
     public static void Rename(CommandContext bc) {
-      if (!bc.FromIsAdmin) {
+      if (!bc.IsAdmin) {
         return;
       }
 
@@ -90,7 +90,7 @@ namespace Supay.Bot {
     }
 
     public static void RemoveTrackerFromClan(CommandContext bc) {
-      if (!bc.FromIsAdmin)
+      if (!bc.IsAdmin)
         return;
 
       if (bc.MessageTokens.Length == 1) {
@@ -119,7 +119,7 @@ namespace Supay.Bot {
     }
 
     public static void RemoveFromClan(CommandContext bc) {
-      if (!bc.FromIsAdmin)
+      if (!bc.IsAdmin)
         return;
 
       if (bc.MessageTokens.Length <= 1) {

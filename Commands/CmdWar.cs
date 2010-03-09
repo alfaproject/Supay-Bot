@@ -6,7 +6,7 @@ namespace Supay.Bot {
   static class CmdWar {
 
     public static void Start(CommandContext bc) {
-      if (!bc.FromIsAdmin) {
+      if (!bc.IsAdmin) {
         bc.SendReply("You need to be a bot administrator to use this command.");
         return;
       }
@@ -49,7 +49,7 @@ namespace Supay.Bot {
     }
 
     public static void End(CommandContext bc) {
-      if (!bc.FromIsAdmin) {
+      if (!bc.IsAdmin) {
         bc.SendReply("You need to be a bot administrator to use this command.");
         return;
       }
@@ -89,7 +89,7 @@ namespace Supay.Bot {
     }
 
     public static void Add(CommandContext bc) {
-      if (!bc.FromIsAdmin) {
+      if (!bc.IsAdmin) {
         bc.SendReply("You need to be a bot administrator to use this command.");
         return;
       }
@@ -127,7 +127,7 @@ namespace Supay.Bot {
     }
 
     public static void Remove(CommandContext bc) {
-      if (!bc.FromIsAdmin) {
+      if (!bc.IsAdmin) {
         bc.SendReply("You need to be a bot administrator to use this command.");
         return;
       }
@@ -231,7 +231,7 @@ namespace Supay.Bot {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void TopAll(CommandContext bc) {
-      if (!bc.FromIsAdmin) {
+      if (!bc.IsAdmin) {
         bc.SendReply("You need to be a bot administrator to use this command.");
         return;
       }

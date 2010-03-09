@@ -131,7 +131,6 @@
     <Compile Include="Commands\Timers\Timer.cs" />
     <Compile Include="Commands\CmdTracker.cs" />
     <Compile Include="Commands\FanSites\Item.cs" />
-    <Compile Include="Commands\Utils.cs" />
     <Compile Include="Commands\Utils\Calc.cs" />
     <Compile Include="Commands\Utils\Set.cs" />
     <Compile Include="Commands\Timers\End.cs" />

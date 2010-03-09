@@ -1,10 +1,10 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
   static partial class Command {
 
     public static void ClanCheck(CommandContext bc) {
-      if (!bc.FromIsAdmin) {
+      if (!bc.IsAdmin) {
         bc.SendReply("You need to be a bot administrator to use this command.");
         return;
       }
