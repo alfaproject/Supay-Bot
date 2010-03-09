@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("_aLfa_ and P_Gertrude")]
 [assembly: AssemblyProduct("Supay Bot")]
-[assembly: AssemblyCopyright("Copyright © _aLfa_ and P_Gertrude 2006 - 2009")]
+[assembly: AssemblyCopyright("Copyright © _aLfa_ and P_Gertrude 2006 - 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

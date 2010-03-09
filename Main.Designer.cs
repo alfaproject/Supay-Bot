@@ -1,6 +1,6 @@
 ﻿namespace Supay.Bot
 {
-  partial class Main
+  sealed partial class Main
   {
     /// <summary>
     /// Required designer variable.
@@ -14,47 +14,51 @@
     /// the contents of this method with the code editor.
     /// </summary>
     private void InitializeComponent() {
+      this.components = new System.ComponentModel.Container();
+      System.Windows.Forms.ToolStripMenuItem mnuFile;
+      System.Windows.Forms.ToolStripSeparator mnuSeperator;
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-      this.mnu = new System.Windows.Forms.MenuStrip();
-      this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+      System.Windows.Forms.SplitContainer splitContainer;
+      this.menu = new System.Windows.Forms.MenuStrip();
       this.btnConnect = new System.Windows.Forms.ToolStripMenuItem();
-      this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+      this.btnReconnect = new System.Windows.Forms.ToolStripMenuItem();
       this.btnExit = new System.Windows.Forms.ToolStripMenuItem();
-      this.notifyIcon1 = new System.Windows.Forms.NotifyIcon();
-      this.stbMain = new System.Windows.Forms.StatusStrip();
+      this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+      this.statusBar = new System.Windows.Forms.StatusStrip();
       this.lblUtcTimer = new System.Windows.Forms.ToolStripStatusLabel();
       this.lblUpdateTimer = new System.Windows.Forms.ToolStripStatusLabel();
-      this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-      this.tv = new System.Windows.Forms.TreeView();
-      this.txt = new System.Windows.Forms.RichTextBox();
-      this.btnReconnect = new System.Windows.Forms.ToolStripMenuItem();
-      this.mnu.SuspendLayout();
-      this.stbMain.SuspendLayout();
-      this.splitContainer1.Panel1.SuspendLayout();
-      this.splitContainer1.Panel2.SuspendLayout();
-      this.splitContainer1.SuspendLayout();
+      this.treeView = new System.Windows.Forms.TreeView();
+      this.textBox = new System.Windows.Forms.RichTextBox();
+      mnuFile = new System.Windows.Forms.ToolStripMenuItem();
+      mnuSeperator = new System.Windows.Forms.ToolStripSeparator();
+      splitContainer = new System.Windows.Forms.SplitContainer();
+      this.menu.SuspendLayout();
+      this.statusBar.SuspendLayout();
+      splitContainer.Panel1.SuspendLayout();
+      splitContainer.Panel2.SuspendLayout();
+      splitContainer.SuspendLayout();
       this.SuspendLayout();
       // 
-      // mnu
+      // menu
       // 
-      this.mnu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
-      this.mnu.Location = new System.Drawing.Point(0, 0);
-      this.mnu.Name = "mnu";
-      this.mnu.Size = new System.Drawing.Size(416, 24);
-      this.mnu.TabIndex = 0;
-      this.mnu.Text = "menuStrip1";
+      this.menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            mnuFile});
+      this.menu.Location = new System.Drawing.Point(0, 0);
+      this.menu.Name = "menu";
+      this.menu.Size = new System.Drawing.Size(423, 24);
+      this.menu.TabIndex = 0;
+      this.menu.Text = "menuStrip1";
       // 
-      // fileToolStripMenuItem
+      // mnuFile
       // 
-      this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+      mnuFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnConnect,
             this.btnReconnect,
-            this.toolStripSeparator1,
+            mnuSeperator,
             this.btnExit});
-      this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-      this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-      this.fileToolStripMenuItem.Text = "&File";
+      mnuFile.Name = "mnuFile";
+      mnuFile.Size = new System.Drawing.Size(37, 20);
+      mnuFile.Text = "&File";
       // 
       // btnConnect
       // 
@@ -63,10 +67,17 @@
       this.btnConnect.Text = "&Connect";
       this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
       // 
-      // toolStripSeparator1
+      // btnReconnect
       // 
-      this.toolStripSeparator1.Name = "toolStripSeparator1";
-      this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+      this.btnReconnect.Name = "btnReconnect";
+      this.btnReconnect.Size = new System.Drawing.Size(152, 22);
+      this.btnReconnect.Text = "&Reconnect";
+      this.btnReconnect.Click += new System.EventHandler(this.btnReconnect_Click);
+      // 
+      // mnuSeperator
+      // 
+      mnuSeperator.Name = "mnuSeperator";
+      mnuSeperator.Size = new System.Drawing.Size(149, 6);
       // 
       // btnExit
       // 
@@ -75,27 +86,27 @@
       this.btnExit.Text = "E&xit";
       this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
       // 
-      // notifyIcon1
+      // notifyIcon
       // 
-      this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-      this.notifyIcon1.Text = "Supay Bot";
-      this.notifyIcon1.Visible = true;
-      this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+      this.notifyIcon.Icon = ((System.Drawing.Icon) (resources.GetObject("notifyIcon.Icon")));
+      this.notifyIcon.Text = "Supay Bot";
+      this.notifyIcon.Visible = true;
+      this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
       // 
-      // stbMain
+      // statusBar
       // 
-      this.stbMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+      this.statusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblUtcTimer,
             this.lblUpdateTimer});
-      this.stbMain.Location = new System.Drawing.Point(0, 314);
-      this.stbMain.Name = "stbMain";
-      this.stbMain.Size = new System.Drawing.Size(416, 24);
-      this.stbMain.TabIndex = 1;
-      this.stbMain.Text = "statusStrip1";
+      this.statusBar.Location = new System.Drawing.Point(0, 316);
+      this.statusBar.Name = "statusBar";
+      this.statusBar.Size = new System.Drawing.Size(423, 24);
+      this.statusBar.TabIndex = 1;
+      this.statusBar.Text = "statusStrip1";
       // 
       // lblUtcTimer
       // 
-      this.lblUtcTimer.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+      this.lblUtcTimer.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides) ((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
                   | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
                   | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
       this.lblUtcTimer.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
@@ -105,7 +116,7 @@
       // 
       // lblUpdateTimer
       // 
-      this.lblUpdateTimer.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
+      this.lblUpdateTimer.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides) ((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top)
                   | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right)
                   | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
       this.lblUpdateTimer.BorderStyle = System.Windows.Forms.Border3DStyle.SunkenOuter;
@@ -113,70 +124,63 @@
       this.lblUpdateTimer.Size = new System.Drawing.Size(149, 19);
       this.lblUpdateTimer.Text = "Next update: <hh:mm:ss>";
       // 
-      // splitContainer1
+      // splitContainer
       // 
-      this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.splitContainer1.Location = new System.Drawing.Point(0, 24);
-      this.splitContainer1.Name = "splitContainer1";
+      splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+      splitContainer.Location = new System.Drawing.Point(0, 24);
+      splitContainer.Name = "splitContainer";
       // 
-      // splitContainer1.Panel1
+      // splitContainer.Panel1
       // 
-      this.splitContainer1.Panel1.Controls.Add(this.tv);
+      splitContainer.Panel1.Controls.Add(this.treeView);
       // 
-      // splitContainer1.Panel2
+      // splitContainer.Panel2
       // 
-      this.splitContainer1.Panel2.Controls.Add(this.txt);
-      this.splitContainer1.Size = new System.Drawing.Size(416, 290);
-      this.splitContainer1.SplitterDistance = 138;
-      this.splitContainer1.TabIndex = 2;
+      splitContainer.Panel2.Controls.Add(this.textBox);
+      splitContainer.Size = new System.Drawing.Size(423, 292);
+      splitContainer.SplitterDistance = 121;
+      splitContainer.TabIndex = 2;
       // 
-      // tv
+      // treeView
       // 
-      this.tv.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.tv.Location = new System.Drawing.Point(0, 0);
-      this.tv.Name = "tv";
-      this.tv.Size = new System.Drawing.Size(138, 290);
-      this.tv.TabIndex = 1;
+      this.treeView.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.treeView.Location = new System.Drawing.Point(0, 0);
+      this.treeView.Name = "treeView";
+      this.treeView.Size = new System.Drawing.Size(121, 292);
+      this.treeView.TabIndex = 1;
       // 
-      // txt
+      // textBox
       // 
-      this.txt.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.txt.Location = new System.Drawing.Point(0, 0);
-      this.txt.Name = "txt";
-      this.txt.Size = new System.Drawing.Size(274, 290);
-      this.txt.TabIndex = 0;
-      this.txt.Text = "";
-      // 
-      // btnReconnect
-      // 
-      this.btnReconnect.Name = "btnReconnect";
-      this.btnReconnect.Size = new System.Drawing.Size(152, 22);
-      this.btnReconnect.Text = "&Reconnect";
-      this.btnReconnect.Click += new System.EventHandler(this.btnReconnect_Click);
+      this.textBox.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.textBox.Location = new System.Drawing.Point(0, 0);
+      this.textBox.Name = "textBox";
+      this.textBox.Size = new System.Drawing.Size(298, 292);
+      this.textBox.TabIndex = 0;
+      this.textBox.Text = "";
       // 
       // Main
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(416, 338);
-      this.Controls.Add(this.splitContainer1);
-      this.Controls.Add(this.stbMain);
-      this.Controls.Add(this.mnu);
-      this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-      this.MainMenuStrip = this.mnu;
+      this.ClientSize = new System.Drawing.Size(423, 340);
+      this.Controls.Add(splitContainer);
+      this.Controls.Add(this.statusBar);
+      this.Controls.Add(this.menu);
+      this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+      this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
+      this.MainMenuStrip = this.menu;
       this.Name = "Main";
-      this.Text = "Supay Bot (c) _aLfa_ and P_Gertrude 2006 - 2009";
+      this.Text = "Supay Bot";
       this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
       this.Shown += new System.EventHandler(this.Main_Shown);
       this.Resize += new System.EventHandler(this.Main_Resize);
-      this.mnu.ResumeLayout(false);
-      this.mnu.PerformLayout();
-      this.stbMain.ResumeLayout(false);
-      this.stbMain.PerformLayout();
-      this.splitContainer1.Panel1.ResumeLayout(false);
-      this.splitContainer1.Panel2.ResumeLayout(false);
-      this.splitContainer1.ResumeLayout(false);
+      this.menu.ResumeLayout(false);
+      this.menu.PerformLayout();
+      this.statusBar.ResumeLayout(false);
+      this.statusBar.PerformLayout();
+      splitContainer.Panel1.ResumeLayout(false);
+      splitContainer.Panel2.ResumeLayout(false);
+      splitContainer.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -184,16 +188,13 @@
 
     #endregion
 
-    private System.Windows.Forms.MenuStrip mnu;
-    private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+    private System.Windows.Forms.MenuStrip menu;
     private System.Windows.Forms.ToolStripMenuItem btnConnect;
-    private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
     private System.Windows.Forms.ToolStripMenuItem btnExit;
-    private System.Windows.Forms.NotifyIcon notifyIcon1;
-    private System.Windows.Forms.StatusStrip stbMain;
-    private System.Windows.Forms.SplitContainer splitContainer1;
-    private System.Windows.Forms.TreeView tv;
-    private System.Windows.Forms.RichTextBox txt;
+    private System.Windows.Forms.NotifyIcon notifyIcon;
+    private System.Windows.Forms.StatusStrip statusBar;
+    private System.Windows.Forms.TreeView treeView;
+    private System.Windows.Forms.RichTextBox textBox;
     private System.Windows.Forms.ToolStripStatusLabel lblUtcTimer;
     private System.Windows.Forms.ToolStripStatusLabel lblUpdateTimer;
     private System.Windows.Forms.ToolStripMenuItem btnReconnect;

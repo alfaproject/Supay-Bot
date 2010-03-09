@@ -12,7 +12,8 @@ using Supay.Irc.Messages;
 using Newtonsoft.Json.Linq;
 
 namespace Supay.Bot {
-  public partial class Main : Form {
+
+  public sealed partial class Main : Form {
 
     private Client _irc;
 
@@ -24,6 +25,9 @@ namespace Supay.Bot {
 
     public Main() {
       InitializeComponent();
+
+      // update form title
+      Text = Application.ProductName + @" (c) " + Application.CompanyName + @" 2006 - " + DateTime.UtcNow.Year;
 
       // set debug listener
       Trace.Listeners.Clear();
@@ -54,11 +58,11 @@ namespace Supay.Bot {
       SQLiteDataReader rs = Database.ExecuteReader("SELECT rsn FROM players WHERE lastupdate!='" + now.ToStringI("yyyyMMdd") + "';");
       while (rs.Read()) {
         Player p = new Player(rs.GetString(0));
-        txt.Invoke(new delOutputMessage(_OutputMessage), "***** UPDATING ***** " + p.Name);
+        textBox.Invoke(new delOutputMessage(_OutputMessage), "***** UPDATING ***** " + p.Name);
         int tries = 0;
         while (tries < 3 && !p.Ranked) {
           p = new Player(rs.GetString(0));
-          txt.Invoke(new delOutputMessage(_OutputMessage), "***** ERROR UPDATING ***** " + p.Name);
+          textBox.Invoke(new delOutputMessage(_OutputMessage), "***** ERROR UPDATING ***** " + p.Name);
           tries++;
         }
         if (p.Ranked) {
@@ -260,7 +264,7 @@ namespace Supay.Bot {
       _irc.Messages.NamesEndReply += new EventHandler<IrcMessageEventArgs<NamesEndReplyMessage>>(Irc_NamesEndReply);
 
       _irc.Connection.Disconnected += delegate(object dsender, Irc.Network.ConnectionDataEventArgs devent) {
-        txt.Invoke(new delOutputMessage(_OutputMessage), "[DISCONNECTED] " + devent.Data);
+        textBox.Invoke(new delOutputMessage(_OutputMessage), "[DISCONNECTED] " + devent.Data);
       };
 
       try {
@@ -278,8 +282,9 @@ namespace Supay.Bot {
 
     private void Main_FormClosing(object sender, FormClosingEventArgs e) {
       // Quit IRC.
-      if (_irc.Connection.Status == Supay.Irc.Network.ConnectionStatus.Connected)
-        _irc.SendQuit("Copyright (c) _aLfa_ and P_Gertrude 2006 - 2010");
+      if (_irc.Connection.Status == Irc.Network.ConnectionStatus.Connected) {
+        _irc.SendQuit(Text);
+      }
 
       // Persist application settings.
       Properties.Settings.Default.Save();
@@ -290,11 +295,11 @@ namespace Supay.Bot {
     }
 
     void Irc_DataSent(object sender, Supay.Irc.Network.ConnectionDataEventArgs e) {
-      txt.Invoke(new delOutputMessage(_OutputMessage), e.Data);
+      textBox.Invoke(new delOutputMessage(_OutputMessage), e.Data);
     }
 
     void Irc_DataReceived(object sender, Supay.Irc.Network.ConnectionDataEventArgs e) {
-      txt.Invoke(new delOutputMessage(_OutputMessage), e.Data);
+      textBox.Invoke(new delOutputMessage(_OutputMessage), e.Data);
     }
 
     void Irc_Ready(object sender, EventArgs e) {
@@ -833,8 +838,8 @@ namespace Supay.Bot {
 
     private delegate void delOutputMessage(string message);
     private void _OutputMessage(string message) {
-      txt.AppendText(message + "\r\n");
-      txt.ScrollToCaret();
+      textBox.AppendText(message + "\r\n");
+      textBox.ScrollToCaret();
     }
 
     /// <summary>
@@ -867,5 +872,5 @@ namespace Supay.Bot {
       }
     }
 
-  }
-}
+  } //class Main
+} //namespace Supay.Bot
