@@ -122,12 +122,12 @@ namespace Supay.Bot {
         forumPage = System.Web.HttpUtility.HtmlDecode(forumPage);
 
         foreach (Match newTopic in Regex.Matches(forumPage, topicPattern, RegexOptions.Singleline)) {
-          int topicId = int.Parse(newTopic.Groups[1].Value, CultureInfo.InvariantCulture);
+          long topicId = long.Parse(newTopic.Groups[1].Value, CultureInfo.InvariantCulture);
           string topic = newTopic.Groups[2].Value;
           string forum = newTopic.Groups[3].Value;
 
           // Check if this topic exists in database
-          if (Database.GetInteger("SELECT topicId FROM forums WHERE topicId=" + topicId + ";", -1) != topicId) {
+          if (Database.Lookup<long>("topicId", "forums", "topicId=@topicId", new[] { new SQLiteParameter("@topicId", topicId) }) != topicId) {
             Database.Insert("forums", "topicId", topicId.ToStringI());
             string reply = @"\bNew topic!\b | Forum: \c07{0}\c | Topic: \c07{1}\c | \c12http://z3.invisionfree.com/Supreme_Skillers/?showtopic={2}\c".FormatWith(forum, topic, topicId);
             _irc.SendChat(reply, mainChannel);
@@ -312,11 +312,11 @@ namespace Supay.Bot {
     void IrcChat(object sender, IrcMessageEventArgs<TextMessage> e) {
       if (e.Message.Targets[0].EqualsI(_irc.User.Nickname)) {
         // private message
-        if (!Utils.UserIsAdmin(e.Message.Sender)) {
+        CommandContext bc = new CommandContext(_irc, _irc.Peers, e.Message.Sender, null, e.Message.Text);
+        if (!bc.IsAdmin) {
           return;
         }
 
-        CommandContext bc = new CommandContext(_irc, _irc.Peers, e.Message.Sender, null, e.Message.Text);
         switch (bc.MessageTokens[0].ToUpperInvariant()) {
           case "RAW":
             _irc.Connection.Write(bc.MessageTokens.Join(1));
