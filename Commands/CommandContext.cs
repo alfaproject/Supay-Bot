@@ -95,8 +95,9 @@ namespace Supay.Bot {
       query = query.Trim();
 
       // fix player name
-      if (query.StartsWithI("&") || query.EndsWithI("&")) {
-        return query.Trim(new[] { '&' }).ToRsn();
+      if (query.StartsWithI("&") || query.EndsWithI("&")
+        || query.StartsWithI("*") || query.EndsWithI("*")) {
+        return query.Trim(new[] { '&', '*' }).ValidatePlayerName();
       }
 
       // lookup player in users collection and get his name from database
@@ -106,7 +107,7 @@ namespace Supay.Bot {
                            .FirstOrDefault();
 
       // if player was found return it, else just convert the query to a valid player name
-      return playerName ?? query.ToRsn();
+      return playerName ?? query.ValidatePlayerName();
     }
 
     public void SendReply(string message) {

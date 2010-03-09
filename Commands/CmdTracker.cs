@@ -16,7 +16,7 @@ namespace Supay.Bot {
         return;
       }
 
-      string rsn = bc.MessageTokens.Join(1).ToRsn();
+      string rsn = bc.MessageTokens.Join(1).ValidatePlayerName();
       try {
         Player p = new Player(rsn);
         if (p.Ranked) {
@@ -40,7 +40,7 @@ namespace Supay.Bot {
         return;
       }
 
-      string rsn = bc.MessageTokens.Join(1).ToRsn();
+      string rsn = bc.MessageTokens.Join(1).ValidatePlayerName();
       long playerId = Database.Lookup("id", "players", "rsn=@name", new[] { new SQLiteParameter("@name", rsn) }, -1L);
       if (playerId != -1) {
         Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + playerId + ";");
@@ -60,8 +60,8 @@ namespace Supay.Bot {
         bc.SendReply("Syntax: !Rename <old_rsn> <new_rsn>");
       }
 
-      string oldRsn = bc.MessageTokens[1].ToRsn();
-      string newRsn = bc.MessageTokens.Join(2).ToRsn();
+      string oldRsn = bc.MessageTokens[1].ValidatePlayerName();
+      string newRsn = bc.MessageTokens.Join(2).ValidatePlayerName();
 
       long oldPlayerId = Database.Lookup("id", "players", "rsn=@rsn", new[] { new SQLiteParameter("@rsn", oldRsn) }, -1L);
       if (oldPlayerId == -1) {
@@ -116,24 +116,6 @@ namespace Supay.Bot {
 
       long playersLeft = Database.Lookup("COUNT(*)", "players", null, null, 0L);
       bc.SendReply("There are \\b{0}\\b players left in the tracker.".FormatWith(playersLeft));
-    }
-
-    public static void RemoveFromClan(CommandContext bc) {
-      if (!bc.IsAdmin)
-        return;
-
-      if (bc.MessageTokens.Length <= 1) {
-        bc.SendReply("Syntax: !RemoveFromClan <rsn>");
-        return;
-      }
-
-      string rsn = bc.MessageTokens.Join(1).ToRsn();
-      try {
-        Database.Update("players", "rsn='" + rsn + "'", "clan", string.Empty);
-        bc.SendReply("\\b{0}\\b is now being tracked under no clan.".FormatWith(rsn));
-      } catch {
-        bc.SendReply("\\b{0}\\b wasn't being tracked.".FormatWith(rsn));
-      }
     }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]

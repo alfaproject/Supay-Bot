@@ -4,8 +4,8 @@ using System.Text.RegularExpressions;
 namespace Supay.Bot {
   public static partial class Extensions {
 
-    public static string ToRsn(this string rsn) {
-      return Regex.Replace(rsn.Substring(0, Math.Min(12, rsn.Length)), @"\W", "_");
+    public static string ValidatePlayerName(this string rsn) {
+      return Regex.Replace(rsn.Trim(new[] { ' ', '_' }).Substring(0, Math.Min(12, rsn.Length)), @"\W", "_");
     }
 
     public static int ToExp(this int level) {

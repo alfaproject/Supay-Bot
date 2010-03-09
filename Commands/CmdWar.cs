@@ -101,7 +101,7 @@ namespace Supay.Bot {
 
       string[] rsns = bc.MessageTokens.Join(1).Split(new char[] { ',', ';', '+' });
       foreach (string dirtyRsn in rsns) {
-        string rsn = dirtyRsn.Trim().ToRsn();
+        string rsn = dirtyRsn.ValidatePlayerName();
 
         if (Database.Lookup<string>("rsn", "warPlayers", "channel=@chan", new[] { new SQLiteParameter("@chan", bc.Channel) }) == rsn) {
           bc.SendReply(@"\b{0}\b was already signed to current war.".FormatWith(rsn));
@@ -137,7 +137,7 @@ namespace Supay.Bot {
         return;
       }
 
-      string rsn = bc.MessageTokens.Join(1).ToRsn();
+      string rsn = bc.MessageTokens.Join(1).ValidatePlayerName();
 
       if (Database.Lookup<string>("rsn", "warPlayers", "channel=@chan AND rsn=@rsn", new[] { new SQLiteParameter("@chan", bc.Channel), new SQLiteParameter("@rsn", rsn) }) != null) {
         Database.ExecuteNonQuery("DELETE FROM warplayers WHERE channel='" + bc.Channel + "' AND rsn='" + rsn + "';");

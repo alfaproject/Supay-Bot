@@ -42,7 +42,7 @@ namespace Supay.Bot {
         return;
       }
 
-      string rsn = bc.MessageTokens.Join(2).ToRsn();
+      string rsn = bc.MessageTokens.Join(2).ValidatePlayerName();
 
       // add/update to database
       if (Database.Lookup<int>("COUNT(*)", "players", "fingerprint=@fp", new[] { new SQLiteParameter("@fp", bc.From.FingerPrint) }) > 0) {

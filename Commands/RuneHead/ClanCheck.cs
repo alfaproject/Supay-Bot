@@ -29,7 +29,7 @@ namespace Supay.Bot {
 
       string pageRuneHead = new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?sort=name&clan=" + bc.MessageTokens[1]);
       foreach (Match clanMember in Regex.Matches(pageRuneHead, "\\?name=([^&]+)")) {
-        Player p = new Player(clanMember.Groups[1].Value.ToRsn());
+        Player p = new Player(clanMember.Groups[1].Value.ValidatePlayerName());
         if (!p.Ranked) {
           bc.SendReply(@"\b{0}\b is not ranked.".FormatWith(p.Name));
           continue;

@@ -391,11 +391,8 @@ namespace Supay.Bot {
               ThreadUtil.FireAndForget(CmdTracker.Rename, bc);
               break;
             case "REMOVETRACKERFROMCLAN":
+            case "REMOVECLANFROMTRACKER":
               ThreadUtil.FireAndForget(CmdTracker.RemoveTrackerFromClan, bc);
-              break;
-            case "REMOVEFROMSS":
-            case "REMOVESSER":
-              ThreadUtil.FireAndForget(CmdTracker.RemoveFromClan, bc);
               break;
             case "TODAY":
             case "WEEK":

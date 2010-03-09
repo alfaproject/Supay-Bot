@@ -29,7 +29,7 @@ namespace Supay.Bot {
       }
 
       foreach (Match clanMember in Regex.Matches(pageRuneHead, "\\?name=([^&]+)&"))
-        clanMembers.Add(clanMember.Groups[1].Value.ToRsn());
+        clanMembers.Add(clanMember.Groups[1].Value.ValidatePlayerName());
 
       Players clanPlayers = new Players(clanInitials);
 
