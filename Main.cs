@@ -19,9 +19,7 @@ namespace Supay.Bot {
 
     // timers
     private System.Windows.Forms.Timer _timerMain;
-    private System.Threading.Timer _timerDaily;
-
-    private delegate void ExecuteBotCommand(CommandContext bc);
+    private System.Threading.Timer _dailyPlayersUpdater;
 
     public Main() {
       InitializeComponent();
@@ -31,9 +29,10 @@ namespace Supay.Bot {
 
       // set debug listener
       Trace.Listeners.Clear();
-      DefaultTraceListener defaultListener = new DefaultTraceListener();
+      DefaultTraceListener defaultListener = new DefaultTraceListener {
+        LogFileName = Path.Combine(Application.StartupPath, "Log.txt")
+      };
       Trace.Listeners.Add(defaultListener);
-      defaultListener.LogFileName = Path.Combine(Application.StartupPath, "Log.txt");
 
       // set up daily timer
       TimeSpan updateTime = Properties.Settings.Default.DailyUpdateTime;
@@ -42,33 +41,32 @@ namespace Supay.Bot {
         nextMorning += TimeSpan.FromDays(1.0);
 
         // update all missing players
-        ThreadPool.QueueUserWorkItem(_updatePlayers);
+        ThreadPool.QueueUserWorkItem(updatePlayers);
       }
-      _timerDaily = new System.Threading.Timer(_timerDaily_Elapsed, null, nextMorning, TimeSpan.FromDays(1.0));
+      _dailyPlayersUpdater = new System.Threading.Timer(updatePlayers, null, nextMorning, TimeSpan.FromDays(1.0));
 
       // set up clock timer
       _timerMain = new System.Windows.Forms.Timer();
-      _timerMain.Tick += new EventHandler(_timerMain_Tick);
+      _timerMain.Tick += _timerMain_Tick;
       _timerMain.Interval = 1000;
       _timerMain.Start();
     }
 
-    private void _updatePlayers(object stateInfo) {
+    private void updatePlayers(object stateInfo) {
       DateTime now = DateTime.UtcNow;
-      SQLiteDataReader rs = Database.ExecuteReader("SELECT rsn FROM players WHERE lastupdate!='" + now.ToStringI("yyyyMMdd") + "';");
+      SQLiteDataReader rs = Database.ExecuteReader("SELECT rsn FROM players WHERE lastUpdate!='" + now.ToStringI("yyyyMMdd") + "';");
       while (rs.Read()) {
-        Player p = new Player(rs.GetString(0));
-        textBox.Invoke(new delOutputMessage(_OutputMessage), "***** UPDATING ***** " + p.Name);
         int tries = 0;
-        while (tries < 3 && !p.Ranked) {
-          p = new Player(rs.GetString(0));
-          textBox.Invoke(new delOutputMessage(_OutputMessage), "***** ERROR UPDATING ***** " + p.Name);
-          tries++;
-        }
-        if (p.Ranked) {
-          p.SaveToDB(now.ToStringI("yyyyMMdd"));
-        }
-        Thread.Sleep(250);
+        do {
+          Player player = new Player(rs.GetString(0));
+          if (player.Ranked) {
+            player.SaveToDB(now.ToStringI("yyyyMMdd"));
+            textBox.Invoke(new delOutputMessage(_OutputMessage), "##### Player updated: " + player.Name);
+          } else {
+            textBox.Invoke(new delOutputMessage(_OutputMessage), "##### Error updating player: " + player.Name);
+          }
+          Thread.Sleep(250);
+        } while (++tries < 3);
       }
       rs.Close();
     }
@@ -240,11 +238,6 @@ namespace Supay.Bot {
         }
         rsTimer.Close();
       }
-    }
-
-    private void _timerDaily_Elapsed(object stateInfo) {
-      // update all the players hiscores
-      _updatePlayers(null);
     }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions")]
