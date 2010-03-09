@@ -7,9 +7,10 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using Newtonsoft.Json.Linq;
 using Supay.Irc;
 using Supay.Irc.Messages;
-using Newtonsoft.Json.Linq;
+using ThreadedTimer = System.Threading.Timer;
 
 namespace Supay.Bot {
 
@@ -19,7 +20,8 @@ namespace Supay.Bot {
 
     // timers
     private System.Windows.Forms.Timer _timerMain;
-    private System.Threading.Timer _dailyPlayersUpdater;
+    private ThreadedTimer _dailyPlayersUpdater;
+    private ThreadedTimer _geChecker;
 
     public Main() {
       InitializeComponent();
@@ -43,7 +45,10 @@ namespace Supay.Bot {
         // update all missing players
         ThreadPool.QueueUserWorkItem(updatePlayers);
       }
-      _dailyPlayersUpdater = new System.Threading.Timer(updatePlayers, null, nextMorning, TimeSpan.FromDays(1.0));
+      _dailyPlayersUpdater = new ThreadedTimer(updatePlayers, null, nextMorning, TimeSpan.FromDays(1.0));
+
+      // set up ge checker (every 5 minutes)
+      _geChecker = new ThreadedTimer(checkGE, null, 0, 300000);
 
       // set up clock timer
       _timerMain = new System.Windows.Forms.Timer();
@@ -58,20 +63,20 @@ namespace Supay.Bot {
       while (rs.Read()) {
         int tries = 0;
         do {
+          Thread.Sleep(250);
           Player player = new Player(rs.GetString(0));
           if (player.Ranked) {
             player.SaveToDB(now.ToStringI("yyyyMMdd"));
             textBox.Invoke(new delOutputMessage(_OutputMessage), "##### Player updated: " + player.Name);
-          } else {
-            textBox.Invoke(new delOutputMessage(_OutputMessage), "##### Error updating player: " + player.Name);
+            break;
           }
-          Thread.Sleep(250);
+          textBox.Invoke(new delOutputMessage(_OutputMessage), "##### Error updating player: " + player.Name);
         } while (++tries < 3);
       }
       rs.Close();
     }
 
-    private void _updateGE(object stateInfo) {
+    private void checkGE(object stateInfo) {
       try {
         List<Price> pricesChanged = new List<Price>();
 
@@ -175,11 +180,6 @@ namespace Supay.Bot {
     }
 
     void _timerMain_Tick(object sender, EventArgs e) {
-      // GE check every 5 minutes
-      if (DateTime.UtcNow.Second == 0 && DateTime.UtcNow.Minute % 5 == 0) {
-        ThreadPool.QueueUserWorkItem(_updateGE);
-      }
-
       // Event check every hour
       if (DateTime.UtcNow.Second == 0 && DateTime.UtcNow.Minute == 0) {
           ThreadPool.QueueUserWorkItem(_checkEvent);

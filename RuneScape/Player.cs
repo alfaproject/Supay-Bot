@@ -122,7 +122,7 @@ namespace Supay.Bot {
     }
 
     public void SaveToDB(string s_date) {
-      Id = Database.Lookup<int>("id", "players", "rsn=@name", new[] { new SQLiteParameter("@name", _name) });
+      Id = Database.Lookup<long>("id", "players", "rsn=@name", new[] { new SQLiteParameter("@name", _name) });
 
       if (this.Ranked) {
         Database.Insert("tracker", "pid", Id.ToStringI(),
