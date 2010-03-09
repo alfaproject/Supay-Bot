@@ -147,9 +147,9 @@ namespace Supay.Bot {
       // get rsn
       string rsn;
       if (bc.MessageTokens.Length > 1)
-        rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
+        rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
       else
-        rsn = bc.FromRsn;
+        rsn = bc.GetPlayerName(bc.From.Nickname);
 
       // get this player last update time
       DateTime lastupdate;

@@ -384,7 +384,7 @@ namespace Supay.Bot {
       }
 
       // Get player summoning level
-      Player player = new Player(bc.FromRsn);
+      Player player = new Player(bc.GetPlayerName(bc.From.Nickname));
       if (!player.Ranked) {
         bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(player.Name));
         return;
@@ -541,7 +541,7 @@ namespace Supay.Bot {
         bc.SendReply("No Slayer Monster matching \"\\c07" + monster + "\\c\"");
         return;
       }
-      Player p = new Player(bc.FromRsn);
+      Player p = new Player(bc.GetPlayerName(bc.From.Nickname));
       if (!p.Ranked) {
         bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(p.Name));
         return;

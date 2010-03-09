@@ -10,10 +10,6 @@ namespace Supay.Bot {
 
     private SQLiteConnection _con;
 
-    // explicit static constructor to tell c# compiler not to mark type as beforefieldinit
-    static Database() {
-    }
-
     private Database() {
       _con = new SQLiteConnection(@"Data Source=Data/BigSister.db");
       _con.Open();
@@ -126,6 +122,21 @@ namespace Supay.Bot {
         fieldValue += parameter + ":" + value + ";";
       }
       Database.Update(table, condition, field, fieldValue);
+    }
+
+    public static T Lookup<T>(string field, string table, string condition = null, SQLiteParameter[] parameters = null, T defaultValue = default(T)) {
+      string sql = "SELECT " + field + " FROM " + table;
+      if (condition != null) {
+        sql += " WHERE " + condition;
+      }
+
+      SQLiteCommand command = new SQLiteCommand(sql + " LIMIT 1", _instance.Connection);
+      command.Parameters.AddRange(parameters);
+      object result = command.ExecuteScalar();
+      if (result == null || result is DBNull) {
+        return defaultValue;
+      }
+      return (T) result;
     }
 
     #region IDisposable Members

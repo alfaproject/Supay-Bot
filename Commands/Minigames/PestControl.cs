@@ -45,13 +45,13 @@ namespace Supay.Bot {
       }
       // get skill and rsn
       if (Skill.TryParse(bc.MessageTokens[1], ref skill)) {
-        rsn = bc.NickToRSN(bc.MessageTokens.Join(2));
+        rsn = bc.GetPlayerName(bc.MessageTokens.Join(2));
       } else if (Skill.TryParse(bc.MessageTokens[bc.MessageTokens.Length - 1], ref skill)) {
         bc.MessageTokens[bc.MessageTokens.Length - 1] = string.Empty;
-        rsn = bc.NickToRSN(bc.MessageTokens.Join(1).Trim());
+        rsn = bc.GetPlayerName(bc.MessageTokens.Join(1).Trim());
       }
       if (!string.IsNullOrEmpty(rsn)) {
-        rsn = bc.FromRsn;
+        rsn = bc.GetPlayerName(bc.From.Nickname);
       }
 
       if (string.IsNullOrEmpty(skill)) {

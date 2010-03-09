@@ -1,26 +1,11 @@
 ﻿using System;
-using System.Globalization;
-using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
   public static partial class Extensions {
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static string ToRsn(this string rsn) {
-      StringBuilder fixedRSN = new StringBuilder(rsn.Substring(0, Math.Min(12, rsn.Length)).ToLowerInvariant(), 12);
-      bool toUpper = true;
-      for (int i = 0; i < fixedRSN.Length; i++) {
-        if ((fixedRSN[i] >= 'a' && fixedRSN[i] <= 'z') || (fixedRSN[i] >= '0' && fixedRSN[i] <= '9')) {
-          if (toUpper) {
-            fixedRSN[i] = char.ToUpperInvariant(fixedRSN[i]);
-            toUpper = false;
-          }
-        } else {
-          fixedRSN[i] = '_';
-          toUpper = true;
-        }
-      }
-      return fixedRSN.ToString();
+      return Regex.Replace(rsn.Substring(0, Math.Min(12, rsn.Length)), @"\W", "_");
     }
 
     public static int ToExp(this int level) {

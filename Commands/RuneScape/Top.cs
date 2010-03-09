@@ -6,7 +6,7 @@ namespace Supay.Bot {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void Top(CommandContext bc) {
-      string rsn = bc.FromRsn;
+      string rsn = bc.GetPlayerName(bc.From.Nickname);
       string skill = null, minigame = null;
       int rank = 0;
 
@@ -33,7 +33,7 @@ namespace Supay.Bot {
             // !Top Skill/Minigame Rank
           } else {
             // !Top Skill/Minigame RSN
-            rsn = bc.NickToRSN(bc.MessageTokens.Join(2));
+            rsn = bc.GetPlayerName(bc.MessageTokens.Join(2));
             Player p = new Player(rsn);
             if (p.Ranked) {
               if (skill == null)
@@ -50,7 +50,7 @@ namespace Supay.Bot {
         // !Top RSN
         rank = 1;
         skill = Skill.OVER;
-        rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
+        rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
         Player p = new Player(rsn);
         if (p.Ranked) {
           if (skill == null)

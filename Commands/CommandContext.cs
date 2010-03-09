@@ -1,4 +1,6 @@
-﻿using Supay.Irc;
+using System.Data.SQLite;
+using System.Linq;
+using Supay.Irc;
 using Supay.Irc.Messages;
 
 namespace Supay.Bot {
@@ -61,12 +63,6 @@ namespace Supay.Bot {
       private set;
     }
 
-    public string FromRsn {
-      get {
-        return Utils.UserToRsn(this.From);
-      }
-    }
-
     public bool FromIsAdmin {
       get {
         return Utils.UserIsAdmin(this.From);
@@ -91,12 +87,23 @@ namespace Supay.Bot {
       }
     }
 
-    public string NickToRSN(string nick) {
-      User u = _users.Find(nick);
-      if (u != null) {
-        return Utils.UserToRsn(u);
+    public string GetPlayerName(string query) {
+      // remove leading and trailing whitespace
+      query = query.Trim();
+
+      // fix player name
+      if (query.StartsWithI("&") || query.EndsWithI("&")) {
+        return query.Trim(new[] { '&' }).ToRsn();
       }
-      return nick.ToRsn();
+
+      // lookup player in users collection and get his name from database
+      string playerName = (from peer in _users
+                           where peer.Nickname.EqualsI(query)
+                           select Database.Lookup<string>("rsn", "users", "fingerprint=@fp", new[] { new SQLiteParameter("@fp", peer.FingerPrint) }))
+                           .FirstOrDefault();
+
+      // if player was found return it, else just convert the query to a valid player name
+      return playerName ?? query.ToRsn();
     }
 
     public void SendReply(string message) {

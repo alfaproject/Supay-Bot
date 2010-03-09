@@ -15,43 +15,43 @@ namespace Supay.Bot {
       if (Skill.TryParse(bc.MessageTokens[1], ref skill1)) {
         if (bc.MessageTokens.Length == 3) {
           // !compare <skill> <player2>
-          rsn1 = bc.FromRsn;
-          rsn2 = bc.NickToRSN(bc.MessageTokens[2]);
+          rsn1 = bc.GetPlayerName(bc.From.Nickname);
+          rsn2 = bc.GetPlayerName(bc.MessageTokens[2]);
         } else if (bc.MessageTokens.Length > 3) {
           // !compare <skill> <player1> <player2>
-          rsn1 = bc.NickToRSN(bc.MessageTokens[2]);
-          rsn2 = bc.NickToRSN(bc.MessageTokens.Join(3));
+          rsn1 = bc.GetPlayerName(bc.MessageTokens[2]);
+          rsn2 = bc.GetPlayerName(bc.MessageTokens.Join(3));
         } else {
           // !compare <player2>
           skill1 = Skill.OVER;
-          rsn1 = bc.FromRsn;
-          rsn2 = bc.NickToRSN(bc.MessageTokens[1]);
+          rsn1 = bc.GetPlayerName(bc.From.Nickname);
+          rsn2 = bc.GetPlayerName(bc.MessageTokens[1]);
         }
       } else if (Supay.Bot.Minigame.TryParse(bc.MessageTokens[1], ref minigame1)) {
         if (bc.MessageTokens.Length == 3) {
           // !compare <minigame> <player2>
-          rsn1 = bc.FromRsn;
-          rsn2 = bc.NickToRSN(bc.MessageTokens[2]);
+          rsn1 = bc.GetPlayerName(bc.From.Nickname);
+          rsn2 = bc.GetPlayerName(bc.MessageTokens[2]);
         } else if (bc.MessageTokens.Length > 3) {
           // !compare <minigame> <player1> <player2>
-          rsn1 = bc.NickToRSN(bc.MessageTokens[2]);
-          rsn2 = bc.NickToRSN(bc.MessageTokens.Join(3));
+          rsn1 = bc.GetPlayerName(bc.MessageTokens[2]);
+          rsn2 = bc.GetPlayerName(bc.MessageTokens.Join(3));
         } else {
           // !compare <player2>
           skill1 = Skill.OVER;
-          rsn1 = bc.FromRsn;
-          rsn2 = bc.NickToRSN(bc.MessageTokens[1]);
+          rsn1 = bc.GetPlayerName(bc.From.Nickname);
+          rsn2 = bc.GetPlayerName(bc.MessageTokens[1]);
         }
       } else if (bc.MessageTokens.Length == 2) {
         // !compare <player2>
         skill1 = Skill.OVER;
-        rsn1 = bc.FromRsn;
-        rsn2 = bc.NickToRSN(bc.MessageTokens[1]);
+        rsn1 = bc.GetPlayerName(bc.From.Nickname);
+        rsn2 = bc.GetPlayerName(bc.MessageTokens[1]);
       } else {
         // !compare <player1> <player2>
         skill1 = Skill.OVER;
-        rsn1 = bc.NickToRSN(bc.MessageTokens[1]);
-        rsn2 = bc.NickToRSN(bc.MessageTokens.Join(2));
+        rsn1 = bc.GetPlayerName(bc.MessageTokens[1]);
+        rsn2 = bc.GetPlayerName(bc.MessageTokens.Join(2));
       }
 
       Player p1 = new Player(rsn1);

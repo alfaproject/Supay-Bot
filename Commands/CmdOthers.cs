@@ -7,11 +7,7 @@ namespace Supay.Bot {
 
     public static void Percent(CommandContext bc) {
       // get rsn
-      string rsn;
-      if (bc.MessageTokens.Length > 1)
-        rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
-      else
-        rsn = bc.FromRsn;
+      string rsn = bc.GetPlayerName(bc.MessageTokens.Length > 1 ? bc.MessageTokens.Join(1) : bc.From.Nickname);
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
@@ -44,9 +40,9 @@ namespace Supay.Bot {
       // get rsn
       string rsn;
       if (bc.MessageTokens.Length > 1)
-        rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
+        rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
       else
-        rsn = bc.FromRsn;
+        rsn = bc.GetPlayerName(bc.From.Nickname);
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
@@ -61,9 +57,9 @@ namespace Supay.Bot {
       // get rsn
       string rsn;
       if (bc.MessageTokens.Length > 1)
-        rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
+        rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
       else
-        rsn = bc.FromRsn;
+        rsn = bc.GetPlayerName(bc.From.Nickname);
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
@@ -78,9 +74,9 @@ namespace Supay.Bot {
       // get rsn
       string rsn;
       if (bc.MessageTokens.Length > 1)
-        rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
+        rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
       else
-        rsn = bc.FromRsn;
+        rsn = bc.GetPlayerName(bc.From.Nickname);
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
@@ -101,9 +97,9 @@ namespace Supay.Bot {
       // get rsn
       string rsn;
       if (bc.MessageTokens.Length > 1)
-        rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
+        rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
       else
-        rsn = bc.FromRsn;
+        rsn = bc.GetPlayerName(bc.From.Nickname);
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
@@ -252,7 +248,7 @@ namespace Supay.Bot {
       }
 
       // get rsn
-      string rsn = bc.FromRsn;
+      string rsn = bc.GetPlayerName(bc.From.Nickname);
 
       string skill = null;
       int level;
@@ -304,9 +300,9 @@ namespace Supay.Bot {
       // get rsn
       string rsn;
       if (bc.MessageTokens.Length > 1)
-        rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
+        rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
       else
-        rsn = bc.FromRsn;
+        rsn = bc.GetPlayerName(bc.From.Nickname);
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
@@ -397,7 +393,7 @@ namespace Supay.Bot {
       if (bc.MessageTokens.Length > 8)
         int.TryParse(bc.MessageTokens[8], out Mag);
 
-      Player p = new Player(bc.FromRsn);
+      Player p = new Player(bc.GetPlayerName(bc.From.Nickname));
       if (p.Ranked) {
         if (Att <= 0)
           Att = p.Skills[Skill.ATTA].VLevel;

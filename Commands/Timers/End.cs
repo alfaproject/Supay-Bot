@@ -8,7 +8,7 @@ namespace Supay.Bot {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void End(CommandContext bc) {
       // get rsn
-      string rsn = bc.FromRsn;
+      string rsn = bc.GetPlayerName(bc.From.Nickname);
 
       Player p = new Player(rsn);
       if (!p.Ranked) {
@@ -46,7 +46,7 @@ namespace Supay.Bot {
         if (gainedExp > 0) {
           // Add this player to database if he never set a default name.
           if (Database.GetString("SELECT fingerprint FROM users WHERE fingerprint='" + bc.From.FingerPrint + "'", null) == null) {
-            Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.FromRsn);
+            Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.GetPlayerName(bc.From.Nickname));
           }
 
           // Set exp. made in an hour in this skill.

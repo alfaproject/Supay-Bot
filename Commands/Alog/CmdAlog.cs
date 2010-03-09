@@ -23,9 +23,9 @@ namespace Supay.Bot {
         bc.Message = bc.Message.Trim();
       }
 
-      string rsn = bc.FromRsn;
+      string rsn = bc.GetPlayerName(bc.From.Nickname);
       if (bc.MessageTokens.GetLength(0) > 1) {
-        rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
+        rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
       }
 
       RssManager reader;

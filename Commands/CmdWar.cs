@@ -169,7 +169,7 @@ namespace Supay.Bot {
       warPlayers.SortBySkill(skill, true);
 
       // Parse command arguments
-      string rsn = bc.FromRsn;
+      string rsn = bc.GetPlayerName(bc.From.Nickname);
       int rank = 1;
       if (bc.MessageTokens.Length > 1) {
         if (int.TryParse(bc.MessageTokens[1], out rank)) {
@@ -179,7 +179,7 @@ namespace Supay.Bot {
           rank = warPlayers.Count;
         } else {
           // !War <rsn>
-          rsn = bc.NickToRSN(bc.MessageTokens.Join(1));
+          rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
           if (warPlayers.Contains(rsn))
             rank = warPlayers.IndexOf(rsn) + 1;
         }
@@ -187,8 +187,8 @@ namespace Supay.Bot {
 
       // Get input player rank
       int input_player_rank = 0;
-      if (warPlayers.Contains(bc.FromRsn))
-        input_player_rank = warPlayers.IndexOf(bc.FromRsn) + 1;
+      if (warPlayers.Contains(bc.GetPlayerName(bc.From.Nickname)))
+        input_player_rank = warPlayers.IndexOf(bc.GetPlayerName(bc.From.Nickname)) + 1;
 
       // fix rank
       if (rank < 1)

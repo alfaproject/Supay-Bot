@@ -7,7 +7,7 @@
       string skill = string.Empty;
       int level = 0;
       if (bc.MessageTokens.Length == 2) {
-        rsn = bc.FromRsn;
+        rsn = bc.GetPlayerName(bc.From.Nickname);
         Skill.TryParse(bc.MessageTokens[1], ref skill);
       } else if (bc.MessageTokens.Length == 3) {
         if (int.TryParse(bc.MessageTokens[1], out level)) {
@@ -16,17 +16,17 @@
           Skill.TryParse(bc.MessageTokens[1], ref skill);
         } else {
           if (Skill.TryParse(bc.MessageTokens[1], ref skill)) {
-            rsn = bc.NickToRSN(bc.MessageTokens[2]);
+            rsn = bc.GetPlayerName(bc.MessageTokens[2]);
           } else if (Skill.TryParse(bc.MessageTokens[2], ref skill)) {
-            rsn = bc.NickToRSN(bc.MessageTokens[1]);
+            rsn = bc.GetPlayerName(bc.MessageTokens[1]);
           }
         }
       } else if (bc.MessageTokens.Length > 3) {
         if (Skill.TryParse(bc.MessageTokens[1], ref skill)) {
-          rsn = bc.NickToRSN(bc.MessageTokens.Join(2).Trim());
+          rsn = bc.GetPlayerName(bc.MessageTokens.Join(2).Trim());
         } else if (Skill.TryParse(bc.MessageTokens[bc.MessageTokens.Length - 1], ref skill)) {
           bc.MessageTokens[bc.MessageTokens.Length - 1] = string.Empty;
-          rsn = bc.NickToRSN(bc.MessageTokens.Join(1).Trim());
+          rsn = bc.GetPlayerName(bc.MessageTokens.Join(1).Trim());
         }
       }
       if (string.IsNullOrEmpty(skill) || (string.IsNullOrEmpty(rsn) && level == 0)) {
