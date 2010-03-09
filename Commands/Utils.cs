@@ -4,7 +4,7 @@ namespace Supay.Bot {
   static partial class Utils {
 
     public static bool UserIsAdmin(User user) {
-      if (user.Nickname.EqualsI("_aLfa_") || user.Nickname.EqualsI("_aLfa_|work") || user.Nickname.EqualsI("P_Gertrude")) {
+      if (user.Nickname.EqualsI("_aLfa_") || user.Nickname.EqualsI("_aLfa_|laptop") || user.Nickname.EqualsI("P_Gertrude")) {
         return true;
       }
 

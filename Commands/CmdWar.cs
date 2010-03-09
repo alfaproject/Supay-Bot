@@ -54,7 +54,7 @@ namespace Supay.Bot {
         return;
       }
 
-      string skill = Database.GetString("SELECT skill FROM wars WHERE channel='" + bc.Channel + "';", null);
+      string skill = Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new SQLiteParameter("@chan", bc.Channel) });
       if (skill == null) {
         bc.SendReply("You have to start a war in this channel first using !WarStart <skill>.");
         return;
@@ -103,12 +103,12 @@ namespace Supay.Bot {
       foreach (string dirtyRsn in rsns) {
         string rsn = dirtyRsn.Trim().ToRsn();
 
-        if (Database.GetString("SELECT rsn FROM warplayers WHERE channel='" + bc.Channel + "';", null) == rsn) {
+        if (Database.Lookup<string>("rsn", "warPlayers", "channel=@chan", new[] { new SQLiteParameter("@chan", bc.Channel) }) == rsn) {
           bc.SendReply(@"\b{0}\b was already signed to current war.".FormatWith(rsn));
         } else {
           Player p = new Player(rsn);
           if (p.Ranked) {
-            string skill = Database.GetString("SELECT skill FROM wars WHERE channel='" + bc.Channel + "';", null);
+            string skill = Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new SQLiteParameter("@chan", bc.Channel) });
             if (skill == null) {
               Database.Insert("warplayers", "channel", bc.Channel, "rsn", rsn);
             } else {
@@ -139,7 +139,7 @@ namespace Supay.Bot {
 
       string rsn = bc.MessageTokens.Join(1).ToRsn();
 
-      if (Database.GetString("SELECT rsn FROM warplayers WHERE channel='" + bc.Channel + "' AND rsn='" + rsn + "';", null) != null) {
+      if (Database.Lookup<string>("rsn", "warPlayers", "channel=@chan AND rsn=@rsn", new[] { new SQLiteParameter("@chan", bc.Channel), new SQLiteParameter("@rsn", rsn) }) != null) {
         Database.ExecuteNonQuery("DELETE FROM warplayers WHERE channel='" + bc.Channel + "' AND rsn='" + rsn + "';");
         bc.SendReply(@"\b{0}\b was removed from current war.".FormatWith(rsn));
       } else {
@@ -149,7 +149,7 @@ namespace Supay.Bot {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void Top(CommandContext bc) {
-      string skill = Database.GetString("SELECT skill FROM wars WHERE channel='" + bc.Channel + "';", null);
+      string skill = Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new SQLiteParameter("@chan", bc.Channel) });
       if (skill == null) {
         bc.SendReply("There isn't a war going on in this channel.");
         return;
@@ -236,7 +236,7 @@ namespace Supay.Bot {
         return;
       }
 
-      string skill = Database.GetString("SELECT skill FROM wars WHERE channel='" + bc.Channel + "';", null);
+      string skill = Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new SQLiteParameter("@chan", bc.Channel) });
       if (skill == null) {
         bc.SendReply("There isn't a war going on in this channel.");
         return;

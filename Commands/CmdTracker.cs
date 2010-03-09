@@ -41,10 +41,10 @@ namespace Supay.Bot {
       }
 
       string rsn = bc.MessageTokens.Join(1).ToRsn();
-      if (Database.GetValue("players", "id", "rsn='" + rsn + "'") != null) {
-        int pid = Convert.ToInt32(Database.GetValue("players", "id", "rsn='" + rsn + "'"), CultureInfo.InvariantCulture);
-        Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + pid + ";");
-        Database.ExecuteNonQuery("DELETE FROM players WHERE id=" + pid + ";");
+      long playerId = Database.Lookup("id", "players", "rsn=@name", new[] { new SQLiteParameter("@name", rsn) }, -1L);
+      if (playerId != -1) {
+        Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + playerId + ";");
+        Database.ExecuteNonQuery("DELETE FROM players WHERE id=" + playerId + ";");
         bc.SendReply("\\b{0}\\b was removed from tracker.".FormatWith(rsn));
       } else {
         bc.SendReply("\\b{0}\\b wasn't being tracked.".FormatWith(rsn));
@@ -63,13 +63,13 @@ namespace Supay.Bot {
       string oldRsn = bc.MessageTokens[1].ToRsn();
       string newRsn = bc.MessageTokens.Join(2).ToRsn();
 
-      int oldPlayerId = Database.GetInteger("SELECT id FROM players WHERE rsn='" + oldRsn + "'", -1);
+      long oldPlayerId = Database.Lookup("id", "players", "rsn=@rsn", new[] { new SQLiteParameter("@rsn", oldRsn) }, -1L);
       if (oldPlayerId == -1) {
         bc.SendReply(@"Player \b{0}\b wasn't being tracked.".FormatWith(oldRsn));
         return;
       }
 
-      int newPlayerId = Database.GetInteger("SELECT id FROM players WHERE rsn='" + newRsn + "'", -1);
+      long newPlayerId = Database.Lookup("id", "players", "rsn=@rsn", new[] { new SQLiteParameter("@rsn", newRsn) }, -1L);
 
       // check if the new player already exists in the database
       if (newPlayerId != -1) {
@@ -114,7 +114,7 @@ namespace Supay.Bot {
 
       Database.ExecuteNonQuery("VACUUM;");
 
-      int playersLeft = Database.GetInteger("SELECT Count(*) FROM players;", 0);
+      long playersLeft = Database.Lookup("COUNT(*)", "players", null, null, 0L);
       bc.SendReply("There are \\b{0}\\b players left in the tracker.".FormatWith(playersLeft));
     }
 

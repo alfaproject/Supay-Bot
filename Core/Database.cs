@@ -4,63 +4,28 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
-  sealed class Database : IDisposable {
+  static class Database {
 
-    private static readonly Database _instance = new Database();
+    private static readonly SQLiteConnection _connection;
 
-    private SQLiteConnection _con;
-
-    private Database() {
-      _con = new SQLiteConnection(@"Data Source=Data/BigSister.db");
-      _con.Open();
-    }
-
-    public static Database Instance {
-      get {
-        return _instance;
-      }
-    }
-
-    public SQLiteConnection Connection {
-      get {
-        return _con;
-      }
+    static Database() {
+      // initialize static fields
+      _connection = new SQLiteConnection(@"Data Source=Data/BigSister.db");
+      _connection.Open();
     }
 
     public static SQLiteDataReader ExecuteReader(string sql) {
-      SQLiteCommand com = new SQLiteCommand(sql, Database.Instance.Connection);
+      SQLiteCommand com = new SQLiteCommand(sql, _connection);
       return com.ExecuteReader();
     }
 
     public static void ExecuteNonQuery(string sql) {
-      SQLiteCommand com = new SQLiteCommand(sql, Database.Instance.Connection);
+      SQLiteCommand com = new SQLiteCommand(sql, _connection);
       com.ExecuteNonQuery();
     }
 
-    public static int GetInteger(string sql, int defaultValue) {
-      SQLiteCommand com = new SQLiteCommand(sql, Instance.Connection);
-      object result = com.ExecuteScalar();
-      if (result == null || result is DBNull) {
-        return defaultValue;
-      }
-      return Convert.ToInt32(result, CultureInfo.InvariantCulture);
-    }
-
-    public static string GetString(string sql, string defaultValue) {
-      SQLiteCommand com = new SQLiteCommand(sql, Database.Instance.Connection);
-      object result = com.ExecuteScalar();
-      if (result == null || result is DBNull)
-        return defaultValue;
-      else
-        return (string)result;
-    }
-
-    public static int PlayerId(string rsn) {
-      return Database.GetInteger("SELECT id FROM players WHERE rsn='" + rsn + "';", 0);
-    }
-
     public static string LastUpdate(string rsn) {
-      return Database.GetString("SELECT lastupdate FROM players WHERE rsn='" + rsn + "';", string.Empty);
+      return Lookup<string>("lastUpdate", "players", "rsn=@rsn", new[] { new SQLiteParameter("@rsn", rsn) });
     }
 
     public static void Insert(string table, params string[] fieldsValues) {
@@ -91,31 +56,16 @@ namespace Supay.Bot {
       Database.ExecuteNonQuery(sql + ";");
     }
 
-    public static object GetValue(string table, string field, string condition) {
-      string sql = "SELECT `" + field + "` FROM `" + table + "`";
-      if (condition != null) {
-        sql += " WHERE " + condition;
-      }
-
-      SQLiteCommand com = new SQLiteCommand(sql + " LIMIT 1;", Database.Instance.Connection);
-      return com.ExecuteScalar();
-    }
-
-    public static object GetValue(string table, string field) {
-      return Database.GetValue(table, field, null);
-    }
-
     public static string GetStringParameter(string table, string field, string condition, string parameter, string defaultValue) {
-      string fieldValue = Database.GetString("SELECT `" + field + "` FROM `" + table + "` WHERE " + condition + " LIMIT 1;", string.Empty);
+      string fieldValue = Lookup(field, table, condition, null, string.Empty);
       if (fieldValue.ContainsI(parameter)) {
         return Regex.Match(fieldValue, parameter + ":([^;]+)").Groups[1].Value;
-      } else {
-        return defaultValue;
       }
+      return defaultValue;
     }
 
     public static void SetStringParameter(string table, string field, string condition, string parameter, string value) {
-      string fieldValue = Database.GetString("SELECT `" + field + "` FROM `" + table + "` WHERE " + condition + " LIMIT 1;", string.Empty);
+      string fieldValue = Lookup(field, table, condition, null, string.Empty);
       if (fieldValue.ContainsI(parameter)) {
         fieldValue = Regex.Replace(fieldValue, parameter + ":([^;]*)", parameter + ":" + value);
       } else {
@@ -130,7 +80,7 @@ namespace Supay.Bot {
         sql += " WHERE " + condition;
       }
 
-      SQLiteCommand command = new SQLiteCommand(sql + " LIMIT 1", _instance.Connection);
+      SQLiteCommand command = new SQLiteCommand(sql + " LIMIT 1", _connection);
       command.Parameters.AddRange(parameters);
       object result = command.ExecuteScalar();
       if (result == null || result is DBNull) {
@@ -138,27 +88,6 @@ namespace Supay.Bot {
       }
       return (T) result;
     }
-
-    #region IDisposable Members
-
-    private bool _disposed;
-
-    private void Dispose(bool disposing) {
-      if (!_disposed) {
-        if (disposing && _con != null) {
-          _con.Dispose();
-        }
-        _con = null;
-        _disposed = true;
-      }
-    }
-
-    public void Dispose() {
-      Dispose(true);
-      GC.SuppressFinalize(this);
-    }
-
-    #endregion
 
   } //class DataBase
 } //namespace Supay.Bot

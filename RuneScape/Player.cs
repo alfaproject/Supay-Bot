@@ -6,8 +6,6 @@ using System.Net;
 
 namespace Supay.Bot {
   class Player {
-
-    private int _id;
     private string _name;
     private string _combatclass;
     private DateTime _lastupdate;
@@ -16,10 +14,9 @@ namespace Supay.Bot {
     private Skills _skills;
     private Minigames _minigames;
 
-    public int Id {
-      get {
-        return _id;
-      }
+    public long Id {
+      get;
+      private set;
     }
 
     public DateTime LastUpdate {
@@ -125,10 +122,10 @@ namespace Supay.Bot {
     }
 
     public void SaveToDB(string s_date) {
-      _id = Convert.ToInt32(Database.GetValue("players", "id", "rsn='" + _name + "'"), CultureInfo.InvariantCulture);
+      Id = Database.Lookup<int>("id", "players", "rsn=@name", new[] { new SQLiteParameter("@name", _name) });
 
       if (this.Ranked) {
-        Database.Insert("tracker", "pid", _id.ToStringI(),
+        Database.Insert("tracker", "pid", Id.ToStringI(),
                                    "date", s_date,
                                    "overall_level", _skills[0].Level.ToStringI(), "overall_xp", _skills[0].Exp.ToStringI(), "overall_rank", _skills[0].Rank.ToStringI(),
                                    "attack_xp", _skills[1].Exp.ToStringI(), "attack_rank", _skills[1].Rank.ToStringI(),
@@ -165,7 +162,7 @@ namespace Supay.Bot {
                                    "baco_rank", _minigames[Minigame.BACO].Rank.ToStringI(), "baco_score", _minigames[Minigame.BACO].Score.ToStringI(),
                                    "bahe_rank", _minigames[Minigame.BAHE].Rank.ToStringI(), "bahe_score", _minigames[Minigame.BAHE].Score.ToStringI());
 
-        Database.Update("players", "id=" + _id, "lastupdate", s_date);
+        Database.Update("players", "id=" + Id, "lastupdate", s_date);
       }
     }
 
@@ -235,7 +232,7 @@ namespace Supay.Bot {
         SQLiteDataReader rs = Database.ExecuteReader("SELECT tracker.* FROM tracker INNER JOIN players ON tracker.pid=players.id WHERE players.rsn='" + _name + "' AND tracker.date='" + day.ToStringI("yyyyMMdd") + "';");
         if (rs.Read()) {
           // Initialize variables
-          _id = Convert.ToInt32(rs["pid"], CultureInfo.InvariantCulture);
+          Id = Convert.ToInt32(rs["pid"], CultureInfo.InvariantCulture);
           _skills = new Skills();
           _minigames = new Minigames();
           _ranked = true;

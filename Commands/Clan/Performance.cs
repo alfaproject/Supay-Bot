@@ -26,7 +26,7 @@ namespace Supay.Bot {
       bool IsIndividual = false;
 
       // get last updated player date
-      DateTime lastUpdate = Database.GetString("SELECT lastupdate FROM players ORDER BY lastupdate DESC LIMIT 1;", string.Empty).ToDateTime();
+      DateTime lastUpdate = Database.Lookup<string>("lastUpdate", "players", "ORDER BY lastUpdate DESC").ToDateTime();
 
       DateTime firstDay, lastDay;
       if (bc.MessageTokens[0].Contains("yesterday") || bc.MessageTokens[0].Contains("yday")) {

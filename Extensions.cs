@@ -37,16 +37,17 @@ namespace Supay.Bot {
     /// <summary>
     ///   Converts the specified string representation of a date (and time) to its DateTime equivalent. </summary>
     public static DateTime ToDateTime(this string self) {
-      switch (self.Length) {
-        case 8:
-          return DateTime.ParseExact(self, "yyyyMMdd", CultureInfo.InvariantCulture);
-        case 12:
-          return DateTime.ParseExact(self, "yyyyMMddHHmm", CultureInfo.InvariantCulture);
-        case 14:
-          return DateTime.ParseExact(self, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
-        default:
-          return DateTime.MinValue;
+      if (!string.IsNullOrEmpty(self)) {
+        switch (self.Length) {
+          case 8:
+            return DateTime.ParseExact(self, "yyyyMMdd", CultureInfo.InvariantCulture);
+          case 12:
+            return DateTime.ParseExact(self, "yyyyMMddHHmm", CultureInfo.InvariantCulture);
+          case 14:
+            return DateTime.ParseExact(self, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+        }
       }
+      return DateTime.MinValue;
     }
 
     /// <summary>

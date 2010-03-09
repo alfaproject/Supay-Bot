@@ -45,7 +45,7 @@ namespace Supay.Bot {
 
         if (gainedExp > 0) {
           // Add this player to database if he never set a default name.
-          if (Database.GetString("SELECT fingerprint FROM users WHERE fingerprint='" + bc.From.FingerPrint + "'", null) == null) {
+          if (Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new SQLiteParameter("@fp", bc.From.FingerPrint) }) < 1) {
             Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.GetPlayerName(bc.From.Nickname));
           }
 

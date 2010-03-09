@@ -285,7 +285,7 @@ namespace Supay.Bot {
 
         // ***** start war *****
         SQLiteDataReader warPlayer = Database.ExecuteReader("SELECT startrank, startlevel, startexp FROM warplayers WHERE channel='" + bc.Channel + "' AND rsn='" + rsn + "';");
-        if (warPlayer.Read() && Database.GetString("SELECT skill FROM wars WHERE channel='" + bc.Channel + "';", null) == skill.Name) {
+        if (warPlayer.Read() && Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new SQLiteParameter("@chan", bc.Channel) }) == skill.Name) {
           Skill oldSkill = new Skill(skill.Name, warPlayer.GetInt32(0), warPlayer.GetInt32(1), warPlayer.GetInt32(2));
           perf = _GetPerformance("War", oldSkill, skill);
           if (perf != null)

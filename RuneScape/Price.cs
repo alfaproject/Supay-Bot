@@ -84,10 +84,11 @@ namespace Supay.Bot {
 
     public void SaveToDB(bool updateDate) {
       string lastUpdate;
-      if (updateDate)
+      if (updateDate) {
         lastUpdate = DateTime.UtcNow.ToStringI("yyyyMMddHHmm");
-      else
-        lastUpdate = Database.GetString("SELECT lastUpdate FROM prices ORDER BY lastUpdate DESC LIMIT 1;", "");
+      } else {
+        lastUpdate = Database.Lookup("lastUpdate", "prices", "ORDER BY lastUpdate DESC", null, string.Empty);
+      }
 
       try {
         Database.Insert("prices", "id", this.Id.ToStringI(),

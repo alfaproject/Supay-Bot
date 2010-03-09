@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Data.SQLite;
+using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
   static partial class Command {
@@ -44,11 +45,11 @@ namespace Supay.Bot {
       string rsn = bc.MessageTokens.Join(2).ToRsn();
 
       // add/update to database
-      if (Database.GetValue("users", "rsn", "fingerprint='" + bc.From.FingerPrint + "'") == null) {
-        Database.Insert("users", "fingerprint", bc.From.FingerPrint,
+      if (Database.Lookup<int>("COUNT(*)", "players", "fingerprint=@fp", new[] { new SQLiteParameter("@fp", bc.From.FingerPrint) }) > 0) {
+        Database.Update("users", "fingerprint='" + bc.From.FingerPrint + "'",
                                  "rsn", rsn);
       } else {
-        Database.Update("users", "fingerprint='" + bc.From.FingerPrint + "'",
+        Database.Insert("users", "fingerprint", bc.From.FingerPrint,
                                  "rsn", rsn);
       }
 
@@ -85,7 +86,7 @@ namespace Supay.Bot {
       }
 
       // Add this player to database if he never set a default name.
-      if (Database.GetString("SELECT fingerprint FROM users WHERE fingerprint='" + bc.From.FingerPrint + "'", null) == null) {
+      if (Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new SQLiteParameter("@fp", bc.From.FingerPrint) }) < 1) {
         Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.GetPlayerName(bc.From.Nickname));
       }
 
@@ -136,7 +137,7 @@ namespace Supay.Bot {
       string item = bc.MessageTokens.Join(3).Replace(";", string.Empty).ToLowerInvariant();
 
       // Add this player to database if he never set a default name.
-      if (Database.GetString("SELECT fingerprint FROM users WHERE fingerprint='" + bc.From.FingerPrint + "'", null) == null) {
+      if (Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new SQLiteParameter("@fp", bc.From.FingerPrint) }) < 1) {
         Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.GetPlayerName(bc.From.Nickname));
       }
 
@@ -163,7 +164,7 @@ namespace Supay.Bot {
       }
 
       // Add this player to database if he never set a default name.
-      if (Database.GetString("SELECT fingerprint FROM users WHERE fingerprint='" + bc.From.FingerPrint + "'", null) == null) {
+      if (Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new SQLiteParameter("@fp", bc.From.FingerPrint) }) < 1) {
         Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.GetPlayerName(bc.From.Nickname));
       }
 
@@ -184,7 +185,7 @@ namespace Supay.Bot {
       }
       string state = bc.MessageTokens[2].ToLowerInvariant();
       // Add this player to database if he never set a default name.
-      if (Database.GetString("SELECT fingerprint FROM users WHERE fingerprint='" + bc.From.FingerPrint + "'", null) == null) {
+      if (Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new SQLiteParameter("@fp", bc.From.FingerPrint) }) < 1) {
         Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.GetPlayerName(bc.From.Nickname));
       }
       string publicSkill = "1";
@@ -213,7 +214,7 @@ namespace Supay.Bot {
       }
 
       // Add this player to database if he never set a default name.
-      if (Database.GetString("SELECT fingerprint FROM users WHERE fingerprint='" + bc.From.FingerPrint + "'", null) == null) {
+      if (Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new SQLiteParameter("@fp", bc.From.FingerPrint) }) < 1) {
         Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.GetPlayerName(bc.From.Nickname));
       }
 
