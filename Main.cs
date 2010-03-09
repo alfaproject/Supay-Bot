@@ -37,20 +37,6 @@ namespace Supay.Bot {
       };
       Trace.Listeners.Add(defaultListener);
 
-      // set up daily timer
-      TimeSpan updateTime = Properties.Settings.Default.DailyUpdateTime;
-      TimeSpan nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, updateTime.Hours, updateTime.Minutes, updateTime.Seconds).Subtract(DateTime.UtcNow);
-      if (nextMorning.Ticks < 0) {
-        nextMorning += TimeSpan.FromDays(1.0);
-
-        // update all missing players
-        ThreadPool.QueueUserWorkItem(updatePlayers);
-      }
-      _dailyPlayersUpdater = new ThreadedTimer(updatePlayers, null, nextMorning, TimeSpan.FromDays(1.0));
-
-      // set up ge checker (every minute)
-      _geChecker = new ThreadedTimer(checkGE, null, 15000, 60000);
-
       // set up clock timer
       _timerMain = new System.Windows.Forms.Timer();
       _timerMain.Tick += _timerMain_Tick;
@@ -839,6 +825,20 @@ namespace Supay.Bot {
 
     private void Main_Shown(object sender, EventArgs e) {
       btnConnect_Click(sender, e);
+
+      // set up daily timer
+      TimeSpan updateTime = Properties.Settings.Default.DailyUpdateTime;
+      TimeSpan nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, updateTime.Hours, updateTime.Minutes, updateTime.Seconds).Subtract(DateTime.UtcNow);
+      if (nextMorning.Ticks < 0) {
+        nextMorning += TimeSpan.FromDays(1.0);
+
+        // update all missing players
+        ThreadPool.QueueUserWorkItem(updatePlayers);
+      }
+      _dailyPlayersUpdater = new ThreadedTimer(updatePlayers, null, nextMorning, TimeSpan.FromDays(1.0));
+
+      // set up ge checker (every minute)
+      _geChecker = new ThreadedTimer(checkGE, null, 15000, 60000);
     }
 
     private void Main_Resize(object sender, EventArgs e) {
