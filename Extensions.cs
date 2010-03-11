@@ -152,39 +152,51 @@ namespace Supay.Bot {
     ///   Converts the string representation of a number to it's 32-bit signed integer equivalent. </summary>
     public static int ToInt32(this string self) {
       string number = self.TrimEnd();
+
+      int multiplier = 1;
       switch (number[number.Length - 1]) {
         case 'm':
         case 'M':
-          return (int)(1000000.0 * double.Parse(number.Substring(0, number.Length - 1), NumberStyles.AllowLeadingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture));
+          number = number.Substring(0, number.Length - 1);
+          multiplier = 1000000;
+          break;
         case 'k':
         case 'K':
-          return (int)(1000.0 * double.Parse(number.Substring(0, number.Length - 1), NumberStyles.AllowLeadingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture));
-        default:
-          return int.Parse(number, NumberStyles.AllowLeadingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
+          number = number.Substring(0, number.Length - 1);
+          multiplier = 1000;
+          break;
       }
+
+      return (int) (multiplier * double.Parse(number, NumberStyles.AllowLeadingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture));
     }
 
     /// <summary>
     ///   Returns true if a string can be converted to a 32-bit signed integer. </summary>
     public static bool TryInt32(this string self, out int value) {
       string number = self.TrimEnd();
-      value = 0;
-      try {
-        switch (number[number.Length - 1]) {
-          case 'm':
-          case 'M':
-            value = (int)(1000000.0 * double.Parse(number.Substring(0, number.Length - 1), NumberStyles.AllowLeadingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture));
-            break;
-          case 'k':
-          case 'K':
-            value = (int)(1000.0 * double.Parse(number.Substring(0, number.Length - 1), NumberStyles.AllowLeadingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture));
-            break;
-          default:
-            value = int.Parse(number, NumberStyles.AllowLeadingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands, CultureInfo.InvariantCulture);
-            break;
-        }
+
+      int multiplier = 1;
+      switch (number[number.Length - 1]) {
+        case 'm':
+        case 'M':
+          number = number.Substring(0, number.Length - 1);
+          multiplier = 1000000;
+          break;
+        case 'k':
+        case 'K':
+          number = number.Substring(0, number.Length - 1);
+          multiplier = 1000;
+          break;
+      }
+      
+      double result;
+      if (double.TryParse(number, NumberStyles.AllowLeadingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out result)) {
+        value = (int) (result * multiplier);
         return true;
-      } catch { return false; }
+      }
+      
+      value = 0;
+      return false;
     }
 
   } //class Extensions
