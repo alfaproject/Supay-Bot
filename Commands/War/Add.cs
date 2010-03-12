@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Data.SQLite;
+using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
   static partial class Command {
@@ -10,23 +11,31 @@ namespace Supay.Bot {
         return;
       }
 
-      if (bc.MessageTokens.Length <= 1) {
-        bc.SendReply("Syntax: !WarAdd <player name>");
+      if (bc.MessageTokens.Length < 2) {
+        bc.SendReply(@"\bSyntax:\b !WarAdd <player name> [#channel]");
         return;
+      }
+
+      // get channel name
+      string channelName = bc.Channel;
+      Match matchChannel = Regex.Match(bc.Message, @"#(\S+)");
+      if (matchChannel.Success) {
+        channelName = matchChannel.Groups[1].Value;
+        bc.Message = bc.Message.Replace(matchChannel.Value, string.Empty);
       }
 
       string[] playerNames = bc.MessageTokens.Join(1).Split(new[] { ',', ';', '+', '|' });
       foreach (string playerName in playerNames.Select(name => name.ValidatePlayerName())) {
-        if (Database.Lookup<string>("rsn", "warPlayers", "channel=@chan", new[] { new SQLiteParameter("@chan", bc.Channel) }) == playerName) {
+        if (Database.Lookup<string>("rsn", "warPlayers", "channel=@channel", new[] { new SQLiteParameter("@channel", channelName) }) == playerName) {
           bc.SendReply(@"\b{0}\b is already signed to current war.".FormatWith(playerName));
         } else {
           Player player = new Player(playerName);
           if (player.Ranked) {
-            string skillName = Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new SQLiteParameter("@chan", bc.Channel) });
+            string skillName = Database.Lookup<string>("skill", "wars", "channel=@channel", new[] { new SQLiteParameter("@channel", channelName) });
             if (skillName == null) {
-              Database.Insert("warPlayers", "channel", bc.Channel, "rsn", playerName);
+              Database.Insert("warPlayers", "channel", channelName, "rsn", playerName);
             } else {
-              Database.Insert("warPlayers", "channel", bc.Channel, "rsn", playerName,
+              Database.Insert("warPlayers", "channel", channelName, "rsn", playerName,
                                             "startLevel", player.Skills[skillName].Level.ToStringI(),
                                             "startExp", player.Skills[skillName].Exp.ToStringI(),
                                             "startRank", player.Skills[skillName].Rank.ToStringI());
