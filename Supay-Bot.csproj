@@ -120,7 +120,7 @@
     <Compile Include="Commands\CmdOthers.cs" />
     <Compile Include="Commands\RuneHead\ClanUpdate.cs" />
     <Compile Include="Commands\CmdRuneScript.cs" />
-    <Compile Include="Commands\CmdWar.cs" />
+    <Compile Include="Commands\War\CmdWar.cs" />
     <Compile Include="Commands\GrandExchange\PriceInfo.cs" />
     <Compile Include="Commands\RuneScape\Combat.cs" />
     <Compile Include="Commands\RuneScape\Minigame.cs" />
@@ -136,6 +136,7 @@
     <Compile Include="Commands\Timers\End.cs" />
     <Compile Include="Commands\Timers\Start.cs" />
     <Compile Include="Commands\Utils\Whois.cs" />
+    <Compile Include="Commands\War\Start.cs" />
     <Compile Include="Core\Database.cs" />
     <Compile Include="Core\Math\Math2.cs" />
     <Compile Include="Core\Math\MathParser.cs" />

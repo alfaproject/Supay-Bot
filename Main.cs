@@ -770,7 +770,7 @@ namespace Supay.Bot {
 
             // Wars
             case "WARSTART":
-              ThreadUtil.FireAndForget(CmdWar.Start, bc);
+              ThreadUtil.FireAndForget(Command.WarStart, bc);
               break;
             case "WARADD":
               ThreadUtil.FireAndForget(CmdWar.Add, bc);
