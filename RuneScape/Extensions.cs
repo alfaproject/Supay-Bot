@@ -5,7 +5,7 @@ namespace Supay.Bot {
   public static partial class Extensions {
 
     public static string ValidatePlayerName(this string rsn) {
-      return Regex.Replace(rsn.Trim(new[] { ' ', '_' }).Substring(0, Math.Min(12, rsn.Length)), @"\W", "_");
+      return Regex.Replace(rsn.Trim(new[] { ' ', '_' }).Substring(0, Math.Min(12, rsn.Length)), @"[^\w-]", "_");
     }
 
     public static int ToExp(this int level) {
