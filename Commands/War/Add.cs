@@ -12,7 +12,7 @@ namespace Supay.Bot {
       }
 
       if (bc.MessageTokens.Length < 2) {
-        bc.SendReply(@"\bSyntax:\b !WarAdd <player name> [#channel]");
+        bc.SendReply(@"\bSyntax:\b !WarAdd <player name> [#channel name]");
         return;
       }
 
@@ -23,15 +23,16 @@ namespace Supay.Bot {
         channelName = matchChannel.Groups[1].Value;
         bc.Message = bc.Message.Replace(matchChannel.Value, string.Empty);
       }
+      SQLiteParameter channelNameParameter = new SQLiteParameter("@channelName", channelName);
 
       string[] playerNames = bc.MessageTokens.Join(1).Split(new[] { ',', ';', '+', '|' });
       foreach (string playerName in playerNames.Select(name => name.ValidatePlayerName())) {
-        if (Database.Lookup<string>("rsn", "warPlayers", "channel=@channel", new[] { new SQLiteParameter("@channel", channelName) }) == playerName) {
+        if (Database.Lookup<string>("rsn", "warPlayers", "channel=@channelName", new[] { channelNameParameter }) == playerName) {
           bc.SendReply(@"\b{0}\b is already signed to current war.".FormatWith(playerName));
         } else {
           Player player = new Player(playerName);
           if (player.Ranked) {
-            string skillName = Database.Lookup<string>("skill", "wars", "channel=@channel", new[] { new SQLiteParameter("@channel", channelName) });
+            string skillName = Database.Lookup<string>("skill", "wars", "channel=@channelName", new[] { channelNameParameter });
             if (skillName == null) {
               Database.Insert("warPlayers", "channel", channelName, "rsn", playerName);
             } else {
