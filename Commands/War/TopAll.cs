@@ -1,11 +1,9 @@
-﻿using System;
-using System.Data.SQLite;
+﻿using System.Data.SQLite;
 
 namespace Supay.Bot {
-  static class CmdWar {
+  static partial class Command {
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
-    public static void TopAll(CommandContext bc) {
+    public static void WarTopAll(CommandContext bc) {
       if (!bc.IsAdmin) {
         bc.SendReply("You need to be a bot administrator to use this command.");
         return;
@@ -46,5 +44,5 @@ namespace Supay.Bot {
         bc.SendReply(reply);
     }
 
-  } //class CmdWar
+  } //class Command
 } //namespace Supay.Bot

@@ -121,7 +121,6 @@
     <Compile Include="Commands\RuneHead\ClanUpdate.cs" />
     <Compile Include="Commands\CmdRuneScript.cs" />
     <Compile Include="Commands\War\Add.cs" />
-    <Compile Include="Commands\War\CmdWar.cs" />
     <Compile Include="Commands\GrandExchange\PriceInfo.cs" />
     <Compile Include="Commands\RuneScape\Combat.cs" />
     <Compile Include="Commands\RuneScape\Minigame.cs" />
@@ -141,6 +140,7 @@
     <Compile Include="Commands\War\Remove.cs" />
     <Compile Include="Commands\War\Start.cs" />
     <Compile Include="Commands\War\Top.cs" />
+    <Compile Include="Commands\War\TopAll.cs" />
     <Compile Include="Core\Database.cs" />
     <Compile Include="Core\Math\Math2.cs" />
     <Compile Include="Core\Math\MathParser.cs" />
