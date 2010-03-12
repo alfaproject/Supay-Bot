@@ -138,6 +138,7 @@
     <Compile Include="Commands\Timers\Start.cs" />
     <Compile Include="Commands\Utils\Whois.cs" />
     <Compile Include="Commands\War\End.cs" />
+    <Compile Include="Commands\War\Remove.cs" />
     <Compile Include="Commands\War\Start.cs" />
     <Compile Include="Core\Database.cs" />
     <Compile Include="Core\Math\Math2.cs" />

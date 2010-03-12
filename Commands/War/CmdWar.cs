@@ -4,27 +4,6 @@ using System.Data.SQLite;
 namespace Supay.Bot {
   static class CmdWar {
 
-    public static void Remove(CommandContext bc) {
-      if (!bc.IsAdmin) {
-        bc.SendReply("You need to be a bot administrator to use this command.");
-        return;
-      }
-
-      if (bc.MessageTokens.Length <= 1) {
-        bc.SendReply("Syntax: !WarRemove <rsn>");
-        return;
-      }
-
-      string rsn = bc.MessageTokens.Join(1).ValidatePlayerName();
-
-      if (Database.Lookup<string>("rsn", "warPlayers", "channel=@chan AND rsn=@rsn", new[] { new SQLiteParameter("@chan", bc.Channel), new SQLiteParameter("@rsn", rsn) }) != null) {
-        Database.ExecuteNonQuery("DELETE FROM warplayers WHERE channel='" + bc.Channel + "' AND rsn='" + rsn + "';");
-        bc.SendReply(@"\b{0}\b was removed from current war.".FormatWith(rsn));
-      } else {
-        bc.SendReply(@"\b{0}\b isn't signed to current war.".FormatWith(rsn));
-      }
-    }
-
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void Top(CommandContext bc) {
       string skill = Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new SQLiteParameter("@chan", bc.Channel) });
