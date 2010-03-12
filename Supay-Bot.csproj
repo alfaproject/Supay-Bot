@@ -120,6 +120,7 @@
     <Compile Include="Commands\CmdOthers.cs" />
     <Compile Include="Commands\RuneHead\ClanUpdate.cs" />
     <Compile Include="Commands\CmdRuneScript.cs" />
+    <Compile Include="Commands\War\Add.cs" />
     <Compile Include="Commands\War\CmdWar.cs" />
     <Compile Include="Commands\GrandExchange\PriceInfo.cs" />
     <Compile Include="Commands\RuneScape\Combat.cs" />

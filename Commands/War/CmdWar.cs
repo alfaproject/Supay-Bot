@@ -4,44 +4,6 @@ using System.Data.SQLite;
 namespace Supay.Bot {
   static class CmdWar {
 
-    public static void Add(CommandContext bc) {
-      if (!bc.IsAdmin) {
-        bc.SendReply("You need to be a bot administrator to use this command.");
-        return;
-      }
-
-      if (bc.MessageTokens.Length <= 1) {
-        bc.SendReply("Syntax: !WarAdd <rsn>");
-        return;
-      }
-
-      string[] rsns = bc.MessageTokens.Join(1).Split(new char[] { ',', ';', '+' });
-      foreach (string dirtyRsn in rsns) {
-        string rsn = dirtyRsn.ValidatePlayerName();
-
-        if (Database.Lookup<string>("rsn", "warPlayers", "channel=@chan", new[] { new SQLiteParameter("@chan", bc.Channel) }) == rsn) {
-          bc.SendReply(@"\b{0}\b was already signed to current war.".FormatWith(rsn));
-        } else {
-          Player p = new Player(rsn);
-          if (p.Ranked) {
-            string skill = Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new SQLiteParameter("@chan", bc.Channel) });
-            if (skill == null) {
-              Database.Insert("warplayers", "channel", bc.Channel, "rsn", rsn);
-            } else {
-              Database.Insert("warplayers", "channel", bc.Channel, "rsn", rsn,
-                                            "startlevel", p.Skills[skill].Level.ToStringI(),
-                                            "startexp", p.Skills[skill].Exp.ToStringI(),
-                                            "startrank", p.Skills[skill].Rank.ToStringI());
-            }
-            bc.SendReply(@"\b{0}\b is now signed to current war.".FormatWith(rsn));
-            System.Threading.Thread.Sleep(1000);
-          } else {
-            bc.SendReply(@"\b{0}\b doesn't feature hiscores.".FormatWith(rsn));
-          }
-        }
-      }
-    }
-
     public static void Remove(CommandContext bc) {
       if (!bc.IsAdmin) {
         bc.SendReply("You need to be a bot administrator to use this command.");
