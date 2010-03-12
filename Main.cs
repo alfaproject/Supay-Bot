@@ -782,7 +782,7 @@ namespace Supay.Bot {
               break;
             case "WAREND":
             case "WARSTOP":
-              ThreadUtil.FireAndForget(CmdWar.End, bc);
+              ThreadUtil.FireAndForget(Command.WarEnd, bc);
               break;
             case "WARTOP":
               ThreadUtil.FireAndForget(CmdWar.Top, bc);
