@@ -785,7 +785,7 @@ namespace Supay.Bot {
               ThreadUtil.FireAndForget(Command.WarEnd, bc);
               break;
             case "WARTOP":
-              ThreadUtil.FireAndForget(CmdWar.Top, bc);
+              ThreadUtil.FireAndForget(Command.WarTop, bc);
               break;
             case "WARTOPALL":
               ThreadUtil.FireAndForget(CmdWar.TopAll, bc);
