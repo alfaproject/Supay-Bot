@@ -1,4 +1,5 @@
-﻿using System.Data.SQLite;
+﻿using System.Linq;
+using System.Data.SQLite;
 
 namespace Supay.Bot {
   static partial class Command {
@@ -14,28 +15,26 @@ namespace Supay.Bot {
         return;
       }
 
-      string[] rsns = bc.MessageTokens.Join(1).Split(new char[] { ',', ';', '+' });
-      foreach (string dirtyRsn in rsns) {
-        string rsn = dirtyRsn.ValidatePlayerName();
-
-        if (Database.Lookup<string>("rsn", "warPlayers", "channel=@chan", new[] { new SQLiteParameter("@chan", bc.Channel) }) == rsn) {
-          bc.SendReply(@"\b{0}\b was already signed to current war.".FormatWith(rsn));
+      string[] playerNames = bc.MessageTokens.Join(1).Split(new[] { ',', ';', '+', '|' });
+      foreach (string playerName in playerNames.Select(name => name.ValidatePlayerName())) {
+        if (Database.Lookup<string>("rsn", "warPlayers", "channel=@chan", new[] { new SQLiteParameter("@chan", bc.Channel) }) == playerName) {
+          bc.SendReply(@"\b{0}\b is already signed to current war.".FormatWith(playerName));
         } else {
-          Player p = new Player(rsn);
-          if (p.Ranked) {
-            string skill = Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new SQLiteParameter("@chan", bc.Channel) });
-            if (skill == null) {
-              Database.Insert("warPlayers", "channel", bc.Channel, "rsn", rsn);
+          Player player = new Player(playerName);
+          if (player.Ranked) {
+            string skillName = Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new SQLiteParameter("@chan", bc.Channel) });
+            if (skillName == null) {
+              Database.Insert("warPlayers", "channel", bc.Channel, "rsn", playerName);
             } else {
-              Database.Insert("warPlayers", "channel", bc.Channel, "rsn", rsn,
-                                            "startLevel", p.Skills[skill].Level.ToStringI(),
-                                            "startExp", p.Skills[skill].Exp.ToStringI(),
-                                            "startRank", p.Skills[skill].Rank.ToStringI());
+              Database.Insert("warPlayers", "channel", bc.Channel, "rsn", playerName,
+                                            "startLevel", player.Skills[skillName].Level.ToStringI(),
+                                            "startExp", player.Skills[skillName].Exp.ToStringI(),
+                                            "startRank", player.Skills[skillName].Rank.ToStringI());
             }
-            bc.SendReply(@"\b{0}\b is now signed to current war.".FormatWith(rsn));
+            bc.SendReply(@"\b{0}\b is now signed to current war.".FormatWith(playerName));
             System.Threading.Thread.Sleep(1000);
           } else {
-            bc.SendReply(@"\b{0}\b doesn't feature hiscores.".FormatWith(rsn));
+            bc.SendReply(@"\b{0}\b doesn't feature hiscores.".FormatWith(playerName));
           }
         }
       }
