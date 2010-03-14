@@ -237,8 +237,8 @@ namespace Supay.Bot {
         DateTime lastupdate;
         string dblastupdate = Database.LastUpdate(rsn);
         if (dblastupdate == null || dblastupdate.Length < 8) {
-          lastupdate = DateTime.Now.AddHours(-DateTime.Now.Hour + 6).AddMinutes(-DateTime.Now.Minute).AddSeconds(-DateTime.Now.Second);
-          if (DateTime.Now.Hour >= 0 && DateTime.Now.Hour < 6)
+          lastupdate = DateTime.UtcNow.AddHours(-DateTime.UtcNow.Hour + 6).AddMinutes(-DateTime.UtcNow.Minute).AddSeconds(-DateTime.UtcNow.Second);
+          if (DateTime.UtcNow.Hour >= 0 && DateTime.UtcNow.Hour < 6)
             lastupdate = lastupdate.AddDays(-1);
         } else {
           lastupdate = dblastupdate.ToDateTime();
@@ -249,7 +249,7 @@ namespace Supay.Bot {
 
         Player p_old = new Player(rsn, lastupdate);
         if (!p_old.Ranked)
-          p_old = new Player(rsn, (int)(DateTime.Now - lastupdate).TotalSeconds);
+          p_old = new Player(rsn, (int)(DateTime.UtcNow - lastupdate).TotalSeconds);
         if (p_old.Ranked) {
           perf = _GetPerformance("Today", p_old.Skills[skill.Name], skill);
           if (perf != null)
@@ -258,7 +258,7 @@ namespace Supay.Bot {
 
         p_old = new Player(rsn, lastupdate.AddDays(-((int)lastupdate.DayOfWeek)));
         if (!p_old.Ranked)
-          p_old = new Player(rsn, (int)(DateTime.Now - lastupdate.AddDays(-((int)lastupdate.DayOfWeek))).TotalSeconds);
+          p_old = new Player(rsn, (int)(DateTime.UtcNow - lastupdate.AddDays(-((int)lastupdate.DayOfWeek))).TotalSeconds);
         if (p_old.Ranked) {
           perf = _GetPerformance("Week", p_old.Skills[skill.Name], skill);
           if (perf != null)
@@ -267,7 +267,7 @@ namespace Supay.Bot {
 
         p_old = new Player(rsn, lastupdate.AddDays(1 - lastupdate.Day));
         if (!p_old.Ranked)
-          p_old = new Player(rsn, (int)(DateTime.Now - lastupdate.AddDays(1 - lastupdate.Day)).TotalSeconds);
+          p_old = new Player(rsn, (int)(DateTime.UtcNow - lastupdate.AddDays(1 - lastupdate.Day)).TotalSeconds);
         if (p_old.Ranked) {
           perf = _GetPerformance("Month", p_old.Skills[skill.Name], skill);
           if (perf != null)
@@ -276,7 +276,7 @@ namespace Supay.Bot {
 
         p_old = new Player(rsn, lastupdate.AddDays(1 - lastupdate.DayOfYear));
         if (!p_old.Ranked)
-          p_old = new Player(rsn, (int)(DateTime.Now - lastupdate.AddDays(1 - lastupdate.DayOfYear)).TotalSeconds);
+          p_old = new Player(rsn, (int)(DateTime.UtcNow - lastupdate.AddDays(1 - lastupdate.DayOfYear)).TotalSeconds);
         if (p_old.Ranked) {
           perf = _GetPerformance("Year", p_old.Skills[skill.Name], skill);
           if (perf != null)

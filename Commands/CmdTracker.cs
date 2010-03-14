@@ -137,8 +137,8 @@ namespace Supay.Bot {
       DateTime lastupdate;
       string dblastupdate = Database.LastUpdate(rsn);
       if (dblastupdate == null || dblastupdate.Length < 8) {
-        lastupdate = DateTime.Now.AddHours(-DateTime.Now.Hour + 6).AddMinutes(-DateTime.Now.Minute).AddSeconds(-DateTime.Now.Second);
-        if (DateTime.Now.Hour >= 0 && DateTime.Now.Hour < 6)
+        lastupdate = DateTime.UtcNow.AddHours(-DateTime.UtcNow.Hour + 6).AddMinutes(-DateTime.UtcNow.Minute).AddSeconds(-DateTime.UtcNow.Second);
+        if (DateTime.UtcNow.Hour >= 0 && DateTime.UtcNow.Hour < 6)
           lastupdate = lastupdate.AddDays(-1);
       } else {
         lastupdate = dblastupdate.ToDateTime();
@@ -204,7 +204,7 @@ namespace Supay.Bot {
       Player PlayerOld = new Player(rsn, firstday);
       if (!PlayerOld.Ranked) {
         // Get data from RuneScript
-        PlayerOld = new Player(rsn, (int)(DateTime.Now - firstday).TotalSeconds);
+        PlayerOld = new Player(rsn, (int)(DateTime.UtcNow - firstday).TotalSeconds);
         bc.SendReply("\\c07{0}\\c information retrieved from RuneScript database. (This data may not be 100% accurate)".FormatWith(firstday.ToStringI("yyyy/MMM/dd")));
         if (!PlayerOld.Ranked) {
           bc.SendReply("\\b{0}\\b wasn't being tracked on \\c07{1}\\c.".FormatWith(rsn, firstday.ToStringI("yyyy/MMM/dd")));
@@ -224,7 +224,7 @@ namespace Supay.Bot {
           return;
         } else {
           // Get data from RuneScript
-          PlayerNew = new Player(rsn, (int)(DateTime.Now - lastday).TotalSeconds);
+          PlayerNew = new Player(rsn, (int)(DateTime.UtcNow - lastday).TotalSeconds);
           bc.SendReply("\\c07{0}\\c information retrieved from RuneScript database. (This data may not be 100% accurate)".FormatWith(lastday.ToStringI("yyyy/MMM/dd")));
           if (!PlayerNew.Ranked) {
             bc.SendReply("\\b{0}\\b wasn't being tracked on \\c07{1}\\c.".FormatWith(rsn, lastday.ToStringI("yyyy/MMM/dd")));

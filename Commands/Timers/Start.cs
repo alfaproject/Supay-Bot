@@ -35,7 +35,7 @@ namespace Supay.Bot {
                                     "name", name,
                                     "skill", skill,
                                     "exp", p.Skills[skill].Exp.ToStringI(),
-                                    "datetime", DateTime.Now.ToStringI("yyyyMMddHHmmss"));
+                                    "datetime", DateTime.UtcNow.ToStringI("yyyyMMddHHmmss"));
       bc.SendReply("\\b{0}\\b starting exp of \\c07{1:e}\\c in \\u{1:n}\\u has been recorded{2}.".FormatWith(rsn, p.Skills[skill], name.Length > 0 ? " on timer \\c07" + name + "\\c" : string.Empty));
     }
 
