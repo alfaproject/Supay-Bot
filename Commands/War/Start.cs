@@ -26,10 +26,9 @@ namespace Supay.Bot {
         return;
       }
 
-      int count = 0;
       string reply = string.Empty;
       SQLiteDataReader warPlayers = Database.ExecuteReader("SELECT rsn FROM warPlayers WHERE channel='" + channelName + "'");
-      while (warPlayers.Read()) {
+      for (int count = 1; warPlayers.Read(); count++) {
         Player p = new Player(warPlayers.GetString(0));
         Database.Update("warPlayers", "channel='" + channelName + "' AND rsn='" + p.Name + "'",
                                       "startLevel", p.Skills[skillName].Level.ToStringI(),
@@ -40,14 +39,12 @@ namespace Supay.Bot {
         } else {
           reply += "{0} ({1:e}); ".FormatWith(p.Name, p.Skills[skillName]);
         }
-        count++;
-        if (count % 4 == 0) {
+        if (count % 5 == 0) {
           bc.SendReply(reply);
-          count = 0;
           reply = string.Empty;
         }
       }
-      if (count > 0) {
+      if (!string.IsNullOrEmpty(reply)) {
         bc.SendReply(reply);
       }
 
