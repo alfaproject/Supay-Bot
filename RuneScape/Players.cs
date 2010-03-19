@@ -62,13 +62,13 @@ namespace Supay.Bot {
       return -1;
     }
 
-    public void SortBySkill(string skill, bool byexp) {
-      this.RemoveAll(p => !p.Ranked);
-
-      if (byexp)
-        this.Sort((p1, p2) => -p1.Skills[skill].Exp.CompareTo(p2.Skills[skill].Exp));
-      else
-        this.Sort((p1, p2) => p1.Skills[skill].CompareTo(p2.Skills[skill]));
+    public void SortBySkill(string skill, bool byExp) {
+      RemoveAll(p => !p.Ranked);
+      Sort((p1, p2) =>
+        byExp && p1.Skills[skill].Exp != p2.Skills[skill].Exp ?
+        -p1.Skills[skill].Exp.CompareTo(p2.Skills[skill].Exp) :
+        p1.Skills[skill].CompareTo(p2.Skills[skill])
+      );
     }
 
     public void SortByMinigame(string minigame) {
