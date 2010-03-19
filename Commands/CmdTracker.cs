@@ -58,6 +58,7 @@ namespace Supay.Bot {
 
       if (bc.MessageTokens.Length < 2) {
         bc.SendReply("Syntax: !Rename <old_rsn> <new_rsn>");
+        return;
       }
 
       string oldRsn = bc.MessageTokens[1].ValidatePlayerName();
@@ -66,6 +67,20 @@ namespace Supay.Bot {
       long oldPlayerId = Database.Lookup("id", "players", "rsn=@rsn", new[] { new SQLiteParameter("@rsn", oldRsn) }, -1L);
       if (oldPlayerId == -1) {
         bc.SendReply(@"Player \b{0}\b wasn't being tracked.".FormatWith(oldRsn));
+        return;
+      }
+
+      // check if the old player still exists in hiscores
+      Player oldPlayer = new Player(oldRsn);
+      if (oldPlayer.Ranked) {
+        bc.SendReply(@"Player \b{0}\b is still ranked in hiscores.".FormatWith(oldRsn));
+        return;
+      }
+
+      // check if the new player is in hiscores
+      Player newPlayer = new Player(newRsn);
+      if (!newPlayer.Ranked) {
+        bc.SendReply(@"Player \b{0\b doesn't feature in hiscores.".FormatWith(newRsn));
         return;
       }
 
