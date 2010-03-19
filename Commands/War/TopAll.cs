@@ -29,19 +29,18 @@ namespace Supay.Bot {
       warPlayers.SortBySkill(skill, true);
 
       string reply = null;
-      int i = 0;
-      while (i < warPlayers.Count) {
+      for (int i = 0; i < warPlayers.Count; i++) {
         if (i % 5 == 0) {
-          if (reply != null)
+          if (reply != null) {
             bc.SendReply(reply);
+          }
           reply = @"War \u{0}\u ranking:".FormatWith(skill.ToLowerInvariant());
         }
         reply += @" \c07#{0}\c {1} ({2:e});".FormatWith(i + 1, warPlayers[i].Name, warPlayers[i].Skills[skill]);
-        i++;
       }
-
-      if (reply != null)
+      if (reply != null) {
         bc.SendReply(reply);
+      }
     }
 
   } //class Command
