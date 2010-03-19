@@ -452,25 +452,23 @@ namespace Supay.Bot {
 
     #region IComparable<Skill>
 
-    // {CompareTo < 0 => this < other} {CompareTo > 0 => this > other} {CompareTo == 0 => this == other}
+    // {CompareTo < 0 => this < other} {CompareTo > 0 => this > other} {CompareTo = 0 => this = other}
     public int CompareTo(Skill other) {
-      if (Object.ReferenceEquals(this, other))
-        return 0; // same object reference
+      // see if it is the same object
+      if (ReferenceEquals(this, other)) {
+        return 0;
+      }
 
-      if (this.VLevel == other.VLevel)
-        if (_exp == other.Exp)
-          return 0;
-        else if (_exp > other.Exp)
-          return -1;
-        else
-          return 1;
-      else if (this.VLevel > other.VLevel)
-        return -1;
-      else
-        return 1;
+      // compare by rank if both skills are ranked
+      if (Rank > 0 && other.Rank > 0) {
+        return Rank.CompareTo(other.Rank);
+      }
+
+      // compare by experience if levels are the same or levels otherwise
+      return (VLevel == other.VLevel ? other._exp.CompareTo(_exp) : other.VLevel.CompareTo(VLevel));
     }
 
     #endregion
 
-  } // class Skill
-} // //namespace Supay.Bot
+  } //class Skill
+} //namespace Supay.Bot
