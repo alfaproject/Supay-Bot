@@ -64,11 +64,16 @@ namespace Supay.Bot {
 
     public void SortBySkill(string skill, bool byExp) {
       RemoveAll(p => !p.Ranked);
-      Sort((p1, p2) =>
-        byExp && p1.Skills[skill].Exp != p2.Skills[skill].Exp ?
+      Sort((p1, p2) => {
+        Skill s1 = p1.Skills[skill];
+        Skill s2 = p2.Skills[skill];
+        if (s1.Level == s2.Level && s1.Exp == s2.Exp && s1.Rank > 0 && s2.Rank > 0) {
+          return s1.Rank.CompareTo(s2.Rank);
+        }
+        return byExp && p1.Skills[skill].Exp != p2.Skills[skill].Exp ?
         -p1.Skills[skill].Exp.CompareTo(p2.Skills[skill].Exp) :
-        p1.Skills[skill].CompareTo(p2.Skills[skill])
-      );
+        p1.Skills[skill].CompareTo(p2.Skills[skill]);
+      });
     }
 
     public void SortByMinigame(string minigame) {

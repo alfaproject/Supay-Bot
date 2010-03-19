@@ -459,11 +459,6 @@ namespace Supay.Bot {
         return 0;
       }
 
-      // compare by rank if both skills are ranked
-      if (Rank > 0 && other.Rank > 0) {
-        return Rank.CompareTo(other.Rank);
-      }
-
       // compare by experience if levels are the same or levels otherwise
       return (VLevel == other.VLevel ? other._exp.CompareTo(_exp) : other.VLevel.CompareTo(VLevel));
     }
