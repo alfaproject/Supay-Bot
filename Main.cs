@@ -331,6 +331,20 @@ namespace Supay.Bot {
               bc.SendReply(ex.Message.Replace("\r\n", " » "));
             }
             break;
+          case "SQLRESULT":
+            try {
+              SQLiteDataReader sqlQuery = Database.ExecuteReader(bc.MessageTokens.Join(1) + " LIMIT 1;");
+              if (sqlQuery.Read()) {
+                string reply = "Results »";
+                for (int i = 0; i < sqlQuery.FieldCount; i++) {
+                  reply += " " + sqlQuery.GetValue(i).ToString() + ";";
+                }
+                _irc.SendChat(reply, e.Message.Sender.Nickname);
+              }
+            } catch (Exception ex) {
+              bc.SendReply(ex.Message.Replace("\r\n", " » "));
+            }
+            break;
           case "LISTCHANNELS":
             string users;
             foreach (Channel c in _irc.Channels) {
