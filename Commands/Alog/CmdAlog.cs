@@ -52,7 +52,7 @@ namespace Supay.Bot {
       }
 
       string questRegex = @"Quest complete: (.+)";
-      string killRegex = @"(?:killed the player (.+?)\.|I killed (?:an? )? ?(.+?)\.?$)";
+      string killRegex = @"killed the player (.+?)\.|I killed (?:an? | ?the )?(.+?)\.?$";
       string levelRegex = @"Level?led up (\w+)\.?";
       string itemRegex = @"Item found: (?:an?|some) (.+)";
       string expRegex = @"(\d+)XP in (\w+)";

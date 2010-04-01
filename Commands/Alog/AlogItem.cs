@@ -25,7 +25,7 @@ namespace Supay.Bot {
       } else {
         string[] groups = new string[2];
         for (int i = 1; i < M.Groups.Count; i++) {
-          groups[i - 1] = M.Groups[i].Value;
+          groups[i - 1] = M.Groups[i].Value.Trim();
         }
         this.Info = groups;
       }
