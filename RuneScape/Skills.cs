@@ -9,7 +9,7 @@ namespace Supay.Bot {
 
     public int F2pExp {
       get {
-        return this[Skill.ATTA].Exp + this[Skill.DEFE].Exp + this[Skill.STRE].Exp + this[Skill.HITP].Exp + this[Skill.RANG].Exp + this[Skill.PRAY].Exp + this[Skill.MAGI].Exp + this[Skill.COOK].Exp + this[Skill.WOOD].Exp + this[Skill.FISH].Exp + this[Skill.FIRE].Exp + this[Skill.CRAF].Exp + this[Skill.SMIT].Exp + this[Skill.MINI].Exp + this[Skill.RUNE].Exp;
+        return this[Skill.ATTA].Exp + this[Skill.DEFE].Exp + this[Skill.STRE].Exp + this[Skill.HITP].Exp + this[Skill.RANG].Exp + this[Skill.PRAY].Exp + this[Skill.MAGI].Exp + this[Skill.COOK].Exp + this[Skill.WOOD].Exp + this[Skill.FISH].Exp + this[Skill.FIRE].Exp + this[Skill.CRAF].Exp + this[Skill.SMIT].Exp + this[Skill.MINI].Exp + this[Skill.RUNE].Exp + this[Skill.DUNG].Exp;
       }
     }
 
