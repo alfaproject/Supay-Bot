@@ -14,7 +14,7 @@ namespace Supay.Bot {
       if (bc.Message.ContainsI("SS")) {
         clanInitials = "SS";
         clanName = "Supreme Skillers";
-        pageRuneHead = new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=lovvel");
+        pageRuneHead = new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=supreme");
       } else if (bc.Message.ContainsI("TS")) {
         clanInitials = "TS";
         clanName = "True Skillers";

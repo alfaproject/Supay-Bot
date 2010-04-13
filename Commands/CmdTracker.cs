@@ -41,13 +41,13 @@ namespace Supay.Bot {
       }
 
       string rsn = bc.MessageTokens.Join(1).ValidatePlayerName();
-      long playerId = Database.Lookup("id", "players", "rsn=@name", new[] { new SQLiteParameter("@name", rsn) }, -1L);
+      long playerId = Database.Lookup("id", "players", "rsn LIKE @name", new[] { new SQLiteParameter("@name", rsn) }, -1L);
       if (playerId != -1) {
         Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + playerId + ";");
         Database.ExecuteNonQuery("DELETE FROM players WHERE id=" + playerId + ";");
-        bc.SendReply("\\b{0}\\b was removed from tracker.".FormatWith(rsn));
+        bc.SendReply("\\b{0}\\b was removed from the tracker database.".FormatWith(rsn));
       } else {
-        bc.SendReply("\\b{0}\\b wasn't being tracked.".FormatWith(rsn));
+        bc.SendReply("\\b{0}\\b was not found on the tracker database.".FormatWith(rsn));
       }
     }
 

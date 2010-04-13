@@ -45,12 +45,12 @@ namespace Supay.Bot {
     }
 
     public Player Find(string rsn) {
-      return this.Find(p => p.Name == rsn);
+      return this.Find(p => p.Name.ToLower() == rsn.ToLower());
     }
 
     public bool Contains(string rsn) {
       foreach (Player p in this)
-        if (p.Name == rsn)
+        if (p.Name.ToLower() == rsn.ToLower())
           return true;
       return false;
     }

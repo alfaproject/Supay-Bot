@@ -20,7 +20,7 @@ namespace Supay.Bot {
         }
       }
 
-      bc.SendReply(@"\bSupreme Skillers\b | Homepage: \c12www.supremeskillers.co.nr\c | \u{0}\u average level: \c07{1}\c (\c07{2:N0}\c average exp.) | Members (\c07{3}\c): \c12http://runehead.com/clans/ml.php?clan=lovvel\c".FormatWith(skill, totallevel / ssplayers.Count, totalexp / ssplayers.Count, ssplayers.Count));
+      bc.SendReply(@"\bSupreme Skillers\b | Homepage: \c12www.supremeskillers.co.nr\c | \u{0}\u average level: \c07{1}\c (\c07{2:N0}\c average exp.) | Members (\c07{3}\c): \c12http://runehead.com/clans/ml.php?clan=supreme\c".FormatWith(skill, totallevel / ssplayers.Count, totalexp / ssplayers.Count, ssplayers.Count));
     }
 
     public static void Event(CommandContext bc) {
