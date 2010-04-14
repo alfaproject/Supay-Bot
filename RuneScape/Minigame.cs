@@ -50,7 +50,6 @@ namespace Supay.Bot {
 
       switch (s.ToUpperInvariant()) {
         case "DT":
-        case "DU":
         case "DUEL":
         case "DUELING":
         case "DUELTOURNAMENT":

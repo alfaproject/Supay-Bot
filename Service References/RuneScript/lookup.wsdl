@@ -44,6 +44,7 @@
           <xsd:element name="hunter" type="tns:skillVar" />
           <xsd:element name="construction" type="tns:skillVar" />
           <xsd:element name="summoning" type="tns:skillVar" />
+          <xsd:element name="dungeoneering" type="tns:skillVar" />
         </xsd:all>
       </xsd:complexType>
       <xsd:complexType name="trackerTime">

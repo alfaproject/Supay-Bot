@@ -29,6 +29,7 @@ namespace Supay.Bot {
     public const string HUNT = "Hunter";
     public const string CONS = "Construction";
     public const string SUMM = "Summoning";
+    public const string DUNG = "Dungeoneering";
     public const string COMB = "Combat";
 
     public Skill(string name, int rank, int level, int exp)
@@ -146,6 +147,8 @@ namespace Supay.Bot {
             return "Construct";
           case SUMM:
             return "Summon";
+          case DUNG:
+            return "Dungeon";
           default:
             return Name;
         }
@@ -282,6 +285,12 @@ namespace Supay.Bot {
         case "SUMMON":
         case "SUMMONING":
           return SUMM;
+        case "DU":
+        case "DUN":
+        case "DUNG":
+        case "DUNGEON":
+        case "DUNGEONEERING":
+          return DUNG;
         case "CB":
         case "CMB":
         case "COMB":
@@ -342,6 +351,8 @@ namespace Supay.Bot {
           return 23;
         case SUMM:
           return 24;
+        case DUNG:
+          return 25;
         default:
           return 0;
       }
@@ -399,6 +410,8 @@ namespace Supay.Bot {
           return CONS;
         case 24:
           return SUMM;
+        case 25:
+          return DUNG;
         default:
           return "Skill" + id;
       }
