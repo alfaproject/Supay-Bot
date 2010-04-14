@@ -152,7 +152,7 @@ namespace Supay.Bot {
                                    "hunt_xp", _skills[22].Exp.ToStringI(), "hunt_rank", _skills[22].Rank.ToStringI(),
                                    "construction_xp", _skills[23].Exp.ToStringI(), "construction_rank", _skills[23].Rank.ToStringI(),
                                    "summ_xp", _skills[24].Exp.ToStringI(), "summ_rank", _skills[24].Rank.ToStringI(),
-                                   "dung_xp", _skills[25].Exp.ToStringI(), "dung_rank", _skills[25].Rank.ToStringI(),
+                                   "dungExp", _skills[25].Exp.ToStringI(), "dungRank", _skills[25].Rank.ToStringI(),
                                    "dt_rank", _minigames[Minigame.DUEL].Rank.ToStringI(), "dt_score", _minigames[Minigame.DUEL].Score.ToStringI(),
                                    "bh_rank", _minigames[Minigame.BOUN].Rank.ToStringI(), "bh_score", _minigames[Minigame.BOUN].Score.ToStringI(),
                                    "bhr_rank", _minigames[Minigame.ROGU].Rank.ToStringI(), "bhr_score", _minigames[Minigame.ROGU].Score.ToStringI(),
