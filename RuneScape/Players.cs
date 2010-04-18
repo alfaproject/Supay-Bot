@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using System.Data.SQLite;
+using System.Linq;
 
 namespace Supay.Bot {
   class Players : List<Player> {
@@ -44,21 +45,20 @@ namespace Supay.Bot {
       rs.Close();
     }
 
-    public Player Find(string rsn) {
-      return this.Find(p => p.Name.ToLower() == rsn.ToLower());
+    public Player Find(string name) {
+      return Find(p => p.Name.EqualsI(name));
     }
 
-    public bool Contains(string rsn) {
-      foreach (Player p in this)
-        if (p.Name.ToLower() == rsn.ToLower())
-          return true;
-      return false;
+    public bool Contains(string name) {
+      return this.Any(p => p.Name.EqualsI(name));
     }
 
-    public int IndexOf(string rsn) {
-      for (int i = 0; i < this.Count; i++)
-        if (this[i].Name == rsn)
+    public int IndexOf(string name) {
+      for (int i = 0; i < Count; i++) {
+        if (this[i].Name.EqualsI(name)) {
           return i;
+        }
+      }
       return -1;
     }
 
