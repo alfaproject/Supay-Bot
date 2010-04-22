@@ -19,7 +19,7 @@ namespace Supay.Bot {
       }
 
       string rsn = bc.GetPlayerName(bc.From.Nickname);
-      string skill = null, minigame = null;
+      string skill = null, activity = null;
       int rank = 0;
       bool IsIndividual = false;
 
@@ -38,27 +38,27 @@ namespace Supay.Bot {
       if (bc.MessageTokens.Length == 1) {
         // !ClanTop
         IsIndividual = true;
-      } else if (Supay.Bot.Minigame.TryParse(bc.MessageTokens[1], ref minigame) || Skill.TryParse(bc.MessageTokens[1], ref skill)) {
-        // !ClanTop Skill/Minigame
+      } else if (Bot.Activity.TryParse(bc.MessageTokens[1], ref activity) || Skill.TryParse(bc.MessageTokens[1], ref skill)) {
+        // !ClanTop Skill/Activity
         rank = 1;
 
         // Clean and sort clan members by specified skill
-        if (minigame == null) {
+        if (activity == null) {
           clanPlayers.RemoveAll(p => !p.Ranked || p.Skills[skill].Exp == 0);
           clanPlayers.SortBySkill(skill, exp);
         } else {
-          clanPlayers.RemoveAll(p => !p.Ranked || p.Minigames[minigame].Score == 0);
-          clanPlayers.SortByMinigame(minigame);
+          clanPlayers.RemoveAll(p => !p.Ranked || p.Activities[activity].Score == 0);
+          clanPlayers.SortByActivity(activity);
         }
 
         if (bc.MessageTokens.Length > 2) {
           if (int.TryParse(bc.MessageTokens[2], out rank)) {
-            // !ClanTop Skill/Minigame Rank
+            // !ClanTop Skill/Activity Rank
           } else if (bc.MessageTokens.Length == 3 && bc.MessageTokens[2].ToUpperInvariant() == "@LAST") {
-            // !ClanTop Skill/Minigame @last
+            // !ClanTop Skill/Activity @last
             rank = clanPlayers.Count;
           } else {
-            // !ClanTop Skill/Minigame RSN
+            // !ClanTop Skill/Activity RSN
             rsn = bc.GetPlayerName(bc.MessageTokens.Join(2));
             if (clanPlayers.Contains(rsn))
               rank = clanPlayers.IndexOf(rsn) + 1;
@@ -83,13 +83,13 @@ namespace Supay.Bot {
           }
           bc.SendReply(reply);
 
-          // individual minigame ranks
+          // individual activity ranks
           bool ranked = false;
-          reply = "[{0}] \\b{1}\\b minigame ranks:".FormatWith(clanInitials, rsn);
-          foreach (Minigame mg in p.Minigames.Values) {
+          reply = "[{0}] \\b{1}\\b activity ranks:".FormatWith(clanInitials, rsn);
+          foreach (Activity mg in p.Activities.Values) {
             if (mg.Score > 0) {
               ranked = true;
-              clanPlayers.SortByMinigame(mg.Name);
+              clanPlayers.SortByActivity(mg.Name);
               reply += " \\c07#" + (clanPlayers.IndexOf(p) + 1) + "\\c " + mg.Name + ";";
             }
           }
@@ -121,7 +121,7 @@ namespace Supay.Bot {
         if (exp)
           skillFormat = "e";
 
-        if (minigame == null) {
+        if (activity == null) {
           if (clanPlayers.Count > 0) {
             string reply = "[" + clanInitials + "] \\u" + skill.ToLowerInvariant() + "\\u ranking:";
             if (input_player_rank > 0 && input_player_rank <= MinRank)
@@ -154,9 +154,9 @@ namespace Supay.Bot {
           }
         } else {
           if (clanPlayers.Count > 0) {
-            string reply = "[" + clanInitials + "] \\u" + minigame.ToLowerInvariant() + "\\u ranking:";
+            string reply = "[" + clanInitials + "] \\u" + activity.ToLowerInvariant() + "\\u ranking:";
             if (input_player_rank > 0 && input_player_rank <= MinRank)
-              reply += " \\c07#" + input_player_rank + "\\c \\u" + clanPlayers[input_player_rank - 1].Name + "\\u (" + clanPlayers[input_player_rank - 1].Minigames[minigame].Score + ");";
+              reply += " \\c07#" + input_player_rank + "\\c \\u" + clanPlayers[input_player_rank - 1].Name + "\\u (" + clanPlayers[input_player_rank - 1].Activities[activity].Score + ");";
 
             for (int i = MinRank; i < Math.Min(MinRank + 11, clanPlayers.Count); i++) {
               reply += " ";
@@ -168,18 +168,18 @@ namespace Supay.Bot {
               reply += clanPlayers[i].Name;
               if (i == input_player_rank - 1)
                 reply += "\\u";
-              reply += " (" + clanPlayers[i].Minigames[minigame].Score + ")";
+              reply += " (" + clanPlayers[i].Activities[activity].Score + ")";
               if (i == rank - 1)
                 reply += "\\b";
               reply += ";";
             }
 
             if (input_player_rank > 0 && input_player_rank > MinRank + 11)
-              reply += " \\c07#" + input_player_rank + "\\c \\u" + clanPlayers[input_player_rank - 1].Name + "\\u (" + clanPlayers[input_player_rank - 1].Minigames[minigame].Score + ");";
+              reply += " \\c07#" + input_player_rank + "\\c \\u" + clanPlayers[input_player_rank - 1].Name + "\\u (" + clanPlayers[input_player_rank - 1].Activities[activity].Score + ");";
 
             bc.SendReply(reply);
           } else {
-            bc.SendReply(clanName + " don't have any member ranked at this minigame.");
+            bc.SendReply(clanName + " don't have any member ranked at this activity.");
           }
         }
       }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Globalization;
 
@@ -302,21 +303,19 @@ namespace Supay.Bot {
         if (has_performance)
           bc.SendReply(ReplyMsg);
 
-        // 3rd line: minigames list
-        List<Minigame> MinigamesDif = new List<Minigame>();
-        foreach (Minigame MinigameNew in PlayerNew.Minigames.Values) {
-          if (PlayerOld.Minigames.ContainsKey(MinigameNew.Name))
-            MinigamesDif.Add(MinigameNew - PlayerOld.Minigames[MinigameNew.Name]);
-        }
-        MinigamesDif.Sort();
+        // 3rd line: activities list
+        List<Activity> activitiesDelta = (from newActivity in PlayerNew.Activities.Values
+                                          where PlayerOld.Activities.ContainsKey(newActivity.Name)
+                                          select newActivity - PlayerOld.Activities[newActivity.Name]).ToList();
+        activitiesDelta.Sort();
 
-        if (MinigamesDif.Count > 0) {
+        if (activitiesDelta.Count > 0) {
           has_performance = false;
-          ReplyMsg = "\\b{0}\\b \\u{1}\\u minigames:".FormatWith(rsn, interval.ToLowerInvariant());
-          for (int i = 0; i < MinigamesDif.Count; i++) {
-            if (MinigamesDif[i].Score > 0) {
+          ReplyMsg = "\\b{0}\\b \\u{1}\\u activities:".FormatWith(rsn, interval.ToLowerInvariant());
+          for (int i = 0; i < activitiesDelta.Count; i++) {
+            if (activitiesDelta[i].Score > 0) {
               has_performance = true;
-              ReplyMsg += " \\c07{0}\\c \\c3+{1}\\c score;".FormatWith(MinigamesDif[i].Name, MinigamesDif[i].Score);
+              ReplyMsg += " \\c07{0}\\c \\c3+{1}\\c score;".FormatWith(activitiesDelta[i].Name, activitiesDelta[i].Score);
             }
           }
           if (has_performance)

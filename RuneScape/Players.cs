@@ -1,29 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using System.Data.SQLite;
 using System.Linq;
 
 namespace Supay.Bot {
   class Players : List<Player> {
 
-    public Players()
-      : base() {
+    public Players() {
     }
 
     public Players(string clan) {
-      SQLiteDataReader rs = Database.ExecuteReader("SELECT rsn, lastupdate FROM players WHERE clan LIKE '%" + clan + "%'");
-      while (rs.Read())
-        this.Add(new Player(rs.GetString(0), rs.GetString(1).ToDateTime()));
-      rs.Close();
-    }
-
-    public Players(string clan, DateTime day) {
-      SQLiteDataReader rs = Database.ExecuteReader("SELECT rsn FROM players WHERE clan LIKE '%" + clan + "%'");
+      SQLiteDataReader rs = Database.ExecuteReader("SELECT rsn, lastUpdate FROM players WHERE clan LIKE '%" + clan + "%'");
       while (rs.Read()) {
-        Player p = new Player(rs.GetString(0), day);
-        if (p.Ranked)
-          this.Add(p);
+        Add(new Player(rs.GetString(0), rs.GetString(1).ToDateTime()));
       }
       rs.Close();
     }
@@ -36,9 +25,10 @@ namespace Supay.Bot {
         if (playerBegin.Ranked) {
           Player playerEnd = new Player(rs.GetString(0), lastDay);
           if (playerEnd.Ranked) {
-            for (int i = 0; i < playerEnd.Skills.Count; i++)
+            for (int i = 0; i < playerEnd.Skills.Count; i++) {
               playerEnd.Skills[i] -= playerBegin.Skills[i];
-            this.Add(playerEnd);
+            }
+            Add(playerEnd);
           }
         }
       }
@@ -76,9 +66,9 @@ namespace Supay.Bot {
       });
     }
 
-    public void SortByMinigame(string minigame) {
-      this.RemoveAll(p => !p.Ranked);
-      this.Sort((p1, p2) => p1.Minigames[minigame].CompareTo(p2.Minigames[minigame]));
+    public void SortByActivity(string activity) {
+      RemoveAll(p => !p.Ranked);
+      Sort((p1, p2) => p1.Activities[activity].CompareTo(p2.Activities[activity]));
     }
 
   } //class Players

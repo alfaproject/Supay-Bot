@@ -166,8 +166,8 @@ namespace Supay.Bot {
         bc.SendReply(replyOther);
 
         bool ranked = false;
-        reply = "\\uMinigames\\u:";
-        foreach (Minigame m in p.Minigames.Values) {
+        reply = "\\uActivities\\u:";
+        foreach (Activity m in p.Activities.Values) {
           if (m.Rank > 0) {
             ranked = true;
             reply += " \\c07" + (Rank ? m.Rank : m.Score) + "\\c " + m.Name + ";";

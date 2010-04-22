@@ -5,12 +5,12 @@ using System.Text.RegularExpressions;
 namespace Supay.Bot {
 
   class Hiscores : List<Hiscore> {
-    public Hiscores(string skill, string minigame, int rank)
+    public Hiscores(string skill, string activity, int rank)
       : base(21) {
       System.Net.WebClient wc = new System.Net.WebClient();
       string hiscore_page;
 
-      if (minigame == null) {
+      if (activity == null) {
         Name = skill;
 
         // get this skill hiscore table
@@ -26,13 +26,13 @@ namespace Supay.Bot {
         }
 
       } else {
-        Name = minigame;
+        Name = activity;
 
-        // get this minigame hiscore table
-        hiscore_page = wc.DownloadString("http://hiscore.runescape.com/overall.ws?category_type=1&table=" + Minigame.NameToId(minigame) + "&rank=" + rank);
+        // get this activity hiscore table
+        hiscore_page = wc.DownloadString("http://hiscore.runescape.com/overall.ws?category_type=1&table=" + Activity.NameToId(activity) + "&rank=" + rank);
 
         foreach (Match M in Regex.Matches(hiscore_page, "<td class=\"[^\"]+\">([^<]+)</td>\\s+<td class=\"alL\"><[^>]+>([^<]+)</a></td>\\s+<td class=\"[^\"]+\">([\\d,]+)</td>", RegexOptions.Singleline)) {
-          this.Add(new Minigame(Name,
+          this.Add(new Activity(Name,
                                 int.Parse(M.Groups[1].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture),
                                 int.Parse(M.Groups[3].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture)));
           this[this.Count - 1].RSN = M.Groups[2].Value.Replace(' ', '_');

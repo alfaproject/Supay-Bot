@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Globalization;
 
 namespace Supay.Bot {
-  class Minigame : Hiscore, IComparable<Minigame> {
+  class Activity : Hiscore, IComparable<Activity> {
 
     public const string DUEL = "Duel Tournament";
     public const string BOUN = "Bounty Hunters";
@@ -14,8 +13,7 @@ namespace Supay.Bot {
     public const string BACO = "BA Collector";
     public const string BAHE = "BA Healer";
 
-
-    public Minigame(string name, int rank, int score)
+    public Activity(string name, int rank, int score)
       : base(rank) {
       Name = name;
 
@@ -25,7 +23,7 @@ namespace Supay.Bot {
         Score = score;
     }
 
-    public Minigame(int rank)
+    public Activity(int rank)
       : base(rank) {
     }
 
@@ -106,7 +104,7 @@ namespace Supay.Bot {
         case "BAHEALER":
           return BAHE;
         default:
-          throw new ArgumentException("Input minigame alias is invalid.", "s");
+          throw new ArgumentException("Input activity alias is invalid.", "s");
       }
     }
 
@@ -122,7 +120,7 @@ namespace Supay.Bot {
         case 7: return BACO;
         case 8: return BAHE;
         default:
-          return "Minigame" + id;
+          return "Activity" + id;
       }
     }
 
@@ -142,12 +140,12 @@ namespace Supay.Bot {
       }
     }
 
-    // newMinigame - oldMinigame
-    public static Minigame operator -(Minigame newMinigame, Minigame oldMinigame) {
-      if (oldMinigame.Rank == -1 && newMinigame.Rank > 0)
-        return new Minigame(newMinigame.Name, 0, newMinigame.Score - oldMinigame.Score);
+    // newActivity - oldActivity
+    public static Activity operator -(Activity newActivity, Activity oldActivity) {
+      if (oldActivity.Rank == -1 && newActivity.Rank > 0)
+        return new Activity(newActivity.Name, 0, newActivity.Score - oldActivity.Score);
       else
-        return new Minigame(newMinigame.Name, oldMinigame.Rank - newMinigame.Rank, newMinigame.Score - oldMinigame.Score);
+        return new Activity(newActivity.Name, oldActivity.Rank - newActivity.Rank, newActivity.Score - oldActivity.Score);
     }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
@@ -177,10 +175,10 @@ namespace Supay.Bot {
       }
     }
 
-    #region IComparable<Minigame> Members
+    #region IComparable<Activity> Members
 
     // {CompareTo < 0 => this < other} {CompareTo > 0 => this > other} {CompareTo == 0 => this == other}
-    public int CompareTo(Minigame other) {
+    public int CompareTo(Activity other) {
       if (Object.ReferenceEquals(this, other))
         return 0; // same object reference
 
@@ -194,5 +192,5 @@ namespace Supay.Bot {
 
     #endregion
 
-  } // class Minigame
-} // //namespace Supay.Bot
+  } // class Activity
+} //namespace Supay.Bot

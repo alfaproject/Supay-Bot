@@ -7,7 +7,7 @@ namespace Supay.Bot {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void Top(CommandContext bc) {
       string rsn = bc.GetPlayerName(bc.From.Nickname);
-      string skill = null, minigame = null;
+      string skill = null, activity = null;
       int rank = 0;
 
       // get @level
@@ -24,20 +24,20 @@ namespace Supay.Bot {
         // !Top
         rank = 1;
         skill = Skill.OVER;
-      } else if (Supay.Bot.Minigame.TryParse(bc.MessageTokens[1], ref minigame) || Skill.TryParse(bc.MessageTokens[1], ref skill)) {
-        // !Top Skill/Minigame
+      } else if (Bot.Activity.TryParse(bc.MessageTokens[1], ref activity) || Skill.TryParse(bc.MessageTokens[1], ref skill)) {
+        // !Top Skill/Activity
         rank = 1;
 
         if (bc.MessageTokens.Length > 2) {
           if (int.TryParse(bc.MessageTokens[2], out rank)) {
-            // !Top Skill/Minigame Rank
+            // !Top Skill/Activity Rank
           } else {
-            // !Top Skill/Minigame RSN
+            // !Top Skill/Activity RSN
             rsn = bc.GetPlayerName(bc.MessageTokens.Join(2));
             Player p = new Player(rsn);
             if (p.Ranked) {
               if (skill == null)
-                rank = p.Minigames[minigame].Rank;
+                rank = p.Activities[activity].Rank;
               else
                 rank = p.Skills[skill].Rank;
             }
@@ -54,7 +54,7 @@ namespace Supay.Bot {
         Player p = new Player(rsn);
         if (p.Ranked) {
           if (skill == null)
-            rank = p.Minigames[minigame].Rank;
+            rank = p.Activities[activity].Rank;
           else
             rank = p.Skills[skill].Rank;
         }
@@ -62,10 +62,10 @@ namespace Supay.Bot {
       if (rank < 0)
         rank = 1;
 
-      Hiscores hiscores = new Hiscores(skill, minigame, rank);
+      Hiscores hiscores = new Hiscores(skill, activity, rank);
 
       string reply = "RS \\u" + hiscores.Name.ToLowerInvariant() + "\\u rankings:";
-      if (minigame == null) {
+      if (activity == null) {
         for (int i = 0; i < Math.Min(12, hiscores.Count); i++) {
           reply += " ";
           if (hiscores[i].Rank == rank)
@@ -85,7 +85,7 @@ namespace Supay.Bot {
           reply += " ";
           if (hiscores[i].Rank == rank)
             reply += "\\b";
-          reply += "\\c07#{0}\\c {1} ({2})".FormatWith(hiscores[i].Rank, hiscores[i].RSN, ((Minigame)hiscores[i]).Score);
+          reply += "\\c07#{0}\\c {1} ({2})".FormatWith(hiscores[i].Rank, hiscores[i].RSN, ((Activity)hiscores[i]).Score);
           if (hiscores[i].Rank == rank)
             reply += "\\b";
           reply += ";";

@@ -123,7 +123,7 @@
     <Compile Include="Commands\War\Add.cs" />
     <Compile Include="Commands\GrandExchange\PriceInfo.cs" />
     <Compile Include="Commands\RuneScape\Combat.cs" />
-    <Compile Include="Commands\RuneScape\Minigame.cs" />
+    <Compile Include="Commands\RuneScape\Activity.cs" />
     <Compile Include="Commands\RuneScape\Rank.cs" />
     <Compile Include="Commands\RuneScape\Skill.cs" />
     <Compile Include="Commands\RuneScape\Stats.cs" />
@@ -185,8 +185,8 @@
     </EmbeddedResource>
     <Compile Include="RuneScape\Hiscores.cs" />
     <Compile Include="RuneScape\Hiscore.cs" />
-    <Compile Include="RuneScape\Minigame.cs" />
-    <Compile Include="RuneScape\Minigames.cs" />
+    <Compile Include="RuneScape\Activity.cs" />
+    <Compile Include="RuneScape\ActivityDictionary.cs" />
     <Compile Include="RuneScape\Player.cs" />
     <Compile Include="RuneScape\Players.cs" />
     <Compile Include="RuneScape\Utils.cs" />

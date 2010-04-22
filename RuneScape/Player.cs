@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Globalization;
 using System.Net;
@@ -12,7 +11,7 @@ namespace Supay.Bot {
     private bool _ranked;
 
     private Skills _skills;
-    private Minigames _minigames;
+    private ActivityDictionary _activities;
 
     public long Id {
       get;
@@ -55,9 +54,9 @@ namespace Supay.Bot {
       }
     }
 
-    public Dictionary<string, Minigame> Minigames {
+    public ActivityDictionary Activities {
       get {
-        return _minigames;
+        return _activities;
       }
     }
 
@@ -153,15 +152,15 @@ namespace Supay.Bot {
                                    "construction_xp", _skills[23].Exp.ToStringI(), "construction_rank", _skills[23].Rank.ToStringI(),
                                    "summ_xp", _skills[24].Exp.ToStringI(), "summ_rank", _skills[24].Rank.ToStringI(),
                                    "dungExp", _skills[25].Exp.ToStringI(), "dungRank", _skills[25].Rank.ToStringI(),
-                                   "dt_rank", _minigames[Minigame.DUEL].Rank.ToStringI(), "dt_score", _minigames[Minigame.DUEL].Score.ToStringI(),
-                                   "bh_rank", _minigames[Minigame.BOUN].Rank.ToStringI(), "bh_score", _minigames[Minigame.BOUN].Score.ToStringI(),
-                                   "bhr_rank", _minigames[Minigame.ROGU].Rank.ToStringI(), "bhr_score", _minigames[Minigame.ROGU].Score.ToStringI(),
-                                   "fist_rank", _minigames[Minigame.FIST].Rank.ToStringI(), "fist_score", _minigames[Minigame.FIST].Score.ToStringI(),
-                                   "mob_rank", _minigames[Minigame.MOBI].Rank.ToStringI(), "mob_score", _minigames[Minigame.MOBI].Score.ToStringI(),
-                                   "baat_rank", _minigames[Minigame.BAAT].Rank.ToStringI(), "baat_score", _minigames[Minigame.BAAT].Score.ToStringI(),
-                                   "bade_rank", _minigames[Minigame.BADE].Rank.ToStringI(), "bade_score", _minigames[Minigame.BADE].Score.ToStringI(),
-                                   "baco_rank", _minigames[Minigame.BACO].Rank.ToStringI(), "baco_score", _minigames[Minigame.BACO].Score.ToStringI(),
-                                   "bahe_rank", _minigames[Minigame.BAHE].Rank.ToStringI(), "bahe_score", _minigames[Minigame.BAHE].Score.ToStringI());
+                                   "dt_rank", _activities[Activity.DUEL].Rank.ToStringI(), "dt_score", _activities[Activity.DUEL].Score.ToStringI(),
+                                   "bh_rank", _activities[Activity.BOUN].Rank.ToStringI(), "bh_score", _activities[Activity.BOUN].Score.ToStringI(),
+                                   "bhr_rank", _activities[Activity.ROGU].Rank.ToStringI(), "bhr_score", _activities[Activity.ROGU].Score.ToStringI(),
+                                   "fist_rank", _activities[Activity.FIST].Rank.ToStringI(), "fist_score", _activities[Activity.FIST].Score.ToStringI(),
+                                   "mob_rank", _activities[Activity.MOBI].Rank.ToStringI(), "mob_score", _activities[Activity.MOBI].Score.ToStringI(),
+                                   "baat_rank", _activities[Activity.BAAT].Rank.ToStringI(), "baat_score", _activities[Activity.BAAT].Score.ToStringI(),
+                                   "bade_rank", _activities[Activity.BADE].Rank.ToStringI(), "bade_score", _activities[Activity.BADE].Score.ToStringI(),
+                                   "baco_rank", _activities[Activity.BACO].Rank.ToStringI(), "baco_score", _activities[Activity.BACO].Score.ToStringI(),
+                                   "bahe_rank", _activities[Activity.BAHE].Rank.ToStringI(), "bahe_score", _activities[Activity.BAHE].Score.ToStringI());
 
         Database.Update("players", "id=" + Id, "lastupdate", s_date);
       }
@@ -202,7 +201,7 @@ namespace Supay.Bot {
         _skills.Add(Skill.CONS, new Skill(Skill.CONS, RScriptSkills.construction.rank, RScriptSkills.construction.exp));
         _skills.Add(Skill.SUMM, new Skill(Skill.SUMM, RScriptSkills.summoning.rank, RScriptSkills.summoning.exp));
         _skills.Add(Skill.DUNG, new Skill(Skill.DUNG, RScriptSkills.dungeoneering.rank, RScriptSkills.dungeoneering.exp));
-        _minigames = new Minigames();
+        _activities = new ActivityDictionary();
         _ranked = true;
 
         // Make it compatible with RuneScape
@@ -236,7 +235,7 @@ namespace Supay.Bot {
           // Initialize variables
           Id = Convert.ToInt32(rs["pid"], CultureInfo.InvariantCulture);
           _skills = new Skills();
-          _minigames = new Minigames();
+          _activities = new ActivityDictionary();
           _ranked = true;
 
           _skills.Add(Skill.OVER, new Skill(Skill.OVER, Convert.ToInt32(rs["overall_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["overall_level"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["overall_xp"], CultureInfo.InvariantCulture)));
@@ -266,15 +265,15 @@ namespace Supay.Bot {
           _skills.Add(Skill.SUMM, new Skill(Skill.SUMM, Convert.ToInt32(rs["summ_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["summ_xp"], CultureInfo.InvariantCulture)));
           _skills.Add(Skill.DUNG, new Skill(Skill.DUNG, Convert.ToInt32(rs["dungRank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["dungExp"], CultureInfo.InvariantCulture)));
 
-          _minigames.Add(Minigame.DUEL, new Minigame(Minigame.DUEL, Convert.ToInt32(rs["dt_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["dt_score"], CultureInfo.InvariantCulture)));
-          _minigames.Add(Minigame.BOUN, new Minigame(Minigame.BOUN, Convert.ToInt32(rs["bh_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["bh_score"], CultureInfo.InvariantCulture)));
-          _minigames.Add(Minigame.ROGU, new Minigame(Minigame.ROGU, Convert.ToInt32(rs["bhr_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["bhr_score"], CultureInfo.InvariantCulture)));
-          _minigames.Add(Minigame.FIST, new Minigame(Minigame.FIST, Convert.ToInt32(rs["fist_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["fist_score"], CultureInfo.InvariantCulture)));
-          _minigames.Add(Minigame.MOBI, new Minigame(Minigame.MOBI, Convert.ToInt32(rs["mob_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["mob_score"], CultureInfo.InvariantCulture)));
-          _minigames.Add(Minigame.BAAT, new Minigame(Minigame.BAAT, Convert.ToInt32(rs["baat_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["baat_score"], CultureInfo.InvariantCulture)));
-          _minigames.Add(Minigame.BADE, new Minigame(Minigame.BADE, Convert.ToInt32(rs["bade_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["bade_score"], CultureInfo.InvariantCulture)));
-          _minigames.Add(Minigame.BACO, new Minigame(Minigame.BACO, Convert.ToInt32(rs["baco_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["baco_score"], CultureInfo.InvariantCulture)));
-          _minigames.Add(Minigame.BAHE, new Minigame(Minigame.BAHE, Convert.ToInt32(rs["bahe_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["bahe_score"], CultureInfo.InvariantCulture)));
+          _activities.Add(Activity.DUEL, new Activity(Activity.DUEL, Convert.ToInt32(rs["dt_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["dt_score"], CultureInfo.InvariantCulture)));
+          _activities.Add(Activity.BOUN, new Activity(Activity.BOUN, Convert.ToInt32(rs["bh_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["bh_score"], CultureInfo.InvariantCulture)));
+          _activities.Add(Activity.ROGU, new Activity(Activity.ROGU, Convert.ToInt32(rs["bhr_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["bhr_score"], CultureInfo.InvariantCulture)));
+          _activities.Add(Activity.FIST, new Activity(Activity.FIST, Convert.ToInt32(rs["fist_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["fist_score"], CultureInfo.InvariantCulture)));
+          _activities.Add(Activity.MOBI, new Activity(Activity.MOBI, Convert.ToInt32(rs["mob_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["mob_score"], CultureInfo.InvariantCulture)));
+          _activities.Add(Activity.BAAT, new Activity(Activity.BAAT, Convert.ToInt32(rs["baat_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["baat_score"], CultureInfo.InvariantCulture)));
+          _activities.Add(Activity.BADE, new Activity(Activity.BADE, Convert.ToInt32(rs["bade_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["bade_score"], CultureInfo.InvariantCulture)));
+          _activities.Add(Activity.BACO, new Activity(Activity.BACO, Convert.ToInt32(rs["baco_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["baco_score"], CultureInfo.InvariantCulture)));
+          _activities.Add(Activity.BAHE, new Activity(Activity.BAHE, Convert.ToInt32(rs["bahe_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["bahe_score"], CultureInfo.InvariantCulture)));
 
           // Create combat skill and update combat class
           _CreateCombatSkill();
@@ -287,51 +286,41 @@ namespace Supay.Bot {
       }
     }
 
-    // Constructor that retrieves player data from RuneScape Hiscores 
+    // Constructor that retrieves player data from RuneScape Hiscores
     public Player(string rsn) {
       _name = rsn;
 
       try {
-        // Get hiscores page for this RSN 
-        WebClient WC = new WebClient();
-        string HiscorePage = WC.DownloadString("http://hiscore.runescape.com/index_lite.ws?player=" + _name);
+        // Get hiscores page for this RSN
+        string hiscorePage = new WebClient().DownloadString("http://hiscore.runescape.com/index_lite.ws?player=" + _name);
 
         // Update RuneScript tracker database
         System.Threading.ThreadPool.QueueUserWorkItem(_updateRuneScriptTracker, rsn);
 
-        // Initialize variables 
+        // Initialize variables
         _skills = new Skills();
-        _minigames = new Minigames();
+        _activities = new ActivityDictionary();
         _ranked = true;
 
-        // Parse Hiscores page for this player 
-        string[] HiscoreList = HiscorePage.Split('\n');
-        string[] HiscoreLine;
-        for (int i = 0; i < HiscoreList.Length - 1; i++) {
-          HiscoreLine = HiscoreList[i].Split(',');
-          switch (HiscoreLine.Length) {
-            case 3:
-              // Skill
-              string SkillName = Skill.IdToName(_skills.Count);
-              _skills.Add(SkillName, new Skill(SkillName, int.Parse(HiscoreLine[0], CultureInfo.InvariantCulture), int.Parse(HiscoreLine[1], CultureInfo.InvariantCulture), int.Parse(HiscoreLine[2], CultureInfo.InvariantCulture)));
+        // Parse Hiscores page for this player
+        foreach (string hiscoreLine in hiscorePage.Split('\n')) {
+          string[] hiscoreTokens = hiscoreLine.Split(',');
+          switch (hiscoreTokens.Length) {
+            case 3: // skill
+              string skillName = Skill.IdToName(_skills.Count);
+              _skills.Add(skillName, new Skill(skillName, int.Parse(hiscoreTokens[0], CultureInfo.InvariantCulture), int.Parse(hiscoreTokens[1], CultureInfo.InvariantCulture), int.Parse(hiscoreTokens[2], CultureInfo.InvariantCulture)));
               break;
-
-            case 2:
-              // Minigame
-              string MinigameName = Minigame.IdToName(_minigames.Count);
-              _minigames.Add(MinigameName, new Minigame(MinigameName, int.Parse(HiscoreLine[0], CultureInfo.InvariantCulture), int.Parse(HiscoreLine[1], CultureInfo.InvariantCulture)));
-              break;
-
-            default:
-              // Unknown Hiscore line
+            case 2: // activity
+              string activityName = Activity.IdToName(_activities.Count);
+              _activities.Add(activityName, new Activity(activityName, int.Parse(hiscoreTokens[0], CultureInfo.InvariantCulture), int.Parse(hiscoreTokens[1], CultureInfo.InvariantCulture)));
               break;
           }
         }
 
-        // Try to guess missing skills and update our skill list 
+        // Try to guess missing skills and update our skill list
         _GuessMissingSkills();
 
-        // Create combat skill and update combat class 
+        // Create combat skill and update combat class
         _CreateCombatSkill();
       } catch (Exception) {
         _ranked = false;

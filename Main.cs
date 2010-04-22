@@ -551,7 +551,7 @@ namespace Supay.Bot {
               ThreadUtil.FireAndForget(Command.Rank, bc);
               break;
 
-            // MiniGames
+            // Activities
             case "SW":
             case "SOUL":
             case "SOULS":
@@ -814,9 +814,9 @@ namespace Supay.Bot {
               } else if (bc.MessageTokens[0].StartsWithI("SSLAST") || bc.MessageTokens[0].StartsWithI("TSLAST") || bc.MessageTokens[0].StartsWithI("PTLAST") || bc.MessageTokens[0].StartsWithI("TUGALAST")) {
                 // !<clan>lastNdays
                 ThreadUtil.FireAndForget(Command.ClanPerformance, bc);
-              } else if (Minigame.TryParse(bc.MessageTokens[0], ref command)) {
-                // !<minigame>
-                ThreadUtil.FireAndForget(Command.Minigame, bc);
+              } else if (Activity.TryParse(bc.MessageTokens[0], ref command)) {
+                // !<activity>
+                ThreadUtil.FireAndForget(Command.Activity, bc);
               } else if (Skill.TryParse(bc.MessageTokens[0], ref command)) {
                 // !<skill>
                 ThreadUtil.FireAndForget(Command.SkillInfo, bc);
