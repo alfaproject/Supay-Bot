@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
-  static class CmdRuneScript {
+  static partial class Command {
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public static void Graph(CommandContext bc) {
@@ -136,5 +136,41 @@ namespace Supay.Bot {
       }
     }
 
-  } //class CmdRuneScript
+    public static void Record(CommandContext bc) {
+      string rsn = bc.GetPlayerName(bc.From.Nickname);
+      string skill = Skill.OVER;
+
+      if (bc.MessageTokens.Length > 1) {
+        if (Skill.TryParse(bc.MessageTokens[1], ref skill)) {
+          if (bc.MessageTokens.Length > 2)
+            rsn = bc.GetPlayerName(bc.MessageTokens.Join(2));
+        } else {
+          rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
+        }
+      }
+
+      try {
+        string recordPage = new System.Net.WebClient().DownloadString("http://runetracker.org/track-" + rsn + "," + Skill.NameToId(skill) + ",0");
+
+        string recordRegex = @"Day: <i><acronym title=""([^""]+)"">([^<]+)</acronym></i><br />\s+";
+        recordRegex += @"Week: <i><acronym title=""([^""]+)"">([^<]+)</acronym></i><br />\s+";
+        recordRegex += @"Month: <i><acronym title=""([^""]+)"">([^<]+)</acronym></i><br />";
+
+        Match recordMatch = Regex.Match(recordPage, recordRegex, RegexOptions.Singleline);
+        if (recordMatch.Success) {
+          bc.SendReply(@"{0}'s records in {1}: Day \c07{2}\c ({3}); Week \c07{4}\c ({5}); Month \c07{6}\c ({7}); \c12http://runetracker.org/track-{0},{8},0"
+            .FormatWith(rsn, skill, recordMatch.Groups[2], recordMatch.Groups[1], recordMatch.Groups[4], recordMatch.Groups[3], recordMatch.Groups[6], recordMatch.Groups[5], Skill.NameToId(skill))
+            );
+        } else {
+          bc.SendReply("rscript has no records in {0} for {1}.".FormatWith(skill, rsn));
+        }
+
+      } catch {
+        bc.SendReply("rscript data source appears to be unreachable at the moment.");
+      }
+      
+
+    }
+
+  } //class Command
 } //namespace Supay.Bot

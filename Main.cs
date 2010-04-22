@@ -170,7 +170,7 @@ namespace Supay.Bot {
             return;
         }
 
-        int[] noticeDuration = new int[] { 1440 , 720 , 360 , 180 , 90 , 60 , 40 , 20 , 10 , 5 };
+        int[] noticeDuration = new int[] { 1440, 720, 360, 180, 90, 60, 40, 20, 10, 5 };
         for (int i = 0; i < 10; i++) {
           if ((int)(startTime - DateTime.UtcNow).TotalMinutes - noticeDuration[i] < 0)
             continue;
@@ -187,7 +187,7 @@ namespace Supay.Bot {
     void _timerMain_Tick(object sender, EventArgs e) {
       // Event check every hour
       if (DateTime.UtcNow.Second == 0 && DateTime.UtcNow.Minute == 0) {
-          ThreadPool.QueueUserWorkItem(_checkEvent);
+        ThreadPool.QueueUserWorkItem(_checkEvent);
       }
 
       // Forum check every minute
@@ -305,7 +305,7 @@ namespace Supay.Bot {
       foreach (string command in Properties.Settings.Default.Perform.Split(';')) {
         _irc.Connection.Write(command);
       }
-      
+
       // Join the channels in the channel list.
       foreach (string channel in Properties.Settings.Default.Channels.Split(';')) {
         _irc.Connection.Write("JOIN " + channel);
@@ -430,11 +430,14 @@ namespace Supay.Bot {
 
             // RuneScript
             case "GRAPH":
-              ThreadUtil.FireAndForget(CmdRuneScript.Graph, bc);
+              ThreadUtil.FireAndForget(Command.Graph, bc);
               break;
             case "TRACK":
             case "TRACKER":
-              ThreadUtil.FireAndForget(CmdRuneScript.Track, bc);
+              ThreadUtil.FireAndForget(Command.Track, bc);
+              break;
+            case "RECORD":
+              ThreadUtil.FireAndForget(Command.Record, bc);
               break;
 
             // Clan

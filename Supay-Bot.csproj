@@ -119,7 +119,7 @@
     <Compile Include="Commands\CmdMonster.cs" />
     <Compile Include="Commands\CmdOthers.cs" />
     <Compile Include="Commands\RuneHead\ClanUpdate.cs" />
-    <Compile Include="Commands\CmdRuneScript.cs" />
+    <Compile Include="Commands\RuneScript\Track.cs" />
     <Compile Include="Commands\War\Add.cs" />
     <Compile Include="Commands\GrandExchange\PriceInfo.cs" />
     <Compile Include="Commands\RuneScape\Combat.cs" />
@@ -232,18 +232,20 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Help 1.ico" />
+    <None Include="Service References\RuneScript\lookup-soap.wsdl" />
     <None Include="Service References\RuneScript\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <None Include="Service References\RuneScript\configuration.svcinfo" />
     <None Include="Service References\RuneScript\configuration91.svcinfo" />
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Service References\RuneScript\lookup.wsdl" />
     <None Include="Service References\RuneScript\Supay.Bot.RuneScript.skills.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>

@@ -20,10 +20,10 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://rscript.org/lookup.php?wsdl" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://rscript.org/lookup-soap.php?wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="lookup.wsdl" MetadataType="Wsdl" ID="74b2301b-fd4c-4744-8aac-72dd41768e42" SourceId="1" SourceUrl="http://rscript.org/lookup.php?wsdl" />
+    <MetadataFile FileName="lookup-soap.wsdl" MetadataType="Wsdl" ID="ec483896-eb1e-437f-8539-485c54f61eda" SourceId="1" SourceUrl="http://rscript.org/lookup-soap.php?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
