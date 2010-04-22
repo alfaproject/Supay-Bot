@@ -10,7 +10,7 @@ namespace Supay.Bot {
     private DateTime _lastupdate;
     private bool _ranked;
 
-    private Skills _skills;
+    private SkillDictionary _skills;
     private ActivityDictionary _activities;
 
     public long Id {
@@ -48,7 +48,7 @@ namespace Supay.Bot {
       }
     }
 
-    public Skills Skills {
+    public SkillDictionary Skills {
       get {
         return _skills;
       }
@@ -174,7 +174,7 @@ namespace Supay.Bot {
         RuneScript.skills RScriptSkills = new RuneScript.RScriptLookupPortTypeClient().trackGetTimeAll(rsn, time);
 
         // Initialize variables
-        _skills = new Skills();
+        _skills = new SkillDictionary();
         _skills.Add(Skill.OVER, new Skill(Skill.OVER, RScriptSkills.overall.rank, RScriptSkills.overall.level, RScriptSkills.overall.exp));
         _skills.Add(Skill.ATTA, new Skill(Skill.ATTA, RScriptSkills.attack.rank, RScriptSkills.attack.exp));
         _skills.Add(Skill.DEFE, new Skill(Skill.DEFE, RScriptSkills.defence.rank, RScriptSkills.defence.exp));
@@ -234,7 +234,7 @@ namespace Supay.Bot {
         if (rs.Read()) {
           // Initialize variables
           Id = Convert.ToInt32(rs["pid"], CultureInfo.InvariantCulture);
-          _skills = new Skills();
+          _skills = new SkillDictionary();
           _activities = new ActivityDictionary();
           _ranked = true;
 
@@ -298,7 +298,7 @@ namespace Supay.Bot {
         System.Threading.ThreadPool.QueueUserWorkItem(_updateRuneScriptTracker, rsn);
 
         // Initialize variables
-        _skills = new Skills();
+        _skills = new SkillDictionary();
         _activities = new ActivityDictionary();
         _ranked = true;
 

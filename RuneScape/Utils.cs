@@ -15,7 +15,7 @@ namespace Supay.Bot {
       return CalculateCombat(def + hp + pr / 2, att + str, mag + mag / 2, ran + ran / 2);
     }
 
-    public static int CalculateCombat(Skills skills, bool @virtual, bool f2p) {
+    public static int CalculateCombat(SkillDictionary skills, bool @virtual, bool f2p) {
       if (@virtual) {
         if (f2p) {
           return CalculateCombat(skills[Skill.ATTA].VLevel, skills[Skill.STRE].VLevel, skills[Skill.DEFE].VLevel, skills[Skill.HITP].VLevel, skills[Skill.RANG].VLevel, skills[Skill.PRAY].VLevel, skills[Skill.MAGI].VLevel);
@@ -46,7 +46,7 @@ namespace Supay.Bot {
         return "Hybrid";
     }
 
-    public static string CombatClass(Skills skills, bool @virtual) {
+    public static string CombatClass(SkillDictionary skills, bool @virtual) {
       if (@virtual) {
         return CombatClass(skills[Skill.ATTA].VLevel, skills[Skill.STRE].VLevel, skills[Skill.RANG].VLevel, skills[Skill.MAGI].VLevel);
       } else {
