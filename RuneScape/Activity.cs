@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Linq;
 
 namespace Supay.Bot {
-  class Activity : Hiscore, IComparable<Activity> {
+  class Activity : Hiscore, IEquatable<Activity>, IComparable<Activity> {
 
     public const string DUEL = "Duel Tournament";
     public const string BOUN = "Bounty Hunters";
@@ -174,6 +175,34 @@ namespace Supay.Bot {
           return Name;
       }
     }
+
+    #region IEquatable<Activity> Members
+
+    public bool Equals(Activity other) {
+      if (ReferenceEquals(null, other)) {
+        return false;
+      }
+      return Name.EqualsI(other.Name) && Rank.Equals(other.Rank) && Score.Equals(other.Score);
+    }
+
+    public override bool Equals(object obj) {
+      return Equals(obj as Activity);
+    }
+
+    public override int GetHashCode() {
+      // TODO provide a value based implementation
+      return base.GetHashCode();
+    }
+
+    public static bool operator ==(Activity left, Activity right) {
+      return ReferenceEquals(null, left) ? ReferenceEquals(null, right) : left.Equals(right);
+    }
+
+    public static bool operator !=(Activity left, Activity right) {
+      return !(left == right);
+    }
+
+    #endregion
 
     #region IComparable<Activity> Members
 
