@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace Supay.Bot {
-  class ActivityDictionary : Dictionary<string, Activity> {
+  class ActivityDictionary : OrderedDictionary<string, Activity> {
 
     public ActivityDictionary()
       : base(9) {
