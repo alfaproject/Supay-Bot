@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace Supay.Bot {
   class Activity : Hiscore, IEquatable<Activity>, IComparable<Activity> {
@@ -208,15 +207,11 @@ namespace Supay.Bot {
 
     // {CompareTo < 0 => this < other} {CompareTo > 0 => this > other} {CompareTo == 0 => this == other}
     public int CompareTo(Activity other) {
-      if (Object.ReferenceEquals(this, other))
-        return 0; // same object reference
-
-      if (Score == other.Score)
+      if (ReferenceEquals(this, other)) {
         return 0;
-      else if (Score > other.Score)
-        return -1;
-      else
-        return 1;
+      }
+
+      return other.Score - Score;
     }
 
     #endregion
