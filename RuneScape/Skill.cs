@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
 
 namespace Supay.Bot {
@@ -65,13 +64,8 @@ namespace Supay.Bot {
 
     public Skill(string name, int rank, int level, int exp)
       : base(name, rank) {
-      _level = level;
-      _exp = exp;
-
-      if (name == OVER || name == COMB)
-        VLevel = level;
-      else
-        VLevel = _exp.ToLevel();
+      Level = level;
+      Exp = exp;
     }
 
     public Skill(string name, int rank, int exp)
@@ -79,73 +73,40 @@ namespace Supay.Bot {
       Exp = exp;
     }
 
-    public Skill(string name, int rank)
-      : base(name, rank) {
-    }
-
-    /// <summary>
-    /// Parse a hiscore line from 'light' Hiscores.
-    /// http://www.runescape.com/kbase/viewarticle.ws?article_id=201
-    /// </summary>
-    /// <param name="id">Skill ID</param>
-    /// <param name="hiscoreLine">Tokens of the hiscore line</param>
-    public Skill(int id, string[] hiscoreLine) {
-      Name = IdToName(id);
-      Rank = int.Parse(hiscoreLine[0], CultureInfo.InvariantCulture);
-      if (Rank == -1) {
-        _level = -1;
-        _exp = -1;
-      } else {
-        _level = int.Parse(hiscoreLine[1], CultureInfo.InvariantCulture);
-        _exp = int.Parse(hiscoreLine[2], CultureInfo.InvariantCulture);
-      }
-    }
-
-    private int _exp;
     public int Exp {
-      get {
-        return _exp;
-      }
-      set {
-        if (_exp != value) {
-          _exp = value;
-          if (Name != OVER && Name != COMB) {
-            VLevel = _exp.ToLevel();
-            _level = Math.Min(99, VLevel);
-          }
-        }
-      }
+      get;
+      set;
     }
 
-    private int _level;
     public int Level {
-      get {
-        return _level;
-      }
-      set {
-        _level = value;
-        VLevel = value;
-      }
+      get;
+      set;
     }
 
     public int VLevel {
-      get;
-      private set;
+      get {
+        if (Name == OVER || Name == COMB) {
+          return Level;
+        }
+        return Exp.ToLevel();
+      }
     }
 
     public int ExpToLevel {
       get {
-        if (_level < 99)
-          return (_level + 1).ToExp() - _exp;
+        if (Level < 99) {
+          return (Level + 1).ToExp() - Exp;
+        }
         return 0;
       }
     }
 
     public int ExpToVLevel {
       get {
-        if (VLevel < 126)
-          return (this.VLevel + 1).ToExp() - _exp;
-        return 200000000 - _exp;
+        if (VLevel < 126) {
+          return (VLevel + 1).ToExp() - Exp;
+        }
+        return 200000000 - Exp;
       }
     }
 
@@ -291,7 +252,7 @@ namespace Supay.Bot {
       }
 
       // compare by experience if levels are the same or levels otherwise
-      return (Level == other.Level ? other._exp.CompareTo(_exp) : other.Level.CompareTo(Level));
+      return (Level == other.Level ? other.Exp.CompareTo(Exp) : other.Level.CompareTo(Level));
     }
 
     #endregion
