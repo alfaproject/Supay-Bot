@@ -2,7 +2,7 @@
 using System.Linq;
 
 namespace Supay.Bot {
-  class Skill : Hiscore, IComparable<Skill> {
+  class Skill : Hiscore, IEquatable<Skill>, IComparable<Skill> {
 
     public const string OVER = "Overall";
     public const string ATTA = "Attack";
@@ -240,6 +240,34 @@ namespace Supay.Bot {
         default:
           throw new FormatException(string.Format(provider, "The {0} format string is not supported.", format));
       }
+    }
+
+    #endregion
+
+    #region IEquatable<Skill>
+
+    public bool Equals(Skill other) {
+      if (ReferenceEquals(null, other)) {
+        return false;
+      }
+      return Name.EqualsI(other.Name) && Rank.Equals(other.Rank) && Level.Equals(other.Level) && Exp.Equals(other.Level);
+    }
+
+    public override bool Equals(object obj) {
+      return Equals(obj as Skill);
+    }
+
+    public override int GetHashCode() {
+      // TODO provide a value based implementation
+      return base.GetHashCode();
+    }
+
+    public static bool operator ==(Skill left, Skill right) {
+      return ReferenceEquals(null, left) ? ReferenceEquals(null, right) : left.Equals(right);
+    }
+
+    public static bool operator !=(Skill left, Skill right) {
+      return !(left == right);
     }
 
     #endregion
