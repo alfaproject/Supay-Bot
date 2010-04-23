@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
@@ -47,18 +47,17 @@ namespace Supay.Bot {
         Skill skill = p.Skills[skillName];
 
         // parse goal
-        int target_level = 0;
-        int target_exp = 0;
-        if (int.TryParse(goal, out target_level)) {
+        int targetLevel, targetExp = 0;
+        if (int.TryParse(goal, out targetLevel)) {
           // get level/exp
-          if (target_level == 127) {
-            target_level = 126;
-            target_exp = 200000000;
-          } else if (target_level > 127) {
-            target_exp = Math.Min(200000000, target_level);
-            target_level = target_exp.ToLevel();
+          if (targetLevel == 127) {
+            targetLevel = 126;
+            targetExp = 200000000;
+          } else if (targetLevel > 127) {
+            targetExp = Math.Min(200000000, targetLevel);
+            targetLevel = targetExp.ToLevel();
           } else {
-            target_exp = target_level.ToExp();
+            targetExp = targetLevel.ToExp();
           }
         } else if (goal.StartsWithI("r")) {
           // get rank
@@ -67,8 +66,8 @@ namespace Supay.Bot {
             if (goalrank > 0 && goalrank < skill.Rank) {
               foreach (Skill h in new Hiscores(skill.Name, null, goalrank))
                 if (h.Rank == goalrank) {
-                  target_exp = h.Exp;
-                  target_level = target_exp.ToLevel();
+                  targetExp = h.Exp;
+                  targetLevel = targetExp.ToLevel();
                   break;
                 }
             }
@@ -78,48 +77,50 @@ namespace Supay.Bot {
           if (skill.Rank > 1) {
             foreach (Skill h in new Hiscores(skill.Name, null, skill.Rank - 1))
               if (h.Rank == skill.Rank - 1) {
-                target_exp = h.Exp;
+                targetExp = h.Exp;
                 break;
               }
           } else {
-            target_exp = Math.Min(200000000, skill.Exp + 1);
+            targetExp = Math.Min(200000000, skill.Exp + 1);
           }
-          target_level = target_exp.ToLevel();
+          targetLevel = targetExp.ToLevel();
         } else {
           // next level
           if (skill.VLevel == 126) {
-            target_level = 126;
-            target_exp = 200000000;
+            targetLevel = 126;
+            targetExp = 200000000;
           } else {
-            target_level = skill.VLevel + 1;
-            target_exp = target_level.ToExp();
+            targetLevel = skill.VLevel + 1;
+            targetExp = targetLevel.ToExp();
           }
         }
-        if (target_exp < skill.Exp) {
-          target_level = skill.VLevel + 1;
-          target_exp = target_level.ToExp();
+        if (targetExp < skill.Exp) {
+          targetLevel = skill.VLevel + 1;
+          targetExp = targetLevel.ToExp();
         }
 
         // calculate % done
         int expToGo = 0;
-        string percent_done;
+        string percentDone;
         if (skill.Name == Skill.OVER) {
-          int oa_exp = 0;
-          foreach (Skill s in p.Skills.Values)
-            if (s.Name != Skill.OVER && s.Name != Skill.COMB)
-              oa_exp += Math.Min(13034431, s.Exp);
-          target_level = (p.Skills.Count - 2) * 99;
-          int max_exp = 13034431 * (p.Skills.Count - 2);
-          percent_done = Math.Round(oa_exp / (double)max_exp * 100.0, 1).ToStringI();
+          int totalExp = 0, maxExp = 0;
+          targetLevel = 0;
+          foreach (Skill s in p.Skills.Values.Where(s => s.Name != Skill.OVER && s.Name != Skill.COMB)) {
+            int maxSkillExp = s.MaxLevel.ToExp();
+            totalExp += Math.Min(maxSkillExp, s.Exp);
+            maxExp += maxSkillExp;
+            targetLevel += s.MaxLevel;
+          }
+          percentDone = Math.Round(totalExp / (double)maxExp * 100.0, 1).ToStringI();
 
           item = null;
         } else {
-          expToGo = target_exp - skill.Exp;
-          percent_done = Math.Round(100 - expToGo / (double)(target_exp - skill.VLevel.ToExp()) * 100, 1).ToStringI();
+          expToGo = targetExp - skill.Exp;
+          percentDone = Math.Round(100 - expToGo / (double)(targetExp - skill.VLevel.ToExp()) * 100, 1).ToStringI();
         }
 
-        string reply = "\\b{0}\\b \\c07{1}\\c | level: \\c07{1:v}\\c | exp: \\c07{1:e}\\c (\\c07{2}%\\c of {3}) | rank: \\c07{1:R}\\c".FormatWith(
-                                     rsn, skill, percent_done, target_level);
+        string reply = "\\b{0}\\b \\c07{1:n}\\c | level: \\c07{1:v}\\c | exp: \\c07{1:e}\\c (\\c07{2}%\\c of {3}) | rank: \\c07{1:R}\\c".FormatWith(
+                       rsn, skill, percentDone, targetLevel);
 
         // Add up SS rank if applicable
         Players ssplayers = new Players("SS");
@@ -144,11 +145,11 @@ namespace Supay.Bot {
             switch (item.ToUpperInvariant()) {
               case "LAMP":
               case "LAMPS":
-                reply += @" (\c07{0:N0}\c lamps)".FormatWith(Utils.LampsToExp(skill.Exp, target_exp));
+                reply += @" (\c07{0:N0}\c lamps)".FormatWith(Utils.LampsToExp(skill.Exp, targetExp));
                 break;
               case "BOOK":
               case "BOOKS":
-                reply += @" (\c07{0:N0}\c books)".FormatWith(Utils.BooksToExp(skill.Exp, target_exp));
+                reply += @" (\c07{0:N0}\c books)".FormatWith(Utils.BooksToExp(skill.Exp, targetExp));
                 break;
               case "SW":
               case "SOUL":
@@ -164,7 +165,7 @@ namespace Supay.Bot {
                   case Skill.MAGI:
                   case Skill.PRAY:
                   case Skill.SLAY:
-                    reply += @" (\c07{0:N0}\c/\c07{1:N0}\c zeal)".FormatWith(Utils.SoulWarsZealToExp(skill.Name, skill.Exp, target_exp, false), Utils.SoulWarsZealToExp(skill.Name, skill.Exp, target_exp, true));
+                    reply += @" (\c07{0:N0}\c/\c07{1:N0}\c zeal)".FormatWith(Utils.SoulWarsZealToExp(skill.Name, skill.Exp, targetExp, false), Utils.SoulWarsZealToExp(skill.Name, skill.Exp, targetExp, true));
                     break;
                   default:
                     reply += " (unknown item)";
@@ -182,7 +183,7 @@ namespace Supay.Bot {
                   case Skill.RANG:
                   case Skill.MAGI:
                   case Skill.PRAY:
-                    reply += @" (\c07{0:N0}\c/\c07{1:N0}\c/\c07{2:N0}\c points)".FormatWith(Utils.PestControlPointsToExp(skill.Name, skill.Exp, target_exp, 1), Utils.PestControlPointsToExp(skill.Name, skill.Exp, target_exp, 10), Utils.PestControlPointsToExp(skill.Name, skill.Exp, target_exp, 100));
+                    reply += @" (\c07{0:N0}\c/\c07{1:N0}\c/\c07{2:N0}\c points)".FormatWith(Utils.PestControlPointsToExp(skill.Name, skill.Exp, targetExp, 1), Utils.PestControlPointsToExp(skill.Name, skill.Exp, targetExp, 10), Utils.PestControlPointsToExp(skill.Name, skill.Exp, targetExp, 100));
                     break;
                   default:
                     reply += " (unknown item)";

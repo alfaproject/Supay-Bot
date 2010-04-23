@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
@@ -94,10 +95,14 @@ namespace Supay.Bot {
             bc.SendReply(reply);
         }
       } else {
-        // calculate "real" overall xp
-        int oa_exp = 0;
-        for (int i = 1; i < p.Skills.Count - 1; i++)
-          oa_exp += Math.Min(13034431, p.Skills[i].Exp);
+        // calculate "real" overall xp, max overall exp, max overall level
+        int totalExp = 0, maxTotalExp = 0, maxTotalLevel = 0;
+        foreach (Skill s in p.Skills.Values.Where(s => s.Name != Skill.OVER && s.Name != Skill.COMB)) {
+          int maxSkillExp = s.MaxLevel.ToExp();
+          totalExp += Math.Min(maxSkillExp, s.Exp);
+          maxTotalExp += maxSkillExp;
+          maxTotalLevel += s.MaxLevel;
+        }
 
         // calculate total level and average level
         int totalLevel = p.Skills[0].Level;
@@ -111,13 +116,13 @@ namespace Supay.Bot {
           AvgSkilldouble = (double)((int)((double)p.Skills[0].Exp / (double)(p.Skills.Count - 2))).ToLevel();
         }
 
-        string reply = "\\b{0}\\b \\c07overall\\c | level: \\c07{1:N0}\\c (\\c07{2}\\c avg.) | exp: \\c07{3:e}\\c (\\c07{4}%\\c of {5}) | rank: \\c07{3:R}\\c".FormatWith(
+        string reply = "\\b{0}\\b \\c07{3:n}\\c | level: \\c07{1:N0}\\c (\\c07{2}\\c avg.) | exp: \\c07{3:e}\\c (\\c07{4}%\\c of {5}) | rank: \\c07{3:R}\\c".FormatWith(
                                      rsn,
                                      totalLevel,
                                      AvgSkilldouble,
                                      p.Skills[0],
-                                     Math.Round((double)oa_exp / (13034431 * (p.Skills.Count - 2)) * 100.0, 1),
-                                     (p.Skills.Count - 2) * 99);
+                                     Math.Round((double)totalExp / maxTotalExp * 100.0, 1),
+                                     maxTotalLevel);
 
         int AvgSkill = (int)AvgSkilldouble;
 
