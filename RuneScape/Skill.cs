@@ -235,43 +235,50 @@ namespace Supay.Bot {
         return new Skill(newSkill.Name, oldSkill.Rank - newSkill.Rank, newSkill.Level - oldSkill.Level, newSkill.Exp - oldSkill.Exp);
     }
 
-    // IFormattable {ToString}
+    #region IFormattable
+
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public override string ToString(string format, IFormatProvider provider) {
-      if (format == null)
-        format = "N";
+      if (string.IsNullOrEmpty(format)) {
+        format = "G";
+      }
 
       if (provider != null) {
         ICustomFormatter formatter = provider.GetFormat(this.GetType()) as ICustomFormatter;
-        if (formatter != null)
+        if (formatter != null) {
           return formatter.Format(format, this, provider);
+        }
       }
 
       switch (format) {
+        case "G":
+          return string.Format(provider, "{{ Skill, Name = {0}, Rank = {1}, Level = {2}, Exp = {3} }}", Name, Rank, Level, Exp);
         case "N":
-          return this.Name;
+          return Name;
         case "n":
-          return this.Name.ToLowerInvariant();
+          return Name.ToLowerInvariant();
         case "R":
-          return (this.Rank == -1 || this.Rank == int.MaxValue ? "Not ranked" : this.Rank.ToString("N0", provider));
+          return (Rank == -1 || Rank == int.MaxValue ? "Not ranked" : Rank.ToString("N0", provider));
         case "r":
-          return (this.Rank == -1 || this.Rank == int.MaxValue ? "NR" : this.Rank.ToString("N0", provider));
+          return (Rank == -1 || Rank == int.MaxValue ? "NR" : Rank.ToString("N0", provider));
         case "e":
-          return _exp.ToString("N0", provider);
+          return Exp.ToString("N0", provider);
         case "l":
-          return _level.ToString("N0", provider);
+          return Level.ToString("N0", provider);
         case "v":
-          return this.VLevel.ToString("N0", provider);
+          return VLevel.ToString("N0", provider);
         case "re":
-          return (this.Rank == -1 ? "~" : string.Empty) + _exp.ToString("N0", provider);
+          return (Rank == -1 ? "~" : string.Empty) + Exp.ToString("N0", provider);
         case "rl":
-          return (this.Rank == -1 ? "~" : string.Empty) + _level.ToString("N0", provider);
+          return (Rank == -1 ? "~" : string.Empty) + Level.ToString("N0", provider);
         case "rv":
-          return (this.Rank == -1 ? "~" : string.Empty) + this.VLevel.ToString("N0", provider);
+          return (Rank == -1 ? "~" : string.Empty) + VLevel.ToString("N0", provider);
         default:
-          return this.Name;
+          throw new FormatException(string.Format(provider, "The {0} format string is not supported.", format));
       }
     }
+
+    #endregion
 
     #region IComparable<Skill>
 
