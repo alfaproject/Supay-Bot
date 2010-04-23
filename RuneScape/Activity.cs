@@ -27,17 +27,8 @@ namespace Supay.Bot {
     };
 
     public Activity(string name, int rank, int score)
-      : base(rank) {
-      Name = name;
-
-      if (score < 0)
-        Score = 0;
-      else
-        Score = score;
-    }
-
-    public Activity(int rank)
-      : base(rank) {
+      : base(name, rank) {
+      Score = score < 0 ? 0 : score;
     }
 
     public int Score {
@@ -86,13 +77,16 @@ namespace Supay.Bot {
       return -1;
     }
 
-    // newActivity - oldActivity
-    public static Activity operator -(Activity newActivity, Activity oldActivity) {
-      if (oldActivity.Rank == -1 && newActivity.Rank > 0)
-        return new Activity(newActivity.Name, 0, newActivity.Score - oldActivity.Score);
-      else
-        return new Activity(newActivity.Name, oldActivity.Rank - newActivity.Rank, newActivity.Score - oldActivity.Score);
+    #region Operators
+
+    public static Activity operator -(Activity left, Activity right) {
+      if (right.Rank == -1 && left.Rank > 0) {
+        return new Activity(left.Name, 0, left.Score - right.Score);
+      }
+      return new Activity(left.Name, right.Rank - left.Rank, left.Score - right.Score);
     }
+
+    #endregion
 
     #region IFormattable
 
