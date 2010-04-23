@@ -175,6 +175,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuneScape\SkillDictionary.cs" />
+    <Compile Include="RuneScape\TrueSkill.cs" />
     <Compile Include="Service References\RuneScript\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

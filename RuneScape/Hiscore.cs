@@ -4,14 +4,14 @@ using System.Globalization;
 namespace Supay.Bot {
   abstract class Hiscore : IFormattable {
 
-    public Hiscore() {
+    protected Hiscore() {
     }
 
-    public Hiscore(int rank) {
+    protected Hiscore(int rank) {
       Rank = rank;
     }
 
-    public Hiscore(string name, int rank)
+    protected Hiscore(string name, int rank)
       : this(rank) {
       Name = name;
     }
