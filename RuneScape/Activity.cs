@@ -148,34 +148,42 @@ namespace Supay.Bot {
         return new Activity(newActivity.Name, oldActivity.Rank - newActivity.Rank, newActivity.Score - oldActivity.Score);
     }
 
+    #region IFormattable
+
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public override string ToString(string format, IFormatProvider provider) {
-      if (format == null)
-        format = "N";
+      if (string.IsNullOrEmpty(format)) {
+        format = "G";
+      }
 
       if (provider != null) {
-        ICustomFormatter formatter = provider.GetFormat(this.GetType()) as ICustomFormatter;
-        if (formatter != null)
+        ICustomFormatter formatter = provider.GetFormat(GetType()) as ICustomFormatter;
+        if (formatter != null) {
           return formatter.Format(format, this, provider);
+        }
       }
 
       switch (format) {
+        case "G":
+          return string.Format(provider, "{{ Activity, Name = {0}, Rank = {1}, Score = {2} }}", Name, Rank, Score);
         case "N":
-          return this.Name;
-        case "n":
-          return this.Name.ToLowerInvariant();
-        case "R":
-          return (this.Rank == -1 ? "Not ranked" : this.Rank.ToString("N0", provider));
-        case "r":
-          return (this.Rank == -1 ? "NR" : this.Rank.ToString("N0", provider));
-        case "s":
-          return this.Score.ToString("N0", provider);
-        default:
           return Name;
+        case "n":
+          return Name.ToLowerInvariant();
+        case "R":
+          return (Rank == -1 ? "Not ranked" : Rank.ToString("N0", provider));
+        case "r":
+          return (Rank == -1 ? "NR" : Rank.ToString("N0", provider));
+        case "s":
+          return Score.ToString("N0", provider);
+        default:
+          throw new FormatException(string.Format(provider, "The {0} format string is not supported.", format));
       }
     }
 
-    #region IEquatable<Activity> Members
+    #endregion
+
+    #region IEquatable<Activity>
 
     public bool Equals(Activity other) {
       if (ReferenceEquals(null, other)) {
@@ -203,7 +211,7 @@ namespace Supay.Bot {
 
     #endregion
 
-    #region IComparable<Activity> Members
+    #region IComparable<Activity>
 
     // {CompareTo < 0 => this < other} {CompareTo > 0 => this > other} {CompareTo == 0 => this == other}
     public int CompareTo(Activity other) {

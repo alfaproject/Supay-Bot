@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Supay.Bot {
   abstract class Hiscore : IFormattable {
@@ -33,6 +34,14 @@ namespace Supay.Bot {
     #region IFormattable
 
     public abstract string ToString(string format, IFormatProvider formatProvider);
+
+    public string ToString(string format) {
+      return ToString(format, CultureInfo.InvariantCulture);
+    }
+
+    public override string ToString() {
+      return ToString("G", CultureInfo.InvariantCulture);
+    }
 
     #endregion
 
