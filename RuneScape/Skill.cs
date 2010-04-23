@@ -227,13 +227,16 @@ namespace Supay.Bot {
       return -1;
     }
 
-    // newSkill - oldSkill
-    public static Skill operator -(Skill newSkill, Skill oldSkill) {
-      if (oldSkill.Rank == -1)
-        return new Skill(newSkill.Name, 0, newSkill.Level - oldSkill.Level, newSkill.Exp - oldSkill.Exp);
-      else
-        return new Skill(newSkill.Name, oldSkill.Rank - newSkill.Rank, newSkill.Level - oldSkill.Level, newSkill.Exp - oldSkill.Exp);
+    #region Operators
+
+    public static Skill operator -(Skill left, Skill right) {
+      if (right.Rank == -1) {
+        return new Skill(left.Name, 0, left.Level - right.Level, left.Exp - right.Exp);
+      }
+      return new Skill(left.Name, right.Rank - left.Rank, left.Level - right.Level, left.Exp - right.Exp);
     }
+
+    #endregion
 
     #region IFormattable
 
