@@ -275,15 +275,13 @@ namespace Supay.Bot {
 
     #region IComparable<Skill>
 
-    // {CompareTo < 0 => this < other} {CompareTo > 0 => this > other} {CompareTo = 0 => this = other}
     public int CompareTo(Skill other) {
-      // see if it is the same object
       if (ReferenceEquals(this, other)) {
         return 0;
       }
 
       // compare by experience if levels are the same or levels otherwise
-      return (VLevel == other.VLevel ? other._exp.CompareTo(_exp) : other.VLevel.CompareTo(VLevel));
+      return (Level == other.Level ? other._exp.CompareTo(_exp) : other.Level.CompareTo(Level));
     }
 
     #endregion
