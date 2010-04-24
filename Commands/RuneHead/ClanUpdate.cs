@@ -11,21 +11,26 @@ namespace Supay.Bot {
       string pageRuneHead;
       string clanInitials;
       string clanName;
-      if (bc.Message.ContainsI("SS")) {
-        clanInitials = "SS";
-        clanName = "Supreme Skillers";
-        pageRuneHead = new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=supreme");
-      } else if (bc.Message.ContainsI("TS")) {
-        clanInitials = "TS";
-        clanName = "True Skillers";
-        pageRuneHead = new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=trueskillers");
-      } else {
-        clanInitials = "PT";
-        clanName = "Portugal";
-        pageRuneHead = new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=rsportugal");
-        pageRuneHead += new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=rsportugal2");
-        pageRuneHead += new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=rsportugal3");
-        pageRuneHead += new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=portugalf2p");
+      try {
+        if (bc.Message.ContainsI("SS")) {
+          clanInitials = "SS";
+          clanName = "Supreme Skillers";
+          pageRuneHead = new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=supreme");
+        } else if (bc.Message.ContainsI("TS")) {
+          clanInitials = "TS";
+          clanName = "True Skillers";
+          pageRuneHead = new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=trueskillers");
+        } else {
+          clanInitials = "PT";
+          clanName = "Portugal";
+          pageRuneHead = new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=rsportugal");
+          pageRuneHead += new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=rsportugal2");
+          pageRuneHead += new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=rsportugal3");
+          pageRuneHead += new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=portugalf2p");
+        }
+      } catch {
+        bc.SendReply("Update failed. Runehead appears to be down.");
+        return;
       }
 
       foreach (Match clanMember in Regex.Matches(pageRuneHead, "\\?name=([^&]+)&"))
