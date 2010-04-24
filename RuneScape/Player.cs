@@ -10,7 +10,7 @@ namespace Supay.Bot {
     private DateTime _lastupdate;
     private bool _ranked;
 
-    private Skills _skills;
+    private SkillDictionary _skills;
     private ActivityDictionary _activities;
 
     public long Id {
@@ -48,7 +48,7 @@ namespace Supay.Bot {
       }
     }
 
-    public Skills Skills {
+    public SkillDictionary Skills {
       get {
         return _skills;
       }
@@ -174,7 +174,7 @@ namespace Supay.Bot {
         RuneScript.skills RScriptSkills = new RuneScript.RScriptLookupPortTypeClient().trackGetTimeAll(rsn, time);
 
         // Initialize variables
-        _skills = new Skills();
+        _skills = new SkillDictionary();
         _skills.Add(Skill.OVER, new Skill(Skill.OVER, RScriptSkills.overall.rank, RScriptSkills.overall.level, RScriptSkills.overall.exp));
         _skills.Add(Skill.ATTA, new Skill(Skill.ATTA, RScriptSkills.attack.rank, RScriptSkills.attack.exp));
         _skills.Add(Skill.DEFE, new Skill(Skill.DEFE, RScriptSkills.defence.rank, RScriptSkills.defence.exp));
@@ -200,7 +200,7 @@ namespace Supay.Bot {
         _skills.Add(Skill.HUNT, new Skill(Skill.HUNT, RScriptSkills.hunter.rank, RScriptSkills.hunter.exp));
         _skills.Add(Skill.CONS, new Skill(Skill.CONS, RScriptSkills.construction.rank, RScriptSkills.construction.exp));
         _skills.Add(Skill.SUMM, new Skill(Skill.SUMM, RScriptSkills.summoning.rank, RScriptSkills.summoning.exp));
-        _skills.Add(Skill.DUNG, new Skill(Skill.DUNG, RScriptSkills.dungeoneering.rank, RScriptSkills.dungeoneering.exp));
+        _skills.Add(Skill.DUNG, new TrueSkill(Skill.DUNG, RScriptSkills.dungeoneering.rank, RScriptSkills.dungeoneering.exp));
         _activities = new ActivityDictionary();
         _ranked = true;
 
@@ -234,7 +234,7 @@ namespace Supay.Bot {
         if (rs.Read()) {
           // Initialize variables
           Id = Convert.ToInt32(rs["pid"], CultureInfo.InvariantCulture);
-          _skills = new Skills();
+          _skills = new SkillDictionary();
           _activities = new ActivityDictionary();
           _ranked = true;
 
@@ -263,7 +263,7 @@ namespace Supay.Bot {
           _skills.Add(Skill.HUNT, new Skill(Skill.HUNT, Convert.ToInt32(rs["hunt_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["hunt_xp"], CultureInfo.InvariantCulture)));
           _skills.Add(Skill.CONS, new Skill(Skill.CONS, Convert.ToInt32(rs["construction_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["construction_xp"], CultureInfo.InvariantCulture)));
           _skills.Add(Skill.SUMM, new Skill(Skill.SUMM, Convert.ToInt32(rs["summ_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["summ_xp"], CultureInfo.InvariantCulture)));
-          _skills.Add(Skill.DUNG, new Skill(Skill.DUNG, Convert.ToInt32(rs["dungRank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["dungExp"], CultureInfo.InvariantCulture)));
+          _skills.Add(Skill.DUNG, new TrueSkill(Skill.DUNG, Convert.ToInt32(rs["dungRank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["dungExp"], CultureInfo.InvariantCulture)));
 
           _activities.Add(Activity.DUEL, new Activity(Activity.DUEL, Convert.ToInt32(rs["dt_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["dt_score"], CultureInfo.InvariantCulture)));
           _activities.Add(Activity.BOUN, new Activity(Activity.BOUN, Convert.ToInt32(rs["bh_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["bh_score"], CultureInfo.InvariantCulture)));
@@ -298,7 +298,7 @@ namespace Supay.Bot {
         System.Threading.ThreadPool.QueueUserWorkItem(_updateRuneScriptTracker, rsn);
 
         // Initialize variables
-        _skills = new Skills();
+        _skills = new SkillDictionary();
         _activities = new ActivityDictionary();
         _ranked = true;
 
@@ -308,7 +308,11 @@ namespace Supay.Bot {
           switch (hiscoreTokens.Length) {
             case 3: // skill
               string skillName = Skill.IdToName(_skills.Count);
-              _skills.Add(skillName, new Skill(skillName, int.Parse(hiscoreTokens[0], CultureInfo.InvariantCulture), int.Parse(hiscoreTokens[1], CultureInfo.InvariantCulture), int.Parse(hiscoreTokens[2], CultureInfo.InvariantCulture)));
+              if (skillName == Skill.DUNG) {
+                _skills.Add(skillName, new TrueSkill(skillName, int.Parse(hiscoreTokens[0], CultureInfo.InvariantCulture), int.Parse(hiscoreTokens[1], CultureInfo.InvariantCulture), int.Parse(hiscoreTokens[2], CultureInfo.InvariantCulture)));
+              } else {
+                _skills.Add(skillName, new Skill(skillName, int.Parse(hiscoreTokens[0], CultureInfo.InvariantCulture), int.Parse(hiscoreTokens[1], CultureInfo.InvariantCulture), int.Parse(hiscoreTokens[2], CultureInfo.InvariantCulture)));
+              }
               break;
             case 2: // activity
               string activityName = Activity.IdToName(_activities.Count);

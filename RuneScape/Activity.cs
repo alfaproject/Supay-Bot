@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Linq;
 
 namespace Supay.Bot {
-  class Activity : Hiscore, IComparable<Activity> {
+  class Activity : Hiscore, IEquatable<Activity>, IComparable<Activity> {
 
     public const string DUEL = "Duel Tournament";
     public const string BOUN = "Bounty Hunters";
@@ -13,18 +14,21 @@ namespace Supay.Bot {
     public const string BACO = "BA Collector";
     public const string BAHE = "BA Healer";
 
+    private static readonly string[][] _aliases = {
+      new[] { DUEL, "DT", "DUEL", "DUELING", "DUELTOURNAMENT" },
+      new[] { BOUN, "BH", "BOUNTY", "BOUNTYHUNT", "BOUNTYHUNTER", "BOUNTYHUNTERS" },
+      new[] { ROGU, "BR", "BHR", "ROGUE", "ROGUES", "BOUNTYROGUE", "BOUNTYROGUES", "HUNTERROGUE", "HUNTERROGUES", "BOUNTYHUNTERROGUE", "BOUNTYHUNTERROGUES" },
+      new[] { FIST, "FG", "FOG", "FIST", "FISTING", "FISTOFGUTHIX" },
+      new[] { MOBI, "MO", "AR", "MOB", "MOBIL", "MOBILISING", "ARMY", "ARMYS", "ARMIES", "MOA", "MOBA", "MOBILISINGARMY", "MOBILISINGARMIES" },
+      new[] { BAAT, "BAAT", "BAATT", "BAATTACK", "BAATTACKER" },
+      new[] { BADE, "BADE", "BADEF", "BADEFEND", "BADEFENDER" },
+      new[] { BACO, "BACO", "BACOL", "BACOLL", "BACOLLECT", "BACOLLECTOR" },
+      new[] { BAHE, "BAHE", "BAHEAL", "BAHEALER" },
+    };
+
     public Activity(string name, int rank, int score)
-      : base(rank) {
-      Name = name;
-
-      if (score < 0)
-        Score = 0;
-      else
-        Score = score;
-    }
-
-    public Activity(int rank)
-      : base(rank) {
+      : base(name, rank) {
+      Score = score < 0 ? 0 : score;
     }
 
     public int Score {
@@ -33,161 +37,129 @@ namespace Supay.Bot {
     }
 
     public static bool TryParse(string s, ref string result) {
-      try {
-        result = Parse(s);
-        return true;
-      }
-      catch {
+      if (s == null) {
         return false;
       }
+
+      foreach (string[] aliases in _aliases.Where(aliases => aliases.Any(alias => alias.EqualsI(s)))) {
+        result = aliases[0];
+        return true;
+      }
+
+      return false;
     }
 
     public static string Parse(string s) {
-      if (s == null)
+      if (s == null) {
         throw new ArgumentNullException("s");
-
-      switch (s.ToUpperInvariant()) {
-        case "DT":
-        case "DUEL":
-        case "DUELING":
-        case "DUELTOURNAMENT":
-          return DUEL;
-        case "BH":
-        case "BOUNTY":
-        case "BOUNTYHUNT":
-        case "BOUNTYHUNTER":
-        case "BOUNTYHUNTERS":
-          return BOUN;
-        case "BHR":
-        case "ROGUE":
-        case "ROGUES":
-        case "BOUNTYROGUE":
-        case "BOUNTYROGUES":
-        case "HUNTERROGUE":
-        case "HUNTERROGUES":
-        case "BOUNTYHUNTERROGUE":
-        case "BOUNTYHUNTERROGUES":
-          return ROGU;
-        case "FOG":
-        case "FIST":
-        case "FISTING":
-        case "FISTOFGUTHIX":
-          return FIST;
-        case "MO":
-        case "AR":
-        case "MOB":
-        case "MOBIL":
-        case "MOBILISING":
-        case "ARMY":
-        case "ARMYS":
-        case "ARMIES":
-        case "MOA":
-        case "MOBA":
-        case "MOBILISINGARMIES":
-          return MOBI;
-        case "BAAT":
-        case "BAATT":
-        case "BAATTACK":
-        case "BAATTACKER":
-          return BAAT;
-        case "BADE":
-        case "BADEF":
-        case "BADEFENDER":
-          return BADE;
-        case "BACO":
-        case "BACOL":
-        case "BACOLL":
-        case "BACOLLECTOR":
-          return BACO;
-        case "BAHE":
-        case "BAHEAL":
-        case "BAHEALER":
-          return BAHE;
-        default:
-          throw new ArgumentException("Input activity alias is invalid.", "s");
       }
+
+      foreach (string[] aliases in _aliases.Where(aliases => aliases.Any(alias => alias.EqualsI(s)))) {
+        return aliases[0];
+      }
+
+      throw new ArgumentException(@"Input activity alias is invalid.", "s");
     }
 
     public static string IdToName(int id) {
-      switch (id) {
-        case 0: return DUEL;
-        case 1: return BOUN;
-        case 2: return ROGU;
-        case 3: return FIST;
-        case 4: return MOBI;
-        case 5: return BAAT;
-        case 6: return BADE;
-        case 7: return BACO;
-        case 8: return BAHE;
-        default:
-          return "Activity" + id;
+      if (id < _aliases.Length) {
+        return _aliases[id][0];
       }
+      return "Activity" + id;
     }
 
     public static int NameToId(string name) {
-      switch (name) {
-        case DUEL: return 0;
-        case BOUN: return 1;
-        case ROGU: return 2;
-        case FIST: return 3;
-        case MOBI: return 4;
-        case BAAT: return 5;
-        case BADE: return 6;
-        case BACO: return 7;
-        case BAHE: return 8;
-        default:
-          return -1;
+      for (int i = 0; i < _aliases.Length; i++) {
+        if (name.EqualsI(_aliases[i][0])) {
+          return i;
+        }
       }
+      return -1;
     }
 
-    // newActivity - oldActivity
-    public static Activity operator -(Activity newActivity, Activity oldActivity) {
-      if (oldActivity.Rank == -1 && newActivity.Rank > 0)
-        return new Activity(newActivity.Name, 0, newActivity.Score - oldActivity.Score);
-      else
-        return new Activity(newActivity.Name, oldActivity.Rank - newActivity.Rank, newActivity.Score - oldActivity.Score);
+    #region Operators
+
+    public static Activity operator -(Activity left, Activity right) {
+      if (right.Rank == -1 && left.Rank > 0) {
+        return new Activity(left.Name, 0, left.Score - right.Score);
+      }
+      return new Activity(left.Name, right.Rank - left.Rank, left.Score - right.Score);
     }
+
+    #endregion
+
+    #region IFormattable
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public override string ToString(string format, IFormatProvider provider) {
-      if (format == null)
-        format = "N";
+      if (string.IsNullOrEmpty(format)) {
+        format = "G";
+      }
 
       if (provider != null) {
-        ICustomFormatter formatter = provider.GetFormat(this.GetType()) as ICustomFormatter;
-        if (formatter != null)
+        ICustomFormatter formatter = provider.GetFormat(GetType()) as ICustomFormatter;
+        if (formatter != null) {
           return formatter.Format(format, this, provider);
+        }
       }
 
       switch (format) {
+        case "G":
+          return string.Format(provider, "{{ Activity, Name = {0}, Rank = {1}, Score = {2} }}", Name, Rank, Score);
         case "N":
-          return this.Name;
-        case "n":
-          return this.Name.ToLowerInvariant();
-        case "R":
-          return (this.Rank == -1 ? "Not ranked" : this.Rank.ToString("N0", provider));
-        case "r":
-          return (this.Rank == -1 ? "NR" : this.Rank.ToString("N0", provider));
-        case "s":
-          return this.Score.ToString("N0", provider);
-        default:
           return Name;
+        case "n":
+          return Name.ToLowerInvariant();
+        case "R":
+          return (Rank == -1 ? "Not ranked" : Rank.ToString("N0", provider));
+        case "r":
+          return (Rank == -1 ? "NR" : Rank.ToString("N0", provider));
+        case "s":
+          return Score.ToString("N0", provider);
+        default:
+          throw new FormatException(string.Format(provider, "The {0} format string is not supported.", format));
       }
     }
 
-    #region IComparable<Activity> Members
+    #endregion
+
+    #region IEquatable<Activity>
+
+    public bool Equals(Activity other) {
+      if (ReferenceEquals(null, other)) {
+        return false;
+      }
+      return Name.EqualsI(other.Name) && Rank.Equals(other.Rank) && Score.Equals(other.Score);
+    }
+
+    public override bool Equals(object obj) {
+      return Equals(obj as Activity);
+    }
+
+    public override int GetHashCode() {
+      // TODO provide a value based implementation
+      return base.GetHashCode();
+    }
+
+    public static bool operator ==(Activity left, Activity right) {
+      return ReferenceEquals(null, left) ? ReferenceEquals(null, right) : left.Equals(right);
+    }
+
+    public static bool operator !=(Activity left, Activity right) {
+      return !(left == right);
+    }
+
+    #endregion
+
+    #region IComparable<Activity>
 
     // {CompareTo < 0 => this < other} {CompareTo > 0 => this > other} {CompareTo == 0 => this == other}
     public int CompareTo(Activity other) {
-      if (Object.ReferenceEquals(this, other))
-        return 0; // same object reference
-
-      if (Score == other.Score)
+      if (ReferenceEquals(this, other)) {
         return 0;
-      else if (Score > other.Score)
-        return -1;
-      else
-        return 1;
+      }
+
+      return other.Score - Score;
     }
 
     #endregion

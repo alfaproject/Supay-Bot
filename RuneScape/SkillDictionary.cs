@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 
 namespace Supay.Bot {
-  class Skills : OrderedDictionary<string, Skill> {
+  class SkillDictionary : OrderedDictionary<string, Skill> {
 
-    public Skills()
+    public SkillDictionary()
       : base(26) {
     }
 
@@ -63,5 +63,5 @@ namespace Supay.Bot {
       }
     }
 
-  } //class Skills
+  } //class SkillDictionary
 } //namespace Supay.Bot

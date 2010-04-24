@@ -1,16 +1,17 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Supay.Bot {
   abstract class Hiscore : IFormattable {
 
-    public Hiscore() {
+    protected Hiscore() {
     }
 
-    public Hiscore(int rank) {
+    protected Hiscore(int rank) {
       Rank = rank;
     }
 
-    public Hiscore(string name, int rank)
+    protected Hiscore(string name, int rank)
       : this(rank) {
       Name = name;
     }
@@ -33,6 +34,14 @@ namespace Supay.Bot {
     #region IFormattable
 
     public abstract string ToString(string format, IFormatProvider formatProvider);
+
+    public string ToString(string format) {
+      return ToString(format, CultureInfo.InvariantCulture);
+    }
+
+    public override string ToString() {
+      return ToString("G", CultureInfo.InvariantCulture);
+    }
 
     #endregion
 

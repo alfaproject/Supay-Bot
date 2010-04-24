@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Globalization;
+using System.Linq;
 
 namespace Supay.Bot {
-  class Skill : Hiscore, IComparable<Skill> {
+  class Skill : Hiscore, IEquatable<Skill>, IComparable<Skill> {
 
     public const string OVER = "Overall";
     public const string ATTA = "Attack";
@@ -32,89 +32,100 @@ namespace Supay.Bot {
     public const string DUNG = "Dungeoneering";
     public const string COMB = "Combat";
 
+    private static readonly string[][] _aliases = {
+      new[] { OVER, "OA", "OVE", "OVER", "OV", "TOT", "TOTAL" },
+      new[] { ATTA, "AT", "ATT", "ATTA" },
+      new[] { DEFE, "DE", "DEF", "DEFE", "DEFENSE" },
+      new[] { STRE, "ST", "STR", "STRE" },
+      new[] { HITP, "CT", "HIT", "HITP", "CONSTITUT", "CONSTITUTE", "HP", "HITS", "HITPOINT", "HITPOINTS", "LP", "LIFE", "LIFEPOINT", "LIFEPOINTS" },
+      new[] { RANG, "RA", "RAN", "RANG", "RANGE", "RANGING" },
+      new[] { PRAY, "PR", "PRA", "PRAY" },
+      new[] { MAGI, "MA", "MAG", "MAGE", "MAGI" },
+      new[] { COOK, "CK", "COO", "COOK" },
+      new[] { WOOD, "WC", "WOO", "WOOD", "WOODCUT" },
+      new[] { FLET, "FL", "FLE", "FLET", "FLETCH" },
+      new[] { FISH, "FI", "FIS", "FISH" },
+      new[] { FIRE, "FM", "FIR", "FIRE", "FIREMAKE" },
+      new[] { CRAF, "CR", "CRA", "CRAF", "CRAFT" },
+      new[] { SMIT, "SM", "SMI", "SMIT", "SMITH" },
+      new[] { MINI, "MI", "MIN", "MINE" },
+      new[] { HERB, "HE", "HER", "HERB", "HERBLAW" },
+      new[] { AGIL, "AG", "AGI", "AGIL" },
+      new[] { THIE, "TH", "THI", "THIE", "THIEF", "THIEVE" },
+      new[] { SLAY, "SL", "SLA", "SLAY" },
+      new[] { FARM, "FA", "FAR", "FARM" },
+      new[] { RUNE, "RC", "RUN", "RUNE", "RUNECRAFTING" },
+      new[] { HUNT, "HU", "HUN", "HUNT", "HUNTING" },
+      new[] { CONS, "CO", "CON", "CONS", "CONST", "CONSTRUCT" },
+      new[] { SUMM, "SU", "SUM", "SUMM", "SUMMON" },
+      new[] { DUNG, "DU", "DUN", "DUNG", "DUNGEON", "DUNGEONERING" },
+      new[] { COMB, "CB", "CMB", "COMB" }
+    };
+
+    private const int MAX_LEVEL = 99;
+
     public Skill(string name, int rank, int level, int exp)
       : base(name, rank) {
-      _level = level;
-      _exp = exp;
-
-      if (name == OVER || name == COMB)
-        VLevel = level;
-      else
-        VLevel = _exp.ToLevel();
+      Exp = exp;
+      Level = level;
     }
 
     public Skill(string name, int rank, int exp)
       : base(name, rank) {
       Exp = exp;
+      
+      Level = exp.ToLevel();
+      if (Level > MAX_LEVEL) {
+        Level = MAX_LEVEL;
+      }
     }
 
-    public Skill(string name, int rank)
+    protected Skill(string name, int rank)
       : base(name, rank) {
+      Exp = 0;
+      Level = 1;
     }
 
-    /// <summary>
-    /// Parse a hiscore line from 'light' Hiscores.
-    /// http://www.runescape.com/kbase/viewarticle.ws?article_id=201
-    /// </summary>
-    /// <param name="id">Skill ID</param>
-    /// <param name="hiscoreLine">Tokens of the hiscore line</param>
-    public Skill(int id, string[] hiscoreLine) {
-      Name = IdToName(id);
-      Rank = int.Parse(hiscoreLine[0], CultureInfo.InvariantCulture);
-      if (Rank == -1) {
-        _level = -1;
-        _exp = -1;
-      } else {
-        _level = int.Parse(hiscoreLine[1], CultureInfo.InvariantCulture);
-        _exp = int.Parse(hiscoreLine[2], CultureInfo.InvariantCulture);
-      }
-    }
-
-    private int _exp;
     public int Exp {
-      get {
-        return _exp;
-      }
-      set {
-        if (_exp != value) {
-          _exp = value;
-          if (Name != OVER && Name != COMB) {
-            VLevel = _exp.ToLevel();
-            _level = Math.Min(99, VLevel);
-          }
-        }
-      }
+      get;
+      set;
     }
 
-    private int _level;
     public int Level {
+      get;
+      set;
+    }
+
+    public virtual int MaxLevel {
       get {
-        return _level;
-      }
-      set {
-        _level = value;
-        VLevel = value;
+        return MAX_LEVEL;
       }
     }
 
     public int VLevel {
-      get;
-      private set;
+      get {
+        if (Name == OVER || Name == COMB) {
+          return Level;
+        }
+        return Exp.ToLevel();
+      }
     }
 
     public int ExpToLevel {
       get {
-        if (_level < 99)
-          return (_level + 1).ToExp() - _exp;
+        if (Level < MaxLevel) {
+          return (Level + 1).ToExp() - Exp;
+        }
         return 0;
       }
     }
 
     public int ExpToVLevel {
       get {
-        if (VLevel < 126)
-          return (this.VLevel + 1).ToExp() - _exp;
-        return 200000000 - _exp;
+        if (VLevel < 126) {
+          return (VLevel + 1).ToExp() - Exp;
+        }
+        return 200000000 - Exp;
       }
     }
 
@@ -156,324 +167,139 @@ namespace Supay.Bot {
     }
 
     public static bool TryParse(string s, ref string result) {
-      try {
-        result = Parse(s);
-        return true;
-      } catch {
+      if (s == null) {
         return false;
       }
+
+      foreach (string[] aliases in _aliases.Where(aliases => aliases.Any(alias => alias.EqualsI(s)))) {
+        result = aliases[0];
+        return true;
+      }
+
+      return false;
     }
 
     public static string Parse(string s) {
-      if (s == null)
+      if (s == null) {
         throw new ArgumentNullException("s");
-
-      switch (s.ToUpperInvariant()) {
-        case "OA":
-        case "OV":
-        case "TOTAL":
-        case "OVERALL":
-          return OVER;
-        case "AT":
-        case "ATT":
-        case "ATTACK":
-          return ATTA;
-        case "DE":
-        case "DEF":
-        case "DEFENCE":
-          return DEFE;
-        case "ST":
-        case "STR":
-        case "STRENGTH":
-          return STRE;
-        case "HP":
-        case "HIT":
-        case "HITS":
-        case "HITPOINTS":
-        case "CONSTITUTION":
-          return HITP;
-        case "RA":
-        case "RAN":
-        case "RANGE":
-        case "RANGED":
-        case "RANGING":
-          return RANG;
-        case "PR":
-        case "PRAY":
-        case "PRAYER":
-          return PRAY;
-        case "MA":
-        case "MAG":
-        case "MAGE":
-        case "MAGIC":
-          return MAGI;
-        case "CK":
-        case "COOK":
-        case "COOKING":
-          return COOK;
-        case "WC":
-        case "WOODCUT":
-        case "WOODCUTTING":
-          return WOOD;
-        case "FL":
-        case "FLETCH":
-        case "FLETCHING":
-          return FLET;
-        case "FI":
-        case "FISH":
-        case "FISHING":
-          return FISH;
-        case "FM":
-        case "FIRE":
-        case "FIREMAKE":
-        case "FIREMAKING":
-          return FIRE;
-        case "CR":
-        case "CRAF":
-        case "CRAFT":
-        case "CRAFTING":
-          return CRAF;
-        case "SM":
-        case "SMITH":
-        case "SMITHING":
-          return SMIT;
-        case "MI":
-        case "MINE":
-        case "MINING":
-          return MINI;
-        case "HE":
-        case "HERB":
-        case "HERBLORE":
-        case "HERBLAW":
-          return HERB;
-        case "AG":
-        case "AGI":
-        case "AGIL":
-        case "AGILITY":
-          return AGIL;
-        case "TH":
-        case "THIEF":
-        case "THIEV":
-        case "THIEVING":
-          return THIE;
-        case "SL":
-        case "SLAY":
-        case "SLAYER":
-          return SLAY;
-        case "FA":
-        case "FARM":
-        case "FARMING":
-          return FARM;
-        case "RC":
-        case "RUNECRAFT":
-        case "RUNECRAFTING":
-          return RUNE;
-        case "HU":
-        case "HUNT":
-        case "HUNTER":
-        case "HUNTING":
-          return HUNT;
-        case "CO":
-        case "CON":
-        case "CONS":
-        case "CONST":
-        case "CONSTRUCT":
-        case "CONSTRUCTION":
-          return CONS;
-        case "SU":
-        case "SUM":
-        case "SUMMON":
-        case "SUMMONING":
-          return SUMM;
-        case "DU":
-        case "DUN":
-        case "DUNG":
-        case "DUNGEON":
-        case "DUNGEONEERING":
-          return DUNG;
-        case "CB":
-        case "CMB":
-        case "COMB":
-        case "COMBAT":
-          return COMB;
-        default:
-          throw new ArgumentException("Input skill alias '" + s + "' is invalid.", "s");
       }
-    }
 
-    public static int NameToId(string name) {
-      switch (name) {
-        case ATTA:
-          return 1;
-        case DEFE:
-          return 2;
-        case STRE:
-          return 3;
-        case HITP:
-          return 4;
-        case RANG:
-          return 5;
-        case PRAY:
-          return 6;
-        case MAGI:
-          return 7;
-        case COOK:
-          return 8;
-        case WOOD:
-          return 9;
-        case FLET:
-          return 10;
-        case FISH:
-          return 11;
-        case FIRE:
-          return 12;
-        case CRAF:
-          return 13;
-        case SMIT:
-          return 14;
-        case MINI:
-          return 15;
-        case HERB:
-          return 16;
-        case AGIL:
-          return 17;
-        case THIE:
-          return 18;
-        case SLAY:
-          return 19;
-        case FARM:
-          return 20;
-        case RUNE:
-          return 21;
-        case HUNT:
-          return 22;
-        case CONS:
-          return 23;
-        case SUMM:
-          return 24;
-        case DUNG:
-          return 25;
-        default:
-          return 0;
+      foreach (string[] aliases in _aliases.Where(aliases => aliases.Any(alias => alias.EqualsI(s)))) {
+        return aliases[0];
       }
+
+      throw new ArgumentException(@"Input skill alias is invalid.", "s");
     }
 
     public static string IdToName(int id) {
-      switch (id) {
-        case 0:
-          return OVER;
-        case 1:
-          return ATTA;
-        case 2:
-          return DEFE;
-        case 3:
-          return STRE;
-        case 4:
-          return HITP;
-        case 5:
-          return RANG;
-        case 6:
-          return PRAY;
-        case 7:
-          return MAGI;
-        case 8:
-          return COOK;
-        case 9:
-          return WOOD;
-        case 10:
-          return FLET;
-        case 11:
-          return FISH;
-        case 12:
-          return FIRE;
-        case 13:
-          return CRAF;
-        case 14:
-          return SMIT;
-        case 15:
-          return MINI;
-        case 16:
-          return HERB;
-        case 17:
-          return AGIL;
-        case 18:
-          return THIE;
-        case 19:
-          return SLAY;
-        case 20:
-          return FARM;
-        case 21:
-          return RUNE;
-        case 22:
-          return HUNT;
-        case 23:
-          return CONS;
-        case 24:
-          return SUMM;
-        case 25:
-          return DUNG;
-        default:
-          return "Skill" + id;
+      if (id < _aliases.Length - 1) {
+        return _aliases[id][0];
       }
+      return "Skill" + id;
     }
 
-    // newSkill - oldSkill
-    public static Skill operator -(Skill newSkill, Skill oldSkill) {
-      if (oldSkill.Rank == -1)
-        return new Skill(newSkill.Name, 0, newSkill.Level - oldSkill.Level, newSkill.Exp - oldSkill.Exp);
-      else
-        return new Skill(newSkill.Name, oldSkill.Rank - newSkill.Rank, newSkill.Level - oldSkill.Level, newSkill.Exp - oldSkill.Exp);
+    public static int NameToId(string name) {
+      for (int i = 0; i < _aliases.Length; i++) {
+        if (name.EqualsI(_aliases[i][0])) {
+          return i;
+        }
+      }
+      return -1;
     }
 
-    // IFormattable {ToString}
+    #region Operators
+
+    public static Skill operator -(Skill left, Skill right) {
+      if (right.Rank == -1) {
+        return new Skill(left.Name, 0, left.Level - right.Level, left.Exp - right.Exp);
+      }
+      return new Skill(left.Name, right.Rank - left.Rank, left.Level - right.Level, left.Exp - right.Exp);
+    }
+
+    #endregion
+
+    #region IFormattable
+
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public override string ToString(string format, IFormatProvider provider) {
-      if (format == null)
-        format = "N";
+      if (string.IsNullOrEmpty(format)) {
+        format = "G";
+      }
 
       if (provider != null) {
         ICustomFormatter formatter = provider.GetFormat(this.GetType()) as ICustomFormatter;
-        if (formatter != null)
+        if (formatter != null) {
           return formatter.Format(format, this, provider);
+        }
       }
 
       switch (format) {
+        case "G":
+          return string.Format(provider, "{{ Skill, Name = {0}, Rank = {1}, Level = {2}, Exp = {3} }}", Name, Rank, Level, Exp);
         case "N":
-          return this.Name;
+          return Name;
         case "n":
-          return this.Name.ToLowerInvariant();
+          return Name.ToLowerInvariant();
         case "R":
-          return (this.Rank == -1 || this.Rank == int.MaxValue ? "Not ranked" : this.Rank.ToString("N0", provider));
+          return (Rank == -1 || Rank == int.MaxValue ? "Not ranked" : Rank.ToString("N0", provider));
         case "r":
-          return (this.Rank == -1 || this.Rank == int.MaxValue ? "NR" : this.Rank.ToString("N0", provider));
+          return (Rank == -1 || Rank == int.MaxValue ? "NR" : Rank.ToString("N0", provider));
         case "e":
-          return _exp.ToString("N0", provider);
+          return Exp.ToString("N0", provider);
         case "l":
-          return _level.ToString("N0", provider);
+          return Level.ToString("N0", provider);
         case "v":
-          return this.VLevel.ToString("N0", provider);
+          return VLevel.ToString("N0", provider);
         case "re":
-          return (this.Rank == -1 ? "~" : string.Empty) + _exp.ToString("N0", provider);
+          return (Rank == -1 ? "~" : string.Empty) + Exp.ToString("N0", provider);
         case "rl":
-          return (this.Rank == -1 ? "~" : string.Empty) + _level.ToString("N0", provider);
+          return (Rank == -1 ? "~" : string.Empty) + Level.ToString("N0", provider);
         case "rv":
-          return (this.Rank == -1 ? "~" : string.Empty) + this.VLevel.ToString("N0", provider);
+          return (Rank == -1 ? "~" : string.Empty) + VLevel.ToString("N0", provider);
         default:
-          return this.Name;
+          throw new FormatException(string.Format(provider, "The {0} format string is not supported.", format));
       }
     }
 
+    #endregion
+
+    #region IEquatable<Skill>
+
+    public bool Equals(Skill other) {
+      if (ReferenceEquals(null, other)) {
+        return false;
+      }
+      return Name.EqualsI(other.Name) && Rank.Equals(other.Rank) && Level.Equals(other.Level) && Exp.Equals(other.Level);
+    }
+
+    public override bool Equals(object obj) {
+      return Equals(obj as Skill);
+    }
+
+    public override int GetHashCode() {
+      // TODO provide a value based implementation
+      return base.GetHashCode();
+    }
+
+    public static bool operator ==(Skill left, Skill right) {
+      return ReferenceEquals(null, left) ? ReferenceEquals(null, right) : left.Equals(right);
+    }
+
+    public static bool operator !=(Skill left, Skill right) {
+      return !(left == right);
+    }
+
+    #endregion
+
     #region IComparable<Skill>
 
-    // {CompareTo < 0 => this < other} {CompareTo > 0 => this > other} {CompareTo = 0 => this = other}
     public int CompareTo(Skill other) {
-      // see if it is the same object
       if (ReferenceEquals(this, other)) {
         return 0;
       }
 
       // compare by experience if levels are the same or levels otherwise
-      return (VLevel == other.VLevel ? other._exp.CompareTo(_exp) : other.VLevel.CompareTo(VLevel));
+      return (Level == other.Level ? other.Exp.CompareTo(Exp) : other.Level.CompareTo(Level));
     }
 
     #endregion
