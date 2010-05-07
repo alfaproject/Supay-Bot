@@ -197,19 +197,19 @@ namespace Supay.Bot {
                   case Skill.STRE:
                   case Skill.RANG:
                     if (_GetMonster(item, out item_name, out monster_hp))
-                      reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling((double)expToGo / (monster_hp * 4)), item_name);
+                      reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling((double)expToGo * 10 / (monster_hp * 4)), item_name);
                     else
                       reply += " (unknown monster)";
                     break;
                   case Skill.HITP:
                     if (_GetMonster(item, out item_name, out monster_hp))
-                      reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling((double)expToGo / (monster_hp * (4 / 3))), item_name);
+                      reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling((double)expToGo / (monster_hp * (4 / 30))), item_name);
                     else
                       reply += " (unknown monster)";
                     break;
                   case Skill.SLAY:
                     if (_GetMonster(item, out item_name, out monster_hp))
-                      reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling((double)expToGo / monster_hp), item_name);
+                      reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling((double)expToGo * 10 / monster_hp), item_name);
                     else
                       reply += " (unknown monster)";
                     break;
