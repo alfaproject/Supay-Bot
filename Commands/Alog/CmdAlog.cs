@@ -75,7 +75,7 @@ namespace Supay.Bot {
         M = Regex.Match(item.Title, killRegex);
         if (M.Success) {
           AlogItem kill = new AlogItem(item, M, "I killed");
-          string npc = Regex.Replace(kill.Info[0], @"\W", " ");
+          string npc = Regex.Replace(kill.Info[0].Replace("monsters", "monster"), @"\W", " ");
           if (alogItems["I killed"].ContainsKey(npc)) {
             alogItems["I killed"][npc].Amount += kill.Amount;
           } else {
