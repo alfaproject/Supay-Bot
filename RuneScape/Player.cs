@@ -64,16 +64,19 @@ namespace Supay.Bot {
       // Check if Overall has exp.
       if (_skills[Skill.OVER].Exp == -1) {
         // Fix Constitution
-        if (_skills[Skill.HITP].Exp == -1)
+        if (_skills[Skill.HITP].Exp == -1) {
           _skills[Skill.HITP].Exp = 10.ToExp();
+          _skills[Skill.HITP].Level = 10;
+        }
 
         // Fix Overall and all other unranked skills 
         _skills[Skill.OVER].Exp = 0;
         _skills[Skill.OVER].Level = 0;
         for (int i = 1; i < _skills.Count; i++) {
-          if (_skills[i].Exp == -1)
+          if (_skills[i].Exp == -1) {
             _skills[i].Exp = 0;
-          else
+            _skills[i].Level = 1;
+          } else
             _skills[Skill.OVER].Exp += _skills[i].Exp;
           _skills[Skill.OVER].Level += _skills[i].Level;
         }
