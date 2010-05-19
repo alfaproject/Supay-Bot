@@ -27,9 +27,9 @@ namespace Supay.Bot {
       try {
         string desc, url;
         DateTime startTime;
-        string eventPage = new System.Net.WebClient().DownloadString("http://ss.rsportugal.org/parser.php?type=event&channel=" + System.Web.HttpUtility.UrlEncode("#skillers"));
+        string eventPage = new System.Net.WebClient().DownloadString("http://ss.rsportugal.org/parser.php?type=event");
+        bc.SendReply("http://ss.rsportugal.org/parser.php?type=event&channel=" + System.Web.HttpUtility.UrlEncode("skillers"));
         JObject nextEvent = JObject.Parse(eventPage);
-
         startTime = DateTime.ParseExact((string)nextEvent["startTime"], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
         desc = (string)nextEvent["desc"];
         url = (string)nextEvent["url"];

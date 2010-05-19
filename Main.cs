@@ -122,26 +122,25 @@ namespace Supay.Bot {
     }
 
     private void _checkForum(object stateInfo) {
-      const string mainChannel = "#skillers";
+      const string mainChannel = "#howdy";
       if (_irc.Channels.Find(mainChannel) == null) {
         return;
       }
 
       try {
-        string topicPattern = @"showtopic=(\d+)&hl='>([^<]+).+?showforum=\d+"">([^<]+)";
 
-        string forumPage = new System.Net.WebClient().DownloadString("http://z3.invisionfree.com/Supreme_Skillers/index.php?act=Search&CODE=getactive");
-        forumPage = System.Web.HttpUtility.HtmlDecode(forumPage);
-
-        foreach (Match newTopic in Regex.Matches(forumPage, topicPattern, RegexOptions.Singleline)) {
-          long topicId = long.Parse(newTopic.Groups[1].Value, CultureInfo.InvariantCulture);
-          string topic = newTopic.Groups[2].Value;
-          string forum = newTopic.Groups[3].Value;
+        string[] forumPage = (new System.Net.WebClient().DownloadString("http://ss.rsportugal.org/parser.php?type=recenttopics")).Split('\n');
+        foreach (string post in forumPage) {
+          string[] postInfo = post.Split(',');
+          long topicId = long.Parse(postInfo[0].Trim());
+          string topic = postInfo[1];
+          string forum = postInfo[2];
+          string href = postInfo[3];
 
           // Check if this topic exists in database
           if (Database.Lookup<long>("topicId", "forums", "topicId=@topicId", new[] { new SQLiteParameter("@topicId", topicId) }) != topicId) {
             Database.Insert("forums", "topicId", topicId.ToStringI());
-            string reply = @"\bNew topic!\b | Forum: \c07{0}\c | Topic: \c07{1}\c | \c12http://z3.invisionfree.com/Supreme_Skillers/?showtopic={2}\c".FormatWith(forum, topic, topicId);
+            string reply = @"\bNew topic!\b | Forum: \c07{0}\c | Topic: \c07{1}\c | \c12{2}".FormatWith(forum, topic, href);
             _irc.SendChat(reply, mainChannel);
           }
         }
@@ -160,7 +159,6 @@ namespace Supay.Bot {
         DateTime startTime;
         string eventPage = new System.Net.WebClient().DownloadString("http://ss.rsportugal.org/parser.php?type=event&channel=" + System.Web.HttpUtility.UrlEncode(mainChannel));
         JObject nextEvent = JObject.Parse(eventPage);
-
         startTime = DateTime.ParseExact((string)nextEvent["startTime"], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
         desc = (string)nextEvent["desc"];
         url = (string)nextEvent["url"];
