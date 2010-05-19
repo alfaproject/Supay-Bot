@@ -122,7 +122,7 @@ namespace Supay.Bot {
     }
 
     private void _checkForum(object stateInfo) {
-      const string mainChannel = "#howdy";
+      const string mainChannel = "#skillers";
       if (_irc.Channels.Find(mainChannel) == null) {
         return;
       }
