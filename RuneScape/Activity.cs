@@ -13,6 +13,7 @@ namespace Supay.Bot {
     public const string BADE = "BA Defender";
     public const string BACO = "BA Collector";
     public const string BAHE = "BA Healer";
+    public const string CWAR = "Castle Wars";
 
     private static readonly string[][] _aliases = {
       new[] { DUEL, "DT", "DUEL", "DUELING", "DUELTOURNAMENT" },
@@ -24,6 +25,7 @@ namespace Supay.Bot {
       new[] { BADE, "BADE", "BADEF", "BADEFEND", "BADEFENDER" },
       new[] { BACO, "BACO", "BACOL", "BACOLL", "BACOLLECT", "BACOLLECTOR" },
       new[] { BAHE, "BAHE", "BAHEAL", "BAHEALER" },
+      new[] { CWAR, "CW", "CWAR", "CWARS", "CASTLE", "CASTLEWARS" }
     };
 
     public Activity(string name, int rank, int score)

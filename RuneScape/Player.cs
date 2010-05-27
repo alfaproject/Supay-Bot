@@ -163,7 +163,8 @@ namespace Supay.Bot {
                                    "baat_rank", _activities[Activity.BAAT].Rank.ToStringI(), "baat_score", _activities[Activity.BAAT].Score.ToStringI(),
                                    "bade_rank", _activities[Activity.BADE].Rank.ToStringI(), "bade_score", _activities[Activity.BADE].Score.ToStringI(),
                                    "baco_rank", _activities[Activity.BACO].Rank.ToStringI(), "baco_score", _activities[Activity.BACO].Score.ToStringI(),
-                                   "bahe_rank", _activities[Activity.BAHE].Rank.ToStringI(), "bahe_score", _activities[Activity.BAHE].Score.ToStringI());
+                                   "bahe_rank", _activities[Activity.BAHE].Rank.ToStringI(), "bahe_score", _activities[Activity.BAHE].Score.ToStringI(),
+                                   "cwarRank", _activities[Activity.CWAR].Rank.ToStringI(), "cwarScore", _activities[Activity.CWAR].Score.ToStringI());
 
         Database.Update("players", "id=" + Id, "lastupdate", s_date);
       }
@@ -277,6 +278,7 @@ namespace Supay.Bot {
           _activities.Add(Activity.BADE, new Activity(Activity.BADE, Convert.ToInt32(rs["bade_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["bade_score"], CultureInfo.InvariantCulture)));
           _activities.Add(Activity.BACO, new Activity(Activity.BACO, Convert.ToInt32(rs["baco_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["baco_score"], CultureInfo.InvariantCulture)));
           _activities.Add(Activity.BAHE, new Activity(Activity.BAHE, Convert.ToInt32(rs["bahe_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["bahe_score"], CultureInfo.InvariantCulture)));
+          _activities.Add(Activity.CWAR, new Activity(Activity.CWAR, Convert.ToInt32(rs["cwarRank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["cwarScore"], CultureInfo.InvariantCulture)));
 
           // Create combat skill and update combat class
           _CreateCombatSkill();
