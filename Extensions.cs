@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Supay.Bot {
@@ -118,6 +119,12 @@ namespace Supay.Bot {
     ///   Determines whether this instance and another specified String object have the same value. (case insensitive)</summary>
     public static bool EqualsI(this string self, string value) {
       return self.Equals(value, StringComparison.OrdinalIgnoreCase);
+    }
+
+    /// <summary>
+    /// Determines whether or not this instance contains a value equal to the value entered. case-insensitive</summary>
+    public static bool ContainsI(this List<string> self, string value) {
+      return !(self.Find(p => p.EqualsI(value)) == string.Empty);
     }
 
     /// <summary>

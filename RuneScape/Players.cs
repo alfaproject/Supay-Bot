@@ -36,16 +36,16 @@ namespace Supay.Bot {
     }
 
     public Player Find(string name) {
-      return Find(p => p.Name.ToLower().EqualsI(name.ToLower()));
+      return Find(p => p.Name.EqualsI(name));
     }
 
     public bool Contains(string name) {
-      return this.Any(p => p.Name.ToLower().EqualsI(name.ToLower()));
+      return this.Any(p => p.Name.EqualsI(name));
     }
 
     public int IndexOf(string name) {
       for (int i = 0; i < Count; i++) {
-        if (this[i].Name.ToLower().EqualsI(name.ToLower())) {
+        if (this[i].Name.EqualsI(name)) {
           return i;
         }
       }

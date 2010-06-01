@@ -37,10 +37,9 @@ namespace Supay.Bot {
         clanMembers.Add(clanMember.Groups[1].Value.ValidatePlayerName());
 
       Players clanPlayers = new Players(clanInitials);
-
       // remove players from clan that were removed from clan listing
       foreach (Player p in clanPlayers) {
-        if (!clanMembers.Contains(p.Name)) {
+        if (!clanMembers.ContainsI(p.Name)) {
           Database.Update("players", "id=" + p.Id, "clan", string.Empty);
           bc.SendReply("\\b{0}\\b is now being tracked under no clan.".FormatWith(p.Name));
         }
@@ -51,14 +50,14 @@ namespace Supay.Bot {
         if (!clanPlayers.Contains(rsn)) {
           bool f2p = false;
           try {
-            Database.Insert("players", "rsn", rsn, "clan", clanInitials, "lastupdate", string.Empty);
+            Database.Insert("players", "rsn", rsn.ValidatePlayerName(), "clan", clanInitials, "lastupdate", string.Empty);
             Player p = new Player(rsn);
             if (p.Ranked) {
               f2p = (p.Skills.F2pExp == p.Skills[Skill.OVER].Exp);
               p.SaveToDB(DateTime.UtcNow.ToStringI("yyyyMMdd"));
             }
           } catch {
-            Database.Update("players", "rsn='" + rsn + "'", "clan", clanInitials);
+            Database.Update("players", "rsn LIKE '" + rsn + "'", "clan", clanInitials);
           }
           string reply = @"\b{0}\b is now being tracked under \c07{1}\c clan. \c{2}\c".FormatWith(rsn, clanName, f2p ? "14[F2P]" : "7[P2P]");
           bc.SendReply(reply);
