@@ -17,7 +17,8 @@ namespace Supay.Bot {
       get {
         List<Skill> lowest = new List<Skill>(this.Values);
         lowest.RemoveAt(lowest.Count - 1);
-        lowest.Sort((s1, s2) => -s1.CompareTo(s2));
+        lowest.RemoveAt(0);
+        lowest.Sort((s1, s2) => s1.VLevel.CompareTo(s2.VLevel));
         return lowest;
       }
     }
@@ -27,7 +28,7 @@ namespace Supay.Bot {
         List<Skill> highest = new List<Skill>(this.Values);
         highest.RemoveAt(highest.Count - 1);
         highest.RemoveAt(0);
-        highest.Sort();
+        highest.Sort((s1, s2) => -s1.VLevel.CompareTo(s2.VLevel));
         return highest;
       }
     }
