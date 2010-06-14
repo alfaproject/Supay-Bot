@@ -234,7 +234,7 @@ namespace Supay.Bot {
 
       try {
         // Query database
-        SQLiteDataReader rs = Database.ExecuteReader("SELECT tracker.* FROM tracker INNER JOIN players ON tracker.pid=players.id WHERE players.rsn LIKE '" + _name + "' AND tracker.date='" + day.ToStringI("yyyyMMdd") + "';");
+        SQLiteDataReader rs = Database.ExecuteReader("SELECT tracker.* FROM tracker INNER JOIN players ON tracker.pid=players.id WHERE players.rsn = '" + _name + "' AND tracker.date='" + day.ToStringI("yyyyMMdd") + "';");
         if (rs.Read()) {
           // Initialize variables
           Id = Convert.ToInt32(rs["pid"], CultureInfo.InvariantCulture);
