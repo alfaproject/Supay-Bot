@@ -39,7 +39,7 @@ namespace Supay.Bot {
       Players clanPlayers = new Players(clanInitials);
       // remove players from clan that were removed from clan listing
       foreach (Player p in clanPlayers) {
-        if (!clanMembers.ContainsI(p.Name)) {
+        if (!clanMembers.Contains(p.Name)) {
           Database.Update("players", "id=" + p.Id, "clan", string.Empty);
           bc.SendReply("\\b{0}\\b is now being tracked under no clan.".FormatWith(p.Name));
         }
