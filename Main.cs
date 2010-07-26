@@ -26,6 +26,7 @@ namespace Supay.Bot {
 
     public Main() {
       InitializeComponent();
+      initializeNotifyIcon();
 
       // update form title
       Text = Application.ProductName + @" (c) " + Application.CompanyName + @" 2006 - " + DateTime.UtcNow.Year;
@@ -42,6 +43,21 @@ namespace Supay.Bot {
       _timerMain.Tick += _timerMain_Tick;
       _timerMain.Interval = 1000;
       _timerMain.Start();
+    }
+
+    private void initializeNotifyIcon() {
+      try {
+        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
+        NotifyIcon notifyIcon = new NotifyIcon();
+        notifyIcon.Icon = ((System.Drawing.Icon) (resources.GetObject("notifyIcon.Icon")));
+        notifyIcon.Text = "Supay Bot";
+        notifyIcon.Visible = true;
+        notifyIcon.MouseDoubleClick += delegate(object sender, MouseEventArgs e) {
+          this.Show();
+          this.WindowState = FormWindowState.Normal;
+        };
+      } catch (Exception ex) {
+      }
     }
 
     private void updatePlayers(object stateInfo) {
@@ -883,11 +899,6 @@ namespace Supay.Bot {
       }
 
       base.Dispose(disposing);
-    }
-
-    private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e) {
-      this.Show();
-      this.WindowState = FormWindowState.Normal;
     }
 
     private void btnReconnect_Click(object sender, EventArgs e) {

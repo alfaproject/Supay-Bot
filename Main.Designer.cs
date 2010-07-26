@@ -23,7 +23,6 @@
       this.btnConnect = new System.Windows.Forms.ToolStripMenuItem();
       this.btnReconnect = new System.Windows.Forms.ToolStripMenuItem();
       this.btnExit = new System.Windows.Forms.ToolStripMenuItem();
-      this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
       this.statusBar = new System.Windows.Forms.StatusStrip();
       this.lblUtcTimer = new System.Windows.Forms.ToolStripStatusLabel();
       this.lblUpdateTimer = new System.Windows.Forms.ToolStripStatusLabel();
@@ -85,13 +84,6 @@
       this.btnExit.Size = new System.Drawing.Size(152, 22);
       this.btnExit.Text = "E&xit";
       this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
-      // 
-      // notifyIcon
-      // 
-      this.notifyIcon.Icon = ((System.Drawing.Icon) (resources.GetObject("notifyIcon.Icon")));
-      this.notifyIcon.Text = "Supay Bot";
-      this.notifyIcon.Visible = true;
-      this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
       // 
       // statusBar
       // 
@@ -191,7 +183,6 @@
     private System.Windows.Forms.MenuStrip menu;
     private System.Windows.Forms.ToolStripMenuItem btnConnect;
     private System.Windows.Forms.ToolStripMenuItem btnExit;
-    private System.Windows.Forms.NotifyIcon notifyIcon;
     private System.Windows.Forms.StatusStrip statusBar;
     private System.Windows.Forms.TreeView treeView;
     private System.Windows.Forms.RichTextBox textBox;
