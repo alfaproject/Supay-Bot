@@ -65,7 +65,7 @@ namespace Supay.Bot {
         this.Members = (bool)npc["members"];
         this.Habitat = (string)npc["locstring"];
         this.Aggressive = (string)npc["npc_is_aggresive"] == "True";
-        this.TopDrops = (string)npc["npc_top drops_en"];
+        this.TopDrops = (string)npc["npc_top_drops_en"];
         this.Drops = (string)npc["npc_drops_en"];
       } catch {
       }

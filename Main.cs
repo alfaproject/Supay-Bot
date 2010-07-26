@@ -37,7 +37,7 @@ namespace Supay.Bot {
         LogFileName = Path.Combine(Application.StartupPath, "Log.txt")
       };
       Trace.Listeners.Add(defaultListener);
-
+      
       // set up clock timer
       _timerMain = new System.Windows.Forms.Timer();
       _timerMain.Tick += _timerMain_Tick;
@@ -157,7 +157,7 @@ namespace Supay.Bot {
           // Check if this topic exists in database
           if (Database.Lookup<long>("topicId", "forums", "topicId=@topicId", new[] { new SQLiteParameter("@topicId", topicId) }) != topicId) {
             Database.Insert("forums", "topicId", topicId.ToStringI());
-            string reply = @"\bNew topic!\b | Forum: \c07{0}\c | Topic: \c07{1}\c | Poster: \c07{3}\c | \c12{2}".FormatWith(forum, topic, href, poster);
+            string reply = @"\bNew topic!\b | Forum: \c07{0}\c | Topic: \c07{1}\c | Poster: \c07{3}\c | \c12{2}".FormatWith(forum, topic, poster, href);
             _irc.SendChat(reply, mainChannel);
           }
         }
@@ -220,7 +220,7 @@ namespace Supay.Bot {
         nextMorning += TimeSpan.FromDays(1.0);
       }
       lblUpdateTimer.Text = "Next update in " + nextMorning.ToLongString();
-
+  
       if (_irc != null) {
         // check for pending timers
 
@@ -258,6 +258,7 @@ namespace Supay.Bot {
         }
         rsTimer.Close();
       }
+
     }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions")]
