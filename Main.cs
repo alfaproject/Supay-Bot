@@ -269,6 +269,7 @@ namespace Supay.Bot {
       string address = Properties.Settings.Default.ServerAddress;
       string nick = Properties.Settings.Default.Nick;
       _irc = new Client(address, nick, "Supreme Skillers IRC bot");
+      _irc.EnableAutoIdent = false;
 
       _irc.DataSent += new EventHandler<Supay.Irc.Network.ConnectionDataEventArgs>(Irc_DataSent);
       _irc.DataReceived += new EventHandler<Supay.Irc.Network.ConnectionDataEventArgs>(Irc_DataReceived);
