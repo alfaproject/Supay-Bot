@@ -152,14 +152,18 @@ namespace Supay.Bot {
       try {
         string recordPage = new System.Net.WebClient().DownloadString("http://runetracker.org/track-" + rsn + "," + Skill.NameToId(skill) + ",0");
 
-        string recordRegex = @"Day: <i><acronym title=""([^""]+)"">([^<]+)</acronym></i><br />\s+";
-        recordRegex += @"Week: <i><acronym title=""([^""]+)"">([^<]+)</acronym></i><br />\s+";
-        recordRegex += @"Month: <i><acronym title=""([^""]+)"">([^<]+)</acronym></i><br />";
+        string recordRegex = @"Exp Gain Records[^:]+:<\/b><br \/>\s+";
+        recordRegex += @"Day: <i>(?:<acronym title=""([^""]+)"">|)([^<]+)(?:<\/acronym>|)<\/i><br \/>\s+";
+        recordRegex += @"Week: <i>(?:<acronym title=""([^""]+)"">|)([^<]+)(?:<\/acronym>|)<\/i><br \/>\s+";
+		    recordRegex += @"Month: <i>(?:<acronym title=""([^""]+)"">|)([^<]+)(?:<\/acronym>|)<\/i><br \/>";
 
-        Match recordMatch = Regex.Match(recordPage, recordRegex, RegexOptions.Singleline);
-        if (recordMatch.Success) {
+        Match M = Regex.Match(recordPage, recordRegex, RegexOptions.Singleline);
+        if (M.Success) {
           bc.SendReply(@"{0}'s records in {1}: Day \c07{2}\c ({3}); Week \c07{4}\c ({5}); Month \c07{6}\c ({7}); \c12http://runetracker.org/track-{0},{8},0"
-            .FormatWith(rsn, skill, recordMatch.Groups[2], recordMatch.Groups[1], recordMatch.Groups[4], recordMatch.Groups[3], recordMatch.Groups[6], recordMatch.Groups[5], Skill.NameToId(skill))
+            .FormatWith(rsn, skill, M.Groups[2], (M.Groups[1].Value != string.Empty ? M.Groups[1].Value : "N/A"),
+                                    M.Groups[4], (M.Groups[3].Value != string.Empty ? M.Groups[3].Value : "N/A"),
+                                    M.Groups[6], (M.Groups[5].Value != string.Empty ? M.Groups[5].Value : "N/A"),
+                                    Skill.NameToId(skill))
             );
         } else {
           bc.SendReply("rscript has no records in {0} for {1}.".FormatWith(skill, rsn));
