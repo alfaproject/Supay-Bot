@@ -27,7 +27,7 @@ namespace Supay.Bot {
       if (rs.Read()) {
         string skill = rs.GetString(0);
 
-        int gained_exp = p.Skills[skill].Exp - rs.GetInt32(1);
+        long gained_exp = p.Skills[skill].Exp - rs.GetInt64(1);
         TimeSpan time = DateTime.UtcNow - rs.GetString(2).ToDateTime();
 
         string reply = "You gained \\c07{0:N0}\\c \\u{1}\\u exp in \\c07{2}\\c. That's \\c07{3:N0}\\c exp/h.".FormatWith(gained_exp, skill.ToLowerInvariant(), time.ToLongString(), (double)gained_exp / (double)time.TotalHours);

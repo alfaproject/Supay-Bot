@@ -119,7 +119,7 @@ namespace Supay.Bot {
     private void _CreateCombatSkill() {
       _combatclass = Utils.CombatClass(_skills, false);
       int CmbLevel = Utils.CalculateCombat(_skills, false, false);
-      int CmbExp = _skills[Skill.ATTA].Exp + _skills[Skill.STRE].Exp + _skills[Skill.DEFE].Exp + _skills[Skill.HITP].Exp + _skills[Skill.RANG].Exp + _skills[Skill.PRAY].Exp + _skills[Skill.MAGI].Exp + _skills[Skill.SUMM].Exp;
+      long CmbExp = _skills[Skill.ATTA].Exp + _skills[Skill.STRE].Exp + _skills[Skill.DEFE].Exp + _skills[Skill.HITP].Exp + _skills[Skill.RANG].Exp + _skills[Skill.PRAY].Exp + _skills[Skill.MAGI].Exp + _skills[Skill.SUMM].Exp;
       _skills.Add(Skill.COMB, new Skill(Skill.COMB, -1, CmbLevel, CmbExp));
     }
 
@@ -242,7 +242,7 @@ namespace Supay.Bot {
           _activities = new ActivityDictionary();
           _ranked = true;
 
-          _skills.Add(Skill.OVER, new Skill(Skill.OVER, Convert.ToInt32(rs["overall_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["overall_level"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["overall_xp"], CultureInfo.InvariantCulture)));
+          _skills.Add(Skill.OVER, new Skill(Skill.OVER, Convert.ToInt32(rs["overall_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["overall_level"], CultureInfo.InvariantCulture), Convert.ToInt64(rs["overall_xp"], CultureInfo.InvariantCulture)));
           _skills.Add(Skill.ATTA, new Skill(Skill.ATTA, Convert.ToInt32(rs["attack_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["attack_xp"], CultureInfo.InvariantCulture)));
           _skills.Add(Skill.DEFE, new Skill(Skill.DEFE, Convert.ToInt32(rs["defence_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["defence_xp"], CultureInfo.InvariantCulture)));
           _skills.Add(Skill.STRE, new Skill(Skill.STRE, Convert.ToInt32(rs["strength_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["strength_xp"], CultureInfo.InvariantCulture)));
@@ -319,7 +319,7 @@ namespace Supay.Bot {
               if (skillName == Skill.DUNG) {
                 _skills.Add(skillName, new TrueSkill(skillName, int.Parse(hiscoreTokens[0], CultureInfo.InvariantCulture), int.Parse(hiscoreTokens[1], CultureInfo.InvariantCulture), int.Parse(hiscoreTokens[2], CultureInfo.InvariantCulture)));
               } else {
-                _skills.Add(skillName, new Skill(skillName, int.Parse(hiscoreTokens[0], CultureInfo.InvariantCulture), int.Parse(hiscoreTokens[1], CultureInfo.InvariantCulture), int.Parse(hiscoreTokens[2], CultureInfo.InvariantCulture)));
+                _skills.Add(skillName, new Skill(skillName, int.Parse(hiscoreTokens[0], CultureInfo.InvariantCulture), int.Parse(hiscoreTokens[1], CultureInfo.InvariantCulture), long.Parse(hiscoreTokens[2], CultureInfo.InvariantCulture)));
               }
               break;
             case 2: // activity
@@ -344,6 +344,10 @@ namespace Supay.Bot {
         new RuneScript.RScriptLookupPortTypeClient().trackUpdateUser((string)rsn);
       } catch {
       }
+    }
+
+    public string ToString() {
+      return _name;
     }
 
   }

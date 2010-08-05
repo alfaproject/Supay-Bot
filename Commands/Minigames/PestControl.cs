@@ -10,7 +10,7 @@ namespace Supay.Bot {
         return;
       }
       string rsn = string.Empty;
-      int target = 0;
+      long target = 0;
       string skill = string.Empty;
       int points = 0;
       int rank = 0;
@@ -78,7 +78,7 @@ namespace Supay.Bot {
         }
       }
 
-      int curExp = skillInfo.Exp;
+      long curExp = skillInfo.Exp;
       int curLvl = skillInfo.Level;
       if (target == 0 || target <= curExp) {
         target = (skillInfo.VLevel + 1).ToExp();
@@ -95,7 +95,7 @@ namespace Supay.Bot {
       } else {
         N = 35.0;
       }
-      int potExp = curExp;
+      long potExp = curExp;
       double bonus;
       int group;
       int pointExp = 0;

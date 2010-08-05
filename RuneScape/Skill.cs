@@ -64,13 +64,13 @@ namespace Supay.Bot {
 
     private const int MAX_LEVEL = 99;
 
-    public Skill(string name, int rank, int level, int exp)
+    public Skill(string name, int rank, int level, long exp)
       : base(name, rank) {
       Exp = exp;
       Level = level;
     }
 
-    public Skill(string name, int rank, int exp)
+    public Skill(string name, int rank, long exp)
       : base(name, rank) {
       Exp = exp;
       
@@ -86,7 +86,7 @@ namespace Supay.Bot {
       Level = 1;
     }
 
-    public int Exp {
+    public long Exp {
       get;
       set;
     }
@@ -114,7 +114,7 @@ namespace Supay.Bot {
     public int ExpToLevel {
       get {
         if (Level < MaxLevel) {
-          return (Level + 1).ToExp() - Exp;
+          return (int)((Level + 1).ToExp() - Exp);
         }
         return 0;
       }
@@ -123,9 +123,9 @@ namespace Supay.Bot {
     public int ExpToVLevel {
       get {
         if (VLevel < 126) {
-          return (VLevel + 1).ToExp() - Exp;
+          return (int)((VLevel + 1).ToExp() - Exp);
         }
-        return 200000000 - Exp;
+        return (int)(200000000 - Exp);
       }
     }
 

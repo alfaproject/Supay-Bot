@@ -96,9 +96,9 @@ namespace Supay.Bot {
         }
       } else {
         // calculate "real" overall xp, max overall exp, max overall level
-        int totalExp = 0, maxTotalExp = 0, maxTotalLevel = 0;
+        long totalExp = 0, maxTotalExp = 0, maxTotalLevel = 0;
         foreach (Skill s in p.Skills.Values.Where(s => s.Name != Skill.OVER && s.Name != Skill.COMB)) {
-          int maxSkillExp = s.MaxLevel.ToExp();
+          long maxSkillExp = s.MaxLevel.ToExp();
           totalExp += Math.Min(maxSkillExp, s.Exp);
           maxTotalExp += maxSkillExp;
           maxTotalLevel += s.MaxLevel;

@@ -47,7 +47,8 @@ namespace Supay.Bot {
         Skill skill = p.Skills[skillName];
 
         // parse goal
-        int targetLevel, targetExp = 0;
+        int targetLevel;
+        long targetExp = 0;
         if (int.TryParse(goal, out targetLevel)) {
           // get level/exp
           if (targetLevel == 127) {
@@ -100,10 +101,10 @@ namespace Supay.Bot {
         }
 
         // calculate % done
-        int expToGo = 0;
+        long expToGo = 0;
         string percentDone;
         if (skill.Name == Skill.OVER) {
-          int totalExp = 0, maxExp = 0;
+          long totalExp = 0, maxExp = 0;
           targetLevel = 0;
           foreach (Skill s in p.Skills.Values.Where(s => s.Name != Skill.OVER && s.Name != Skill.COMB)) {
             int maxSkillExp = s.MaxLevel.ToExp();

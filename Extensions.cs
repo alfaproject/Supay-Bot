@@ -72,6 +72,23 @@ namespace Supay.Bot {
     ///   Converts the numeric value of this instance to its equivalent short string (k/m/b) representation up to a maximum number of decimals. </summary>
     /// <param name="decimals">
     ///   Max number of decimals allowed. </param>
+    public static string ToShortString(this long self, int decimals) {
+      string format = "#,##0." + new string('#', decimals);
+      if (self >= 1000000000 || self <= -1000000000) {
+        return Math.Round(((double)self / 1000000000.0), decimals).ToStringI(format) + "b";
+      } else if (self >= 1000000 || self <= -1000000) {
+        return Math.Round(((double)self / 1000000.0), decimals).ToStringI(format) + "m";
+      } else if (self >= 1000 || self <= -1000) {
+        return Math.Round(((double)self / 1000.0), decimals).ToStringI(format) + "k";
+      } else {
+        return Math.Round((double)self, decimals).ToStringI(format);
+      }
+    }
+
+    /// <summary>
+    ///   Converts the numeric value of this instance to its equivalent short string (k/m/b) representation up to a maximum number of decimals. </summary>
+    /// <param name="decimals">
+    ///   Max number of decimals allowed. </param>
     public static string ToShortString(this int self, int decimals) {
       return ((double)self).ToShortString(decimals);
     }
