@@ -157,7 +157,7 @@ namespace Supay.Bot {
           // Check if this topic exists in database
           if (Database.Lookup<long>("topicId", "forums", "topicId=@topicId", new[] { new SQLiteParameter("@topicId", topicId) }) != topicId) {
             Database.Insert("forums", "topicId", topicId.ToStringI());
-            string reply = @"\bNew topic!\b | Forum: \c07{0}\c | Topic: \c07{1}\c | Poster: \c07{3}\c | \c12{2}".FormatWith(forum, topic, poster, href);
+            string reply = @"\bNew topic!\b | Forum: \c07{0}\c | Topic: \c07{1}\c | Poster: \c07{2}\c | \c12{3}".FormatWith(forum, topic, poster, href);
             _irc.SendChat(reply, mainChannel);
           }
         }
