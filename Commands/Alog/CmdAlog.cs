@@ -53,9 +53,10 @@ namespace Supay.Bot {
 
       string questRegex = @"Quest complete: (.+)";
       string killRegex = @"killed the player (.+?)\.|I killed\s*(?:an?|the)?\s*(.+?)\.?$";
-      string levelRegex = @"Level?led up (\w+)\.?";
+      string levelRegex = @"Level?led up (\w+)\.?|Levelled all skills over (\d+)";
       string itemRegex = @"Item found: (?:an?|some) (.+)";
       string expRegex = @"(\d+)XP in (\w+)";
+      string duRegex = @"Dungeon level (\d+) reached.";
 
       Match M;
       Dictionary<string, Dictionary<string, AlogItem>> alogItems = new Dictionary<string, Dictionary<string, AlogItem>>();
@@ -87,12 +88,24 @@ namespace Supay.Bot {
         M = Regex.Match(item.Title, levelRegex);
         if (M.Success) {
           AlogItem level = new AlogItem(item, M, "I gained");
-          level.Info[0] = Skill.Parse(level.Info[0]);
-          if (alogItems["I gained"].ContainsKey(level.Info[0])) {
-            alogItems["I gained"][level.Info[0]].Amount++;
-          } else {
-            alogItems["I gained"].Add(level.Info[0], level);
-            alogItems["I gained"][level.Info[0]].Info[1] = p.Skills[level.Info[0]].Level.ToString();
+          try {
+            level.Info[0] = Skill.Parse(level.Info[0]);
+            if (alogItems["I gained"].ContainsKey(level.Info[0])) {
+              alogItems["I gained"][level.Info[0]].Amount++;
+            } else {
+              alogItems["I gained"].Add(level.Info[0], level);
+              alogItems["I gained"][level.Info[0]].Info[1] = p.Skills[level.Info[0]].Level.ToString();
+            }
+          } catch {
+            if (alogItems["I gained"].ContainsKey("all")) {
+              if (level.Info[1].ToInt32() > alogItems["I gained"]["all"].Info[1].ToInt32()) {
+                alogItems["I gained"]["all"].Info[0] = "all";
+                alogItems["I gained"]["all"].Info[1] = level.Info[1];
+              }
+            } else {
+              alogItems["I gained"].Add("all", level);
+              alogItems["I gained"]["all"].Info[0] = "all";
+            }
           }
           continue;
         }
@@ -104,6 +117,18 @@ namespace Supay.Bot {
           } else {
             alogItems["I found"].Add(drop.Info[0], drop);
           }
+          continue;
+        }
+        M = Regex.Match(item.Title, duRegex);
+        if (M.Success) {
+          AlogItem duFloor = new AlogItem(item, M, "Others");
+          if (!alogItems["Others"].ContainsKey("duFloor")) {
+            alogItems["Others"].Add("duFloor", duFloor);
+            alogItems["Others"]["duFloor"].Info[1] = "1";
+          }
+          alogItems["Others"]["duFloor"].Info[0] = "duFloor";
+          if (M.Groups[1].Value.ToInt32() > alogItems["Others"]["duFloor"].Info[1].ToInt32())
+            alogItems["Others"]["duFloor"].Info[1] = M.Groups[1].Value;
           continue;
         }
         M = Regex.Match(item.Title, expRegex);
@@ -135,8 +160,14 @@ namespace Supay.Bot {
             Skill skill = new Skill(item.Info[1], 1, 1);
             reply += "\\c07" + item.Info[0].ToInt32().ToShortString(1) + "\\c " + skill.ShortName + " exp; ";
           } else if (category.Key == "I gained") {
-            Skill skill = new Skill(item.Info[0], 1, 1);
-            reply += "\\c07" + item.Amount + "\\c " + skill.ShortName + " levels(->" + item.Info[1] + "); ";
+            if (item.Info[0] == "all") {
+              reply += "All skills now at least\\c07 " + item.Info[1] + "\\c; ";
+            } else {
+              Skill skill = new Skill(item.Info[0], 1, 1);
+              reply += "\\c07" + item.Amount + "\\c " + skill.ShortName + " levels(->" + item.Info[1] + "); ";
+            }
+          } else if (item.Info[0] == "duFloor") {
+            reply += "Unlocked dungeon floor\\c07 " + item.Info[1] + "\\c; ";
           } else {
             reply += amount + "\\c07" + item.Info[0] + "\\c; ";
           }
