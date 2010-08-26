@@ -86,15 +86,15 @@ namespace Supay.Bot {
     private void checkGE(object stateInfo) {
       string pricesPage;
       try {
-        pricesPage = new System.Net.WebClient().DownloadString("http://itemdb-rs.runescape.com/top100.ws?list=2&scale=0");
-        pricesPage += new System.Net.WebClient().DownloadString("http://itemdb-rs.runescape.com/top100.ws?list=3&scale=0");
+        pricesPage = new System.Net.WebClient().DownloadString("http://services.runescape.com/m=itemdb_rs/frontpage.ws");
+        pricesPage += new System.Net.WebClient().DownloadString("http://services.runescape.com/m=itemdb_rs/results.ws?price=all&query=ring");
       } catch (System.Net.WebException) {
         textBox.Invoke(new delOutputMessage(outputMessage), "##### Abort GE check (prices page couldn't be downloaded)");
         return;
       }
 
       List<Price> pricesChanged = new List<Price>();
-      const string pricesRegex = @"<a href="".+?obj=(\d+)&amp;scale=-1"">([^<]+)</a>\s+</td>\s+<td>[^<]+</td>\s+<td>([^<]+)</td>\s+<td>[^<]+</td>";
+      const string pricesRegex = @"obj=(\d+)"">([^<]+)</a>\s*</td>\s+<td>([^<]+)</td>";
       foreach (Match priceMatch in Regex.Matches(pricesPage, pricesRegex, RegexOptions.Singleline)) {
         Price newPrice = new Price(int.Parse(priceMatch.Groups[1].Value, CultureInfo.InvariantCulture), priceMatch.Groups[2].Value, priceMatch.Groups[3].Value.ToInt32());
         Price oldPrice = new Price(newPrice.Id);
