@@ -204,7 +204,7 @@ namespace Supay.Bot {
         _skills.Add(Skill.HUNT, new Skill(Skill.HUNT, RScriptSkills.hunter.rank, RScriptSkills.hunter.exp));
         _skills.Add(Skill.CONS, new Skill(Skill.CONS, RScriptSkills.construction.rank, RScriptSkills.construction.exp));
         _skills.Add(Skill.SUMM, new Skill(Skill.SUMM, RScriptSkills.summoning.rank, RScriptSkills.summoning.exp));
-        _skills.Add(Skill.DUNG, new TrueSkill(Skill.DUNG, RScriptSkills.dungeoneering.rank, RScriptSkills.dungeoneering.exp));
+        _skills.Add(Skill.DUNG, new TrueSkill(Skill.DUNG, RScriptSkills.dungeoneering.rank, (int)RScriptSkills.dungeoneering.exp));
         _activities = new ActivityDictionary();
         _ranked = true;
 
@@ -346,7 +346,7 @@ namespace Supay.Bot {
       }
     }
 
-    public string ToString() {
+    public override string ToString() {
       return _name;
     }
 
