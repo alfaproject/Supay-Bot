@@ -145,14 +145,15 @@ namespace Supay.Bot {
 
       try {
 
-        string[] forumPage = (new System.Net.WebClient().DownloadString("http://ss.rsportugal.org/parser.php?type=recenttopics")).Split('\n');
-        foreach (string post in forumPage) {
-          string[] postInfo = post.Split(',');
-          long topicId = long.Parse(postInfo[0].Trim());
-          string topic = postInfo[1];
-          string forum = postInfo[2];
-          string href = postInfo[3];
-          string poster = postInfo[4];
+        string forumPage = new System.Net.WebClient().DownloadString("http://ss.rsportugal.org/api/?module=forum&action=getLatestTopics");
+        JObject LatestTopics = JObject.Parse(forumPage);
+
+        foreach (JObject post in LatestTopics["data"]) {
+          long topicId = long.Parse(post["topic"].ToString().Replace("\"",""));
+          string topic = (string)post["subject"];
+          string forum = (string)post["board"]["name"];
+          string href = (string)post["href"];
+          string poster = (string)post["poster"]["name"];
 
           // Check if this topic exists in database
           if (Database.Lookup<long>("topicId", "forums", "topicId=@topicId", new[] { new SQLiteParameter("@topicId", topicId) }) != topicId) {
@@ -161,6 +162,7 @@ namespace Supay.Bot {
             _irc.SendChat(reply, mainChannel);
           }
         }
+
       } catch {
       }
     }
@@ -174,11 +176,11 @@ namespace Supay.Bot {
       try {
         string desc, url;
         DateTime startTime;
-        string eventPage = new System.Net.WebClient().DownloadString("http://ss.rsportugal.org/parser.php?type=event&channel=" + Uri.EscapeDataString(mainChannel));
+        string eventPage = new System.Net.WebClient().DownloadString("http://ss.rsportugal.org/api/?module=events&action=getNext&channel=" + Uri.EscapeDataString(mainChannel));
         JObject nextEvent = JObject.Parse(eventPage);
-        startTime = DateTime.ParseExact((string)nextEvent["startTime"], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
-        desc = (string)nextEvent["desc"];
-        url = (string)nextEvent["url"];
+        startTime = DateTime.ParseExact((string)nextEvent["data"]["startTime"], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+        desc = (string)nextEvent["data"]["description"];
+        url = (string)nextEvent["data"]["url"];
         SQLiteDataReader rsTimer = Database.ExecuteReader("SELECT fingerprint, nick, name, duration, started FROM timers;");
         while (rsTimer.Read()) {
           if (rsTimer.GetString(2) == (string)nextEvent["id"])
