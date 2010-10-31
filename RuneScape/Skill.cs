@@ -58,7 +58,7 @@ namespace Supay.Bot {
       new[] { HUNT, "HU", "HUN", "HUNT", "HUNTING" },
       new[] { CONS, "CO", "CON", "CONS", "CONST", "CONSTRUCT" },
       new[] { SUMM, "SU", "SUM", "SUMM", "SUMMON" },
-      new[] { DUNG, "DU", "DUN", "DUNG", "DUNGEON", "DUNGEONERING" },
+      new[] { DUNG, "DU", "DG", "DUN", "DUNG", "DUNGEON", "DUNGEONERING" },
       new[] { COMB, "CB", "CMB", "COMB" }
     };
 
