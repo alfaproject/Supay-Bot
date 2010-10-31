@@ -123,7 +123,9 @@ namespace Supay.Bot {
       string  pricePage = new System.Net.WebClient().DownloadString("http://itemdb-rs.runescape.com/viewitem.ws?obj=" + this.Id);
 
       string priceRegex = @"<div class=""subsectionHeader"">\s+";
+      priceRegex += @"<h2>\s+";
       priceRegex += @"(.+?)\s+";
+      priceRegex += @"</h2>\s+";
       priceRegex += @"</div>\s+";
       priceRegex += @"<div id=""item_additional"" class=""inner_brown_box"">\s+";
       priceRegex += @"<img [^>]+>\s+";
