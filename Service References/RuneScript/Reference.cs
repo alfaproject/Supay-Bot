@@ -402,7 +402,7 @@ namespace Supay.Bot.RuneScript {
         
         private int rankField;
         
-        private long expField;
+        private int expField;
         
         private int levelField;
         
@@ -418,7 +418,7 @@ namespace Supay.Bot.RuneScript {
         }
         
         /// <remarks/>
-        public long exp {
+        public int exp {
             get {
                 return this.expField;
             }
