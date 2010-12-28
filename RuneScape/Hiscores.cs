@@ -20,7 +20,7 @@ namespace Supay.Bot {
           this.Add(new Skill(Name,
                              int.Parse(M.Groups[1].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture),
                              int.Parse(M.Groups[3].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture),
-                             int.Parse(M.Groups[4].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture)));
+                             long.Parse(M.Groups[4].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture)));
           Regex newReg = new Regex(@"\W");
           this[this.Count - 1].RSN = newReg.Replace(M.Groups[2].Value, "_");
         }

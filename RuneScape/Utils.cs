@@ -208,5 +208,15 @@ namespace Supay.Bot {
       return books;
     }
 
+    public static int EffigyToExp(Skill skill, long targetExp) {
+      long startExp = skill.Exp;
+      int effigies = 0;
+      while (startExp < targetExp) {
+        startExp += (long)(Math.Pow((double)Math.Min(startExp.ToLevel(), skill.MaxLevel), 3.0) / 20.2);
+        effigies++;
+      }
+      return effigies;
+    }
+
   } //class Utils
 } //namespace Supay.Bot

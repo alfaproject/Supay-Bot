@@ -526,11 +526,16 @@ namespace Supay.Bot {
 
       int qty = 1;
       string monster = string.Empty;
-      if (bc.MessageTokens[1].TryInt32(out qty)) {
-        monster = bc.MessageTokens.Join(2).Trim();
-      } else if (bc.MessageTokens[bc.MessageTokens.GetLength(0) - 1].TryInt32(out qty)) {
-        bc.MessageTokens[bc.MessageTokens.GetLength(0) - 1] = string.Empty;
-        monster = bc.MessageTokens.Join(1).Trim();
+      if (bc.MessageTokens.Length > 1) {
+        if (bc.MessageTokens[1].TryInt32(out qty)) {
+          monster = bc.MessageTokens.Join(2).Trim();
+        } else if (bc.MessageTokens[bc.MessageTokens.GetLength(0) - 1].TryInt32(out qty)) {
+          bc.MessageTokens[bc.MessageTokens.GetLength(0) - 1] = string.Empty;
+          monster = bc.MessageTokens.Join(1).Trim();
+        } else {
+          bc.SendReply("Syntax: !task <qty> <monster>");
+          return;
+        }
       } else {
         bc.SendReply("Syntax: !task <qty> <monster>");
         return;

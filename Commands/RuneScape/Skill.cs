@@ -152,6 +152,10 @@ namespace Supay.Bot {
               case "BOOKS":
                 reply += @" (\c07{0:N0}\c books)".FormatWith(Utils.BooksToExp(skill.Exp, targetExp));
                 break;
+              case "EFFIGY":
+              case "EFFIGIES":
+                reply += @" (\c07{0:N0}\c effigies)".FormatWith(Utils.EffigyToExp(skill, targetExp));
+                break;
               case "SW":
               case "SOUL":
               case "SOULS":
