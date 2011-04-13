@@ -210,9 +210,10 @@ namespace Supay.Bot {
 
     public static int EffigyToExp(Skill skill, long targetExp) {
       long startExp = skill.Exp;
-      int effigies = 0;
+      int effigies = 0, skillLvl = skill.Level;
       while (startExp < targetExp) {
-        startExp += (long)(Math.Pow((double)Math.Min(startExp.ToLevel(), skill.MaxLevel), 3.0) / 20.2);
+        skillLvl = Math.Min(startExp.ToLevel(), skill.MaxLevel);
+        startExp += (long)((Math.Pow((double)skillLvl, 3.0) - 2 * Math.Pow((double)skillLvl, 2.0) + 100 * skillLvl)/ 20);
         effigies++;
       }
       return effigies;

@@ -16,7 +16,7 @@ namespace Supay.Bot {
         // get this skill hiscore table
         hiscore_page = wc.DownloadString("http://hiscore.runescape.com/overall.ws?table=" + Skill.NameToId(skill) + "&rank=" + rank);
 
-        foreach (Match M in Regex.Matches(hiscore_page, "<td class=\"[^\"]+\">([^<]+)</td>\\s+<td class=\"alL\"><[^>]+>([^<]+)</a></td>\\s+<td class=\"[^\"]+\">([\\d,]+)</td>\\s+<td class=\"[^\"]+\">([\\d,]+)</td>", RegexOptions.Singleline)) {
+        foreach (Match M in Regex.Matches(hiscore_page, @"<span class=""rankColumn"">\s+<span>([^<]+)</span>\s+</span>\s+<span class=""nameColumn"">\s+<span>([^<]+)</span>\s+</span>\s+<span class=""\w+Column"">\s+<span>([^<]+)</span>\s+</span>\s+<span class=""xpColumn"">\s+<span>([^<]+)</span>", RegexOptions.Singleline)) {
           this.Add(new Skill(Name,
                              int.Parse(M.Groups[1].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture),
                              int.Parse(M.Groups[3].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture),
@@ -31,7 +31,7 @@ namespace Supay.Bot {
         // get this activity hiscore table
         hiscore_page = wc.DownloadString("http://hiscore.runescape.com/overall.ws?category_type=1&table=" + Activity.NameToId(activity) + "&rank=" + rank);
 
-        foreach (Match M in Regex.Matches(hiscore_page, "<td class=\"[^\"]+\">([^<]+)</td>\\s+<td class=\"alL\"><[^>]+>([^<]+)</a></td>\\s+<td class=\"[^\"]+\">([\\d,]+)</td>", RegexOptions.Singleline)) {
+        foreach (Match M in Regex.Matches(hiscore_page, @"<span class=""rankColumn"">\s+<span>([^<]+)</span>\s+</span>\s+<span class=""nameColumn"">\s+<span>([^<]+)</span>\s+</span>\s+<span class=""\w+Column"">\s+<span>([^<]+)</span>", RegexOptions.Singleline)) {
           this.Add(new Activity(Name,
                                 int.Parse(M.Groups[1].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture),
                                 int.Parse(M.Groups[3].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture)));

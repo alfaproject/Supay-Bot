@@ -145,7 +145,7 @@ namespace Supay.Bot {
 
       try {
 
-        string forumPage = new System.Net.WebClient().DownloadString("http://ss.rsportugal.org/api/?module=forum&action=getLatestTopics");
+        string forumPage = new System.Net.WebClient().DownloadString("http://supremeskillers.net/api/?module=forum&action=getLatestTopics");
         JObject LatestTopics = JObject.Parse(forumPage);
 
         foreach (JObject post in LatestTopics["data"]) {
@@ -176,11 +176,22 @@ namespace Supay.Bot {
       try {
         string desc, url;
         DateTime startTime;
-        string eventPage = new System.Net.WebClient().DownloadString("http://ss.rsportugal.org/api/?module=events&action=getNext&channel=" + Uri.EscapeDataString(mainChannel));
+        string eventPage = new System.Net.WebClient().DownloadString("http://supremeskillers.net/api/?module=events&action=getNext&channel=" + Uri.EscapeDataString(mainChannel));
         JObject nextEvent = JObject.Parse(eventPage);
-        startTime = DateTime.ParseExact((string)nextEvent["data"]["startTime"], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
-        desc = (string)nextEvent["data"]["description"];
-        url = (string)nextEvent["data"]["url"];
+
+        if (nextEvent["data"] == null) {
+          return;
+        }
+        string[] events = new string[10];
+        int i = -1;
+        foreach (JObject eventData in nextEvent["data"]) {
+          events[++i] = eventData.ToString();
+        }
+
+        nextEvent = JObject.Parse(events[0]);
+        startTime = DateTime.ParseExact((string)nextEvent["startTime"], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+        desc = (string)nextEvent["description"];
+        url = (string)nextEvent["url"];
         SQLiteDataReader rsTimer = Database.ExecuteReader("SELECT fingerprint, nick, name, duration, started FROM timers;");
         while (rsTimer.Read()) {
           if (rsTimer.GetString(2) == (string)nextEvent["id"])
@@ -188,7 +199,7 @@ namespace Supay.Bot {
         }
 
         int[] noticeDuration = new int[] { 1440, 720, 360, 180, 90, 60, 40, 20, 10, 5 };
-        for (int i = 0; i < 10; i++) {
+        for (i = 0; i < 10; i++) {
           if ((int)(startTime - DateTime.UtcNow).TotalMinutes - noticeDuration[i] < 0)
             continue;
           Database.Insert("timers", "fingerprint", startTime.ToStringI("yyyyMMddHHmmss"),
