@@ -63,10 +63,12 @@ namespace Supay.Bot {
         rank = 1;
 
       Hiscores hiscores = new Hiscores(skill, activity, rank);
+      
 
+      int startIndex = Math.Max(rank - hiscores[0].Rank - 5, 0);
       string reply = "RS \\u" + hiscores.Name.ToLowerInvariant() + "\\u rankings:";
       if (activity == null) {
-        for (int i = 0; i < Math.Min(12, hiscores.Count); i++) {
+        for (int i = startIndex; i < Math.Min(startIndex + 12, hiscores.Count); i++) {
           reply += " ";
           if (hiscores[i].Rank == rank)
             reply += "\\b";
@@ -81,7 +83,7 @@ namespace Supay.Bot {
           reply += ";";
         }
       } else {
-        for (int i = 0; i < Math.Min(12, hiscores.Count); i++) {
+        for (int i = startIndex; i < Math.Min(12, hiscores.Count); i++) {
           reply += " ";
           if (hiscores[i].Rank == rank)
             reply += "\\b";

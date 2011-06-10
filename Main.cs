@@ -234,9 +234,9 @@ namespace Supay.Bot {
       }
       lblUpdateTimer.Text = "Next update in " + nextMorning.ToLongString();
   
-      if (_irc != null) {
+      if (_irc != null && _irc.Connection.Status == ConnectionStatus.Connected) {
         // check for pending timers
-
+        
         SQLiteDataReader rsTimer = Database.ExecuteReader("SELECT fingerprint, nick, name, duration, started FROM timers;");
         while (rsTimer.Read()) {
           if (DateTime.UtcNow >= rsTimer.GetString(4).ToDateTime().AddSeconds(rsTimer.GetInt32(3))) {
