@@ -19,12 +19,12 @@ namespace Supay.Bot {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions")]
     static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e) {
       Exception ex = (Exception)e.ExceptionObject;
-      MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
+      MessageBox.Show(ex.Message + Environment.NewLine + ex.StackTrace);
     }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions")]
     static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e) {
-      MessageBox.Show(e.Exception.Message + "\n" + e.Exception.StackTrace);
+      MessageBox.Show(e.Exception.Message + Environment.NewLine + e.Exception.StackTrace);
     }
   
   } //class Program
