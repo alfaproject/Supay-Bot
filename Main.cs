@@ -56,7 +56,7 @@ namespace Supay.Bot {
           this.Show();
           this.WindowState = FormWindowState.Normal;
         };
-      } catch (Exception ex) {
+      } catch (Exception) {
       }
     }
 
