@@ -26,7 +26,6 @@ namespace Supay.Bot {
 
     public Main() {
       InitializeComponent();
-      initializeNotifyIcon();
 
       // update form title
       Text = Application.ProductName + @" (c) " + Application.CompanyName + @" 2006 - " + DateTime.UtcNow.Year;
@@ -43,21 +42,6 @@ namespace Supay.Bot {
       _timerMain.Tick += _timerMain_Tick;
       _timerMain.Interval = 1000;
       _timerMain.Start();
-    }
-
-    private void initializeNotifyIcon() {
-      try {
-        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-        NotifyIcon notifyIcon = new NotifyIcon();
-        notifyIcon.Icon = ((System.Drawing.Icon) (resources.GetObject("notifyIcon.Icon")));
-        notifyIcon.Text = "Supay Bot";
-        notifyIcon.Visible = true;
-        notifyIcon.MouseDoubleClick += delegate(object sender, MouseEventArgs e) {
-          this.Show();
-          this.WindowState = FormWindowState.Normal;
-        };
-      } catch (Exception) {
-      }
     }
 
     private void updatePlayers(object stateInfo) {
@@ -873,11 +857,6 @@ namespace Supay.Bot {
 
       // set up ge checker (every minute)
       _geChecker = new ThreadedTimer(checkGE, null, 15000, 60000);
-    }
-
-    private void Main_Resize(object sender, EventArgs e) {
-      if (this.WindowState == FormWindowState.Minimized)
-        this.Hide();
     }
 
     private delegate void delOutputMessage(string message);
