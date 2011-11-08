@@ -6,21 +6,21 @@ using System.Text.RegularExpressions;
 namespace Supay.Bot {
   static class Database {
 
-    private static readonly SQLiteConnection _connection;
+    private static readonly Lazy<SQLiteConnection> _connection = new Lazy<SQLiteConnection>(() => new SQLiteConnection());
 
     static Database() {
-      // initialize static fields
-      _connection = new SQLiteConnection(@"Data Source=Data/BigSister.db");
-      _connection.Open();
+      // initialize connection
+      _connection.Value.ConnectionString = @"Data Source=Data/BigSister.db";
+      _connection.Value.Open();
     }
 
     public static SQLiteDataReader ExecuteReader(string sql) {
-      SQLiteCommand com = new SQLiteCommand(sql, _connection);
+      SQLiteCommand com = new SQLiteCommand(sql, _connection.Value);
       return com.ExecuteReader();
     }
 
     public static void ExecuteNonQuery(string sql) {
-      SQLiteCommand com = new SQLiteCommand(sql, _connection);
+      SQLiteCommand com = new SQLiteCommand(sql, _connection.Value);
       com.ExecuteNonQuery();
     }
 
@@ -84,7 +84,7 @@ namespace Supay.Bot {
         }
       }
 
-      SQLiteCommand command = new SQLiteCommand(sql + " LIMIT 1", _connection);
+      SQLiteCommand command = new SQLiteCommand(sql + " LIMIT 1", _connection.Value);
       if (parameters != null) {
         command.Parameters.AddRange(parameters);
       }
