@@ -94,7 +94,7 @@
     /// <summary>
     /// Returns the key at the specified index.
     /// </summary>
-    /// <param name="idx">The index.</param>
+    /// <param name="index">The index.</param>
     /// <returns>The key at the index.</returns>
     public TKey GetKey(int index) {
       if (index < 0 || index >= Count) {
@@ -149,7 +149,7 @@
     /// <summary>
     /// Get/Set the value associated with the specified index.
     /// </summary>
-    /// <param name="key">The index of the value to get or set.</param>
+    /// <param name="index">The index of the value to get or set.</param>
     /// <returns>The associated value.</returns>
     public TValue this[int index] {
       get {
