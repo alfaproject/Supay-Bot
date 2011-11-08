@@ -1,23 +1,17 @@
-﻿using System;
-
-namespace System {
+﻿namespace System {
   public static class Math2 {
-
     public static double Factorial(double number) {
       double ret = 1.0;
-      for (int i = 2; i <= Math.Floor(number); i++)
-        ret *= (double)i;
+      for (int i = 2; i <= Math.Floor(number); i++) {
+        ret *= i;
+      }
       return ret;
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "n"),
-     System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "r")]
     public static double Permutation(double n, double r) {
       return Factorial(n) / Factorial(n - r);
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "r"),
-     System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "n")]
     public static double Combination(double n, double r) {
       return Factorial(n) / (Factorial(r) * Factorial(n - r));
     }
@@ -39,6 +33,5 @@ namespace System {
       }
       return divisor;
     }
-
   }
 }

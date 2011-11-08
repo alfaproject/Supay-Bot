@@ -2,8 +2,7 @@
 using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
-  static partial class Command {
-
+  internal static partial class Command {
     public static void WarRemove(CommandContext bc) {
       if (!bc.IsAdmin) {
         bc.SendReply("You need to be a bot administrator to use this command.");
@@ -22,10 +21,10 @@ namespace Supay.Bot {
         channelName = matchChannel.Groups[1].Value;
         bc.Message = bc.Message.Replace(matchChannel.Value, string.Empty);
       }
-      SQLiteParameter channelNameParameter = new SQLiteParameter("@channelName", channelName);
+      var channelNameParameter = new SQLiteParameter("@channelName", channelName);
 
       string playerName = bc.MessageTokens.Join(1).ValidatePlayerName();
-      SQLiteParameter playerNameParameter = new SQLiteParameter("@playerName", playerName);
+      var playerNameParameter = new SQLiteParameter("@playerName", playerName);
 
       if (Database.Lookup<string>("rsn", "warPlayers", "channel=@channelName AND rsn=@playerName", new[] { channelNameParameter, playerNameParameter }) != null) {
         Database.ExecuteNonQuery("DELETE FROM warPlayers WHERE channel='" + channelName + "' AND rsn='" + playerName + "'");
@@ -34,6 +33,5 @@ namespace Supay.Bot {
         bc.SendReply(@"\b{0}\b isn't signed to current war.".FormatWith(playerName));
       }
     }
-
-  } //class Command
-} //namespace Supay.Bot
+  }
+}

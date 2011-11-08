@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Net;
+using Newtonsoft.Json.Linq;
 
 namespace Supay.Bot {
-  class Monster {
-
+  internal class Monster {
     public int Id {
       get;
       set;
@@ -55,21 +55,20 @@ namespace Supay.Bot {
 
     public void Update() {
       try {
-        string npcPage = new System.Net.WebClient().DownloadString("http://www.zybez.net/exResults.aspx?type=2&id=" + this.Id);
+        string npcPage = new WebClient().DownloadString("http://www.zybez.net/exResults.aspx?type=2&id=" + Id);
         JObject npc = JObject.Parse(npcPage);
 
-        this.Name = (string)npc["name"];
-        this.Examine = (string)npc["examine"];
-        this.Hits = (int)npc["hp"];
-        this.Level = (int)npc["combat"];
-        this.Members = (bool)npc["members"];
-        this.Habitat = (string)npc["locstring"];
-        this.Aggressive = (string)npc["npc_is_aggresive"] == "True";
-        this.TopDrops = (string)npc["npc_top_drops_en"];
-        this.Drops = (string)npc["npc_drops_en"];
+        Name = (string) npc["name"];
+        Examine = (string) npc["examine"];
+        Hits = (int) npc["hp"];
+        Level = (int) npc["combat"];
+        Members = (bool) npc["members"];
+        Habitat = (string) npc["locstring"];
+        Aggressive = (string) npc["npc_is_aggresive"] == "True";
+        TopDrops = (string) npc["npc_top_drops_en"];
+        Drops = (string) npc["npc_drops_en"];
       } catch {
       }
     }
-
-  } //class Monster
-} //namespace Supay.Bot
+  }
+}

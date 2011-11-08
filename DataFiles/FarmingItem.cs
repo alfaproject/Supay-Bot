@@ -2,44 +2,42 @@
 using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
-  class FarmingItem : SkillItem {
-
-    private int _seedId;
-    private int _produceId;
-    private int _paymentId;
+  internal class FarmingItem : SkillItem {
+    private readonly int _paymentId;
+    private readonly int _produceId;
+    private readonly int _seedId;
 
     public FarmingItem(string[] tokens)
       : base(tokens) {
-
       // Field 4: Seed
-      this.Seed = tokens[4];
+      Seed = tokens[4];
 
       // Field 5: Seed id
       _seedId = int.Parse(tokens[5], CultureInfo.InvariantCulture);
 
       // Field 6: Produce
-      this.Produce = tokens[6];
+      Produce = tokens[6];
 
       // Field 7: Produce id
       _produceId = int.Parse(tokens[7], CultureInfo.InvariantCulture);
 
       // Field 8: Patch
-      this.Patch = tokens[8];
+      Patch = tokens[8];
 
       // Field 9: Plant exp
-      this.PlantExp = double.Parse(tokens[9], CultureInfo.InvariantCulture);
+      PlantExp = double.Parse(tokens[9], CultureInfo.InvariantCulture);
 
       // Field 10: Harvest exp
-      this.HarvestExp = double.Parse(tokens[10], CultureInfo.InvariantCulture);
+      HarvestExp = double.Parse(tokens[10], CultureInfo.InvariantCulture);
 
       // Field 11: Check-health exp
-      this.CheckHealthExp = double.Parse(tokens[11], CultureInfo.InvariantCulture);
+      CheckHealthExp = double.Parse(tokens[11], CultureInfo.InvariantCulture);
 
       // Field 12: Grow time
-      this.GrowTime = int.Parse(tokens[12], CultureInfo.InvariantCulture);
+      GrowTime = int.Parse(tokens[12], CultureInfo.InvariantCulture);
 
       // Field 13: Payment
-      this.Payment = tokens[13];
+      Payment = tokens[13];
 
       // Field 14: Payment id
       _paymentId = int.Parse(tokens[14], CultureInfo.InvariantCulture);
@@ -52,13 +50,14 @@ namespace Supay.Bot {
 
     public int SeedPrice {
       get {
-        Price price = new Price(_seedId);
+        var price = new Price(_seedId);
         price.LoadFromCache();
 
         int qty = 1;
-        Match matchQty = Regex.Match(this.Seed, @"(\d+)x ");
-        if (matchQty.Success)
+        Match matchQty = Regex.Match(Seed, @"(\d+)x ");
+        if (matchQty.Success) {
           qty = int.Parse(matchQty.Groups[1].Value, CultureInfo.InvariantCulture);
+        }
 
         return qty * price.MarketPrice;
       }
@@ -71,13 +70,14 @@ namespace Supay.Bot {
 
     public int ProducePrice {
       get {
-        Price price = new Price(_produceId);
+        var price = new Price(_produceId);
         price.LoadFromCache();
 
         int qty = 1;
-        Match matchQty = Regex.Match(this.Produce, @"(\d+)x ");
-        if (matchQty.Success)
+        Match matchQty = Regex.Match(Produce, @"(\d+)x ");
+        if (matchQty.Success) {
           qty = int.Parse(matchQty.Groups[1].Value, CultureInfo.InvariantCulture);
+        }
 
         return qty * price.MarketPrice;
       }
@@ -115,17 +115,17 @@ namespace Supay.Bot {
 
     public int PaymentPrice {
       get {
-        Price price = new Price(_paymentId);
+        var price = new Price(_paymentId);
         price.LoadFromCache();
 
         int qty = 1;
-        Match matchQty = Regex.Match(this.Payment, @"(\d+)x ");
-        if (matchQty.Success)
+        Match matchQty = Regex.Match(Payment, @"(\d+)x ");
+        if (matchQty.Success) {
           qty = int.Parse(matchQty.Groups[1].Value, CultureInfo.InvariantCulture);
+        }
 
         return qty * price.MarketPrice;
       }
     }
-
-  } //class FarmingItem
-} //namespace Supay.Bot
+  }
+}

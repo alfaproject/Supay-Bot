@@ -1,8 +1,7 @@
 ﻿using System;
 
 namespace Supay.Bot {
-  static partial class Command {
-
+  internal static partial class Command {
     public static void Item(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !Item <item>");
@@ -17,7 +16,7 @@ namespace Supay.Bot {
         item = new Item(itemId);
       } else {
         string query = bc.MessageTokens.Join(1);
-        Items items = new Items(query);
+        var items = new Items(query);
 
         switch (items.Count) {
           case 0:
@@ -43,19 +42,9 @@ namespace Supay.Bot {
       if (item.Name == null) {
         bc.SendReply(@"\c12www.zybez.net\c doesn't have any record for item \c07#{0}\c.".FormatWith(itemId));
       } else {
-        bc.SendReply(@"\c07{0}\c | Alch: \c07{1}/{2}\c | MarketPrice: \c07{3}\c | Location: \c07{4}\c | \c12www.zybez.net/item.aspx?id={5}\c".FormatWith(
-                     item.Name,
-                     item.HighAlch.ToShortString(1), item.LowAlch.ToShortString(1),
-                     item.MarketPrice.ToShortString(1),
-                     item.Location, item.Id));
-        bc.SendReply(@"Members? \c{0}\c | Quest: \c{1}\c | Tradeable? \c{2}\c | Stackable? \c{3}\c | Weight? \c07{4}Kg\c | Examine: \c07{5}\c".FormatWith(
-                     item.Members ? "3Yes" : "4No",
-                     string.IsNullOrEmpty(item.Quests) ? "3Yes" : "4No",
-                     item.Tradable ? "3Yes" : "4No",
-                     item.Stackable ? "3Yes" : "4No",
-                     item.Weight, item.Examine));
+        bc.SendReply(@"\c07{0}\c | Alch: \c07{1}/{2}\c | MarketPrice: \c07{3}\c | Location: \c07{4}\c | \c12www.zybez.net/item.aspx?id={5}\c".FormatWith(item.Name, item.HighAlch.ToShortString(1), item.LowAlch.ToShortString(1), item.MarketPrice.ToShortString(1), item.Location, item.Id));
+        bc.SendReply(@"Members? \c{0}\c | Quest: \c{1}\c | Tradeable? \c{2}\c | Stackable? \c{3}\c | Weight? \c07{4}Kg\c | Examine: \c07{5}\c".FormatWith(item.Members ? "3Yes" : "4No", string.IsNullOrEmpty(item.Quests) ? "3Yes" : "4No", item.Tradable ? "3Yes" : "4No", item.Stackable ? "3Yes" : "4No", item.Weight, item.Examine));
       }
     }
-
-  } //class Command
-} //namespace Supay.Bot
+  }
+}

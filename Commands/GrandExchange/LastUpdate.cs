@@ -1,12 +1,10 @@
 ﻿using System;
 
 namespace Supay.Bot {
-  static partial class Command {
-
+  internal static partial class Command {
     public static void LastUpdate(CommandContext bc) {
       DateTime lastUpdate = Database.Lookup("lastUpdate", "prices", "ORDER BY lastUpdate DESC", null, DateTime.UtcNow.ToStringI("yyyyMMddHHmm")).ToDateTime();
       bc.SendReply("The GE was last updated \\c07{0}\\c ago. ({1:R})".FormatWith((DateTime.UtcNow - lastUpdate).ToLongString(), lastUpdate));
     }
-
-  } //class Command
-} //namespace Supay.Bot
+  }
+}

@@ -1,35 +1,42 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
   public class TimeInterval {
-
-    public string Name;
-    public TimeSpan Time;
-
     public TimeInterval() {
     }
 
     public TimeInterval(int defaultTime, string defaultName) {
-      this.Time = new TimeSpan(0, 0, defaultTime);
-      this.Name = defaultName;
+      Time = new TimeSpan(0, 0, defaultTime);
+      Name = defaultName;
+    }
+
+    public string Name {
+      get;
+      set;
+    }
+
+    public TimeSpan Time {
+      get;
+      set;
     }
 
     public bool Parse(string timeInterval) {
-
       int time = 0;
-      int _time;
       string name = string.Empty;
       string _name = string.Empty;
 
       foreach (Match interval in Regex.Matches(timeInterval, @"(\d+)?(second|minute|month|hour|week|year|sec|min|day|s|m|h|d|w|y)s?", RegexOptions.IgnoreCase)) {
-        if (interval.Groups[1].Value.Length > 0)
+        int _time;
+        if (interval.Groups[1].Value.Length > 0) {
           _time = int.Parse(interval.Groups[1].Value, CultureInfo.InvariantCulture);
-        else
+        } else {
           _time = 1;
-        if (_time < 1)
+        }
+        if (_time < 1) {
           _time = 1;
+        }
         switch (interval.Groups[2].Value) {
           case "second":
           case "sec":
@@ -71,23 +78,22 @@ namespace Supay.Bot {
         time += _time;
         name += " " + _name;
       }
-      if (name != string.Empty) {
-        this.Name = name.Trim();
-        this.Time = new TimeSpan(0, 0, time);
+      if (!string.IsNullOrEmpty(name)) {
+        Name = name.Trim();
+        Time = new TimeSpan(0, 0, time);
         return true;
       }
       return false;
     }
 
     public bool Parse(int timeInterval) {
-      TimeSpan timeSpan = new TimeSpan(timeInterval);
+      var timeSpan = new TimeSpan(timeInterval);
       try {
-        this.Name = timeSpan.ToLongString();
+        Name = timeSpan.ToLongString();
         return true;
       } catch {
         return false;
       }
     }
-
-  } //class TimeInterval
-} //namespace Supay.Bot
+  }
+}

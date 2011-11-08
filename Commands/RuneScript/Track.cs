@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
-  static partial class Command {
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
+  internal static partial class Command {
     public static void Graph(CommandContext bc) {
       string skill = Skill.OVER;
       string rsn = bc.GetPlayerName(bc.From.Nickname);
 
       if (bc.MessageTokens.Length > 1) {
         if (Skill.TryParse(bc.MessageTokens[1], ref skill)) {
-          if (bc.MessageTokens.Length > 2)
+          if (bc.MessageTokens.Length > 2) {
             rsn = bc.GetPlayerName(bc.MessageTokens.Join(2));
+          }
         } else {
           rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
         }
@@ -29,12 +30,14 @@ namespace Supay.Bot {
       string intervalName = "1 week";
       Match interval = Regex.Match(bc.Message, @"@(\d+)?(second|minute|month|hour|week|year|sec|min|day|s|m|h|d|w|y)s?", RegexOptions.IgnoreCase);
       if (interval.Success) {
-        if (interval.Groups[1].Value.Length > 0)
+        if (interval.Groups[1].Value.Length > 0) {
           intervalTime = int.Parse(interval.Groups[1].Value, CultureInfo.InvariantCulture);
-        else
+        } else {
           intervalTime = 1;
-        if (intervalTime < 1)
+        }
+        if (intervalTime < 1) {
           intervalTime = 1;
+        }
         switch (interval.Groups[2].Value) {
           case "second":
           case "sec":
@@ -79,20 +82,21 @@ namespace Supay.Bot {
 
       // get rsn
       string rsn;
-      if (bc.MessageTokens.Length > 1)
+      if (bc.MessageTokens.Length > 1) {
         rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
-      else
+      } else {
         rsn = bc.GetPlayerName(bc.From.Nickname);
+      }
 
       // Get new player
-      Player PlayerNew = new Player(rsn);
+      var PlayerNew = new Player(rsn);
       if (!PlayerNew.Ranked) {
         bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn));
         return;
       }
 
       // Get old player
-      Player PlayerOld = new Player(rsn, intervalTime);
+      var PlayerOld = new Player(rsn, intervalTime);
       if (!PlayerOld.Ranked) {
         bc.SendReply("\\b{0}\\b wasn't being tracked on {1}.".FormatWith(rsn, DateTime.UtcNow.AddSeconds(-intervalTime).ToStringI("yyyy-MMM-dd")));
         return;
@@ -107,28 +111,30 @@ namespace Supay.Bot {
         Skill CombatDif = PlayerNew.Skills[Skill.COMB] - PlayerOld.Skills[Skill.COMB];
 
         string DifLevel = string.Empty;
-        if (OverallDif.Level > 0)
+        if (OverallDif.Level > 0) {
           DifLevel = " [\\b+{0}\\b]".FormatWith(OverallDif.Level);
+        }
         ReplyMsg += " \\c07Overall\\c lvl {0} \\c03+{1}\\c xp (Avg. hourly exp.: \\c07{2}\\c)".FormatWith(PlayerNew.Skills[Skill.OVER].Level + DifLevel, OverallDif.Exp.ToShortString(1), (OverallDif.Exp / (intervalTime / 3600.0)).ToShortString(0));
         DifLevel = string.Empty;
-        if (CombatDif.Level > 0)
+        if (CombatDif.Level > 0) {
           DifLevel = " [\\b+{0}\\b]".FormatWith(CombatDif.Level);
-        ReplyMsg += "; \\c07Combat\\c lvl {0} \\c03+{1}\\c xp (\\c07{2}%\\c)".FormatWith(PlayerNew.Skills[Skill.COMB].Level + DifLevel, CombatDif.Exp.ToShortString(1), ((double)CombatDif.Exp / (double)OverallDif.Exp * 100.0).ToShortString(1));
+        }
+        ReplyMsg += "; \\c07Combat\\c lvl {0} \\c03+{1}\\c xp (\\c07{2}%\\c)".FormatWith(PlayerNew.Skills[Skill.COMB].Level + DifLevel, CombatDif.Exp.ToShortString(1), (CombatDif.Exp / (double) OverallDif.Exp * 100.0).ToShortString(1));
         bc.SendReply(ReplyMsg);
 
         // 2nd line: skills list
-        List<Skill> SkillsDif = new List<Skill>();
-        foreach (Skill SkillNow in PlayerNew.Skills.Values)
-          if (SkillNow.Name != Skill.OVER && SkillNow.Name != Skill.COMB)
-            SkillsDif.Add(SkillNow - PlayerOld.Skills[SkillNow.Name]);
+        List<Skill> SkillsDif = (from SkillNow in PlayerNew.Skills.Values
+          where SkillNow.Name != Skill.OVER && SkillNow.Name != Skill.COMB
+          select SkillNow - PlayerOld.Skills[SkillNow.Name]).ToList();
         SkillsDif.Sort();
 
         ReplyMsg = "\\b{0}\\b \\u{1}\\u skills:".FormatWith(rsn, intervalName);
         for (int i = 0; i < 10; i++) {
           if (SkillsDif[i].Exp > 0) {
             DifLevel = string.Empty;
-            if (SkillsDif[i].Level > 0)
+            if (SkillsDif[i].Level > 0) {
               DifLevel = " [\\b+{0}\\b]".FormatWith(SkillsDif[i].Level);
+            }
             ReplyMsg += " \\c07{0}\\c lvl {1} \\c3+{2}\\c xp;".FormatWith(SkillsDif[i].Name, PlayerNew.Skills[SkillsDif[i].Name].Level + DifLevel, SkillsDif[i].Exp.ToShortString(1));
           }
         }
@@ -142,39 +148,31 @@ namespace Supay.Bot {
 
       if (bc.MessageTokens.Length > 1) {
         if (Skill.TryParse(bc.MessageTokens[1], ref skill)) {
-          if (bc.MessageTokens.Length > 2)
+          if (bc.MessageTokens.Length > 2) {
             rsn = bc.GetPlayerName(bc.MessageTokens.Join(2));
+          }
         } else {
           rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
         }
       }
 
       try {
-        string recordPage = new System.Net.WebClient().DownloadString("http://runetracker.org/track-" + rsn + "," + Skill.NameToId(skill) + ",0");
+        string recordPage = new WebClient().DownloadString("http://runetracker.org/track-" + rsn + "," + Skill.NameToId(skill) + ",0");
 
         string recordRegex = @"Exp Gain Records[^:]+:<\/b><br \/>\s+";
         recordRegex += @"Day: <i>(?:<acronym title=""([^""]+)"">|)([^<]+)(?:<\/acronym>|)<\/i><br \/>\s+";
         recordRegex += @"Week: <i>(?:<acronym title=""([^""]+)"">|)([^<]+)(?:<\/acronym>|)<\/i><br \/>\s+";
-		    recordRegex += @"Month: <i>(?:<acronym title=""([^""]+)"">|)([^<]+)(?:<\/acronym>|)<\/i><br \/>";
+        recordRegex += @"Month: <i>(?:<acronym title=""([^""]+)"">|)([^<]+)(?:<\/acronym>|)<\/i><br \/>";
 
         Match M = Regex.Match(recordPage, recordRegex, RegexOptions.Singleline);
         if (M.Success) {
-          bc.SendReply(@"{0}'s records in {1}: Day \c07{2}\c ({3}); Week \c07{4}\c ({5}); Month \c07{6}\c ({7}); \c12http://runetracker.org/track-{0},{8},0"
-            .FormatWith(rsn, skill, M.Groups[2], (M.Groups[1].Value != string.Empty ? M.Groups[1].Value : "N/A"),
-                                    M.Groups[4], (M.Groups[3].Value != string.Empty ? M.Groups[3].Value : "N/A"),
-                                    M.Groups[6], (M.Groups[5].Value != string.Empty ? M.Groups[5].Value : "N/A"),
-                                    Skill.NameToId(skill))
-            );
+          bc.SendReply(@"{0}'s records in {1}: Day \c07{2}\c ({3}); Week \c07{4}\c ({5}); Month \c07{6}\c ({7}); \c12http://runetracker.org/track-{0},{8},0".FormatWith(rsn, skill, M.Groups[2], string.IsNullOrEmpty(M.Groups[1].Value) ? "N/A" : M.Groups[1].Value, M.Groups[4], string.IsNullOrEmpty(M.Groups[3].Value) ? "N/A" : M.Groups[3].Value, M.Groups[6], string.IsNullOrEmpty(M.Groups[5].Value) ? "N/A" : M.Groups[5].Value, Skill.NameToId(skill)));
         } else {
           bc.SendReply("rscript has no records in {0} for {1}.".FormatWith(skill, rsn));
         }
-
       } catch {
         bc.SendReply("rscript data source appears to be unreachable at the moment.");
       }
-      
-
     }
-
-  } //class Command
-} //namespace Supay.Bot
+  }
+}

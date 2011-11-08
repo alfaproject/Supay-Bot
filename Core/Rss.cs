@@ -1,52 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Xml;
-using System.Collections.ObjectModel;
 
 namespace Supay.Bot {
-  public class Rss {
+  /// <summary>
+  /// A structure to hold the RSS Feed items
+  /// </summary>
+  [Serializable]
+  internal struct RssItem {
     /// <summary>
-    /// A structure to hold the RSS Feed items
+    /// The publishing date.
     /// </summary>
-    [Serializable]
-    public struct Item {
-      /// <summary>
-      /// The publishing date.
-      /// </summary>
-      public DateTime Date;
+    public DateTime Date;
 
-      /// <summary>
-      /// The title of the feed
-      /// </summary>
-      public string Title;
+    /// <summary>
+    /// A description of the content (or the feed itself)
+    /// </summary>
+    public string Description;
 
-      /// <summary>
-      /// A description of the content (or the feed itself)
-      /// </summary>
-      public string Description;
+    /// <summary>
+    /// The link to the feed
+    /// </summary>
+    public string Link;
 
-      /// <summary>
-      /// The link to the feed
-      /// </summary>
-      public string Link;
-    }
+    /// <summary>
+    /// The title of the feed
+    /// </summary>
+    public string Title;
   }
 
   /// <summary>
   /// Class to parse and display RSS Feeds
   /// </summary>
   [Serializable]
-  public class RssManager : IDisposable {
+  internal class RssManager : IDisposable {
     #region Variables
-    private string _url;
-    private string _feedTitle;
-    private string _feedDescription;
-    private List<Rss.Item> _rssItems = new List<Rss.Item>();
+
+    private readonly List<RssItem> _rssItems = new List<RssItem>();
     private bool _IsDisposed;
+    private string _feedDescription;
+    private string _feedTitle;
+    private string _url;
+
     #endregion
 
     #region Constructors
+
     /// <summary>
     /// Empty constructor, allowing us to
     /// instantiate our class and set our
@@ -68,33 +67,44 @@ namespace Supay.Bot {
     #endregion
 
     #region Properties
+
     /// <summary>
     /// Gets or sets the URL of the RSS feed to parse.
     /// </summary>
     public string Url {
-      get { return _url; }
-      set { _url = value; }
+      get {
+        return _url;
+      }
+      set {
+        _url = value;
+      }
     }
 
     /// <summary>
     /// Gets all the items in the RSS feed.
     /// </summary>
-    public List<Rss.Item> RssItems {
-      get { return _rssItems; }
+    public List<RssItem> RssItems {
+      get {
+        return _rssItems;
+      }
     }
 
     /// <summary>
     /// Gets the title of the RSS feed.
     /// </summary>
     public string FeedTitle {
-      get { return _feedTitle; }
+      get {
+        return _feedTitle;
+      }
     }
 
     /// <summary>
     /// Gets the description of the RSS feed.
     /// </summary>
     public string FeedDescription {
-      get { return _feedDescription; }
+      get {
+        return _feedDescription;
+      }
     }
 
     #endregion
@@ -104,13 +114,14 @@ namespace Supay.Bot {
     /// <summary>
     /// Retrieves the remote RSS feed and parses it.
     /// </summary>
-    public List<Rss.Item> GetFeed() {
-      if (String.IsNullOrEmpty(Url))
+    public List<RssItem> GetFeed() {
+      if (string.IsNullOrEmpty(Url)) {
         throw new ArgumentException("You must provide a feed URL");
+      }
       try {
         //start the parsing process
         using (XmlReader reader = XmlReader.Create(Url)) {
-          XmlDocument xmlDoc = new XmlDocument();
+          var xmlDoc = new XmlDocument();
           xmlDoc.Load(reader);
           //parse the items of the feed
           ParseDocElements(xmlDoc.SelectSingleNode("//channel"), "title", ref _feedTitle);
@@ -119,7 +130,7 @@ namespace Supay.Bot {
           return _rssItems;
         }
       } catch {
-        return new List<Rss.Item>();
+        return new List<RssItem>();
       }
     }
 
@@ -130,7 +141,7 @@ namespace Supay.Bot {
       _rssItems.Clear();
       XmlNodeList nodes = xmlDoc.SelectNodes("rss/channel/item");
       foreach (XmlNode node in nodes) {
-        Rss.Item item = new Rss.Item();
+        var item = new RssItem();
         ParseDocElements(node, "title", ref item.Title);
         ParseDocElements(node, "description", ref item.Description);
         ParseDocElements(node, "link", ref item.Link);
@@ -147,17 +158,24 @@ namespace Supay.Bot {
     /// Parses the XmlNode with the specified XPath query 
     /// and assigns the value to the property parameter.
     /// </summary>
-    private void ParseDocElements(XmlNode parent, string xPath, ref string property) {
+    private static void ParseDocElements(XmlNode parent, string xPath, ref string property) {
       XmlNode node = parent.SelectSingleNode(xPath);
-      if (node != null)
-        property = node.InnerText;
-      else
-        property = "Unresolvable";
+      property = node != null ? node.InnerText : "Unresolvable";
     }
 
     #endregion
 
     #region IDisposable Members
+
+    /// <summary>
+    /// Releases the object to the garbage collector
+    /// </summary>
+    public void Dispose() {
+      Dispose(true);
+      GC.SuppressFinalize(this);
+    }
+
+    #endregion
 
     /// <summary>
     /// Performs the disposal.
@@ -172,16 +190,5 @@ namespace Supay.Bot {
 
       _IsDisposed = true;
     }
-
-    /// <summary>
-    /// Releases the object to the garbage collector
-    /// </summary>
-    public void Dispose() {
-      Dispose(true);
-      GC.SuppressFinalize(this);
-    }
-
-    #endregion
-
   }
 }

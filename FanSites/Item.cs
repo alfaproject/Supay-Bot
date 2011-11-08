@@ -1,17 +1,17 @@
 ﻿using System.Globalization;
+using System.Net;
 using Newtonsoft.Json.Linq;
 
 namespace Supay.Bot {
-  class Item {
-
+  internal class Item {
     public Item(int id) {
-      this.Id = id;
-      this.LoadFromWeb();
+      Id = id;
+      LoadFromWeb();
     }
 
     public Item(int id, string name) {
-      this.Id = id;
-      this.Name = name;
+      Id = id;
+      Name = name;
     }
 
     public int Id {
@@ -76,27 +76,26 @@ namespace Supay.Bot {
 
     public void LoadFromWeb() {
       try {
-        string itemPage = new System.Net.WebClient().DownloadString("http://www.zybez.net/exResults.aspx?type=1&id=" + this.Id);
+        string itemPage = new WebClient().DownloadString("http://www.zybez.net/exResults.aspx?type=1&id=" + Id);
         JObject item = JObject.Parse(itemPage);
 
-        this.Name = (string)item["name"];
-        this.Members = (bool)item["members"];
-        this.Quests = (string)item["item_quests"];
-        this.Tradable = (string)item["item_tradable"] == "True";
-        this.Stackable = (string)item["item_stackable"] == "True";
-        this.Examine = (string)item["examine"];
-        this.Weight = double.Parse((string)item["item_weight"], CultureInfo.InvariantCulture);
-        this.HighAlch = int.Parse((string)item["item_price_alchemy_max"], CultureInfo.InvariantCulture);
-        this.LowAlch = int.Parse((string)item["item_price_alchemy_min"], CultureInfo.InvariantCulture);
-        this.MarketPrice = (int)item["price"];
-        this.Location = (string)item["item_source_text_en"];
+        Name = (string) item["name"];
+        Members = (bool) item["members"];
+        Quests = (string) item["item_quests"];
+        Tradable = (string) item["item_tradable"] == "True";
+        Stackable = (string) item["item_stackable"] == "True";
+        Examine = (string) item["examine"];
+        Weight = double.Parse((string) item["item_weight"], CultureInfo.InvariantCulture);
+        HighAlch = int.Parse((string) item["item_price_alchemy_max"], CultureInfo.InvariantCulture);
+        LowAlch = int.Parse((string) item["item_price_alchemy_min"], CultureInfo.InvariantCulture);
+        MarketPrice = (int) item["price"];
+        Location = (string) item["item_source_text_en"];
 
-        if (this.Quests == "No") {
-          this.Quests = null;
+        if (Quests == "No") {
+          Quests = null;
         }
       } catch {
       }
     }
-
-  } //class Item
-} //namespace Supay.Bot
+  }
+}

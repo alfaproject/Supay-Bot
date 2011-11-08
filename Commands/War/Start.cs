@@ -3,8 +3,7 @@ using System.Data.SQLite;
 using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
-  static partial class Command {
-
+  internal static partial class Command {
     public static void WarStart(CommandContext bc) {
       if (!bc.IsAdmin) {
         bc.SendReply("You need to be a bot administrator to use this command.");
@@ -29,11 +28,8 @@ namespace Supay.Bot {
       string reply = string.Empty;
       SQLiteDataReader warPlayers = Database.ExecuteReader("SELECT rsn FROM warPlayers WHERE channel='" + channelName + "'");
       for (int count = 1; warPlayers.Read(); count++) {
-        Player p = new Player(warPlayers.GetString(0));
-        Database.Update("warPlayers", "channel='" + channelName + "' AND rsn='" + p.Name + "'",
-                                      "startLevel", p.Skills[skillName].Level.ToStringI(),
-                                      "startExp", p.Skills[skillName].Exp.ToStringI(),
-                                      "startRank", p.Skills[skillName].Rank.ToStringI());
+        var p = new Player(warPlayers.GetString(0));
+        Database.Update("warPlayers", "channel='" + channelName + "' AND rsn='" + p.Name + "'", "startLevel", p.Skills[skillName].Level.ToStringI(), "startExp", p.Skills[skillName].Exp.ToStringI(), "startRank", p.Skills[skillName].Rank.ToStringI());
         if (count % 2 == 0) {
           reply += @"\c07{0} ({1:e});\c ".FormatWith(p.Name, p.Skills[skillName]);
         } else {
@@ -53,6 +49,5 @@ namespace Supay.Bot {
 
       bc.SendReply(@"\b{0}\b war started on \u{1}\u for these players. \bYou can now login and good luck!\b".FormatWith(skillName, DateTime.UtcNow));
     }
-
-  } //class Command
-} //namespace Supay.Bot
+  }
+}

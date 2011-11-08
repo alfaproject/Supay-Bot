@@ -2,8 +2,7 @@
 using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
-  static partial class Command {
-
+  internal static partial class Command {
     public static void PestControl(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !pestcontrol <skill> [rsn] #<target>");
@@ -59,7 +58,7 @@ namespace Supay.Bot {
         return;
       }
       // find players exp
-      Player p = new Player(rsn);
+      var p = new Player(rsn);
       if (!p.Ranked) {
         bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn));
         return;
@@ -87,7 +86,7 @@ namespace Supay.Bot {
         target = 200000000;
       }
       // count points
-      double N = 0.0;
+      double N;
       if (skill == "Prayer") {
         N = 18.0;
       } else if (skill == "Ranged" || skill == "Magic") {
@@ -96,11 +95,10 @@ namespace Supay.Bot {
         N = 35.0;
       }
       int potExp = curExp;
-      double bonus;
-      int group;
-      int pointExp = 0;
-      int[] reply = new int[3];
+      var reply = new int[3];
       for (int i = 0; i < 3; i++) {
+        double bonus;
+        int group;
         if (i == 0) {
           bonus = 1;
           group = 1;
@@ -112,7 +110,7 @@ namespace Supay.Bot {
           group = 100;
         }
         while (potExp <= target) {
-          pointExp = (int)((double)Math.Ceiling((double)(curLvl + 25) * (double)(curLvl - 24) / 606.0) * N * bonus * group);
+          var pointExp = (int) (Math.Ceiling((curLvl + 25) * (double) (curLvl - 24) / 606.0) * N * bonus * group);
           while ((potExp.ToLevel() < curLvl + 1 || curLvl == 99) && potExp <= target) {
             potExp += pointExp;
             points = points + group;
@@ -124,10 +122,7 @@ namespace Supay.Bot {
         curLvl = skillInfo.Level;
         points = 0;
       }
-      bc.SendReply("PestControl points for \\c07" + (target - curExp).ToStringI("#,##0") + "\\c experience: \\c07" + reply[0].ToStringI("#,##0")
-        + "\\c single points, \\c07" + (reply[1] / 10).ToStringI("#,##0") + "\\c sets of 10 (\\c07" + reply[1].ToStringI("#,##0") + "\\c points), \\c07"
-        + (reply[2] / 100).ToStringI("#,##0") + "\\c sets of 100 (\\c07" + reply[2].ToStringI("#,##0") + "\\c points). ");
+      bc.SendReply("PestControl points for \\c07" + (target - curExp).ToStringI("#,##0") + "\\c experience: \\c07" + reply[0].ToStringI("#,##0") + "\\c single points, \\c07" + (reply[1] / 10).ToStringI("#,##0") + "\\c sets of 10 (\\c07" + reply[1].ToStringI("#,##0") + "\\c points), \\c07" + (reply[2] / 100).ToStringI("#,##0") + "\\c sets of 100 (\\c07" + reply[2].ToStringI("#,##0") + "\\c points). ");
     }
-
-  } //class Command
-} //namespace Supay.Bot
+  }
+}

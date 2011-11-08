@@ -4,8 +4,7 @@ using System.Data.SQLite;
 using System.Linq;
 
 namespace Supay.Bot {
-  class Players : List<Player> {
-
+  internal class Players : List<Player> {
     public Players() {
     }
 
@@ -21,9 +20,9 @@ namespace Supay.Bot {
     public Players(string clan, DateTime firstDay, DateTime lastDay) {
       SQLiteDataReader rs = Database.ExecuteReader("SELECT rsn FROM players WHERE clan LIKE '%" + clan + "%'");
       while (rs.Read()) {
-        Player playerBegin = new Player(rs.GetString(0), firstDay);
+        var playerBegin = new Player(rs.GetString(0), firstDay);
         if (playerBegin.Ranked) {
-          Player playerEnd = new Player(rs.GetString(0), lastDay);
+          var playerEnd = new Player(rs.GetString(0), lastDay);
           if (playerEnd.Ranked) {
             for (int i = 0; i < playerEnd.Skills.Count; i++) {
               playerEnd.Skills[i] -= playerBegin.Skills[i];
@@ -60,9 +59,7 @@ namespace Supay.Bot {
         if (s1.Level == s2.Level && s1.Exp == s2.Exp && s1.Rank > 0 && s2.Rank > 0) {
           return s1.Rank.CompareTo(s2.Rank);
         }
-        return byExp && p1.Skills[skill].Exp != p2.Skills[skill].Exp ?
-        -p1.Skills[skill].Exp.CompareTo(p2.Skills[skill].Exp) :
-        p1.Skills[skill].CompareTo(p2.Skills[skill]);
+        return byExp && p1.Skills[skill].Exp != p2.Skills[skill].Exp ? -p1.Skills[skill].Exp.CompareTo(p2.Skills[skill].Exp) : p1.Skills[skill].CompareTo(p2.Skills[skill]);
       });
     }
 
@@ -70,6 +67,5 @@ namespace Supay.Bot {
       RemoveAll(p => !p.Ranked);
       Sort((p1, p2) => p1.Activities[activity].CompareTo(p2.Activities[activity]));
     }
-
-  } //class Players
-} //namespace Supay.Bot
+  }
+}

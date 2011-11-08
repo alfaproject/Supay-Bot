@@ -1,9 +1,7 @@
 ﻿using System;
 
 namespace Supay.Bot {
-  static partial class Command {
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
+  internal static partial class Command {
     public static void ClanTop(CommandContext bc) {
       string clanInitials;
       string clanName;
@@ -19,7 +17,8 @@ namespace Supay.Bot {
       }
 
       string rsn = bc.GetPlayerName(bc.From.Nickname);
-      string skill = null, activity = null;
+      string skill = null,
+        activity = null;
       int rank = 0;
       bool IsIndividual = false;
 
@@ -32,7 +31,7 @@ namespace Supay.Bot {
       }
 
       // Create a list of Clan players
-      Players clanPlayers = new Players(clanInitials);
+      var clanPlayers = new Players(clanInitials);
 
       // Parse command arguments
       if (bc.MessageTokens.Length == 1) {
@@ -60,8 +59,9 @@ namespace Supay.Bot {
           } else {
             // !ClanTop Skill/Activity RSN
             rsn = bc.GetPlayerName(bc.MessageTokens.Join(2));
-            if (clanPlayers.Contains(rsn))
+            if (clanPlayers.Contains(rsn)) {
               rank = clanPlayers.IndexOf(rsn) + 1;
+            }
           }
         }
       } else {
@@ -93,60 +93,70 @@ namespace Supay.Bot {
               reply += " \\c07#" + (clanPlayers.IndexOf(p) + 1) + "\\c " + mg.Name + ";";
             }
           }
-          if (ranked)
+          if (ranked) {
             bc.SendReply(reply);
+          }
         } else {
           bc.SendReply("\\b{0}\\b isn't at {1}.".FormatWith(rsn, clanName));
         }
       } else {
         // Get input player rank
         int input_player_rank = 0;
-        if (clanPlayers.Contains(bc.GetPlayerName(bc.From.Nickname)))
+        if (clanPlayers.Contains(bc.GetPlayerName(bc.From.Nickname))) {
           input_player_rank = clanPlayers.IndexOf(bc.GetPlayerName(bc.From.Nickname)) + 1;
+        }
 
         // fix rank
-        if (rank < 1)
+        if (rank < 1) {
           rank = 1;
-        else if (rank > clanPlayers.Count)
+        } else if (rank > clanPlayers.Count) {
           rank = clanPlayers.Count;
+        }
 
-        int MinRank;
-        MinRank = rank - 6;
-        if (MinRank < 0)
+        int MinRank = rank - 6;
+        if (MinRank < 0) {
           MinRank = 0;
-        else if (MinRank > clanPlayers.Count - 11)
+        } else if (MinRank > clanPlayers.Count - 11) {
           MinRank = clanPlayers.Count - 11;
+        }
 
         string skillFormat = "l";
-        if (exp)
+        if (exp) {
           skillFormat = "e";
+        }
 
         if (activity == null) {
           if (clanPlayers.Count > 0) {
             string reply = "[" + clanInitials + "] \\u" + skill.ToLowerInvariant() + "\\u ranking:";
-            if (input_player_rank > 0 && input_player_rank <= MinRank)
+            if (input_player_rank > 0 && input_player_rank <= MinRank) {
               reply += " \\c07#" + input_player_rank + "\\c \\u" + clanPlayers[input_player_rank - 1].Name + "\\u (" + clanPlayers[input_player_rank - 1].Skills[skill].ToStringI(skillFormat) + ");";
+            }
 
             for (int i = MinRank; i < Math.Min(MinRank + 11, clanPlayers.Count); i++) {
               reply += " ";
-              if (i == rank - 1)
+              if (i == rank - 1) {
                 reply += "\\b";
+              }
               reply += "\\c07#" + (i + 1) + "\\c ";
-              if (i == input_player_rank - 1)
+              if (i == input_player_rank - 1) {
                 reply += "\\u";
+              }
               reply += clanPlayers[i].Name;
-              if (i == input_player_rank - 1)
+              if (i == input_player_rank - 1) {
                 reply += "\\u";
+              }
 
               reply += " (" + clanPlayers[i].Skills[skill].ToStringI(skillFormat) + ")";
 
-              if (i == rank - 1)
+              if (i == rank - 1) {
                 reply += "\\b";
+              }
               reply += ";";
             }
 
-            if (input_player_rank > 0 && input_player_rank > MinRank + 11)
+            if (input_player_rank > 0 && input_player_rank > MinRank + 11) {
               reply += " \\c07#" + input_player_rank + "\\c \\u" + clanPlayers[input_player_rank - 1].Name + "\\u (" + clanPlayers[input_player_rank - 1].Skills[skill].ToStringI(skillFormat) + ");";
+            }
 
             bc.SendReply(reply);
           } else {
@@ -155,27 +165,33 @@ namespace Supay.Bot {
         } else {
           if (clanPlayers.Count > 0) {
             string reply = "[" + clanInitials + "] \\u" + activity.ToLowerInvariant() + "\\u ranking:";
-            if (input_player_rank > 0 && input_player_rank <= MinRank)
+            if (input_player_rank > 0 && input_player_rank <= MinRank) {
               reply += " \\c07#" + input_player_rank + "\\c \\u" + clanPlayers[input_player_rank - 1].Name + "\\u (" + clanPlayers[input_player_rank - 1].Activities[activity].Score + ");";
+            }
 
             for (int i = MinRank; i < Math.Min(MinRank + 11, clanPlayers.Count); i++) {
               reply += " ";
-              if (i == rank - 1)
+              if (i == rank - 1) {
                 reply += "\\b";
+              }
               reply += "\\c07#" + (i + 1) + "\\c ";
-              if (i == input_player_rank - 1)
+              if (i == input_player_rank - 1) {
                 reply += "\\u";
+              }
               reply += clanPlayers[i].Name;
-              if (i == input_player_rank - 1)
+              if (i == input_player_rank - 1) {
                 reply += "\\u";
+              }
               reply += " (" + clanPlayers[i].Activities[activity].Score + ")";
-              if (i == rank - 1)
+              if (i == rank - 1) {
                 reply += "\\b";
+              }
               reply += ";";
             }
 
-            if (input_player_rank > 0 && input_player_rank > MinRank + 11)
+            if (input_player_rank > 0 && input_player_rank > MinRank + 11) {
               reply += " \\c07#" + input_player_rank + "\\c \\u" + clanPlayers[input_player_rank - 1].Name + "\\u (" + clanPlayers[input_player_rank - 1].Activities[activity].Score + ");";
+            }
 
             bc.SendReply(reply);
           } else {
@@ -184,6 +200,5 @@ namespace Supay.Bot {
         }
       }
     }
-
-  } //class Command
-} //namespace Supay.Bot
+  }
+}

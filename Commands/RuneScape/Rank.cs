@@ -1,6 +1,7 @@
-﻿namespace Supay.Bot {
-  static partial class Command {
+﻿using System.Linq;
 
+namespace Supay.Bot {
+  internal static partial class Command {
     public static void Rank(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         // !rank
@@ -9,7 +10,8 @@
       }
 
       int rank = 1;
-      string skill = null, activity = null;
+      string skill = null,
+        activity = null;
 
       if (bc.MessageTokens.Length > 1) {
         if (bc.MessageTokens[1].TryInt32(out rank)) {
@@ -33,27 +35,23 @@
       }
 
       // get the rsn for this rank
-      string rsn = null;
-      foreach (Hiscore h in new Hiscores(skill, activity, rank))
-        if (h.Rank == rank) {
-          rsn = h.RSN;
-          break;
-        }
+      string rsn = (from h in new Hiscores(skill, activity, rank)
+        where h.Rank == rank
+        select h.RSN).FirstOrDefault();
 
       if (rsn == null) {
-        bc.SendReply("\\u{0}\\u hiscores don't have rank \\c07{1}\\c.".FormatWith(skill == null ? activity : skill, rank));
+        bc.SendReply("\\u{0}\\u hiscores don't have rank \\c07{1}\\c.".FormatWith(skill ?? activity, rank));
         return;
       }
 
       // redirect command to the apropriate sections
       if (activity == null) {
         bc.Message = skill + " " + rsn;
-        Command.SkillInfo(bc);
+        SkillInfo(bc);
       } else {
         bc.Message = activity.Replace(" ", string.Empty) + " " + rsn;
-        Command.Activity(bc);
+        Activity(bc);
       }
     }
-
-  } //class Command
-} //namespace Supay.Bot
+  }
+}

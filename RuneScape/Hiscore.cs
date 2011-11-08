@@ -2,8 +2,7 @@
 using System.Globalization;
 
 namespace Supay.Bot {
-  abstract class Hiscore : IFormattable {
-
+  internal abstract class Hiscore : IFormattable {
     protected Hiscore() {
     }
 
@@ -44,6 +43,5 @@ namespace Supay.Bot {
     }
 
     #endregion
-
-  } // class Hiscore
-} // //namespace Supay.Bot
+  }
+}

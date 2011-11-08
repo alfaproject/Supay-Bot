@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Data.SQLite;
 using System.Globalization;
+using System.Net;
 using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
-  class Price {
-
+  internal class Price {
     public Price(int id, string name, int currentPrice) {
-      this.Id = id;
-      this.Name = name;
-      this.MarketPrice = currentPrice;
+      Id = id;
+      Name = name;
+      MarketPrice = currentPrice;
     }
 
     public Price(int id, string name, int currentPrice, int changeToday, bool member)
       : this(id, name, currentPrice) {
-      this.ChangeToday = changeToday;
-      this.IsMember = member;
+      ChangeToday = changeToday;
+      IsMember = member;
     }
 
     public Price(int id) {
-      this.Id = id;
+      Id = id;
     }
 
     public int Id {
@@ -91,36 +91,31 @@ namespace Supay.Bot {
       }
 
       try {
-        Database.Insert("prices", "id", this.Id.ToStringI(),
-                                  "name", this.Name,
-                                  "price", this.MarketPrice.ToStringI(),
-                                  "lastUpdate", lastUpdate);
+        Database.Insert("prices", "id", Id.ToStringI(), "name", Name, "price", MarketPrice.ToStringI(), "lastUpdate", lastUpdate);
       } catch {
-        Database.Update("prices", "id=" + this.Id.ToStringI(),
-                                  "name", this.Name,
-                                  "price", this.MarketPrice.ToStringI(),
-                                  "lastUpdate", lastUpdate);
+        Database.Update("prices", "id=" + Id.ToStringI(), "name", Name, "price", MarketPrice.ToStringI(), "lastUpdate", lastUpdate);
       }
     }
 
     public void LoadFromCache() {
-      this.LoadFromDB();
-      if ((DateTime.UtcNow - this.LastUpdate).Days > 1)
-        this.LoadFromGE();
+      LoadFromDB();
+      if ((DateTime.UtcNow - LastUpdate).Days > 1) {
+        LoadFromGE();
+      }
     }
 
     public void LoadFromDB() {
-      SQLiteDataReader dr = Database.ExecuteReader("SELECT name, price, lastUpdate FROM prices WHERE id=" + this.Id + ";");
+      SQLiteDataReader dr = Database.ExecuteReader("SELECT name, price, lastUpdate FROM prices WHERE id=" + Id + ";");
       if (dr.Read()) {
-        this.Name = dr.GetString(0);
-        this.MarketPrice = dr.GetInt32(1);
-        this.LastUpdate = dr.GetString(2).ToDateTime();
+        Name = dr.GetString(0);
+        MarketPrice = dr.GetInt32(1);
+        LastUpdate = dr.GetString(2).ToDateTime();
       }
       dr.Close();
     }
 
     public void LoadFromGE() {
-      string  pricePage = new System.Net.WebClient().DownloadString("http://itemdb-rs.runescape.com/viewitem.ws?obj=" + this.Id);
+      string pricePage = new WebClient().DownloadString("http://itemdb-rs.runescape.com/viewitem.ws?obj=" + Id);
 
       string priceRegex = @"<div class=""subsectionHeader"">\s+";
       priceRegex += @"(.+?)\s+";
@@ -153,19 +148,19 @@ namespace Supay.Bot {
 
       Match priceMatch = Regex.Match(pricePage, priceRegex, RegexOptions.Singleline);
       if (priceMatch.Success) {
-        this.Name = priceMatch.Groups[1].Value;
-        this.Examine = priceMatch.Groups[2].Value;
-        this.MinimumPrice = priceMatch.Groups[3].Value.ToInt32();
-        this.MarketPrice = priceMatch.Groups[4].Value.ToInt32();
-        this.MaximumPrice = priceMatch.Groups[5].Value.ToInt32();
-        this.Change30days = double.Parse(priceMatch.Groups[6].Value, CultureInfo.InvariantCulture);
-        this.Change90days = double.Parse(priceMatch.Groups[7].Value, CultureInfo.InvariantCulture);
-        this.Change180days = double.Parse(priceMatch.Groups[8].Value, CultureInfo.InvariantCulture);
+        Name = priceMatch.Groups[1].Value;
+        Examine = priceMatch.Groups[2].Value;
+        MinimumPrice = priceMatch.Groups[3].Value.ToInt32();
+        MarketPrice = priceMatch.Groups[4].Value.ToInt32();
+        MaximumPrice = priceMatch.Groups[5].Value.ToInt32();
+        Change30days = double.Parse(priceMatch.Groups[6].Value, CultureInfo.InvariantCulture);
+        Change90days = double.Parse(priceMatch.Groups[7].Value, CultureInfo.InvariantCulture);
+        Change180days = double.Parse(priceMatch.Groups[8].Value, CultureInfo.InvariantCulture);
       }
 
-      if (!string.IsNullOrEmpty(this.Name) && this.MarketPrice > 0)
-        this.SaveToDB(false);
+      if (!string.IsNullOrEmpty(Name) && MarketPrice > 0) {
+        SaveToDB(false);
+      }
     }
-
-  } //class Price
-} //namespace Supay.Bot
+  }
+}

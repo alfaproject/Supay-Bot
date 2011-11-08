@@ -1,8 +1,8 @@
+using System.Net;
 using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
-  static partial class Command {
-
+  internal static partial class Command {
     public static void ClanCheck(CommandContext bc) {
       if (!bc.IsAdmin) {
         bc.SendReply("You need to be a bot administrator to use this command.");
@@ -27,29 +27,27 @@ namespace Supay.Bot {
         bc.Message = bc.Message.Replace(" @p2p", string.Empty);
       }
 
-      string pageRuneHead = new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?sort=name&clan=" + bc.MessageTokens[1]);
+      string pageRuneHead = new WebClient().DownloadString("http://runehead.com/clans/ml.php?sort=name&clan=" + bc.MessageTokens[1]);
       foreach (Match clanMember in Regex.Matches(pageRuneHead, "\\?name=([^&]+)")) {
-        Player p = new Player(clanMember.Groups[1].Value.ValidatePlayerName());
+        var p = new Player(clanMember.Groups[1].Value.ValidatePlayerName());
         if (!p.Ranked) {
           bc.SendReply(@"\b{0}\b is not ranked.".FormatWith(p.Name));
           continue;
-        } else {
-          if (p.Name.StartsWithI("_") || p.Name.EndsWithI("_")) {
-            bc.SendReply(@"\b{0}\b has unneeded underscores. Please change it to \b{1}\c.".FormatWith(p.Name, p.Name.Trim('_')));
-          }
+        }
+        if (p.Name.StartsWithI("_") || p.Name.EndsWithI("_")) {
+          bc.SendReply(@"\b{0}\b has unneeded underscores. Please change it to \b{1}\c.".FormatWith(p.Name, p.Name.Trim('_')));
+        }
 
-          if (f2p && p.Skills.F2pExp == p.Skills[Skill.OVER].Exp) {
-            bc.SendReply(@"\b{0}\b is \c14F2P\c.".FormatWith(p.Name));
-          }
+        if (f2p && p.Skills.F2pExp == p.Skills[Skill.OVER].Exp) {
+          bc.SendReply(@"\b{0}\b is \c14F2P\c.".FormatWith(p.Name));
+        }
 
-          if (p2p && p.Skills.F2pExp != p.Skills[Skill.OVER].Exp) {
-            bc.SendReply(@"\b{0}\b is \c07P2P\c.".FormatWith(p.Name));
-          }
+        if (p2p && p.Skills.F2pExp != p.Skills[Skill.OVER].Exp) {
+          bc.SendReply(@"\b{0}\b is \c07P2P\c.".FormatWith(p.Name));
         }
       }
 
       bc.SendReply("Clan \\b{0}\\b is checked.".FormatWith(bc.MessageTokens[1]));
     }
-
-  } //class Command
-} //namespace Supay.Bot
+  }
+}

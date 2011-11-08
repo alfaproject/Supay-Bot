@@ -2,8 +2,7 @@
 using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
-  static partial class Command {
-
+  internal static partial class Command {
     public static void Set(CommandContext bc) {
       if (bc.MessageTokens.Length < 2) {
         bc.SendReply("Syntax: !set <param> [skill] <value>");
@@ -46,11 +45,9 @@ namespace Supay.Bot {
 
       // add/update to database
       if (Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new SQLiteParameter("@fp", bc.From.FingerPrint) }) > 0) {
-        Database.Update("users", "fingerprint='" + bc.From.FingerPrint + "'",
-                                 "rsn", rsn);
+        Database.Update("users", "fingerprint='" + bc.From.FingerPrint + "'", "rsn", rsn);
       } else {
-        Database.Insert("users", "fingerprint", bc.From.FingerPrint,
-                                 "rsn", rsn);
+        Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", rsn);
       }
 
       bc.SendReply(@"Your default RuneScape name is now \b{0}\b. This RSN is associated with the address \u*!*{1}\u.".FormatWith(rsn, bc.From.FingerPrint));
@@ -221,6 +218,5 @@ namespace Supay.Bot {
       Database.Update("users", "fingerprint='" + bc.From.FingerPrint + "'", "skill", skill);
       bc.SendReply(@"Your default skill is currently set to \b{0}\b.".FormatWith(skill));
     }
-
-  } //class Command
-} //namespace Supay.Bot
+  }
+}

@@ -3,9 +3,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
-  static partial class Command {
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
+  internal static partial class Command {
     public static void ClanPerformance(CommandContext bc) {
       string clanInitials;
       string clanName;
@@ -28,12 +26,13 @@ namespace Supay.Bot {
       // get last updated player date
       DateTime lastUpdate = Database.Lookup<string>("lastUpdate", "players", "ORDER BY lastUpdate DESC").ToDateTime();
 
-      DateTime firstDay, lastDay;
+      DateTime firstDay,
+        lastDay;
       if (bc.MessageTokens[0].Contains("yesterday") || bc.MessageTokens[0].Contains("yday")) {
         lastDay = lastUpdate;
         firstDay = lastDay.AddDays(-1);
       } else if (bc.MessageTokens[0].Contains("lastweek") | bc.MessageTokens[0].Contains("lweek")) {
-        lastDay = lastUpdate.AddDays(-((int)lastUpdate.DayOfWeek));
+        lastDay = lastUpdate.AddDays(-((int) lastUpdate.DayOfWeek));
         firstDay = lastDay.AddDays(-7);
       } else if (bc.MessageTokens[0].Contains("lastmonth") | bc.MessageTokens[0].Contains("lmonth")) {
         lastDay = lastUpdate.AddDays(1 - lastUpdate.Day);
@@ -42,7 +41,7 @@ namespace Supay.Bot {
         lastDay = lastUpdate.AddDays(1 - lastUpdate.DayOfYear);
         firstDay = lastDay.AddYears(-1);
       } else if (bc.MessageTokens[0].Contains("week")) {
-        firstDay = lastUpdate.AddDays(-((int)lastUpdate.DayOfWeek));
+        firstDay = lastUpdate.AddDays(-((int) lastUpdate.DayOfWeek));
         lastDay = lastUpdate;
       } else if (bc.MessageTokens[0].Contains("month")) {
         firstDay = lastUpdate.AddDays(1 - lastUpdate.Day);
@@ -59,11 +58,12 @@ namespace Supay.Bot {
           return;
         }
       }
-      if (firstDay == lastDay)
+      if (firstDay == lastDay) {
         return;
+      }
 
       // Create a list of Clan players
-      Players clanPlayers = new Players(clanInitials, firstDay, lastDay);
+      var clanPlayers = new Players(clanInitials, firstDay, lastDay);
 
       // Parse command arguments
       if (bc.MessageTokens.Length == 1) {
@@ -86,8 +86,9 @@ namespace Supay.Bot {
           } else {
             // !ClanTop Skill
             rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
-            if (clanPlayers.Contains(rsn))
+            if (clanPlayers.Contains(rsn)) {
               rank = clanPlayers.IndexOf(rsn) + 1;
+            }
           }
         }
       } else {
@@ -114,45 +115,53 @@ namespace Supay.Bot {
       } else {
         // Get input player rank
         int input_player_rank = 0;
-        if (clanPlayers.Contains(bc.GetPlayerName(bc.From.Nickname)))
+        if (clanPlayers.Contains(bc.GetPlayerName(bc.From.Nickname))) {
           input_player_rank = clanPlayers.IndexOf(bc.GetPlayerName(bc.From.Nickname)) + 1;
+        }
 
         // fix rank
-        if (rank < 1)
+        if (rank < 1) {
           rank = 1;
-        else if (rank > clanPlayers.Count)
+        } else if (rank > clanPlayers.Count) {
           rank = clanPlayers.Count;
+        }
 
-        int MinRank;
-        MinRank = rank - 6;
-        if (MinRank < 0)
+        int MinRank = rank - 6;
+        if (MinRank < 0) {
           MinRank = 0;
-        else if (MinRank > clanPlayers.Count - 11)
+        } else if (MinRank > clanPlayers.Count - 11) {
           MinRank = clanPlayers.Count - 11;
+        }
 
         if (clanPlayers.Count > 0) {
           string reply = "[" + clanInitials + "] \\u" + skill.ToLowerInvariant() + "\\u ranking:";
-          if (input_player_rank > 0 && input_player_rank <= MinRank)
+          if (input_player_rank > 0 && input_player_rank <= MinRank) {
             reply += " \\c07#" + input_player_rank + "\\c \\u" + clanPlayers[input_player_rank - 1].Name + "\\u (" + clanPlayers[input_player_rank - 1].Skills[skill].ToStringI("e") + ");";
+          }
 
           for (int i = MinRank; i < Math.Min(MinRank + 11, clanPlayers.Count); i++) {
             reply += " ";
-            if (i == rank - 1)
+            if (i == rank - 1) {
               reply += "\\b";
+            }
             reply += "\\c07#" + (i + 1) + "\\c ";
-            if (i == input_player_rank - 1)
+            if (i == input_player_rank - 1) {
               reply += "\\u";
+            }
             reply += clanPlayers[i].Name;
-            if (i == input_player_rank - 1)
+            if (i == input_player_rank - 1) {
               reply += "\\u";
+            }
             reply += " (" + clanPlayers[i].Skills[skill].ToStringI("e") + ")";
-            if (i == rank - 1)
+            if (i == rank - 1) {
               reply += "\\b";
+            }
             reply += ";";
           }
 
-          if (input_player_rank > 0 && input_player_rank > MinRank + 11)
+          if (input_player_rank > 0 && input_player_rank > MinRank + 11) {
             reply += " \\c07#" + input_player_rank + "\\c \\u" + clanPlayers[input_player_rank - 1].Name + "\\u (" + clanPlayers[input_player_rank - 1].Skills[skill].ToStringI("e") + ");";
+          }
 
           bc.SendReply(reply);
         } else {
@@ -160,6 +169,5 @@ namespace Supay.Bot {
         }
       }
     }
-
-  } //class Command
-} //namespace Supay.Bot
+  }
+}

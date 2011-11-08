@@ -4,25 +4,26 @@ using System.Data.SQLite;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
+using Supay.Bot.Properties;
 using Supay.Irc;
 using Supay.Irc.Messages;
 using Supay.Irc.Network;
 using ThreadedTimer = System.Threading.Timer;
+using Timer = System.Windows.Forms.Timer;
 
 namespace Supay.Bot {
-
   public sealed partial class Main : Form {
-
-    private Client _irc;
-
     // timers
-    private System.Windows.Forms.Timer _timerMain;
+    private readonly Timer _timerMain;
     private ThreadedTimer _dailyPlayersUpdater;
     private ThreadedTimer _geChecker;
+    private Client _irc;
 
     public Main() {
       InitializeComponent();
@@ -32,13 +33,13 @@ namespace Supay.Bot {
 
       // set debug listener
       Trace.Listeners.Clear();
-      DefaultTraceListener defaultListener = new DefaultTraceListener {
+      var defaultListener = new DefaultTraceListener {
         LogFileName = Path.Combine(Application.StartupPath, "Log.txt")
       };
       Trace.Listeners.Add(defaultListener);
-      
+
       // set up clock timer
-      _timerMain = new System.Windows.Forms.Timer();
+      _timerMain = new Timer();
       _timerMain.Tick += _timerMain_Tick;
       _timerMain.Interval = 1000;
       _timerMain.Start();
@@ -53,7 +54,7 @@ namespace Supay.Bot {
         int tries = 0;
         do {
           Thread.Sleep(250);
-          Player player = new Player(rs.GetString(0));
+          var player = new Player(rs.GetString(0));
           if (player.Ranked) {
             player.SaveToDB(now.ToStringI("yyyyMMdd"));
             textBox.Invoke(new delOutputMessage(outputMessage), "##### Player updated: " + player.Name);
@@ -70,18 +71,18 @@ namespace Supay.Bot {
     private void checkGE(object stateInfo) {
       string pricesPage;
       try {
-        pricesPage = new System.Net.WebClient().DownloadString("http://itemdb-rs.runescape.com/top100.ws?list=2&scale=0");
-        pricesPage += new System.Net.WebClient().DownloadString("http://itemdb-rs.runescape.com/top100.ws?list=3&scale=0");
-      } catch (System.Net.WebException) {
+        pricesPage = new WebClient().DownloadString("http://itemdb-rs.runescape.com/top100.ws?list=2&scale=0");
+        pricesPage += new WebClient().DownloadString("http://itemdb-rs.runescape.com/top100.ws?list=3&scale=0");
+      } catch (WebException) {
         textBox.Invoke(new delOutputMessage(outputMessage), "##### Abort GE check (prices page couldn't be downloaded)");
         return;
       }
 
-      List<Price> pricesChanged = new List<Price>();
+      var pricesChanged = new List<Price>();
       const string pricesRegex = @"<a href="".+?obj=(\d+)&amp;scale=-1"">([^<]+)</a>\s+</td>\s+<td>[^<]+</td>\s+<td>([^<]+)</td>\s+<td>[^<]+</td>";
       foreach (Match priceMatch in Regex.Matches(pricesPage, pricesRegex, RegexOptions.Singleline)) {
-        Price newPrice = new Price(int.Parse(priceMatch.Groups[1].Value, CultureInfo.InvariantCulture), priceMatch.Groups[2].Value, priceMatch.Groups[3].Value.ToInt32());
-        Price oldPrice = new Price(newPrice.Id);
+        var newPrice = new Price(int.Parse(priceMatch.Groups[1].Value, CultureInfo.InvariantCulture), priceMatch.Groups[2].Value, priceMatch.Groups[3].Value.ToInt32());
+        var oldPrice = new Price(newPrice.Id);
         oldPrice.LoadFromDB();
 
         // if the last saved price is outdated, add it to the list of changed prices
@@ -102,11 +103,7 @@ namespace Supay.Bot {
           pricesChanged.Sort((p1, p2) => -p1.MarketPrice.CompareTo(p2.MarketPrice));
           string reply = @"\bGrand Exchange updated\b: ";
           for (int i = 0; i < 5; i++) {
-            reply += @"{0}: \c07{1}\c {2} | ".FormatWith(
-              pricesChanged[i].Name,
-              pricesChanged[i].MarketPrice.ToShortString(1),
-              (pricesChanged[i].ChangeToday > 0 ? @"\c03[+]\c" : @"\c04[-]\c")
-            );
+            reply += @"{0}: \c07{1}\c {2} | ".FormatWith(pricesChanged[i].Name, pricesChanged[i].MarketPrice.ToShortString(1), (pricesChanged[i].ChangeToday > 0 ? @"\c03[+]\c" : @"\c04[-]\c"));
           }
           reply += "...";
           foreach (Channel c in _irc.Channels) {
@@ -128,8 +125,7 @@ namespace Supay.Bot {
       }
 
       try {
-
-        string[] forumPage = (new System.Net.WebClient().DownloadString("http://ss.rsportugal.org/parser.php?type=recenttopics")).Split('\n');
+        string[] forumPage = new WebClient().DownloadString("http://ss.rsportugal.org/parser.php?type=recenttopics").Split('\n');
         foreach (string post in forumPage) {
           string[] postInfo = post.Split(',');
           long topicId = long.Parse(postInfo[0].Trim());
@@ -156,31 +152,28 @@ namespace Supay.Bot {
       }
 
       try {
-        DateTime startTime;
-        string eventPage = new System.Net.WebClient().DownloadString("http://ss.rsportugal.org/parser.php?type=event&channel=" + Uri.EscapeDataString(mainChannel));
+        string eventPage = new WebClient().DownloadString("http://ss.rsportugal.org/parser.php?type=event&channel=" + Uri.EscapeDataString(mainChannel));
         JObject nextEvent = JObject.Parse(eventPage);
-        startTime = DateTime.ParseExact((string)nextEvent["startTime"], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+        DateTime startTime = DateTime.ParseExact((string) nextEvent["startTime"], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
         SQLiteDataReader rsTimer = Database.ExecuteReader("SELECT fingerprint, nick, name, duration, started FROM timers;");
         while (rsTimer.Read()) {
-          if (rsTimer.GetString(2) == (string)nextEvent["id"])
+          if (rsTimer.GetString(2) == (string) nextEvent["id"]) {
             return;
+          }
         }
 
-        int[] noticeDuration = new int[] { 1440, 720, 360, 180, 90, 60, 40, 20, 10, 5 };
+        var noticeDuration = new[] { 1440, 720, 360, 180, 90, 60, 40, 20, 10, 5 };
         for (int i = 0; i < 10; i++) {
-          if ((int)(startTime - DateTime.UtcNow).TotalMinutes - noticeDuration[i] < 0)
+          if ((int) (startTime - DateTime.UtcNow).TotalMinutes - noticeDuration[i] < 0) {
             continue;
-          Database.Insert("timers", "fingerprint", startTime.ToStringI("yyyyMMddHHmmss"),
-                                    "nick", "#skillers",
-                                    "name", (string)nextEvent["id"],
-                                    "duration", (((int)(startTime - DateTime.UtcNow).TotalMinutes - noticeDuration[i]) * 60 + 60).ToString(),
-                                    "started", DateTime.UtcNow.ToStringI("yyyyMMddHHmmss"));
+          }
+          Database.Insert("timers", "fingerprint", startTime.ToStringI("yyyyMMddHHmmss"), "nick", "#skillers", "name", (string) nextEvent["id"], "duration", (((int) (startTime - DateTime.UtcNow).TotalMinutes - noticeDuration[i]) * 60 + 60).ToStringI(), "started", DateTime.UtcNow.ToStringI("yyyyMMddHHmmss"));
         }
       } catch {
       }
     }
 
-    void _timerMain_Tick(object sender, EventArgs e) {
+    private void _timerMain_Tick(object sender, EventArgs e) {
       // Event check every hour
       if (DateTime.UtcNow.Second == 0 && DateTime.UtcNow.Minute == 0) {
         ThreadPool.QueueUserWorkItem(_checkEvent);
@@ -195,13 +188,13 @@ namespace Supay.Bot {
       lblUtcTimer.Text = "UTC: {0:T}".FormatWith(DateTime.UtcNow);
 
       // update time to next morning update
-      TimeSpan updateTime = Properties.Settings.Default.DailyUpdateTime;
+      TimeSpan updateTime = Settings.Default.DailyUpdateTime;
       TimeSpan nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, updateTime.Hours, updateTime.Minutes, updateTime.Seconds).Subtract(DateTime.UtcNow);
       if (nextMorning.Ticks < 0) {
         nextMorning += TimeSpan.FromDays(1.0);
       }
       lblUpdateTimer.Text = "Next update in " + nextMorning.ToLongString();
-  
+
       if (_irc != null) {
         // check for pending timers
 
@@ -221,46 +214,44 @@ namespace Supay.Bot {
               }
             } else {
               DateTime fingerDate = DateTime.ParseExact(rsTimer.GetString(0), "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
-              if (DateTime.UtcNow.AddMinutes(-5) > fingerDate)
+              if (DateTime.UtcNow.AddMinutes(-5) > fingerDate) {
                 continue;
+              }
               foreach (Channel c in _irc.Channels) {
                 if (c.Name.ToLowerInvariant() == nick) {
                   Database.ExecuteNonQuery("DELETE FROM timers WHERE nick='" + nick + "' AND name='" + rsTimer.GetString(2) + "' AND duration='" + rsTimer.GetInt32(3) + "';");
-                  if (rsTimer.GetInt32(3) < 3600)
+                  if (rsTimer.GetInt32(3) < 3600) {
                     _irc.Send(new NoticeMessage("Next event starts in \\c07{0}\\c for more information type !event".FormatWith((fingerDate - DateTime.UtcNow).ToLongString()), c.Name));
-                  else
+                  } else {
                     _irc.SendChat("Next event starts in \\c07{0}\\c for more information type !event".FormatWith((fingerDate - DateTime.UtcNow).ToLongString()), c.Name);
+                  }
                 }
               }
             }
-
           }
         }
         rsTimer.Close();
       }
-
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1300:SpecifyMessageBoxOptions")]
     private void btnConnect_Click(object sender, EventArgs e) {
       btnConnect.Enabled = false;
 
       // Create a new client to the given address with the given nick.
-      string address = Properties.Settings.Default.ServerAddress;
-      string nick = Properties.Settings.Default.Nick;
-      _irc = new Client(address, nick, "Supreme Skillers IRC bot");
-      _irc.EnableAutoIdent = false;
-
-      _irc.DataSent += new EventHandler<Supay.Irc.Network.ConnectionDataEventArgs>(Irc_DataSent);
-      _irc.DataReceived += new EventHandler<Supay.Irc.Network.ConnectionDataEventArgs>(Irc_DataReceived);
-      _irc.Ready += new EventHandler(Irc_Ready);
-
-      _irc.Messages.Chat += new EventHandler<IrcMessageEventArgs<TextMessage>>(IrcChat);
-      _irc.Messages.NamesEndReply += new EventHandler<IrcMessageEventArgs<NamesEndReplyMessage>>(Irc_NamesEndReply);
-
-      _irc.Connection.Disconnected += delegate(object dsender, Irc.Network.ConnectionDataEventArgs devent) {
-        textBox.Invoke(new delOutputMessage(outputMessage), "[DISCONNECTED] " + devent.Data);
+      string address = Settings.Default.ServerAddress;
+      string nick = Settings.Default.Nick;
+      _irc = new Client(address, nick, "Supreme Skillers IRC bot") {
+        EnableAutoIdent = false
       };
+
+      _irc.DataSent += Irc_DataSent;
+      _irc.DataReceived += Irc_DataReceived;
+      _irc.Ready += Irc_Ready;
+
+      _irc.Messages.Chat += IrcChat;
+      _irc.Messages.NamesEndReply += Irc_NamesEndReply;
+
+      _irc.Connection.Disconnected += (dsender, devent) => textBox.Invoke(new delOutputMessage(outputMessage), "[DISCONNECTED] " + devent.Data);
 
       try {
         // Since I'm a Windows.Forms application, I pass in this form to the Connect method so it can sync with me.
@@ -271,48 +262,48 @@ namespace Supay.Bot {
       }
     }
 
-    void Irc_NamesEndReply(object sender, IrcMessageEventArgs<NamesEndReplyMessage> e) {
+    private void Irc_NamesEndReply(object sender, IrcMessageEventArgs<NamesEndReplyMessage> e) {
       _irc.Connection.Write("WHO " + e.Message.Channel);
     }
 
     private void Main_FormClosing(object sender, FormClosingEventArgs e) {
       // Quit IRC.
-      if (_irc.Connection.Status == Irc.Network.ConnectionStatus.Connected) {
+      if (_irc.Connection.Status == ConnectionStatus.Connected) {
         _irc.SendQuit(Text);
       }
 
       // Persist application settings.
-      Properties.Settings.Default.Save();
+      Settings.Default.Save();
     }
 
     private void btnExit_Click(object sender, EventArgs e) {
-      this.Close();
+      Close();
     }
 
-    void Irc_DataSent(object sender, Supay.Irc.Network.ConnectionDataEventArgs e) {
+    private void Irc_DataSent(object sender, ConnectionDataEventArgs e) {
       textBox.Invoke(new delOutputMessage(outputMessage), e.Data);
     }
 
-    void Irc_DataReceived(object sender, Supay.Irc.Network.ConnectionDataEventArgs e) {
+    private void Irc_DataReceived(object sender, ConnectionDataEventArgs e) {
       textBox.Invoke(new delOutputMessage(outputMessage), e.Data);
     }
 
-    void Irc_Ready(object sender, EventArgs e) {
+    private void Irc_Ready(object sender, EventArgs e) {
       // Perform the commands in the perform list.
-      foreach (string command in Properties.Settings.Default.Perform.Split(';')) {
+      foreach (string command in Settings.Default.Perform.Split(';')) {
         _irc.Connection.Write(command);
       }
 
       // Join the channels in the channel list.
-      foreach (string channel in Properties.Settings.Default.Channels.Split(';')) {
+      foreach (string channel in Settings.Default.Channels.Split(';')) {
         _irc.Connection.Write("JOIN " + channel);
       }
     }
 
-    void IrcChat(object sender, IrcMessageEventArgs<TextMessage> e) {
+    private void IrcChat(object sender, IrcMessageEventArgs<TextMessage> e) {
       if (e.Message.Targets[0].EqualsI(_irc.User.Nickname)) {
         // private message
-        CommandContext bc = new CommandContext(_irc, _irc.Peers, e.Message.Sender, null, e.Message.Text);
+        var bc = new CommandContext(_irc, _irc.Peers, e.Message.Sender, null, e.Message.Text);
         if (!bc.IsAdmin) {
           return;
         }
@@ -334,7 +325,7 @@ namespace Supay.Bot {
               if (sqlQuery.Read()) {
                 string reply = "Results »";
                 for (int i = 0; i < sqlQuery.FieldCount; i++) {
-                  reply += " " + sqlQuery.GetValue(i).ToString() + ";";
+                  reply += " " + sqlQuery.GetValue(i) + ";";
                 }
                 _irc.SendChat(reply, e.Message.Sender.Nickname);
               }
@@ -343,22 +334,20 @@ namespace Supay.Bot {
             }
             break;
           case "LISTCHANNELS":
-            string users;
             foreach (Channel c in _irc.Channels) {
-              users = "";
-              foreach (User u in c.Users)
-                users += " " + u.Nickname;
+              string users = c.Users.Aggregate(string.Empty, (current, u) => current + (" " + u.Nickname));
               _irc.SendChat(c.Name + " » " + users.Trim(), e.Message.Sender.Nickname);
             }
             break;
         }
       } else {
         // channel message
-        if (e.Message.Text[0] == '%')
+        if (e.Message.Text[0] == '%') {
           e.Message.Text = "." + e.Message.Text;
+        }
 
         if (e.Message.Text[0] == '!' || e.Message.Text[0] == '.' || e.Message.Text[0] == '@') {
-          CommandContext bc = new CommandContext(_irc, _irc.Peers, e.Message.Sender, _irc.Channels.Find(e.Message.Targets[0]), e.Message.Text);
+          var bc = new CommandContext(_irc, _irc.Peers, e.Message.Sender, _irc.Channels.Find(e.Message.Targets[0]), e.Message.Text);
 
           if (bc.MessageTokens[0].Length == 0) {
             SQLiteDataReader defaultSkillInfo = Database.ExecuteReader("SELECT skill, publicSkill FROM users WHERE fingerprint='" + e.Message.Sender.FingerPrint + "';");
@@ -373,7 +362,7 @@ namespace Supay.Bot {
           }
 
           switch (bc.MessageTokens[0].ToUpperInvariant()) {
-            // Utility
+              // Utility
             case "SET":
             case "DEFAULT":
               ThreadUtil.FireAndForget(Command.Set, bc);
@@ -395,7 +384,7 @@ namespace Supay.Bot {
               ThreadUtil.FireAndForget(Command.Calc, bc);
               break;
 
-            // Tracker
+              // Tracker
             case "ADDTRACKER":
               ThreadUtil.FireAndForget(CmdTracker.Add, bc);
               break;
@@ -425,7 +414,7 @@ namespace Supay.Bot {
               ThreadUtil.FireAndForget(CmdTracker.Performance, bc);
               break;
 
-            // RuneScript
+              // RuneScript
             case "GRAPH":
               ThreadUtil.FireAndForget(Command.Graph, bc);
               break;
@@ -437,7 +426,7 @@ namespace Supay.Bot {
               ThreadUtil.FireAndForget(Command.Record, bc);
               break;
 
-            // Clan
+              // Clan
             case "PTTOP":
             case "TUGATOP":
             case "SSTOP":
@@ -503,7 +492,7 @@ namespace Supay.Bot {
               ThreadUtil.FireAndForget(Command.Event, bc);
               break;
 
-            // Grand Exchange
+              // Grand Exchange
             case "PRICES":
             case "PRICE":
             case "GE":
@@ -524,7 +513,7 @@ namespace Supay.Bot {
               ThreadUtil.FireAndForget(Command.CoinShare, bc);
               break;
 
-            // RuneScape
+              // RuneScape
             case "ALL":
             case "STATS":
             case "SKILLS":
@@ -542,7 +531,7 @@ namespace Supay.Bot {
               ThreadUtil.FireAndForget(Command.Combat, bc);
               break;
 
-            // Hiscores
+              // Hiscores
             case "TOP":
             case "TABLE":
               ThreadUtil.FireAndForget(Command.Top, bc);
@@ -551,7 +540,7 @@ namespace Supay.Bot {
               ThreadUtil.FireAndForget(Command.Rank, bc);
               break;
 
-            // Activities
+              // Activities
             case "SW":
             case "SOUL":
             case "SOULS":
@@ -565,7 +554,7 @@ namespace Supay.Bot {
               ThreadUtil.FireAndForget(Command.PestControl, bc);
               break;
 
-            // FanSites
+              // FanSites
             case "ITEM":
               ThreadUtil.FireAndForget(Command.Item, bc);
               break;
@@ -592,7 +581,7 @@ namespace Supay.Bot {
               ThreadUtil.FireAndForget(CmdMonster.Info, bc);
               break;
 
-            // RuneHead
+              // RuneHead
             case "CLAN":
               ThreadUtil.FireAndForget(Command.Clan, bc);
               break;
@@ -625,7 +614,7 @@ namespace Supay.Bot {
               ThreadUtil.FireAndForget(Command.ClanCompare, bc);
               break;
 
-            // Timers
+              // Timers
             case "START":
               ThreadUtil.FireAndForget(Command.Start, bc);
               break;
@@ -640,7 +629,7 @@ namespace Supay.Bot {
               ThreadUtil.FireAndForget(Command.Timer, bc);
               break;
 
-            // DataFiles
+              // DataFiles
             case "COORDS":
             case "COORD":
               ThreadUtil.FireAndForget(CmdDataFiles.Coord, bc);
@@ -714,14 +703,13 @@ namespace Supay.Bot {
               ThreadUtil.FireAndForget(CmdDataFiles.Task, bc);
               break;
 
-            // Alog
+              // Alog
             case "ALOG":
             case "ACHIEVEMENTLOG":
               ThreadUtil.FireAndForget(Command.Alog, bc);
               break;
 
-
-            // Others
+              // Others
             case "%":
               ThreadUtil.FireAndForget(CmdOthers.Percent, bc);
               break;
@@ -776,13 +764,13 @@ namespace Supay.Bot {
               ThreadUtil.FireAndForget(CmdOthers.CalcCombat, bc);
               break;
 
-            // Links
+              // Links
             case "QUICKFIND":
             case "QFC":
               ThreadUtil.FireAndForget(CmdLinks.Qfc, bc);
               break;
 
-            // Wars
+              // Wars
             case "WARSTART":
               ThreadUtil.FireAndForget(Command.WarStart, bc);
               break;
@@ -825,15 +813,15 @@ namespace Supay.Bot {
           }
         } else {
           // fix `<calc>
-          string msg = (e.Message.Text[0] == '`' ? e.Message.Text.Substring(1) : e.Message.Text);
+          string msg = e.Message.Text[0] == '`' ? e.Message.Text.Substring(1) : e.Message.Text;
 
           // check for an implicit calculation
-          MathParser c = new MathParser();
+          var c = new MathParser();
           c.Evaluate(msg);
-          if (c.LastError == null && c.Operations > 0)
+          if (c.LastError == null && c.Operations > 0) {
             _irc.Send(new NoticeMessage(c.Expression + " => " + c.ValueAsString, e.Message.Sender.Nickname));
+          }
         }
-
       }
     }
 
@@ -841,7 +829,7 @@ namespace Supay.Bot {
       btnConnect_Click(sender, e);
 
       // set up daily timer
-      TimeSpan updateTime = Properties.Settings.Default.DailyUpdateTime;
+      TimeSpan updateTime = Settings.Default.DailyUpdateTime;
       TimeSpan nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, updateTime.Hours, updateTime.Minutes, updateTime.Seconds).Subtract(DateTime.UtcNow);
       if (nextMorning.Ticks < 0) {
         nextMorning += TimeSpan.FromDays(1.0);
@@ -855,7 +843,6 @@ namespace Supay.Bot {
       _geChecker = new ThreadedTimer(checkGE, null, 15000, 60000);
     }
 
-    private delegate void delOutputMessage(string message);
     private void outputMessage(string message) {
       textBox.AppendText("(" + DateTime.UtcNow.ToLongTimeString() + ") ");
       textBox.AppendText(message + "\r\n");
@@ -868,11 +855,21 @@ namespace Supay.Bot {
     ///   True if managed resources should be disposed; otherwise, false. </param>
     protected override void Dispose(bool disposing) {
       if (disposing) {
-        if (components != null)
+        if (components != null) {
           components.Dispose();
+        }
 
-        if (_irc != null)
-          ((IDisposable)_irc).Dispose();
+        if (_irc != null) {
+          ((IDisposable) _irc).Dispose();
+        }
+
+        if (_dailyPlayersUpdater != null) {
+          _dailyPlayersUpdater.Dispose();
+        }
+
+        if (_geChecker != null) {
+          _geChecker.Dispose();
+        }
       }
 
       base.Dispose(disposing);
@@ -887,5 +884,10 @@ namespace Supay.Bot {
       }
     }
 
-  } //class Main
-} //namespace Supay.Bot
+    #region Nested type: delOutputMessage
+
+    private delegate void delOutputMessage(string message);
+
+    #endregion
+  }
+}

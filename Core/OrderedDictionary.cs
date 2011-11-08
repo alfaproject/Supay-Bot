@@ -1,9 +1,10 @@
-﻿namespace System.Collections.Generic {
-  [Serializable()]
-  class OrderedDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IList<KeyValuePair<TKey, TValue>> {
+﻿using System.Linq;
 
-    Dictionary<TKey, TValue> _dict;
-    List<KeyValuePair<TKey, TValue>> _list;
+namespace System.Collections.Generic {
+  [Serializable]
+  internal class OrderedDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IList<KeyValuePair<TKey, TValue>> {
+    private readonly Dictionary<TKey, TValue> _dict;
+    private readonly List<KeyValuePair<TKey, TValue>> _list;
 
     public OrderedDictionary(int capacity) {
       _dict = new Dictionary<TKey, TValue>(capacity);
@@ -21,6 +22,49 @@
     public Dictionary<TKey, TValue> Dictionary {
       get {
         return _dict;
+      }
+    }
+
+    /// <summary>
+    /// Get the ordered list of keys.
+    /// This is a copy of the keys in the original Dictionary.
+    /// </summary>
+    public IList<TKey> OrderedKeys {
+      get {
+        var retList = new List<TKey>(_list.Count);
+        retList.AddRange(_list.Select(kvp => kvp.Key));
+        return retList;
+      }
+    }
+
+    /// <summary>
+    /// Get the ordered list of values.
+    /// This is a copy of the values in the original Dictionary.
+    /// </summary>
+    public IList<TValue> OrderedValues {
+      get {
+        var retList = new List<TValue>(_list.Count);
+        retList.AddRange(_list.Select(kvp => kvp.Value));
+        return retList;
+      }
+    }
+
+    /// <summary>
+    /// Get/Set the value associated with the specified index.
+    /// </summary>
+    /// <param name="index">The index of the value to get or set.</param>
+    /// <returns>The associated value.</returns>
+    public TValue this[int index] {
+      get {
+        return _list[index].Value;
+      }
+      set {
+        if (index < 0 || index >= _list.Count) {
+          throw new ArgumentOutOfRangeException("index");
+        }
+
+        _dict[_list[index].Key] = value;
+        _list[index] = new KeyValuePair<TKey, TValue>(_list[index].Key, value);
       }
     }
 
@@ -66,45 +110,6 @@
     }
 
     /// <summary>
-    /// Get the ordered list of keys.
-    /// This is a copy of the keys in the original Dictionary.
-    /// </summary>
-    public IList<TKey> OrderedKeys {
-      get {
-        List<TKey> retList = new List<TKey>(_list.Count);
-        foreach (KeyValuePair<TKey, TValue> kvp in _list)
-          retList.Add(kvp.Key);
-        return retList;
-      }
-    }
-
-    /// <summary>
-    /// Get the ordered list of values.
-    /// This is a copy of the values in the original Dictionary.
-    /// </summary>
-    public IList<TValue> OrderedValues {
-      get {
-        List<TValue> retList = new List<TValue>(_list.Count);
-        foreach (KeyValuePair<TKey, TValue> kvp in _list)
-          retList.Add(kvp.Value);
-        return retList;
-      }
-    }
-
-    /// <summary>
-    /// Returns the key at the specified index.
-    /// </summary>
-    /// <param name="index">The index.</param>
-    /// <returns>The key at the index.</returns>
-    public TKey GetKey(int index) {
-      if (index < 0 || index >= Count) {
-        throw new ArgumentOutOfRangeException("index");
-      }
-
-      return _list[index].Key;
-    }
-
-    /// <summary>
     /// Remove the entry.
     /// </summary>
     /// <param name="key">The key identifying the key-value pair.</param>
@@ -145,29 +150,6 @@
         }
       }
     }
-
-    /// <summary>
-    /// Get/Set the value associated with the specified index.
-    /// </summary>
-    /// <param name="index">The index of the value to get or set.</param>
-    /// <returns>The associated value.</returns>
-    public TValue this[int index] {
-      get {
-        return _list[index].Value;
-      }
-      set {
-        if (index < 0 || index >= _list.Count) {
-          throw new ArgumentOutOfRangeException("index");
-        }
-
-        _dict[_list[index].Key] = value;
-        _list[index] = new KeyValuePair<TKey, TValue>(_list[index].Key, value);
-      }
-    }
-
-    #endregion
-
-    #region ICollection<KeyValuePair<TKey,TValue>> Members
 
     /// <summary>
     /// Adds a key-value pair to the OrderedDictionary.
@@ -233,20 +215,12 @@
       return Remove(item.Key);
     }
 
-    #endregion
-
-    #region IEnumerable<KeyValuePair<TKey,TValue>> Members
-
     /// <summary>
     /// Returns an ordered KeyValuePair enumerator.
     /// </summary>
     public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() {
       return _list.GetEnumerator();
     }
-
-    #endregion
-
-    #region IEnumerable Members
 
     /// <summary>
     /// Returns an ordered System.Collections KeyValuePair objects.
@@ -260,41 +234,12 @@
     #region IList<KeyValuePair<TKey,TValue>> Members
 
     /// <summary>
-    /// Get the index of a particular key.
-    /// </summary>
-    /// <param name="key">The key to find the index of.</param>
-    /// <returns>The index of the key, or -1 if not found.</returns>
-    public int IndexOf(TKey key) {
-      for (int i = 0; i < _list.Count; i++) {
-        if (_list[i].Key.Equals(key)) {
-          return i;
-        }
-      }
-      return -1;
-    }
-
-    /// <summary>
     /// Given the key-value pair, find the index.
     /// </summary>
     /// <param name="item">The key-value pair.</param>
     /// <returns>The index, or -1 if not found.</returns>
     public int IndexOf(KeyValuePair<TKey, TValue> item) {
       return IndexOf(item.Key);
-    }
-
-    /// <summary>
-    /// Insert the key-value at the specified index.
-    /// </summary>
-    /// <param name="index">The zero-based insert point.</param>
-    /// <param name="key">The key.</param>
-    /// <param name="value">The value.</param>
-    public void Insert(int index, TKey key, TValue value) {
-      if (index < 0 || index >= _list.Count) {
-        throw new ArgumentOutOfRangeException("index");
-      }
-
-      _dict.Add(key, value);
-      _list.Add(new KeyValuePair<TKey, TValue>(key, value));
     }
 
     /// <summary>
@@ -340,5 +285,46 @@
 
     #endregion
 
-  } //class OrderedDictionary
-} //namespace System.Collections.Generic
+    /// <summary>
+    /// Returns the key at the specified index.
+    /// </summary>
+    /// <param name="index">The index.</param>
+    /// <returns>The key at the index.</returns>
+    public TKey GetKey(int index) {
+      if (index < 0 || index >= Count) {
+        throw new ArgumentOutOfRangeException("index");
+      }
+
+      return _list[index].Key;
+    }
+
+    /// <summary>
+    /// Get the index of a particular key.
+    /// </summary>
+    /// <param name="key">The key to find the index of.</param>
+    /// <returns>The index of the key, or -1 if not found.</returns>
+    public int IndexOf(TKey key) {
+      for (int i = 0; i < _list.Count; i++) {
+        if (_list[i].Key.Equals(key)) {
+          return i;
+        }
+      }
+      return -1;
+    }
+
+    /// <summary>
+    /// Insert the key-value at the specified index.
+    /// </summary>
+    /// <param name="index">The zero-based insert point.</param>
+    /// <param name="key">The key.</param>
+    /// <param name="value">The value.</param>
+    public void Insert(int index, TKey key, TValue value) {
+      if (index < 0 || index >= _list.Count) {
+        throw new ArgumentOutOfRangeException("index");
+      }
+
+      _dict.Add(key, value);
+      _list.Add(new KeyValuePair<TKey, TValue>(key, value));
+    }
+  }
+}

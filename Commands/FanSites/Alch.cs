@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Globalization;
-using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
-  static partial class Command {
-
+  internal static partial class Command {
     public static void Alch(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !Alch [qty] <item>");
         return;
       }
 
-      int totalHigh = 0, totalLow = 0;
+      int totalHigh = 0,
+        totalLow = 0;
       string itemList = string.Empty;
 
       foreach (string messageToken in bc.Message.Substring(bc.Message.IndexOf(' ') + 1).Split('+')) {
-        string[] queryTokens = messageToken.Trim().Split(new char[] { ' ' }, 2);
+        string[] queryTokens = messageToken.Trim().Split(new[] { ' ' }, 2);
 
         double queryQty;
         string queryItem;
@@ -35,7 +33,7 @@ namespace Supay.Bot {
         if (int.TryParse(queryItem.TrimStart('#'), out itemId)) {
           item = new Item(itemId);
         } else {
-          Items items = new Items(queryItem);
+          var items = new Items(queryItem);
 
           switch (items.Count) {
             case 0:
@@ -61,17 +59,13 @@ namespace Supay.Bot {
         if (item.Name == null) {
           bc.SendReply(@"\c12www.zybez.net\c doesn't have any record for item \c07#{0}\c.".FormatWith(itemId));
           return;
-        } else {
-          totalHigh += (int)queryQty * item.HighAlch;
-          totalLow += (int)queryQty * item.LowAlch;
-          itemList += @"\c07{0:N0}\c {1} + ".FormatWith(queryQty, item.Name);
         }
-
+        totalHigh += (int) queryQty * item.HighAlch;
+        totalLow += (int) queryQty * item.LowAlch;
+        itemList += @"\c07{0:N0}\c {1} + ".FormatWith(queryQty, item.Name);
       }
 
-      bc.SendReply(@"{0} | HighAlch: \c07{1:N0}\c | LowAlch: \c07{2:N0}\c".FormatWith(
-                   itemList.Substring(0, itemList.Length - 3), totalHigh, totalLow));
+      bc.SendReply(@"{0} | HighAlch: \c07{1:N0}\c | LowAlch: \c07{2:N0}\c".FormatWith(itemList.Substring(0, itemList.Length - 3), totalHigh, totalLow));
     }
-
-  } //class Command
-} //namespace Supay.Bot
+  }
+}

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
-  static partial class Command {
-
+  internal static partial class Command {
     public static void ClanUpdate(CommandContext bc) {
-      List<string> clanMembers = new List<string>(500);
+      var clanMembers = new List<string>(500);
 
       string pageRuneHead;
       string clanInitials;
@@ -15,28 +16,28 @@ namespace Supay.Bot {
         if (bc.Message.ContainsI("SS")) {
           clanInitials = "SS";
           clanName = "Supreme Skillers";
-          pageRuneHead = new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=supreme");
+          pageRuneHead = new WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=supreme");
         } else if (bc.Message.ContainsI("TS")) {
           clanInitials = "TS";
           clanName = "True Skillers";
-          pageRuneHead = new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=trueskillers");
+          pageRuneHead = new WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=trueskillers");
         } else {
           clanInitials = "PT";
           clanName = "Portugal";
-          pageRuneHead = new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=rsportugal");
-          pageRuneHead += new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=rsportugal2");
-          pageRuneHead += new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=rsportugal3");
-          pageRuneHead += new System.Net.WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=portugalf2p");
+          pageRuneHead = new WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=rsportugal");
+          pageRuneHead += new WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=rsportugal2");
+          pageRuneHead += new WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=rsportugal3");
+          pageRuneHead += new WebClient().DownloadString("http://runehead.com/clans/ml.php?clan=portugalf2p");
         }
       } catch {
         bc.SendReply("Update failed. Runehead appears to be down.");
         return;
       }
 
-      foreach (Match clanMember in Regex.Matches(pageRuneHead, "\\?name=([^&]+)&"))
-        clanMembers.Add(clanMember.Groups[1].Value.ValidatePlayerName());
+      clanMembers.AddRange(from Match clanMember in Regex.Matches(pageRuneHead, "\\?name=([^&]+)&")
+        select clanMember.Groups[1].Value.ValidatePlayerName());
 
-      Players clanPlayers = new Players(clanInitials);
+      var clanPlayers = new Players(clanInitials);
       // remove players from clan that were removed from clan listing
       foreach (Player p in clanPlayers) {
         if (!clanMembers.Contains(p.Name)) {
@@ -51,9 +52,9 @@ namespace Supay.Bot {
           bool f2p = false;
           try {
             Database.Insert("players", "rsn", rsn.ValidatePlayerName(), "clan", clanInitials, "lastupdate", string.Empty);
-            Player p = new Player(rsn);
+            var p = new Player(rsn);
             if (p.Ranked) {
-              f2p = (p.Skills.F2pExp == p.Skills[Skill.OVER].Exp);
+              f2p = p.Skills.F2pExp == p.Skills[Skill.OVER].Exp;
               p.SaveToDB(DateTime.UtcNow.ToStringI("yyyyMMdd"));
             }
           } catch {
@@ -65,6 +66,5 @@ namespace Supay.Bot {
       }
       bc.SendReply("Clan \\b{0}\\b is up to date.".FormatWith(clanName));
     }
-
-  } //class Command
-} //namespace Supay.Bot
+  }
+}

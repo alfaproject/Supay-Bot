@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Globalization;
 
 namespace Supay.Bot {
-  static partial class Command {
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
+  internal static partial class Command {
     public static void Top(CommandContext bc) {
-      string rsn = bc.GetPlayerName(bc.From.Nickname);
-      string skill = null, activity = null;
-      int rank = 0;
+      string rsn;
+      string skill = null,
+        activity = null;
+      int rank;
 
       // get @level
       bool level = false;
@@ -34,12 +32,13 @@ namespace Supay.Bot {
           } else {
             // !Top Skill/Activity RSN
             rsn = bc.GetPlayerName(bc.MessageTokens.Join(2));
-            Player p = new Player(rsn);
+            var p = new Player(rsn);
             if (p.Ranked) {
-              if (skill == null)
+              if (skill == null) {
                 rank = p.Activities[activity].Rank;
-              else
+              } else {
                 rank = p.Skills[skill].Rank;
+              }
             }
           }
         }
@@ -51,48 +50,50 @@ namespace Supay.Bot {
         rank = 1;
         skill = Skill.OVER;
         rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
-        Player p = new Player(rsn);
+        var p = new Player(rsn);
         if (p.Ranked) {
-          if (skill == null)
-            rank = p.Activities[activity].Rank;
-          else
-            rank = p.Skills[skill].Rank;
+          rank = p.Skills[skill].Rank;
         }
       }
-      if (rank < 0)
+      if (rank < 0) {
         rank = 1;
+      }
 
-      Hiscores hiscores = new Hiscores(skill, activity, rank);
+      var hiscores = new Hiscores(skill, activity, rank);
 
       string reply = "RS \\u" + hiscores.Name.ToLowerInvariant() + "\\u rankings:";
       if (activity == null) {
         for (int i = 0; i < Math.Min(12, hiscores.Count); i++) {
           reply += " ";
-          if (hiscores[i].Rank == rank)
+          if (hiscores[i].Rank == rank) {
             reply += "\\b";
+          }
 
-          if (level)
-            reply += "\\c07#{0:r}\\c {1} ({0:l})".FormatWith((Skill)hiscores[i], hiscores[i].RSN);
-          else
-            reply += "\\c07#{0:r}\\c {1} ({0:e})".FormatWith((Skill)hiscores[i], hiscores[i].RSN);
+          if (level) {
+            reply += "\\c07#{0:r}\\c {1} ({0:l})".FormatWith((Skill) hiscores[i], hiscores[i].RSN);
+          } else {
+            reply += "\\c07#{0:r}\\c {1} ({0:e})".FormatWith((Skill) hiscores[i], hiscores[i].RSN);
+          }
 
-          if (hiscores[i].Rank == rank)
+          if (hiscores[i].Rank == rank) {
             reply += "\\b";
+          }
           reply += ";";
         }
       } else {
         for (int i = 0; i < Math.Min(12, hiscores.Count); i++) {
           reply += " ";
-          if (hiscores[i].Rank == rank)
+          if (hiscores[i].Rank == rank) {
             reply += "\\b";
-          reply += "\\c07#{0}\\c {1} ({2})".FormatWith(hiscores[i].Rank, hiscores[i].RSN, ((Activity)hiscores[i]).Score);
-          if (hiscores[i].Rank == rank)
+          }
+          reply += "\\c07#{0}\\c {1} ({2})".FormatWith(hiscores[i].Rank, hiscores[i].RSN, ((Activity) hiscores[i]).Score);
+          if (hiscores[i].Rank == rank) {
             reply += "\\b";
+          }
           reply += ";";
         }
       }
       bc.SendReply(reply);
     }
-
-  } //class Command
-} //namespace Supay.Bot
+  }
+}

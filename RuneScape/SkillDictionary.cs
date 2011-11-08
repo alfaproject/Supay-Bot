@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace Supay.Bot {
-  class SkillDictionary : OrderedDictionary<string, Skill> {
-
+  internal class SkillDictionary : OrderedDictionary<string, Skill> {
     public SkillDictionary()
       : base(26) {
     }
@@ -15,7 +14,7 @@ namespace Supay.Bot {
 
     public List<Skill> Lowest {
       get {
-        List<Skill> lowest = new List<Skill>(this.Values);
+        var lowest = new List<Skill>(Values);
         lowest.RemoveAt(lowest.Count - 1);
         lowest.RemoveAt(0);
         lowest.Sort((s1, s2) => s1.VLevel.CompareTo(s2.VLevel));
@@ -25,7 +24,7 @@ namespace Supay.Bot {
 
     public List<Skill> Highest {
       get {
-        List<Skill> highest = new List<Skill>(this.Values);
+        var highest = new List<Skill>(Values);
         highest.RemoveAt(highest.Count - 1);
         highest.RemoveAt(0);
         highest.Sort((s1, s2) => -s1.VLevel.CompareTo(s2.VLevel));
@@ -35,10 +34,11 @@ namespace Supay.Bot {
 
     public List<Skill> LowestRanked {
       get {
-        List<Skill> lowest = new List<Skill>(this.Values);
+        var lowest = new List<Skill>(Values);
         lowest.RemoveAll(s => s.Name == Skill.OVER || s.Name == Skill.COMB);
-        foreach (Skill s in lowest.FindAll(s => s.Rank == -1))
+        foreach (Skill s in lowest.FindAll(s => s.Rank == -1)) {
           s.Rank = int.MaxValue;
+        }
         lowest.Sort((s1, s2) => -s1.Rank.CompareTo(s2.Rank));
         return lowest;
       }
@@ -46,10 +46,11 @@ namespace Supay.Bot {
 
     public List<Skill> HighestRanked {
       get {
-        List<Skill> highest = new List<Skill>(this.Values);
+        var highest = new List<Skill>(Values);
         highest.RemoveAll(s => s.Name == Skill.OVER || s.Name == Skill.COMB);
-        foreach (Skill s in highest.FindAll(s => s.Rank == -1))
+        foreach (Skill s in highest.FindAll(s => s.Rank == -1)) {
           s.Rank = int.MaxValue;
+        }
         highest.Sort((s1, s2) => s1.Rank.CompareTo(s2.Rank));
         return highest;
       }
@@ -57,12 +58,11 @@ namespace Supay.Bot {
 
     public List<Skill> SortedByExpToNextVLevel {
       get {
-        List<Skill> result = new List<Skill>(this.Values);
+        var result = new List<Skill>(Values);
         result.RemoveAll(s => s.ExpToVLevel == 0 || s.Name == Skill.OVER || s.Name == Skill.COMB);
         result.Sort((s1, s2) => s1.ExpToVLevel.CompareTo(s2.ExpToVLevel));
         return result;
       }
     }
-
-  } //class SkillDictionary
-} //namespace Supay.Bot
+  }
+}

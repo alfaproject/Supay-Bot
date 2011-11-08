@@ -1,8 +1,7 @@
 ﻿using System;
 
 namespace Supay.Bot {
-  static partial class Command {
-
+  internal static partial class Command {
     public static void Combat(CommandContext bc) {
       // ignore @next
       if (bc.Message.Contains(" @next") || bc.Message.Contains(" @n")) {
@@ -37,12 +36,13 @@ namespace Supay.Bot {
 
       // get rsn
       string rsn;
-      if (bc.MessageTokens.Length > 1)
+      if (bc.MessageTokens.Length > 1) {
         rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
-      else
+      } else {
         rsn = bc.GetPlayerName(bc.From.Nickname);
+      }
 
-      Player p = new Player(rsn);
+      var p = new Player(rsn);
       if (!p.Ranked) {
         bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn));
         return;
@@ -50,9 +50,10 @@ namespace Supay.Bot {
 
       int AvgSkill = p.Skills[0].Level / (p.Skills.Count - 2);
 
-      int expected_max_slayer_exp = (int)((p.Skills[Skill.HITP].Exp - 1154) * 3 / 4.0);
+      var expected_max_slayer_exp = (int) ((p.Skills[Skill.HITP].Exp - 1154) * 3 / 4.0);
 
-      int combatLevel, combatF2pLevel;
+      int combatLevel,
+        combatF2pLevel;
       string combatClass;
       if (VLevel) {
         combatClass = Utils.CombatClass(p.Skills, true);
@@ -64,14 +65,10 @@ namespace Supay.Bot {
         combatF2pLevel = Utils.CalculateCombat(p.Skills, false, true);
       }
 
-      string reply = "\\b{0}\\b \\c07combat\\c | level: \\c07{1}\\c (f2p: \\c07{2}\\c) | exp: \\c07{3:e}\\c | combat%: \\c07{4:0.##}%\\c | slayer%: \\c07{5:0.##}%\\c | class: \\c07{6}\\c".FormatWith(
-                                   rsn, combatLevel, combatF2pLevel, p.Skills[Skill.COMB],
-                                   (double)p.Skills[Skill.COMB].Exp / (double)p.Skills[Skill.OVER].Exp * 100.0,
-                                   (double)p.Skills[Skill.SLAY].Exp / (double)expected_max_slayer_exp * 100.0,
-                                   combatClass);
+      string reply = "\\b{0}\\b \\c07combat\\c | level: \\c07{1}\\c (f2p: \\c07{2}\\c) | exp: \\c07{3:e}\\c | combat%: \\c07{4:0.##}%\\c | slayer%: \\c07{5:0.##}%\\c | class: \\c07{6}\\c".FormatWith(rsn, combatLevel, combatF2pLevel, p.Skills[Skill.COMB], (double) p.Skills[Skill.COMB].Exp / (double) p.Skills[Skill.OVER].Exp * 100.0, (double) p.Skills[Skill.SLAY].Exp / (double) expected_max_slayer_exp * 100.0, combatClass);
 
       // Add up SS rank if applicable
-      Players ssplayers = new Players("SS");
+      var ssplayers = new Players("SS");
       if (ssplayers.Contains(rsn)) {
         ssplayers.SortBySkill(Skill.COMB, false);
         reply += " | SS rank: \\c07{0}\\c".FormatWith(ssplayers.IndexOf(rsn) + 1);
@@ -80,87 +77,97 @@ namespace Supay.Bot {
       bc.SendReply(reply);
 
       string format;
-      if (Exp)
+      if (Exp) {
         format = "\\c{1:00}{0:re}";
-      else if (Rank)
+      } else if (Rank) {
         format = "\\c{1:00}{0:r}";
-      else if (VLevel)
+      } else if (VLevel) {
         format = "\\c{1:00}{0:rv}";
-      else
+      } else {
         format = "\\c{1:00}{0:rl}";
+      }
 
-      int next;
-
-      if (Rank)
+      if (Rank) {
         reply = "\\uSkills\\u:";
-      else
+      } else {
         reply = "\\uSkills (to level)\\u:";
+      }
       for (int i = 1; i < p.Skills.Count - 1; i++) {
         Skill s = p.Skills[i];
 
-        if (s.Name != Skill.ATTA && s.Name != Skill.STRE && s.Name != Skill.DEFE && s.Name != Skill.HITP && s.Name != Skill.PRAY && s.Name != Skill.SUMM && s.Name != Skill.RANG && s.Name != Skill.MAGI)
+        if (s.Name != Skill.ATTA && s.Name != Skill.STRE && s.Name != Skill.DEFE && s.Name != Skill.HITP && s.Name != Skill.PRAY && s.Name != Skill.SUMM && s.Name != Skill.RANG && s.Name != Skill.MAGI) {
           continue;
+        }
 
         reply += " ";
-        if (s.Exp == p.Skills.Highest[0].Exp)
+        if (s.Exp == p.Skills.Highest[0].Exp) {
           reply += "\\u";
+        }
 
-        reply += format.FormatWith(
-          s, (VLevel ? s.VLevel : s.Level) > AvgSkill + 7 ? 3 : ((VLevel ? s.VLevel : s.Level) < AvgSkill - 7 ? 4 : 7));
+        reply += format.FormatWith(s, (VLevel ? s.VLevel : s.Level) > AvgSkill + 7 ? 3 : ((VLevel ? s.VLevel : s.Level) < AvgSkill - 7 ? 4 : 7));
 
         if (!Rank) {
+          int next;
           switch (s.Name) {
             case Skill.ATTA:
             case Skill.STRE:
-              if (VLevel)
+              if (VLevel) {
                 next = Utils.NextCombatAttStr(p.Skills[Skill.ATTA].VLevel, p.Skills[Skill.STRE].VLevel, p.Skills[Skill.DEFE].VLevel, p.Skills[Skill.HITP].VLevel, p.Skills[Skill.RANG].VLevel, p.Skills[Skill.PRAY].VLevel, p.Skills[Skill.MAGI].VLevel, p.Skills[Skill.SUMM].VLevel);
-              else
+              } else {
                 next = Utils.NextCombatAttStr(p.Skills[Skill.ATTA].Level, p.Skills[Skill.STRE].Level, p.Skills[Skill.DEFE].Level, p.Skills[Skill.HITP].Level, p.Skills[Skill.RANG].Level, p.Skills[Skill.PRAY].Level, p.Skills[Skill.MAGI].Level, p.Skills[Skill.SUMM].Level);
+              }
               break;
             case Skill.DEFE:
             case Skill.HITP:
-              if (VLevel)
+              if (VLevel) {
                 next = Utils.NextCombatDefHp(p.Skills[Skill.ATTA].VLevel, p.Skills[Skill.STRE].VLevel, p.Skills[Skill.DEFE].VLevel, p.Skills[Skill.HITP].VLevel, p.Skills[Skill.RANG].VLevel, p.Skills[Skill.PRAY].VLevel, p.Skills[Skill.MAGI].VLevel, p.Skills[Skill.SUMM].VLevel);
-              else
+              } else {
                 next = Utils.NextCombatDefHp(p.Skills[Skill.ATTA].Level, p.Skills[Skill.STRE].Level, p.Skills[Skill.DEFE].Level, p.Skills[Skill.HITP].Level, p.Skills[Skill.RANG].Level, p.Skills[Skill.PRAY].Level, p.Skills[Skill.MAGI].Level, p.Skills[Skill.SUMM].Level);
+              }
               break;
             case Skill.PRAY:
-              if (VLevel)
+              if (VLevel) {
                 next = Utils.NextCombatPray(p.Skills[Skill.ATTA].VLevel, p.Skills[Skill.STRE].VLevel, p.Skills[Skill.DEFE].VLevel, p.Skills[Skill.HITP].VLevel, p.Skills[Skill.RANG].VLevel, p.Skills[Skill.PRAY].VLevel, p.Skills[Skill.MAGI].VLevel, p.Skills[Skill.SUMM].VLevel);
-              else
+              } else {
                 next = Utils.NextCombatPray(p.Skills[Skill.ATTA].Level, p.Skills[Skill.STRE].Level, p.Skills[Skill.DEFE].Level, p.Skills[Skill.HITP].Level, p.Skills[Skill.RANG].Level, p.Skills[Skill.PRAY].Level, p.Skills[Skill.MAGI].Level, p.Skills[Skill.SUMM].Level);
+              }
               break;
             case Skill.SUMM:
-              if (VLevel)
+              if (VLevel) {
                 next = Utils.NextCombatSum(p.Skills[Skill.ATTA].VLevel, p.Skills[Skill.STRE].VLevel, p.Skills[Skill.DEFE].VLevel, p.Skills[Skill.HITP].VLevel, p.Skills[Skill.RANG].VLevel, p.Skills[Skill.PRAY].VLevel, p.Skills[Skill.MAGI].VLevel, p.Skills[Skill.SUMM].VLevel);
-              else
+              } else {
                 next = Utils.NextCombatSum(p.Skills[Skill.ATTA].Level, p.Skills[Skill.STRE].Level, p.Skills[Skill.DEFE].Level, p.Skills[Skill.HITP].Level, p.Skills[Skill.RANG].Level, p.Skills[Skill.PRAY].Level, p.Skills[Skill.MAGI].Level, p.Skills[Skill.SUMM].Level);
+              }
               break;
             case Skill.MAGI:
-              if (VLevel)
+              if (VLevel) {
                 next = Utils.NextCombatMag(p.Skills[Skill.ATTA].VLevel, p.Skills[Skill.STRE].VLevel, p.Skills[Skill.DEFE].VLevel, p.Skills[Skill.HITP].VLevel, p.Skills[Skill.RANG].VLevel, p.Skills[Skill.PRAY].VLevel, p.Skills[Skill.MAGI].VLevel, p.Skills[Skill.SUMM].VLevel);
-              else
+              } else {
                 next = Utils.NextCombatMag(p.Skills[Skill.ATTA].Level, p.Skills[Skill.STRE].Level, p.Skills[Skill.DEFE].Level, p.Skills[Skill.HITP].Level, p.Skills[Skill.RANG].Level, p.Skills[Skill.PRAY].Level, p.Skills[Skill.MAGI].Level, p.Skills[Skill.SUMM].Level);
+              }
               break;
             case Skill.RANG:
-              if (VLevel)
+              if (VLevel) {
                 next = Utils.NextCombatRan(p.Skills[Skill.ATTA].VLevel, p.Skills[Skill.STRE].VLevel, p.Skills[Skill.DEFE].VLevel, p.Skills[Skill.HITP].VLevel, p.Skills[Skill.RANG].VLevel, p.Skills[Skill.PRAY].VLevel, p.Skills[Skill.MAGI].VLevel, p.Skills[Skill.SUMM].VLevel);
-              else
+              } else {
                 next = Utils.NextCombatRan(p.Skills[Skill.ATTA].Level, p.Skills[Skill.STRE].Level, p.Skills[Skill.DEFE].Level, p.Skills[Skill.HITP].Level, p.Skills[Skill.RANG].Level, p.Skills[Skill.PRAY].Level, p.Skills[Skill.MAGI].Level, p.Skills[Skill.SUMM].Level);
+              }
               break;
             default:
               next = 0;
               break;
           }
-          if (next > 0)
+          if (next > 0) {
             reply += "(+" + next + ")";
+          }
         }
 
         reply += "\\c ";
 
         reply += s.Name;
-        if (s.Exp == p.Skills.Highest[0].Exp)
+        if (s.Exp == p.Skills.Highest[0].Exp) {
           reply += "\\u";
+        }
 
         reply += ";";
       }
@@ -173,34 +180,38 @@ namespace Supay.Bot {
         string perf;
         reply = string.Empty;
 
-        Player p_old = new Player(rsn, lastupdate);
+        var p_old = new Player(rsn, lastupdate);
         if (p_old.Ranked) {
           perf = _GetPerformance("Today", p_old.Skills[Skill.COMB], p.Skills[Skill.COMB]);
-          if (perf != null)
+          if (perf != null) {
             reply += perf + " | ";
+          }
         }
-        p_old = new Player(rsn, lastupdate.AddDays(-((int)lastupdate.DayOfWeek)));
+        p_old = new Player(rsn, lastupdate.AddDays(-((int) lastupdate.DayOfWeek)));
         if (p_old.Ranked) {
           perf = _GetPerformance("Week", p_old.Skills[Skill.COMB], p.Skills[Skill.COMB]);
-          if (perf != null)
+          if (perf != null) {
             reply += perf + " | ";
+          }
         }
         p_old = new Player(rsn, lastupdate.AddDays(1 - lastupdate.Day));
         if (p_old.Ranked) {
           perf = _GetPerformance("Month", p_old.Skills[Skill.COMB], p.Skills[Skill.COMB]);
-          if (perf != null)
+          if (perf != null) {
             reply += perf + " | ";
+          }
         }
         p_old = new Player(rsn, lastupdate.AddDays(1 - lastupdate.DayOfYear));
         if (p_old.Ranked) {
           perf = _GetPerformance("Year", p_old.Skills[Skill.COMB], p.Skills[Skill.COMB]);
-          if (perf != null)
+          if (perf != null) {
             reply += perf;
+          }
         }
-        if (reply.Length > 0)
+        if (reply.Length > 0) {
           bc.SendReply(reply.EndsWithI(" | ") ? reply.Substring(0, reply.Length - 3) : reply);
+        }
       }
     }
-
-  } //class Command
-} //namespace Supay.Bot
+  }
+}

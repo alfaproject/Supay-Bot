@@ -1,6 +1,5 @@
 ﻿namespace Supay.Bot {
-  class TrueSkill : Skill {
-
+  internal class TrueSkill : Skill {
     private const int MAX_LEVEL = 120;
 
     public TrueSkill(string name, int rank, int level, int exp)
@@ -22,6 +21,5 @@
         return MAX_LEVEL;
       }
     }
-
-  } //class TrueSkill
-} //namespace Supay.Bot
+  }
+}

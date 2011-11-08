@@ -1,15 +1,14 @@
 ﻿using System.Data.SQLite;
 
 namespace Supay.Bot {
-  static partial class Command {
-
+  internal static partial class Command {
     public static void WarTopAll(CommandContext bc) {
       if (!bc.IsAdmin) {
         bc.SendReply("You need to be a bot administrator to use this command.");
         return;
       }
 
-      string skill = Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new SQLiteParameter("@chan", bc.Channel) });
+      var skill = Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new SQLiteParameter("@chan", bc.Channel) });
       if (skill == null) {
         bc.SendReply("There isn't a war going on in this channel.");
         return;
@@ -18,11 +17,13 @@ namespace Supay.Bot {
       bc.SendReply("Please wait while the bot gathers all players stats...");
 
       // Create a list of the war players
-      Players warPlayers = new Players();
+      var warPlayers = new Players();
       SQLiteDataReader warPlayersDr = Database.ExecuteReader("SELECT rsn, startrank, startlevel, startexp FROM warplayers WHERE channel='" + bc.Channel + "';");
       while (warPlayersDr.Read()) {
-        Player warPlayer = new Player(warPlayersDr.GetString(0));
-        if (!warPlayer.Ranked) { continue; }
+        var warPlayer = new Player(warPlayersDr.GetString(0));
+        if (!warPlayer.Ranked) {
+          continue;
+        }
         warPlayer.Skills[skill] -= new Skill(skill, warPlayersDr.GetInt32(1), warPlayersDr.GetInt32(2), warPlayersDr.GetInt32(3));
         warPlayers.Add(warPlayer);
       }
@@ -42,6 +43,5 @@ namespace Supay.Bot {
         bc.SendReply(reply);
       }
     }
-
-  } //class Command
-} //namespace Supay.Bot
+  }
+}

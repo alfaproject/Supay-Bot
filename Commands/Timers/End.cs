@@ -3,14 +3,12 @@ using System.Data.SQLite;
 using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
-  static partial class Command {
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
+  internal static partial class Command {
     public static void End(CommandContext bc) {
       // get rsn
       string rsn = bc.GetPlayerName(bc.From.Nickname);
 
-      Player p = new Player(rsn);
+      var p = new Player(rsn);
       if (!p.Ranked) {
         bc.SendReply(@"\b{0}\b doesn't feature Hiscores.".FormatWith(rsn));
         return;
@@ -37,9 +35,9 @@ namespace Supay.Bot {
         int gainedExp = p.Skills[skill].Exp - rs.GetInt32(1);
         TimeSpan time = DateTime.UtcNow - rs.GetString(2).ToDateTime();
 
-        string reply = @"You gained \c07{0:N0}\c \u{1}\u exp in \c07{2}\c. That's \c07{3:N0}\c exp/h.".FormatWith(gainedExp, skill.ToLowerInvariant(), time.ToLongString(), (double)gainedExp / time.TotalHours);
+        string reply = @"You gained \c07{0:N0}\c \u{1}\u exp in \c07{2}\c. That's \c07{3:N0}\c exp/h.".FormatWith(gainedExp, skill.ToLowerInvariant(), time.ToLongString(), (double) gainedExp / time.TotalHours);
         if (gainedExp > 0 && skill != Skill.OVER && skill != Skill.COMB && p.Skills[skill].VLevel < 126) {
-          reply += @" Estimated time to level up: \c07{0}\c".FormatWith(TimeSpan.FromSeconds((double)p.Skills[skill].ExpToVLevel / ((double)gainedExp / time.TotalSeconds)).ToLongString());
+          reply += @" Estimated time to level up: \c07{0}\c".FormatWith(TimeSpan.FromSeconds(p.Skills[skill].ExpToVLevel / (gainedExp / time.TotalSeconds)).ToLongString());
         }
         bc.SendReply(reply);
 
@@ -50,7 +48,7 @@ namespace Supay.Bot {
           }
 
           // Set exp. made in an hour in this skill.
-          Database.SetStringParameter("users", "speeds", "fingerprint='" + bc.From.FingerPrint + "'", skill, ((int)((double)gainedExp / time.TotalHours)).ToStringI());
+          Database.SetStringParameter("users", "speeds", "fingerprint='" + bc.From.FingerPrint + "'", skill, ((int) (gainedExp / time.TotalHours)).ToStringI());
         }
 
         // remove the timer with this name
@@ -63,6 +61,5 @@ namespace Supay.Bot {
         }
       }
     }
-
-  } //class Command
-} //namespace Supay.Bot
+  }
+}

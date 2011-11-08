@@ -1,6 +1,5 @@
 ﻿namespace Supay.Bot {
-  static partial class Command {
-
+  internal static partial class Command {
     public static void SoulWars(CommandContext bc) {
       // get rsn
       string rsn = string.Empty;
@@ -35,7 +34,7 @@
       }
 
       if (!string.IsNullOrEmpty(rsn)) {
-        Player p = new Player(rsn);
+        var p = new Player(rsn);
         if (!p.Ranked) {
           bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn));
           return;
@@ -61,6 +60,5 @@
           break;
       }
     }
-
-  } //class Command
-} //namespace Supay.Bot
+  }
+}

@@ -5,8 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
-  static partial class Command {
-
+  internal static partial class Command {
     public static void SkillInfo(CommandContext bc) {
       // get skill name
       string skillName = Skill.Parse(bc.MessageTokens[0]);
@@ -37,17 +36,19 @@ namespace Supay.Bot {
 
       // get rsn
       string rsn;
-      if (bc.MessageTokens.Length > 1)
+      if (bc.MessageTokens.Length > 1) {
         rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
-      else
+      } else {
         rsn = bc.GetPlayerName(bc.From.Nickname);
+      }
 
-      Player p = new Player(rsn);
+      var p = new Player(rsn);
       if (p.Ranked) {
         Skill skill = p.Skills[skillName];
 
         // parse goal
-        int targetLevel, targetExp = 0;
+        int targetLevel,
+          targetExp = 0;
         if (int.TryParse(goal, out targetLevel)) {
           // get level/exp
           if (targetLevel == 127) {
@@ -64,22 +65,24 @@ namespace Supay.Bot {
           int goalrank;
           if (int.TryParse(goal.Substring(1), out goalrank)) {
             if (goalrank > 0 && goalrank < skill.Rank) {
-              foreach (Skill h in new Hiscores(skill.Name, null, goalrank))
+              foreach (Skill h in new Hiscores(skill.Name, null, goalrank)) {
                 if (h.Rank == goalrank) {
                   targetExp = h.Exp;
                   targetLevel = targetExp.ToLevel();
                   break;
                 }
+              }
             }
           }
         } else if (goal == "nr") {
           // get next rank
           if (skill.Rank > 1) {
-            foreach (Skill h in new Hiscores(skill.Name, null, skill.Rank - 1))
+            foreach (Skill h in new Hiscores(skill.Name, null, skill.Rank - 1)) {
               if (h.Rank == skill.Rank - 1) {
                 targetExp = h.Exp;
                 break;
               }
+            }
           } else {
             targetExp = Math.Min(200000000, skill.Exp + 1);
           }
@@ -103,7 +106,8 @@ namespace Supay.Bot {
         int expToGo = 0;
         string percentDone;
         if (skill.Name == Skill.OVER) {
-          int totalExp = 0, maxExp = 0;
+          int totalExp = 0,
+            maxExp = 0;
           targetLevel = 0;
           foreach (Skill s in p.Skills.Values.Where(s => s.Name != Skill.OVER && s.Name != Skill.COMB)) {
             int maxSkillExp = s.MaxLevel.ToExp();
@@ -111,19 +115,18 @@ namespace Supay.Bot {
             maxExp += maxSkillExp;
             targetLevel += s.MaxLevel;
           }
-          percentDone = Math.Round(totalExp / (double)maxExp * 100.0, 1).ToStringI();
+          percentDone = Math.Round(totalExp / (double) maxExp * 100.0, 1).ToStringI();
 
           item = null;
         } else {
           expToGo = targetExp - skill.Exp;
-          percentDone = Math.Round(100 - expToGo / (double)(targetExp - skill.VLevel.ToExp()) * 100, 1).ToStringI();
+          percentDone = Math.Round(100 - expToGo / (double) (targetExp - skill.VLevel.ToExp()) * 100, 1).ToStringI();
         }
 
-        string reply = "\\b{0}\\b \\c07{1:n}\\c | level: \\c07{1:v}\\c | exp: \\c07{1:e}\\c (\\c07{2}%\\c of {3}) | rank: \\c07{1:R}\\c".FormatWith(
-                       rsn, skill, percentDone, targetLevel);
+        string reply = "\\b{0}\\b \\c07{1:n}\\c | level: \\c07{1:v}\\c | exp: \\c07{1:e}\\c (\\c07{2}%\\c of {3}) | rank: \\c07{1:R}\\c".FormatWith(rsn, skill, percentDone, targetLevel);
 
         // Add up SS rank if applicable
-        Players ssplayers = new Players("SS");
+        var ssplayers = new Players("SS");
         if (ssplayers.Contains(p.Name)) {
           ssplayers.SortBySkill(skill.Name, false);
           reply += " (SS rank: \\c07{0}\\c)".FormatWith(ssplayers.IndexOf(rsn) + 1);
@@ -135,13 +138,10 @@ namespace Supay.Bot {
 
           int speed = int.Parse(Database.GetStringParameter("users", "speeds", "fingerprint='" + bc.From.FingerPrint + "'", skillName, "0"), CultureInfo.InvariantCulture);
           if (speed > 0) {
-            reply += @" (\c07{0}\c)".FormatWith(TimeSpan.FromHours((double)expToGo / (double)speed).ToLongString());
+            reply += @" (\c07{0}\c)".FormatWith(TimeSpan.FromHours(expToGo / (double) speed).ToLongString());
           }
 
-          if (item != null && item.Length > 0) {
-            string item_name;
-            int monster_hp;
-
+          if (!string.IsNullOrEmpty(item)) {
             switch (item.ToUpperInvariant()) {
               case "LAMP":
               case "LAMPS":
@@ -191,27 +191,32 @@ namespace Supay.Bot {
                 }
                 break;
               default:
+                string item_name;
+                int monster_hp;
                 switch (skill.Name) {
                   case Skill.ATTA:
                   case Skill.DEFE:
                   case Skill.STRE:
                   case Skill.RANG:
-                    if (_GetMonster(item, out item_name, out monster_hp))
-                      reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling((double)expToGo * 10d / (double)monster_hp / 4d), item_name);
-                    else
+                    if (_GetMonster(item, out item_name, out monster_hp)) {
+                      reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling(expToGo * 10d / monster_hp / 4d), item_name);
+                    } else {
                       reply += " (unknown monster)";
+                    }
                     break;
                   case Skill.HITP:
-                    if (_GetMonster(item, out item_name, out monster_hp))
-                      reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling((double)expToGo * 30d / (double)monster_hp / 4d), item_name);
-                    else
+                    if (_GetMonster(item, out item_name, out monster_hp)) {
+                      reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling(expToGo * 30d / monster_hp / 4d), item_name);
+                    } else {
                       reply += " (unknown monster)";
+                    }
                     break;
                   case Skill.SLAY:
-                    if (_GetMonster(item, out item_name, out monster_hp))
-                      reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling((double)expToGo * 10d / (double)monster_hp), item_name);
-                    else
+                    if (_GetMonster(item, out item_name, out monster_hp)) {
+                      reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling(expToGo * 10d / monster_hp), item_name);
+                    } else {
                       reply += " (unknown monster)";
+                    }
                     break;
                   default:
                     try {
@@ -220,10 +225,11 @@ namespace Supay.Bot {
                       break;
                     } catch {
                       SkillItem itemFound = _GetItem(skill.Name, item);
-                      if (itemFound != null)
+                      if (itemFound != null) {
                         reply += " (\\c07{1}\\c \\c{0}{2}\\c)".FormatWith(itemFound.IrcColour, Math.Ceiling(expToGo / itemFound.Exp), itemFound.Name);
-                      else
+                      } else {
                         reply += " (unknown item)";
+                      }
                       break;
                     }
                 }
@@ -239,8 +245,9 @@ namespace Supay.Bot {
         string dblastupdate = Database.LastUpdate(rsn);
         if (dblastupdate == null || dblastupdate.Length < 8) {
           lastupdate = DateTime.UtcNow.AddHours(-DateTime.UtcNow.Hour + 6).AddMinutes(-DateTime.UtcNow.Minute).AddSeconds(-DateTime.UtcNow.Second);
-          if (DateTime.UtcNow.Hour >= 0 && DateTime.UtcNow.Hour < 6)
+          if (DateTime.UtcNow.Hour >= 0 && DateTime.UtcNow.Hour < 6) {
             lastupdate = lastupdate.AddDays(-1);
+          }
         } else {
           lastupdate = dblastupdate.ToDateTime();
         }
@@ -248,54 +255,64 @@ namespace Supay.Bot {
         string perf;
         reply = string.Empty;
 
-        Player p_old = new Player(rsn, lastupdate);
-        if (!p_old.Ranked)
-          p_old = new Player(rsn, (int)(DateTime.UtcNow - lastupdate).TotalSeconds);
+        var p_old = new Player(rsn, lastupdate);
+        if (!p_old.Ranked) {
+          p_old = new Player(rsn, (int) (DateTime.UtcNow - lastupdate).TotalSeconds);
+        }
         if (p_old.Ranked) {
           perf = _GetPerformance("Today", p_old.Skills[skill.Name], skill);
-          if (perf != null)
+          if (perf != null) {
             reply += perf + " | ";
+          }
         }
 
-        p_old = new Player(rsn, lastupdate.AddDays(-((int)lastupdate.DayOfWeek)));
-        if (!p_old.Ranked)
-          p_old = new Player(rsn, (int)(DateTime.UtcNow - lastupdate.AddDays(-((int)lastupdate.DayOfWeek))).TotalSeconds);
+        p_old = new Player(rsn, lastupdate.AddDays(-((int) lastupdate.DayOfWeek)));
+        if (!p_old.Ranked) {
+          p_old = new Player(rsn, (int) (DateTime.UtcNow - lastupdate.AddDays(-((int) lastupdate.DayOfWeek))).TotalSeconds);
+        }
         if (p_old.Ranked) {
           perf = _GetPerformance("Week", p_old.Skills[skill.Name], skill);
-          if (perf != null)
+          if (perf != null) {
             reply += perf + " | ";
+          }
         }
 
         p_old = new Player(rsn, lastupdate.AddDays(1 - lastupdate.Day));
-        if (!p_old.Ranked)
-          p_old = new Player(rsn, (int)(DateTime.UtcNow - lastupdate.AddDays(1 - lastupdate.Day)).TotalSeconds);
+        if (!p_old.Ranked) {
+          p_old = new Player(rsn, (int) (DateTime.UtcNow - lastupdate.AddDays(1 - lastupdate.Day)).TotalSeconds);
+        }
         if (p_old.Ranked) {
           perf = _GetPerformance("Month", p_old.Skills[skill.Name], skill);
-          if (perf != null)
+          if (perf != null) {
             reply += perf + " | ";
+          }
         }
 
         p_old = new Player(rsn, lastupdate.AddDays(1 - lastupdate.DayOfYear));
-        if (!p_old.Ranked)
-          p_old = new Player(rsn, (int)(DateTime.UtcNow - lastupdate.AddDays(1 - lastupdate.DayOfYear)).TotalSeconds);
+        if (!p_old.Ranked) {
+          p_old = new Player(rsn, (int) (DateTime.UtcNow - lastupdate.AddDays(1 - lastupdate.DayOfYear)).TotalSeconds);
+        }
         if (p_old.Ranked) {
           perf = _GetPerformance("Year", p_old.Skills[skill.Name], skill);
-          if (perf != null)
+          if (perf != null) {
             reply += perf + " | ";
+          }
         }
 
         // ***** start war *****
         SQLiteDataReader warPlayer = Database.ExecuteReader("SELECT startrank, startlevel, startexp FROM warplayers WHERE channel='" + bc.Channel + "' AND rsn='" + rsn + "';");
         if (warPlayer.Read() && Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new SQLiteParameter("@chan", bc.Channel) }) == skill.Name) {
-          Skill oldSkill = new Skill(skill.Name, warPlayer.GetInt32(0), warPlayer.GetInt32(1), warPlayer.GetInt32(2));
+          var oldSkill = new Skill(skill.Name, warPlayer.GetInt32(0), warPlayer.GetInt32(1), warPlayer.GetInt32(2));
           perf = _GetPerformance("War", oldSkill, skill);
-          if (perf != null)
+          if (perf != null) {
             reply += perf;
+          }
         }
         // ***** end war *****
 
-        if (reply.Length > 0)
+        if (reply.Length > 0) {
           bc.SendReply(reply.EndsWithI(" | ") ? reply.Substring(0, reply.Length - 3) : reply);
+        }
 
         return;
       }
@@ -304,13 +321,14 @@ namespace Supay.Bot {
 
     private static SkillItem _GetItem(string skill, string input_item) {
       // Load items data file
-      SkillItems items = new SkillItems(skill);
+      var items = new SkillItems(skill);
 
       // Search for an exact match
       SkillItem item = items.Find(f => f.Name.ToUpperInvariant() == input_item.ToUpperInvariant());
       // Search for a partial match if the exact fails
-      if (item == null)
+      if (item == null) {
         item = items.Find(f => f.Name.ContainsI(input_item));
+      }
 
       return item;
     }
@@ -324,39 +342,46 @@ namespace Supay.Bot {
         input_monster = Regex.Replace(input_monster, "\\((\\d+)\\)", string.Empty).Trim();
       }
 
-      Monsters results = new Monsters(input_monster);
+      var results = new Monsters(input_monster);
 
       if (results.Count > 0) {
         Monster monster = null;
         if (level > 0) {
           // search for exact match at name and level
-          foreach (Monster m in results)
+          foreach (Monster m in results) {
             if (m.Name.ToUpperInvariant() == input_monster.ToUpperInvariant() && m.Level == level) {
               monster = m;
               break;
             }
+          }
           // search for partial match at name and level
-          if (monster == null)
-            foreach (Monster m in results)
+          if (monster == null) {
+            foreach (Monster m in results) {
               if (m.Name.ContainsI(input_monster) && m.Level == level) {
                 monster = m;
                 break;
               }
+            }
+          }
         }
         // search for exact match at name
-        if (monster == null)
-          foreach (Monster m in results)
+        if (monster == null) {
+          foreach (Monster m in results) {
             if (m.Name.ToUpperInvariant() == input_monster.ToUpperInvariant()) {
               monster = m;
               break;
             }
+          }
+        }
         // search for partial match at name
-        if (monster == null)
-          foreach (Monster m in results)
+        if (monster == null) {
+          foreach (Monster m in results) {
             if (m.Name.ContainsI(input_monster)) {
               monster = m;
               break;
             }
+          }
+        }
 
         if (monster != null) {
           monster.Update();
@@ -376,21 +401,23 @@ namespace Supay.Bot {
       if (skilldif.Exp > 0 || skilldif.Level > 0 || skilldif.Rank != 0) {
         string result = "\\u" + interval + ":\\u ";
 
-        if (skilldif.Exp > 0)
+        if (skilldif.Exp > 0) {
           result += "\\c03" + skilldif.Exp.ToShortString(1) + "\\c xp, ";
+        }
 
-        if (skilldif.Level > 0)
+        if (skilldif.Level > 0) {
           result += "\\c03" + skilldif.Level + "\\c level" + (skilldif.Level > 1 ? "s" : string.Empty) + ", ";
+        }
 
-        if (skilldif.Rank > 0)
+        if (skilldif.Rank > 0) {
           result += "\\c03+" + skilldif.Rank + "\\c rank" + (skilldif.Rank > 1 ? "s" : string.Empty);
-        else if (skilldif.Rank < 0)
+        } else if (skilldif.Rank < 0) {
           result += "\\c04" + skilldif.Rank + "\\c rank" + (skilldif.Rank < 1 ? "s" : string.Empty);
+        }
 
-        return (result.EndsWithI(", ") ? result.Substring(0, result.Length - 2) : result);
+        return result.EndsWithI(", ") ? result.Substring(0, result.Length - 2) : result;
       }
       return null;
     }
-
-  } //class Command
-} //namespace Supay.Bot
+  }
+}

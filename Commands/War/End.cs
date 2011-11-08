@@ -3,8 +3,7 @@ using System.Data.SQLite;
 using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
-  static partial class Command {
-
+  internal static partial class Command {
     public static void WarEnd(CommandContext bc) {
       if (!bc.IsAdmin) {
         bc.SendReply("You need to be a bot administrator to use this command.");
@@ -18,10 +17,10 @@ namespace Supay.Bot {
         channelName = matchChannel.Groups[1].Value;
         bc.Message = bc.Message.Replace(matchChannel.Value, string.Empty);
       }
-      SQLiteParameter channelNameParameter = new SQLiteParameter("@channelName", channelName);
+      var channelNameParameter = new SQLiteParameter("@channelName", channelName);
 
       // get skill name
-      string skillName = Database.Lookup<string>("skill", "wars", "channel=@channelName", new[] { channelNameParameter });
+      var skillName = Database.Lookup<string>("skill", "wars", "channel=@channelName", new[] { channelNameParameter });
       if (skillName == null) {
         bc.SendReply("You have to start a war in this channel first using !WarStart <skill>.");
         return;
@@ -30,7 +29,7 @@ namespace Supay.Bot {
       string reply = string.Empty;
       SQLiteDataReader warPlayers = Database.ExecuteReader("SELECT rsn FROM warPlayers WHERE channel='" + channelName + "'");
       for (int count = 1; warPlayers.Read(); count++) {
-        Player p = new Player(warPlayers.GetString(0));
+        var p = new Player(warPlayers.GetString(0));
         if (!p.Ranked) {
           bc.SendReply(@"Player \b" + p.Name + "\b has changed his/her name or was banned during the war, and couldn't be tracked.");
           continue;
@@ -54,6 +53,5 @@ namespace Supay.Bot {
       Database.ExecuteNonQuery("DELETE FROM wars WHERE channel='" + channelName + "'");
       Database.ExecuteNonQuery("DELETE FROM warPlayers WHERE channel='" + channelName + "'");
     }
-
-  } //class Command
-} //namespace Supay.Bot
+  }
+}

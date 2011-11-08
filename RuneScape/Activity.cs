@@ -2,8 +2,7 @@
 using System.Linq;
 
 namespace Supay.Bot {
-  class Activity : Hiscore, IEquatable<Activity>, IComparable<Activity> {
-
+  internal class Activity : Hiscore, IEquatable<Activity>, IComparable<Activity> {
     public const string DUEL = "Duel Tournament";
     public const string BOUN = "Bounty Hunters";
     public const string ROGU = "Bounty Hunter Rogues";
@@ -15,18 +14,7 @@ namespace Supay.Bot {
     public const string BAHE = "BA Healer";
     public const string CWAR = "Castle Wars";
 
-    private static readonly string[][] _aliases = {
-      new[] { DUEL, "DT", "DUEL", "DUELING", "DUELTOURNAMENT" },
-      new[] { BOUN, "BH", "BOUNTY", "BOUNTYHUNT", "BOUNTYHUNTER", "BOUNTYHUNTERS" },
-      new[] { ROGU, "BR", "BHR", "ROGUE", "ROGUES", "BOUNTYROGUE", "BOUNTYROGUES", "HUNTERROGUE", "HUNTERROGUES", "BOUNTYHUNTERROGUE", "BOUNTYHUNTERROGUES" },
-      new[] { FIST, "FG", "FOG", "FIST", "FISTING", "FISTOFGUTHIX" },
-      new[] { MOBI, "MO", "AR", "MOB", "MOBIL", "MOBILISING", "ARMY", "ARMYS", "ARMIES", "MOA", "MOBA", "MOBILISINGARMY", "MOBILISINGARMIES" },
-      new[] { BAAT, "BAAT", "BAATT", "BAATTACK", "BAATTACKER" },
-      new[] { BADE, "BADE", "BADEF", "BADEFEND", "BADEFENDER" },
-      new[] { BACO, "BACO", "BACOL", "BACOLL", "BACOLLECT", "BACOLLECTOR" },
-      new[] { BAHE, "BAHE", "BAHEAL", "BAHEALER" },
-      new[] { CWAR, "CW", "CWAR", "CWARS", "CASTLE", "CASTLEWARS" }
-    };
+    private static readonly string[][] _aliases = { new[] { DUEL, "DT", "DUEL", "DUELING", "DUELTOURNAMENT" }, new[] { BOUN, "BH", "BOUNTY", "BOUNTYHUNT", "BOUNTYHUNTER", "BOUNTYHUNTERS" }, new[] { ROGU, "BR", "BHR", "ROGUE", "ROGUES", "BOUNTYROGUE", "BOUNTYROGUES", "HUNTERROGUE", "HUNTERROGUES", "BOUNTYHUNTERROGUE", "BOUNTYHUNTERROGUES" }, new[] { FIST, "FG", "FOG", "FIST", "FISTING", "FISTOFGUTHIX" }, new[] { MOBI, "MO", "AR", "MOB", "MOBIL", "MOBILISING", "ARMY", "ARMYS", "ARMIES", "MOA", "MOBA", "MOBILISINGARMY", "MOBILISINGARMIES" }, new[] { BAAT, "BAAT", "BAATT", "BAATTACK", "BAATTACKER" }, new[] { BADE, "BADE", "BADEF", "BADEFEND", "BADEFENDER" }, new[] { BACO, "BACO", "BACOL", "BACOLL", "BACOLLECT", "BACOLLECTOR" }, new[] { BAHE, "BAHE", "BAHEAL", "BAHEALER" }, new[] { CWAR, "CW", "CWAR", "CWARS", "CASTLE", "CASTLEWARS" } };
 
     public Activity(string name, int rank, int score)
       : base(name, rank) {
@@ -43,7 +31,7 @@ namespace Supay.Bot {
         return false;
       }
 
-      foreach (string[] aliases in _aliases.Where(aliases => aliases.Any(alias => alias.EqualsI(s)))) {
+      foreach (var aliases in _aliases.Where(aliases => aliases.Any(alias => alias.EqualsI(s)))) {
         result = aliases[0];
         return true;
       }
@@ -56,7 +44,7 @@ namespace Supay.Bot {
         throw new ArgumentNullException("s");
       }
 
-      foreach (string[] aliases in _aliases.Where(aliases => aliases.Any(alias => alias.EqualsI(s)))) {
+      foreach (var aliases in _aliases.Where(aliases => aliases.Any(alias => alias.EqualsI(s)))) {
         return aliases[0];
       }
 
@@ -92,14 +80,13 @@ namespace Supay.Bot {
 
     #region IFormattable
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public override string ToString(string format, IFormatProvider provider) {
       if (string.IsNullOrEmpty(format)) {
         format = "G";
       }
 
       if (provider != null) {
-        ICustomFormatter formatter = provider.GetFormat(GetType()) as ICustomFormatter;
+        var formatter = provider.GetFormat(GetType()) as ICustomFormatter;
         if (formatter != null) {
           return formatter.Format(format, this, provider);
         }
@@ -113,9 +100,9 @@ namespace Supay.Bot {
         case "n":
           return Name.ToLowerInvariant();
         case "R":
-          return (Rank == -1 ? "Not ranked" : Rank.ToString("N0", provider));
+          return Rank == -1 ? "Not ranked" : Rank.ToString("N0", provider);
         case "r":
-          return (Rank == -1 ? "NR" : Rank.ToString("N0", provider));
+          return Rank == -1 ? "NR" : Rank.ToString("N0", provider);
         case "s":
           return Score.ToString("N0", provider);
         default:
@@ -157,6 +144,9 @@ namespace Supay.Bot {
 
     // {CompareTo < 0 => this < other} {CompareTo > 0 => this > other} {CompareTo == 0 => this == other}
     public int CompareTo(Activity other) {
+      if (ReferenceEquals(null, other)) {
+        return 1;
+      }
       if (ReferenceEquals(this, other)) {
         return 0;
       }
@@ -165,6 +155,5 @@ namespace Supay.Bot {
     }
 
     #endregion
-
-  } // class Activity
-} //namespace Supay.Bot
+  }
+}

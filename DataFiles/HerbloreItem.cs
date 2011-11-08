@@ -1,32 +1,31 @@
 ﻿using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
-  class HerbloreItem : SkillItem {
-
-    private int _potionId;
-    private Price _price;
-
-    private int[] _ingredientsIds;
+  internal class HerbloreItem : SkillItem {
+    private readonly int[] _ingredientsIds;
+    private readonly int _potionId;
     private int[] _ingredientsPrices;
+    private Price _price;
 
     public HerbloreItem(string[] tokens)
       : base(tokens) {
-
       // Field 4: Potion ID
       _potionId = int.Parse(tokens[4], CultureInfo.InvariantCulture);
 
       // Field 5: Ingredients
-      this.Ingredients = tokens[5].Split(';');
+      Ingredients = tokens[5].Split(';');
 
       // Field 6: Ingredients IDs
       string[] ingredientsIds = tokens[6].Split(';');
       _ingredientsIds = new int[ingredientsIds.Length];
-      for (int i = 0; i < ingredientsIds.Length; i++)
+      for (int i = 0; i < ingredientsIds.Length; i++) {
         _ingredientsIds[i] = int.Parse(ingredientsIds[i], CultureInfo.InvariantCulture);
+      }
 
       // Field 7: Potion effects
-      this.Effect = tokens[7];
+      Effect = tokens[7];
     }
 
     public string[] Ingredients {
@@ -40,13 +39,14 @@ namespace Supay.Bot {
           _ingredientsPrices = new int[_ingredientsIds.Length];
           for (int i = 0; i < _ingredientsIds.Length; i++) {
             if (_ingredientsIds[i] > 0) {
-              Price p = new Price(_ingredientsIds[i]);
+              var p = new Price(_ingredientsIds[i]);
               p.LoadFromCache();
 
               int qty = 1;
-              Match matchQty = Regex.Match(this.Ingredients[i], @"(\d+)x ");
-              if (matchQty.Success)
+              Match matchQty = Regex.Match(Ingredients[i], @"(\d+)x ");
+              if (matchQty.Success) {
                 qty = int.Parse(matchQty.Groups[1].Value, CultureInfo.InvariantCulture);
+              }
 
               _ingredientsPrices[i] = qty * p.MarketPrice;
             }
@@ -71,7 +71,7 @@ namespace Supay.Bot {
         if (_price == null) {
           _price = new Price(_potionId);
           _price.LoadFromCache();
-          Match matchQty = Regex.Match(this.Name, @"(\d+)x ");
+          Match matchQty = Regex.Match(Name, @"(\d+)x ");
           if (matchQty.Success) {
             qty = int.Parse(matchQty.Groups[1].Value, CultureInfo.InvariantCulture);
           }
@@ -82,13 +82,8 @@ namespace Supay.Bot {
 
     public int Cost {
       get {
-        int cost = 0;
-        foreach (int price in this.IngredientsPrices)
-          if (price != 0)
-            cost += price;
-        return cost;
+        return IngredientsPrices.Where(price => price != 0).Sum();
       }
     }
-
-  } //class HerbloreItem
-} //namespace Supay.Bot
+  }
+}

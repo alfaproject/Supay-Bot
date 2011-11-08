@@ -2,22 +2,20 @@
 using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
-  class MagicItem : SkillItem {
-
+  internal class MagicItem : SkillItem {
     public MagicItem(string[] tokens)
       : base(tokens) {
-
       // Field 4: Runes
-      this.Runes = tokens[4].Split(';');
+      Runes = tokens[4].Split(';');
 
       // Field 5: MaxHit
-      this.MaxHit = int.Parse(tokens[5], CultureInfo.InvariantCulture);
+      MaxHit = int.Parse(tokens[5], CultureInfo.InvariantCulture);
 
       // Field 6: Book
-      this.Book = tokens[6];
+      Book = tokens[6];
 
       // Field 7: Effect
-      this.Effect = tokens[7];
+      Effect = tokens[7];
     }
 
     public string[] Runes {
@@ -28,7 +26,7 @@ namespace Supay.Bot {
     public int RunesCost {
       get {
         int cost = 0;
-        foreach (string rune in this.Runes) {
+        foreach (string rune in Runes) {
           Match matchRune = Regex.Match(rune, @"(\d+)x (\w+)");
           if (matchRune.Success) {
             int runeId = 0;
@@ -76,7 +74,7 @@ namespace Supay.Bot {
                 runeId = 566;
                 break;
             }
-            Price price = new Price(runeId);
+            var price = new Price(runeId);
             price.LoadFromCache();
             cost += int.Parse(matchRune.Groups[1].Value, CultureInfo.InvariantCulture) * price.MarketPrice;
           }
@@ -99,6 +97,5 @@ namespace Supay.Bot {
       get;
       set;
     }
-
-  } //class MagicItem
-} //namespace Supay.Bot
+  }
+}

@@ -1,10 +1,9 @@
 ﻿using System;
 
 namespace Supay.Bot {
-  static class Utils {
-
+  internal static class Utils {
     private static int CalculateCombat(int neutralBonus, int meleeBonus, int magicBonus, int rangeBonus) {
-      return (int)Math.Floor((double)(neutralBonus * 100 + Math.Max(meleeBonus, Math.Max(magicBonus, rangeBonus)) * 130) / 400.0);
+      return (int) Math.Floor((neutralBonus * 100 + Math.Max(meleeBonus, Math.Max(magicBonus, rangeBonus)) * 130) / 400.0);
     }
 
     public static int CalculateCombat(int att, int str, int def, int hp, int ran, int pr, int mag, int sum) {
@@ -19,16 +18,13 @@ namespace Supay.Bot {
       if (@virtual) {
         if (f2p) {
           return CalculateCombat(skills[Skill.ATTA].VLevel, skills[Skill.STRE].VLevel, skills[Skill.DEFE].VLevel, skills[Skill.HITP].VLevel, skills[Skill.RANG].VLevel, skills[Skill.PRAY].VLevel, skills[Skill.MAGI].VLevel);
-        } else {
-          return CalculateCombat(skills[Skill.ATTA].VLevel, skills[Skill.STRE].VLevel, skills[Skill.DEFE].VLevel, skills[Skill.HITP].VLevel, skills[Skill.RANG].VLevel, skills[Skill.PRAY].VLevel, skills[Skill.MAGI].VLevel, skills[Skill.SUMM].VLevel);
         }
-      } else {
-        if (f2p) {
-          return CalculateCombat(skills[Skill.ATTA].Level, skills[Skill.STRE].Level, skills[Skill.DEFE].Level, skills[Skill.HITP].Level, skills[Skill.RANG].Level, skills[Skill.PRAY].Level, skills[Skill.MAGI].Level);
-        } else {
-          return CalculateCombat(skills[Skill.ATTA].Level, skills[Skill.STRE].Level, skills[Skill.DEFE].Level, skills[Skill.HITP].Level, skills[Skill.RANG].Level, skills[Skill.PRAY].Level, skills[Skill.MAGI].Level, skills[Skill.SUMM].Level);
-        }
+        return CalculateCombat(skills[Skill.ATTA].VLevel, skills[Skill.STRE].VLevel, skills[Skill.DEFE].VLevel, skills[Skill.HITP].VLevel, skills[Skill.RANG].VLevel, skills[Skill.PRAY].VLevel, skills[Skill.MAGI].VLevel, skills[Skill.SUMM].VLevel);
       }
+      if (f2p) {
+        return CalculateCombat(skills[Skill.ATTA].Level, skills[Skill.STRE].Level, skills[Skill.DEFE].Level, skills[Skill.HITP].Level, skills[Skill.RANG].Level, skills[Skill.PRAY].Level, skills[Skill.MAGI].Level);
+      }
+      return CalculateCombat(skills[Skill.ATTA].Level, skills[Skill.STRE].Level, skills[Skill.DEFE].Level, skills[Skill.HITP].Level, skills[Skill.RANG].Level, skills[Skill.PRAY].Level, skills[Skill.MAGI].Level, skills[Skill.SUMM].Level);
     }
 
     public static string CombatClass(int att, int str, int ran, int mag) {
@@ -36,22 +32,23 @@ namespace Supay.Bot {
       int magicBonus = mag + mag / 2;
       int rangeBonus = ran + ran / 2;
 
-      if (meleeBonus > magicBonus && meleeBonus > rangeBonus)
+      if (meleeBonus > magicBonus && meleeBonus > rangeBonus) {
         return "Warrior";
-      else if (magicBonus > meleeBonus && magicBonus > rangeBonus)
+      }
+      if (magicBonus > meleeBonus && magicBonus > rangeBonus) {
         return "Mage";
-      else if (rangeBonus > meleeBonus && rangeBonus > magicBonus)
+      }
+      if (rangeBonus > meleeBonus && rangeBonus > magicBonus) {
         return "Ranger";
-      else
-        return "Hybrid";
+      }
+      return "Hybrid";
     }
 
     public static string CombatClass(SkillDictionary skills, bool @virtual) {
       if (@virtual) {
         return CombatClass(skills[Skill.ATTA].VLevel, skills[Skill.STRE].VLevel, skills[Skill.RANG].VLevel, skills[Skill.MAGI].VLevel);
-      } else {
-        return CombatClass(skills[Skill.ATTA].Level, skills[Skill.STRE].Level, skills[Skill.RANG].Level, skills[Skill.MAGI].Level);
       }
+      return CombatClass(skills[Skill.ATTA].Level, skills[Skill.STRE].Level, skills[Skill.RANG].Level, skills[Skill.MAGI].Level);
     }
 
     public static int NextCombatAttStr(int att, int str, int def, int hp, int ran, int pr, int mag, int sum) {
@@ -119,10 +116,9 @@ namespace Supay.Bot {
           return level * level / 600 * 270;
         case Skill.SLAY:
           if (level < 30) {
-            return (int)Math.Round(6.7 * Math.Pow(1.1052, (double)level));
-          } else {
-            return (int)Math.Round(0.002848 * (double)(level * level) + 0.14 * Math.Log((double)level)) * 45;
+            return (int) Math.Round(6.7 * Math.Pow(1.1052, level));
           }
+          return (int) Math.Round(0.002848 * (level * level) + 0.14 * Math.Log(level)) * 45;
         default:
           throw new ArgumentOutOfRangeException("skill");
       }
@@ -131,9 +127,9 @@ namespace Supay.Bot {
     public static int SoulWarsZealToExp(string skill, int startExp, int targetExp, bool bonus) {
       int zeal = 0;
       while (startExp < targetExp) {
-        int expPerZeal = Utils.SoulWarsExpPerZeal(skill, startExp.ToLevel());
+        int expPerZeal = SoulWarsExpPerZeal(skill, startExp.ToLevel());
         if (bonus) {
-          startExp += (int)((double)(100 * expPerZeal) * 1.1);
+          startExp += (int) ((100 * expPerZeal) * 1.1);
           zeal += 100;
         } else {
           startExp += expPerZeal;
@@ -165,20 +161,20 @@ namespace Supay.Bot {
         default:
           throw new ArgumentOutOfRangeException("skill");
       }
-      return (int)Math.Ceiling((double)((level + 25) * (level - 24)) / 606.0) * modifier;
+      return (int) Math.Ceiling(((level + 25) * (level - 24)) / 606.0) * modifier;
     }
 
     public static int PestControlPointsToExp(string skill, int startExp, int targetExp, int bonus) {
       int points = 0;
       while (startExp < targetExp) {
-        int expPerPoint = Utils.PestControlExpPerPoint(skill, startExp.ToLevel());
+        int expPerPoint = PestControlExpPerPoint(skill, startExp.ToLevel());
         switch (bonus) {
           case 10:
-            startExp += (int)((double)(10 * expPerPoint) * 1.01);
+            startExp += (int) ((10 * expPerPoint) * 1.01);
             points += 10;
             break;
           case 100:
-            startExp += (int)((double)(100 * expPerPoint) * 1.1);
+            startExp += (int) ((100 * expPerPoint) * 1.1);
             points += 100;
             break;
           default:
@@ -207,6 +203,5 @@ namespace Supay.Bot {
       }
       return books;
     }
-
-  } //class Utils
-} //namespace Supay.Bot
+  }
+}

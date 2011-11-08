@@ -1,9 +1,7 @@
-﻿using System.Globalization;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
-  static class CmdLinks {
-
+  internal static class CmdLinks {
     public static void Qfc(CommandContext bc) {
       if (bc.MessageTokens.Length == 1) {
         bc.SendReply("Syntax: !Qfc <qfc>");
@@ -17,6 +15,5 @@ namespace Supay.Bot {
         bc.SendReply("Quick find code \\c07{0}-{1}-{2}-{3}\\c: \\c12http://forum.runescape.com/forums.ws?{0},{1},{2},{3}\\c".FormatWith(qfc.Groups[1].Value, qfc.Groups[2].Value, qfc.Groups[3].Value, qfc.Groups[4].Value));
       }
     }
-
-  } //class CmdLinks
-} //namespace Supay.Bot
+  }
+}

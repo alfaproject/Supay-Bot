@@ -1,27 +1,30 @@
 ﻿using System;
 using System.Data.SQLite;
-using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
-  static class Database {
+  internal class Database {
+    private static readonly Lazy<Database> _instance = new Lazy<Database>(() => new Database());
+    private readonly SQLiteConnection _connection;
 
-    private static readonly Lazy<SQLiteConnection> _connection = new Lazy<SQLiteConnection>(() => new SQLiteConnection());
-
-    static Database() {
+    private Database() {
       // initialize connection
-      _connection.Value.ConnectionString = @"Data Source=Data/BigSister.db";
-      _connection.Value.Open();
+      _connection = new SQLiteConnection(@"Data Source=Data/BigSister.db");
+      _connection.Open();
     }
 
     public static SQLiteDataReader ExecuteReader(string sql) {
-      SQLiteCommand com = new SQLiteCommand(sql, _connection.Value);
-      return com.ExecuteReader();
+      SQLiteDataReader reader;
+      using (var command = new SQLiteCommand(sql, _instance.Value._connection)) {
+        reader = command.ExecuteReader();
+      }
+      return reader;
     }
 
     public static void ExecuteNonQuery(string sql) {
-      SQLiteCommand com = new SQLiteCommand(sql, _connection.Value);
-      com.ExecuteNonQuery();
+      using (var command = new SQLiteCommand(sql, _instance.Value._connection)) {
+        command.ExecuteNonQuery();
+      }
     }
 
     public static string LastUpdate(string rsn) {
@@ -39,7 +42,7 @@ namespace Supay.Bot {
         sql += "'" + fieldsValues[i].Replace("'", "''") + "', ";
       }
 
-      Database.ExecuteNonQuery(sql.Substring(0, sql.Length - 2) + ");");
+      ExecuteNonQuery(sql.Substring(0, sql.Length - 2) + ");");
     }
 
     public static void Update(string table, string condition, params string[] fieldsValues) {
@@ -53,7 +56,7 @@ namespace Supay.Bot {
         sql += " WHERE " + condition;
       }
 
-      Database.ExecuteNonQuery(sql + ";");
+      ExecuteNonQuery(sql + ";");
     }
 
     public static string GetStringParameter(string table, string field, string condition, string parameter, string defaultValue) {
@@ -71,7 +74,7 @@ namespace Supay.Bot {
       } else {
         fieldValue += parameter + ":" + value + ";";
       }
-      Database.Update(table, condition, field, fieldValue);
+      Update(table, condition, field, fieldValue);
     }
 
     public static T Lookup<T>(string field, string table, string condition = null, SQLiteParameter[] parameters = null, T defaultValue = default(T)) {
@@ -84,16 +87,17 @@ namespace Supay.Bot {
         }
       }
 
-      SQLiteCommand command = new SQLiteCommand(sql + " LIMIT 1", _connection.Value);
-      if (parameters != null) {
-        command.Parameters.AddRange(parameters);
+      object result;
+      using (var command = new SQLiteCommand(sql + " LIMIT 1", _instance.Value._connection)) {
+        if (parameters != null) {
+          command.Parameters.AddRange(parameters);
+        }
+        result = command.ExecuteScalar();
       }
-      object result = command.ExecuteScalar();
       if (result == null || result is DBNull) {
         return defaultValue;
       }
       return (T) result;
     }
-
-  } //class DataBase
-} //namespace Supay.Bot
+  }
+}

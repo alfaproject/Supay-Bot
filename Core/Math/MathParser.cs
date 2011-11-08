@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 
 namespace Supay.Bot {
-  class MathParser {
-
+  internal class MathParser {
     // actions
-    private const int SHIFT = 0;  // shift
+    private const int SHIFT = 0; // shift
     private const int REDUCE = 1; // reduce
     private const int ACCEPT = 2; // accept
     private const int ERROR1 = 3; // error: missing right parenthesis
@@ -14,87 +13,61 @@ namespace Supay.Bot {
     private const int ERROR4 = 6; // error: invalid function argument
 
     // operators
-    private const int ADD = 0;   // +
-    private const int SUB = 1;   // -
-    private const int MUL = 2;   // *
-    private const int DIV = 3;   // /
-    private const int MOD = 4;   // %
-    private const int DIVI = 5;  // \
-    private const int POW = 6;   // ^
-    private const int UMI = 7;   // - (unary minus)
-    private const int FACT = 8;  // ! (factorial)
-    private const int FUN = 9;   // function
+    private const int ADD = 0; // +
+    private const int SUB = 1; // -
+    private const int MUL = 2; // *
+    private const int DIV = 3; // /
+    private const int MOD = 4; // %
+    private const int DIVI = 5; // \
+    private const int POW = 6; // ^
+    private const int UMI = 7; // - (unary minus)
+    private const int FACT = 8; // ! (factorial)
+    private const int FUN = 9; // function
     private const int SCOL = 10; // ; (semicolon - function arguments separator)
     private const int LPAR = 11; // (
     private const int RPAR = 12; // )
-    private const int EOF = 13;  // end of expression
-    private const int VAL = 14;  // constant
+    private const int EOF = 13; // end of expression
+    private const int VAL = 14; // constant
+    private readonly Random _randomizer;
+    private readonly int[][] _states;
 
     // structure to store token information
-    private struct Token {
-      public string Expr;
-      public int Type;
-      public double Value;
-
-      public Token(string expr, int type, double value) {
-        this.Expr = expr;
-        this.Type = type;
-        this.Value = value;
-      }
-
-      public Token(string expr, int type) {
-        this.Expr = expr;
-        this.Type = type;
-        this.Value = 0;
-      }
-
-      public Token(char expr, int type)
-        : this(expr.ToStringI(), type) {
-      }
-    }
 
     // expression used to evaluate
     private string _expression;
 
     // list of tokens for this expression
-    List<Token> _tokens;
-
-    // value of this expression
-    double? _value;
-
-    // number of operations
-    int _operations;
 
     // last answer value
-    double _lastAnswer;
+    private double _lastAnswer;
 
     // last error
-    string _lastError;
+    private string _lastError;
+    private int _operations;
+    private List<Token> _tokens;
+
+    // value of this expression
+    private double? _value;
 
     // states machine table
-    private int[][] _states;
-
-    // used to generate random numbers
-    private Random _randomizer;
 
     public MathParser() {
       // initialize the states machine
-      _states = new int[][] {
-        // INPUT:       +       -       *       /       %       \       ^      -u       !     fun       ;       (       )     eof   // STACK:
-        new int[] {REDUCE, REDUCE,  SHIFT,  SHIFT,  SHIFT,  SHIFT,  SHIFT,  SHIFT,  SHIFT,  SHIFT, REDUCE,  SHIFT, REDUCE, REDUCE}, // +
-        new int[] {REDUCE, REDUCE,  SHIFT,  SHIFT,  SHIFT,  SHIFT,  SHIFT,  SHIFT,  SHIFT,  SHIFT, REDUCE,  SHIFT, REDUCE, REDUCE}, // -
-        new int[] {REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE,  SHIFT,  SHIFT,  SHIFT,  SHIFT, REDUCE,  SHIFT, REDUCE, REDUCE}, // *
-        new int[] {REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE,  SHIFT,  SHIFT,  SHIFT,  SHIFT, REDUCE,  SHIFT, REDUCE, REDUCE}, // /
-        new int[] {REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE,  SHIFT,  SHIFT,  SHIFT,  SHIFT, REDUCE,  SHIFT, REDUCE, REDUCE}, // %
-        new int[] {REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE,  SHIFT,  SHIFT,  SHIFT,  SHIFT, REDUCE,  SHIFT, REDUCE, REDUCE}, // \
-        new int[] {REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE,  SHIFT,  SHIFT,  SHIFT,  SHIFT, REDUCE,  SHIFT, REDUCE, REDUCE}, // ^
-        new int[] {REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE,  SHIFT,  SHIFT,  SHIFT, REDUCE,  SHIFT, REDUCE, REDUCE}, // unary -
-        new int[] {REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE,  SHIFT,  SHIFT,  SHIFT, REDUCE,  SHIFT, REDUCE, REDUCE}, // !
-        new int[] {REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE,  SHIFT, REDUCE, REDUCE}, // function
-        new int[] {REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, ERROR4, REDUCE, REDUCE, ERROR4}, // ;
-        new int[] { SHIFT,  SHIFT,  SHIFT,  SHIFT,  SHIFT,  SHIFT,  SHIFT,  SHIFT,  SHIFT,  SHIFT,  SHIFT,  SHIFT,  SHIFT, ERROR1}, // (
-        new int[] {REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, ERROR3, ERROR4, ERROR2, REDUCE, REDUCE}, // )
-        new int[] { SHIFT,  SHIFT,  SHIFT,  SHIFT,  SHIFT,  SHIFT,  SHIFT,  SHIFT,  SHIFT,  SHIFT, ERROR4,  SHIFT, ERROR3, ACCEPT}  // eof
+      _states = new[] { // INPUT:       +       -       *       /       %       \       ^      -u       !     fun       ;       (       )     eof   // STACK:
+        new[] { REDUCE, REDUCE, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, REDUCE, SHIFT, REDUCE, REDUCE }, // +
+        new[] { REDUCE, REDUCE, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, REDUCE, SHIFT, REDUCE, REDUCE }, // -
+        new[] { REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, SHIFT, SHIFT, SHIFT, SHIFT, REDUCE, SHIFT, REDUCE, REDUCE }, // *
+        new[] { REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, SHIFT, SHIFT, SHIFT, SHIFT, REDUCE, SHIFT, REDUCE, REDUCE }, // /
+        new[] { REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, SHIFT, SHIFT, SHIFT, SHIFT, REDUCE, SHIFT, REDUCE, REDUCE }, // %
+        new[] { REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, SHIFT, SHIFT, SHIFT, SHIFT, REDUCE, SHIFT, REDUCE, REDUCE }, // \
+        new[] { REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, SHIFT, SHIFT, SHIFT, SHIFT, REDUCE, SHIFT, REDUCE, REDUCE }, // ^
+        new[] { REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, SHIFT, SHIFT, SHIFT, REDUCE, SHIFT, REDUCE, REDUCE }, // unary -
+        new[] { REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, SHIFT, SHIFT, SHIFT, REDUCE, SHIFT, REDUCE, REDUCE }, // !
+        new[] { REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, SHIFT, REDUCE, REDUCE }, // function
+        new[] { REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, ERROR4, REDUCE, REDUCE, ERROR4 }, // ;
+        new[] { SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, ERROR1 }, // (
+        new[] { REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, ERROR3, ERROR4, ERROR2, REDUCE, REDUCE }, // )
+        new[] { SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, ERROR4, SHIFT, ERROR3, ACCEPT } // eof
       };
 
       // initialize random number generator with a system timer based seed
@@ -103,16 +76,15 @@ namespace Supay.Bot {
 
     public MathParser(double lastAnswer)
       : this() {
-
       // start with a custom lastanswer
       _lastAnswer = lastAnswer;
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase")]
     public string Expression {
       get {
-        if (_tokens == null)
+        if (_tokens == null) {
           return _expression;
+        }
 
         // prettyfy the expression
         string ret = string.Empty;
@@ -136,7 +108,7 @@ namespace Supay.Bot {
               break;
             case EOF:
               break;
-            // ignore 
+              // ignore 
             default:
               ret += token.Expr;
               break;
@@ -158,13 +130,13 @@ namespace Supay.Bot {
 
     public string ValueAsString {
       get {
-        if (_value == null)
-          if (_lastError != null)
+        if (_value == null) {
+          if (_lastError != null) {
             return "{error: " + _lastError + "}";
-          else
-            return "{error}";
-        else
-          return ((double)_value).ToStringI("#,##0.######");
+          }
+          return "{error}";
+        }
+        return ((double) _value).ToStringI("#,##0.######");
       }
     }
 
@@ -187,56 +159,64 @@ namespace Supay.Bot {
     }
 
     private void _Reduce(Stack<Token> ops, Stack<double> vals) {
-      double temp1, temp2;
+      double temp1,
+        temp2;
 
       // increment number of operations
-      if (ops.Peek().Type != UMI && ops.Peek().Type != RPAR)
+      if (ops.Peek().Type != UMI && ops.Peek().Type != RPAR) {
         _operations++;
+      }
 
       switch (ops.Peek().Type) {
         case ADD: // E = E + E
-          if (vals.Count < 2)
+          if (vals.Count < 2) {
             throw new InvalidOperationException("Syntax error");
+          }
           temp2 = vals.Pop();
           temp1 = vals.Pop();
           vals.Push(temp1 + temp2);
           break;
 
         case SUB: // E = E - E
-          if (vals.Count < 2)
+          if (vals.Count < 2) {
             throw new InvalidOperationException("Syntax error");
+          }
           temp2 = vals.Pop();
           temp1 = vals.Pop();
           vals.Push(temp1 - temp2);
           break;
 
         case MUL: // E = E * E
-          if (vals.Count < 2)
+          if (vals.Count < 2) {
             throw new InvalidOperationException("Syntax error");
+          }
           temp2 = vals.Pop();
           temp1 = vals.Pop();
           vals.Push(temp1 * temp2);
           break;
 
         case DIV: // E = E / E
-          if (vals.Count < 2)
+          if (vals.Count < 2) {
             throw new InvalidOperationException("Syntax error");
+          }
           temp2 = vals.Pop();
           temp1 = vals.Pop();
           vals.Push(temp1 / temp2);
           break;
 
         case MOD: // E = E % E
-          if (vals.Count < 2)
+          if (vals.Count < 2) {
             throw new InvalidOperationException("Syntax error");
+          }
           temp2 = vals.Pop();
           temp1 = vals.Pop();
           vals.Push(temp1 % temp2);
           break;
 
         case DIVI: // E = E \ E
-          if (vals.Count < 2)
+          if (vals.Count < 2) {
             throw new InvalidOperationException("Syntax error");
+          }
 
           temp2 = vals.Pop();
           temp1 = vals.Pop();
@@ -244,45 +224,49 @@ namespace Supay.Bot {
           break;
 
         case POW: // E = E ^ E
-          if (vals.Count < 2)
+          if (vals.Count < 2) {
             throw new InvalidOperationException("Syntax error");
+          }
           temp2 = vals.Pop();
           temp1 = vals.Pop();
           vals.Push(Math.Pow(temp1, temp2));
           break;
 
         case UMI: // E = -E
-          if (vals.Count < 1)
+          if (vals.Count < 1) {
             throw new InvalidOperationException("Syntax error");
+          }
           temp1 = vals.Pop();
           vals.Push(-temp1);
           break;
 
         case FACT: // E = E!
-          if (vals.Count < 1)
+          if (vals.Count < 1) {
             throw new InvalidOperationException("Syntax error");
+          }
           temp1 = vals.Pop();
           vals.Push(Math2.Factorial(temp1));
           break;
 
         case FUN: // E = fun(arg1[, arg2])
           // functions must have at least 1 argument
-          if (vals.Count < 1)
+          if (vals.Count < 1) {
             throw new InvalidOperationException("Function \"" + ops.Peek().Expr + "\" has missing arguments.");
+          }
           temp1 = vals.Pop();
 
           switch (ops.Peek().Expr) {
-            // RUNESCAPE FUNCTIONS
+              // RUNESCAPE FUNCTIONS
             case "xp":
-              vals.Push(((int)temp1).ToExp());
+              vals.Push(((int) temp1).ToExp());
               break;
 
             case "lvl":
             case "level":
-              vals.Push(((int)temp1).ToLevel());
+              vals.Push(((int) temp1).ToLevel());
               break;
 
-            // OTHER FUNCTIONS
+              // OTHER FUNCTIONS
             case "fact":
               vals.Push(Math2.Factorial(temp1));
               break;
@@ -299,7 +283,7 @@ namespace Supay.Bot {
               vals.Push(Math.Sign(temp1));
               break;
 
-            // LOGARITHMIC FUNCTIONS
+              // LOGARITHMIC FUNCTIONS
             case "ln":
               vals.Push(Math.Log(temp1));
               break;
@@ -313,7 +297,7 @@ namespace Supay.Bot {
               vals.Push(Math.Exp(temp1));
               break;
 
-            // ROUNDING FUNCTIONS
+              // ROUNDING FUNCTIONS
             case "floor":
               vals.Push(Math.Floor(temp1));
               break;
@@ -332,7 +316,7 @@ namespace Supay.Bot {
               vals.Push(Math.Truncate(temp1));
               break;
 
-            // TRIGONOMETRIC FUNCTIONS
+              // TRIGONOMETRIC FUNCTIONS
             case "sin":
               vals.Push(Math.Sin(temp1));
               break;
@@ -399,7 +383,7 @@ namespace Supay.Bot {
               vals.Push(Math.PI / 2 - Math.Atan(temp1));
               break;
 
-            // HYPERBOLIC FUNCTIONS
+              // HYPERBOLIC FUNCTIONS
             case "sinh":
               vals.Push(Math.Sinh(temp1));
               break;
@@ -466,27 +450,30 @@ namespace Supay.Bot {
               vals.Push(0.5 * Math.Log((temp1 + 1) / (temp1 - 1)));
               break;
 
-            // 2 argument functions
+              // 2 argument functions
             case "pow":
             case "power":
-              if (vals.Count < 1)
+              if (vals.Count < 1) {
                 throw new InvalidOperationException("Syntax error");
+              }
               temp2 = temp1;
               temp1 = vals.Pop();
               vals.Push(Math.Pow(temp1, temp2));
               break;
 
             case "min":
-              if (vals.Count < 1)
+              if (vals.Count < 1) {
                 throw new InvalidOperationException("Syntax error");
+              }
               temp2 = temp1;
               temp1 = vals.Pop();
               vals.Push(Math.Min(temp1, temp2));
               break;
 
             case "max":
-              if (vals.Count < 1)
+              if (vals.Count < 1) {
                 throw new InvalidOperationException("Syntax error");
+              }
               temp2 = temp1;
               temp1 = vals.Pop();
               vals.Push(Math.Max(temp1, temp2));
@@ -494,11 +481,12 @@ namespace Supay.Bot {
 
             case "rand":
             case "random":
-              if (vals.Count < 1)
+              if (vals.Count < 1) {
                 throw new InvalidOperationException("Syntax error");
+              }
               temp2 = temp1;
               temp1 = vals.Pop();
-              vals.Push(_randomizer.Next((int)temp1, (int)temp2));
+              vals.Push(_randomizer.Next((int) temp1, (int) temp2));
               break;
 
             case "p": // E = p(N, R)
@@ -506,8 +494,9 @@ namespace Supay.Bot {
             case "permut":
             case "npr":
               // p(n,r): permutations, n objects, r at a time
-              if (vals.Count < 1)
+              if (vals.Count < 1) {
                 throw new InvalidOperationException("Syntax error");
+              }
               temp2 = temp1;
               temp1 = vals.Pop();
               vals.Push(Math2.Permutation(temp1, temp2));
@@ -517,8 +506,9 @@ namespace Supay.Bot {
             case "comb":
             case "ncr":
               // c(n,r): combinations, n objects, r at a time
-              if (vals.Count < 1)
+              if (vals.Count < 1) {
                 throw new InvalidOperationException("Syntax error");
+              }
               temp2 = temp1;
               temp1 = vals.Pop();
               vals.Push(Math2.Combination(temp1, temp2));
@@ -560,13 +550,16 @@ namespace Supay.Bot {
           // ignore the dot
           _currentpos++;
           return ScanFrac(ref _currentpos, n);
-        } else if (_expression[_currentpos] == 'k') {
+        }
+        if (_expression[_currentpos] == 'k') {
           _currentpos++;
           return n * 1000.0;
-        } else if (_expression[_currentpos] == 'm') {
+        }
+        if (_expression[_currentpos] == 'm') {
           _currentpos++;
           return n * 1000000.0;
-        } else if (_expression[_currentpos] == 'b') {
+        }
+        if (_expression[_currentpos] == 'b') {
           _currentpos++;
           return n * 1000000000.0;
         }
@@ -589,10 +582,12 @@ namespace Supay.Bot {
         if (_expression[_currentpos] == 'k') {
           _currentpos++;
           return n * 1000.0;
-        } else if (_expression[_currentpos] == 'm') {
+        }
+        if (_expression[_currentpos] == 'm') {
           _currentpos++;
           return n * 1000000.0;
-        } else if (_expression[_currentpos] == 'b') {
+        }
+        if (_expression[_currentpos] == 'b') {
           _currentpos++;
           return n * 1000000000.0;
         }
@@ -602,7 +597,7 @@ namespace Supay.Bot {
     }
 
     private List<Token> Scan() {
-      List<Token> ret = new List<Token>();
+      var ret = new List<Token>();
 
       int _currentpos = 0;
       while (_currentpos < _expression.Length) {
@@ -709,8 +704,8 @@ namespace Supay.Bot {
         int token = 0;
 
         // initialize stacks
-        Stack<double> _vals = new Stack<double>(); // value stack
-        Stack<Token> _ops = new Stack<Token>();    // operator stack
+        var _vals = new Stack<double>(); // value stack
+        var _ops = new Stack<Token>(); // operator stack
         _ops.Push(new Token("EOF", EOF));
 
         // reset operations count
@@ -726,7 +721,7 @@ namespace Supay.Bot {
             token++;
           } else {
             // input is operator
-            switch (_states[(int)_ops.Peek().Type][(int)_tokens[token].Type]) {
+            switch (_states[_ops.Peek().Type][_tokens[token].Type]) {
               case REDUCE:
                 _Reduce(_ops, _vals);
                 break;
@@ -741,11 +736,10 @@ namespace Supay.Bot {
                 // accept
                 if (_vals.Count == 1) {
                   _value = _vals.Pop();
-                  _lastAnswer = (double)_value;
+                  _lastAnswer = (double) _value;
                   return _value;
-                } else {
-                  throw new InvalidOperationException("Syntax error");
                 }
+                throw new InvalidOperationException("Syntax error");
               case ERROR1:
                 throw new InvalidOperationException("Missing right parenthesis");
               case ERROR2:
@@ -765,30 +759,57 @@ namespace Supay.Bot {
     }
 
     public double? Evaluate(string expression) {
-      this.Expression = expression;
+      Expression = expression;
       return _value;
     }
 
     public static bool TryCalc(string s, out double result_value) {
       result_value = 0;
 
-      if (s == null)
+      if (s == null) {
         return false;
+      }
 
       s = s.Trim();
-      if (s.Length == 0)
+      if (s.Length == 0) {
         return false;
+      }
 
       // evaluate and output the result
-      MathParser c = new MathParser();
+      var c = new MathParser();
       c.Evaluate(s);
       if (c.Value != null) {
-        result_value = (double)c.Value;
+        result_value = (double) c.Value;
         return true;
       }
 
       return false;
     }
 
-  } //class MathParser
-} //namespace Supay.Bot
+    #region Nested type: Token
+
+    private struct Token {
+      public readonly string Expr;
+      public readonly int Type;
+      public readonly double Value;
+
+      public Token(string expr, int type, double value) {
+        Expr = expr;
+        Type = type;
+        Value = value;
+      }
+
+      public Token(string expr, int type) {
+        Expr = expr;
+        Type = type;
+        Value = 0;
+      }
+
+      public Token(char expr, int type)
+        : this(expr.ToStringI(), type) {
+      }
+    }
+
+    #endregion
+  }
+}

@@ -3,8 +3,7 @@ using System.Data.SQLite;
 using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
-  static partial class Command {
-
+  internal static partial class Command {
     public static void WarTop(CommandContext bc) {
       // get channel name
       string channelName = bc.Channel;
@@ -13,10 +12,10 @@ namespace Supay.Bot {
         channelName = matchChannel.Groups[1].Value;
         bc.Message = bc.Message.Replace(matchChannel.Value, string.Empty);
       }
-      SQLiteParameter channelNameParameter = new SQLiteParameter("@channelName", channelName);
+      var channelNameParameter = new SQLiteParameter("@channelName", channelName);
 
       // get skill name
-      string skill = Database.Lookup<string>("skill", "wars", "channel=@channelName", new[] { channelNameParameter });
+      var skill = Database.Lookup<string>("skill", "wars", "channel=@channelName", new[] { channelNameParameter });
       if (skill == null) {
         bc.SendReply("There isn't a war going on in this channel.");
         return;
@@ -25,10 +24,10 @@ namespace Supay.Bot {
       bc.SendReply("Please wait while the bot gathers all players stats...");
 
       // Create a list of the war players
-      Players warPlayers = new Players();
+      var warPlayers = new Players();
       SQLiteDataReader warPlayersDr = Database.ExecuteReader("SELECT rsn, startrank, startlevel, startexp FROM warplayers WHERE channel='" + channelName + "';");
       while (warPlayersDr.Read()) {
-        Player warPlayer = new Player(warPlayersDr.GetString(0));
+        var warPlayer = new Player(warPlayersDr.GetString(0));
         if (warPlayer.Ranked) {
           warPlayer.Skills[skill] -= new Skill(skill, warPlayersDr.GetInt32(1), warPlayersDr.GetInt32(2), warPlayersDr.GetInt32(3));
           warPlayers.Add(warPlayer);
@@ -104,6 +103,5 @@ namespace Supay.Bot {
 
       bc.SendReply(reply);
     }
-
-  } //class Command
-} //namespace Supay.Bot
+  }
+}
