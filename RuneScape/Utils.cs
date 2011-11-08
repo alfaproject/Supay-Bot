@@ -57,48 +57,48 @@ namespace Supay.Bot {
     public static int NextCombatAttStr(int att, int str, int def, int hp, int ran, int pr, int mag, int sum) {
       int initialAtt = att;
       int initialCombat = CalculateCombat(att, str, def, hp, ran, pr, mag, sum);
-      while (CalculateCombat(++att, str, def, hp, ran, pr, mag, sum) <= initialCombat)
-        ;
+      while (CalculateCombat(++att, str, def, hp, ran, pr, mag, sum) <= initialCombat) {
+      }
       return att - initialAtt;
     }
 
     public static int NextCombatDefHp(int att, int str, int def, int hp, int ran, int pr, int mag, int sum) {
       int initialDef = def;
       int initialCombat = CalculateCombat(att, str, def, hp, ran, pr, mag, sum);
-      while (CalculateCombat(att, str, ++def, hp, ran, pr, mag, sum) <= initialCombat)
-        ;
+      while (CalculateCombat(att, str, ++def, hp, ran, pr, mag, sum) <= initialCombat) {
+      }
       return def - initialDef;
     }
 
     public static int NextCombatMag(int att, int str, int def, int hp, int ran, int pr, int mag, int sum) {
       int initialMag = mag;
       int initialCombat = CalculateCombat(att, str, def, hp, ran, pr, mag, sum);
-      while (CalculateCombat(att, str, def, hp, ran, pr, ++mag, sum) <= initialCombat)
-        ;
+      while (CalculateCombat(att, str, def, hp, ran, pr, ++mag, sum) <= initialCombat) {
+      }
       return mag - initialMag;
     }
 
     public static int NextCombatRan(int att, int str, int def, int hp, int ran, int pr, int mag, int sum) {
       int initialRan = ran;
       int initialCombat = CalculateCombat(att, str, def, hp, ran, pr, mag, sum);
-      while (CalculateCombat(att, str, def, hp, ++ran, pr, mag, sum) <= initialCombat)
-        ;
+      while (CalculateCombat(att, str, def, hp, ++ran, pr, mag, sum) <= initialCombat) {
+      }
       return ran - initialRan;
     }
 
     public static int NextCombatPray(int att, int str, int def, int hp, int ran, int pr, int mag, int sum) {
       int initialPray = pr;
       int initialCombat = CalculateCombat(att, str, def, hp, ran, pr, mag, sum);
-      while (CalculateCombat(att, str, def, hp, ran, ++pr, mag, sum) <= initialCombat)
-        ;
+      while (CalculateCombat(att, str, def, hp, ran, ++pr, mag, sum) <= initialCombat) {
+      }
       return pr - initialPray;
     }
 
     public static int NextCombatSum(int att, int str, int def, int hp, int ran, int pr, int mag, int sum) {
       int initialSum = sum;
       int initialCombat = CalculateCombat(att, str, def, hp, ran, pr, mag, sum);
-      while (CalculateCombat(att, str, def, hp, ran, pr, mag, ++sum) <= initialCombat)
-        ;
+      while (CalculateCombat(att, str, def, hp, ran, pr, mag, ++sum) <= initialCombat) {
+      }
       return sum - initialSum;
     }
 
