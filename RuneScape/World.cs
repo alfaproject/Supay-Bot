@@ -14,9 +14,6 @@ namespace Supay.Bot {
     public bool PVP;
     public bool QuickChat;
 
-    public World() {
-    }
-
     #region IComparable<World> Members
 
     public int CompareTo(World other) {

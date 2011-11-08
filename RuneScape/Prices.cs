@@ -5,12 +5,10 @@ using System.Text.RegularExpressions;
 namespace Supay.Bot {
   class Prices : List<Price> {
 
-    public Prices()
-      : base() {
+    public Prices() {
     }
 
-    public Prices(string query)
-      : base() {
+    public Prices(string query) {
       Search(query);
     }
 

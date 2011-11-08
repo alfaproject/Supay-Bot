@@ -4,9 +4,7 @@ using System.IO;
 namespace Supay.Bot {
   class SkillItems : List<SkillItem> {
 
-    public SkillItems(string skill)
-      : base() {
-
+    public SkillItems(string skill) {
       StreamReader dataFile = new StreamReader("Data/Items.txt");
       string dataLine;
       while ((dataLine = dataFile.ReadLine()) != null) {
@@ -34,9 +32,7 @@ namespace Supay.Bot {
       dataFile.Close();
     }
 
-    public SkillItems()
-      : base() {
-
+    public SkillItems() {
       StreamReader dataFile = new StreamReader("Data/Items.txt");
       string dataLine;
       while ((dataLine = dataFile.ReadLine()) != null) {

@@ -5,8 +5,7 @@ using Newtonsoft.Json.Linq;
 namespace Supay.Bot {
   class Items : List<Item> {
 
-    public Items(string query)
-      : base() {
+    public Items(string query) {
       try {
         string resultsPage = new System.Net.WebClient().DownloadString("http://www.zybez.net/exResults.aspx?type=1&search=name=" + query);
         JArray results = (JArray)JObject.Parse(resultsPage)["results"];

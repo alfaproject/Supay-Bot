@@ -156,13 +156,10 @@ namespace Supay.Bot {
       }
 
       try {
-        string desc, url;
         DateTime startTime;
         string eventPage = new System.Net.WebClient().DownloadString("http://ss.rsportugal.org/parser.php?type=event&channel=" + Uri.EscapeDataString(mainChannel));
         JObject nextEvent = JObject.Parse(eventPage);
         startTime = DateTime.ParseExact((string)nextEvent["startTime"], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
-        desc = (string)nextEvent["desc"];
-        url = (string)nextEvent["url"];
         SQLiteDataReader rsTimer = Database.ExecuteReader("SELECT fingerprint, nick, name, duration, started FROM timers;");
         while (rsTimer.Read()) {
           if (rsTimer.GetString(2) == (string)nextEvent["id"])
@@ -223,7 +220,6 @@ namespace Supay.Bot {
                 }
               }
             } else {
-              DateTime startTime = DateTime.ParseExact(rsTimer.GetString(4), "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
               DateTime fingerDate = DateTime.ParseExact(rsTimer.GetString(0), "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
               if (DateTime.UtcNow.AddMinutes(-5) > fingerDate)
                 continue;
