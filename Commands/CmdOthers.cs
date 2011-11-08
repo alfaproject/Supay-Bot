@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace Supay.Bot {
   static class CmdOthers {
@@ -116,127 +117,14 @@ namespace Supay.Bot {
     }
 
     public static void Players(CommandContext bc) {
-      Worlds worlds = new Worlds();
+      var webClient = new System.Net.WebClient();
+      var worldPage = webClient.DownloadString("http://www.runescape.com/index.ws");
 
-      int inputworld;
-      if (bc.MessageTokens.Length > 1) {
-        if (bc.MessageTokens[1].TryInt32(out inputworld) && worlds.ContainsKey(inputworld)) {
-          // !players <world>
-          World world = worlds[inputworld];
-
-          string players;
-          switch (world.Status) {
-            case "Online":
-              players = "\\c07{0}\\c (\\c07{1}%\\c capacity)".FormatWith(world.Players, Math.Round(world.Players / 2000.0 * 100, 1));
-              break;
-            case "Offline":
-              players = "\\c07Offline\\c";
-              break;
-            default:
-              players = "\\c07Full\\c";
-              break;
-          }
-
-          string reply = "World: \\c07{0}\\c (\\c07{1}\\c) | Players: {2} | Type: \\c07{3}\\c".FormatWith(inputworld, world.Activity, players, world.Member ? "P2P" : "F2P");
-          if (world.Activity != "-")
-            reply += " | Activity: \\c07{0}\\c".FormatWith(world.Activity);
-
-          reply += " | LootShare: \\c" + (world.LootShare ? "03Yes" : "04No") + "\\c";
-
-          bc.SendReply(reply + " | Link: \\c12http://world{0}.runescape.com/a2,m0,j0,o0\\c".FormatWith(world.Number));
-          return;
-        } else {
-          // get @p2p
-          bool p2p = false;
-          if (bc.Message.Contains(" @p2p")) {
-            p2p = true;
-            bc.Message = bc.Message.Replace(" @p2p", string.Empty);
-          }
-
-          // get @f2p
-          bool f2p = false;
-          if (bc.Message.Contains(" @f2p")) {
-            f2p = true;
-            bc.Message = bc.Message.Replace(" @f2p", string.Empty);
-          }
-
-          string activity = string.Empty;
-
-          // get @pvp
-          bool pvp = false;
-          if (bc.Message.Contains(" @pvp")) {
-            pvp = true;
-            bc.Message = bc.Message.Replace(" @pvp", string.Empty);
-            activity += "[PVP] PvP";
-          }
-
-          // get @lootshare
-          bool lootShare = false;
-          if (bc.Message.Contains(" @lootshare") || bc.Message.Contains(" @loot") || bc.Message.Contains(" @ls") || bc.Message.Contains(" @coinshare") || bc.Message.Contains(" @coin") || bc.Message.Contains(" @cs") || bc.Message.Contains(" @share")) {
-            lootShare = true;
-            bc.Message = bc.Message.Replace(" @lootshare", string.Empty);
-            bc.Message = bc.Message.Replace(" @loot", string.Empty);
-            bc.Message = bc.Message.Replace(" @ls", string.Empty);
-            bc.Message = bc.Message.Replace(" @coinshare", string.Empty);
-            bc.Message = bc.Message.Replace(" @coin", string.Empty);
-            bc.Message = bc.Message.Replace(" @cs", string.Empty);
-            bc.Message = bc.Message.Replace(" @share", string.Empty);
-            activity += "[LS] LootShare";
-          }
-
-          // get @quickchat
-          bool quickChat = false;
-          if (bc.Message.Contains(" @quickchat") || bc.Message.Contains(" @quick") || bc.Message.Contains(" @chat") || bc.Message.Contains(" @qc")) {
-            quickChat = true;
-            bc.Message = bc.Message.Replace(" @quickchat", string.Empty);
-            bc.Message = bc.Message.Replace(" @quick", string.Empty);
-            bc.Message = bc.Message.Replace(" @chat", string.Empty);
-            bc.Message = bc.Message.Replace(" @qc", string.Empty);
-            activity += "[QC] QuickChat";
-          }
-
-          // !players <activity>
-          List<World> act_worlds = worlds.FindActivity(bc.MessageTokens.Join(1));
-          if (p2p)
-            act_worlds.RemoveAll(w => !w.Member);
-          if (f2p)
-            act_worlds.RemoveAll(w => w.Member);
-          if (lootShare)
-            act_worlds.RemoveAll(w => !w.LootShare);
-          if (pvp)
-            act_worlds.RemoveAll(w => !w.PVP);
-          if (quickChat)
-            act_worlds.RemoveAll(w => !w.QuickChat);
-
-          if (act_worlds.Count > 0) {
-            act_worlds.Sort();
-
-            if (activity == string.Empty)
-              activity += " " + act_worlds[0].Activity;
-
-            string reply = "\\c07{0}\\c worlds:".FormatWith(activity);
-            foreach (World w in act_worlds)
-              reply += " \\c{0}#{1}\\c ({2});".FormatWith((w.Member ? "7" : "14"), w.Number, w.Players);
-            bc.SendReply(reply);
-            return;
-          }
-        }
-      }
-
-      // display all worlds information
-      //There are currently 230,350 players online on 150 servers (1535/server, 76.78% capacity).
-      int total_players = 0;
-      foreach (World world in worlds.Values)
-        total_players += world.Players;
-
-      if (total_players > 0) {
-        bc.SendReply("There are currently \\c07{0:N0}\\c players online over \\c07{1}\\c worlds. (\\c07{2}\\c/world - \\c07{3:0.##}%\\c capacity.)".FormatWith(
-                                   total_players,
-                                   worlds.Count,
-                                   total_players / worlds.Count,
-                                   (double)total_players / (double)(worlds.Count * 2000) * 100.0));
+      var worldsMatch = Regex.Match(worldPage, @"([\d,]+) people");
+      if (worldsMatch.Success) {
+        bc.SendReply(@"There are currently \c07{0}\c players online.".FormatWith(worldsMatch.Groups[1].Value));
       } else {
-        bc.SendReply("Error: No worlds were found.");
+        bc.SendReply(@"Error: No worlds were found.");
       }
     }
 
