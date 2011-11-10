@@ -263,7 +263,7 @@ namespace Supay.Bot {
 
             case "lvl":
             case "level":
-              vals.Push(((int) temp1).ToLevel());
+              vals.Push(((long) temp1).ToLevel());
               break;
 
               // OTHER FUNCTIONS

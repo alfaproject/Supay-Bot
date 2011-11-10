@@ -6,7 +6,7 @@ namespace Supay.Bot {
       : base(26) {
     }
 
-    public int F2pExp {
+    public long F2pExp {
       get {
         return this[Skill.ATTA].Exp + this[Skill.DEFE].Exp + this[Skill.STRE].Exp + this[Skill.HITP].Exp + this[Skill.RANG].Exp + this[Skill.PRAY].Exp + this[Skill.MAGI].Exp + this[Skill.COOK].Exp + this[Skill.WOOD].Exp + this[Skill.FISH].Exp + this[Skill.FIRE].Exp + this[Skill.CRAF].Exp + this[Skill.SMIT].Exp + this[Skill.MINI].Exp + this[Skill.RUNE].Exp + this[Skill.DUNG].Exp;
       }
@@ -15,9 +15,8 @@ namespace Supay.Bot {
     public List<Skill> Lowest {
       get {
         var lowest = new List<Skill>(Values);
-        lowest.RemoveAt(lowest.Count - 1);
-        lowest.RemoveAt(0);
-        lowest.Sort((s1, s2) => s1.VLevel.CompareTo(s2.VLevel));
+        lowest.RemoveAll(s => s.Name == Skill.OVER || s.Name == Skill.COMB);
+        lowest.Sort((s1, s2) => s1.Exp.CompareTo(s2.Exp));
         return lowest;
       }
     }
@@ -25,9 +24,8 @@ namespace Supay.Bot {
     public List<Skill> Highest {
       get {
         var highest = new List<Skill>(Values);
-        highest.RemoveAt(highest.Count - 1);
-        highest.RemoveAt(0);
-        highest.Sort((s1, s2) => -s1.VLevel.CompareTo(s2.VLevel));
+        highest.RemoveAll(s => s.Name == Skill.OVER || s.Name == Skill.COMB);
+        highest.Sort((s1, s2) => -s1.Exp.CompareTo(s2.Exp));
         return highest;
       }
     }

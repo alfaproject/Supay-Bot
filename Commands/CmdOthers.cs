@@ -15,17 +15,17 @@ namespace Supay.Bot {
         return;
       }
 
-      int totalExp = p.Skills[Skill.OVER].Exp;
-      int combatExp = p.Skills[Skill.COMB].Exp;
-      int f2pExp = p.Skills.F2pExp;
+      long totalExp = p.Skills[Skill.OVER].Exp;
+      long combatExp = p.Skills[Skill.COMB].Exp;
+      long f2pExp = p.Skills.F2pExp;
 
       // slayer
-      int hits_exp_gained = p.Skills[Skill.HITP].Exp - 1154;
+      long hits_exp_gained = p.Skills[Skill.HITP].Exp - 1154;
       var expected_max_slayer_exp = (int) (hits_exp_gained * 3.0 / 4.0);
 
       // pc
-      int expected_combat_xp = p.Skills[Skill.HITP].Exp + p.Skills[Skill.HITP].Exp * 12 / 4;
-      int current_combat_xp = p.Skills[Skill.HITP].Exp + p.Skills[Skill.ATTA].Exp + p.Skills[Skill.STRE].Exp + p.Skills[Skill.DEFE].Exp + p.Skills[Skill.RANG].Exp;
+      long expected_combat_xp = p.Skills[Skill.HITP].Exp + p.Skills[Skill.HITP].Exp * 12 / 4;
+      long current_combat_xp = p.Skills[Skill.HITP].Exp + p.Skills[Skill.ATTA].Exp + p.Skills[Skill.STRE].Exp + p.Skills[Skill.DEFE].Exp + p.Skills[Skill.RANG].Exp;
 
       bc.SendReply("\\b{0}\\b statistic percentages | Total exp: \\c07{1:N0}\\c | Combat exp: \\c07{2:N0}\\c (\\c07{3:0.##}%\\c) | F2P exp: \\c07{4:N0}\\c (\\c07{5:0.##}%\\c) | Slayer%: \\c07{6:0.##}% - {7:0.##}%\\c | PestControl%: \\c07{8:0.##}%\\c".FormatWith(rsn, totalExp, combatExp, (double) combatExp / totalExp * 100, f2pExp, (double) f2pExp / totalExp * 100, (double) p.Skills[Skill.SLAY].Exp / expected_max_slayer_exp * 100, (double) p.Skills[Skill.SLAY].Exp / (expected_max_slayer_exp - (hits_exp_gained / 133)) * 100, (double) (current_combat_xp - expected_combat_xp) / current_combat_xp * 100));
     }
@@ -81,7 +81,7 @@ namespace Supay.Bot {
         return;
       }
 
-      int hits_exp_gained = p.Skills[Skill.HITP].Exp - 1154;
+      long hits_exp_gained = p.Skills[Skill.HITP].Exp - 1154;
       double expected_max_slayer_exp = hits_exp_gained * 3.0 / 4.0;
 
       bc.SendReply("\\b{0}\\b \\c07{1:0.##}% - {2:0.##}%\\c of combat exp. is slayer based, with \\c07{3:N0}\\c combat slayer exp. and \\c07{4:N0}\\c combat total exp. (This percentage isn't accurate, mostly because of monster hp regeneration ratio and cannon slayering.)".FormatWith(rsn, (double) p.Skills[Skill.SLAY].Exp / expected_max_slayer_exp * 100.0, (double) p.Skills[Skill.SLAY].Exp / (expected_max_slayer_exp - ((double) hits_exp_gained / 133.0)) * 100.0, (double) p.Skills[Skill.SLAY].Exp * 16.0 / 3.0, hits_exp_gained + hits_exp_gained * 3));
@@ -102,8 +102,8 @@ namespace Supay.Bot {
         return;
       }
 
-      int expected_combat_xp = p.Skills[Skill.HITP].Exp + p.Skills[Skill.HITP].Exp * 12 / 4;
-      int current_combat_xp = p.Skills[Skill.HITP].Exp + p.Skills[Skill.ATTA].Exp + p.Skills[Skill.STRE].Exp + p.Skills[Skill.DEFE].Exp + p.Skills[Skill.RANG].Exp;
+      long expected_combat_xp = p.Skills[Skill.HITP].Exp + p.Skills[Skill.HITP].Exp * 12 / 4;
+      long current_combat_xp = p.Skills[Skill.HITP].Exp + p.Skills[Skill.ATTA].Exp + p.Skills[Skill.STRE].Exp + p.Skills[Skill.DEFE].Exp + p.Skills[Skill.RANG].Exp;
 
       bc.SendReply("\\b{0}\\b \\c07{1:0.##}%\\c of combat exp. was pest controled and/or cannoned, with \\c07{2:N0}\\c normal combat exp. and \\c07{3:N0}\\c total combat exp. (This percentage might not be accurate; magic isn't included in calculations.)".FormatWith(rsn, (double) (current_combat_xp - expected_combat_xp) / (double) current_combat_xp * 100.0, expected_combat_xp, current_combat_xp));
     }
@@ -229,7 +229,7 @@ namespace Supay.Bot {
         bc.SendReply(reply);
       } else {
         highest = p.Skills.Highest;
-        int highestExp = highest[0].Exp;
+        long highestExp = highest[0].Exp;
         reply = "\\b{0}\\b \\uhighest\\u skills:".FormatWith(rsn);
         for (i = 0; i < highest.Count; i++) {
           if (highest[i].Exp == highestExp) {
@@ -243,7 +243,7 @@ namespace Supay.Bot {
         bc.SendReply(reply);
 
         lowest = p.Skills.Lowest;
-        int lowestExp = lowest[0].Exp;
+        long lowestExp = lowest[0].Exp;
         reply = "\\b{0}\\b \\ulowest\\u skills:".FormatWith(rsn);
         for (i = 0; i < lowest.Count; i++) {
           if (lowest[i].Exp == lowestExp) {

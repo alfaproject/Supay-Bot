@@ -124,7 +124,7 @@ namespace Supay.Bot {
       }
     }
 
-    public static int SoulWarsZealToExp(string skill, int startExp, int targetExp, bool bonus) {
+    public static int SoulWarsZealToExp(string skill, long startExp, long targetExp, bool bonus) {
       int zeal = 0;
       while (startExp < targetExp) {
         int expPerZeal = SoulWarsExpPerZeal(skill, startExp.ToLevel());
@@ -164,7 +164,7 @@ namespace Supay.Bot {
       return (int) Math.Ceiling(((level + 25) * (level - 24)) / 606.0) * modifier;
     }
 
-    public static int PestControlPointsToExp(string skill, int startExp, int targetExp, int bonus) {
+    public static int PestControlPointsToExp(string skill, long startExp, long targetExp, int bonus) {
       int points = 0;
       while (startExp < targetExp) {
         int expPerPoint = PestControlExpPerPoint(skill, startExp.ToLevel());
@@ -186,7 +186,7 @@ namespace Supay.Bot {
       return points;
     }
 
-    public static int LampsToExp(int startExp, int targetExp) {
+    public static int LampsToExp(long startExp, long targetExp) {
       int lamps = 0;
       while (startExp < targetExp) {
         startExp += 10 * Math.Min(startExp.ToLevel(), 99);
@@ -195,13 +195,24 @@ namespace Supay.Bot {
       return lamps;
     }
 
-    public static int BooksToExp(int startExp, int targetExp) {
+    public static int BooksToExp(long startExp, long targetExp) {
       int books = 0;
       while (startExp < targetExp) {
         startExp += 15 * Math.Min(startExp.ToLevel(), 99);
         books++;
       }
       return books;
+    }
+
+    public static int EffigyToExp(Skill skill, long targetExp) {
+      long startExp = skill.Exp;
+      int effigies = 0;
+      while (startExp < targetExp) {
+        int skillLvl = Math.Min(startExp.ToLevel(), skill.MaxLevel);
+        startExp += (long) ((Math.Pow(skillLvl, 3.0) - 2 * Math.Pow(skillLvl, 2.0) + 100 * skillLvl) / 20);
+        effigies++;
+      }
+      return effigies;
     }
   }
 }

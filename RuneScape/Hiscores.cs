@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 namespace Supay.Bot {
   internal class Hiscores : List<Hiscore> {
     public Hiscores(string skill, string activity, int rank)
-      : base(21) {
+      : base(22) {
       var wc = new WebClient();
       string hiscore_page;
 
@@ -15,9 +15,8 @@ namespace Supay.Bot {
 
         // get this skill hiscore table
         hiscore_page = wc.DownloadString("http://hiscore.runescape.com/overall.ws?table=" + Skill.NameToId(skill) + "&rank=" + rank);
-
-        foreach (Match M in Regex.Matches(hiscore_page, "<td class=\"[^\"]+\">([^<]+)</td>\\s+<td class=\"alL\"><[^>]+>([^<]+)</a></td>\\s+<td class=\"[^\"]+\">([\\d,]+)</td>\\s+<td class=\"[^\"]+\">([\\d,]+)</td>", RegexOptions.Singleline)) {
-          Add(new Skill(Name, int.Parse(M.Groups[1].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture), int.Parse(M.Groups[3].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture), int.Parse(M.Groups[4].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture)));
+        foreach (Match M in Regex.Matches(hiscore_page, @"<span class=""rankColumn"">\s+<span>([^<]+)</span>\s+</span>\s+<span class=""nameColumn"">\s+<span>([^<]+)</span>\s+</span>\s+<span class=""\w+Column"">\s+<span>([^<]+)</span>\s+</span>\s+<span class=""xpColumn"">\s+<span>([^<]+)</span>", RegexOptions.Singleline)) {
+          Add(new Skill(Name, int.Parse(M.Groups[1].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture), int.Parse(M.Groups[3].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture), long.Parse(M.Groups[4].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture)));
           var newReg = new Regex(@"\W");
           this[Count - 1].RSN = newReg.Replace(M.Groups[2].Value, "_");
         }
@@ -27,7 +26,7 @@ namespace Supay.Bot {
         // get this activity hiscore table
         hiscore_page = wc.DownloadString("http://hiscore.runescape.com/overall.ws?category_type=1&table=" + Activity.NameToId(activity) + "&rank=" + rank);
 
-        foreach (Match M in Regex.Matches(hiscore_page, "<td class=\"[^\"]+\">([^<]+)</td>\\s+<td class=\"alL\"><[^>]+>([^<]+)</a></td>\\s+<td class=\"[^\"]+\">([\\d,]+)</td>", RegexOptions.Singleline)) {
+        foreach (Match M in Regex.Matches(hiscore_page, @"<span class=""rankColumn"">\s+<span>([^<]+)</span>\s+</span>\s+<span class=""nameColumn"">\s+<span>([^<]+)</span>\s+</span>\s+<span class=""\w+Column"">\s+<span>([^<]+)</span>", RegexOptions.Singleline)) {
           Add(new Activity(Name, int.Parse(M.Groups[1].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture), int.Parse(M.Groups[3].Value.Replace(",", string.Empty), CultureInfo.InvariantCulture)));
           this[Count - 1].RSN = M.Groups[2].Value.Replace(' ', '_');
         }

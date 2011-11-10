@@ -313,8 +313,8 @@ namespace Supay.Bot {
         return;
       }
 
-      int exp;
-      bc.MessageTokens[1].TryInt32(out exp);
+      long exp;
+      bc.MessageTokens[1].TryInt64(out exp);
       if (exp == 0 || exp > 200000000) {
         bc.SendReply("Invalid experience value.");
         return;
@@ -519,11 +519,16 @@ namespace Supay.Bot {
 
       int qty;
       string monster;
-      if (bc.MessageTokens[1].TryInt32(out qty)) {
-        monster = bc.MessageTokens.Join(2).Trim();
-      } else if (bc.MessageTokens[bc.MessageTokens.GetLength(0) - 1].TryInt32(out qty)) {
-        bc.MessageTokens[bc.MessageTokens.GetLength(0) - 1] = string.Empty;
-        monster = bc.MessageTokens.Join(1).Trim();
+      if (bc.MessageTokens.Length > 1) {
+        if (bc.MessageTokens[1].TryInt32(out qty)) {
+          monster = bc.MessageTokens.Join(2).Trim();
+        } else if (bc.MessageTokens[bc.MessageTokens.GetLength(0) - 1].TryInt32(out qty)) {
+          bc.MessageTokens[bc.MessageTokens.GetLength(0) - 1] = string.Empty;
+          monster = bc.MessageTokens.Join(1).Trim();
+        } else {
+          bc.SendReply("Syntax: !task <qty> <monster>");
+          return;
+        }
       } else {
         bc.SendReply("Syntax: !task <qty> <monster>");
         return;
@@ -540,7 +545,7 @@ namespace Supay.Bot {
         return;
       }
 
-      var newExp = (int) (p.Skills[Skill.SLAY].Exp + items[0].Exp * qty);
+      var newExp = (long) (p.Skills[Skill.SLAY].Exp + items[0].Exp * qty);
 
       string reply = "Next task: \\c07{0} {1}\\c | current exp: \\c07{2:#,##0.#}\\c | experience this task: \\c07{3:#,##0.#}\\c | experience after task: \\c07{4:#,##0.#}\\c | which is level \\c07{5}\\c with \\c07{6:#,##0.#}\\c exp to go.".FormatWith(qty, items[0].Name, p.Skills[Skill.SLAY].Exp, (items[0].Exp * qty), newExp, newExp.ToLevel(), ((newExp.ToLevel() + 1).ToExp() - newExp));
 

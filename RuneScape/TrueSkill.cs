@@ -6,7 +6,7 @@
       : base(name, rank, level, exp) {
     }
 
-    public TrueSkill(string name, int rank, int exp)
+    public TrueSkill(string name, int rank, long exp)
       : base(name, rank) {
       Exp = exp;
 

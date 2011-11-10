@@ -32,15 +32,15 @@ namespace Supay.Bot {
     public const string COMB = "Combat";
 
     private const int MAX_LEVEL = 99;
-    private static readonly string[][] _aliases = { new[] { OVER, "OA", "OVE", "OVER", "OV", "TOT", "TOTAL" }, new[] { ATTA, "AT", "ATT", "ATTA" }, new[] { DEFE, "DE", "DEF", "DEFE", "DEFENSE" }, new[] { STRE, "ST", "STR", "STRE" }, new[] { HITP, "CT", "HIT", "HITP", "CONSTITUT", "CONSTITUTE", "HP", "HITS", "HITPOINT", "HITPOINTS", "LP", "LIFE", "LIFEPOINT", "LIFEPOINTS" }, new[] { RANG, "RA", "RAN", "RANG", "RANGE", "RANGING" }, new[] { PRAY, "PR", "PRA", "PRAY" }, new[] { MAGI, "MA", "MAG", "MAGE", "MAGI" }, new[] { COOK, "CK", "COO", "COOK" }, new[] { WOOD, "WC", "WOO", "WOOD", "WOODCUT" }, new[] { FLET, "FL", "FLE", "FLET", "FLETCH" }, new[] { FISH, "FI", "FIS", "FISH" }, new[] { FIRE, "FM", "FIR", "FIRE", "FIREMAKE" }, new[] { CRAF, "CR", "CRA", "CRAF", "CRAFT" }, new[] { SMIT, "SM", "SMI", "SMIT", "SMITH" }, new[] { MINI, "MI", "MIN", "MINE" }, new[] { HERB, "HE", "HER", "HERB", "HERBLAW" }, new[] { AGIL, "AG", "AGI", "AGIL" }, new[] { THIE, "TH", "THI", "THIE", "THIEF", "THIEVE" }, new[] { SLAY, "SL", "SLA", "SLAY" }, new[] { FARM, "FA", "FAR", "FARM" }, new[] { RUNE, "RC", "RUN", "RUNE", "RUNECRAFTING" }, new[] { HUNT, "HU", "HUN", "HUNT", "HUNTING" }, new[] { CONS, "CO", "CON", "CONS", "CONST", "CONSTRUCT" }, new[] { SUMM, "SU", "SUM", "SUMM", "SUMMON" }, new[] { DUNG, "DU", "DUN", "DUNG", "DUNGEON", "DUNGEONERING" }, new[] { COMB, "CB", "CMB", "COMB" } };
+    private static readonly string[][] _aliases = { new[] { OVER, "OA", "OVE", "OVER", "OV", "TOT", "TOTAL" }, new[] { ATTA, "AT", "ATT", "ATTA" }, new[] { DEFE, "DE", "DEF", "DEFE", "DEFENSE" }, new[] { STRE, "ST", "STR", "STRE" }, new[] { HITP, "CT", "HIT", "HITP", "CONSTITUT", "CONSTITUTE", "HP", "HITS", "HITPOINT", "HITPOINTS", "LP", "LIFE", "LIFEPOINT", "LIFEPOINTS" }, new[] { RANG, "RA", "RAN", "RANG", "RANGE", "RANGING" }, new[] { PRAY, "PR", "PRA", "PRAY" }, new[] { MAGI, "MA", "MAG", "MAGE", "MAGI" }, new[] { COOK, "CK", "COO", "COOK" }, new[] { WOOD, "WC", "WOO", "WOOD", "WOODCUT" }, new[] { FLET, "FL", "FLE", "FLET", "FLETCH" }, new[] { FISH, "FI", "FIS", "FISH" }, new[] { FIRE, "FM", "FIR", "FIRE", "FIREMAKE" }, new[] { CRAF, "CR", "CRA", "CRAF", "CRAFT" }, new[] { SMIT, "SM", "SMI", "SMIT", "SMITH" }, new[] { MINI, "MI", "MIN", "MINE" }, new[] { HERB, "HE", "HER", "HERB", "HERBLAW" }, new[] { AGIL, "AG", "AGI", "AGIL" }, new[] { THIE, "TH", "THI", "THIE", "THIEF", "THIEVE" }, new[] { SLAY, "SL", "SLA", "SLAY" }, new[] { FARM, "FA", "FAR", "FARM" }, new[] { RUNE, "RC", "RUN", "RUNE", "RUNECRAFTING" }, new[] { HUNT, "HU", "HUN", "HUNT", "HUNTING" }, new[] { CONS, "CO", "CON", "CONS", "CONST", "CONSTRUCT" }, new[] { SUMM, "SU", "SUM", "SUMM", "SUMMON" }, new[] { DUNG, "DU", "DG", "DUN", "DUNG", "DUNGEON", "DUNGEONERING" }, new[] { COMB, "CB", "CMB", "COMB" } };
 
-    public Skill(string name, int rank, int level, int exp)
+    public Skill(string name, int rank, int level, long exp)
       : base(name, rank) {
       Exp = exp;
       Level = level;
     }
 
-    public Skill(string name, int rank, int exp)
+    public Skill(string name, int rank, long exp)
       : base(name, rank) {
       Exp = exp;
 
@@ -56,7 +56,7 @@ namespace Supay.Bot {
       Level = 1;
     }
 
-    public int Exp {
+    public long Exp {
       get;
       set;
     }
@@ -81,7 +81,7 @@ namespace Supay.Bot {
       }
     }
 
-    public int ExpToLevel {
+    public long ExpToLevel {
       get {
         if (Level < MaxLevel) {
           return (Level + 1).ToExp() - Exp;
@@ -90,7 +90,7 @@ namespace Supay.Bot {
       }
     }
 
-    public int ExpToVLevel {
+    public long ExpToVLevel {
       get {
         if (VLevel < 126) {
           return (VLevel + 1).ToExp() - Exp;

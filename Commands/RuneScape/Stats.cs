@@ -102,11 +102,11 @@ namespace Supay.Bot {
         }
       } else {
         // calculate "real" overall xp, max overall exp, max overall level
-        int totalExp = 0,
+        long totalExp = 0,
           maxTotalExp = 0,
           maxTotalLevel = 0;
         foreach (Skill s in p.Skills.Values.Where(s => s.Name != Skill.OVER && s.Name != Skill.COMB)) {
-          int maxSkillExp = s.MaxLevel.ToExp();
+          long maxSkillExp = s.MaxLevel.ToExp();
           totalExp += Math.Min(maxSkillExp, s.Exp);
           maxTotalExp += maxSkillExp;
           maxTotalLevel += s.MaxLevel;
@@ -122,7 +122,7 @@ namespace Supay.Bot {
         }
         double AvgSkilldouble = Math.Round(totalLevel / (double) (p.Skills.Count - 2), 1);
         if (Exp) {
-          AvgSkilldouble = ((int) (p.Skills[0].Exp / (double) (p.Skills.Count - 2))).ToLevel();
+          AvgSkilldouble = ((long) (p.Skills[0].Exp / (double) (p.Skills.Count - 2))).ToLevel();
         }
 
         string reply = "\\b{0}\\b \\c07{3:n}\\c | level: \\c07{1:N0}\\c (\\c07{2}\\c avg.) | exp: \\c07{3:e}\\c (\\c07{4}%\\c of {5}) | rank: \\c07{3:R}\\c".FormatWith(rsn, totalLevel, AvgSkilldouble, p.Skills[0], Math.Round((double) totalExp / maxTotalExp * 100.0, 1), maxTotalLevel);

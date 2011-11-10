@@ -13,8 +13,9 @@ namespace Supay.Bot {
     public const string BACO = "BA Collector";
     public const string BAHE = "BA Healer";
     public const string CWAR = "Castle Wars";
+    public const string CONQ = "Conquest";
 
-    private static readonly string[][] _aliases = { new[] { DUEL, "DT", "DUEL", "DUELING", "DUELTOURNAMENT" }, new[] { BOUN, "BH", "BOUNTY", "BOUNTYHUNT", "BOUNTYHUNTER", "BOUNTYHUNTERS" }, new[] { ROGU, "BR", "BHR", "ROGUE", "ROGUES", "BOUNTYROGUE", "BOUNTYROGUES", "HUNTERROGUE", "HUNTERROGUES", "BOUNTYHUNTERROGUE", "BOUNTYHUNTERROGUES" }, new[] { FIST, "FG", "FOG", "FIST", "FISTING", "FISTOFGUTHIX" }, new[] { MOBI, "MO", "AR", "MOB", "MOBIL", "MOBILISING", "ARMY", "ARMYS", "ARMIES", "MOA", "MOBA", "MOBILISINGARMY", "MOBILISINGARMIES" }, new[] { BAAT, "BAAT", "BAATT", "BAATTACK", "BAATTACKER" }, new[] { BADE, "BADE", "BADEF", "BADEFEND", "BADEFENDER" }, new[] { BACO, "BACO", "BACOL", "BACOLL", "BACOLLECT", "BACOLLECTOR" }, new[] { BAHE, "BAHE", "BAHEAL", "BAHEALER" }, new[] { CWAR, "CW", "CWAR", "CWARS", "CASTLE", "CASTLEWARS" } };
+    private static readonly string[][] _aliases = { new[] { DUEL, "DT", "DUEL", "DUELING", "DUELTOURNAMENT" }, new[] { BOUN, "BH", "BOUNTY", "BOUNTYHUNT", "BOUNTYHUNTER", "BOUNTYHUNTERS" }, new[] { ROGU, "BR", "BHR", "ROGUE", "ROGUES", "BOUNTYROGUE", "BOUNTYROGUES", "HUNTERROGUE", "HUNTERROGUES", "BOUNTYHUNTERROGUE", "BOUNTYHUNTERROGUES" }, new[] { FIST, "FG", "FOG", "FIST", "FISTING", "FISTOFGUTHIX" }, new[] { MOBI, "MO", "AR", "MOB", "MOBIL", "MOBILISING", "ARMY", "ARMYS", "ARMIES", "MOA", "MOBA", "MOBILISINGARMY", "MOBILISINGARMIES" }, new[] { BAAT, "BAAT", "BAATT", "BAATTACK", "BAATTACKER" }, new[] { BADE, "BADE", "BADEF", "BADEFEND", "BADEFENDER" }, new[] { BACO, "BACO", "BACOL", "BACOLL", "BACOLLECT", "BACOLLECTOR" }, new[] { BAHE, "BAHE", "BAHEAL", "BAHEALER" }, new[] { CWAR, "CW", "CWAR", "CWARS", "CASTLE", "CASTLEWARS" }, new[] { CONQ, "CQ", "CONQ", "CONQUEST" } };
 
     public Activity(string name, int rank, int score)
       : base(name, rank) {

@@ -28,11 +28,11 @@ namespace Supay.Bot {
       return exp / 4;
     }
 
-    public static int ToLevel(this int exp) {
+    public static int ToLevel(this long exp) {
       int level = 0;
-      int levelExp = 0;
+      long levelExp = 0;
       while (levelExp / 4 <= exp) {
-        levelExp += ++level + (int) (300.0 * Math.Pow(2.0, level / 7.0));
+        levelExp += ++level + (long) (300.0 * Math.Pow(2.0, level / 7.0));
       }
       return level;
     }

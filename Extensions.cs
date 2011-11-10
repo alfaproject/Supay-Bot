@@ -69,8 +69,16 @@ namespace Supay.Bot {
     ///   Converts the numeric value of this instance to its equivalent short string (k/m/b) representation up to a maximum number of decimals. </summary>
     /// <param name="decimals">
     ///   Max number of decimals allowed. </param>
+    public static string ToShortString(this long self, int decimals) {
+      return ToShortString((double) self, decimals);
+    }
+
+    /// <summary>
+    ///   Converts the numeric value of this instance to its equivalent short string (k/m/b) representation up to a maximum number of decimals. </summary>
+    /// <param name="decimals">
+    ///   Max number of decimals allowed. </param>
     public static string ToShortString(this int self, int decimals) {
-      return ((double) self).ToShortString(decimals);
+      return ToShortString((double) self, decimals);
     }
 
     /// <summary>
@@ -173,8 +181,8 @@ namespace Supay.Bot {
     }
 
     /// <summary>
-    ///   Returns true if a string can be converted to a 32-bit signed integer. </summary>
-    public static bool TryInt32(this string self, out int value) {
+    ///   Returns true if a string can be converted to a 64-bit signed integer. </summary>
+    public static bool TryInt64(this string self, out long value) {
       string number = self.TrimEnd();
 
       int multiplier = 1;
@@ -193,12 +201,22 @@ namespace Supay.Bot {
 
       double result;
       if (double.TryParse(number, NumberStyles.AllowLeadingWhite | NumberStyles.AllowLeadingSign | NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out result)) {
-        value = (int) (result * multiplier);
+        value = (long) (result * multiplier);
         return true;
       }
 
       value = 0;
       return false;
     }
+
+    /// <summary>
+    ///   Returns true if a string can be converted to a 32-bit signed integer. </summary>
+    public static bool TryInt32(this string self, out int value) {
+      long resultValue;
+      bool result = TryInt64(self, out resultValue);
+      value = (int) resultValue;
+      return result;
+    }
+
   }
 }

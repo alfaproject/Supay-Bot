@@ -71,15 +71,15 @@ namespace Supay.Bot {
     private void checkGE(object stateInfo) {
       string pricesPage;
       try {
-        pricesPage = new WebClient().DownloadString("http://itemdb-rs.runescape.com/top100.ws?list=2&scale=0");
-        pricesPage += new WebClient().DownloadString("http://itemdb-rs.runescape.com/top100.ws?list=3&scale=0");
+        pricesPage = new WebClient().DownloadString("http://services.runescape.com/m=itemdb_rs/frontpage.ws");
+        pricesPage += new WebClient().DownloadString("http://services.runescape.com/m=itemdb_rs/results.ws?price=all&query=ring");
       } catch (WebException) {
         textBox.Invoke(new delOutputMessage(outputMessage), "##### Abort GE check (prices page couldn't be downloaded)");
         return;
       }
 
       var pricesChanged = new List<Price>();
-      const string pricesRegex = @"<a href="".+?obj=(\d+)&amp;scale=-1"">([^<]+)</a>\s+</td>\s+<td>[^<]+</td>\s+<td>([^<]+)</td>\s+<td>[^<]+</td>";
+      const string pricesRegex = @"obj=(\d+)"">([^<]+)</a>\s*</td>\s+<td>([^<]+)</td>";
       foreach (Match priceMatch in Regex.Matches(pricesPage, pricesRegex, RegexOptions.Singleline)) {
         var newPrice = new Price(int.Parse(priceMatch.Groups[1].Value, CultureInfo.InvariantCulture), priceMatch.Groups[2].Value, priceMatch.Groups[3].Value.ToInt32());
         var oldPrice = new Price(newPrice.Id);
@@ -125,19 +125,20 @@ namespace Supay.Bot {
       }
 
       try {
-        string[] forumPage = new WebClient().DownloadString("http://ss.rsportugal.org/parser.php?type=recenttopics").Split('\n');
-        foreach (string post in forumPage) {
-          string[] postInfo = post.Split(',');
-          long topicId = long.Parse(postInfo[0].Trim());
-          string topic = postInfo[1];
-          string forum = postInfo[2];
-          string href = postInfo[3];
-          string poster = postInfo[4];
+        string forumPage = new WebClient().DownloadString("http://supremeskillers.net/api/?module=forum&action=getLatestTopics");
+        JObject LatestTopics = JObject.Parse(forumPage);
+
+        foreach (JObject post in LatestTopics["data"]) {
+          long topicId = long.Parse(post["topic"].ToString().Replace("\"", ""));
+          var topic = (string) post["subject"];
+          var forum = (string) post["board"]["name"];
+          var href = (string) post["href"];
+          var poster = (string) post["poster"]["name"];
 
           // Check if this topic exists in database
           if (Database.Lookup<long>("topicId", "forums", "topicId=@topicId", new[] { new SQLiteParameter("@topicId", topicId) }) != topicId) {
             Database.Insert("forums", "topicId", topicId.ToStringI());
-            string reply = @"\bNew topic!\b | Forum: \c07{0}\c | Topic: \c07{1}\c | Poster: \c07{3}\c | \c12{2}".FormatWith(forum, topic, poster, href);
+            string reply = @"\bNew topic!\b | Forum: \c07{0}\c | Topic: \c07{1}\c | Poster: \c07{2}\c | \c12{3}".FormatWith(forum, topic, poster, href);
             _irc.SendChat(reply, mainChannel);
           }
         }
@@ -152,8 +153,19 @@ namespace Supay.Bot {
       }
 
       try {
-        string eventPage = new WebClient().DownloadString("http://ss.rsportugal.org/parser.php?type=event&channel=" + Uri.EscapeDataString(mainChannel));
+        string eventPage = new WebClient().DownloadString("http://supremeskillers.net/api/?module=events&action=getNext&channel=" + Uri.EscapeDataString(mainChannel));
         JObject nextEvent = JObject.Parse(eventPage);
+
+        if (nextEvent["data"] == null) {
+          return;
+        }
+        var events = new string[10];
+        int i = -1;
+        foreach (JObject eventData in nextEvent["data"]) {
+          events[++i] = eventData.ToString();
+        }
+
+        nextEvent = JObject.Parse(events[0]);
         DateTime startTime = DateTime.ParseExact((string) nextEvent["startTime"], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
         SQLiteDataReader rsTimer = Database.ExecuteReader("SELECT fingerprint, nick, name, duration, started FROM timers;");
         while (rsTimer.Read()) {
@@ -163,7 +175,7 @@ namespace Supay.Bot {
         }
 
         var noticeDuration = new[] { 1440, 720, 360, 180, 90, 60, 40, 20, 10, 5 };
-        for (int i = 0; i < 10; i++) {
+        for (i = 0; i < 10; i++) {
           if ((int) (startTime - DateTime.UtcNow).TotalMinutes - noticeDuration[i] < 0) {
             continue;
           }
@@ -195,7 +207,7 @@ namespace Supay.Bot {
       }
       lblUpdateTimer.Text = "Next update in " + nextMorning.ToLongString();
 
-      if (_irc != null) {
+      if (_irc != null && _irc.Connection.Status == ConnectionStatus.Connected) {
         // check for pending timers
 
         SQLiteDataReader rsTimer = Database.ExecuteReader("SELECT fingerprint, nick, name, duration, started FROM timers;");
@@ -701,6 +713,11 @@ namespace Supay.Bot {
               break;
             case "TASK":
               ThreadUtil.FireAndForget(CmdDataFiles.Task, bc);
+              break;
+            case "EFFIGY":
+            case "EFF":
+            case "EFFIGIES":
+              ThreadUtil.FireAndForget(Command.Effigies, bc);
               break;
 
               // Alog

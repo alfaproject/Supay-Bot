@@ -230,6 +230,9 @@ namespace Supay.Bot {
           bc.SendReply("\\b{0}\\b wasn't being tracked on \\c07{1}\\c.".FormatWith(rsn, firstday.ToStringI("yyyy/MMM/dd")));
           return;
         }
+        foreach (Skill skill in PlayerOld.Skills.Values) {
+          PlayerOld.Skills[skill.Name].Level = Math.Max(0, skill.Level);
+        }
       }
 
       // Get new player
