@@ -110,12 +110,12 @@
     <Compile Include="Commands\RuneHead\ClanCompare.cs" />
     <Compile Include="Commands\RuneHead\ClanInfo.cs" />
     <Compile Include="Commands\RuneScape\Compare.cs" />
-    <Compile Include="Commands\CmdDataFiles.cs" />
+    <Compile Include="Commands\Data Files\CmdDataFiles.cs" />
     <Compile Include="Commands\GrandExchange\CoinShare.cs" />
     <Compile Include="Commands\GrandExchange\LastUpdate.cs" />
     <Compile Include="Commands\GrandExchange\Price.cs" />
     <Compile Include="Commands\RuneScape\Top.cs" />
-    <Compile Include="Commands\CmdLinks.cs" />
+    <Compile Include="Commands\Data Files\CmdLinks.cs" />
     <Compile Include="Commands\CmdMonster.cs" />
     <Compile Include="Commands\CmdOthers.cs" />
     <Compile Include="Commands\RuneHead\ClanUpdate.cs" />
@@ -136,6 +136,7 @@
     <Compile Include="Commands\Timers\End.cs" />
     <Compile Include="Commands\Timers\Start.cs" />
     <Compile Include="Commands\Utils\Whois.cs" />
+    <Compile Include="Commands\Data Files\Effigies.cs" />
     <Compile Include="Commands\War\End.cs" />
     <Compile Include="Commands\War\Remove.cs" />
     <Compile Include="Commands\War\Start.cs" />

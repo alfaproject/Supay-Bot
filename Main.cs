@@ -745,6 +745,11 @@ namespace Supay.Bot {
             case "TASK":
               ThreadUtil.FireAndForget(CmdDataFiles.Task, bc);
               break;
+            case "EFFIGY":
+            case "EFF":
+            case "EFFIGIES":
+              ThreadUtil.FireAndForget(Command.Effigies, bc);
+              break;
 
             // Alog
             case "ALOG":
