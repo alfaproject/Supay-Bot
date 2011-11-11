@@ -3,7 +3,7 @@
 namespace Supay.Bot {
   internal class SkillDictionary : OrderedDictionary<string, Skill> {
     public SkillDictionary()
-      : base(26) {
+      : base(27) {
     }
 
     public long F2pExp {
