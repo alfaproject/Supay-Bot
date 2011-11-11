@@ -3,7 +3,7 @@
 namespace Supay.Bot {
   internal class ActivityDictionary : OrderedDictionary<string, Activity> {
     public ActivityDictionary()
-      : base(9) {
+      : base(12) {
     }
   }
 }

@@ -123,6 +123,7 @@ namespace Supay.Bot {
           _activities.Add(Activity.BAHE, new Activity(Activity.BAHE, Convert.ToInt32(rs["bahe_rank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["bahe_score"], CultureInfo.InvariantCulture)));
           _activities.Add(Activity.CWAR, new Activity(Activity.CWAR, Convert.ToInt32(rs["cwarRank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["cwarScore"], CultureInfo.InvariantCulture)));
           _activities.Add(Activity.CONQ, new Activity(Activity.CONQ, Convert.ToInt32(rs["conqRank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["conqScore"], CultureInfo.InvariantCulture)));
+          _activities.Add(Activity.DOMI, new Activity(Activity.DOMI, Convert.ToInt32(rs["domiRank"], CultureInfo.InvariantCulture), Convert.ToInt32(rs["domiScore"], CultureInfo.InvariantCulture)));
 
           // Create combat skill and update combat class
           _CreateCombatSkill();
@@ -299,7 +300,47 @@ namespace Supay.Bot {
       Id = Database.Lookup<long>("id", "players", "rsn=@name", new[] { new SQLiteParameter("@name", _name) });
 
       if (Ranked) {
-        Database.Insert("tracker", "pid", Id.ToStringI(), "date", s_date, "overall_level", _skills[0].Level.ToStringI(), "overall_xp", _skills[0].Exp.ToStringI(), "overall_rank", _skills[0].Rank.ToStringI(), "attack_xp", _skills[1].Exp.ToStringI(), "attack_rank", _skills[1].Rank.ToStringI(), "defence_xp", _skills[2].Exp.ToStringI(), "defence_rank", _skills[2].Rank.ToStringI(), "strength_xp", _skills[3].Exp.ToStringI(), "strength_rank", _skills[3].Rank.ToStringI(), "hitpoints_xp", _skills[4].Exp.ToStringI(), "hitpoints_rank", _skills[4].Rank.ToStringI(), "range_xp", _skills[5].Exp.ToStringI(), "range_rank", _skills[5].Rank.ToStringI(), "prayer_xp", _skills[6].Exp.ToStringI(), "prayer_rank", _skills[6].Rank.ToStringI(), "magic_xp", _skills[7].Exp.ToStringI(), "magic_rank", _skills[7].Rank.ToStringI(), "cook_xp", _skills[8].Exp.ToStringI(), "cook_rank", _skills[8].Rank.ToStringI(), "woodcut_xp", _skills[9].Exp.ToStringI(), "woodcut_rank", _skills[9].Rank.ToStringI(), "fletch_xp", _skills[10].Exp.ToStringI(), "fletch_rank", _skills[10].Rank.ToStringI(), "fish_xp", _skills[11].Exp.ToStringI(), "fish_rank", _skills[11].Rank.ToStringI(), "firemake_xp", _skills[12].Exp.ToStringI(), "firemake_rank", _skills[12].Rank.ToStringI(), "craft_xp", _skills[13].Exp.ToStringI(), "craft_rank", _skills[13].Rank.ToStringI(), "smith_xp", _skills[14].Exp.ToStringI(), "smith_rank", _skills[14].Rank.ToStringI(), "mine_xp", _skills[15].Exp.ToStringI(), "mine_rank", _skills[15].Rank.ToStringI(), "herb_xp", _skills[16].Exp.ToStringI(), "herb_rank", _skills[16].Rank.ToStringI(), "agility_xp", _skills[17].Exp.ToStringI(), "agility_rank", _skills[17].Rank.ToStringI(), "thief_xp", _skills[18].Exp.ToStringI(), "thief_rank", _skills[18].Rank.ToStringI(), "slay_xp", _skills[19].Exp.ToStringI(), "slay_rank", _skills[19].Rank.ToStringI(), "farm_xp", _skills[20].Exp.ToStringI(), "farm_rank", _skills[20].Rank.ToStringI(), "runecraft_xp", _skills[21].Exp.ToStringI(), "runecraft_rank", _skills[21].Rank.ToStringI(), "hunt_xp", _skills[22].Exp.ToStringI(), "hunt_rank", _skills[22].Rank.ToStringI(), "construction_xp", _skills[23].Exp.ToStringI(), "construction_rank", _skills[23].Rank.ToStringI(), "summ_xp", _skills[24].Exp.ToStringI(), "summ_rank", _skills[24].Rank.ToStringI(), "dungExp", _skills[25].Exp.ToStringI(), "dungRank", _skills[25].Rank.ToStringI(), "dt_rank", _activities[Activity.DUEL].Rank.ToStringI(), "dt_score", _activities[Activity.DUEL].Score.ToStringI(), "bh_rank", _activities[Activity.BOUN].Rank.ToStringI(), "bh_score", _activities[Activity.BOUN].Score.ToStringI(), "bhr_rank", _activities[Activity.ROGU].Rank.ToStringI(), "bhr_score", _activities[Activity.ROGU].Score.ToStringI(), "fist_rank", _activities[Activity.FIST].Rank.ToStringI(), "fist_score", _activities[Activity.FIST].Score.ToStringI(), "mob_rank", _activities[Activity.MOBI].Rank.ToStringI(), "mob_score", _activities[Activity.MOBI].Score.ToStringI(), "baat_rank", _activities[Activity.BAAT].Rank.ToStringI(), "baat_score", _activities[Activity.BAAT].Score.ToStringI(), "bade_rank", _activities[Activity.BADE].Rank.ToStringI(), "bade_score", _activities[Activity.BADE].Score.ToStringI(), "baco_rank", _activities[Activity.BACO].Rank.ToStringI(), "baco_score", _activities[Activity.BACO].Score.ToStringI(), "bahe_rank", _activities[Activity.BAHE].Rank.ToStringI(), "bahe_score", _activities[Activity.BAHE].Score.ToStringI(), "cwarRank", _activities[Activity.CWAR].Rank.ToStringI(), "cwarScore", _activities[Activity.CWAR].Score.ToStringI(), "conqRank", _activities[Activity.CONQ].Rank.ToStringI(), "conqScore", _activities[Activity.CONQ].Score.ToStringI());
+        Database.Insert("tracker", "pid", Id.ToStringI(),
+                                   "date", s_date,
+                                   "overall_level", _skills[0].Level.ToStringI(), "overall_xp", _skills[0].Exp.ToStringI(), "overall_rank", _skills[0].Rank.ToStringI(),
+                                   "attack_xp", _skills[1].Exp.ToStringI(), "attack_rank", _skills[1].Rank.ToStringI(),
+                                   "defence_xp", _skills[2].Exp.ToStringI(), "defence_rank", _skills[2].Rank.ToStringI(),
+                                   "strength_xp", _skills[3].Exp.ToStringI(), "strength_rank", _skills[3].Rank.ToStringI(),
+                                   "hitpoints_xp", _skills[4].Exp.ToStringI(), "hitpoints_rank", _skills[4].Rank.ToStringI(),
+                                   "range_xp", _skills[5].Exp.ToStringI(), "range_rank", _skills[5].Rank.ToStringI(),
+                                   "prayer_xp", _skills[6].Exp.ToStringI(), "prayer_rank", _skills[6].Rank.ToStringI(),
+                                   "magic_xp", _skills[7].Exp.ToStringI(), "magic_rank", _skills[7].Rank.ToStringI(),
+                                   "cook_xp", _skills[8].Exp.ToStringI(), "cook_rank", _skills[8].Rank.ToStringI(),
+                                   "woodcut_xp", _skills[9].Exp.ToStringI(), "woodcut_rank", _skills[9].Rank.ToStringI(),
+                                   "fletch_xp", _skills[10].Exp.ToStringI(), "fletch_rank", _skills[10].Rank.ToStringI(),
+                                   "fish_xp", _skills[11].Exp.ToStringI(), "fish_rank", _skills[11].Rank.ToStringI(),
+                                   "firemake_xp", _skills[12].Exp.ToStringI(), "firemake_rank", _skills[12].Rank.ToStringI(),
+                                   "craft_xp", _skills[13].Exp.ToStringI(), "craft_rank", _skills[13].Rank.ToStringI(),
+                                   "smith_xp", _skills[14].Exp.ToStringI(), "smith_rank", _skills[14].Rank.ToStringI(),
+                                   "mine_xp", _skills[15].Exp.ToStringI(), "mine_rank", _skills[15].Rank.ToStringI(),
+                                   "herb_xp", _skills[16].Exp.ToStringI(), "herb_rank", _skills[16].Rank.ToStringI(),
+                                   "agility_xp", _skills[17].Exp.ToStringI(), "agility_rank", _skills[17].Rank.ToStringI(),
+                                   "thief_xp", _skills[18].Exp.ToStringI(), "thief_rank", _skills[18].Rank.ToStringI(),
+                                   "slay_xp", _skills[19].Exp.ToStringI(), "slay_rank", _skills[19].Rank.ToStringI(),
+                                   "farm_xp", _skills[20].Exp.ToStringI(), "farm_rank", _skills[20].Rank.ToStringI(),
+                                   "runecraft_xp", _skills[21].Exp.ToStringI(), "runecraft_rank", _skills[21].Rank.ToStringI(),
+                                   "hunt_xp", _skills[22].Exp.ToStringI(), "hunt_rank", _skills[22].Rank.ToStringI(),
+                                   "construction_xp", _skills[23].Exp.ToStringI(), "construction_rank", _skills[23].Rank.ToStringI(),
+                                   "summ_xp", _skills[24].Exp.ToStringI(), "summ_rank", _skills[24].Rank.ToStringI(),
+                                   "dungExp", _skills[25].Exp.ToStringI(), "dungRank", _skills[25].Rank.ToStringI(),
+                                   "dt_rank", _activities[Activity.DUEL].Rank.ToStringI(), "dt_score", _activities[Activity.DUEL].Score.ToStringI(),
+                                   "bh_rank", _activities[Activity.BOUN].Rank.ToStringI(), "bh_score", _activities[Activity.BOUN].Score.ToStringI(),
+                                   "bhr_rank", _activities[Activity.ROGU].Rank.ToStringI(), "bhr_score", _activities[Activity.ROGU].Score.ToStringI(),
+                                   "fist_rank", _activities[Activity.FIST].Rank.ToStringI(), "fist_score", _activities[Activity.FIST].Score.ToStringI(),
+                                   "mob_rank", _activities[Activity.MOBI].Rank.ToStringI(), "mob_score", _activities[Activity.MOBI].Score.ToStringI(),
+                                   "baat_rank", _activities[Activity.BAAT].Rank.ToStringI(), "baat_score", _activities[Activity.BAAT].Score.ToStringI(),
+                                   "bade_rank", _activities[Activity.BADE].Rank.ToStringI(), "bade_score", _activities[Activity.BADE].Score.ToStringI(),
+                                   "baco_rank", _activities[Activity.BACO].Rank.ToStringI(), "baco_score", _activities[Activity.BACO].Score.ToStringI(),
+                                   "bahe_rank", _activities[Activity.BAHE].Rank.ToStringI(), "bahe_score", _activities[Activity.BAHE].Score.ToStringI(),
+                                   "cwarRank", _activities[Activity.CWAR].Rank.ToStringI(), "cwarScore", _activities[Activity.CWAR].Score.ToStringI(),
+                                   "conqRank", _activities[Activity.CONQ].Rank.ToStringI(), "conqScore", _activities[Activity.CONQ].Score.ToStringI(),
+                                   "domiRank", _activities[Activity.DOMI].Rank.ToStringI(), "domiScore", _activities[Activity.DOMI].Score.ToStringI()
+         );
 
         Database.Update("players", "id=" + Id, "lastupdate", s_date);
       }
