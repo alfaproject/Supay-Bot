@@ -145,7 +145,7 @@
   </wsdl:binding>
   <wsdl:service name="RScriptLookup">
     <wsdl:port name="RScriptLookupPort" binding="tns:RScriptLookupBinding">
-      <soap:address location="http://rscript.org/lookup-soap.php?soap" />
+      <soap:address location="http://rscript.org/lookup.php?soap" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

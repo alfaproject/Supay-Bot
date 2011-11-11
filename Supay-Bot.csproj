@@ -222,7 +222,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Help 1.ico" />
-    <None Include="Service References\RuneScript\lookup-soap.wsdl" />
     <None Include="Service References\RuneScript\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -236,6 +235,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Service References\RuneScript\lookup-soap.wsdl" />
     <None Include="Service References\RuneScript\Supay.Bot.RuneScript.skills.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
