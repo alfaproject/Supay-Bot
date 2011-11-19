@@ -312,14 +312,14 @@ namespace Supay.Bot
         EnableAutoIdent = false
       };
 
-      this._irc.DataSent += this.Irc_DataSent;
-      this._irc.DataReceived += this.Irc_DataReceived;
+      this._irc.DataSent += (dsender, de) => this.outputMessage(">>> " + de.Data);
+      this._irc.DataReceived += (dsender, de) => this.outputMessage("<<< " + de.Data);
       this._irc.Ready += this.Irc_Ready;
 
       this._irc.Messages.Chat += this.IrcChat;
       this._irc.Messages.NamesEndReply += this.Irc_NamesEndReply;
 
-      this._irc.Connection.Disconnected += (dsender, devent) => this.textBox.Invoke(new delOutputMessage(this.outputMessage), "[DISCONNECTED] " + devent.Data);
+      this._irc.Connection.Disconnected += (dsender, de) => this.outputMessage("[DISCONNECTED] " + de.Data);
 
       try
       {
@@ -353,16 +353,6 @@ namespace Supay.Bot
     private void btnExit_Click(object sender, EventArgs e)
     {
       this.Close();
-    }
-
-    private void Irc_DataSent(object sender, ConnectionDataEventArgs e)
-    {
-      this.textBox.Invoke(new delOutputMessage(this.outputMessage), e.Data);
-    }
-
-    private void Irc_DataReceived(object sender, ConnectionDataEventArgs e)
-    {
-      this.textBox.Invoke(new delOutputMessage(this.outputMessage), e.Data);
     }
 
     private void Irc_Ready(object sender, EventArgs e)
