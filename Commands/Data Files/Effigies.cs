@@ -1,11 +1,15 @@
 ﻿using System;
 
-namespace Supay.Bot {
-  internal static partial class Command {
-    public static void Effigies(CommandContext bc) {
+namespace Supay.Bot
+{
+  internal static partial class Command
+  {
+    public static void Effigies(CommandContext bc)
+    {
       // .effigy <lvl>
       int level;
-      if (bc.MessageTokens.Length != 2 || bc.MessageTokens[1].TryInt32(out level) == false) {
+      if (bc.MessageTokens.Length != 2 || bc.MessageTokens[1].TryInt32(out level) == false)
+      {
         bc.SendReply("Syntax: !effigy <level>");
         return;
       }

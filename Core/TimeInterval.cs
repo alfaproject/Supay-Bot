@@ -2,42 +2,55 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace Supay.Bot {
-  public class TimeInterval {
-    public TimeInterval() {
+namespace Supay.Bot
+{
+  public class TimeInterval
+  {
+    public TimeInterval()
+    {
     }
 
-    public TimeInterval(int defaultTime, string defaultName) {
-      Time = new TimeSpan(0, 0, defaultTime);
-      Name = defaultName;
+    public TimeInterval(int defaultTime, string defaultName)
+    {
+      this.Time = new TimeSpan(0, 0, defaultTime);
+      this.Name = defaultName;
     }
 
-    public string Name {
+    public string Name
+    {
       get;
       set;
     }
 
-    public TimeSpan Time {
+    public TimeSpan Time
+    {
       get;
       set;
     }
 
-    public bool Parse(string timeInterval) {
+    public bool Parse(string timeInterval)
+    {
       int time = 0;
       string name = string.Empty;
       string _name = string.Empty;
 
-      foreach (Match interval in Regex.Matches(timeInterval, @"(\d+)?(second|minute|month|hour|week|year|sec|min|day|s|m|h|d|w|y)s?", RegexOptions.IgnoreCase)) {
+      foreach (Match interval in Regex.Matches(timeInterval, @"(\d+)?(second|minute|month|hour|week|year|sec|min|day|s|m|h|d|w|y)s?", RegexOptions.IgnoreCase))
+      {
         int _time;
-        if (interval.Groups[1].Value.Length > 0) {
+        if (interval.Groups[1].Value.Length > 0)
+        {
           _time = int.Parse(interval.Groups[1].Value, CultureInfo.InvariantCulture);
-        } else {
+        }
+        else
+        {
           _time = 1;
         }
-        if (_time < 1) {
+        if (_time < 1)
+        {
           _time = 1;
         }
-        switch (interval.Groups[2].Value) {
+        switch (interval.Groups[2].Value)
+        {
           case "second":
           case "sec":
           case "s":
@@ -78,20 +91,25 @@ namespace Supay.Bot {
         time += _time;
         name += " " + _name;
       }
-      if (!string.IsNullOrEmpty(name)) {
-        Name = name.Trim();
-        Time = new TimeSpan(0, 0, time);
+      if (!string.IsNullOrEmpty(name))
+      {
+        this.Name = name.Trim();
+        this.Time = new TimeSpan(0, 0, time);
         return true;
       }
       return false;
     }
 
-    public bool Parse(int timeInterval) {
+    public bool Parse(int timeInterval)
+    {
       var timeSpan = new TimeSpan(timeInterval);
-      try {
-        Name = timeSpan.ToLongString();
+      try
+      {
+        this.Name = timeSpan.ToLongString();
         return true;
-      } catch {
+      }
+      catch
+      {
         return false;
       }
     }

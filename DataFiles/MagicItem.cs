@@ -1,36 +1,45 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace Supay.Bot {
-  internal class MagicItem : SkillItem {
+namespace Supay.Bot
+{
+  internal class MagicItem : SkillItem
+  {
     public MagicItem(string[] tokens)
-      : base(tokens) {
+      : base(tokens)
+    {
       // Field 4: Runes
-      Runes = tokens[4].Split(';');
+      this.Runes = tokens[4].Split(';');
 
       // Field 5: MaxHit
-      MaxHit = int.Parse(tokens[5], CultureInfo.InvariantCulture);
+      this.MaxHit = int.Parse(tokens[5], CultureInfo.InvariantCulture);
 
       // Field 6: Book
-      Book = tokens[6];
+      this.Book = tokens[6];
 
       // Field 7: Effect
-      Effect = tokens[7];
+      this.Effect = tokens[7];
     }
 
-    public string[] Runes {
+    public string[] Runes
+    {
       get;
       set;
     }
 
-    public int RunesCost {
-      get {
+    public int RunesCost
+    {
+      get
+      {
         int cost = 0;
-        foreach (string rune in Runes) {
+        foreach (string rune in this.Runes)
+        {
           Match matchRune = Regex.Match(rune, @"(\d+)x (\w+)");
-          if (matchRune.Success) {
+          if (matchRune.Success)
+          {
             int runeId = 0;
-            switch (matchRune.Groups[2].Value) {
+            switch (matchRune.Groups[2].Value)
+            {
               case "Air":
                 runeId = 556;
                 break;
@@ -83,17 +92,20 @@ namespace Supay.Bot {
       }
     }
 
-    public int MaxHit {
+    public int MaxHit
+    {
       get;
       set;
     }
 
-    public string Book {
+    public string Book
+    {
       get;
       set;
     }
 
-    public string Effect {
+    public string Effect
+    {
       get;
       set;
     }

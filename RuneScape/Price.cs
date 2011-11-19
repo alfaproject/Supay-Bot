@@ -4,118 +4,147 @@ using System.Globalization;
 using System.Net;
 using System.Text.RegularExpressions;
 
-namespace Supay.Bot {
-  internal class Price {
-    public Price(int id, string name, int currentPrice) {
-      Id = id;
-      Name = name;
-      MarketPrice = currentPrice;
+namespace Supay.Bot
+{
+  internal class Price
+  {
+    public Price(int id, string name, int currentPrice)
+    {
+      this.Id = id;
+      this.Name = name;
+      this.MarketPrice = currentPrice;
     }
 
     public Price(int id, string name, int currentPrice, int changeToday, bool member)
-      : this(id, name, currentPrice) {
-      ChangeToday = changeToday;
-      IsMember = member;
+      : this(id, name, currentPrice)
+    {
+      this.ChangeToday = changeToday;
+      this.IsMember = member;
     }
 
-    public Price(int id) {
-      Id = id;
+    public Price(int id)
+    {
+      this.Id = id;
     }
 
-    public int Id {
+    public int Id
+    {
       get;
       private set;
     }
 
-    public string Name {
+    public string Name
+    {
       get;
       private set;
     }
 
-    public bool IsMember {
+    public bool IsMember
+    {
       get;
       private set;
     }
 
-    public int MarketPrice {
+    public int MarketPrice
+    {
       get;
       set;
     }
 
-    public int MinimumPrice {
+    public int MinimumPrice
+    {
       get;
       private set;
     }
 
-    public int MaximumPrice {
+    public int MaximumPrice
+    {
       get;
       private set;
     }
 
-    public int ChangeToday {
+    public int ChangeToday
+    {
       get;
       set;
     }
 
-    public string Examine {
+    public string Examine
+    {
       get;
       private set;
     }
 
-    public double Change30days {
+    public double Change30days
+    {
       get;
       private set;
     }
 
-    public double Change90days {
+    public double Change90days
+    {
       get;
       private set;
     }
 
-    public double Change180days {
+    public double Change180days
+    {
       get;
       private set;
     }
 
-    public DateTime LastUpdate {
+    public DateTime LastUpdate
+    {
       get;
       private set;
     }
 
-    public void SaveToDB(bool updateDate) {
+    public void SaveToDB(bool updateDate)
+    {
       string lastUpdate;
-      if (updateDate) {
+      if (updateDate)
+      {
         lastUpdate = DateTime.UtcNow.ToStringI("yyyyMMddHHmm");
-      } else {
+      }
+      else
+      {
         lastUpdate = Database.Lookup("lastUpdate", "prices", "ORDER BY lastUpdate DESC", null, string.Empty);
       }
 
-      try {
-        Database.Insert("prices", "id", Id.ToStringI(), "name", Name, "price", MarketPrice.ToStringI(), "lastUpdate", lastUpdate);
-      } catch {
-        Database.Update("prices", "id=" + Id.ToStringI(), "name", Name, "price", MarketPrice.ToStringI(), "lastUpdate", lastUpdate);
+      try
+      {
+        Database.Insert("prices", "id", this.Id.ToStringI(), "name", this.Name, "price", this.MarketPrice.ToStringI(), "lastUpdate", lastUpdate);
+      }
+      catch
+      {
+        Database.Update("prices", "id=" + this.Id.ToStringI(), "name", this.Name, "price", this.MarketPrice.ToStringI(), "lastUpdate", lastUpdate);
       }
     }
 
-    public void LoadFromCache() {
-      LoadFromDB();
-      if ((DateTime.UtcNow - LastUpdate).Days > 1) {
-        LoadFromGE();
+    public void LoadFromCache()
+    {
+      this.LoadFromDB();
+      if ((DateTime.UtcNow - this.LastUpdate).Days > 1)
+      {
+        this.LoadFromGE();
       }
     }
 
-    public void LoadFromDB() {
-      SQLiteDataReader dr = Database.ExecuteReader("SELECT name, price, lastUpdate FROM prices WHERE id=" + Id + ";");
-      if (dr.Read()) {
-        Name = dr.GetString(0);
-        MarketPrice = dr.GetInt32(1);
-        LastUpdate = dr.GetString(2).ToDateTime();
+    public void LoadFromDB()
+    {
+      SQLiteDataReader dr = Database.ExecuteReader("SELECT name, price, lastUpdate FROM prices WHERE id=" + this.Id + ";");
+      if (dr.Read())
+      {
+        this.Name = dr.GetString(0);
+        this.MarketPrice = dr.GetInt32(1);
+        this.LastUpdate = dr.GetString(2).ToDateTime();
       }
       dr.Close();
     }
 
-    public void LoadFromGE() {
-      string pricePage = new WebClient().DownloadString("http://itemdb-rs.runescape.com/viewitem.ws?obj=" + Id);
+    public void LoadFromGE()
+    {
+      string pricePage = new WebClient().DownloadString("http://itemdb-rs.runescape.com/viewitem.ws?obj=" + this.Id);
 
       string priceRegex = @"<div class=""subsectionHeader"">\s+";
       priceRegex += @"<h2>\s+";
@@ -149,19 +178,21 @@ namespace Supay.Bot {
       priceRegex += @"<b>180 Days:</b> <span class=""\w+"">([0-9.+-]+)%";
 
       Match priceMatch = Regex.Match(pricePage, priceRegex, RegexOptions.Singleline);
-      if (priceMatch.Success) {
-        Name = priceMatch.Groups[1].Value;
-        Examine = priceMatch.Groups[2].Value;
-        MinimumPrice = priceMatch.Groups[3].Value.ToInt32();
-        MarketPrice = priceMatch.Groups[4].Value.ToInt32();
-        MaximumPrice = priceMatch.Groups[5].Value.ToInt32();
-        Change30days = double.Parse(priceMatch.Groups[6].Value, CultureInfo.InvariantCulture);
-        Change90days = double.Parse(priceMatch.Groups[7].Value, CultureInfo.InvariantCulture);
-        Change180days = double.Parse(priceMatch.Groups[8].Value, CultureInfo.InvariantCulture);
+      if (priceMatch.Success)
+      {
+        this.Name = priceMatch.Groups[1].Value;
+        this.Examine = priceMatch.Groups[2].Value;
+        this.MinimumPrice = priceMatch.Groups[3].Value.ToInt32();
+        this.MarketPrice = priceMatch.Groups[4].Value.ToInt32();
+        this.MaximumPrice = priceMatch.Groups[5].Value.ToInt32();
+        this.Change30days = double.Parse(priceMatch.Groups[6].Value, CultureInfo.InvariantCulture);
+        this.Change90days = double.Parse(priceMatch.Groups[7].Value, CultureInfo.InvariantCulture);
+        this.Change180days = double.Parse(priceMatch.Groups[8].Value, CultureInfo.InvariantCulture);
       }
 
-      if (!string.IsNullOrEmpty(Name) && MarketPrice > 0) {
-        SaveToDB(false);
+      if (!string.IsNullOrEmpty(this.Name) && this.MarketPrice > 0)
+      {
+        this.SaveToDB(false);
       }
     }
   }

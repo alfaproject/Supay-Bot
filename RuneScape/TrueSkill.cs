@@ -1,23 +1,30 @@
-﻿namespace Supay.Bot {
-  internal class TrueSkill : Skill {
+﻿namespace Supay.Bot
+{
+  internal class TrueSkill : Skill
+  {
     private const int MAX_LEVEL = 120;
 
     public TrueSkill(string name, int rank, int level, int exp)
-      : base(name, rank, level, exp) {
+      : base(name, rank, level, exp)
+    {
     }
 
     public TrueSkill(string name, int rank, long exp)
-      : base(name, rank) {
-      Exp = exp;
+      : base(name, rank)
+    {
+      this.Exp = exp;
 
-      Level = exp.ToLevel();
-      if (Level > MAX_LEVEL) {
-        Level = MAX_LEVEL;
+      this.Level = exp.ToLevel();
+      if (this.Level > MAX_LEVEL)
+      {
+        this.Level = MAX_LEVEL;
       }
     }
 
-    public override int MaxLevel {
-      get {
+    public override int MaxLevel
+    {
+      get
+      {
         return MAX_LEVEL;
       }
     }

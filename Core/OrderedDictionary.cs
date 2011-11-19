@@ -1,27 +1,33 @@
 ﻿using System.Linq;
 
-namespace System.Collections.Generic {
+namespace System.Collections.Generic
+{
   [Serializable]
-  internal class OrderedDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IList<KeyValuePair<TKey, TValue>> {
+  internal class OrderedDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IList<KeyValuePair<TKey, TValue>>
+  {
     private readonly Dictionary<TKey, TValue> _dict;
     private readonly List<KeyValuePair<TKey, TValue>> _list;
 
-    public OrderedDictionary(int capacity) {
-      _dict = new Dictionary<TKey, TValue>(capacity);
-      _list = new List<KeyValuePair<TKey, TValue>>(capacity);
+    public OrderedDictionary(int capacity)
+    {
+      this._dict = new Dictionary<TKey, TValue>(capacity);
+      this._list = new List<KeyValuePair<TKey, TValue>>(capacity);
     }
 
-    public OrderedDictionary() {
-      _dict = new Dictionary<TKey, TValue>();
-      _list = new List<KeyValuePair<TKey, TValue>>();
+    public OrderedDictionary()
+    {
+      this._dict = new Dictionary<TKey, TValue>();
+      this._list = new List<KeyValuePair<TKey, TValue>>();
     }
 
     /// <summary>
     /// Gets the Dictionary class backing the OrderedDictionary.
     /// </summary>
-    public Dictionary<TKey, TValue> Dictionary {
-      get {
-        return _dict;
+    public Dictionary<TKey, TValue> Dictionary
+    {
+      get
+      {
+        return this._dict;
       }
     }
 
@@ -29,10 +35,12 @@ namespace System.Collections.Generic {
     /// Get the ordered list of keys.
     /// This is a copy of the keys in the original Dictionary.
     /// </summary>
-    public IList<TKey> OrderedKeys {
-      get {
-        var retList = new List<TKey>(_list.Count);
-        retList.AddRange(_list.Select(kvp => kvp.Key));
+    public IList<TKey> OrderedKeys
+    {
+      get
+      {
+        var retList = new List<TKey>(this._list.Count);
+        retList.AddRange(this._list.Select(kvp => kvp.Key));
         return retList;
       }
     }
@@ -41,10 +49,12 @@ namespace System.Collections.Generic {
     /// Get the ordered list of values.
     /// This is a copy of the values in the original Dictionary.
     /// </summary>
-    public IList<TValue> OrderedValues {
-      get {
-        var retList = new List<TValue>(_list.Count);
-        retList.AddRange(_list.Select(kvp => kvp.Value));
+    public IList<TValue> OrderedValues
+    {
+      get
+      {
+        var retList = new List<TValue>(this._list.Count);
+        retList.AddRange(this._list.Select(kvp => kvp.Value));
         return retList;
       }
     }
@@ -54,17 +64,21 @@ namespace System.Collections.Generic {
     /// </summary>
     /// <param name="index">The index of the value to get or set.</param>
     /// <returns>The associated value.</returns>
-    public TValue this[int index] {
-      get {
-        return _list[index].Value;
+    public TValue this[int index]
+    {
+      get
+      {
+        return this._list[index].Value;
       }
-      set {
-        if (index < 0 || index >= _list.Count) {
+      set
+      {
+        if (index < 0 || index >= this._list.Count)
+        {
           throw new ArgumentOutOfRangeException("index");
         }
 
-        _dict[_list[index].Key] = value;
-        _list[index] = new KeyValuePair<TKey, TValue>(_list[index].Key, value);
+        this._dict[this._list[index].Key] = value;
+        this._list[index] = new KeyValuePair<TKey, TValue>(this._list[index].Key, value);
       }
     }
 
@@ -75,9 +89,10 @@ namespace System.Collections.Generic {
     /// </summary>
     /// <param name="key">The key.</param>
     /// <param name="value">The associated value.</param>
-    public void Add(TKey key, TValue value) {
-      _dict.Add(key, value);
-      _list.Add(new KeyValuePair<TKey, TValue>(key, value));
+    public void Add(TKey key, TValue value)
+    {
+      this._dict.Add(key, value);
+      this._list.Add(new KeyValuePair<TKey, TValue>(key, value));
     }
 
     /// <summary>
@@ -85,17 +100,20 @@ namespace System.Collections.Generic {
     /// </summary>
     /// <param name="key">The key.</param>
     /// <returns>True if the key is found.</returns>
-    public bool ContainsKey(TKey key) {
-      return _dict.ContainsKey(key);
+    public bool ContainsKey(TKey key)
+    {
+      return this._dict.ContainsKey(key);
     }
 
     /// <summary>
     /// Get an unordered list of keys.
     /// This collection refers back to the keys in the original Dictionary.
     /// </summary>
-    public ICollection<TKey> Keys {
-      get {
-        return _dict.Keys;
+    public ICollection<TKey> Keys
+    {
+      get
+      {
+        return this._dict.Keys;
       }
     }
 
@@ -103,9 +121,11 @@ namespace System.Collections.Generic {
     /// Get an unordered list of values.
     /// This collection refers back to the values in the original Dictionary.
     /// </summary>
-    public ICollection<TValue> Values {
-      get {
-        return _dict.Values;
+    public ICollection<TValue> Values
+    {
+      get
+      {
+        return this._dict.Values;
       }
     }
 
@@ -114,10 +134,12 @@ namespace System.Collections.Generic {
     /// </summary>
     /// <param name="key">The key identifying the key-value pair.</param>
     /// <returns>True if removed.</returns>
-    public bool Remove(TKey key) {
-      bool found = _dict.Remove(key);
-      if (found) {
-        _list.RemoveAt(IndexOf(key));
+    public bool Remove(TKey key)
+    {
+      bool found = this._dict.Remove(key);
+      if (found)
+      {
+        this._list.RemoveAt(this.IndexOf(key));
       }
       return found;
     }
@@ -128,8 +150,9 @@ namespace System.Collections.Generic {
     /// <param name="key">The key indentifying the entry.</param>
     /// <param name="value">The value, if found.</param>
     /// <returns>True if found.</returns>
-    public bool TryGetValue(TKey key, out TValue value) {
-      return _dict.TryGetValue(key, out value);
+    public bool TryGetValue(TKey key, out TValue value)
+    {
+      return this._dict.TryGetValue(key, out value);
     }
 
     /// <summary>
@@ -137,16 +160,22 @@ namespace System.Collections.Generic {
     /// </summary>
     /// <param name="key">The key of the value to get or set.</param>
     /// <returns>The associated value.</returns>
-    public TValue this[TKey key] {
-      get {
-        return _dict[key];
+    public TValue this[TKey key]
+    {
+      get
+      {
+        return this._dict[key];
       }
-      set {
-        if (_dict.ContainsKey(key)) {
-          _dict[key] = value;
-          _list[IndexOf(key)] = new KeyValuePair<TKey, TValue>(key, value);
-        } else {
-          Add(key, value);
+      set
+      {
+        if (this._dict.ContainsKey(key))
+        {
+          this._dict[key] = value;
+          this._list[this.IndexOf(key)] = new KeyValuePair<TKey, TValue>(key, value);
+        }
+        else
+        {
+          this.Add(key, value);
         }
       }
     }
@@ -155,16 +184,18 @@ namespace System.Collections.Generic {
     /// Adds a key-value pair to the OrderedDictionary.
     /// </summary>
     /// <param name="item">The KeyValuePair instance.</param>
-    public void Add(KeyValuePair<TKey, TValue> item) {
-      Add(item.Key, item.Value);
+    public void Add(KeyValuePair<TKey, TValue> item)
+    {
+      this.Add(item.Key, item.Value);
     }
 
     /// <summary>
     /// Clears all entries in the OrderedDictionary.
     /// </summary>
-    public void Clear() {
-      _dict.Clear();
-      _list.Clear();
+    public void Clear()
+    {
+      this._dict.Clear();
+      this._list.Clear();
     }
 
     /// <summary>
@@ -172,8 +203,9 @@ namespace System.Collections.Generic {
     /// </summary>
     /// <param name="item">The key-value pair.</param>
     /// <returns>True if the key is found.</returns>
-    public bool Contains(KeyValuePair<TKey, TValue> item) {
-      return ContainsKey(item.Key);
+    public bool Contains(KeyValuePair<TKey, TValue> item)
+    {
+      return this.ContainsKey(item.Key);
     }
 
     /// <summary>
@@ -183,24 +215,29 @@ namespace System.Collections.Generic {
     /// </summary>
     /// <param name="array">The KeyValuePair array.</param>
     /// <param name="arrayIndex">The position to start the copy.</param>
-    public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex) {
-      _list.CopyTo(array, arrayIndex);
+    public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
+    {
+      this._list.CopyTo(array, arrayIndex);
     }
 
     /// <summary>
     /// Returns the number of entries in the KeyedList.
     /// </summary>
-    public int Count {
-      get {
-        return _list.Count;
+    public int Count
+    {
+      get
+      {
+        return this._list.Count;
       }
     }
 
     /// <summary>
     /// Returns false.
     /// </summary>
-    public bool IsReadOnly {
-      get {
+    public bool IsReadOnly
+    {
+      get
+      {
         return false;
       }
     }
@@ -211,22 +248,25 @@ namespace System.Collections.Generic {
     /// </summary>
     /// <param name="item">The key-value identifying the entry.</param>
     /// <returns>True if removed.</returns>
-    public bool Remove(KeyValuePair<TKey, TValue> item) {
-      return Remove(item.Key);
+    public bool Remove(KeyValuePair<TKey, TValue> item)
+    {
+      return this.Remove(item.Key);
     }
 
     /// <summary>
     /// Returns an ordered KeyValuePair enumerator.
     /// </summary>
-    public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() {
-      return _list.GetEnumerator();
+    public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+    {
+      return this._list.GetEnumerator();
     }
 
     /// <summary>
     /// Returns an ordered System.Collections KeyValuePair objects.
     /// </summary>
-    IEnumerator IEnumerable.GetEnumerator() {
-      return _list.GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+      return this._list.GetEnumerator();
     }
 
     #endregion
@@ -238,8 +278,9 @@ namespace System.Collections.Generic {
     /// </summary>
     /// <param name="item">The key-value pair.</param>
     /// <returns>The index, or -1 if not found.</returns>
-    public int IndexOf(KeyValuePair<TKey, TValue> item) {
-      return IndexOf(item.Key);
+    public int IndexOf(KeyValuePair<TKey, TValue> item)
+    {
+      return this.IndexOf(item.Key);
     }
 
     /// <summary>
@@ -247,21 +288,24 @@ namespace System.Collections.Generic {
     /// </summary>
     /// <param name="index">The zero-based insert point.</param>
     /// <param name="item">The key-value pair.</param>
-    public void Insert(int index, KeyValuePair<TKey, TValue> item) {
-      Insert(index, item.Key, item.Value);
+    public void Insert(int index, KeyValuePair<TKey, TValue> item)
+    {
+      this.Insert(index, item.Key, item.Value);
     }
 
     /// <summary>
     /// Remove the entry at the specified index.
     /// </summary>
     /// <param name="index">The index to the entry to be removed.</param>
-    public void RemoveAt(int index) {
-      if (index < 0 || index >= _list.Count) {
+    public void RemoveAt(int index)
+    {
+      if (index < 0 || index >= this._list.Count)
+      {
         throw new ArgumentOutOfRangeException("index");
       }
 
-      _dict.Remove(_list[index].Key);
-      _list.RemoveAt(index);
+      this._dict.Remove(this._list[index].Key);
+      this._list.RemoveAt(index);
     }
 
     /// <summary>
@@ -269,17 +313,21 @@ namespace System.Collections.Generic {
     /// </summary>
     /// <param name="index">The index.</param>
     /// <returns>The key-value pair.</returns>
-    KeyValuePair<TKey, TValue> IList<KeyValuePair<TKey, TValue>>.this[int index] {
-      get {
-        return _list[index];
+    KeyValuePair<TKey, TValue> IList<KeyValuePair<TKey, TValue>>.this[int index]
+    {
+      get
+      {
+        return this._list[index];
       }
-      set {
-        if (index < 0 || index >= _list.Count) {
+      set
+      {
+        if (index < 0 || index >= this._list.Count)
+        {
           throw new ArgumentOutOfRangeException("index");
         }
 
-        _list[index] = value;
-        _dict[value.Key] = value.Value;
+        this._list[index] = value;
+        this._dict[value.Key] = value.Value;
       }
     }
 
@@ -290,12 +338,14 @@ namespace System.Collections.Generic {
     /// </summary>
     /// <param name="index">The index.</param>
     /// <returns>The key at the index.</returns>
-    public TKey GetKey(int index) {
-      if (index < 0 || index >= Count) {
+    public TKey GetKey(int index)
+    {
+      if (index < 0 || index >= this.Count)
+      {
         throw new ArgumentOutOfRangeException("index");
       }
 
-      return _list[index].Key;
+      return this._list[index].Key;
     }
 
     /// <summary>
@@ -303,9 +353,12 @@ namespace System.Collections.Generic {
     /// </summary>
     /// <param name="key">The key to find the index of.</param>
     /// <returns>The index of the key, or -1 if not found.</returns>
-    public int IndexOf(TKey key) {
-      for (int i = 0; i < _list.Count; i++) {
-        if (_list[i].Key.Equals(key)) {
+    public int IndexOf(TKey key)
+    {
+      for (int i = 0; i < this._list.Count; i++)
+      {
+        if (this._list[i].Key.Equals(key))
+        {
           return i;
         }
       }
@@ -318,13 +371,15 @@ namespace System.Collections.Generic {
     /// <param name="index">The zero-based insert point.</param>
     /// <param name="key">The key.</param>
     /// <param name="value">The value.</param>
-    public void Insert(int index, TKey key, TValue value) {
-      if (index < 0 || index >= _list.Count) {
+    public void Insert(int index, TKey key, TValue value)
+    {
+      if (index < 0 || index >= this._list.Count)
+      {
         throw new ArgumentOutOfRangeException("index");
       }
 
-      _dict.Add(key, value);
-      _list.Add(new KeyValuePair<TKey, TValue>(key, value));
+      this._dict.Add(key, value);
+      this._list.Add(new KeyValuePair<TKey, TValue>(key, value));
     }
   }
 }

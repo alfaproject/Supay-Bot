@@ -4,12 +4,16 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Supay.Bot {
-  internal static partial class Command {
-    public static void Stats(CommandContext bc) {
+namespace Supay.Bot
+{
+  internal static partial class Command
+  {
+    public static void Stats(CommandContext bc)
+    {
       // get @next
       bool ExpNext = false;
-      if (bc.Message.Contains(" @next") || bc.Message.Contains(" @n")) {
+      if (bc.Message.Contains(" @next") || bc.Message.Contains(" @n"))
+      {
         ExpNext = true;
         bc.Message = bc.Message.Replace(" @next", string.Empty);
         bc.Message = bc.Message.Replace(" @n", string.Empty);
@@ -17,7 +21,8 @@ namespace Supay.Bot {
 
       // get @exp
       bool Exp = false;
-      if (bc.Message.Contains(" @exp") || bc.Message.Contains(" @xp")) {
+      if (bc.Message.Contains(" @exp") || bc.Message.Contains(" @xp"))
+      {
         Exp = true;
         bc.Message = bc.Message.Replace(" @exp", string.Empty);
         bc.Message = bc.Message.Replace(" @xp", string.Empty);
@@ -25,7 +30,8 @@ namespace Supay.Bot {
 
       // get @rank
       bool Rank = false;
-      if (bc.Message.Contains(" @rank") || bc.Message.Contains(" @r")) {
+      if (bc.Message.Contains(" @rank") || bc.Message.Contains(" @r"))
+      {
         Rank = true;
         bc.Message = bc.Message.Replace(" @rank", string.Empty);
         bc.Message = bc.Message.Replace(" @r", string.Empty);
@@ -33,7 +39,8 @@ namespace Supay.Bot {
 
       // get @vlevel
       bool VLevel = false;
-      if (bc.Message.Contains(" @vlevel") || bc.Message.Contains(" @vlvl") || bc.Message.Contains(" @v")) {
+      if (bc.Message.Contains(" @vlevel") || bc.Message.Contains(" @vlvl") || bc.Message.Contains(" @v"))
+      {
         VLevel = true;
         bc.Message = bc.Message.Replace(" @vlevel", string.Empty);
         bc.Message = bc.Message.Replace(" @vlvl", string.Empty);
@@ -43,15 +50,22 @@ namespace Supay.Bot {
       // get <
       int InputLessThan = 0;
       Match M = Regex.Match(bc.Message, " <(\\d+m|\\d+k|\\d+)");
-      if (M.Success) {
-        if (M.Groups[1].Value.EndsWithI("m")) {
+      if (M.Success)
+      {
+        if (M.Groups[1].Value.EndsWithI("m"))
+        {
           InputLessThan = 1000000 * int.Parse(M.Groups[1].Value.Substring(0, M.Groups[1].Value.Length - 1), CultureInfo.InvariantCulture);
-        } else if (M.Groups[1].Value.EndsWithI("k")) {
+        }
+        else if (M.Groups[1].Value.EndsWithI("k"))
+        {
           InputLessThan = 1000 * int.Parse(M.Groups[1].Value.Substring(0, M.Groups[1].Value.Length - 1), CultureInfo.InvariantCulture);
-        } else {
+        }
+        else
+        {
           InputLessThan = int.Parse(M.Groups[1].Value, CultureInfo.InvariantCulture);
         }
-        if (InputLessThan < 127) {
+        if (InputLessThan < 127)
+        {
           InputLessThan = InputLessThan.ToExp();
         }
         bc.Message = Regex.Replace(bc.Message, " <(\\d+m|\\d+k|\\d+)", string.Empty);
@@ -60,15 +74,22 @@ namespace Supay.Bot {
       // get >
       int InputGreaterThan = 0;
       M = Regex.Match(bc.Message, " >(\\d+m|\\d+k|\\d+)");
-      if (M.Success) {
-        if (M.Groups[1].Value.EndsWithI("m")) {
+      if (M.Success)
+      {
+        if (M.Groups[1].Value.EndsWithI("m"))
+        {
           InputGreaterThan = 1000000 * int.Parse(M.Groups[1].Value.Substring(0, M.Groups[1].Value.Length - 1), CultureInfo.InvariantCulture);
-        } else if (M.Groups[1].Value.EndsWithI("k")) {
+        }
+        else if (M.Groups[1].Value.EndsWithI("k"))
+        {
           InputGreaterThan = 1000 * int.Parse(M.Groups[1].Value.Substring(0, M.Groups[1].Value.Length - 1), CultureInfo.InvariantCulture);
-        } else {
+        }
+        else
+        {
           InputGreaterThan = int.Parse(M.Groups[1].Value, CultureInfo.InvariantCulture);
         }
-        if (InputGreaterThan < 127) {
+        if (InputGreaterThan < 127)
+        {
           InputGreaterThan = InputGreaterThan.ToExp();
         }
         bc.Message = Regex.Replace(bc.Message, " >(\\d+m|\\d+k|\\d+)", string.Empty);
@@ -76,36 +97,47 @@ namespace Supay.Bot {
 
       // get rsn
       string rsn;
-      if (bc.MessageTokens.Length > 1) {
+      if (bc.MessageTokens.Length > 1)
+      {
         rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
-      } else {
+      }
+      else
+      {
         rsn = bc.GetPlayerName(bc.From.Nickname);
       }
 
       var p = new Player(rsn);
-      if (!p.Ranked) {
+      if (!p.Ranked)
+      {
         bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn));
         return;
       }
 
-      if (ExpNext) {
+      if (ExpNext)
+      {
         string reply = string.Empty;
         List<Skill> skills = p.Skills.SortedByExpToNextVLevel;
-        for (int i = 0; i < skills.Count; i++) {
-          if (i == 0 || i == 15) {
+        for (int i = 0; i < skills.Count; i++)
+        {
+          if (i == 0 || i == 15)
+          {
             reply = "Exp. to next level of \\b{0}\\b:".FormatWith(rsn);
           }
           reply += " \\c{0}{1:N0}\\c {2};".FormatWith((skills[i].VLevel > 98 ? "04" : "03"), skills[i].ExpToVLevel, skills[i].Name);
-          if (i == 14 || i == skills.Count - 1) {
+          if (i == 14 || i == skills.Count - 1)
+          {
             bc.SendReply(reply);
           }
         }
-      } else {
+      }
+      else
+      {
         // calculate "real" overall xp, max overall exp, max overall level
         long totalExp = 0,
-          maxTotalExp = 0,
-          maxTotalLevel = 0;
-        foreach (Skill s in p.Skills.Values.Where(s => s.Name != Skill.OVER && s.Name != Skill.COMB)) {
+             maxTotalExp = 0,
+             maxTotalLevel = 0;
+        foreach (Skill s in p.Skills.Values.Where(s => s.Name != Skill.OVER && s.Name != Skill.COMB))
+        {
           long maxSkillExp = s.MaxLevel.ToExp();
           totalExp += Math.Min(maxSkillExp, s.Exp);
           maxTotalExp += maxSkillExp;
@@ -114,14 +146,17 @@ namespace Supay.Bot {
 
         // calculate total level and average level
         int totalLevel = p.Skills[0].Level;
-        if (VLevel) {
+        if (VLevel)
+        {
           totalLevel = 0;
-          for (int i = 1; i < p.Skills.Count - 1; i++) {
+          for (int i = 1; i < p.Skills.Count - 1; i++)
+          {
             totalLevel += p.Skills[i].VLevel;
           }
         }
         double AvgSkilldouble = Math.Round(totalLevel / (double) (p.Skills.Count - 2), 1);
-        if (Exp) {
+        if (Exp)
+        {
           AvgSkilldouble = ((long) (p.Skills[0].Exp / (double) (p.Skills.Count - 2))).ToLevel();
         }
 
@@ -131,7 +166,8 @@ namespace Supay.Bot {
 
         // add up SS rank if applicable
         var ssplayers = new Players("SS");
-        if (ssplayers.Contains(p.Name)) {
+        if (ssplayers.Contains(p.Name))
+        {
           ssplayers.SortBySkill(Skill.OVER, false);
           reply += " (SS rank: \\c07{0}\\c)".FormatWith(ssplayers.IndexOf(rsn) + 1);
         }
@@ -139,36 +175,50 @@ namespace Supay.Bot {
         bc.SendReply(reply);
 
         string format;
-        if (Exp) {
+        if (Exp)
+        {
           format = " {2}\\c{1:00}{0:re}\\c {0:n}{2};";
-        } else if (Rank) {
+        }
+        else if (Rank)
+        {
           format = " {2}\\c{1:00}{0:r}\\c {0:n}{2};";
-        } else if (VLevel) {
+        }
+        else if (VLevel)
+        {
           format = " {2}\\c{1:00}{0:rv}\\c {0:n}{2};";
-        } else {
+        }
+        else
+        {
           format = " {2}\\c{1:00}{0:rl}\\c {0:n}{2};";
         }
 
         string replyCombat = "\\uCombat skills\\u:";
         string replyOther = "\\uOther skills\\u:";
-        for (int i = 1; i < p.Skills.Count - 1; i++) {
+        for (int i = 1; i < p.Skills.Count - 1; i++)
+        {
           Skill s = p.Skills[i];
 
-          if (InputLessThan > 0 && s.Exp >= InputLessThan) {
+          if (InputLessThan > 0 && s.Exp >= InputLessThan)
+          {
             continue;
           }
-          if (InputGreaterThan > 0 && s.Exp <= InputGreaterThan) {
+          if (InputGreaterThan > 0 && s.Exp <= InputGreaterThan)
+          {
             continue;
           }
-          if (InputLessThan > 0 && InputGreaterThan > 0 && s.Exp >= InputLessThan && s.Exp <= InputGreaterThan) {
+          if (InputLessThan > 0 && InputGreaterThan > 0 && s.Exp >= InputLessThan && s.Exp <= InputGreaterThan)
+          {
             continue;
           }
 
           reply = format.FormatWith(s, (VLevel ? s.VLevel : s.Level) > AvgSkill + 7 ? 3 : ((VLevel ? s.VLevel : s.Level) < AvgSkill - 7 ? 4 : 7), s.Exp == p.Skills.Highest[0].Exp ? "\\u" : string.Empty);
 
-          if (s.Name != Skill.ATTA && s.Name != Skill.STRE && s.Name != Skill.DEFE && s.Name != Skill.HITP && s.Name != Skill.PRAY && s.Name != Skill.SUMM && s.Name != Skill.RANG && s.Name != Skill.MAGI) {
+          if (s.Name != Skill.ATTA && s.Name != Skill.STRE && s.Name != Skill.DEFE && s.Name != Skill.HITP && s.Name != Skill.PRAY && s.Name != Skill.SUMM && s.Name != Skill.RANG && s.Name != Skill.MAGI)
+          {
             replyOther += reply;
-          } else {
+          }
+          else
+          {
             replyCombat += reply;
           }
         }
@@ -177,13 +227,16 @@ namespace Supay.Bot {
 
         bool ranked = false;
         reply = "\\uActivities\\u:";
-        foreach (Activity m in p.Activities.Values) {
-          if (m.Rank > 0) {
+        foreach (Activity m in p.Activities.Values)
+        {
+          if (m.Rank > 0)
+          {
             ranked = true;
             reply += " \\c07" + (Rank ? m.Rank : m.Score) + "\\c " + m.Name + ";";
           }
         }
-        if (ranked) {
+        if (ranked)
+        {
           bc.SendReply(reply);
         }
       }

@@ -1,66 +1,80 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Supay.Bot {
-  internal class SummoningItem : SkillItem {
+namespace Supay.Bot
+{
+  internal class SummoningItem : SkillItem
+  {
     private readonly int _pouchId;
 
     public SummoningItem(string[] tokens)
-      : base(tokens) {
-      _pouchId = int.Parse(tokens[4], CultureInfo.InvariantCulture);
-      HighAlch = int.Parse(tokens[5], CultureInfo.InvariantCulture);
-      Combat = int.Parse(tokens[6], CultureInfo.InvariantCulture);
-      Shards = int.Parse(tokens[7], CultureInfo.InvariantCulture);
-      Charm = tokens[8];
-      Components = tokens[9];
-      ComponentsIds = tokens[10];
-      Time = int.Parse(tokens[11], CultureInfo.InvariantCulture);
-      Abilities = tokens[12];
+      : base(tokens)
+    {
+      this._pouchId = int.Parse(tokens[4], CultureInfo.InvariantCulture);
+      this.HighAlch = int.Parse(tokens[5], CultureInfo.InvariantCulture);
+      this.Combat = int.Parse(tokens[6], CultureInfo.InvariantCulture);
+      this.Shards = int.Parse(tokens[7], CultureInfo.InvariantCulture);
+      this.Charm = tokens[8];
+      this.Components = tokens[9];
+      this.ComponentsIds = tokens[10];
+      this.Time = int.Parse(tokens[11], CultureInfo.InvariantCulture);
+      this.Abilities = tokens[12];
     }
 
-    public int HighAlch {
+    public int HighAlch
+    {
       get;
       set;
     }
 
-    public int Combat {
+    public int Combat
+    {
       get;
       set;
     }
 
-    public int Shards {
+    public int Shards
+    {
       get;
       set;
     }
 
-    public string Charm {
+    public string Charm
+    {
       get;
       set;
     }
 
-    public string Components {
+    public string Components
+    {
       get;
       set;
     }
 
-    public string ComponentsIds {
+    public string ComponentsIds
+    {
       get;
       set;
     }
 
-    public int Time {
+    public int Time
+    {
       get;
       set;
     }
 
-    public string Abilities {
+    public string Abilities
+    {
       get;
       set;
     }
 
-    public override string IrcColour {
-      get {
-        switch (Charm) {
+    public override string IrcColour
+    {
+      get
+      {
+        switch (this.Charm)
+        {
           case "Crimson":
             return "04";
           case "Green":
@@ -73,23 +87,30 @@ namespace Supay.Bot {
       }
     }
 
-    public string NameCombat {
-      get {
-        if (Combat > 0) {
-          return Name + " (" + Combat + ")";
+    public string NameCombat
+    {
+      get
+      {
+        if (this.Combat > 0)
+        {
+          return this.Name + " (" + this.Combat + ")";
         }
-        return Name;
+        return this.Name;
       }
     }
 
-    public int ComponentsPrice {
-      get {
-        if (ComponentsIds == "0") {
+    public int ComponentsPrice
+    {
+      get
+      {
+        if (this.ComponentsIds == "0")
+        {
           return 0;
         }
 
         int componentsPrice = 0;
-        foreach (string component in ComponentsIds.Split('+')) {
+        foreach (string component in this.ComponentsIds.Split('+'))
+        {
           var price = new Price(int.Parse(component, CultureInfo.InvariantCulture));
           price.LoadFromCache();
           componentsPrice += price.MarketPrice;
@@ -98,37 +119,45 @@ namespace Supay.Bot {
       }
     }
 
-    public int PouchPrice {
-      get {
-        var price = new Price(_pouchId);
+    public int PouchPrice
+    {
+      get
+      {
+        var price = new Price(this._pouchId);
         price.LoadFromCache();
         return price.MarketPrice;
       }
     }
 
-    public int TotalCost {
-      get {
-        return ComponentsPrice + Shards * 25 + 1;
+    public int TotalCost
+    {
+      get
+      {
+        return this.ComponentsPrice + this.Shards * 25 + 1;
       }
     }
 
-    public int BogrogCost {
-      get {
-        return ComponentsPrice + (int) Math.Ceiling(.3 * Shards) * 25 + 1;
+    public int BogrogCost
+    {
+      get
+      {
+        return this.ComponentsPrice + (int) Math.Ceiling(.3 * this.Shards) * 25 + 1;
       }
     }
 
-    public double CheapestExpCost {
-      get {
+    public double CheapestExpCost
+    {
+      get
+      {
         var nature = new Price(561);
         nature.LoadFromCache();
 
-        int componentsPrice = ComponentsPrice;
-        int totalCost = componentsPrice + Shards * 25 + 1;
+        int componentsPrice = this.ComponentsPrice;
+        int totalCost = componentsPrice + this.Shards * 25 + 1;
 
-        double bogrogExp = (componentsPrice + Math.Ceiling(.3 * Shards) * 25 + 1) / Exp;
-        //double marketExp = (totalCost - this.PouchPrice) / this.Exp;
-        double alchExp = (totalCost + nature.MarketPrice - HighAlch) / Exp;
+        double bogrogExp = (componentsPrice + Math.Ceiling(.3 * this.Shards) * 25 + 1) / this.Exp;
+        ////double marketExp = (totalCost - this.PouchPrice) / this.Exp;
+        double alchExp = (totalCost + nature.MarketPrice - this.HighAlch) / this.Exp;
 
         return Math.Min(bogrogExp, alchExp);
       }

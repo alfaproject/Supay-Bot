@@ -1,9 +1,13 @@
 ﻿using System;
 
-namespace Supay.Bot {
-  internal static partial class Command {
-    public static void PriceInfo(CommandContext bc) {
-      if (bc.MessageTokens.Length == 1) {
+namespace Supay.Bot
+{
+  internal static partial class Command
+  {
+    public static void PriceInfo(CommandContext bc)
+    {
+      if (bc.MessageTokens.Length == 1)
+      {
         bc.SendReply("Syntax: !PriceInfo <item>");
         return;
       }
@@ -11,15 +15,19 @@ namespace Supay.Bot {
       Price price;
 
       int id;
-      if (int.TryParse(bc.MessageTokens[1].TrimStart('#'), out id)) {
+      if (int.TryParse(bc.MessageTokens[1].TrimStart('#'), out id))
+      {
         // !PriceInfo <id>
         price = new Price(id);
-      } else {
+      }
+      else
+      {
         string query = bc.MessageTokens.Join(1);
         var prices = new Prices();
         prices.SearchExact(query);
 
-        switch (prices.Count) {
+        switch (prices.Count)
+        {
           case 0:
             bc.SendReply("\\c12www.runescape.com\\c doesn't have any record for \"{0}\".".FormatWith(query));
             return;
@@ -28,10 +36,12 @@ namespace Supay.Bot {
             break;
           default:
             string reply = "Results: \\c07{0}\\c".FormatWith(prices.Count);
-            for (int i = 0; i < Math.Min(15, prices.Count); i++) {
+            for (int i = 0; i < Math.Min(15, prices.Count); i++)
+            {
               reply += " | \\c07#{0}\\c {1}".FormatWith(prices[i].Id, prices[i].Name);
             }
-            if (prices.Count > 15) {
+            if (prices.Count > 15)
+            {
               reply += " | ...";
             }
             bc.SendReply(reply);
@@ -42,29 +52,44 @@ namespace Supay.Bot {
       price.LoadFromGE();
 
       string change30days;
-      if (price.Change30days < 0) {
+      if (price.Change30days < 0)
+      {
         change30days = "\\c04{0:0.#}%\\c".FormatWith(price.Change30days);
-      } else if (price.Change30days > 0) {
+      }
+      else if (price.Change30days > 0)
+      {
         change30days = "\\c03+{0:0.#}%\\c".FormatWith(price.Change30days);
-      } else {
+      }
+      else
+      {
         change30days = "\\c07{0:0.#}%\\c".FormatWith(price.Change30days);
       }
 
       string change90days;
-      if (price.Change90days < 0) {
+      if (price.Change90days < 0)
+      {
         change90days = "\\c04{0:0.#}%\\c".FormatWith(price.Change90days);
-      } else if (price.Change30days > 0) {
+      }
+      else if (price.Change30days > 0)
+      {
         change90days = "\\c03+{0:0.#}%\\c".FormatWith(price.Change90days);
-      } else {
+      }
+      else
+      {
         change90days = "\\c07{0:0.#}%\\c".FormatWith(price.Change90days);
       }
 
       string change180days;
-      if (price.Change180days < 0) {
+      if (price.Change180days < 0)
+      {
         change180days = "\\c04{0:0.#}%\\c".FormatWith(price.Change180days);
-      } else if (price.Change30days > 0) {
+      }
+      else if (price.Change30days > 0)
+      {
         change180days = "\\c03+{0:0.#}%\\c".FormatWith(price.Change180days);
-      } else {
+      }
+      else
+      {
         change180days = "\\c07{0:0.#}%\\c".FormatWith(price.Change180days);
       }
 

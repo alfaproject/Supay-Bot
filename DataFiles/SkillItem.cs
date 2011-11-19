@@ -1,36 +1,45 @@
 ﻿using System.Globalization;
 
-namespace Supay.Bot {
-  internal class SkillItem {
-    public SkillItem(string[] tokens) {
-      Skill = tokens[0];
-      Level = int.Parse(tokens[1], CultureInfo.InvariantCulture);
-      Exp = double.Parse(tokens[2], CultureInfo.InvariantCulture);
-      Name = tokens[3];
+namespace Supay.Bot
+{
+  internal class SkillItem
+  {
+    public SkillItem(string[] tokens)
+    {
+      this.Skill = tokens[0];
+      this.Level = int.Parse(tokens[1], CultureInfo.InvariantCulture);
+      this.Exp = double.Parse(tokens[2], CultureInfo.InvariantCulture);
+      this.Name = tokens[3];
     }
 
-    public string Skill {
+    public string Skill
+    {
       get;
       set;
     }
 
-    public int Level {
+    public int Level
+    {
       get;
       set;
     }
 
-    public double Exp {
+    public double Exp
+    {
       get;
       set;
     }
 
-    public string Name {
+    public string Name
+    {
       get;
       set;
     }
 
-    public virtual string IrcColour {
-      get {
+    public virtual string IrcColour
+    {
+      get
+      {
         return "07";
       }
     }

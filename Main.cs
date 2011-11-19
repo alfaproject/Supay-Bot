@@ -17,19 +17,22 @@ using Supay.Irc.Network;
 using ThreadedTimer = System.Threading.Timer;
 using Timer = System.Windows.Forms.Timer;
 
-namespace Supay.Bot {
-  public sealed partial class Main : Form {
+namespace Supay.Bot
+{
+  public sealed partial class Main : Form
+  {
     // timers
     private readonly Timer _timerMain;
     private ThreadedTimer _dailyPlayersUpdater;
     private ThreadedTimer _geChecker;
     private Client _irc;
 
-    public Main() {
-      InitializeComponent();
+    public Main()
+    {
+      this.InitializeComponent();
 
       // update form title
-      Text = Application.ProductName + @" (c) " + Application.CompanyName + @" 2006 - " + DateTime.UtcNow.Year;
+      this.Text = Application.ProductName + @" (c) " + Application.CompanyName + @" 2006 - " + DateTime.UtcNow.Year;
 
       // set debug listener
       Trace.Listeners.Clear();
@@ -39,203 +42,255 @@ namespace Supay.Bot {
       Trace.Listeners.Add(defaultListener);
 
       // set up clock timer
-      _timerMain = new Timer();
-      _timerMain.Tick += _timerMain_Tick;
-      _timerMain.Interval = 1000;
-      _timerMain.Start();
+      this._timerMain = new Timer();
+      this._timerMain.Tick += this._timerMain_Tick;
+      this._timerMain.Interval = 1000;
+      this._timerMain.Start();
     }
 
-    private void updatePlayers(object stateInfo) {
-      textBox.Invoke(new delOutputMessage(outputMessage), "##### Begin players update");
+    private void updatePlayers(object stateInfo)
+    {
+      this.textBox.Invoke(new delOutputMessage(this.outputMessage), "##### Begin players update");
 
       DateTime now = DateTime.UtcNow;
       SQLiteDataReader rs = Database.ExecuteReader("SELECT rsn FROM players WHERE lastUpdate!='" + now.ToStringI("yyyyMMdd") + "';");
-      while (rs.Read()) {
+      while (rs.Read())
+      {
         int tries = 0;
-        do {
+        do
+        {
           Thread.Sleep(250);
           var player = new Player(rs.GetString(0));
-          if (player.Ranked) {
+          if (player.Ranked)
+          {
             player.SaveToDB(now.ToStringI("yyyyMMdd"));
-            textBox.Invoke(new delOutputMessage(outputMessage), "##### Player updated: " + player.Name);
+            this.textBox.Invoke(new delOutputMessage(this.outputMessage), "##### Player updated: " + player.Name);
             break;
           }
-          textBox.Invoke(new delOutputMessage(outputMessage), "##### Error updating player: " + player.Name);
-        } while (++tries < 3);
+          this.textBox.Invoke(new delOutputMessage(this.outputMessage), "##### Error updating player: " + player.Name);
+        }
+        while (++tries < 3);
       }
       rs.Close();
 
-      textBox.Invoke(new delOutputMessage(outputMessage), "##### End players update");
+      this.textBox.Invoke(new delOutputMessage(this.outputMessage), "##### End players update");
     }
 
-    private void checkGE(object stateInfo) {
+    private void checkGE(object stateInfo)
+    {
       string pricesPage;
-      try {
+      try
+      {
         pricesPage = new WebClient().DownloadString("http://services.runescape.com/m=itemdb_rs/frontpage.ws");
         pricesPage += new WebClient().DownloadString("http://services.runescape.com/m=itemdb_rs/results.ws?price=all&query=ring");
-      } catch (WebException) {
-        textBox.Invoke(new delOutputMessage(outputMessage), "##### Abort GE check (prices page couldn't be downloaded)");
+      }
+      catch (WebException)
+      {
+        this.textBox.Invoke(new delOutputMessage(this.outputMessage), "##### Abort GE check (prices page couldn't be downloaded)");
         return;
       }
 
       var pricesChanged = new List<Price>();
       const string pricesRegex = @"obj=(\d+)"">([^<]+)</a>\s*</td>\s+<td>([^<]+)</td>";
-      foreach (Match priceMatch in Regex.Matches(pricesPage, pricesRegex, RegexOptions.Singleline)) {
+      foreach (Match priceMatch in Regex.Matches(pricesPage, pricesRegex, RegexOptions.Singleline))
+      {
         var newPrice = new Price(int.Parse(priceMatch.Groups[1].Value, CultureInfo.InvariantCulture), priceMatch.Groups[2].Value, priceMatch.Groups[3].Value.ToInt32());
         var oldPrice = new Price(newPrice.Id);
         oldPrice.LoadFromDB();
 
         // if the last saved price is outdated, add it to the list of changed prices
         newPrice.ChangeToday = newPrice.MarketPrice - oldPrice.MarketPrice;
-        if (newPrice.ChangeToday != 0) {
+        if (newPrice.ChangeToday != 0)
+        {
           pricesChanged.Add(newPrice);
         }
       }
 
       // display a debug message
-      if (pricesChanged.Count > 0) {
-        textBox.Invoke(new delOutputMessage(outputMessage), "##### GE updated items: " + pricesChanged.Count);
+      if (pricesChanged.Count > 0)
+      {
+        this.textBox.Invoke(new delOutputMessage(this.outputMessage), "##### GE updated items: " + pricesChanged.Count);
       }
 
-      if (pricesChanged.Count > 15) {
+      if (pricesChanged.Count > 15)
+      {
         // announce all channels
-        if (_irc != null && _irc.Connection.Status == ConnectionStatus.Connected) {
+        if (this._irc != null && this._irc.Connection.Status == ConnectionStatus.Connected)
+        {
           pricesChanged.Sort((p1, p2) => -p1.MarketPrice.CompareTo(p2.MarketPrice));
           string reply = @"\bGrand Exchange updated\b: ";
-          for (int i = 0; i < 5; i++) {
+          for (int i = 0; i < 5; i++)
+          {
             reply += @"{0}: \c07{1}\c {2} | ".FormatWith(pricesChanged[i].Name, pricesChanged[i].MarketPrice.ToShortString(1), (pricesChanged[i].ChangeToday > 0 ? @"\c03[+]\c" : @"\c04[-]\c"));
           }
           reply += "...";
-          foreach (Channel c in _irc.Channels) {
-            _irc.SendChat(reply, c.Name);
+          foreach (Channel c in this._irc.Channels)
+          {
+            this._irc.SendChat(reply, c.Name);
           }
         }
 
         // save the new prices
-        foreach (Price price in pricesChanged) {
+        foreach (Price price in pricesChanged)
+        {
           price.SaveToDB(true);
         }
       }
     }
 
-    private void _checkForum(object stateInfo) {
+    private void _checkForum(object stateInfo)
+    {
       const string mainChannel = "#skillers";
-      if (_irc.Channels.Find(mainChannel) == null) {
+      if (this._irc.Channels.Find(mainChannel) == null)
+      {
         return;
       }
 
-      try {
+      try
+      {
         string forumPage = new WebClient().DownloadString("http://supremeskillers.net/api/?module=forum&action=getLatestTopics");
         JObject LatestTopics = JObject.Parse(forumPage);
 
-        foreach (JObject post in LatestTopics["data"]) {
-          long topicId = long.Parse(post["topic"].ToString().Replace("\"", ""));
+        foreach (JObject post in LatestTopics["data"])
+        {
+          long topicId = long.Parse(post["topic"].ToString().Replace("\"", string.Empty));
           var topic = (string) post["subject"];
           var forum = (string) post["board"]["name"];
           var href = (string) post["href"];
           var poster = (string) post["poster"]["name"];
 
           // Check if this topic exists in database
-          if (Database.Lookup<long>("topicId", "forums", "topicId=@topicId", new[] { new SQLiteParameter("@topicId", topicId) }) != topicId) {
+          if (Database.Lookup<long>("topicId", "forums", "topicId=@topicId", new[] { new SQLiteParameter("@topicId", topicId) }) != topicId)
+          {
             Database.Insert("forums", "topicId", topicId.ToStringI());
             string reply = @"\bNew topic!\b | Forum: \c07{0}\c | Topic: \c07{1}\c | Poster: \c07{2}\c | \c12{3}".FormatWith(forum, topic, poster, href);
-            _irc.SendChat(reply, mainChannel);
+            this._irc.SendChat(reply, mainChannel);
           }
         }
-      } catch {
+      }
+      catch
+      {
       }
     }
 
-    private void _checkEvent(object stateInfo) {
+    private void _checkEvent(object stateInfo)
+    {
       const string mainChannel = "#skillers";
-      if (_irc.Channels.Find(mainChannel) == null) {
+      if (this._irc.Channels.Find(mainChannel) == null)
+      {
         return;
       }
 
-      try {
+      try
+      {
         string eventPage = new WebClient().DownloadString("http://supremeskillers.net/api/?module=events&action=getNext&channel=" + Uri.EscapeDataString(mainChannel));
         JObject nextEvent = JObject.Parse(eventPage);
 
-        if (nextEvent["data"] == null) {
+        if (nextEvent["data"] == null)
+        {
           return;
         }
         var events = new string[10];
         int i = -1;
-        foreach (JObject eventData in nextEvent["data"]) {
+        foreach (JObject eventData in nextEvent["data"])
+        {
           events[++i] = eventData.ToString();
         }
 
         nextEvent = JObject.Parse(events[0]);
         DateTime startTime = DateTime.ParseExact((string) nextEvent["startTime"], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
         SQLiteDataReader rsTimer = Database.ExecuteReader("SELECT fingerprint, nick, name, duration, started FROM timers;");
-        while (rsTimer.Read()) {
-          if (rsTimer.GetString(2) == (string) nextEvent["id"]) {
+        while (rsTimer.Read())
+        {
+          if (rsTimer.GetString(2) == (string) nextEvent["id"])
+          {
             return;
           }
         }
 
         var noticeDuration = new[] { 1440, 720, 360, 180, 90, 60, 40, 20, 10, 5 };
-        for (i = 0; i < 10; i++) {
-          if ((int) (startTime - DateTime.UtcNow).TotalMinutes - noticeDuration[i] < 0) {
+        for (i = 0; i < 10; i++)
+        {
+          if ((int) (startTime - DateTime.UtcNow).TotalMinutes - noticeDuration[i] < 0)
+          {
             continue;
           }
           Database.Insert("timers", "fingerprint", startTime.ToStringI("yyyyMMddHHmmss"), "nick", "#skillers", "name", (string) nextEvent["id"], "duration", (((int) (startTime - DateTime.UtcNow).TotalMinutes - noticeDuration[i]) * 60 + 60).ToStringI(), "started", DateTime.UtcNow.ToStringI("yyyyMMddHHmmss"));
         }
-      } catch {
+      }
+      catch
+      {
       }
     }
 
-    private void _timerMain_Tick(object sender, EventArgs e) {
+    private void _timerMain_Tick(object sender, EventArgs e)
+    {
       // Event check every hour
-      if (DateTime.UtcNow.Second == 0 && DateTime.UtcNow.Minute == 0) {
-        ThreadPool.QueueUserWorkItem(_checkEvent);
+      if (DateTime.UtcNow.Second == 0 && DateTime.UtcNow.Minute == 0)
+      {
+        ThreadPool.QueueUserWorkItem(this._checkEvent);
       }
 
       // Forum check every minute
-      if (DateTime.UtcNow.Second == 0) {
-        ThreadPool.QueueUserWorkItem(_checkForum);
+      if (DateTime.UtcNow.Second == 0)
+      {
+        ThreadPool.QueueUserWorkItem(this._checkForum);
       }
 
       // update utc timer label
-      lblUtcTimer.Text = "UTC: {0:T}".FormatWith(DateTime.UtcNow);
+      this.lblUtcTimer.Text = "UTC: {0:T}".FormatWith(DateTime.UtcNow);
 
       // update time to next morning update
       TimeSpan updateTime = Settings.Default.DailyUpdateTime;
       TimeSpan nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, updateTime.Hours, updateTime.Minutes, updateTime.Seconds).Subtract(DateTime.UtcNow);
-      if (nextMorning.Ticks < 0) {
+      if (nextMorning.Ticks < 0)
+      {
         nextMorning += TimeSpan.FromDays(1.0);
       }
-      lblUpdateTimer.Text = "Next update in " + nextMorning.ToLongString();
+      this.lblUpdateTimer.Text = "Next update in " + nextMorning.ToLongString();
 
-      if (_irc != null && _irc.Connection.Status == ConnectionStatus.Connected) {
+      if (this._irc != null && this._irc.Connection.Status == ConnectionStatus.Connected)
+      {
         // check for pending timers
-
         SQLiteDataReader rsTimer = Database.ExecuteReader("SELECT fingerprint, nick, name, duration, started FROM timers;");
-        while (rsTimer.Read()) {
-          if (DateTime.UtcNow >= rsTimer.GetString(4).ToDateTime().AddSeconds(rsTimer.GetInt32(3))) {
+        while (rsTimer.Read())
+        {
+          if (DateTime.UtcNow >= rsTimer.GetString(4).ToDateTime().AddSeconds(rsTimer.GetInt32(3)))
+          {
             string fingerprint = rsTimer.GetString(0);
             string nick = rsTimer.GetString(1);
 
-            if (!nick.StartsWith("#")) {
-              foreach (User u in _irc.Peers) {
-                if (u.FingerPrint == fingerprint || u.Nickname == nick) {
+            if (!nick.StartsWith("#"))
+            {
+              foreach (User u in this._irc.Peers)
+              {
+                if (u.FingerPrint == fingerprint || u.Nickname == nick)
+                {
                   Database.ExecuteNonQuery("DELETE FROM timers WHERE fingerprint='" + fingerprint + "' AND started='" + rsTimer.GetString(4) + "';");
-                  _irc.Send(new NoticeMessage("\\c07{0}\\c timer ended for \\b{1}\\b.".FormatWith(rsTimer.GetString(2), u.Nickname), u.Nickname));
-                  _irc.SendChat("\\c07{0}\\c timer ended for \\b{1}\\b.".FormatWith(rsTimer.GetString(2), u.Nickname), u.Nickname);
+                  this._irc.Send(new NoticeMessage("\\c07{0}\\c timer ended for \\b{1}\\b.".FormatWith(rsTimer.GetString(2), u.Nickname), u.Nickname));
+                  this._irc.SendChat("\\c07{0}\\c timer ended for \\b{1}\\b.".FormatWith(rsTimer.GetString(2), u.Nickname), u.Nickname);
                 }
               }
-            } else {
+            }
+            else
+            {
               DateTime fingerDate = DateTime.ParseExact(rsTimer.GetString(0), "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
-              if (DateTime.UtcNow.AddMinutes(-5) > fingerDate) {
+              if (DateTime.UtcNow.AddMinutes(-5) > fingerDate)
+              {
                 continue;
               }
-              foreach (Channel c in _irc.Channels) {
-                if (c.Name.ToLowerInvariant() == nick) {
+              foreach (Channel c in this._irc.Channels)
+              {
+                if (c.Name.ToLowerInvariant() == nick)
+                {
                   Database.ExecuteNonQuery("DELETE FROM timers WHERE nick='" + nick + "' AND name='" + rsTimer.GetString(2) + "' AND duration='" + rsTimer.GetInt32(3) + "';");
-                  if (rsTimer.GetInt32(3) < 3600) {
-                    _irc.Send(new NoticeMessage("Next event starts in \\c07{0}\\c for more information type !event".FormatWith((fingerDate - DateTime.UtcNow).ToLongString()), c.Name));
-                  } else {
-                    _irc.SendChat("Next event starts in \\c07{0}\\c for more information type !event".FormatWith((fingerDate - DateTime.UtcNow).ToLongString()), c.Name);
+                  if (rsTimer.GetInt32(3) < 3600)
+                  {
+                    this._irc.Send(new NoticeMessage("Next event starts in \\c07{0}\\c for more information type !event".FormatWith((fingerDate - DateTime.UtcNow).ToLongString()), c.Name));
+                  }
+                  else
+                  {
+                    this._irc.SendChat("Next event starts in \\c07{0}\\c for more information type !event".FormatWith((fingerDate - DateTime.UtcNow).ToLongString()), c.Name);
                   }
                 }
               }
@@ -246,134 +301,169 @@ namespace Supay.Bot {
       }
     }
 
-    private void btnConnect_Click(object sender, EventArgs e) {
-      btnConnect.Enabled = false;
+    private void btnConnect_Click(object sender, EventArgs e)
+    {
+      this.btnConnect.Enabled = false;
 
       // Create a new client to the given address with the given nick.
       string address = Settings.Default.ServerAddress;
       string nick = Settings.Default.Nick;
-      _irc = new Client(address, nick, "Supreme Skillers IRC bot") {
+      this._irc = new Client(address, nick, "Supreme Skillers IRC bot") {
         EnableAutoIdent = false
       };
 
-      _irc.DataSent += Irc_DataSent;
-      _irc.DataReceived += Irc_DataReceived;
-      _irc.Ready += Irc_Ready;
+      this._irc.DataSent += this.Irc_DataSent;
+      this._irc.DataReceived += this.Irc_DataReceived;
+      this._irc.Ready += this.Irc_Ready;
 
-      _irc.Messages.Chat += IrcChat;
-      _irc.Messages.NamesEndReply += Irc_NamesEndReply;
+      this._irc.Messages.Chat += this.IrcChat;
+      this._irc.Messages.NamesEndReply += this.Irc_NamesEndReply;
 
-      _irc.Connection.Disconnected += (dsender, devent) => textBox.Invoke(new delOutputMessage(outputMessage), "[DISCONNECTED] " + devent.Data);
+      this._irc.Connection.Disconnected += (dsender, devent) => this.textBox.Invoke(new delOutputMessage(this.outputMessage), "[DISCONNECTED] " + devent.Data);
 
-      try {
+      try
+      {
         // Since I'm a Windows.Forms application, I pass in this form to the Connect method so it can sync with me.
-        _irc.Connection.Connect(this);
-      } catch (Exception ex) {
+        this._irc.Connection.Connect(this);
+      }
+      catch (Exception ex)
+      {
         MessageBox.Show(ex.Message);
-        btnConnect.Enabled = true;
+        this.btnConnect.Enabled = true;
       }
     }
 
-    private void Irc_NamesEndReply(object sender, IrcMessageEventArgs<NamesEndReplyMessage> e) {
-      _irc.Connection.Write("WHO " + e.Message.Channel);
+    private void Irc_NamesEndReply(object sender, IrcMessageEventArgs<NamesEndReplyMessage> e)
+    {
+      this._irc.Connection.Write("WHO " + e.Message.Channel);
     }
 
-    private void Main_FormClosing(object sender, FormClosingEventArgs e) {
+    private void Main_FormClosing(object sender, FormClosingEventArgs e)
+    {
       // Quit IRC.
-      if (_irc.Connection.Status == ConnectionStatus.Connected) {
-        _irc.SendQuit(Text);
+      if (this._irc.Connection.Status == ConnectionStatus.Connected)
+      {
+        this._irc.SendQuit(this.Text);
       }
 
       // Persist application settings.
       Settings.Default.Save();
     }
 
-    private void btnExit_Click(object sender, EventArgs e) {
-      Close();
+    private void btnExit_Click(object sender, EventArgs e)
+    {
+      this.Close();
     }
 
-    private void Irc_DataSent(object sender, ConnectionDataEventArgs e) {
-      textBox.Invoke(new delOutputMessage(outputMessage), e.Data);
+    private void Irc_DataSent(object sender, ConnectionDataEventArgs e)
+    {
+      this.textBox.Invoke(new delOutputMessage(this.outputMessage), e.Data);
     }
 
-    private void Irc_DataReceived(object sender, ConnectionDataEventArgs e) {
-      textBox.Invoke(new delOutputMessage(outputMessage), e.Data);
+    private void Irc_DataReceived(object sender, ConnectionDataEventArgs e)
+    {
+      this.textBox.Invoke(new delOutputMessage(this.outputMessage), e.Data);
     }
 
-    private void Irc_Ready(object sender, EventArgs e) {
+    private void Irc_Ready(object sender, EventArgs e)
+    {
       // Perform the commands in the perform list.
-      foreach (string command in Settings.Default.Perform.Split(';')) {
-        _irc.Connection.Write(command);
+      foreach (string command in Settings.Default.Perform.Split(';'))
+      {
+        this._irc.Connection.Write(command);
       }
 
       // Join the channels in the channel list.
-      foreach (string channel in Settings.Default.Channels.Split(';')) {
-        _irc.Connection.Write("JOIN " + channel);
+      foreach (string channel in Settings.Default.Channels.Split(';'))
+      {
+        this._irc.Connection.Write("JOIN " + channel);
       }
     }
 
-    private void IrcChat(object sender, IrcMessageEventArgs<TextMessage> e) {
-      if (e.Message.Targets[0].EqualsI(_irc.User.Nickname)) {
+    private void IrcChat(object sender, IrcMessageEventArgs<TextMessage> e)
+    {
+      if (e.Message.Targets[0].EqualsI(this._irc.User.Nickname))
+      {
         // private message
-        var bc = new CommandContext(_irc, _irc.Peers, e.Message.Sender, null, e.Message.Text);
-        if (!bc.IsAdmin) {
+        var bc = new CommandContext(this._irc, this._irc.Peers, e.Message.Sender, null, e.Message.Text);
+        if (!bc.IsAdmin)
+        {
           return;
         }
 
-        switch (bc.MessageTokens[0].ToUpperInvariant()) {
+        switch (bc.MessageTokens[0].ToUpperInvariant())
+        {
           case "RAW":
-            _irc.Connection.Write(bc.MessageTokens.Join(1));
+            this._irc.Connection.Write(bc.MessageTokens.Join(1));
             break;
           case "SQL":
-            try {
+            try
+            {
               Database.ExecuteNonQuery(bc.MessageTokens.Join(1));
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
               bc.SendReply(ex.Message.Replace("\r\n", " » "));
             }
             break;
           case "SQLRESULT":
-            try {
+            try
+            {
               SQLiteDataReader sqlQuery = Database.ExecuteReader(bc.MessageTokens.Join(1) + " LIMIT 1;");
-              if (sqlQuery.Read()) {
+              if (sqlQuery.Read())
+              {
                 string reply = "Results »";
-                for (int i = 0; i < sqlQuery.FieldCount; i++) {
+                for (int i = 0; i < sqlQuery.FieldCount; i++)
+                {
                   reply += " " + sqlQuery.GetValue(i) + ";";
                 }
-                _irc.SendChat(reply, e.Message.Sender.Nickname);
+                this._irc.SendChat(reply, e.Message.Sender.Nickname);
               }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
               bc.SendReply(ex.Message.Replace("\r\n", " » "));
             }
             break;
           case "LISTCHANNELS":
-            foreach (Channel c in _irc.Channels) {
+            foreach (Channel c in this._irc.Channels)
+            {
               string users = c.Users.Aggregate(string.Empty, (current, u) => current + (" " + u.Nickname));
-              _irc.SendChat(c.Name + " » " + users.Trim(), e.Message.Sender.Nickname);
+              this._irc.SendChat(c.Name + " » " + users.Trim(), e.Message.Sender.Nickname);
             }
             break;
         }
-      } else {
+      }
+      else
+      {
         // channel message
-        if (e.Message.Text[0] == '%') {
+        if (e.Message.Text[0] == '%')
+        {
           e.Message.Text = "." + e.Message.Text;
         }
 
-        if (e.Message.Text[0] == '!' || e.Message.Text[0] == '.' || e.Message.Text[0] == '@') {
-          var bc = new CommandContext(_irc, _irc.Peers, e.Message.Sender, _irc.Channels.Find(e.Message.Targets[0]), e.Message.Text);
+        if (e.Message.Text[0] == '!' || e.Message.Text[0] == '.' || e.Message.Text[0] == '@')
+        {
+          var bc = new CommandContext(this._irc, this._irc.Peers, e.Message.Sender, this._irc.Channels.Find(e.Message.Targets[0]), e.Message.Text);
 
-          if (bc.MessageTokens[0].Length == 0) {
+          if (bc.MessageTokens[0].Length == 0)
+          {
             SQLiteDataReader defaultSkillInfo = Database.ExecuteReader("SELECT skill, publicSkill FROM users WHERE fingerprint='" + e.Message.Sender.FingerPrint + "';");
-            if (defaultSkillInfo.Read()) {
-              if (!(defaultSkillInfo.GetValue(0) is DBNull)) {
-                if (defaultSkillInfo.GetInt32(1) == 0) {
-                  bc = new CommandContext(_irc, _irc.Peers, e.Message.Sender, _irc.Channels.Find(e.Message.Targets[0]), ".");
+            if (defaultSkillInfo.Read())
+            {
+              if (!(defaultSkillInfo.GetValue(0) is DBNull))
+              {
+                if (defaultSkillInfo.GetInt32(1) == 0)
+                {
+                  bc = new CommandContext(this._irc, this._irc.Peers, e.Message.Sender, this._irc.Channels.Find(e.Message.Targets[0]), ".");
                 }
                 bc.MessageTokens[0] = defaultSkillInfo.GetString(0);
               }
             }
           }
 
-          switch (bc.MessageTokens[0].ToUpperInvariant()) {
+          switch (bc.MessageTokens[0].ToUpperInvariant())
+          {
               // Utility
             case "SET":
             case "DEFAULT":
@@ -813,91 +903,114 @@ namespace Supay.Bot {
             default:
               string command = null;
 
-              if (bc.MessageTokens[0].StartsWithI("LAST")) {
+              if (bc.MessageTokens[0].StartsWithI("LAST"))
+              {
                 // !lastNdays
                 ThreadUtil.FireAndForget(CmdTracker.Performance, bc);
-              } else if (bc.MessageTokens[0].StartsWithI("SSLAST") || bc.MessageTokens[0].StartsWithI("TSLAST") || bc.MessageTokens[0].StartsWithI("PTLAST") || bc.MessageTokens[0].StartsWithI("TUGALAST")) {
+              }
+              else if (bc.MessageTokens[0].StartsWithI("SSLAST") || bc.MessageTokens[0].StartsWithI("TSLAST") || bc.MessageTokens[0].StartsWithI("PTLAST") || bc.MessageTokens[0].StartsWithI("TUGALAST"))
+              {
                 // !<clan>lastNdays
                 ThreadUtil.FireAndForget(Command.ClanPerformance, bc);
-              } else if (Activity.TryParse(bc.MessageTokens[0], ref command)) {
+              }
+              else if (Activity.TryParse(bc.MessageTokens[0], ref command))
+              {
                 // !<activity>
                 ThreadUtil.FireAndForget(Command.Activity, bc);
-              } else if (Skill.TryParse(bc.MessageTokens[0], ref command)) {
+              }
+              else if (Skill.TryParse(bc.MessageTokens[0], ref command))
+              {
                 // !<skill>
                 ThreadUtil.FireAndForget(Command.SkillInfo, bc);
               }
               break;
           }
-        } else {
+        }
+        else
+        {
           // fix `<calc>
           string msg = e.Message.Text[0] == '`' ? e.Message.Text.Substring(1) : e.Message.Text;
 
           // check for an implicit calculation
           var c = new MathParser();
           c.Evaluate(msg);
-          if (c.LastError == null && c.Operations > 0) {
-            _irc.Send(new NoticeMessage(c.Expression + " => " + c.ValueAsString, e.Message.Sender.Nickname));
+          if (c.LastError == null && c.Operations > 0)
+          {
+            this._irc.Send(new NoticeMessage(c.Expression + " => " + c.ValueAsString, e.Message.Sender.Nickname));
           }
         }
       }
     }
 
-    private void Main_Shown(object sender, EventArgs e) {
-      btnConnect_Click(sender, e);
+    private void Main_Shown(object sender, EventArgs e)
+    {
+      this.btnConnect_Click(sender, e);
 
       // set up daily timer
       TimeSpan updateTime = Settings.Default.DailyUpdateTime;
       TimeSpan nextMorning = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, updateTime.Hours, updateTime.Minutes, updateTime.Seconds).Subtract(DateTime.UtcNow);
-      if (nextMorning.Ticks < 0) {
+      if (nextMorning.Ticks < 0)
+      {
         nextMorning += TimeSpan.FromDays(1.0);
 
         // update all missing players
-        ThreadPool.QueueUserWorkItem(updatePlayers);
+        ThreadPool.QueueUserWorkItem(this.updatePlayers);
       }
-      _dailyPlayersUpdater = new ThreadedTimer(updatePlayers, null, nextMorning, TimeSpan.FromDays(1.0));
+      this._dailyPlayersUpdater = new ThreadedTimer(this.updatePlayers, null, nextMorning, TimeSpan.FromDays(1.0));
 
       // set up ge checker (every minute)
-      _geChecker = new ThreadedTimer(checkGE, null, 15000, 60000);
+      this._geChecker = new ThreadedTimer(this.checkGE, null, 15000, 60000);
     }
 
-    private void outputMessage(string message) {
-      textBox.AppendText("(" + DateTime.UtcNow.ToLongTimeString() + ") ");
-      textBox.AppendText(message + "\r\n");
-      textBox.ScrollToCaret();
+    private void outputMessage(string message)
+    {
+      this.textBox.AppendText("(" + DateTime.UtcNow.ToLongTimeString() + ") ");
+      this.textBox.AppendText(message + "\r\n");
+      this.textBox.ScrollToCaret();
     }
 
     /// <summary>
     ///   Clean up any resources being used. </summary>
     /// <param name="disposing">
     ///   True if managed resources should be disposed; otherwise, false. </param>
-    protected override void Dispose(bool disposing) {
-      if (disposing) {
-        if (components != null) {
-          components.Dispose();
+    protected override void Dispose(bool disposing)
+    {
+      if (disposing)
+      {
+        if (this.components != null)
+        {
+          this.components.Dispose();
         }
 
-        if (_irc != null) {
-          ((IDisposable) _irc).Dispose();
+        if (this._irc != null)
+        {
+          ((IDisposable) this._irc).Dispose();
         }
 
-        if (_dailyPlayersUpdater != null) {
-          _dailyPlayersUpdater.Dispose();
+        if (this._dailyPlayersUpdater != null)
+        {
+          this._dailyPlayersUpdater.Dispose();
         }
 
-        if (_geChecker != null) {
-          _geChecker.Dispose();
+        if (this._geChecker != null)
+        {
+          this._geChecker.Dispose();
         }
       }
 
       base.Dispose(disposing);
     }
 
-    private void btnReconnect_Click(object sender, EventArgs e) {
-      if (_irc == null) {
-        btnConnect_Click(sender, e);
-      } else {
-        _irc.Dispose();
-        btnConnect_Click(sender, e);
+    private void btnReconnect_Click(object sender, EventArgs e)
+    {
+      if (this._irc == null)
+      {
+        this.btnConnect_Click(sender, e);
+      }
+      else
+      {
+        this._irc.Dispose();
+        this.btnConnect_Click(sender, e);
       }
     }
 

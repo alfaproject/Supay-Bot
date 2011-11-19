@@ -1,13 +1,17 @@
 ﻿using System;
 
-namespace Supay.Bot {
-  internal static partial class Command {
-    public static void Start(CommandContext bc) {
+namespace Supay.Bot
+{
+  internal static partial class Command
+  {
+    public static void Start(CommandContext bc)
+    {
       // get rsn
       string rsn = bc.GetPlayerName(bc.From.Nickname);
 
       var p = new Player(rsn);
-      if (!p.Ranked) {
+      if (!p.Ranked)
+      {
         bc.SendReply(@"\b{0}\b doesn't feature Hiscores.".FormatWith(rsn));
         return;
       }
@@ -15,14 +19,16 @@ namespace Supay.Bot {
       // get timer name
       string name = string.Empty;
       int indexOfSharp = bc.Message.IndexOf('#');
-      if (indexOfSharp > 0) {
+      if (indexOfSharp > 0)
+      {
         name = bc.Message.Substring(indexOfSharp + 1);
         bc.Message = bc.Message.Substring(0, indexOfSharp - 1);
       }
 
       // get skill
       string skill = Skill.OVER;
-      if (bc.MessageTokens.Length > 1) {
+      if (bc.MessageTokens.Length > 1)
+      {
         Skill.TryParse(bc.MessageTokens[1], ref skill);
       }
 

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Supay.Bot {
-  internal class MathParser {
+namespace Supay.Bot
+{
+  internal class MathParser
+  {
     // actions
     private const int SHIFT = 0; // shift
     private const int REDUCE = 1; // reduce
@@ -49,11 +51,13 @@ namespace Supay.Bot {
     // value of this expression
     private double? _value;
 
-    // states machine table
+    public MathParser()
+    {
+      // initialize the state machine
 
-    public MathParser() {
-      // initialize the states machine
-      _states = new[] { // INPUT:       +       -       *       /       %       \       ^      -u       !     fun       ;       (       )     eof   // STACK:
+      // state machine table
+      this._states = new[] {
+        // INPUT:       +       -       *       /       %       \       ^      -u       !     fun       ;       (       )     eof   // STACK:
         new[] { REDUCE, REDUCE, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, REDUCE, SHIFT, REDUCE, REDUCE }, // +
         new[] { REDUCE, REDUCE, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, SHIFT, REDUCE, SHIFT, REDUCE, REDUCE }, // -
         new[] { REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, REDUCE, SHIFT, SHIFT, SHIFT, SHIFT, REDUCE, SHIFT, REDUCE, REDUCE }, // *
@@ -71,25 +75,31 @@ namespace Supay.Bot {
       };
 
       // initialize random number generator with a system timer based seed
-      _randomizer = new Random();
+      this._randomizer = new Random();
     }
 
     public MathParser(double lastAnswer)
-      : this() {
+      : this()
+    {
       // start with a custom lastanswer
-      _lastAnswer = lastAnswer;
+      this._lastAnswer = lastAnswer;
     }
 
-    public string Expression {
-      get {
-        if (_tokens == null) {
-          return _expression;
+    public string Expression
+    {
+      get
+      {
+        if (this._tokens == null)
+        {
+          return this._expression;
         }
 
         // prettyfy the expression
         string ret = string.Empty;
-        foreach (Token token in _tokens) {
-          switch (token.Type) {
+        foreach (Token token in this._tokens)
+        {
+          switch (token.Type)
+          {
             case ADD:
             case SUB:
             case MUL:
@@ -97,9 +107,12 @@ namespace Supay.Bot {
             case MOD:
             case DIVI:
             case POW:
-              if (token.Expr.Length > 0) {
+              if (token.Expr.Length > 0)
+              {
                 ret += " " + token.Expr + " ";
-              } else {
+              }
+              else
+              {
                 ret += " ";
               }
               break;
@@ -108,68 +121,86 @@ namespace Supay.Bot {
               break;
             case EOF:
               break;
-              // ignore 
+
             default:
+              // ignore
               ret += token.Expr;
               break;
           }
         }
         return ret;
       }
-      set {
-        _expression = value.ToLowerInvariant();
-        Evaluate();
+      set
+      {
+        this._expression = value.ToLowerInvariant();
+        this.Evaluate();
       }
     }
 
-    public double? Value {
-      get {
-        return _value;
+    public double? Value
+    {
+      get
+      {
+        return this._value;
       }
     }
 
-    public string ValueAsString {
-      get {
-        if (_value == null) {
-          if (_lastError != null) {
-            return "{error: " + _lastError + "}";
+    public string ValueAsString
+    {
+      get
+      {
+        if (this._value == null)
+        {
+          if (this._lastError != null)
+          {
+            return "{error: " + this._lastError + "}";
           }
           return "{error}";
         }
-        return ((double) _value).ToStringI("#,##0.######");
+        return ((double) this._value).ToStringI("#,##0.######");
       }
     }
 
-    public double LastAnswer {
-      get {
-        return _lastAnswer;
+    public double LastAnswer
+    {
+      get
+      {
+        return this._lastAnswer;
       }
     }
 
-    public int Operations {
-      get {
-        return _operations;
+    public int Operations
+    {
+      get
+      {
+        return this._operations;
       }
     }
 
-    public string LastError {
-      get {
-        return _lastError;
+    public string LastError
+    {
+      get
+      {
+        return this._lastError;
       }
     }
 
-    private void _Reduce(Stack<Token> ops, Stack<double> vals) {
+    private void _Reduce(Stack<Token> ops, Stack<double> vals)
+    {
       double temp1,
-        temp2;
+             temp2;
 
       // increment number of operations
-      if (ops.Peek().Type != UMI && ops.Peek().Type != RPAR) {
-        _operations++;
+      if (ops.Peek().Type != UMI && ops.Peek().Type != RPAR)
+      {
+        this._operations++;
       }
 
-      switch (ops.Peek().Type) {
+      switch (ops.Peek().Type)
+      {
         case ADD: // E = E + E
-          if (vals.Count < 2) {
+          if (vals.Count < 2)
+          {
             throw new InvalidOperationException("Syntax error");
           }
           temp2 = vals.Pop();
@@ -178,7 +209,8 @@ namespace Supay.Bot {
           break;
 
         case SUB: // E = E - E
-          if (vals.Count < 2) {
+          if (vals.Count < 2)
+          {
             throw new InvalidOperationException("Syntax error");
           }
           temp2 = vals.Pop();
@@ -187,7 +219,8 @@ namespace Supay.Bot {
           break;
 
         case MUL: // E = E * E
-          if (vals.Count < 2) {
+          if (vals.Count < 2)
+          {
             throw new InvalidOperationException("Syntax error");
           }
           temp2 = vals.Pop();
@@ -196,7 +229,8 @@ namespace Supay.Bot {
           break;
 
         case DIV: // E = E / E
-          if (vals.Count < 2) {
+          if (vals.Count < 2)
+          {
             throw new InvalidOperationException("Syntax error");
           }
           temp2 = vals.Pop();
@@ -205,7 +239,8 @@ namespace Supay.Bot {
           break;
 
         case MOD: // E = E % E
-          if (vals.Count < 2) {
+          if (vals.Count < 2)
+          {
             throw new InvalidOperationException("Syntax error");
           }
           temp2 = vals.Pop();
@@ -214,7 +249,8 @@ namespace Supay.Bot {
           break;
 
         case DIVI: // E = E \ E
-          if (vals.Count < 2) {
+          if (vals.Count < 2)
+          {
             throw new InvalidOperationException("Syntax error");
           }
 
@@ -224,7 +260,8 @@ namespace Supay.Bot {
           break;
 
         case POW: // E = E ^ E
-          if (vals.Count < 2) {
+          if (vals.Count < 2)
+          {
             throw new InvalidOperationException("Syntax error");
           }
           temp2 = vals.Pop();
@@ -233,7 +270,8 @@ namespace Supay.Bot {
           break;
 
         case UMI: // E = -E
-          if (vals.Count < 1) {
+          if (vals.Count < 1)
+          {
             throw new InvalidOperationException("Syntax error");
           }
           temp1 = vals.Pop();
@@ -241,7 +279,8 @@ namespace Supay.Bot {
           break;
 
         case FACT: // E = E!
-          if (vals.Count < 1) {
+          if (vals.Count < 1)
+          {
             throw new InvalidOperationException("Syntax error");
           }
           temp1 = vals.Pop();
@@ -250,12 +289,14 @@ namespace Supay.Bot {
 
         case FUN: // E = fun(arg1[, arg2])
           // functions must have at least 1 argument
-          if (vals.Count < 1) {
+          if (vals.Count < 1)
+          {
             throw new InvalidOperationException("Function \"" + ops.Peek().Expr + "\" has missing arguments.");
           }
           temp1 = vals.Pop();
 
-          switch (ops.Peek().Expr) {
+          switch (ops.Peek().Expr)
+          {
               // RUNESCAPE FUNCTIONS
             case "xp":
               vals.Push(((int) temp1).ToExp());
@@ -453,7 +494,8 @@ namespace Supay.Bot {
               // 2 argument functions
             case "pow":
             case "power":
-              if (vals.Count < 1) {
+              if (vals.Count < 1)
+              {
                 throw new InvalidOperationException("Syntax error");
               }
               temp2 = temp1;
@@ -462,7 +504,8 @@ namespace Supay.Bot {
               break;
 
             case "min":
-              if (vals.Count < 1) {
+              if (vals.Count < 1)
+              {
                 throw new InvalidOperationException("Syntax error");
               }
               temp2 = temp1;
@@ -471,7 +514,8 @@ namespace Supay.Bot {
               break;
 
             case "max":
-              if (vals.Count < 1) {
+              if (vals.Count < 1)
+              {
                 throw new InvalidOperationException("Syntax error");
               }
               temp2 = temp1;
@@ -481,12 +525,13 @@ namespace Supay.Bot {
 
             case "rand":
             case "random":
-              if (vals.Count < 1) {
+              if (vals.Count < 1)
+              {
                 throw new InvalidOperationException("Syntax error");
               }
               temp2 = temp1;
               temp1 = vals.Pop();
-              vals.Push(_randomizer.Next((int) temp1, (int) temp2));
+              vals.Push(this._randomizer.Next((int) temp1, (int) temp2));
               break;
 
             case "p": // E = p(N, R)
@@ -494,7 +539,8 @@ namespace Supay.Bot {
             case "permut":
             case "npr":
               // p(n,r): permutations, n objects, r at a time
-              if (vals.Count < 1) {
+              if (vals.Count < 1)
+              {
                 throw new InvalidOperationException("Syntax error");
               }
               temp2 = temp1;
@@ -506,7 +552,8 @@ namespace Supay.Bot {
             case "comb":
             case "ncr":
               // c(n,r): combinations, n objects, r at a time
-              if (vals.Count < 1) {
+              if (vals.Count < 1)
+              {
                 throw new InvalidOperationException("Syntax error");
               }
               temp2 = temp1;
@@ -527,39 +574,49 @@ namespace Supay.Bot {
       ops.Pop();
     }
 
-    private string ScanIdentifier(ref int _currentpos) {
+    private string ScanIdentifier(ref int _currentpos)
+    {
       string ret = string.Empty;
-      while (_currentpos < _expression.Length && char.IsLetterOrDigit(_expression, _currentpos)) {
-        ret += _expression[_currentpos];
+      while (_currentpos < this._expression.Length && char.IsLetterOrDigit(this._expression, _currentpos))
+      {
+        ret += this._expression[_currentpos];
         _currentpos++;
       }
       return ret;
     }
 
-    private double ScanReal(ref int _currentpos) {
+    private double ScanReal(ref int _currentpos)
+    {
       double n = 0.0;
-      while (_currentpos < _expression.Length && (char.IsDigit(_expression, _currentpos) || _expression[_currentpos] == ',')) {
-        if (_expression[_currentpos] != ',') {
-          n = n * 10.0 + _expression[_currentpos] - '0';
+      while (_currentpos < this._expression.Length && (char.IsDigit(this._expression, _currentpos) || this._expression[_currentpos] == ','))
+      {
+        if (this._expression[_currentpos] != ',')
+        {
+          n = n * 10.0 + this._expression[_currentpos] - '0';
         }
         _currentpos++;
       }
 
-      if (_currentpos < _expression.Length) {
-        if (_expression[_currentpos] == '.') {
+      if (_currentpos < this._expression.Length)
+      {
+        if (this._expression[_currentpos] == '.')
+        {
           // ignore the dot
           _currentpos++;
-          return ScanFrac(ref _currentpos, n);
+          return this.ScanFrac(ref _currentpos, n);
         }
-        if (_expression[_currentpos] == 'k') {
+        if (this._expression[_currentpos] == 'k')
+        {
           _currentpos++;
           return n * 1000.0;
         }
-        if (_expression[_currentpos] == 'm') {
+        if (this._expression[_currentpos] == 'm')
+        {
           _currentpos++;
           return n * 1000000.0;
         }
-        if (_expression[_currentpos] == 'b') {
+        if (this._expression[_currentpos] == 'b')
+        {
           _currentpos++;
           return n * 1000000000.0;
         }
@@ -568,26 +625,33 @@ namespace Supay.Bot {
       return n;
     }
 
-    private double ScanFrac(ref int _currentpos, double n) {
+    private double ScanFrac(ref int _currentpos, double n)
+    {
       double factor = 0.1;
-      while (_currentpos < _expression.Length && (char.IsDigit(_expression, _currentpos) || _expression[_currentpos] == ',')) {
-        if (_expression[_currentpos] != ',') {
-          n += factor * (_expression[_currentpos] - '0');
+      while (_currentpos < this._expression.Length && (char.IsDigit(this._expression, _currentpos) || this._expression[_currentpos] == ','))
+      {
+        if (this._expression[_currentpos] != ',')
+        {
+          n += factor * (this._expression[_currentpos] - '0');
           factor /= 10.0;
         }
         _currentpos++;
       }
 
-      if (_currentpos < _expression.Length) {
-        if (_expression[_currentpos] == 'k') {
+      if (_currentpos < this._expression.Length)
+      {
+        if (this._expression[_currentpos] == 'k')
+        {
           _currentpos++;
           return n * 1000.0;
         }
-        if (_expression[_currentpos] == 'm') {
+        if (this._expression[_currentpos] == 'm')
+        {
           _currentpos++;
           return n * 1000000.0;
         }
-        if (_expression[_currentpos] == 'b') {
+        if (this._expression[_currentpos] == 'b')
+        {
           _currentpos++;
           return n * 1000000000.0;
         }
@@ -596,31 +660,44 @@ namespace Supay.Bot {
       return n;
     }
 
-    private List<Token> Scan() {
+    private List<Token> Scan()
+    {
       var ret = new List<Token>();
 
       int _currentpos = 0;
-      while (_currentpos < _expression.Length) {
-        char c = _expression[_currentpos];
+      while (_currentpos < this._expression.Length)
+      {
+        char c = this._expression[_currentpos];
 
-        if (char.IsWhiteSpace(c)) {
+        if (char.IsWhiteSpace(c))
+        {
           // ignore whitespace
           _currentpos++;
-        } else if (char.IsDigit(c)) {
-          double number = ScanReal(ref _currentpos);
+        }
+        else if (char.IsDigit(c))
+        {
+          double number = this.ScanReal(ref _currentpos);
           ret.Add(new Token(number.ToStringI(), VAL, number));
-        } else if (c == '.') {
+        }
+        else if (c == '.')
+        {
           _currentpos++;
-          double number = ScanFrac(ref _currentpos, 0.0);
+          double number = this.ScanFrac(ref _currentpos, 0.0);
           ret.Add(new Token(number.ToStringI(), VAL, number));
-        } else if (char.IsLetter(c)) {
-          string identifier = ScanIdentifier(ref _currentpos);
-          if (_currentpos < _expression.Length && _expression[_currentpos] == '(') {
+        }
+        else if (char.IsLetter(c))
+        {
+          string identifier = this.ScanIdentifier(ref _currentpos);
+          if (_currentpos < this._expression.Length && this._expression[_currentpos] == '(')
+          {
             // function
             ret.Add(new Token(identifier, FUN));
-          } else {
+          }
+          else
+          {
             // constant / variable
-            switch (identifier) {
+            switch (identifier)
+            {
               case "pi":
                 ret.Add(new Token(identifier, VAL, Math.PI));
                 break;
@@ -628,7 +705,7 @@ namespace Supay.Bot {
                 ret.Add(new Token(identifier, VAL, Math.E));
                 break;
               case "ans":
-                ret.Add(new Token(identifier, VAL, _lastAnswer));
+                ret.Add(new Token(identifier, VAL, this._lastAnswer));
                 break;
               default:
                 // function?
@@ -636,17 +713,23 @@ namespace Supay.Bot {
                 break;
             }
           }
-        } else {
-          switch (c) {
+        }
+        else
+        {
+          switch (c)
+          {
             case '+':
               ret.Add(new Token(c, ADD));
               break;
             case '-':
-              if (ret.Count == 0 || (ret[ret.Count - 1].Type != VAL && ret[ret.Count - 1].Type != FACT && ret[ret.Count - 1].Type != RPAR)) {
+              if (ret.Count == 0 || (ret[ret.Count - 1].Type != VAL && ret[ret.Count - 1].Type != FACT && ret[ret.Count - 1].Type != RPAR))
+              {
                 // if it's first token or 
                 // if previous token isn't a number or right parenthesis then it's unary "-" 
                 ret.Add(new Token(c, UMI));
-              } else {
+              }
+              else
+              {
                 ret.Add(new Token(c, SUB));
               }
               break;
@@ -669,7 +752,8 @@ namespace Supay.Bot {
               ret.Add(new Token(c, FACT));
               break;
             case '(':
-              if (ret.Count > 0 && ret[ret.Count - 1].Type == RPAR) {
+              if (ret.Count > 0 && ret[ret.Count - 1].Type == RPAR)
+              {
                 // implicit multiplication: (...)(...)
                 ret.Add(new Token(string.Empty, MUL));
               }
@@ -692,13 +776,15 @@ namespace Supay.Bot {
       return ret;
     }
 
-    public double? Evaluate() {
-      try {
+    public double? Evaluate()
+    {
+      try
+      {
         // reset last result
-        _value = null;
+        this._value = null;
 
         // get tokens
-        _tokens = Scan();
+        this._tokens = this.Scan();
 
         // start with first token
         int token = 0;
@@ -709,35 +795,41 @@ namespace Supay.Bot {
         _ops.Push(new Token("EOF", EOF));
 
         // reset operations count
-        _operations = 0;
+        this._operations = 0;
 
-        do {
+        do
+        {
           // input is Value
-          if (_tokens[token].Type == VAL) {
+          if (this._tokens[token].Type == VAL)
+          {
             // shift token to value stack
-            _vals.Push(_tokens[token].Value);
+            _vals.Push(this._tokens[token].Value);
 
             // move to next token
             token++;
-          } else {
+          }
+          else
+          {
             // input is operator
-            switch (_states[_ops.Peek().Type][_tokens[token].Type]) {
+            switch (this._states[_ops.Peek().Type][this._tokens[token].Type])
+            {
               case REDUCE:
-                _Reduce(_ops, _vals);
+                this._Reduce(_ops, _vals);
                 break;
               case SHIFT:
                 // shift token to operator stack
-                _ops.Push(_tokens[token]);
+                _ops.Push(this._tokens[token]);
 
                 // move to next token
                 token++;
                 break;
               case ACCEPT:
                 // accept
-                if (_vals.Count == 1) {
-                  _value = _vals.Pop();
-                  _lastAnswer = (double) _value;
-                  return _value;
+                if (_vals.Count == 1)
+                {
+                  this._value = _vals.Pop();
+                  this._lastAnswer = (double) this._value;
+                  return this._value;
                 }
                 throw new InvalidOperationException("Syntax error");
               case ERROR1:
@@ -750,35 +842,43 @@ namespace Supay.Bot {
                 throw new InvalidOperationException("Invalid function argument");
             }
           }
-        } while (true);
-      } catch (Exception ex) {
-        _lastError = ex.Message;
-        _value = null;
+        }
+        while (true);
+      }
+      catch (Exception ex)
+      {
+        this._lastError = ex.Message;
+        this._value = null;
         return null;
       }
     }
 
-    public double? Evaluate(string expression) {
-      Expression = expression;
-      return _value;
+    public double? Evaluate(string expression)
+    {
+      this.Expression = expression;
+      return this._value;
     }
 
-    public static bool TryCalc(string s, out double result_value) {
+    public static bool TryCalc(string s, out double result_value)
+    {
       result_value = 0;
 
-      if (s == null) {
+      if (s == null)
+      {
         return false;
       }
 
       s = s.Trim();
-      if (s.Length == 0) {
+      if (s.Length == 0)
+      {
         return false;
       }
 
       // evaluate and output the result
       var c = new MathParser();
       c.Evaluate(s);
-      if (c.Value != null) {
+      if (c.Value != null)
+      {
         result_value = (double) c.Value;
         return true;
       }
@@ -788,25 +888,29 @@ namespace Supay.Bot {
 
     #region Nested type: Token
 
-    private struct Token {
+    private struct Token
+    {
       public readonly string Expr;
       public readonly int Type;
       public readonly double Value;
 
-      public Token(string expr, int type, double value) {
-        Expr = expr;
-        Type = type;
-        Value = value;
+      public Token(string expr, int type, double value)
+      {
+        this.Expr = expr;
+        this.Type = type;
+        this.Value = value;
       }
 
-      public Token(string expr, int type) {
-        Expr = expr;
-        Type = type;
-        Value = 0;
+      public Token(string expr, int type)
+      {
+        this.Expr = expr;
+        this.Type = type;
+        this.Value = 0;
       }
 
       public Token(char expr, int type)
-        : this(expr.ToStringI(), type) {
+        : this(expr.ToStringI(), type)
+      {
       }
     }
 

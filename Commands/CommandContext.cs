@@ -4,8 +4,10 @@ using Supay.Bot.Properties;
 using Supay.Irc;
 using Supay.Irc.Messages;
 
-namespace Supay.Bot {
-  internal class CommandContext {
+namespace Supay.Bot
+{
+  internal class CommandContext
+  {
     private readonly Channel _channel;
     private readonly Client _irc;
     private readonly UserCollection _users;
@@ -14,108 +16,142 @@ namespace Supay.Bot {
     private string[] _messageTokens;
     private bool _replyNotice;
 
-    public CommandContext(Client irc, UserCollection users, User from, Channel channel, string message) {
-      _irc = irc;
-      _users = users;
+    public CommandContext(Client irc, UserCollection users, User from, Channel channel, string message)
+    {
+      this._irc = irc;
+      this._users = users;
 
-      From = from;
-      _channel = channel;
+      this.From = from;
+      this._channel = channel;
 
-      if (message[0] == '!' || message[0] == '.') {
-        _replyNotice = true;
-      } else {
-        _replyNotice = false;
+      if (message[0] == '!' || message[0] == '.')
+      {
+        this._replyNotice = true;
+      }
+      else
+      {
+        this._replyNotice = false;
       }
 
-      if (message[0] == '!' || message[0] == '.' || message[0] == '@') {
-        Message = message.Substring(1);
-      } else {
-        Message = message;
+      if (message[0] == '!' || message[0] == '.' || message[0] == '@')
+      {
+        this.Message = message.Substring(1);
+      }
+      else
+      {
+        this.Message = message;
       }
     }
 
-    public UserCollection Users {
-      get {
-        return _users;
+    public UserCollection Users
+    {
+      get
+      {
+        return this._users;
       }
     }
 
-    public string Message {
-      get {
-        return _message;
+    public string Message
+    {
+      get
+      {
+        return this._message;
       }
-      set {
-        if (_message != value) {
-          _message = value;
-          _messageTokens = _message.Split(' ');
+      set
+      {
+        if (this._message != value)
+        {
+          this._message = value;
+          this._messageTokens = this._message.Split(' ');
         }
       }
     }
 
-    public string[] MessageTokens {
-      get {
-        return _messageTokens;
+    public string[] MessageTokens
+    {
+      get
+      {
+        return this._messageTokens;
       }
     }
 
-    public User From {
+    public User From
+    {
       get;
       private set;
     }
 
-    public bool IsAdmin {
-      get {
-        if (From.Nickname.EqualsI("_aLfa_") || From.Nickname.EqualsI("_aLfa_|laptop") || From.Nickname.EqualsI("P_Gertrude")) {
+    public bool IsAdmin
+    {
+      get
+      {
+        if (this.From.Nickname.EqualsI("_aLfa_") || this.From.Nickname.EqualsI("_aLfa_|laptop") || this.From.Nickname.EqualsI("P_Gertrude"))
+        {
           return true;
         }
-        return Settings.Default.Administrators.Split(';').Any(admin => From.Nickname.EqualsI(admin));
+        return Settings.Default.Administrators.Split(';').Any(admin => this.From.Nickname.EqualsI(admin));
       }
     }
 
-    public bool ReplyNotice {
-      get {
-        return _replyNotice;
+    public bool ReplyNotice
+    {
+      get
+      {
+        return this._replyNotice;
       }
-      set {
-        _replyNotice = value;
+      set
+      {
+        this._replyNotice = value;
       }
     }
 
-    public string Channel {
-      get {
-        if (_channel == null) {
+    public string Channel
+    {
+      get
+      {
+        if (this._channel == null)
+        {
           return null;
         }
-        return _channel.Name;
+        return this._channel.Name;
       }
     }
 
-    public string GetPlayerName(string query) {
+    public string GetPlayerName(string query)
+    {
       // remove leading and trailing whitespace
       query = query.Trim();
 
       // fix player name
-      if (query.StartsWithI("&") || query.EndsWithI("&") || query.StartsWithI("*") || query.EndsWithI("*")) {
+      if (query.StartsWithI("&") || query.EndsWithI("&") || query.StartsWithI("*") || query.EndsWithI("*"))
+      {
         return query.Trim(new[] { '&', '*' }).ValidatePlayerName();
       }
 
       // lookup player in users collection and get his name from database
-      string playerName = (from peer in _users
-        where peer.Nickname.EqualsI(query)
-        select Database.Lookup<string>("rsn", "users", "fingerprint=@fp", new[] { new SQLiteParameter("@fp", peer.FingerPrint) })).FirstOrDefault();
+      string playerName = (from peer in this._users
+                           where peer.Nickname.EqualsI(query)
+                           select Database.Lookup<string>("rsn", "users", "fingerprint=@fp", new[] { new SQLiteParameter("@fp", peer.FingerPrint) })).FirstOrDefault();
 
       // if player was found return it, else just convert the query to a valid player name
       return playerName ?? query.ValidatePlayerName();
     }
 
-    public void SendReply(string message) {
-      if (_replyNotice) {
-        _irc.Send(new NoticeMessage(message, From.Nickname));
-      } else {
-        if (_channel == null) {
-          _irc.SendChat(message, From.Nickname);
-        } else {
-          _irc.SendChat(message, _channel.Name);
+    public void SendReply(string message)
+    {
+      if (this._replyNotice)
+      {
+        this._irc.Send(new NoticeMessage(message, this.From.Nickname));
+      }
+      else
+      {
+        if (this._channel == null)
+        {
+          this._irc.SendChat(message, this.From.Nickname);
+        }
+        else
+        {
+          this._irc.SendChat(message, this._channel.Name);
         }
       }
     }

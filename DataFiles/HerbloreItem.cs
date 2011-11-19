@@ -2,87 +2,106 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Supay.Bot {
-  internal class HerbloreItem : SkillItem {
+namespace Supay.Bot
+{
+  internal class HerbloreItem : SkillItem
+  {
     private readonly int[] _ingredientsIds;
     private readonly int _potionId;
     private int[] _ingredientsPrices;
     private Price _price;
 
     public HerbloreItem(string[] tokens)
-      : base(tokens) {
+      : base(tokens)
+    {
       // Field 4: Potion ID
-      _potionId = int.Parse(tokens[4], CultureInfo.InvariantCulture);
+      this._potionId = int.Parse(tokens[4], CultureInfo.InvariantCulture);
 
       // Field 5: Ingredients
-      Ingredients = tokens[5].Split(';');
+      this.Ingredients = tokens[5].Split(';');
 
       // Field 6: Ingredients IDs
       string[] ingredientsIds = tokens[6].Split(';');
-      _ingredientsIds = new int[ingredientsIds.Length];
-      for (int i = 0; i < ingredientsIds.Length; i++) {
-        _ingredientsIds[i] = int.Parse(ingredientsIds[i], CultureInfo.InvariantCulture);
+      this._ingredientsIds = new int[ingredientsIds.Length];
+      for (int i = 0; i < ingredientsIds.Length; i++)
+      {
+        this._ingredientsIds[i] = int.Parse(ingredientsIds[i], CultureInfo.InvariantCulture);
       }
 
       // Field 7: Potion effects
-      Effect = tokens[7];
+      this.Effect = tokens[7];
     }
 
-    public string[] Ingredients {
+    public string[] Ingredients
+    {
       get;
       set;
     }
 
-    public int[] IngredientsPrices {
-      get {
-        if (_ingredientsPrices == null) {
-          _ingredientsPrices = new int[_ingredientsIds.Length];
-          for (int i = 0; i < _ingredientsIds.Length; i++) {
-            if (_ingredientsIds[i] > 0) {
-              var p = new Price(_ingredientsIds[i]);
+    public int[] IngredientsPrices
+    {
+      get
+      {
+        if (this._ingredientsPrices == null)
+        {
+          this._ingredientsPrices = new int[this._ingredientsIds.Length];
+          for (int i = 0; i < this._ingredientsIds.Length; i++)
+          {
+            if (this._ingredientsIds[i] > 0)
+            {
+              var p = new Price(this._ingredientsIds[i]);
               p.LoadFromCache();
 
               int qty = 1;
-              Match matchQty = Regex.Match(Ingredients[i], @"(\d+)x ");
-              if (matchQty.Success) {
+              Match matchQty = Regex.Match(this.Ingredients[i], @"(\d+)x ");
+              if (matchQty.Success)
+              {
                 qty = int.Parse(matchQty.Groups[1].Value, CultureInfo.InvariantCulture);
               }
 
-              _ingredientsPrices[i] = qty * p.MarketPrice;
+              this._ingredientsPrices[i] = qty * p.MarketPrice;
             }
           }
         }
-        return _ingredientsPrices;
+        return this._ingredientsPrices;
       }
     }
 
-    public string Effect {
+    public string Effect
+    {
       get;
       set;
     }
 
-    public int Price {
-      get {
-        if (_potionId == 0) {
+    public int Price
+    {
+      get
+      {
+        if (this._potionId == 0)
+        {
           return 0;
         }
 
         int qty = 1;
-        if (_price == null) {
-          _price = new Price(_potionId);
-          _price.LoadFromCache();
-          Match matchQty = Regex.Match(Name, @"(\d+)x ");
-          if (matchQty.Success) {
+        if (this._price == null)
+        {
+          this._price = new Price(this._potionId);
+          this._price.LoadFromCache();
+          Match matchQty = Regex.Match(this.Name, @"(\d+)x ");
+          if (matchQty.Success)
+          {
             qty = int.Parse(matchQty.Groups[1].Value, CultureInfo.InvariantCulture);
           }
         }
-        return qty * _price.MarketPrice;
+        return qty * this._price.MarketPrice;
       }
     }
 
-    public int Cost {
-      get {
-        return IngredientsPrices.Where(price => price != 0).Sum();
+    public int Cost
+    {
+      get
+      {
+        return this.IngredientsPrices.Where(price => price != 0).Sum();
       }
     }
   }

@@ -1,7 +1,11 @@
-﻿namespace Supay.Bot {
-  internal static partial class Command {
-    public static void Calc(CommandContext bc) {
-      if (bc.MessageTokens.Length == 1) {
+﻿namespace Supay.Bot
+{
+  internal static partial class Command
+  {
+    public static void Calc(CommandContext bc)
+    {
+      if (bc.MessageTokens.Length == 1)
+      {
         bc.SendReply("Syntax: !calc <expression>");
         return;
       }
