@@ -195,6 +195,11 @@ namespace Supay.Bot
       int multiplier = 1;
       switch (number[number.Length - 1])
       {
+        case 'b':
+        case 'B':
+          number = number.Substring(0, number.Length - 1);
+          multiplier = 1000000000;
+          break;
         case 'm':
         case 'M':
           number = number.Substring(0, number.Length - 1);
