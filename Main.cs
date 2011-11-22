@@ -81,8 +81,9 @@ namespace Supay.Bot
       string pricesPage;
       try
       {
-        pricesPage = new WebClient().DownloadString("http://services.runescape.com/m=itemdb_rs/frontpage.ws");
-        pricesPage += new WebClient().DownloadString("http://services.runescape.com/m=itemdb_rs/results.ws?price=all&query=ring");
+        var wc = new WebClient();
+        pricesPage = wc.DownloadString("http://services.runescape.com/m=itemdb_rs/frontpage.ws");
+        pricesPage += wc.DownloadString("http://services.runescape.com/m=itemdb_rs/results.ws?query=ring");
       }
       catch (WebException)
       {
@@ -91,10 +92,10 @@ namespace Supay.Bot
       }
 
       var pricesChanged = new List<Price>();
-      const string pricesRegex = @"obj=(\d+)"">([^<]+)</a>\s*</td>\s+<td>([^<]+)</td>";
+      const string pricesRegex = @"obj=(\d+)"">([^<]+)</a>\s+</td>\s+<td>(?:\s+<img src=""http://www.runescape.com/img/itemdb/\w+-icon.png""[^>]+>\s+</td>\s+<td class=""price"">)?([^<]+)</td>";
       foreach (Match priceMatch in Regex.Matches(pricesPage, pricesRegex, RegexOptions.Singleline))
       {
-        var newPrice = new Price(int.Parse(priceMatch.Groups[1].Value, CultureInfo.InvariantCulture), priceMatch.Groups[2].Value, priceMatch.Groups[3].Value.ToInt32());
+        var newPrice = new Price(int.Parse(priceMatch.Groups[1].Value, CultureInfo.InvariantCulture), priceMatch.Groups[2].Value.Trim(), priceMatch.Groups[3].Value.ToInt32());
         var oldPrice = new Price(newPrice.Id);
         oldPrice.LoadFromDB();
 

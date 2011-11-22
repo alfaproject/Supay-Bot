@@ -51,6 +51,15 @@ namespace Supay.Bot
 
       price.LoadFromGE();
 
+      string changeToday;
+      if (price.ChangeToday < 0) {
+        changeToday = @"\c04{0:0.#}\c".FormatWith(price.ChangeToday);
+      } else if (price.Change30days > 0) {
+        changeToday = @"\c03+{0:0.#}\c".FormatWith(price.ChangeToday);
+      } else {
+        changeToday = @"\c07{0:0.#}\c".FormatWith(price.ChangeToday);
+      }
+
       string change30days;
       if (price.Change30days < 0)
       {
@@ -93,7 +102,8 @@ namespace Supay.Bot
         change180days = "\\c07{0:0.#}%\\c".FormatWith(price.Change180days);
       }
 
-      bc.SendReply(@"Name: \c07{0}\c | Market price: \c07{1}\c (\c07{2}\c - \c07{3}\c) | Last 30 days: {4} | Last 90 days: {5} | Last 180 days: {6} | Examine: \c07{7}\c".FormatWith(price.Name, price.MarketPrice.ToShortString(1), price.MinimumPrice.ToShortString(1), price.MaximumPrice.ToShortString(1), change30days, change90days, change180days, price.Examine));
+      bc.SendReply(@"Name: \c07{0}\c | Price: \c07{1}\c | Today's change: {2} | Last 30 days: {3} | Last 90 days: {4} | Last 180 days: {5}".FormatWith(price.Name, price.MarketPrice.ToShortString(1), changeToday, change30days, change90days, change180days));
+      bc.SendReply(@"Examine: \c07{0}\c | \c12http://services.runescape.com/m=itemdb_rs/viewitem.ws?obj={1}\c".FormatWith(price.Examine, price.Id));
     }
   }
 }

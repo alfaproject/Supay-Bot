@@ -51,18 +51,6 @@ namespace Supay.Bot
       set;
     }
 
-    public int MinimumPrice
-    {
-      get;
-      private set;
-    }
-
-    public int MaximumPrice
-    {
-      get;
-      private set;
-    }
-
     public int ChangeToday
     {
       get;
@@ -144,55 +132,50 @@ namespace Supay.Bot
 
     public void LoadFromGE()
     {
-      string pricePage = new WebClient().DownloadString("http://itemdb-rs.runescape.com/viewitem.ws?obj=" + this.Id);
+      var pricePage = new WebClient().DownloadString("http://services.runescape.com/m=itemdb_rs/viewitem.ws?obj=" + this.Id);
 
-      string priceRegex = @"<div class=""subsectionHeader"">\s+";
-      priceRegex += @"<h2>\s+";
-      priceRegex += @"(.+?)\s+";
-      priceRegex += @"</h2>\s+";
-      priceRegex += @"</div>\s+";
-      priceRegex += @"<div id=""item_additional"" class=""inner_brown_box"">\s+";
-      priceRegex += @"<img [^>]+>\s+";
-      priceRegex += @"(.+?)\s+";
-      priceRegex += @"<br>\s+";
-      priceRegex += @"<br>\s+";
-      priceRegex += @"<b>Current market price range:</b><br>\s+";
-      priceRegex += @"<span>\s+";
-      priceRegex += @"<b>Minimum price:</b>\s*([0-9,.mk]+)\s+";
-      priceRegex += @"</span>\s+";
-      priceRegex += @"<span class=""spaced_span"">\s+";
-      priceRegex += @"<b>Market price:</b>\s*([0-9,.mk]+)\s+";
-      priceRegex += @"</span>\s+";
-      priceRegex += @"<span>\s+";
-      priceRegex += @"<b>Maximum price:</b>\s*([0-9,.mk]+)\s+";
-      priceRegex += @"</span>\s+";
-      priceRegex += @"<br><br>\s+";
-      priceRegex += @"<b>Change in price:</b><br>\s+";
-      priceRegex += @"<span[^>]*>\s+";
-      priceRegex += @"<b>30 Days:</b> <span class=""\w+"">([0-9.+-]+)%</span>\s+";
-      priceRegex += @"</span>\s+";
-      priceRegex += @"<span[^>]*>\s+";
-      priceRegex += @"<b>90 Days:</b> <span class=""\w+"">([0-9.+-]+)%</span>\s+";
-      priceRegex += @"</span>\s+";
-      priceRegex += @"<span[^>]*>\s+";
-      priceRegex += @"<b>180 Days:</b> <span class=""\w+"">([0-9.+-]+)%";
-
-      Match priceMatch = Regex.Match(pricePage, priceRegex, RegexOptions.Singleline);
-      if (priceMatch.Success)
+      var match = Regex.Match(pricePage, @"<h5>([^<]+)</h5>\s+<p>([^<]+)</p>");
+      if (match.Success)
       {
-        this.Name = priceMatch.Groups[1].Value;
-        this.Examine = priceMatch.Groups[2].Value;
-        this.MinimumPrice = priceMatch.Groups[3].Value.ToInt32();
-        this.MarketPrice = priceMatch.Groups[4].Value.ToInt32();
-        this.MaximumPrice = priceMatch.Groups[5].Value.ToInt32();
-        this.Change30days = double.Parse(priceMatch.Groups[6].Value, CultureInfo.InvariantCulture);
-        this.Change90days = double.Parse(priceMatch.Groups[7].Value, CultureInfo.InvariantCulture);
-        this.Change180days = double.Parse(priceMatch.Groups[8].Value, CultureInfo.InvariantCulture);
-      }
+        this.Name = match.Groups[1].Value.Trim();
+        this.Examine = match.Groups[2].Value.Trim();
 
-      if (!string.IsNullOrEmpty(this.Name) && this.MarketPrice > 0)
-      {
-        this.SaveToDB(false);
+        match = Regex.Match(pricePage, @"<img src=""http://www.runescape.com/img/itemdb/(\w+)-icon-big.png");
+        if (match.Success) {
+          this.IsMember = match.Groups[1].Value == "members";
+        }
+
+        match = Regex.Match(pricePage, @"<th scope=""row"">Today's Change:</th>\s+<td class=""\w+"">([^<]+)</td>");
+        if (match.Success)
+        {
+          this.ChangeToday = match.Groups[1].Value.ToInt32();
+        }
+
+        match = Regex.Match(pricePage, @"<th scope=""row"">30 Day Change:</th>\s+<td class=""\w+"">([^%]+)%</td>");
+        if (match.Success)
+        {
+          this.Change30days = double.Parse(match.Groups[1].Value, CultureInfo.InvariantCulture);
+        }
+
+        match = Regex.Match(pricePage, @"<th scope=""row"">90 Day Change:</th>\s+<td class=""\w+"">([^%]+)%</td>");
+        if (match.Success)
+        {
+          this.Change90days = double.Parse(match.Groups[1].Value, CultureInfo.InvariantCulture);
+        }
+
+        match = Regex.Match(pricePage, @"<th scope=""row"">180 Day Change:</th>\s+<td class=""\w+"">([^%]+)%</td>");
+        if (match.Success)
+        {
+          this.Change180days = double.Parse(match.Groups[1].Value, CultureInfo.InvariantCulture);
+        }
+
+        match = Regex.Match(pricePage, @"<th scope=""row"">Current guide price:</th>\s+<td>([^<]+)</td>");
+        if (match.Success)
+        {
+          this.MarketPrice = match.Groups[1].Value.ToInt32();
+
+          this.SaveToDB(false);
+        }
       }
     }
   }
