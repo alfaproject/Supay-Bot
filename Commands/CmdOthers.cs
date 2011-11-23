@@ -134,19 +134,16 @@ namespace Supay.Bot
 
     public static void Players(CommandContext bc)
     {
-      using (var webClient = new WebClient())
+      using (var wc = new WebClient())
       {
-        string worldPage = webClient.DownloadString("http://www.runescape.com/index.ws");
+        var rsPage = wc.DownloadString("http://www.runescape.com/index.ws");
 
-        Match worldsMatch = Regex.Match(worldPage, @"([\d,]+) people");
-        if (worldsMatch.Success)
-        {
-          bc.SendReply(@"There are currently \c07{0}\c players online.".FormatWith(worldsMatch.Groups[1].Value));
-        }
-        else
-        {
-          bc.SendReply(@"Error: No worlds were found.");
-        }
+        var playersMatch = Regex.Match(rsPage, @"([\d,]+)</span> people");
+        bc.SendReply(
+          playersMatch.Success
+            ? @"There are currently \c07{0}\c players online.".FormatWith(playersMatch.Groups[1].Value)
+            : @"Error: No players were found."
+        );
       }
     }
 
