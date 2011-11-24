@@ -263,7 +263,7 @@ namespace Supay.Bot
 
             if (!nick.StartsWith("#"))
             {
-              foreach (User u in this._irc.Peers)
+              foreach (User u in this._irc.Peers.Values)
               {
                 if (u.FingerPrint == fingerprint || u.Nickname == nick)
                 {
@@ -419,8 +419,7 @@ namespace Supay.Bot
           case "LISTCHANNELS":
             foreach (Channel c in this._irc.Channels)
             {
-              string users = c.Users.Aggregate(string.Empty, (current, u) => current + (" " + u.Nickname));
-              this._irc.SendChat(c.Name + " » " + users.Trim(), e.Message.Sender.Nickname);
+              this._irc.SendChat(c.Name + " » " + string.Join(" ", c.Users.Keys), e.Message.Sender.Nickname);
             }
             break;
         }

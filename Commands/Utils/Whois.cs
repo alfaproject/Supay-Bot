@@ -13,9 +13,9 @@ namespace Supay.Bot
       }
 
       string nick = bc.MessageTokens.Join(1, "_");
-      Mask u = bc.Users.Find(nick);
 
-      if (u != null)
+      User u;
+      if (bc.Users.TryGetValue(nick, out u))
       {
         bc.SendReply("{0}'s RSN is \\b{1}\\b".FormatWith(u.Nickname, bc.GetPlayerName(nick)));
       }

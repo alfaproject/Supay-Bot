@@ -128,13 +128,12 @@ namespace Supay.Bot
         return query.Trim(new[] { '&', '*' }).ValidatePlayerName();
       }
 
-      // lookup player in users collection and get his name from database
-      string playerName = (from peer in this._users
-                           where peer.Nickname.EqualsI(query)
-                           select Database.Lookup<string>("rsn", "users", "fingerprint=@fp", new[] { new SQLiteParameter("@fp", peer.FingerPrint) })).FirstOrDefault();
-
-      // if player was found return it, else just convert the query to a valid player name
-      return playerName ?? query.ValidatePlayerName();
+      // lookup player in users collection and return his name from database
+      // or return a validated player name from query
+      User peer;
+      return this._users.TryGetValue(query, out peer)
+        ? Database.Lookup("rsn", "users", "fingerprint=@fp", new[] { new SQLiteParameter("@fp", peer.FingerPrint) }, query.ValidatePlayerName())
+        : query.ValidatePlayerName();
     }
 
     public void SendReply(string message)
