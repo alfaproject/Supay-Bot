@@ -1,9 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Supay-Bot", "Supay-Bot.csproj", "{57B7C0C0-AD4E-4B1F-A763-C5F294B5F2B8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Supay-IRC", "..\Supay-IRC\Supay-IRC.csproj", "{DF3020D5-AA48-4A61-9C0B-4F7A2C9D08CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +13,6 @@ Global
 		{57B7C0C0-AD4E-4B1F-A763-C5F294B5F2B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57B7C0C0-AD4E-4B1F-A763-C5F294B5F2B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57B7C0C0-AD4E-4B1F-A763-C5F294B5F2B8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DF3020D5-AA48-4A61-9C0B-4F7A2C9D08CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DF3020D5-AA48-4A61-9C0B-4F7A2C9D08CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DF3020D5-AA48-4A61-9C0B-4F7A2C9D08CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DF3020D5-AA48-4A61-9C0B-4F7A2C9D08CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

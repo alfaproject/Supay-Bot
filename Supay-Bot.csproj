@@ -63,6 +63,10 @@
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Supay.Irc, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Supay.Irc\Supay.Irc\bin\Debug\Supay.Irc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -239,12 +243,6 @@
     <None Include="Service References\RuneScript\Supay.Bot.RuneScript.skills.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Supay-IRC\Supay-IRC.csproj">
-      <Project>{DF3020D5-AA48-4A61-9C0B-4F7A2C9D08CE}</Project>
-      <Name>Supay-IRC</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
