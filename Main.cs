@@ -125,9 +125,9 @@ namespace Supay.Bot
             reply += @"{0}: \c07{1}\c {2} | ".FormatWith(pricesChanged[i].Name, pricesChanged[i].MarketPrice.ToShortString(1), (pricesChanged[i].ChangeToday > 0 ? @"\c03[+]\c" : @"\c04[-]\c"));
           }
           reply += "...";
-          foreach (Channel c in this._irc.Channels)
+          foreach (var channelName in this._irc.Channels.Keys)
           {
-            this._irc.SendChat(reply, c.Name);
+            this._irc.SendChat(reply, channelName);
           }
         }
 
@@ -142,7 +142,7 @@ namespace Supay.Bot
     private void _checkForum(object stateInfo)
     {
       const string mainChannel = "#skillers";
-      if (this._irc.Channels.Find(mainChannel) == null)
+      if (!this._irc.Channels.ContainsKey(mainChannel))
       {
         return;
       }
@@ -177,7 +177,7 @@ namespace Supay.Bot
     private void _checkEvent(object stateInfo)
     {
       const string mainChannel = "#skillers";
-      if (this._irc.Channels.Find(mainChannel) == null)
+      if (!this._irc.Channels.ContainsKey(mainChannel))
       {
         return;
       }
@@ -280,18 +280,18 @@ namespace Supay.Bot
               {
                 continue;
               }
-              foreach (Channel c in this._irc.Channels)
+              foreach (var channelName in this._irc.Channels.Keys)
               {
-                if (c.Name.ToLowerInvariant() == nick)
+                if (channelName.ToLowerInvariant() == nick)
                 {
                   Database.ExecuteNonQuery("DELETE FROM timers WHERE nick='" + nick + "' AND name='" + rsTimer.GetString(2) + "' AND duration='" + rsTimer.GetInt32(3) + "';");
                   if (rsTimer.GetInt32(3) < 3600)
                   {
-                    this._irc.Send(new NoticeMessage("Next event starts in \\c07{0}\\c for more information type !event".FormatWith((fingerDate - DateTime.UtcNow).ToLongString()), c.Name));
+                    this._irc.Send(new NoticeMessage("Next event starts in \\c07{0}\\c for more information type !event".FormatWith((fingerDate - DateTime.UtcNow).ToLongString()), channelName));
                   }
                   else
                   {
-                    this._irc.SendChat("Next event starts in \\c07{0}\\c for more information type !event".FormatWith((fingerDate - DateTime.UtcNow).ToLongString()), c.Name);
+                    this._irc.SendChat("Next event starts in \\c07{0}\\c for more information type !event".FormatWith((fingerDate - DateTime.UtcNow).ToLongString()), channelName);
                   }
                 }
               }
@@ -313,8 +313,8 @@ namespace Supay.Bot
         EnableAutoIdent = false
       };
 
-      this._irc.DataSent += (dsender, de) => this.outputMessage(">>> " + de.Data);
-      this._irc.DataReceived += (dsender, de) => this.outputMessage("<<< " + de.Data);
+      this._irc.DataSent += (dsender, de) => this.outputMessage("-> " + ((Client) dsender).ServerName + " " + de.Data);
+      this._irc.DataReceived += (dsender, de) => this.outputMessage("<- " + de.Data);
       this._irc.Ready += this.Irc_Ready;
 
       this._irc.Messages.Chat += this.IrcChat;
@@ -417,9 +417,9 @@ namespace Supay.Bot
             }
             break;
           case "LISTCHANNELS":
-            foreach (Channel c in this._irc.Channels)
+            foreach (var channel in this._irc.Channels.Values)
             {
-              this._irc.SendChat(c.Name + " » " + string.Join(" ", c.Users.Keys), e.Message.Sender.Nickname);
+              this._irc.SendChat(channel.Name + " » " + string.Join(" ", channel.Users.Keys), e.Message.Sender.Nickname);
             }
             break;
         }
@@ -434,7 +434,7 @@ namespace Supay.Bot
 
         if (e.Message.Text[0] == '!' || e.Message.Text[0] == '.' || e.Message.Text[0] == '@')
         {
-          var bc = new CommandContext(this._irc, this._irc.Peers, e.Message.Sender, this._irc.Channels.Find(e.Message.Targets[0]), e.Message.Text);
+          var bc = new CommandContext(this._irc, this._irc.Peers, e.Message.Sender, this._irc.Channels[e.Message.Targets[0]], e.Message.Text);
 
           if (bc.MessageTokens[0].Length == 0)
           {
@@ -445,7 +445,7 @@ namespace Supay.Bot
               {
                 if (defaultSkillInfo.GetInt32(1) == 0)
                 {
-                  bc = new CommandContext(this._irc, this._irc.Peers, e.Message.Sender, this._irc.Channels.Find(e.Message.Targets[0]), ".");
+                  bc = new CommandContext(this._irc, this._irc.Peers, e.Message.Sender, this._irc.Channels[e.Message.Targets[0]], ".");
                 }
                 bc.MessageTokens[0] = defaultSkillInfo.GetString(0);
               }
@@ -957,6 +957,15 @@ namespace Supay.Bot
       this.textBox.AppendText("(" + DateTime.UtcNow.ToLongTimeString() + ") ");
       this.textBox.AppendText(message + "\r\n");
       this.textBox.ScrollToCaret();
+
+      if (message.StartsWithI("<-") || message.StartsWithI("-> "))
+      {
+        using (var tw = new StreamWriter(Path.Combine(Application.StartupPath, "IrcLog.txt"), true))
+        {
+          tw.WriteLine(message.Trim());
+          tw.Flush();
+        }
+      }
     }
 
     /// <summary>
