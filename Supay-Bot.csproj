@@ -70,7 +70,6 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core">
@@ -171,11 +170,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RuneScape\SkillDictionary.cs" />
     <Compile Include="RuneScape\TrueSkill.cs" />
-    <Compile Include="Service References\RuneScript\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -226,12 +220,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Help 1.ico" />
-    <None Include="Service References\RuneScript\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Service References\RuneScript\configuration.svcinfo" />
-    <None Include="Service References\RuneScript\configuration91.svcinfo" />
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
@@ -239,16 +227,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Service References\RuneScript\lookup-soap.wsdl" />
-    <None Include="Service References\RuneScript\Supay.Bot.RuneScript.skills.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\RuneScript\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

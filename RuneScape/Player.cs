@@ -3,7 +3,6 @@ using System.Data.SQLite;
 using System.Globalization;
 using System.Net;
 using System.Threading;
-using Supay.Bot.RuneScript;
 
 namespace Supay.Bot
 {
@@ -18,6 +17,8 @@ namespace Supay.Bot
     // Constructor that retrieves player data from RuneScript tracker
     public Player(string rsn, int time)
     {
+      this.Ranked = false;
+      /*
       time = (int) (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds - time;
       try
       {
@@ -77,6 +78,7 @@ namespace Supay.Bot
       {
         this.Ranked = false;
       }
+      */
     }
 
     // Constructor that retrieves player data from Database
@@ -166,9 +168,6 @@ namespace Supay.Bot
       {
         // Get hiscores page for this RSN
         string hiscorePage = new WebClient().DownloadString("http://hiscore.runescape.com/index_lite.ws?player=" + this._name);
-
-        // Update RuneScript tracker database
-        ThreadPool.QueueUserWorkItem(_updateRuneScriptTracker, rsn);
 
         // Initialize variables
         this._skills = new SkillDictionary();
@@ -406,17 +405,6 @@ namespace Supay.Bot
           "domiRank", this._activities[Activity.DOMI].Rank.ToStringI(), "domiScore", this._activities[Activity.DOMI].Score.ToStringI());
 
         Database.Update("players", "id=" + this.Id, "lastupdate", s_date);
-      }
-    }
-
-    private static void _updateRuneScriptTracker(object rsn)
-    {
-      try
-      {
-        new RScriptLookupPortTypeClient().trackUpdateUser((string) rsn);
-      }
-      catch
-      {
       }
     }
 
