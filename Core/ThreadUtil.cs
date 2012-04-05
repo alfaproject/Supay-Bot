@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
@@ -11,7 +11,7 @@ namespace Supay.Bot
     /// </summary>
     public static void FireAndForget<T>(Action<T> callback, T state)
     {
-      ThreadPool.QueueUserWorkItem(s => callback((T) s), state);
+      Task.Factory.StartNew(s => callback((T) s), state);
     }
   }
 }
