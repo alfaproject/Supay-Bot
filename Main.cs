@@ -4,7 +4,6 @@ using System.Data.SQLite;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -321,6 +320,14 @@ namespace Supay.Bot
       this._irc.Messages.NamesEndReply += this.Irc_NamesEndReply;
 
       this._irc.Connection.Disconnected += (dsender, de) => this.outputMessage("[DISCONNECTED] " + de.Data);
+
+      // Hop/Cycle/Part protection
+      this._irc.Messages.Part += (dsender, de) => {
+        var mask = "*!*@" + de.Message.Sender.Host;
+        this._irc.Send(new ChannelModeMessage(de.Message.Channels[0], "+b", mask));
+        this._irc.Send(new KickMessage(de.Message.Channels[0], de.Message.Sender.Nickname));
+        DelayedDelegate.Add(() => this._irc.Send(new ChannelModeMessage(de.Message.Channels[0], "-b", mask)), 30);
+      };
 
       try
       {
