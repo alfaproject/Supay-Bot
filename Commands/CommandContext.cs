@@ -138,6 +138,11 @@ namespace Supay.Bot
 
     public void SendReply(string message)
     {
+      if (message.Length > 512)
+      {
+        message = message.Substring(0, 512);
+      }
+
       if (this._replyNotice)
       {
         this._irc.Send(new NoticeMessage(message, this.From.Nickname));
