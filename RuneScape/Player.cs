@@ -2,7 +2,7 @@
 using System.Data.SQLite;
 using System.Globalization;
 using System.Net;
-using System.Threading;
+using Newtonsoft.Json.Linq;
 
 namespace Supay.Bot
 {
@@ -17,56 +17,59 @@ namespace Supay.Bot
     // Constructor that retrieves player data from RuneScript tracker
     public Player(string rsn, int time)
     {
-      this.Ranked = false;
-      /*
       time = (int) (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds - time;
       try
       {
-        // Get the tracker SOAP for this RSN
-        skills RScriptSkills = new RScriptLookupPortTypeClient().trackGetTimeAll(rsn, time);
+        // Get the RuneTracker JSON for this player
+        var runeTrackerRawJson = new WebClient().DownloadString("http://runetracker.org/api.php?run=getTrackTable&limit=1&timeEnd=" + time + "&user=" + rsn);
+        var runeTrackerJson = JObject.Parse(runeTrackerRawJson);
 
         // Initialize variables
         this._skills = new SkillDictionary {
-          { Skill.OVER, new Skill(Skill.OVER, RScriptSkills.overall.rank, RScriptSkills.overall.level, RScriptSkills.overall.exp) },
-          { Skill.ATTA, new Skill(Skill.ATTA, RScriptSkills.attack.rank, RScriptSkills.attack.exp) },
-          { Skill.DEFE, new Skill(Skill.DEFE, RScriptSkills.defence.rank, RScriptSkills.defence.exp) },
-          { Skill.STRE, new Skill(Skill.STRE, RScriptSkills.strength.rank, RScriptSkills.strength.exp) },
-          { Skill.HITP, new Skill(Skill.HITP, RScriptSkills.constitution.rank, RScriptSkills.constitution.exp) },
-          { Skill.RANG, new Skill(Skill.RANG, RScriptSkills.ranged.rank, RScriptSkills.ranged.exp) },
-          { Skill.PRAY, new Skill(Skill.PRAY, RScriptSkills.prayer.rank, RScriptSkills.prayer.exp) },
-          { Skill.MAGI, new Skill(Skill.MAGI, RScriptSkills.magic.rank, RScriptSkills.magic.exp) },
-          { Skill.COOK, new Skill(Skill.COOK, RScriptSkills.cooking.rank, RScriptSkills.cooking.exp) },
-          { Skill.WOOD, new Skill(Skill.WOOD, RScriptSkills.woodcutting.rank, RScriptSkills.woodcutting.exp) },
-          { Skill.FLET, new Skill(Skill.FLET, RScriptSkills.fletching.rank, RScriptSkills.fletching.exp) },
-          { Skill.FISH, new Skill(Skill.FISH, RScriptSkills.fishing.rank, RScriptSkills.fishing.exp) },
-          { Skill.FIRE, new Skill(Skill.FIRE, RScriptSkills.firemaking.rank, RScriptSkills.firemaking.exp) },
-          { Skill.CRAF, new Skill(Skill.CRAF, RScriptSkills.crafting.rank, RScriptSkills.crafting.exp) },
-          { Skill.SMIT, new Skill(Skill.SMIT, RScriptSkills.smithing.rank, RScriptSkills.smithing.exp) },
-          { Skill.MINI, new Skill(Skill.MINI, RScriptSkills.mining.rank, RScriptSkills.mining.exp) },
-          { Skill.HERB, new Skill(Skill.HERB, RScriptSkills.herblore.rank, RScriptSkills.herblore.exp) },
-          { Skill.AGIL, new Skill(Skill.AGIL, RScriptSkills.agility.rank, RScriptSkills.agility.exp) },
-          { Skill.THIE, new Skill(Skill.THIE, RScriptSkills.thieving.rank, RScriptSkills.thieving.exp) },
-          { Skill.SLAY, new Skill(Skill.SLAY, RScriptSkills.slayer.rank, RScriptSkills.slayer.exp) },
-          { Skill.FARM, new Skill(Skill.FARM, RScriptSkills.farming.rank, RScriptSkills.farming.exp) },
-          { Skill.RUNE, new Skill(Skill.RUNE, RScriptSkills.runecraft.rank, RScriptSkills.runecraft.exp) },
-          { Skill.HUNT, new Skill(Skill.HUNT, RScriptSkills.hunter.rank, RScriptSkills.hunter.exp) },
-          { Skill.CONS, new Skill(Skill.CONS, RScriptSkills.construction.rank, RScriptSkills.construction.exp) },
-          { Skill.SUMM, new Skill(Skill.SUMM, RScriptSkills.summoning.rank, RScriptSkills.summoning.exp) },
-          { Skill.DUNG, new TrueSkill(Skill.DUNG, RScriptSkills.dungeoneering.rank, RScriptSkills.dungeoneering.exp) }
+          { Skill.OVER, new Skill(Skill.OVER, runeTrackerJson["skill0rank"], runeTrackerJson["skill0lvl"], runeTrackerJson["skill0exp"]) },
+          { Skill.ATTA, new Skill(Skill.ATTA, runeTrackerJson["skill1rank"], runeTrackerJson["skill1exp"]) },
+          { Skill.DEFE, new Skill(Skill.DEFE, runeTrackerJson["skill2rank"], runeTrackerJson["skill2exp"]) },
+          { Skill.STRE, new Skill(Skill.STRE, runeTrackerJson["skill3rank"], runeTrackerJson["skill3exp"]) },
+          { Skill.HITP, new Skill(Skill.HITP, runeTrackerJson["skill4rank"], runeTrackerJson["skill4exp"]) },
+          { Skill.RANG, new Skill(Skill.RANG, runeTrackerJson["skill5rank"], runeTrackerJson["skill5exp"]) },
+          { Skill.PRAY, new Skill(Skill.PRAY, runeTrackerJson["skill6rank"], runeTrackerJson["skill6exp"]) },
+          { Skill.MAGI, new Skill(Skill.MAGI, runeTrackerJson["skill7rank"], runeTrackerJson["skill7exp"]) },
+          { Skill.COOK, new Skill(Skill.COOK, runeTrackerJson["skill8rank"], runeTrackerJson["skill8exp"]) },
+          { Skill.WOOD, new Skill(Skill.WOOD, runeTrackerJson["skill9rank"], runeTrackerJson["skill9exp"]) },
+          { Skill.FLET, new Skill(Skill.FLET, runeTrackerJson["skill10rank"], runeTrackerJson["skill10exp"]) },
+          { Skill.FISH, new Skill(Skill.FISH, runeTrackerJson["skill11rank"], runeTrackerJson["skill11exp"]) },
+          { Skill.FIRE, new Skill(Skill.FIRE, runeTrackerJson["skill12rank"], runeTrackerJson["skill12exp"]) },
+          { Skill.CRAF, new Skill(Skill.CRAF, runeTrackerJson["skill13rank"], runeTrackerJson["skill13exp"]) },
+          { Skill.SMIT, new Skill(Skill.SMIT, runeTrackerJson["skill14rank"], runeTrackerJson["skill14exp"]) },
+          { Skill.MINI, new Skill(Skill.MINI, runeTrackerJson["skill15rank"], runeTrackerJson["skill15exp"]) },
+          { Skill.HERB, new Skill(Skill.HERB, runeTrackerJson["skill16rank"], runeTrackerJson["skill16exp"]) },
+          { Skill.AGIL, new Skill(Skill.AGIL, runeTrackerJson["skill17rank"], runeTrackerJson["skill17exp"]) },
+          { Skill.THIE, new Skill(Skill.THIE, runeTrackerJson["skill18rank"], runeTrackerJson["skill18exp"]) },
+          { Skill.SLAY, new Skill(Skill.SLAY, runeTrackerJson["skill19rank"], runeTrackerJson["skill19exp"]) },
+          { Skill.FARM, new Skill(Skill.FARM, runeTrackerJson["skill20rank"], runeTrackerJson["skill20exp"]) },
+          { Skill.RUNE, new Skill(Skill.RUNE, runeTrackerJson["skill21rank"], runeTrackerJson["skill21exp"]) },
+          { Skill.HUNT, new Skill(Skill.HUNT, runeTrackerJson["skill22rank"], runeTrackerJson["skill22exp"]) },
+          { Skill.CONS, new Skill(Skill.CONS, runeTrackerJson["skill23rank"], runeTrackerJson["skill23exp"]) },
+          { Skill.SUMM, new Skill(Skill.SUMM, runeTrackerJson["skill24rank"], runeTrackerJson["skill24exp"]) },
+          { Skill.DUNG, new TrueSkill(Skill.DUNG, runeTrackerJson["skill25rank"], runeTrackerJson["skill25exp"]) }
         };
-        this._activities = new ActivityDictionary();
-        this.Ranked = true;
 
-        // Make it compatible with RuneScape
-        foreach (Skill s in this._skills.Values)
-        {
-          if (s.Rank == 0)
-          {
-            s.Level = -1;
-            s.Exp = -1;
-            s.Rank = -1;
-          }
-        }
+        this._activities = new ActivityDictionary {
+          { Activity.DUEL, new Activity(Activity.DUEL, runeTrackerJson["mg0rank"], runeTrackerJson["mg0exp"]) },
+          { Activity.BOUN, new Activity(Activity.BOUN, runeTrackerJson["mg1rank"], runeTrackerJson["mg1exp"]) },
+          { Activity.ROGU, new Activity(Activity.ROGU, runeTrackerJson["mg2rank"], runeTrackerJson["mg2exp"]) },
+          { Activity.FIST, new Activity(Activity.FIST, runeTrackerJson["mg3rank"], runeTrackerJson["mg3exp"]) },
+          { Activity.MOBI, new Activity(Activity.MOBI, runeTrackerJson["mg4rank"], runeTrackerJson["mg4exp"]) },
+          { Activity.BAAT, new Activity(Activity.BAAT, runeTrackerJson["mg5rank"], runeTrackerJson["mg5exp"]) },
+          { Activity.BADE, new Activity(Activity.BADE, runeTrackerJson["mg6rank"], runeTrackerJson["mg6exp"]) },
+          { Activity.BACO, new Activity(Activity.BACO, runeTrackerJson["mg7rank"], runeTrackerJson["mg7exp"]) },
+          { Activity.BAHE, new Activity(Activity.BAHE, runeTrackerJson["mg8rank"], runeTrackerJson["mg8exp"]) },
+          { Activity.CWAR, new Activity(Activity.CWAR, runeTrackerJson["mg9rank"], runeTrackerJson["mg9exp"]) },
+          { Activity.CONQ, new Activity(Activity.CONQ, runeTrackerJson["mg10rank"], runeTrackerJson["mg10exp"]) },
+          { Activity.DOMI, new Activity(Activity.DOMI, runeTrackerJson["mg11rank"], runeTrackerJson["mg11exp"]) }
+        };
+
+        this.Ranked = true;
 
         // Try to guess missing skills and update our skill list
         this._GuessMissingSkills();
@@ -78,7 +81,6 @@ namespace Supay.Bot
       {
         this.Ranked = false;
       }
-      */
     }
 
     // Constructor that retrieves player data from Database

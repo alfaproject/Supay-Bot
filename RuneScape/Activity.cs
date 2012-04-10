@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace Supay.Bot
 {
@@ -37,6 +39,11 @@ namespace Supay.Bot
       : base(name, rank)
     {
       this.Score = score < 0 ? 0 : score;
+    }
+
+    public Activity(string name, JToken rank, JToken score)
+      : this(name, (string) rank == null ? -1 : int.Parse((string) rank, CultureInfo.InvariantCulture), (string) score == null ? -1 : int.Parse((string) score, CultureInfo.InvariantCulture))
+    {
     }
 
     public int Score
