@@ -418,12 +418,10 @@ namespace Supay.Bot
         int cmb = p.Skills[Skill.COMB].Level;
         int over = p.Skills[Skill.OVER].Level;
         int min = Utils.Reqs(cmb);
-        string junior = "Member: " + (over >= min ? "reqs met (\\c07" + (over-min).ToString() + " above); " : "\\c07" + (min - over).ToString() + "to go; ");
-        min += 100;
-        string member = "Advanced: " + (over >= min ? "reqs met (\\c07" + (over-min).ToString() + " above); " : "\\c07" + (min - over).ToString() + "to go; ");
-        min += 100;
+        string member = "Member: " + (over >= min ? "reqs met (\\c07" + (over-min).ToString() + " above); " : "\\c07" + (min - over).ToString() + "to go; ");
+        min += 200;
         string elite = "Elite: " + (over >= min ? "reqs met (\\c07" + (over-min).ToString() + " above);" : "\\c07" + (min - over).ToString() + "to go;");
-        bc.SendReply("\\b" + rsn + "\\b Supreme Skillers Reqs " + junior + member + elite + " | Forum: \\c12www.supremeskillers.net");
+        bc.SendReply("\\b" + rsn + "\\b Supreme Skillers Reqs " + member + elite + " | Forum: \\c12www.supremeskillers.net");
         return;
       }
       using (var reqs_file = new StreamReader("Data/Reqs.txt"))

@@ -269,7 +269,9 @@ namespace Supay.Bot
         return 2200;
       if (combat >= 121)
         return 2150;
-      return 2100;
+      if (combat >= 101)
+        return 2100;
+      return 2050;
     }
   }
 }
