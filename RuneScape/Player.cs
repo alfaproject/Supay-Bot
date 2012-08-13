@@ -20,8 +20,12 @@ namespace Supay.Bot
       time = (int) (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds - time;
       try
       {
-        // Get the RuneTracker JSON for this player
-        var runeTrackerRawJson = new WebClient().DownloadString("http://runetracker.org/api.php?run=getTrackTable&limit=1&timeEnd=" + time + "&user=" + rsn);
+        // RuneTracker: sets or renews the 7-day long auto-update for a user and looks them up once a day.
+        var runeTrackerWebClient = new WebClient();
+        runeTrackerWebClient.DownloadString("http://runetracker.org/api.php?run=updateUserAutoLookup&user=" + rsn);
+
+        // RuneTracker: get a player entry from database at a specified time.
+        var runeTrackerRawJson = runeTrackerWebClient.DownloadString("http://runetracker.org/api.php?run=getTrackTable&limit=1&timeEnd=" + time + "&user=" + rsn);
         var runeTrackerJson = JObject.Parse(runeTrackerRawJson);
 
         // Initialize variables
