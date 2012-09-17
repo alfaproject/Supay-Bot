@@ -2,11 +2,11 @@
 
 namespace Supay.Bot
 {
-  internal class ActivityDictionary : OrderedDictionary<string, Activity>
-  {
-    public ActivityDictionary()
-      : base(12)
+    internal class ActivityDictionary : OrderedDictionary<string, Activity>
     {
+        public ActivityDictionary()
+            : base(12)
+        {
+        }
     }
-  }
 }
