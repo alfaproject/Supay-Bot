@@ -321,14 +321,6 @@ namespace Supay.Bot
 
       this._irc.Connection.Disconnected += (dsender, de) => this.outputMessage("[DISCONNECTED] " + de.Data);
 
-      // Hop/Cycle/Part protection
-      this._irc.Messages.Part += (dsender, de) => {
-        var mask = "*!*@" + de.Message.Sender.Host;
-        this._irc.Send(new ChannelModeMessage(de.Message.Channels[0], "+b", mask));
-        this._irc.Send(new KickMessage(de.Message.Channels[0], de.Message.Sender.Nickname));
-        DelayedDelegate.Add(() => this._irc.Send(new ChannelModeMessage(de.Message.Channels[0], "-b", mask)), 30);
-      };
-
       try
       {
         // Since I'm a Windows.Forms application, I pass in this form to the Connect method so it can sync with me.
