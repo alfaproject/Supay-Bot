@@ -8,6 +8,8 @@ namespace Supay.Bot
 {
     internal static partial class Command
     {
+        private static readonly Regex _lessThanRegex = new Regex(@"\s+<\D*(\d+)([kKmM]{0,1})", RegexOptions.Compiled);
+
         public static void Stats(CommandContext bc)
         {
             // get @next
@@ -48,32 +50,34 @@ namespace Supay.Bot
             }
 
             // get <
-            int InputLessThan = 0;
-            Match M = Regex.Match(bc.Message, " <(\\d+m|\\d+k|\\d+)");
-            if (M.Success)
+            var lessThan = 0;
+            var lessThanMatch = _lessThanRegex.Match(bc.Message);
+            if (lessThanMatch.Success)
             {
-                if (M.Groups[1].Value.EndsWithI("m"))
+                lessThan = int.Parse(lessThanMatch.Groups[1].Value, CultureInfo.InvariantCulture);
+                switch (lessThanMatch.Groups[2].Value)
                 {
-                    InputLessThan = 1000000 * int.Parse(M.Groups[1].Value.Substring(0, M.Groups[1].Value.Length - 1), CultureInfo.InvariantCulture);
+                    case "k":
+                    case "K":
+                        lessThan *= 1000;
+                        break;
+                    case "m":
+                    case "M":
+                        lessThan *= 1000000;
+                        break;
                 }
-                else if (M.Groups[1].Value.EndsWithI("k"))
+                
+                if (lessThan < 127)
                 {
-                    InputLessThan = 1000 * int.Parse(M.Groups[1].Value.Substring(0, M.Groups[1].Value.Length - 1), CultureInfo.InvariantCulture);
+                    lessThan = lessThan.ToExp();
                 }
-                else
-                {
-                    InputLessThan = int.Parse(M.Groups[1].Value, CultureInfo.InvariantCulture);
-                }
-                if (InputLessThan < 127)
-                {
-                    InputLessThan = InputLessThan.ToExp();
-                }
-                bc.Message = Regex.Replace(bc.Message, " <(\\d+m|\\d+k|\\d+)", string.Empty);
+
+                bc.Message = bc.Message.Replace(lessThanMatch.Value, string.Empty);
             }
 
             // get >
             int InputGreaterThan = 0;
-            M = Regex.Match(bc.Message, " >(\\d+m|\\d+k|\\d+)");
+            var M = Regex.Match(bc.Message, " >(\\d+m|\\d+k|\\d+)");
             if (M.Success)
             {
                 if (M.Groups[1].Value.EndsWithI("m"))
@@ -198,7 +202,7 @@ namespace Supay.Bot
                 {
                     Skill s = p.Skills[i];
 
-                    if (InputLessThan > 0 && s.Exp >= InputLessThan)
+                    if (lessThan > 0 && s.Exp >= lessThan)
                     {
                         continue;
                     }
@@ -206,7 +210,7 @@ namespace Supay.Bot
                     {
                         continue;
                     }
-                    if (InputLessThan > 0 && InputGreaterThan > 0 && s.Exp >= InputLessThan && s.Exp <= InputGreaterThan)
+                    if (lessThan > 0 && InputGreaterThan > 0 && s.Exp >= lessThan && s.Exp <= InputGreaterThan)
                     {
                         continue;
                     }
