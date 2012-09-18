@@ -3,12 +3,13 @@ using System.Data.SQLite;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void SkillInfo(CommandContext bc)
+        public static async Task SkillInfo(CommandContext bc)
         {
             // get skill name
             string skillName = Skill.Parse(bc.MessageTokens[0]);

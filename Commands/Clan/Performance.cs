@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void ClanPerformance(CommandContext bc)
+        public static async Task ClanPerformance(CommandContext bc)
         {
             string clanInitials;
             string clanName;

@@ -1,11 +1,12 @@
 ﻿using System.Data.SQLite;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void Set(CommandContext bc)
+        public static async Task Set(CommandContext bc)
         {
             if (bc.MessageTokens.Length < 2)
             {

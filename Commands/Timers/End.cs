@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Data.SQLite;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void End(CommandContext bc)
+        public static async Task End(CommandContext bc)
         {
             // get rsn
             string rsn = bc.GetPlayerName(bc.From.Nickname);

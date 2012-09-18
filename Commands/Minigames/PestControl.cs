@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void PestControl(CommandContext bc)
+        public static async Task PestControl(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {

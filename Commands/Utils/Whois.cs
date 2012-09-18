@@ -1,10 +1,11 @@
+using System.Threading.Tasks;
 using Supay.Irc;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void Whois(CommandContext bc)
+        public static async Task Whois(CommandContext bc)
         {
             if (bc.MessageTokens.Length <= 1)
             {

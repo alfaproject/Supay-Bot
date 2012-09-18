@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static class CmdMonster
     {
-        public static void Search(CommandContext bc)
+        public static async Task Search(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {
@@ -34,7 +35,7 @@ namespace Supay.Bot
             }
         }
 
-        public static void Info(CommandContext bc)
+        public static async Task Info(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {

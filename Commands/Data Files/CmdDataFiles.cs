@@ -4,12 +4,13 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static class CmdDataFiles
     {
-        public static void Coord(CommandContext bc)
+        public static async Task Coord(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {
@@ -52,7 +53,7 @@ namespace Supay.Bot
             }
         }
 
-        public static void Riddle(CommandContext bc)
+        public static async Task Riddle(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {
@@ -82,7 +83,7 @@ namespace Supay.Bot
             bc.SendReply(@"Could not locate \c07'{0}'\c riddle.".FormatWith(query));
         }
 
-        public static void Anagram(CommandContext bc)
+        public static async Task Anagram(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {
@@ -112,7 +113,7 @@ namespace Supay.Bot
             bc.SendReply(@"Could not locate \c07'{0}'\c anagram.".FormatWith(query));
         }
 
-        public static void Challenge(CommandContext bc)
+        public static async Task Challenge(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {
@@ -142,7 +143,7 @@ namespace Supay.Bot
             bc.SendReply(@"Could not locate \c07'{0}'\c challenge.".FormatWith(query));
         }
 
-        public static void Npc(CommandContext bc)
+        public static async Task Npc(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {
@@ -172,7 +173,7 @@ namespace Supay.Bot
             bc.SendReply(@"Could not locate \c07'{0}'\c NPC.".FormatWith(query));
         }
 
-        public static void Search(CommandContext bc)
+        public static async Task Search(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {
@@ -202,7 +203,7 @@ namespace Supay.Bot
             bc.SendReply(@"Could not locate \c07'{0}'\c search.".FormatWith(query));
         }
 
-        public static void Uri(CommandContext bc)
+        public static async Task Uri(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {
@@ -232,7 +233,7 @@ namespace Supay.Bot
             bc.SendReply(@"Could not locate \c07'{0}'\c uri.".FormatWith(query));
         }
 
-        public static void Fairy(CommandContext bc)
+        public static async Task Fairy(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {
@@ -262,7 +263,7 @@ namespace Supay.Bot
             }
         }
 
-        public static void Farmer(CommandContext bc)
+        public static async Task Farmer(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {
@@ -310,7 +311,7 @@ namespace Supay.Bot
             }
         }
 
-        public static void Cape(CommandContext bc)
+        public static async Task Cape(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {
@@ -336,7 +337,7 @@ namespace Supay.Bot
             }
         }
 
-        public static void Exp(CommandContext bc)
+        public static async Task Exp(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {
@@ -390,7 +391,7 @@ namespace Supay.Bot
             }
         }
 
-        public static void Lvl(CommandContext bc)
+        public static async Task Lvl(CommandContext bc)
         {
             if (bc.MessageTokens.Length != 2)
             {
@@ -408,7 +409,7 @@ namespace Supay.Bot
             bc.SendReply("The experience \\c07{0:#,##0.#}\\c is level \\c07{1}\\c, with \\c07{2:#,##0.#}\\c experience until level \\c07{3}".FormatWith(exp, exp.ToLevel(), ((exp.ToLevel() + 1).ToExp() - exp), (exp.ToLevel() + 1)));
         }
 
-        public static void Reqs(CommandContext bc)
+        public static async Task Reqs(CommandContext bc)
         {
             if (bc.MessageTokens.Length > 1 && (bc.Channel == "#skillers" || bc.Channel == "#Skillers" || bc.Channel == "#howdy"))
             {
@@ -438,7 +439,7 @@ namespace Supay.Bot
             }
         }
 
-        public static void Pouch(CommandContext bc)
+        public static async Task Pouch(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {
@@ -482,7 +483,7 @@ namespace Supay.Bot
             }
         }
 
-        public static void Charms(CommandContext bc)
+        public static async Task Charms(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {
@@ -570,7 +571,7 @@ namespace Supay.Bot
             bc.SendReply(reply.Substring(0, reply.Length - 3));
         }
 
-        public static void Potion(CommandContext bc)
+        public static async Task Potion(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {
@@ -616,7 +617,7 @@ namespace Supay.Bot
             }
         }
 
-        public static void Spell(CommandContext bc)
+        public static async Task Spell(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {
@@ -655,7 +656,7 @@ namespace Supay.Bot
             }
         }
 
-        public static void Task(CommandContext bc)
+        public static async Task Task(CommandContext bc)
         {
             if (bc.Message.Length < 3)
             {

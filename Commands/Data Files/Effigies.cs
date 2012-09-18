@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void Effigies(CommandContext bc)
+        public static async Task Effigies(CommandContext bc)
         {
             // .effigy <lvl>
             int level;

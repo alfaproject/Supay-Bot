@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void Price(CommandContext bc)
+        public static async Task Price(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {

@@ -1,8 +1,10 @@
-﻿namespace Supay.Bot
+﻿using System.Threading.Tasks;
+
+namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void Compare(CommandContext bc)
+        public static async Task Compare(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {

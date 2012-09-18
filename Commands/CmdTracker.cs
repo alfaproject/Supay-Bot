@@ -4,12 +4,13 @@ using System.Data.SQLite;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static class CmdTracker
     {
-        public static void Add(CommandContext bc)
+        public static async Task Add(CommandContext bc)
         {
             if (!bc.IsAdmin)
             {
@@ -43,7 +44,7 @@ namespace Supay.Bot
             }
         }
 
-        public static void Remove(CommandContext bc)
+        public static async Task Remove(CommandContext bc)
         {
             if (!bc.IsAdmin)
             {
@@ -70,7 +71,7 @@ namespace Supay.Bot
             }
         }
 
-        public static void Rename(CommandContext bc)
+        public static async Task Rename(CommandContext bc)
         {
             if (!bc.IsAdmin)
             {
@@ -132,7 +133,7 @@ namespace Supay.Bot
             bc.SendReply(@"Player \b{0}\b was renamed or merged to \b{1}\b.".FormatWith(oldRsn, newRsn));
         }
 
-        public static void RemoveTrackerFromClan(CommandContext bc)
+        public static async Task RemoveTrackerFromClan(CommandContext bc)
         {
             if (!bc.IsAdmin)
             {
@@ -168,7 +169,7 @@ namespace Supay.Bot
             bc.SendReply("There are \\b{0}\\b players left in the tracker.".FormatWith(playersLeft));
         }
 
-        public static void Performance(CommandContext bc)
+        public static async Task Performance(CommandContext bc)
         {
             bool showAll = false;
             if (bc.Message.Contains(" @all"))

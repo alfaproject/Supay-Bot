@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void Top(CommandContext bc)
+        public static async Task Top(CommandContext bc)
         {
             string rsn;
             string skill = null,

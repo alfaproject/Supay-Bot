@@ -1,8 +1,10 @@
-﻿namespace Supay.Bot
+﻿using System.Threading.Tasks;
+
+namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void SoulWars(CommandContext bc)
+        public static async Task SoulWars(CommandContext bc)
         {
             // get rsn
             string rsn = string.Empty;

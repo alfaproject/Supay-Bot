@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void ClanTop(CommandContext bc)
+        public static async Task ClanTop(CommandContext bc)
         {
             string clanInitials;
             string clanName;

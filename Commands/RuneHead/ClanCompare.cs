@@ -2,12 +2,13 @@
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void ClanCompare(CommandContext bc)
+        public static async Task ClanCompare(CommandContext bc)
         {
             if (bc.MessageTokens.Length < 3)
             {

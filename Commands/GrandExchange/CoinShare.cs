@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void CoinShare(CommandContext bc)
+        public static async Task CoinShare(CommandContext bc)
         {
             if (bc.MessageTokens.Length < 3)
             {

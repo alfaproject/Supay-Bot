@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Data.SQLite;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void Check(CommandContext bc)
+        public static async Task Check(CommandContext bc)
         {
             // get rsn
             string rsn = bc.GetPlayerName(bc.From.Nickname);

@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static class CmdOthers
     {
-        public static void Percent(CommandContext bc)
+        public static async Task Percent(CommandContext bc)
         {
             // get rsn
             string rsn = bc.GetPlayerName(bc.MessageTokens.Length > 1 ? bc.MessageTokens.Join(1) : bc.From.Nickname);
@@ -34,7 +35,7 @@ namespace Supay.Bot
             bc.SendReply("\\b{0}\\b statistic percentages | Total exp: \\c07{1:N0}\\c | Combat exp: \\c07{2:N0}\\c (\\c07{3:0.##}%\\c) | F2P exp: \\c07{4:N0}\\c (\\c07{5:0.##}%\\c) | Slayer%: \\c07{6:0.##}% - {7:0.##}%\\c | PestControl%: \\c07{8:0.##}%\\c".FormatWith(rsn, totalExp, combatExp, (double) combatExp / totalExp * 100, f2pExp, (double) f2pExp / totalExp * 100, (double) p.Skills[Skill.SLAY].Exp / expected_max_slayer_exp * 100, (double) p.Skills[Skill.SLAY].Exp / (expected_max_slayer_exp - (hits_exp_gained / 133)) * 100, (double) (current_combat_xp - expected_combat_xp) / current_combat_xp * 100));
         }
 
-        public static void CombatPercent(CommandContext bc)
+        public static async Task CombatPercent(CommandContext bc)
         {
             // get rsn
             string rsn;
@@ -57,7 +58,7 @@ namespace Supay.Bot
             bc.SendReply("\\b{0}\\b is \\c07{1:0.##}%\\c combat based, with \\c07{2:e}\\c combat based exp. and \\c07{3:e}\\c total exp.".FormatWith(rsn, (double) p.Skills[Skill.COMB].Exp / (double) p.Skills[Skill.OVER].Exp * 100.0, p.Skills[Skill.COMB], p.Skills[Skill.OVER]));
         }
 
-        public static void F2pPercent(CommandContext bc)
+        public static async Task F2pPercent(CommandContext bc)
         {
             // get rsn
             string rsn;
@@ -80,7 +81,7 @@ namespace Supay.Bot
             bc.SendReply("\\b{0}\\b is \\c07{1:0.##}%\\c f2p based, with \\c07{2:N0}\\c f2p based exp. and \\c07{3:e}\\c total exp.".FormatWith(rsn, (double) p.Skills.F2pExp / (double) p.Skills[Skill.OVER].Exp * 100, p.Skills.F2pExp, p.Skills[Skill.OVER]));
         }
 
-        public static void SlayerPercent(CommandContext bc)
+        public static async Task SlayerPercent(CommandContext bc)
         {
             // get rsn
             string rsn;
@@ -106,7 +107,7 @@ namespace Supay.Bot
             bc.SendReply("\\b{0}\\b \\c07{1:0.##}% - {2:0.##}%\\c of combat exp. is slayer based, with \\c07{3:N0}\\c combat slayer exp. and \\c07{4:N0}\\c combat total exp. (This percentage isn't accurate, mostly because of monster hp regeneration ratio and cannon slayering.)".FormatWith(rsn, (double) p.Skills[Skill.SLAY].Exp / expected_max_slayer_exp * 100.0, (double) p.Skills[Skill.SLAY].Exp / (expected_max_slayer_exp - ((double) hits_exp_gained / 133.0)) * 100.0, (double) p.Skills[Skill.SLAY].Exp * 16.0 / 3.0, hits_exp_gained + hits_exp_gained * 3));
         }
 
-        public static void PcPercent(CommandContext bc)
+        public static async Task PcPercent(CommandContext bc)
         {
             // get rsn
             string rsn;
@@ -132,7 +133,7 @@ namespace Supay.Bot
             bc.SendReply("\\b{0}\\b \\c07{1:0.##}%\\c of combat exp. was pest controled and/or cannoned, with \\c07{2:N0}\\c normal combat exp. and \\c07{3:N0}\\c total combat exp. (This percentage might not be accurate; magic isn't included in calculations.)".FormatWith(rsn, (double) (current_combat_xp - expected_combat_xp) / (double) current_combat_xp * 100.0, expected_combat_xp, current_combat_xp));
         }
 
-        public static void Players(CommandContext bc)
+        public static async Task Players(CommandContext bc)
         {
             using (var wc = new WebClient())
             {
@@ -147,7 +148,7 @@ namespace Supay.Bot
             }
         }
 
-        public static void Grats(CommandContext bc)
+        public static async Task Grats(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {
@@ -219,7 +220,7 @@ namespace Supay.Bot
             }
         }
 
-        public static void HighLow(CommandContext bc)
+        public static async Task HighLow(CommandContext bc)
         {
             // @rank
             bool rank = false;
@@ -331,7 +332,7 @@ namespace Supay.Bot
             }
         }
 
-        public static void CalcCombat(CommandContext bc)
+        public static async Task CalcCombat(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {

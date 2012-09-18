@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Data.SQLite;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void WarTop(CommandContext bc)
+        public static async Task WarTop(CommandContext bc)
         {
             // get channel name
             string channelName = bc.Channel;

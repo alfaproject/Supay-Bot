@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
@@ -10,7 +11,7 @@ namespace Supay.Bot
     {
         private static readonly Regex _lessThanRegex = new Regex(@"\s+<\D*(\d+)([kKmM]{0,1})", RegexOptions.Compiled);
 
-        public static void Stats(CommandContext bc)
+        public static async Task Stats(CommandContext bc)
         {
             // get @next
             bool ExpNext = false;

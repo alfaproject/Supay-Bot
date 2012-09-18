@@ -370,7 +370,7 @@ namespace Supay.Bot
             }
         }
 
-        private void IrcChat(object sender, IrcMessageEventArgs<TextMessage> e)
+        private async void IrcChat(object sender, IrcMessageEventArgs<TextMessage> e)
         {
             if (e.Message.Targets[0].EqualsI(this._irc.User.Nickname))
             {
@@ -456,7 +456,7 @@ namespace Supay.Bot
                             // Utility
                         case "SET":
                         case "DEFAULT":
-                            ThreadUtil.FireAndForget(Command.Set, bc);
+                            await Command.Set(bc);
                             break;
                         case "SETNAME":
                         case "SETRSN":
@@ -464,31 +464,31 @@ namespace Supay.Bot
                         case "DEFRSN":
                         case "ADDME":
                             bc.Message = bc.Message.Replace(bc.MessageTokens[0], "set name");
-                            ThreadUtil.FireAndForget(Command.Set, bc);
+                            await Command.Set(bc);
                             break;
                         case "RSN":
                         case "WHOIS":
-                            ThreadUtil.FireAndForget(Command.Whois, bc);
+                            await Command.Whois(bc);
                             break;
                         case "CALC":
                         case "C":
-                            ThreadUtil.FireAndForget(Command.Calc, bc);
+                            await Command.Calc(bc);
                             break;
 
                             // Tracker
                         case "ADDTRACKER":
-                            ThreadUtil.FireAndForget(CmdTracker.Add, bc);
+                            await CmdTracker.Add(bc);
                             break;
                         case "REMOVETRACKER":
-                            ThreadUtil.FireAndForget(CmdTracker.Remove, bc);
+                            await CmdTracker.Remove(bc);
                             break;
                         case "TRACKERRENAME":
                         case "TRACKERMERGE":
-                            ThreadUtil.FireAndForget(CmdTracker.Rename, bc);
+                            await CmdTracker.Rename(bc);
                             break;
                         case "REMOVETRACKERFROMCLAN":
                         case "REMOVECLANFROMTRACKER":
-                            ThreadUtil.FireAndForget(CmdTracker.RemoveTrackerFromClan, bc);
+                            await CmdTracker.RemoveTrackerFromClan(bc);
                             break;
                         case "TODAY":
                         case "WEEK":
@@ -502,19 +502,19 @@ namespace Supay.Bot
                         case "LMONTH":
                         case "LASTYEAR":
                         case "LYEAR":
-                            ThreadUtil.FireAndForget(CmdTracker.Performance, bc);
+                            await CmdTracker.Performance(bc);
                             break;
 
                             // RuneScript
                         case "GRAPH":
-                            ThreadUtil.FireAndForget(Command.Graph, bc);
+                            await Command.Graph(bc);
                             break;
                         case "TRACK":
                         case "TRACKER":
-                            ThreadUtil.FireAndForget(Command.Track, bc);
+                            await Command.Track(bc);
                             break;
                         case "RECORD":
-                            ThreadUtil.FireAndForget(Command.Record, bc);
+                            await Command.Record(bc);
                             break;
 
                             // Clan
@@ -522,7 +522,7 @@ namespace Supay.Bot
                         case "TUGATOP":
                         case "SSTOP":
                         case "TSTOP":
-                            ThreadUtil.FireAndForget(Command.ClanTop, bc);
+                            await Command.ClanTop(bc);
                             break;
                         case "PTWEEK":
                         case "PTMONTH":
@@ -568,67 +568,67 @@ namespace Supay.Bot
                         case "TSLMONTH":
                         case "TSLASTYEAR":
                         case "TSLYEAR":
-                            ThreadUtil.FireAndForget(Command.ClanPerformance, bc);
+                            await Command.ClanPerformance(bc);
                             break;
                         case "SS":
                         case "SSAVG":
                         case "SSSTATS":
                         case "SSINFO":
-                            ThreadUtil.FireAndForget(Command.ClanStats, bc);
+                            await Command.ClanStats(bc);
                             break;
                         case "EVENT":
                         case "EVENTS":
                         case "NEXTEVENT":
                         case "NEXTEVENTS":
-                            ThreadUtil.FireAndForget(Command.Event, bc);
+                            await Command.Event(bc);
                             break;
 
                             // Grand Exchange
                         case "PRICES":
                         case "PRICE":
                         case "GE":
-                            ThreadUtil.FireAndForget(Command.Price, bc);
+                            await Command.Price(bc);
                             break;
                         case "PRICEINFO":
                         case "GEINFO":
-                            ThreadUtil.FireAndForget(Command.PriceInfo, bc);
+                            await Command.PriceInfo(bc);
                             break;
                         case "GELASTUPDATE":
                         case "GEUPDATE":
                         case "GU":
-                            ThreadUtil.FireAndForget(Command.LastUpdate, bc);
+                            await Command.LastUpdate(bc);
                             break;
                         case "COINSHARE":
                         case "COINS":
                         case "CS":
-                            ThreadUtil.FireAndForget(Command.CoinShare, bc);
+                            await Command.CoinShare(bc);
                             break;
 
                             // RuneScape
                         case "ALL":
                         case "STATS":
                         case "SKILLS":
-                            ThreadUtil.FireAndForget(Command.Stats, bc);
+                            await Command.Stats(bc);
                             break;
                         case "COMPARE":
                         case "COMP":
                         case "CMP":
-                            ThreadUtil.FireAndForget(Command.Compare, bc);
+                            await Command.Compare(bc);
                             break;
                         case "COMBAT":
                         case "COMB":
                         case "CMB":
                         case "CB":
-                            ThreadUtil.FireAndForget(Command.Combat, bc);
+                            await Command.Combat(bc);
                             break;
 
                             // Hiscores
                         case "TOP":
                         case "TABLE":
-                            ThreadUtil.FireAndForget(Command.Top, bc);
+                            await Command.Top(bc);
                             break;
                         case "RANK":
-                            ThreadUtil.FireAndForget(Command.Rank, bc);
+                            await Command.Rank(bc);
                             break;
 
                             // Activities
@@ -637,17 +637,17 @@ namespace Supay.Bot
                         case "SOULS":
                         case "SOULWAR":
                         case "SOULWARS":
-                            ThreadUtil.FireAndForget(Command.SoulWars, bc);
+                            await Command.SoulWars(bc);
                             break;
                         case "PC":
                         case "PEST":
                         case "PESTCONTROL":
-                            ThreadUtil.FireAndForget(Command.PestControl, bc);
+                            await Command.PestControl(bc);
                             break;
 
                             // FanSites
                         case "ITEM":
-                            ThreadUtil.FireAndForget(Command.Item, bc);
+                            await Command.Item(bc);
                             break;
                         case "HIGHALCHEMY":
                         case "HIGHALCH":
@@ -655,30 +655,30 @@ namespace Supay.Bot
                         case "LOWALCH":
                         case "ALCHEMY":
                         case "ALCH":
-                            ThreadUtil.FireAndForget(Command.Alch, bc);
+                            await Command.Alch(bc);
                             break;
                         case "MONSTERSEARCH":
                         case "NPCSEARCH":
                         case "MDBSEARCH":
                         case "MONSTERS":
                         case "NPCS":
-                            ThreadUtil.FireAndForget(CmdMonster.Search, bc);
+                            await CmdMonster.Search(bc);
                             break;
                         case "MONSTERINFO":
                         case "NPCINFO":
                         case "MDBINFO":
                         case "MONSTER":
                         case "MDB":
-                            ThreadUtil.FireAndForget(CmdMonster.Info, bc);
+                            await CmdMonster.Info(bc);
                             break;
 
                             // RuneHead
                         case "CLAN":
-                            ThreadUtil.FireAndForget(Command.Clan, bc);
+                            await Command.Clan(bc);
                             break;
                         case "CLANINFO":
                         case "ML":
-                            ThreadUtil.FireAndForget(Command.ClanInfo, bc);
+                            await Command.ClanInfo(bc);
                             break;
                         case "PARSESS":
                         case "UPDATESS":
@@ -686,11 +686,11 @@ namespace Supay.Bot
                         case "UPDATEPT":
                         case "PARSETS":
                         case "UPDATETS":
-                            ThreadUtil.FireAndForget(Command.ClanUpdate, bc);
+                            await Command.ClanUpdate(bc);
                             break;
                         case "CLANCHECK":
                         case "CHECKCLAN":
-                            ThreadUtil.FireAndForget(Command.ClanCheck, bc);
+                            await Command.ClanCheck(bc);
                             break;
                         case "CMPCL":
                         case "CMPCLAN":
@@ -702,70 +702,70 @@ namespace Supay.Bot
                         case "MLCOMPARE":
                         case "CMPML":
                         case "COMPAREML":
-                            ThreadUtil.FireAndForget(Command.ClanCompare, bc);
+                            await Command.ClanCompare(bc);
                             break;
 
                             // Timers
                         case "START":
-                            ThreadUtil.FireAndForget(Command.Start, bc);
+                            await Command.Start(bc);
                             break;
                         case "CHECK":
-                            ThreadUtil.FireAndForget(Command.Check, bc);
+                            await Command.Check(bc);
                             break;
                         case "STOP":
                         case "END":
-                            ThreadUtil.FireAndForget(Command.End, bc);
+                            await Command.End(bc);
                             break;
                         case "TIMER":
-                            ThreadUtil.FireAndForget(Command.Timer, bc);
+                            await Command.Timer(bc);
                             break;
 
                             // DataFiles
                         case "COORDS":
                         case "COORD":
-                            ThreadUtil.FireAndForget(CmdDataFiles.Coord, bc);
+                            await CmdDataFiles.Coord(bc);
                             break;
                         case "ANAGRAM":
-                            ThreadUtil.FireAndForget(CmdDataFiles.Anagram, bc);
+                            await CmdDataFiles.Anagram(bc);
                             break;
                         case "CHALLENGE":
-                            ThreadUtil.FireAndForget(CmdDataFiles.Challenge, bc);
+                            await CmdDataFiles.Challenge(bc);
                             break;
                         case "NPC":
                         case "PERSON":
-                            ThreadUtil.FireAndForget(CmdDataFiles.Npc, bc);
+                            await CmdDataFiles.Npc(bc);
                             break;
                         case "RIDDLE":
-                            ThreadUtil.FireAndForget(CmdDataFiles.Riddle, bc);
+                            await CmdDataFiles.Riddle(bc);
                             break;
                         case "SEARCH":
-                            ThreadUtil.FireAndForget(CmdDataFiles.Search, bc);
+                            await CmdDataFiles.Search(bc);
                             break;
                         case "URI":
-                            ThreadUtil.FireAndForget(CmdDataFiles.Uri, bc);
+                            await CmdDataFiles.Uri(bc);
                             break;
                         case "FAIRY":
-                            ThreadUtil.FireAndForget(CmdDataFiles.Fairy, bc);
+                            await CmdDataFiles.Fairy(bc);
                             break;
                         case "PAYMENT":
                         case "FARMER":
                         case "PLANT":
-                            ThreadUtil.FireAndForget(CmdDataFiles.Farmer, bc);
+                            await CmdDataFiles.Farmer(bc);
                             break;
                         case "CAPE":
-                            ThreadUtil.FireAndForget(CmdDataFiles.Cape, bc);
+                            await CmdDataFiles.Cape(bc);
                             break;
                         case "EXP":
                         case "XP":
-                            ThreadUtil.FireAndForget(CmdDataFiles.Exp, bc);
+                            await CmdDataFiles.Exp(bc);
                             break;
                         case "LVL":
                         case "LEVEL":
-                            ThreadUtil.FireAndForget(CmdDataFiles.Lvl, bc);
+                            await CmdDataFiles.Lvl(bc);
                             break;
                         case "REQ":
                         case "REQS":
-                            ThreadUtil.FireAndForget(CmdDataFiles.Reqs, bc);
+                            await CmdDataFiles.Reqs(bc);
                             break;
                         case "PO":
                         case "POUCH":
@@ -773,72 +773,72 @@ namespace Supay.Bot
                         case "FAM":
                         case "FAMILIAR":
                         case "FAMILIARS":
-                            ThreadUtil.FireAndForget(CmdDataFiles.Pouch, bc);
+                            await CmdDataFiles.Pouch(bc);
                             break;
                         case "CH":
                         case "CHARM":
                         case "CHARMS":
-                            ThreadUtil.FireAndForget(CmdDataFiles.Charms, bc);
+                            await CmdDataFiles.Charms(bc);
                             break;
                         case "POT":
                         case "POTION":
                         case "POTIONS":
-                            ThreadUtil.FireAndForget(CmdDataFiles.Potion, bc);
+                            await CmdDataFiles.Potion(bc);
                             break;
                         case "SP":
                         case "SPELL":
                         case "SPELLS":
-                            ThreadUtil.FireAndForget(CmdDataFiles.Spell, bc);
+                            await CmdDataFiles.Spell(bc);
                             break;
                         case "TASK":
-                            ThreadUtil.FireAndForget(CmdDataFiles.Task, bc);
+                            await CmdDataFiles.Task(bc);
                             break;
                         case "EFFIGY":
                         case "EFF":
                         case "EFFIGIES":
-                            ThreadUtil.FireAndForget(Command.Effigies, bc);
+                            await Command.Effigies(bc);
                             break;
 
                             // Alog
                         case "ALOG":
                         case "ACHIEVEMENTLOG":
-                            ThreadUtil.FireAndForget(Command.Alog, bc);
+                            await Command.Alog(bc);
                             break;
 
                             // Others
                         case "%":
-                            ThreadUtil.FireAndForget(CmdOthers.Percent, bc);
+                            await CmdOthers.Percent(bc);
                             break;
                         case "COMBAT%":
                         case "COMB%":
                         case "CMB%":
                         case "CB%":
-                            ThreadUtil.FireAndForget(CmdOthers.CombatPercent, bc);
+                            await CmdOthers.CombatPercent(bc);
                             break;
                         case "SLAYER%":
                         case "SLAY%":
                         case "SL%":
-                            ThreadUtil.FireAndForget(CmdOthers.SlayerPercent, bc);
+                            await CmdOthers.SlayerPercent(bc);
                             break;
                         case "F2P%":
                         case "F2P":
-                            ThreadUtil.FireAndForget(CmdOthers.F2pPercent, bc);
+                            await CmdOthers.F2pPercent(bc);
                             break;
                         case "PC%":
-                            ThreadUtil.FireAndForget(CmdOthers.PcPercent, bc);
+                            await CmdOthers.PcPercent(bc);
                             break;
 
                         case "PLAYERS":
                         case "WORLDS":
                         case "WORLD":
                         case "W":
-                            ThreadUtil.FireAndForget(CmdOthers.Players, bc);
+                            await CmdOthers.Players(bc);
                             break;
 
                         case "GRATS":
                         case "GRATZ":
                         case "G":
-                            ThreadUtil.FireAndForget(CmdOthers.Grats, bc);
+                            await CmdOthers.Grats(bc);
                             break;
 
                         case "HIGHLOW":
@@ -849,7 +849,7 @@ namespace Supay.Bot
                         case "LOHIGH":
                         case "HILO":
                         case "LOHI":
-                            ThreadUtil.FireAndForget(CmdOthers.HighLow, bc);
+                            await CmdOthers.HighLow(bc);
                             break;
                         case "CALCCOMBAT":
                         case "CALCCOMB":
@@ -857,36 +857,36 @@ namespace Supay.Bot
                         case "CALCCB":
                         case "CMB-EST":
                         case "CMBEST":
-                            ThreadUtil.FireAndForget(CmdOthers.CalcCombat, bc);
+                            await CmdOthers.CalcCombat(bc);
                             break;
 
                             // Links
                         case "QUICKFIND":
                         case "QFC":
-                            ThreadUtil.FireAndForget(CmdLinks.Qfc, bc);
+                            await CmdLinks.Qfc(bc);
                             break;
 
                             // Wars
                         case "WARSTART":
-                            ThreadUtil.FireAndForget(Command.WarStart, bc);
+                            await Command.WarStart(bc);
                             break;
                         case "WARADD":
-                            ThreadUtil.FireAndForget(Command.WarAdd, bc);
+                            await Command.WarAdd(bc);
                             break;
                         case "WARREMOVE":
                         case "WARDELETE":
                         case "WARDEL":
-                            ThreadUtil.FireAndForget(Command.WarRemove, bc);
+                            await Command.WarRemove(bc);
                             break;
                         case "WAREND":
                         case "WARSTOP":
-                            ThreadUtil.FireAndForget(Command.WarEnd, bc);
+                            await Command.WarEnd(bc);
                             break;
                         case "WARTOP":
-                            ThreadUtil.FireAndForget(Command.WarTop, bc);
+                            await Command.WarTop(bc);
                             break;
                         case "WARTOPALL":
-                            ThreadUtil.FireAndForget(Command.WarTopAll, bc);
+                            await Command.WarTopAll(bc);
                             break;
 
                         default:
@@ -895,22 +895,22 @@ namespace Supay.Bot
                             if (bc.MessageTokens[0].StartsWithI("LAST"))
                             {
                                 // !lastNdays
-                                ThreadUtil.FireAndForget(CmdTracker.Performance, bc);
+                                await CmdTracker.Performance(bc);
                             }
                             else if (bc.MessageTokens[0].StartsWithI("SSLAST") || bc.MessageTokens[0].StartsWithI("TSLAST") || bc.MessageTokens[0].StartsWithI("PTLAST") || bc.MessageTokens[0].StartsWithI("TUGALAST"))
                             {
                                 // !<clan>lastNdays
-                                ThreadUtil.FireAndForget(Command.ClanPerformance, bc);
+                                await Command.ClanPerformance(bc);
                             }
                             else if (Activity.TryParse(bc.MessageTokens[0], ref command))
                             {
                                 // !<activity>
-                                ThreadUtil.FireAndForget(Command.Activity, bc);
+                                await Command.Activity(bc);
                             }
                             else if (Skill.TryParse(bc.MessageTokens[0], ref command))
                             {
                                 // !<skill>
-                                ThreadUtil.FireAndForget(Command.SkillInfo, bc);
+                                await Command.SkillInfo(bc);
                             }
                             break;
                     }

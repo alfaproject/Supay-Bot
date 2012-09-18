@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Data.SQLite;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void Timer(CommandContext bc)
+        public static async Task Timer(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {

@@ -1,10 +1,11 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void Rank(CommandContext bc)
+        public static async Task Rank(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {

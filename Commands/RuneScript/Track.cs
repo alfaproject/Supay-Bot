@@ -4,12 +4,13 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void Graph(CommandContext bc)
+        public static async Task Graph(CommandContext bc)
         {
             string skill = Skill.OVER;
             string rsn = bc.GetPlayerName(bc.From.Nickname);
@@ -32,7 +33,7 @@ namespace Supay.Bot
             bc.SendReply("\\b{0}\\b \\c07{1}\\c graph | level: \\c12http://t.rscript.org/graph-{0}.{2}.lvl.png\\c | exp: \\c12http://t.rscript.org/graph-{0}.{2}.png\\c | rank: \\c12http://t.rscript.org/graph-{0}.{2}.rank.png\\c".FormatWith(rsn, skill.ToLowerInvariant(), Skill.NameToId(skill)));
         }
 
-        public static void Track(CommandContext bc)
+        public static async Task Track(CommandContext bc)
         {
             // get time
             int intervalTime = 604800;
@@ -170,7 +171,7 @@ namespace Supay.Bot
             }
         }
 
-        public static void Record(CommandContext bc)
+        public static async Task Record(CommandContext bc)
         {
             string rsn = bc.GetPlayerName(bc.From.Nickname);
             string skill = Skill.OVER;

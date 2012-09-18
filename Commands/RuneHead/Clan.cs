@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void Clan(CommandContext bc)
+        public static async Task Clan(CommandContext bc)
         {
             // get rsn
             string rsn;

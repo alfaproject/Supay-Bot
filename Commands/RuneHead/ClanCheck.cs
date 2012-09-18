@@ -1,11 +1,12 @@
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void ClanCheck(CommandContext bc)
+        public static async Task ClanCheck(CommandContext bc)
         {
             if (!bc.IsAdmin)
             {

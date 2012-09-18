@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void Alog(CommandContext bc)
+        public static async Task Alog(CommandContext bc)
         {
             int timeSpan = 0;
             string timeSpanName = string.Empty;

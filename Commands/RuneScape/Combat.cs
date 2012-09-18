@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void Combat(CommandContext bc)
+        public static async Task Combat(CommandContext bc)
         {
             // ignore @next
             if (bc.Message.Contains(" @next") || bc.Message.Contains(" @n"))

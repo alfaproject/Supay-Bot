@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void ClanUpdate(CommandContext bc)
+        public static async Task ClanUpdate(CommandContext bc)
         {
             var clanMembers = new List<string>(500);
 

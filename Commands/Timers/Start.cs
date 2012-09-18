@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void Start(CommandContext bc)
+        public static async Task Start(CommandContext bc)
         {
             // get rsn
             string rsn = bc.GetPlayerName(bc.From.Nickname);

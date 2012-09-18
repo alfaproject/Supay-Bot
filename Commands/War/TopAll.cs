@@ -1,10 +1,11 @@
 ﻿using System.Data.SQLite;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void WarTopAll(CommandContext bc)
+        public static async Task WarTopAll(CommandContext bc)
         {
             if (!bc.IsAdmin)
             {

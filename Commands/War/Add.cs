@@ -2,12 +2,13 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void WarAdd(CommandContext bc)
+        public static async Task WarAdd(CommandContext bc)
         {
             if (!bc.IsAdmin)
             {

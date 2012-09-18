@@ -1,10 +1,11 @@
 ﻿using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
     internal static class CmdLinks
     {
-        public static void Qfc(CommandContext bc)
+        public static async Task Qfc(CommandContext bc)
         {
             if (bc.MessageTokens.Length == 1)
             {

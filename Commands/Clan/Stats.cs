@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Globalization;
 using System.Net;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 namespace Supay.Bot
 {
     internal static partial class Command
     {
-        public static void ClanStats(CommandContext bc)
+        public static async Task ClanStats(CommandContext bc)
         {
             string skill = Skill.OVER;
             if (bc.MessageTokens.Length > 1)
@@ -30,7 +31,7 @@ namespace Supay.Bot
             bc.SendReply(@"\bSupreme Skillers\b | Homepage: \c12http://supremeskillers.net\c | \u{0}\u average level: \c07{1}\c (\c07{2:N0}\c average exp.) | Members (\c07{3}\c): \c12http://services.runescape.com/m=clan-hiscores/members.ws?clanId=314\c".FormatWith(skill, totallevel / ssplayers.Count, totalexp / ssplayers.Count, ssplayers.Count));
         }
 
-        public static void Event(CommandContext bc)
+        public static async Task Event(CommandContext bc)
         {
             bool all = bc.Message.Contains("@all");
             try
