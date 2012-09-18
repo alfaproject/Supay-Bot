@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Supay.Bot
 {
@@ -69,14 +70,14 @@ namespace Supay.Bot
             }
         }
 
-        public List<Skill> SortedByExpToNextVLevel
+        public IEnumerable<Skill> SortedByExpToNextVLevel
         {
             get
             {
-                var result = new List<Skill>(this.Values);
-                result.RemoveAll(s => s.ExpToVLevel == 0 || s.Name == Skill.OVER || s.Name == Skill.COMB);
-                result.Sort((s1, s2) => s1.ExpToVLevel.CompareTo(s2.ExpToVLevel));
-                return result;
+                return from skill in Values
+                       where skill.ExpToVLevel != 0 && skill.Name != Skill.OVER && skill.Name != Skill.COMB
+                       orderby skill.ExpToVLevel
+                       select skill;
             }
         }
     }
