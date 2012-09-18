@@ -56,7 +56,7 @@ namespace Supay.Bot
             var p = new Player(rsn);
             if (!p.Ranked)
             {
-                bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn));
+                bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
                 return;
             }
 
@@ -80,14 +80,14 @@ namespace Supay.Bot
                 combatF2pLevel = Utils.CalculateCombat(p.Skills, false, true);
             }
 
-            string reply = "\\b{0}\\b \\c07combat\\c | level: \\c07{1}\\c (f2p: \\c07{2}\\c) | exp: \\c07{3:e}\\c | combat%: \\c07{4:0.##}%\\c | slayer%: \\c07{5:0.##}%\\c | class: \\c07{6}\\c".FormatWith(rsn, combatLevel, combatF2pLevel, p.Skills[Skill.COMB], (double) p.Skills[Skill.COMB].Exp / (double) p.Skills[Skill.OVER].Exp * 100.0, (double) p.Skills[Skill.SLAY].Exp / (double) expected_max_slayer_exp * 100.0, combatClass);
+            var reply = @"\b{0}\b \c07combat\c | level: \c07{1}\c (f2p: \c07{2}\c) | exp: \c07{3:e}\c | combat%: \c07{4:0.##}%\c | slayer%: \c07{5:0.##}%\c | class: \c07{6}\c".FormatWith(rsn, combatLevel, combatF2pLevel, p.Skills[Skill.COMB], (double) p.Skills[Skill.COMB].Exp / (double) p.Skills[Skill.OVER].Exp * 100.0, (double) p.Skills[Skill.SLAY].Exp / (double) expected_max_slayer_exp * 100.0, combatClass);
 
             // Add up SS rank if applicable
             var ssplayers = new Players("SS");
             if (ssplayers.Contains(rsn))
             {
                 ssplayers.SortBySkill(Skill.COMB, false);
-                reply += " | SS rank: \\c07{0}\\c".FormatWith(ssplayers.IndexOf(rsn) + 1);
+                reply += @" | SS rank: \c07{0}\c".FormatWith(ssplayers.IndexOf(rsn) + 1);
             }
 
             bc.SendReply(reply);
@@ -95,29 +95,23 @@ namespace Supay.Bot
             string format;
             if (Exp)
             {
-                format = "\\c{1:00}{0:re}";
+                format = @"\c{1:00}{0:re}";
             }
             else if (Rank)
             {
-                format = "\\c{1:00}{0:r}";
+                format = @"\c{1:00}{0:r}";
             }
             else if (VLevel)
             {
-                format = "\\c{1:00}{0:rv}";
+                format = @"\c{1:00}{0:rv}";
             }
             else
             {
-                format = "\\c{1:00}{0:rl}";
+                format = @"\c{1:00}{0:rl}";
             }
 
-            if (Rank)
-            {
-                reply = "\\uSkills\\u:";
-            }
-            else
-            {
-                reply = "\\uSkills (to level)\\u:";
-            }
+            reply = Rank ? @"\uSkills\u:" : @"\uSkills (to level)\u:";
+
             for (int i = 1; i < p.Skills.Count - 1; i++)
             {
                 Skill s = p.Skills[i];
@@ -130,7 +124,7 @@ namespace Supay.Bot
                 reply += " ";
                 if (s.Exp == p.Skills.Highest[0].Exp)
                 {
-                    reply += "\\u";
+                    reply += @"\u";
                 }
 
                 reply += format.FormatWith(s, (VLevel ? s.VLevel : s.Level) > AvgSkill + 7 ? 3 : ((VLevel ? s.VLevel : s.Level) < AvgSkill - 7 ? 4 : 7));
@@ -212,12 +206,12 @@ namespace Supay.Bot
                     }
                 }
 
-                reply += "\\c ";
+                reply += @"\c ";
 
                 reply += s.Name;
                 if (s.Exp == p.Skills.Highest[0].Exp)
                 {
-                    reply += "\\u";
+                    reply += @"\u";
                 }
 
                 reply += ";";

@@ -41,26 +41,26 @@ namespace Supay.Bot
                 var p = new Player(clanMember.Groups[1].Value.ValidatePlayerName());
                 if (!p.Ranked)
                 {
-                    bc.SendReply(@"\b{0}\b is not ranked.".FormatWith(p.Name));
+                    bc.SendReply(@"\b{0}\b is not ranked.", p.Name);
                     continue;
                 }
                 if (p.Name.StartsWithI("_") || p.Name.EndsWithI("_"))
                 {
-                    bc.SendReply(@"\b{0}\b has unneeded underscores. Please change it to \b{1}\c.".FormatWith(p.Name, p.Name.Trim('_')));
+                    bc.SendReply(@"\b{0}\b has unneeded underscores. Please change it to \b{1}\c.", p.Name, p.Name.Trim('_'));
                 }
 
                 if (f2p && p.Skills.F2pExp == p.Skills[Skill.OVER].Exp)
                 {
-                    bc.SendReply(@"\b{0}\b is \c14F2P\c.".FormatWith(p.Name));
+                    bc.SendReply(@"\b{0}\b is \c14F2P\c.", p.Name);
                 }
 
                 if (p2p && p.Skills.F2pExp != p.Skills[Skill.OVER].Exp)
                 {
-                    bc.SendReply(@"\b{0}\b is \c07P2P\c.".FormatWith(p.Name));
+                    bc.SendReply(@"\b{0}\b is \c07P2P\c.", p.Name);
                 }
             }
 
-            bc.SendReply("Clan \\b{0}\\b is checked.".FormatWith(bc.MessageTokens[1]));
+            bc.SendReply(@"Clan \b{0}\b is checked.", bc.MessageTokens[1]);
         }
     }
 }

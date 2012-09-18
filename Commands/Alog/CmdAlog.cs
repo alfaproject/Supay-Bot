@@ -42,7 +42,7 @@ namespace Supay.Bot
             }
             catch
             {
-                bc.SendReply("No achievements found for \\c07" + rsn + "\\c" + (string.IsNullOrEmpty(timeSpanName) ? string.Empty : "in " + timeSpanName) + ". The profile may be private, the player may be f2p, or the rsn incorrect.");
+                bc.SendReply(@"No achievements found for \c7{0}\c{1}. The profile may be private, the player may be f2p, or the rsn incorrect.", rsn, string.IsNullOrEmpty(timeSpanName) ? string.Empty : @" in " + timeSpanName);
                 return;
             }
             reader.GetFeed();
@@ -60,7 +60,7 @@ namespace Supay.Bot
             }
             if (list.Count == 0 || !p.Ranked)
             {
-                bc.SendReply("No achievements found for \\c07" + rsn + "\\c" + (string.IsNullOrEmpty(timeSpanName) ? string.Empty : "in " + timeSpanName) + ". The profile may be private, the player may be f2p, or the rsn incorrect.");
+                bc.SendReply(@"No achievements found for \c7{0}\c{1}. The profile may be private, the player may be f2p, or the rsn incorrect.", rsn, string.IsNullOrEmpty(timeSpanName) ? string.Empty : @" in " + timeSpanName);
                 return;
             }
 
@@ -203,32 +203,32 @@ namespace Supay.Bot
                     string amount = string.Empty;
                     if (item.Amount > 1)
                     {
-                        amount = "\\c07" + item.Amount.ToStringI() + "\\cx ";
+                        amount = @"\c07{0}\cx ".FormatWith(item.Amount);
                     }
                     if (category.Key == "I reached")
                     {
                         var skill = new Skill(item.Info[1], 1, 1);
-                        reply += "\\c07" + item.Info[0].ToInt32().ToShortString(1) + "\\c " + skill.ShortName + " exp; ";
+                        reply += @"\c07{0}\c {1} exp; ".FormatWith(item.Info[0].ToInt32().ToShortString(1), skill.ShortName);
                     }
                     else if (category.Key == "I gained")
                     {
                         if (item.Info[0] == "all")
                         {
-                            reply += "All skills now at least\\c07 " + item.Info[1] + "\\c; ";
+                            reply += @"All skills now at least \c07{0}\c; ".FormatWith(item.Info[1]);
                         }
                         else
                         {
                             var skill = new Skill(item.Info[0], 1, 1);
-                            reply += "\\c07" + item.Amount + "\\c " + skill.ShortName + " levels(->" + item.Info[1] + "); ";
+                            reply += @"\c07{0}\c {1} levels(->{2}); ".FormatWith(item.Amount, skill.ShortName, item.Info[1]);
                         }
                     }
                     else if (item.Info[0] == "duFloor")
                     {
-                        reply += "Unlocked dungeon floor\\c07 " + item.Info[1] + "\\c; ";
+                        reply += @"Unlocked dungeon floor \c07{0}\c; ".FormatWith(item.Info[1]);
                     }
                     else
                     {
-                        reply += amount + "\\c07" + item.Info[0] + "\\c; ";
+                        reply += amount + @"\c07{0}\c; ".FormatWith(item.Info[0]);
                     }
                 }
             }

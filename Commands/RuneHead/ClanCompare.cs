@@ -39,7 +39,7 @@ namespace Supay.Bot
                 }
                 else
                 {
-                    bc.SendReply("\\c12www.runehead.com\\c doesn't have any record for \\b{0}\\b.".FormatWith(clan1));
+                    bc.SendReply(@"\c12www.runehead.com\c doesn't have any record for \b{0}\b.", clan1);
                     return;
                 }
 
@@ -61,7 +61,7 @@ namespace Supay.Bot
                 }
                 else
                 {
-                    bc.SendReply("\\c12www.runehead.com\\c doesn't have any record for \\b{0}\\b.".FormatWith(clan2));
+                    bc.SendReply(@"\c12www.runehead.com\c doesn't have any record for \b{0}\b.", clan2);
                     return;
                 }
 
@@ -118,7 +118,7 @@ namespace Supay.Bot
             }
             catch
             {
-                bc.SendReply("\\c12www.runehead.com\\c seems to be down.");
+                bc.SendReply(@"\c12www.runehead.com\c seems to be down.");
             }
         }
     }

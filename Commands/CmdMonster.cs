@@ -22,16 +22,16 @@ namespace Supay.Bot
 
             if (results.Count > 0)
             {
-                string reply = "\\c12www.zybez.net\\c found \\c07{0}\\c results:".FormatWith(results.Count);
+                var reply = @"\c12www.zybez.net\c found \c07{0}\c results:".FormatWith(results.Count);
                 for (int i = 0; i < Math.Min(15, results.Count); i++)
                 {
-                    reply += " \\c07" + results[i].Name + "\\c (" + results[i].Level + ");";
+                    reply += @" \c07{0}\c ({1});".FormatWith(results[i].Name, results[i].Level);
                 }
                 bc.SendReply(reply);
             }
             else
             {
-                bc.SendReply("\\c12www.zybez.net\\c doesn't have any record for \"{0}\".".FormatWith(search_terms));
+                bc.SendReply(@"\c12www.zybez.net\c doesn't have any record for '{0}'.", search_terms);
             }
         }
 
@@ -114,18 +114,18 @@ namespace Supay.Bot
 
                 if (monster == null)
                 {
-                    bc.SendReply("\\c12www.zybez.net\\c doesn't have any record for \"{0}\".".FormatWith(search_terms));
+                    bc.SendReply(@"\c12www.zybez.net\c doesn't have any record for '{0}'.", search_terms);
                 }
                 else
                 {
                     monster.Update();
-                    bc.SendReply("Name: \\c07{0}\\c | Level: \\c07{1}\\c | Life points: \\c07{2}\\c | Examine: \\c07{3}\\c | \\c12www.zybez.net/npc.aspx?id={4}\\c".FormatWith(monster.Name, monster.Level, monster.Hits, monster.Examine, monster.Id));
-                    bc.SendReply("Aggressive? \\c{0}\\c | Members? \\c{1}\\c | Habitat: \\c07{2}\\c".FormatWith(monster.Aggressive ? "3Yes" : "4No", monster.Members ? "3Yes" : "4No", monster.Habitat));
+                    bc.SendReply(@"Name: \c07{0}\c | Level: \c07{1}\c | Life points: \c07{2}\c | Examine: \c07{3}\c | \c12www.zybez.net/npc.aspx?id={4}\c", monster.Name, monster.Level, monster.Hits, monster.Examine, monster.Id);
+                    bc.SendReply(@"Aggressive? \c{0}\c | Members? \c{1}\c | Habitat: \c07{2}\c", monster.Aggressive ? "3Yes" : "4No", monster.Members ? "3Yes" : "4No", monster.Habitat);
                 }
             }
             else
             {
-                bc.SendReply("\\c12www.zybez.net\\c doesn't have any record for \"{0}\".".FormatWith(search_terms));
+                bc.SendReply(@"\c12www.zybez.net\c doesn't have any record for '{0}'.", search_terms);
             }
         }
     }

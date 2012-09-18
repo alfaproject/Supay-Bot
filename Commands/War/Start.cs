@@ -28,7 +28,7 @@ namespace Supay.Bot
             string skillName = Skill.OVER;
             if (bc.MessageTokens.Length < 2 || !Skill.TryParse(bc.MessageTokens[1], ref skillName))
             {
-                bc.SendReply("\bSyntax:\b !WarStart <skill name> [#channel name]");
+                bc.SendReply(@"\bSyntax:\b !WarStart <skill name> [#channel name]");
                 return;
             }
 
@@ -60,7 +60,7 @@ namespace Supay.Bot
             Database.ExecuteNonQuery("DELETE FROM wars WHERE channel='" + channelName + "';");
             Database.Insert("wars", "channel", channelName, "skill", skillName, "startDate", DateTime.UtcNow.ToStringI("yyyyMMddHHmm"));
 
-            bc.SendReply(@"\b{0}\b war started on \u{1}\u for these players. \bYou can now login and good luck!\b".FormatWith(skillName, DateTime.UtcNow));
+            bc.SendReply(@"\b{0}\b war started on \u{1}\u for these players. \bYou can now login and good luck!\b", skillName, DateTime.UtcNow);
         }
     }
 }

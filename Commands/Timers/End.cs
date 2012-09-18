@@ -15,7 +15,7 @@ namespace Supay.Bot
             var p = new Player(rsn);
             if (!p.Ranked)
             {
-                bc.SendReply(@"\b{0}\b doesn't feature Hiscores.".FormatWith(rsn));
+                bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
                 return;
             }
 

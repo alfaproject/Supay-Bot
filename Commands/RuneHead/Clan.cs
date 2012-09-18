@@ -37,12 +37,12 @@ namespace Supay.Bot
                 // User not found
                 if (clanCount == 0)
                 {
-                    bc.SendReply("\\c12www.runehead.com\\c doesn't have any record for \\b{0}\\b.".FormatWith(rsn));
+                    bc.SendReply(@"\c12www.runehead.com\c doesn't have any record for \b{0}\b.", rsn);
                 }
             }
             catch
             {
-                bc.SendReply("\\c12www.runehead.com\\c seems to be down.");
+                bc.SendReply(@"\c12www.runehead.com\c seems to be down.");
             }
         }
 
@@ -67,12 +67,12 @@ namespace Supay.Bot
             string reply;
             if (clans.Count == 1)
             {
-                reply = "\\b{0}\\b is in \\c07{1}\\c {2} (\\c12{3}\\c).".FormatWith(rsn, clans[0][0], type, clans[0][1]);
+                reply = @"\b{0}\b is in \c07{1}\c {2} (\c12{3}\c).".FormatWith(rsn, clans[0][0], type, clans[0][1]);
             }
             else
             {
-                reply = "\\b{0}\\b is in \\c07{1}\\c {2}s:".FormatWith(rsn, clans.Count, type);
-                reply = clans.Aggregate(reply, (current, clan) => current + " \\c07{0}\\c;".FormatWith(clan[0]));
+                reply = @"\b{0}\b is in \c07{1}\c {2}s:".FormatWith(rsn, clans.Count, type);
+                reply = clans.Aggregate(reply, (current, clan) => current + @" \c07{0}\c;".FormatWith(clan[0]));
             }
             bc.SendReply(reply);
         }

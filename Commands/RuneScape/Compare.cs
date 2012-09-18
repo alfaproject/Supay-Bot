@@ -78,14 +78,14 @@ namespace Supay.Bot
             var p1 = new Player(rsn1);
             if (!p1.Ranked)
             {
-                bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn1));
+                bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn1);
                 return;
             }
 
             var p2 = new Player(rsn2);
             if (!p2.Ranked)
             {
-                bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn2));
+                bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn2);
                 return;
             }
 
@@ -98,50 +98,50 @@ namespace Supay.Bot
 
                 if (pskill1.Level == pskill2.Level)
                 {
-                    reply = "Both \\b{0}\\b and \\b{1}\\b have level \\c07{2}\\c".FormatWith(p1.Name, p2.Name, pskill1.Level);
+                    reply = @"Both \b{0}\b and \b{1}\b have level \c07{2}\c".FormatWith(p1.Name, p2.Name, pskill1.Level);
                     if (pskill1.Exp == pskill2.Exp)
                     {
-                        reply += " and \\c07{0:e}\\c experience.".FormatWith(pskill1);
+                        reply += @" and \c07{0:e}\c experience.".FormatWith(pskill1);
                     }
                     else if (pskill1.Exp > pskill2.Exp)
                     {
-                        reply += ", but \\b{0}\\b has \\c07{1:N0}\\c more experience.".FormatWith(p1.Name, pskill1.Exp - pskill2.Exp);
+                        reply += @", but \b{0}\b has \c07{1:N0}\c more experience.".FormatWith(p1.Name, pskill1.Exp - pskill2.Exp);
                     }
                     else
                     {
-                        reply += ", but \\b{0}\\b has \\c07{1:N0}\\c less experience.".FormatWith(p1.Name, pskill2.Exp - pskill1.Exp);
+                        reply += @", but \b{0}\b has \c07{1:N0}\c less experience.".FormatWith(p1.Name, pskill2.Exp - pskill1.Exp);
                     }
                 }
                 else if (pskill1.Level > pskill2.Level)
                 {
-                    reply = "\\b{0}\\b has \\c07{2}\\c more level{3} than \\b{1}\\b.".FormatWith(p1.Name, p2.Name, pskill1.Level - pskill2.Level, pskill1.Level - pskill2.Level == 1 ? string.Empty : "s");
+                    reply = @"\b{0}\b has \c07{2}\c more level{3} than \b{1}\b.".FormatWith(p1.Name, p2.Name, pskill1.Level - pskill2.Level, pskill1.Level - pskill2.Level == 1 ? string.Empty : "s");
                     if (pskill1.Exp == pskill2.Exp)
                     {
-                        reply += ", but both have \\c07{0:e}\\c experience.".FormatWith(pskill1);
+                        reply += @", but both have \c07{0:e}\c experience.".FormatWith(pskill1);
                     }
                     else if (pskill1.Exp > pskill2.Exp)
                     {
-                        reply += " and has \\c07{0:N0}\\c more experience.".FormatWith(pskill1.Exp - pskill2.Exp);
+                        reply += @" and has \c07{0:N0}\c more experience.".FormatWith(pskill1.Exp - pskill2.Exp);
                     }
                     else
                     {
-                        reply += ", but \\b{0}\\b has \\c07{1:N0}\\c less experience.".FormatWith(p1.Name, pskill2.Exp - pskill1.Exp);
+                        reply += @", but \b{0}\b has \c07{1:N0}\c less experience.".FormatWith(p1.Name, pskill2.Exp - pskill1.Exp);
                     }
                 }
                 else
                 {
-                    reply = "\\b{0}\\b has \\c07{2}\\c less level{3} than \\b{1}\\b.".FormatWith(p1.Name, p2.Name, pskill2.Level - pskill1.Level, pskill2.Level - pskill1.Level == 1 ? string.Empty : "s");
+                    reply = @"\b{0}\b has \c07{2}\c less level{3} than \b{1}\b.".FormatWith(p1.Name, p2.Name, pskill2.Level - pskill1.Level, pskill2.Level - pskill1.Level == 1 ? string.Empty : "s");
                     if (pskill1.Exp == pskill2.Exp)
                     {
-                        reply += ", but both have \\c07{0:e}\\c experience.".FormatWith(pskill1);
+                        reply += @", but both have \c07{0:e}\c experience.".FormatWith(pskill1);
                     }
                     else if (pskill1.Exp > pskill2.Exp)
                     {
-                        reply += ", but \\b{0}\\b has \\c07{1:N0}\\c more experience.".FormatWith(p1.Name, pskill1.Exp - pskill2.Exp);
+                        reply += @", but \b{0}\b has \c07{1:N0}\c more experience.".FormatWith(p1.Name, pskill1.Exp - pskill2.Exp);
                     }
                     else
                     {
-                        reply += " and has \\c07{0:N0}\\c less experience.".FormatWith(pskill2.Exp - pskill1.Exp);
+                        reply += @" and has \c07{0:N0}\c less experience.".FormatWith(pskill2.Exp - pskill1.Exp);
                     }
                 }
                 bc.SendReply(reply);
@@ -161,7 +161,7 @@ namespace Supay.Bot
                             {
                                 Skill skilldif1 = pskill1 - p1.Skills[skill1];
                                 Skill skilldif2 = pskill2 - p2.Skills[skill1];
-                                bc.SendReply("Today \\b{0}\\b did \\c07{1:e}\\c exp. while \\b{2}\\b did \\c07{3:e}\\c exp.".FormatWith(rsn1, skilldif1, rsn2, skilldif2));
+                                bc.SendReply(@"Today \b{0}\b did \c07{1:e}\c exp. while \b{2}\b did \c07{3:e}\c exp.", rsn1, skilldif1, rsn2, skilldif2);
                             }
                         }
                     }
@@ -175,26 +175,26 @@ namespace Supay.Bot
 
                 if (p1Activity.Rank == -1)
                 {
-                    bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn1));
+                    bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn1);
                     return;
                 }
                 if (p2Activity.Rank == -1)
                 {
-                    bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn2));
+                    bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn2);
                     return;
                 }
 
                 if (p1Activity.Score == p2Activity.Score)
                 {
-                    reply = "Both \\b{0}\\b and \\b{1}\\b have \\c07{2}\\c score.".FormatWith(rsn1, rsn2, p1Activity.Score);
+                    reply = @"Both \b{0}\b and \b{1}\b have \c07{2}\c score.".FormatWith(rsn1, rsn2, p1Activity.Score);
                 }
                 else if (p1Activity.Score > p2Activity.Score)
                 {
-                    reply = "\\b{0}\\b has \\c07{2}\\c more score than \\b{1}\\b.".FormatWith(rsn1, rsn2, p1Activity.Score - p2Activity.Score);
+                    reply = @"\b{0}\b has \c07{2}\c more score than \b{1}\b.".FormatWith(rsn1, rsn2, p1Activity.Score - p2Activity.Score);
                 }
                 else
                 {
-                    reply = "\\b{0}\\b has \\c07{2}\\c less score than \\b{1}\\b.".FormatWith(rsn1, rsn2, p2Activity.Score - p1Activity.Score);
+                    reply = @"\b{0}\b has \c07{2}\c less score than \b{1}\b.".FormatWith(rsn1, rsn2, p2Activity.Score - p1Activity.Score);
                 }
                 bc.SendReply(reply);
 
@@ -213,7 +213,7 @@ namespace Supay.Bot
                             {
                                 Activity p1ActivityDelta = p1Activity - p1.Activities[activity1];
                                 Activity p2ActivityDelta = p2Activity - p2.Activities[activity1];
-                                bc.SendReply("Today \\b{0}\\b did \\c07{1:s}\\c score while \\b{2}\\b did \\c07{3:s}\\c score.".FormatWith(rsn1, p1ActivityDelta, rsn2, p2ActivityDelta));
+                                bc.SendReply(@"Today \b{0}\b did \c07{1:s}\c score while \b{2}\b did \c07{3:s}\c score.", rsn1, p1ActivityDelta, rsn2, p2ActivityDelta);
                             }
                         }
                     }

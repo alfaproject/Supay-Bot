@@ -92,7 +92,7 @@ namespace Supay.Bot
             var p = new Player(rsn);
             if (!p.Ranked)
             {
-                bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn));
+                bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
                 return;
             }
             Skill skillInfo = p.Skills[skill];
@@ -175,7 +175,7 @@ namespace Supay.Bot
                 curLvl = skillInfo.Level;
                 points = 0;
             }
-            bc.SendReply("PestControl points for \\c07" + (target - curExp).ToStringI("#,##0") + "\\c experience: \\c07" + reply[0].ToStringI("#,##0") + "\\c single points, \\c07" + (reply[1] / 10).ToStringI("#,##0") + "\\c sets of 10 (\\c07" + reply[1].ToStringI("#,##0") + "\\c points), \\c07" + (reply[2] / 100).ToStringI("#,##0") + "\\c sets of 100 (\\c07" + reply[2].ToStringI("#,##0") + "\\c points). ");
+            bc.SendReply(@"PestControl points for \c07{0:N0}\c experience: \c07{1:N0}\c single points, \c07{2:N0}\c sets of 10 (\c07{3:N0}\c points), \c07{4:N0}\c sets of 100 (\c07{5:N0}\c points).", target - curExp, reply[0], reply[1] / 10, reply[1], reply[2] / 100, reply[2]);
         }
     }
 }

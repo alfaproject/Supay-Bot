@@ -143,20 +143,20 @@ namespace Supay.Bot
                 if (p != null)
                 {
                     // individual skill ranks
-                    string reply = "[{0}] \\b{1}\\b skill ranks:".FormatWith(clanInitials, rsn);
+                    var reply = @"[{0}] \b{1}\b skill ranks:";
                     foreach (Skill s in p.Skills.Values)
                     {
                         if (s.Exp > 0)
                         {
                             clanPlayers.SortBySkill(s.Name, true);
-                            reply += " \\c07#" + (clanPlayers.IndexOf(p) + 1) + "\\c " + s.ShortName + ";";
+                            reply += @" \c07#{0}\c {1};".FormatWith(clanPlayers.IndexOf(p) + 1, s.ShortName);
                         }
                     }
-                    bc.SendReply(reply);
+                    bc.SendReply(reply, clanInitials, rsn);
                 }
                 else
                 {
-                    bc.SendReply("\\b{0}\\b wasn't at {1}.".FormatWith(rsn, clanName));
+                    bc.SendReply(@"\b{0}\b wasn't at {1}.", rsn, clanName);
                 }
             }
             else
@@ -190,10 +190,10 @@ namespace Supay.Bot
 
                 if (clanPlayers.Count > 0)
                 {
-                    string reply = "[" + clanInitials + "] \\u" + skill.ToLowerInvariant() + "\\u ranking:";
+                    string reply = @"[{0}] \u{1}\u ranking:".FormatWith(clanInitials, skill.ToLowerInvariant());
                     if (input_player_rank > 0 && input_player_rank <= MinRank)
                     {
-                        reply += " \\c07#" + input_player_rank + "\\c \\u" + clanPlayers[input_player_rank - 1].Name + "\\u (" + clanPlayers[input_player_rank - 1].Skills[skill].ToStringI("e") + ");";
+                        reply += @" \c7#{0}\c \u{1}\u ({2:e});".FormatWith(input_player_rank, clanPlayers[input_player_rank - 1].Name, clanPlayers[input_player_rank - 1].Skills[skill]);
                     }
 
                     for (int i = MinRank; i < Math.Min(MinRank + 11, clanPlayers.Count); i++)
@@ -201,29 +201,29 @@ namespace Supay.Bot
                         reply += " ";
                         if (i == rank - 1)
                         {
-                            reply += "\\b";
+                            reply += @"\b";
                         }
-                        reply += "\\c07#" + (i + 1) + "\\c ";
+                        reply += @"\c07#{0}\c ".FormatWith(i + 1);
                         if (i == input_player_rank - 1)
                         {
-                            reply += "\\u";
+                            reply += @"\u";
                         }
                         reply += clanPlayers[i].Name;
                         if (i == input_player_rank - 1)
                         {
-                            reply += "\\u";
+                            reply += @"\u";
                         }
                         reply += " (" + clanPlayers[i].Skills[skill].ToStringI("e") + ")";
                         if (i == rank - 1)
                         {
-                            reply += "\\b";
+                            reply += @"\b";
                         }
                         reply += ";";
                     }
 
                     if (input_player_rank > 0 && input_player_rank > MinRank + 11)
                     {
-                        reply += " \\c07#" + input_player_rank + "\\c \\u" + clanPlayers[input_player_rank - 1].Name + "\\u (" + clanPlayers[input_player_rank - 1].Skills[skill].ToStringI("e") + ");";
+                        reply += @" \c7#{0}\c \u{1}\u ({2:e});".FormatWith(input_player_rank, clanPlayers[input_player_rank - 1].Name, clanPlayers[input_player_rank - 1].Skills[skill]);
                     }
 
                     bc.SendReply(reply);

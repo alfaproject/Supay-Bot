@@ -166,20 +166,20 @@ namespace Supay.Bot
                     percentDone = Math.Round(100 - expToGo / (double) (targetExp - skill.VLevel.ToExp()) * 100, 1).ToStringI();
                 }
 
-                string reply = "\\b{0}\\b \\c07{1:n}\\c | level: \\c07{1:v}\\c | exp: \\c07{1:e}\\c (\\c07{2}%\\c of {3}) | rank: \\c07{1:R}\\c".FormatWith(rsn, skill, percentDone, targetLevel);
+                string reply = @"\b{0}\b \c07{1:n}\c | level: \c07{1:v}\c | exp: \c07{1:e}\c (\c07{2}%\c of {3}) | rank: \c07{1:R}\c".FormatWith(rsn, skill, percentDone, targetLevel);
 
                 // Add up SS rank if applicable
                 var ssplayers = new Players("SS");
                 if (ssplayers.Contains(p.Name))
                 {
                     ssplayers.SortBySkill(skill.Name, false);
-                    reply += " (SS rank: \\c07{0}\\c)".FormatWith(ssplayers.IndexOf(rsn) + 1);
+                    reply += @" (SS rank: \c07{0}\c)".FormatWith(ssplayers.IndexOf(rsn) + 1);
                 }
 
                 // Add exp to go and items
                 if (expToGo > 0)
                 {
-                    reply += " | \\c07{0:N0}\\c exp. to go".FormatWith(expToGo);
+                    reply += @" | \c07{0:N0}\c exp. to go".FormatWith(expToGo);
 
                     int speed = int.Parse(Database.GetStringParameter("users", "speeds", "fingerprint='" + bc.From.FingerPrint + "'", skillName, "0"), CultureInfo.InvariantCulture);
                     if (speed > 0)
@@ -255,7 +255,7 @@ namespace Supay.Bot
                                     case Skill.RANG:
                                         if (_GetMonster(item, out item_name, out monster_hp))
                                         {
-                                            reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling(expToGo * 10d / monster_hp / 4d), item_name);
+                                            reply += @" (\c07{0}\c {1})".FormatWith(Math.Ceiling(expToGo * 10d / monster_hp / 4d), item_name);
                                         }
                                         else
                                         {
@@ -265,7 +265,7 @@ namespace Supay.Bot
                                     case Skill.HITP:
                                         if (_GetMonster(item, out item_name, out monster_hp))
                                         {
-                                            reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling(expToGo * 30d / monster_hp / 4d), item_name);
+                                            reply += @" (\c07{0}\c {1})".FormatWith(Math.Ceiling(expToGo * 30d / monster_hp / 4d), item_name);
                                         }
                                         else
                                         {
@@ -275,7 +275,7 @@ namespace Supay.Bot
                                     case Skill.SLAY:
                                         if (_GetMonster(item, out item_name, out monster_hp))
                                         {
-                                            reply += " (\\c07{0}\\c {1})".FormatWith(Math.Ceiling(expToGo * 10d / monster_hp), item_name);
+                                            reply += @" (\c07{0}\c {1})".FormatWith(Math.Ceiling(expToGo * 10d / monster_hp), item_name);
                                         }
                                         else
                                         {
@@ -286,7 +286,7 @@ namespace Supay.Bot
                                         try
                                         {
                                             double itemExp = item.ToInt32();
-                                            reply += " (\\c07{0} \\citems to go.)".FormatWith(Math.Ceiling(expToGo / itemExp));
+                                            reply += @" (\c07{0} \citems to go.)".FormatWith(Math.Ceiling(expToGo / itemExp));
                                             break;
                                         }
                                         catch
@@ -294,7 +294,7 @@ namespace Supay.Bot
                                             SkillItem itemFound = _GetItem(skill.Name, item);
                                             if (itemFound != null)
                                             {
-                                                reply += " (\\c07{1}\\c \\c{0}{2}\\c)".FormatWith(itemFound.IrcColour, Math.Ceiling(expToGo / itemFound.Exp), itemFound.Name);
+                                                reply += @" (\c07{1}\c \c{0}{2}\c)".FormatWith(itemFound.IrcColour, Math.Ceiling(expToGo / itemFound.Exp), itemFound.Name);
                                             }
                                             else
                                             {
@@ -405,7 +405,7 @@ namespace Supay.Bot
 
                 return;
             }
-            bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn));
+            bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
         }
 
         private static SkillItem _GetItem(string skill, string input_item)
@@ -512,25 +512,25 @@ namespace Supay.Bot
             Skill skilldif = skillnew - skillold;
             if (skilldif.Exp > 0 || skilldif.Level > 0 || skilldif.Rank != 0)
             {
-                string result = "\\u" + interval + ":\\u ";
+                var result = @"\u{0}:\u ".FormatWith(interval);
 
                 if (skilldif.Exp > 0)
                 {
-                    result += "\\c03" + skilldif.Exp.ToShortString(1) + "\\c xp, ";
+                    result += @"\c03{0}\c xp, ".FormatWith(skilldif.Exp.ToShortString(1));
                 }
 
                 if (skilldif.Level > 0)
                 {
-                    result += "\\c03" + skilldif.Level + "\\c level" + (skilldif.Level > 1 ? "s" : string.Empty) + ", ";
+                    result += @"\c03{0}\c level{1}, ".FormatWith(skilldif.Level, skilldif.Level > 1 ? "s" : string.Empty);
                 }
 
                 if (skilldif.Rank > 0)
                 {
-                    result += "\\c03+" + skilldif.Rank + "\\c rank" + (skilldif.Rank > 1 ? "s" : string.Empty);
+                    result += @"\c3+{0}\c rank{1}".FormatWith(skilldif.Rank, skilldif.Rank != 1 ? "s" : string.Empty);
                 }
                 else if (skilldif.Rank < 0)
                 {
-                    result += "\\c04" + skilldif.Rank + "\\c rank" + (skilldif.Rank < 1 ? "s" : string.Empty);
+                    result += @"\c4{0}\c rank{1}".FormatWith(skilldif.Rank, skilldif.Rank != -1 ? "s" : string.Empty);
                 }
 
                 return result.EndsWithI(", ") ? result.Substring(0, result.Length - 2) : result;

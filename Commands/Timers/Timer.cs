@@ -18,12 +18,12 @@ namespace Supay.Bot
                     timers++;
                     DateTime start = rsTimer.GetString(2).ToDateTime();
                     DateTime end = start.AddSeconds(rsTimer.GetDouble(1));
-                    reply += " \\b#{0}\\b timer (\\c07{1}\\c) ends in \\c07{2}\\c, at \\c07{3}\\c;".FormatWith(timers, rsTimer.GetString(0), (end - DateTime.UtcNow).ToLongString(), end.ToStringI("yyyy/MM/dd HH:mm:ss"));
+                    reply += @" \b#{0}\b timer (\c07{1}\c) ends in \c07{2}\c, at \c07{3}\c;".FormatWith(timers, rsTimer.GetString(0), (end - DateTime.UtcNow).ToLongString(), end.ToStringI("yyyy/MM/dd HH:mm:ss"));
                 }
                 rsTimer.Close();
                 if (timers > 0)
                 {
-                    bc.SendReply("Found \\c07{0}\\c timers:".FormatWith(timers) + reply);
+                    bc.SendReply(@"Found \c07{0}\c timers: {1}", timers, reply);
                 }
                 else
                 {
@@ -65,7 +65,7 @@ namespace Supay.Bot
 
             // start a new timer for this duration
             Database.Insert("timers", "fingerprint", bc.From.FingerPrint, "nick", bc.From.Nickname, "name", name, "duration", (duration * 60).ToStringI(), "started", DateTime.UtcNow.ToStringI("yyyyMMddHHmmss"));
-            bc.SendReply("Timer started to \\b{0}\\b. Timer will end at \\c07{1}\\c.".FormatWith(bc.From.Nickname, DateTime.UtcNow.AddMinutes(duration).ToStringI("yyyy/MM/dd HH:mm:ss")));
+            bc.SendReply(@"Timer started to \b{0}\b. Timer will end at \c07{1}\c.", bc.From.Nickname, DateTime.UtcNow.AddMinutes(duration).ToStringI("yyyy/MM/dd HH:mm:ss"));
         }
     }
 }

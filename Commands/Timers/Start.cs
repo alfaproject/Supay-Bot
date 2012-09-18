@@ -13,7 +13,7 @@ namespace Supay.Bot
             var p = new Player(rsn);
             if (!p.Ranked)
             {
-                bc.SendReply(@"\b{0}\b doesn't feature Hiscores.".FormatWith(rsn));
+                bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
                 return;
             }
 
@@ -38,7 +38,7 @@ namespace Supay.Bot
 
             // start a new timer with this name
             Database.Insert("timers_exp", "fingerprint", bc.From.FingerPrint, "name", name, "skill", skill, "exp", p.Skills[skill].Exp.ToStringI(), "datetime", DateTime.UtcNow.ToStringI("yyyyMMddHHmmss"));
-            bc.SendReply("\\b{0}\\b starting exp of \\c07{1:e}\\c in \\u{1:n}\\u has been recorded{2}.".FormatWith(rsn, p.Skills[skill], name.Length > 0 ? " on timer \\c07" + name + "\\c" : string.Empty));
+            bc.SendReply(@"\b{0}\b starting exp of \c07{1:e}\c in \u{1:n}\u has been recorded{2}.", rsn, p.Skills[skill], name.Length > 0 ? @" on timer \c07" + name + @"\c" : string.Empty);
         }
     }
 }

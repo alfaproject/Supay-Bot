@@ -121,7 +121,7 @@ namespace Supay.Bot
                     string reply = @"\bGrand Exchange updated\b: ";
                     for (int i = 0; i < 5; i++)
                     {
-                        reply += @"{0}: \c07{1}\c {2} | ".FormatWith(pricesChanged[i].Name, pricesChanged[i].MarketPrice.ToShortString(1), (pricesChanged[i].ChangeToday > 0 ? @"\c03[+]\c" : @"\c04[-]\c"));
+                        reply += @"{0}: \c07{1}\c {2} | ".FormatWith(pricesChanged[i].Name, pricesChanged[i].MarketPrice.ToShortString(1), pricesChanged[i].ChangeToday > 0 ? @"\c3[+]\c" : @"\c4[-]\c");
                     }
                     reply += "...";
                     foreach (var channelName in this._irc.Channels.Keys)
@@ -163,7 +163,7 @@ namespace Supay.Bot
                     if (Database.Lookup<long>("topicId", "forums", "topicId=@topicId", new[] { new SQLiteParameter("@topicId", topicId) }) != topicId)
                     {
                         Database.Insert("forums", "topicId", topicId.ToStringI());
-                        string reply = @"\bNew topic!\b | Forum: \c07{0}\c | Topic: \c07{1}\c | Poster: \c07{2}\c | \c12{3}".FormatWith(forum, topic, poster, href);
+                        string reply = @"\bNew topic!\b | Forum: \c07{0}\c | Topic: \c07{1}\c | Poster: \c07{2}\c | \c12{3}\c".FormatWith(forum, topic, poster, href);
                         this._irc.SendChat(reply, mainChannel);
                     }
                 }
@@ -267,8 +267,8 @@ namespace Supay.Bot
                                 if (u.FingerPrint == fingerprint || u.Nickname == nick)
                                 {
                                     Database.ExecuteNonQuery("DELETE FROM timers WHERE fingerprint='" + fingerprint + "' AND started='" + rsTimer.GetString(4) + "';");
-                                    this._irc.Send(new NoticeMessage("\\c07{0}\\c timer ended for \\b{1}\\b.".FormatWith(rsTimer.GetString(2), u.Nickname), u.Nickname));
-                                    this._irc.SendChat("\\c07{0}\\c timer ended for \\b{1}\\b.".FormatWith(rsTimer.GetString(2), u.Nickname), u.Nickname);
+                                    this._irc.Send(new NoticeMessage(@"\c07{0}\c timer ended for \b{1}\b.".FormatWith(rsTimer.GetString(2), u.Nickname), u.Nickname));
+                                    this._irc.SendChat(@"\c07{0}\c timer ended for \b{1}\b.".FormatWith(rsTimer.GetString(2), u.Nickname), u.Nickname);
                                 }
                             }
                         }
@@ -286,11 +286,11 @@ namespace Supay.Bot
                                     Database.ExecuteNonQuery("DELETE FROM timers WHERE nick='" + nick + "' AND name='" + rsTimer.GetString(2) + "' AND duration='" + rsTimer.GetInt32(3) + "';");
                                     if (rsTimer.GetInt32(3) < 3600)
                                     {
-                                        this._irc.Send(new NoticeMessage("Next event starts in \\c07{0}\\c for more information type !event".FormatWith((fingerDate - DateTime.UtcNow).ToLongString()), channelName));
+                                        this._irc.Send(new NoticeMessage(@"Next event starts in \c07{0}\c for more information type !event".FormatWith((fingerDate - DateTime.UtcNow).ToLongString()), channelName));
                                     }
                                     else
                                     {
-                                        this._irc.SendChat("Next event starts in \\c07{0}\\c for more information type !event".FormatWith((fingerDate - DateTime.UtcNow).ToLongString()), channelName);
+                                        this._irc.SendChat(@"Next event starts in \c07{0}\c for more information type !event".FormatWith((fingerDate - DateTime.UtcNow).ToLongString()), channelName);
                                     }
                                 }
                             }

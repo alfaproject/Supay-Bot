@@ -68,7 +68,7 @@ namespace Supay.Bot
                         lessThan *= 1000;
                         break;
                 }
-                
+
                 if (lessThan < 127)
                 {
                     lessThan = lessThan.ToExp();
@@ -107,7 +107,7 @@ namespace Supay.Bot
             var player = new Player(bc.GetPlayerName(bc.MessageTokens.Length == 0 ? bc.From.Nickname : bc.MessageTokens.Join(1)));
             if (!player.Ranked)
             {
-                bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(player.Name));
+                bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", player.Name);
                 return;
             }
 
@@ -119,9 +119,9 @@ namespace Supay.Bot
                 {
                     if (i == 0 || i == 15)
                     {
-                        reply = "Exp. to next level of \\b{0}\\b:".FormatWith(player.Name);
+                        reply = @"Exp. to next level of \b{0}\b:".FormatWith(player.Name);
                     }
-                    reply += " \\c{0}{1:N0}\\c {2};".FormatWith((skills[i].VLevel > 98 ? "04" : "03"), skills[i].ExpToVLevel, skills[i].Name);
+                    reply += @" \c{0}{1:N0}\c {2};".FormatWith((skills[i].VLevel > 98 ? "04" : "03"), skills[i].ExpToVLevel, skills[i].Name);
                     if (i == 14 || i == skills.Count - 1)
                     {
                         bc.SendReply(reply);
@@ -158,7 +158,7 @@ namespace Supay.Bot
                     AvgSkilldouble = ((long) (player.Skills[0].Exp / (double) (player.Skills.Count - 2))).ToLevel();
                 }
 
-                string reply = "\\b{0}\\b \\c07{3:n}\\c | level: \\c07{1:N0}\\c (\\c07{2}\\c avg.) | exp: \\c07{3:e}\\c (\\c07{4}%\\c of {5}) | rank: \\c07{3:R}\\c".FormatWith(player.Name, totalLevel, AvgSkilldouble, player.Skills[0], Math.Round((double) totalExp / maxTotalExp * 100.0, 1), maxTotalLevel);
+                string reply = @"\b{0}\b \c07{3:n}\c | level: \c07{1:N0}\c (\c07{2}\c avg.) | exp: \c07{3:e}\c (\c07{4}%\c of {5}) | rank: \c07{3:R}\c".FormatWith(player.Name, totalLevel, AvgSkilldouble, player.Skills[0], Math.Round((double) totalExp / maxTotalExp * 100.0, 1), maxTotalLevel);
 
                 var AvgSkill = (int) AvgSkilldouble;
 
@@ -167,7 +167,7 @@ namespace Supay.Bot
                 if (ssplayers.Contains(player.Name))
                 {
                     ssplayers.SortBySkill(Skill.OVER, false);
-                    reply += " (SS rank: \\c07{0}\\c)".FormatWith(ssplayers.IndexOf(player.Name) + 1);
+                    reply += @" (SS rank: \c07{0}\c)".FormatWith(ssplayers.IndexOf(player.Name) + 1);
                 }
 
                 bc.SendReply(reply);
@@ -175,23 +175,23 @@ namespace Supay.Bot
                 string format;
                 if (Exp)
                 {
-                    format = " {2}\\c{1:00}{0:re}\\c {0:n}{2};";
+                    format = @" {2}\c{1:00}{0:re}\c {0:n}{2};";
                 }
                 else if (Rank)
                 {
-                    format = " {2}\\c{1:00}{0:r}\\c {0:n}{2};";
+                    format = @" {2}\c{1:00}{0:r}\c {0:n}{2};";
                 }
                 else if (VLevel)
                 {
-                    format = " {2}\\c{1:00}{0:rv}\\c {0:n}{2};";
+                    format = @" {2}\c{1:00}{0:rv}\c {0:n}{2};";
                 }
                 else
                 {
-                    format = " {2}\\c{1:00}{0:rl}\\c {0:n}{2};";
+                    format = @" {2}\c{1:00}{0:rl}\c {0:n}{2};";
                 }
 
-                string replyCombat = "\\uCombat skills\\u:";
-                string replyOther = "\\uOther skills\\u:";
+                var replyCombat = @"\uCombat skills\u:";
+                var replyOther = @"\uOther skills\u:";
                 for (int i = 1; i < player.Skills.Count - 1; i++)
                 {
                     Skill s = player.Skills[i];
@@ -209,7 +209,7 @@ namespace Supay.Bot
                         continue;
                     }
 
-                    reply = format.FormatWith(s, (VLevel ? s.VLevel : s.Level) > AvgSkill + 7 ? 3 : ((VLevel ? s.VLevel : s.Level) < AvgSkill - 7 ? 4 : 7), s.Exp == player.Skills.Highest[0].Exp ? "\\u" : string.Empty);
+                    reply = format.FormatWith(s, (VLevel ? s.VLevel : s.Level) > AvgSkill + 7 ? 3 : ((VLevel ? s.VLevel : s.Level) < AvgSkill - 7 ? 4 : 7), s.Exp == player.Skills.Highest[0].Exp ? @"\u" : string.Empty);
 
                     if (s.Name != Skill.ATTA && s.Name != Skill.STRE && s.Name != Skill.DEFE && s.Name != Skill.HITP && s.Name != Skill.PRAY && s.Name != Skill.SUMM && s.Name != Skill.RANG && s.Name != Skill.MAGI)
                     {
@@ -220,17 +220,17 @@ namespace Supay.Bot
                         replyCombat += reply;
                     }
                 }
-                bc.SendReply((replyCombat + format.Substring(0, format.Length - 1) + " (\\c07{3}\\c)").FormatWith(player.Skills[Skill.COMB], 7, string.Empty, player.CombatClass));
+                bc.SendReply(replyCombat + format.Substring(0, format.Length - 1) + @" (\c07{3}\c)", player.Skills[Skill.COMB], 7, string.Empty, player.CombatClass);
                 bc.SendReply(replyOther);
 
                 bool ranked = false;
-                reply = "\\uActivities\\u:";
+                reply = @"\uActivities\u:";
                 foreach (Activity m in player.Activities.Values)
                 {
                     if (m.Rank > 0)
                     {
                         ranked = true;
-                        reply += " \\c07" + (Rank ? m.Rank : m.Score) + "\\c " + m.Name + ";";
+                        reply += @" \c07{0}\c {1};".FormatWith(Rank ? m.Rank : m.Score, m.Name);
                     }
                 }
                 if (ranked)

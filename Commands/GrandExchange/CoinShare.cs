@@ -45,7 +45,7 @@ namespace Supay.Bot
                 switch (prices.Count)
                 {
                     case 0:
-                        bc.SendReply(@"Grand Exchange doesn't have any item matching ""\c07{0}\c"".".FormatWith(query));
+                        bc.SendReply(@"Grand Exchange doesn't have any item matching '\c07{0}\c'.", query);
                         return;
                     case 1:
                         price = prices[0];
@@ -68,11 +68,11 @@ namespace Supay.Bot
             price.LoadFromGE();
             if (price.Name == null)
             {
-                bc.SendReply(@"Grand Exchange doesn't have the item \c07#{0}\c.".FormatWith(price.Id));
+                bc.SendReply(@"Grand Exchange doesn't have the item \c07#{0}\c.", price.Id);
             }
             else
             {
-                bc.SendReply(@"Name: \c07{0}\c | Minimum price: \c07{1}\c | Players: \c07{2:N0}\c | Player share: \c07{3:N0}\c | \c12http://services.runescape.com/m=itemdb_rs/viewitem.ws?obj={4}\c".FormatWith(price.Name, price.MarketPrice.ToShortString(1), players, price.MarketPrice / players, price.Id));
+                bc.SendReply(@"Name: \c07{0}\c | Minimum price: \c07{1}\c | Players: \c07{2:N0}\c | Player share: \c07{3:N0}\c | \c12http://services.runescape.com/m=itemdb_rs/viewitem.ws?obj={4}\c", price.Name, price.MarketPrice.ToShortString(1), players, price.MarketPrice / players, price.Id);
             }
         }
     }

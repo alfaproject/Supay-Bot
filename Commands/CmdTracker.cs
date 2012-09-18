@@ -31,16 +31,16 @@ namespace Supay.Bot
                 {
                     Database.Insert("players", "rsn", rsn, "clan", string.Empty, "lastupdate", string.Empty);
                     p.SaveToDB(DateTime.UtcNow.ToStringI("yyyyMMdd"));
-                    bc.SendReply("\\b{0}\\b is now being tracked.".FormatWith(rsn));
+                    bc.SendReply(@"\b{0}\b is now being tracked.", rsn);
                 }
                 else
                 {
-                    bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn));
+                    bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
                 }
             }
             catch
             {
-                bc.SendReply("\\b{0}\\b was already being tracked.".FormatWith(rsn));
+                bc.SendReply(@"\b{0}\b was already being tracked.", rsn);
             }
         }
 
@@ -63,11 +63,11 @@ namespace Supay.Bot
             {
                 Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + playerId + ";");
                 Database.ExecuteNonQuery("DELETE FROM players WHERE id=" + playerId + ";");
-                bc.SendReply("\\b{0}\\b was removed from the tracker database.".FormatWith(rsn));
+                bc.SendReply(@"\b{0}\b was removed from the tracker database.", rsn);
             }
             else
             {
-                bc.SendReply("\\b{0}\\b was not found on the tracker database.".FormatWith(rsn));
+                bc.SendReply(@"\b{0}\b was not found on the tracker database.", rsn);
             }
         }
 
@@ -90,7 +90,7 @@ namespace Supay.Bot
             long oldPlayerId = Database.Lookup("id", "players", "rsn=@rsn", new[] { new SQLiteParameter("@rsn", oldRsn) }, -1L);
             if (oldPlayerId == -1)
             {
-                bc.SendReply(@"Player \b{0}\b wasn't being tracked.".FormatWith(oldRsn));
+                bc.SendReply(@"Player \b{0}\b wasn't being tracked.", oldRsn);
                 return;
             }
 
@@ -98,7 +98,7 @@ namespace Supay.Bot
             var oldPlayer = new Player(oldRsn);
             if (oldPlayer.Ranked)
             {
-                bc.SendReply(@"Player \b{0}\b is still ranked in hiscores.".FormatWith(oldRsn));
+                bc.SendReply(@"Player \b{0}\b is still ranked in hiscores.", oldRsn);
                 return;
             }
 
@@ -106,7 +106,7 @@ namespace Supay.Bot
             var newPlayer = new Player(newRsn);
             if (!newPlayer.Ranked)
             {
-                bc.SendReply(@"Player \b{0\b doesn't feature in hiscores.".FormatWith(newRsn));
+                bc.SendReply(@"Player \b{0\b doesn't feature in hiscores.", newRsn);
                 return;
             }
 
@@ -130,7 +130,7 @@ namespace Supay.Bot
                 Database.Update("players", "id=" + oldPlayerId, "rsn", newRsn);
             }
 
-            bc.SendReply(@"Player \b{0}\b was renamed or merged to \b{1}\b.".FormatWith(oldRsn, newRsn));
+            bc.SendReply(@"Player \b{0}\b was renamed or merged to \b{1}\b.", oldRsn, newRsn);
         }
 
         public static async Task RemoveTrackerFromClan(CommandContext bc)
@@ -161,12 +161,12 @@ namespace Supay.Bot
             }
             dr.Close();
             Database.ExecuteNonQuery("DELETE FROM players WHERE clan ='" + clan + "';");
-            bc.SendReply("\\b{0}\\b players were removed from tracker.".FormatWith(playersRemoved));
+            bc.SendReply(@"\b{0}\b players were removed from tracker.", playersRemoved);
 
             Database.ExecuteNonQuery("VACUUM;");
 
             long playersLeft = Database.Lookup("COUNT(*)", "players", null, null, 0L);
-            bc.SendReply("There are \\b{0}\\b players left in the tracker.".FormatWith(playersLeft));
+            bc.SendReply(@"There are \b{0}\b players left in the tracker.", playersLeft);
         }
 
         public static async Task Performance(CommandContext bc)
@@ -288,10 +288,10 @@ namespace Supay.Bot
             {
                 // Get data from RuneScript
                 PlayerOld = new Player(rsn, (int) (DateTime.UtcNow - firstday).TotalSeconds);
-                bc.SendReply("\\c07{0}\\c information retrieved from RuneScript database. (This data may not be 100% accurate)".FormatWith(firstday.ToStringI("yyyy/MMM/dd")));
+                bc.SendReply(@"\c07{0}\c information retrieved from RuneScript database. (This data may not be 100% accurate)", firstday.ToStringI("yyyy/MMM/dd"));
                 if (!PlayerOld.Ranked)
                 {
-                    bc.SendReply("\\b{0}\\b wasn't being tracked on \\c07{1}\\c.".FormatWith(rsn, firstday.ToStringI("yyyy/MMM/dd")));
+                    bc.SendReply(@"\b{0}\b wasn't being tracked on \c07{1}\c.", rsn, firstday.ToStringI("yyyy/MMM/dd"));
                     return;
                 }
                 foreach (Skill skill in PlayerOld.Skills.Values)
@@ -314,26 +314,26 @@ namespace Supay.Bot
             {
                 if (lastday == DateTime.MaxValue)
                 {
-                    bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn));
+                    bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
                     return;
                 }
 
                 // Get data from RuneScript
                 PlayerNew = new Player(rsn, (int) (DateTime.UtcNow - lastday).TotalSeconds);
-                bc.SendReply("\\c07{0}\\c information retrieved from RuneScript database. (This data may not be 100% accurate)".FormatWith(lastday.ToStringI("yyyy/MMM/dd")));
+                bc.SendReply(@"\c07{0}\c information retrieved from RuneScript database. (This data may not be 100% accurate)", lastday.ToStringI("yyyy/MMM/dd"));
                 if (!PlayerNew.Ranked)
                 {
-                    bc.SendReply("\\b{0}\\b wasn't being tracked on \\c07{1}\\c.".FormatWith(rsn, lastday.ToStringI("yyyy/MMM/dd")));
+                    bc.SendReply(@"\b{0}\b wasn't being tracked on \c07{1}\c.", rsn, lastday.ToStringI("yyyy/MMM/dd"));
                     return;
                 }
             }
 
             // 1st line: overall / combat
-            string ReplyMsg = "\\b{0}\\b \\u{1}\\u skills:".FormatWith(rsn, interval.ToLowerInvariant());
+            string ReplyMsg = @"\b{0}\b \u{1}\u skills:".FormatWith(rsn, interval.ToLowerInvariant());
             Skill OverallDif = PlayerNew.Skills[Skill.OVER] - PlayerOld.Skills[Skill.OVER];
             if (OverallDif.Exp <= 0)
             {
-                bc.SendReply("No performance for \\b{0}\\b within this period.".FormatWith(rsn));
+                bc.SendReply(@"No performance for \b{0}\b within this period.", rsn);
             }
             else
             {
@@ -342,24 +342,24 @@ namespace Supay.Bot
                 string DifLevel = string.Empty;
                 if (OverallDif.Level > 0)
                 {
-                    DifLevel = " [\\b+{0}\\b]".FormatWith(OverallDif.Level);
+                    DifLevel = @" [\b+{0}\b]".FormatWith(OverallDif.Level);
                 }
                 if (days == 1)
                 {
-                    ReplyMsg += " \\c07Overall\\c lvl {0} \\c03+{1}\\c xp (Avg. hourly exp.: \\c07{2}\\c)".FormatWith(PlayerNew.Skills[Skill.OVER].Level + DifLevel, OverallDif.Exp.ToShortString(1), (OverallDif.Exp / 24.0).ToShortString(0));
+                    ReplyMsg += @" \c07Overall\c lvl {0} \c03+{1}\c xp (Avg. hourly exp.: \c07{2}\c)".FormatWith(PlayerNew.Skills[Skill.OVER].Level + DifLevel, OverallDif.Exp.ToShortString(1), (OverallDif.Exp / 24.0).ToShortString(0));
                 }
                 else
                 {
-                    ReplyMsg += " \\c07Overall\\c lvl {0} \\c03+{1}\\c xp (Avg. daily exp.: \\c07{2}\\c)".FormatWith(PlayerNew.Skills[Skill.OVER].Level + DifLevel, OverallDif.Exp.ToShortString(1), (OverallDif.Exp / (double) days).ToShortString(0));
+                    ReplyMsg += @" \c07Overall\c lvl {0} \c03+{1}\c xp (Avg. daily exp.: \c07{2}\c)".FormatWith(PlayerNew.Skills[Skill.OVER].Level + DifLevel, OverallDif.Exp.ToShortString(1), (OverallDif.Exp / (double) days).ToShortString(0));
                 }
                 DifLevel = string.Empty;
                 if (CombatDif.Level > 0)
                 {
-                    DifLevel = " [\\b+{0}\\b]".FormatWith(CombatDif.Level);
+                    DifLevel = @" [\b+{0}\b]".FormatWith(CombatDif.Level);
                 }
-                ReplyMsg += "; \\c07Combat\\c lvl {0} \\c03+{1}\\c xp (\\c07{2}%\\c)".FormatWith(PlayerNew.Skills[Skill.COMB].Level + DifLevel, CombatDif.Exp.ToShortString(1), (CombatDif.Exp / (double) OverallDif.Exp * 100.0).ToShortString(1));
+                ReplyMsg += @"; \c07Combat\c lvl {0} \c03+{1}\c xp (\c07{2}%\c)".FormatWith(PlayerNew.Skills[Skill.COMB].Level + DifLevel, CombatDif.Exp.ToShortString(1), (CombatDif.Exp / (double) OverallDif.Exp * 100.0).ToShortString(1));
 
-                ReplyMsg += "; Interval: \\c07{0}\\c -> \\c07{1}\\c".FormatWith(firstday.ToStringI("yyyy/MMM/dd"), lastday == DateTime.MaxValue ? "Now" : lastday.ToStringI("yyyy/MMM/dd"));
+                ReplyMsg += @"; Interval: \c07{0}\c -> \c07{1}\c".FormatWith(firstday.ToStringI("yyyy/MMM/dd"), lastday == DateTime.MaxValue ? "Now" : lastday.ToStringI("yyyy/MMM/dd"));
                 bc.SendReply(ReplyMsg);
 
                 // 2nd line: skills list
@@ -370,7 +370,7 @@ namespace Supay.Bot
 
                 int skillLength = showAll ? SkillsDif.Count : 10;
                 bool has_performance = false;
-                ReplyMsg = "\\b{0}\\b \\u{1}\\u skills:".FormatWith(rsn, interval.ToLowerInvariant());
+                ReplyMsg = @"\b{0}\b \u{1}\u skills:".FormatWith(rsn, interval.ToLowerInvariant());
                 for (int i = 0; i < skillLength; i++)
                 {
                     if (SkillsDif[i].Exp > 0)
@@ -379,15 +379,15 @@ namespace Supay.Bot
                         DifLevel = string.Empty;
                         if (SkillsDif[i].Level > 0)
                         {
-                            DifLevel = " [\\b+{0}\\b]".FormatWith(SkillsDif[i].Level);
+                            DifLevel = @" [\b+{0}\b]".FormatWith(SkillsDif[i].Level);
                         }
-                        ReplyMsg += " \\c07{0}\\c lvl {1} \\c3+{2}\\c xp;".FormatWith(SkillsDif[i].Name, PlayerNew.Skills[SkillsDif[i].Name].Level + DifLevel, SkillsDif[i].Exp.ToShortString(1));
+                        ReplyMsg += @" \c07{0}\c lvl {1} \c3+{2}\c xp;".FormatWith(SkillsDif[i].Name, PlayerNew.Skills[SkillsDif[i].Name].Level + DifLevel, SkillsDif[i].Exp.ToShortString(1));
                     }
                     if ((i + 1) % 10 == 0)
                     {
                         bc.SendReply(ReplyMsg);
                         has_performance = false;
-                        ReplyMsg = "\\b{0}\\b \\u{1}\\u skills:".FormatWith(rsn, interval.ToLowerInvariant());
+                        ReplyMsg = @"\b{0}\b \u{1}\u skills:".FormatWith(rsn, interval.ToLowerInvariant());
                     }
                 }
                 if (has_performance)
@@ -404,13 +404,13 @@ namespace Supay.Bot
                 if (activitiesDelta.Count > 0)
                 {
                     has_performance = false;
-                    ReplyMsg = "\\b{0}\\b \\u{1}\\u activities:".FormatWith(rsn, interval.ToLowerInvariant());
+                    ReplyMsg = @"\b{0}\b \u{1}\u activities:".FormatWith(rsn, interval.ToLowerInvariant());
                     foreach (Activity t in activitiesDelta)
                     {
                         if (t.Score > 0)
                         {
                             has_performance = true;
-                            ReplyMsg += " \\c07{0}\\c \\c3+{1}\\c score;".FormatWith(t.Name, t.Score);
+                            ReplyMsg += @" \c07{0}\c \c3+{1}\c score;".FormatWith(t.Name, t.Score);
                         }
                     }
                     if (has_performance)

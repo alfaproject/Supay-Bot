@@ -50,7 +50,7 @@ namespace Supay.Bot
                     switch (items.Count)
                     {
                         case 0:
-                            bc.SendReply(@"\c12www.zybez.net\c doesn't have any record for item ""{0}"".".FormatWith(queryItem));
+                            bc.SendReply(@"\c12www.zybez.net\c doesn't have any record for item '{0}'.", queryItem);
                             return;
                         case 1:
                             item = items[0];
@@ -73,7 +73,7 @@ namespace Supay.Bot
 
                 if (item.Name == null)
                 {
-                    bc.SendReply(@"\c12www.zybez.net\c doesn't have any record for item \c07#{0}\c.".FormatWith(itemId));
+                    bc.SendReply(@"\c12www.zybez.net\c doesn't have any record for item \c07#{0}\c.", itemId);
                     return;
                 }
                 totalHigh += (int) queryQty * item.HighAlch;
@@ -81,7 +81,7 @@ namespace Supay.Bot
                 itemList += @"\c07{0:N0}\c {1} + ".FormatWith(queryQty, item.Name);
             }
 
-            bc.SendReply(@"{0} | HighAlch: \c07{1:N0}\c | LowAlch: \c07{2:N0}\c".FormatWith(itemList.Substring(0, itemList.Length - 3), totalHigh, totalLow));
+            bc.SendReply(@"{0} | HighAlch: \c07{1:N0}\c | LowAlch: \c07{2:N0}\c", itemList.Substring(0, itemList.Length - 3), totalHigh, totalLow);
         }
     }
 }

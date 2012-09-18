@@ -1,4 +1,5 @@
 using System.Data.SQLite;
+using System.Globalization;
 using System.Linq;
 using Supay.Bot.Properties;
 using Supay.Irc;
@@ -136,8 +137,10 @@ namespace Supay.Bot
                 : query.ValidatePlayerName();
         }
 
-        public void SendReply(string message)
+        public void SendReply(string message, params object[] args)
         {
+            message = string.Format(CultureInfo.InvariantCulture, message, args);
+
             if (message.Length > 512)
             {
                 message = message.Substring(0, 512);

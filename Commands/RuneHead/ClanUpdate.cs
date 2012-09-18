@@ -57,7 +57,7 @@ namespace Supay.Bot
                 if (!clanMembers.Contains(p.Name))
                 {
                     Database.Update("players", "id=" + p.Id, "clan", string.Empty);
-                    bc.SendReply("\\b{0}\\b is now being tracked under no clan.".FormatWith(p.Name));
+                    bc.SendReply(@"\b{0}\b is now being tracked under no clan.", p.Name);
                 }
             }
 
@@ -85,7 +85,7 @@ namespace Supay.Bot
                     bc.SendReply(reply);
                 }
             }
-            bc.SendReply("Clan \\b{0}\\b is up to date.".FormatWith(clanName));
+            bc.SendReply(@"Clan \b{0}\b is up to date.", clanName);
         }
     }
 }

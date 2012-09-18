@@ -61,7 +61,7 @@ namespace Supay.Bot
                 Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", rsn);
             }
 
-            bc.SendReply(@"Your default RuneScape name is now \b{0}\b. This RSN is associated with the address \u*!*{1}\u.".FormatWith(rsn, bc.From.FingerPrint));
+            bc.SendReply(@"Your default RuneScape name is now \b{0}\b. This RSN is associated with the address \u*!*{1}\u.", rsn, bc.From.FingerPrint);
         }
 
         private static void _SetGoal(CommandContext bc)
@@ -112,23 +112,23 @@ namespace Supay.Bot
 
             if (goal.EqualsI("nl"))
             {
-                bc.SendReply(@"Your goal for \b{0}\b is currently set to \unext level\u.".FormatWith(skill));
+                bc.SendReply(@"Your goal for \b{0}\b is currently set to \unext level\u.", skill);
             }
             else if (goal.EqualsI("nr"))
             {
-                bc.SendReply(@"Your goal for \b{0}\b is currently set to \unext rank\u.".FormatWith(skill));
+                bc.SendReply(@"Your goal for \b{0}\b is currently set to \unext rank\u.", skill);
             }
             else if (goal.StartsWithI("r"))
             {
                 int goalRank = goal.Substring(1).ToInt32();
                 if (goalRank > 0 && goalRank <= 2000000)
                 {
-                    bc.SendReply(@"Your goal for \b{0}\b is currently set to \urank {1}\u.".FormatWith(skill, goalRank.ToShortString(1)));
+                    bc.SendReply(@"Your goal for \b{0}\b is currently set to \urank {1}\u.", skill, goalRank.ToShortString(1));
                     goal = "r" + goalRank.ToStringI();
                 }
                 else
                 {
-                    bc.SendReply(@"Your goal for \b{0}\b is currently set to \unext rank\u.".FormatWith(skill));
+                    bc.SendReply(@"Your goal for \b{0}\b is currently set to \unext rank\u.", skill);
                     goal = "nr";
                 }
             }
@@ -137,22 +137,22 @@ namespace Supay.Bot
                 int goalLevel = goal.ToInt32();
                 if (goalLevel > 1 && goalLevel < 127)
                 {
-                    bc.SendReply(@"Your goal for \b{0}\b is currently set to \ulevel {1}\u.".FormatWith(skill, goalLevel));
+                    bc.SendReply(@"Your goal for \b{0}\b is currently set to \ulevel {1}\u.", skill, goalLevel);
                     goal = goalLevel.ToStringI();
                 }
                 else if (goalLevel == 127)
                 {
-                    bc.SendReply(@"Your goal for \b{0}\b is currently set to \u200m exp\u.".FormatWith(skill));
+                    bc.SendReply(@"Your goal for \b{0}\b is currently set to \u200m exp\u.", skill);
                     goal = goalLevel.ToStringI();
                 }
                 else if (goalLevel > 127 && goalLevel <= 200000000)
                 {
-                    bc.SendReply(@"Your goal for \b{0}\b is currently set to \u{1} exp\u.".FormatWith(skill, goalLevel.ToShortString(1)));
+                    bc.SendReply(@"Your goal for \b{0}\b is currently set to \u{1} exp\u.", skill, goalLevel.ToShortString(1));
                     goal = goalLevel.ToStringI();
                 }
                 else
                 {
-                    bc.SendReply(@"Your goal for \b{0}\b is currently set to \unext level\u.".FormatWith(skill));
+                    bc.SendReply(@"Your goal for \b{0}\b is currently set to \unext level\u.", skill);
                     goal = "nl";
                 }
             }
@@ -183,7 +183,7 @@ namespace Supay.Bot
             }
 
             Database.SetStringParameter("users", "items", "fingerprint='" + bc.From.FingerPrint + "'", skill, item);
-            bc.SendReply(@"Your default item for \b{0}\b is currently set to \u{1}\u.".FormatWith(skill, item));
+            bc.SendReply(@"Your default item for \b{0}\b is currently set to \u{1}\u.", skill, item);
         }
 
         private static void _SetSpeed(CommandContext bc)
@@ -219,11 +219,11 @@ namespace Supay.Bot
 
             if (speedValue > 0)
             {
-                bc.SendReply(@"Your speed for \b{0}\b is currently set to \u{1} average exp. per hour\u.".FormatWith(skill, speedValue.ToShortString(1)));
+                bc.SendReply(@"Your speed for \b{0}\b is currently set to \u{1} average exp. per hour\u.", skill, speedValue.ToShortString(1));
             }
             else
             {
-                bc.SendReply(@"Your speed for \b{0}\b was deleted.".FormatWith(skill));
+                bc.SendReply(@"Your speed for \b{0}\b was deleted.", skill);
             }
         }
 
@@ -278,7 +278,7 @@ namespace Supay.Bot
             }
 
             Database.Update("users", "fingerprint='" + bc.From.FingerPrint + "'", "skill", skill);
-            bc.SendReply(@"Your default skill is currently set to \b{0}\b.".FormatWith(skill));
+            bc.SendReply(@"Your default skill is currently set to \b{0}\b.", skill);
         }
     }
 }

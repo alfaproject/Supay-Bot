@@ -24,14 +24,14 @@ namespace Supay.Bot
                 Activity activity = p.Activities[Bot.Activity.Parse(bc.MessageTokens[0])];
                 if (activity.Rank > 0)
                 {
-                    string reply = "\\b{0}\\b \\c07{1:n}\\c | score: \\c07{1:s}\\c | rank: \\c07{1:R}\\c".FormatWith(rsn, activity);
+                    string reply = @"\b{0}\b \c07{1:n}\c | score: \c07{1:s}\c | rank: \c07{1:R}\c".FormatWith(rsn, activity);
 
                     // Add up SS rank if applicable
                     var ssplayers = new Players("SS");
                     if (ssplayers.Contains(p.Name))
                     {
                         ssplayers.SortByActivity(activity.Name);
-                        reply += " (SS rank: \\c07{0}\\c)".FormatWith(ssplayers.IndexOf(rsn) + 1);
+                        reply += @" (SS rank: \c07{0}\c)".FormatWith(ssplayers.IndexOf(rsn) + 1);
                     }
 
                     bc.SendReply(reply);
@@ -89,7 +89,7 @@ namespace Supay.Bot
                     return;
                 }
             }
-            bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn));
+            bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
         }
 
         private static string _GetPerformance(string interval, Activity mg_old, Activity mg_new)
@@ -97,20 +97,20 @@ namespace Supay.Bot
             Activity mg_dif = mg_new - mg_old;
             if (mg_dif.Score > 0 || mg_dif.Rank != 0)
             {
-                string result = "\\u" + interval + ":\\u ";
+                string result = @"\u{0}:\u ".FormatWith(interval);
 
                 if (mg_dif.Score > 0)
                 {
-                    result += "\\c03" + mg_dif.Score + "\\c score, ";
+                    result += @"\c03{0}\c score, ".FormatWith(mg_dif.Score);
                 }
 
                 if (mg_dif.Rank > 0)
                 {
-                    result += "\\c03+" + mg_dif.Rank + "\\c rank" + (mg_dif.Rank > 1 ? "s" : string.Empty) + ";";
+                    result += @"\c3+{0}\c rank{1};".FormatWith(mg_dif.Rank, mg_dif.Rank > 1 ? "s" : string.Empty);
                 }
                 else if (mg_dif.Rank < 0)
                 {
-                    result += "\\c04" + mg_dif.Rank + "\\c rank" + (mg_dif.Rank < 1 ? "s" : string.Empty) + ";";
+                    result += @"\c4{0}\c rank{1};".FormatWith(mg_dif.Rank, mg_dif.Rank < -1 ? "s" : string.Empty);
                 }
 
                 return result.EndsWithI(", ") ? result.Substring(0, result.Length - 2) + ";" : result;

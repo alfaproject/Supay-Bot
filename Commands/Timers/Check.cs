@@ -14,7 +14,7 @@ namespace Supay.Bot
             var p = new Player(rsn);
             if (!p.Ranked)
             {
-                bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn));
+                bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
                 return;
             }
 
@@ -35,10 +35,10 @@ namespace Supay.Bot
                 long gained_exp = p.Skills[skill].Exp - rs.GetInt64(1);
                 TimeSpan time = DateTime.UtcNow - rs.GetString(2).ToDateTime();
 
-                string reply = "You gained \\c07{0:N0}\\c \\u{1}\\u exp in \\c07{2}\\c. That's \\c07{3:N0}\\c exp/h.".FormatWith(gained_exp, skill.ToLowerInvariant(), time.ToLongString(), (double) gained_exp / time.TotalHours);
+                var reply = @"You gained \c07{0:N0}\c \u{1}\u exp in \c07{2}\c. That's \c07{3:N0}\c exp/h.".FormatWith(gained_exp, skill.ToLowerInvariant(), time.ToLongString(), (double) gained_exp / time.TotalHours);
                 if (gained_exp > 0 && skill != Skill.OVER && skill != Skill.COMB && p.Skills[skill].VLevel < 126)
                 {
-                    reply += " Estimated time to level up: \\c07{0}\\c".FormatWith(TimeSpan.FromSeconds(p.Skills[skill].ExpToVLevel * time.TotalSeconds / gained_exp).ToLongString());
+                    reply += @" Estimated time to level up: \c07{0}\c".FormatWith(TimeSpan.FromSeconds(p.Skills[skill].ExpToVLevel * time.TotalSeconds / gained_exp).ToLongString());
                 }
                 bc.SendReply(reply);
             }

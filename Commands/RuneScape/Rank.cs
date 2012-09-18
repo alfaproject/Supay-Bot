@@ -58,7 +58,7 @@ namespace Supay.Bot
 
             if (rsn == null)
             {
-                bc.SendReply("\\u{0}\\u hiscores don't have rank \\c07{1}\\c.".FormatWith(skill ?? activity, rank));
+                bc.SendReply(@"\u{0}\u hiscores don't have rank \c07{1}\c.", skill ?? activity, rank);
                 return;
             }
 

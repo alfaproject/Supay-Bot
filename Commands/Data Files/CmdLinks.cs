@@ -20,7 +20,7 @@ namespace Supay.Bot
             }
             else
             {
-                bc.SendReply("Quick find code \\c07{0}-{1}-{2}-{3}\\c: \\c12http://forum.runescape.com/forums.ws?{0},{1},{2},{3}\\c".FormatWith(qfc.Groups[1].Value, qfc.Groups[2].Value, qfc.Groups[3].Value, qfc.Groups[4].Value));
+                bc.SendReply(@"Quick find code \c07{0}-{1}-{2}-{3}\c: \c12http://forum.runescape.com/forums.ws?{0},{1},{2},{3}\c", qfc.Groups[1].Value, qfc.Groups[2].Value, qfc.Groups[3].Value, qfc.Groups[4].Value);
             }
         }
     }

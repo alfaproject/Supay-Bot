@@ -62,7 +62,7 @@ namespace Supay.Bot
                 bc.SendReply(reply);
             }
 
-            bc.SendReply(@"\b{0}\b war ended on \u{1}\u for these players.".FormatWith(skillName, DateTime.UtcNow));
+            bc.SendReply(@"\b{0}\b war ended on \u{1}\u for these players.", skillName, DateTime.UtcNow);
 
             Database.ExecuteNonQuery("DELETE FROM wars WHERE channel='" + channelName + "'");
             Database.ExecuteNonQuery("DELETE FROM warPlayers WHERE channel='" + channelName + "'");

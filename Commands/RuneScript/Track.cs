@@ -30,7 +30,7 @@ namespace Supay.Bot
                 }
             }
 
-            bc.SendReply("\\b{0}\\b \\c07{1}\\c graph | level: \\c12http://t.rscript.org/graph-{0}.{2}.lvl.png\\c | exp: \\c12http://t.rscript.org/graph-{0}.{2}.png\\c | rank: \\c12http://t.rscript.org/graph-{0}.{2}.rank.png\\c".FormatWith(rsn, skill.ToLowerInvariant(), Skill.NameToId(skill)));
+            bc.SendReply(@"\b{0}\b \c07{1}\c graph | level: \c12http://t.rscript.org/graph-{0}.{2}.lvl.png\c | exp: \c12http://t.rscript.org/graph-{0}.{2}.png\c | rank: \c12http://t.rscript.org/graph-{0}.{2}.rank.png\c", rsn, skill.ToLowerInvariant(), Skill.NameToId(skill));
         }
 
         public static async Task Track(CommandContext bc)
@@ -111,7 +111,7 @@ namespace Supay.Bot
             var PlayerNew = new Player(rsn);
             if (!PlayerNew.Ranked)
             {
-                bc.SendReply("\\b{0}\\b doesn't feature Hiscores.".FormatWith(rsn));
+                bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
                 return;
             }
 
@@ -119,16 +119,16 @@ namespace Supay.Bot
             var PlayerOld = new Player(rsn, intervalTime);
             if (!PlayerOld.Ranked)
             {
-                bc.SendReply("\\b{0}\\b wasn't being tracked on {1}.".FormatWith(rsn, DateTime.UtcNow.AddSeconds(-intervalTime).ToStringI("yyyy-MMM-dd")));
+                bc.SendReply(@"\b{0}\b wasn't being tracked on {1}.", rsn, DateTime.UtcNow.AddSeconds(-intervalTime).ToStringI("yyyy-MMM-dd"));
                 return;
             }
 
             // 1st line: overall / combat
-            string ReplyMsg = "\\b{0}\\b \\u{1}\\u skills:".FormatWith(rsn, intervalName);
+            string ReplyMsg = @"\b{0}\b \u{1}\u skills:".FormatWith(rsn, intervalName);
             Skill OverallDif = PlayerNew.Skills[Skill.OVER] - PlayerOld.Skills[Skill.OVER];
             if (OverallDif.Exp <= 0)
             {
-                bc.SendReply("No performance for \\b{0}\\b within this period.".FormatWith(rsn));
+                bc.SendReply(@"No performance for \b{0}\b within this period.", rsn);
             }
             else
             {
@@ -137,15 +137,15 @@ namespace Supay.Bot
                 string DifLevel = string.Empty;
                 if (OverallDif.Level > 0)
                 {
-                    DifLevel = " [\\b+{0}\\b]".FormatWith(OverallDif.Level);
+                    DifLevel = @" [\b+{0}\b]".FormatWith(OverallDif.Level);
                 }
-                ReplyMsg += " \\c07Overall\\c lvl {0} \\c03+{1}\\c xp (Avg. hourly exp.: \\c07{2}\\c)".FormatWith(PlayerNew.Skills[Skill.OVER].Level + DifLevel, OverallDif.Exp.ToShortString(1), (OverallDif.Exp / (intervalTime / 3600.0)).ToShortString(0));
+                ReplyMsg += @" \c07Overall\c lvl {0} \c3+{1}\c xp (Avg. hourly exp.: \c07{2}\c)".FormatWith(PlayerNew.Skills[Skill.OVER].Level + DifLevel, OverallDif.Exp.ToShortString(1), (OverallDif.Exp / (intervalTime / 3600.0)).ToShortString(0));
                 DifLevel = string.Empty;
                 if (CombatDif.Level > 0)
                 {
-                    DifLevel = " [\\b+{0}\\b]".FormatWith(CombatDif.Level);
+                    DifLevel = @" [\b+{0}\b]".FormatWith(CombatDif.Level);
                 }
-                ReplyMsg += "; \\c07Combat\\c lvl {0} \\c03+{1}\\c xp (\\c07{2}%\\c)".FormatWith(PlayerNew.Skills[Skill.COMB].Level + DifLevel, CombatDif.Exp.ToShortString(1), (CombatDif.Exp / (double) OverallDif.Exp * 100.0).ToShortString(1));
+                ReplyMsg += @"; \c7Combat\c lvl {0} \c03+{1}\c xp (\c07{2}%\c)".FormatWith(PlayerNew.Skills[Skill.COMB].Level + DifLevel, CombatDif.Exp.ToShortString(1), (CombatDif.Exp / (double) OverallDif.Exp * 100.0).ToShortString(1));
                 bc.SendReply(ReplyMsg);
 
                 // 2nd line: skills list
@@ -154,7 +154,7 @@ namespace Supay.Bot
                                          select SkillNow - PlayerOld.Skills[SkillNow.Name]).ToList();
                 SkillsDif.Sort();
 
-                ReplyMsg = "\\b{0}\\b \\u{1}\\u skills:".FormatWith(rsn, intervalName);
+                ReplyMsg = @"\b{0}\b \u{1}\u skills:".FormatWith(rsn, intervalName);
                 for (int i = 0; i < 10; i++)
                 {
                     if (SkillsDif[i].Exp > 0)
@@ -162,9 +162,9 @@ namespace Supay.Bot
                         DifLevel = string.Empty;
                         if (SkillsDif[i].Level > 0)
                         {
-                            DifLevel = " [\\b+{0}\\b]".FormatWith(SkillsDif[i].Level);
+                            DifLevel = @" [\b+{0}\b]".FormatWith(SkillsDif[i].Level);
                         }
-                        ReplyMsg += " \\c07{0}\\c lvl {1} \\c3+{2}\\c xp;".FormatWith(SkillsDif[i].Name, PlayerNew.Skills[SkillsDif[i].Name].Level + DifLevel, SkillsDif[i].Exp.ToShortString(1));
+                        ReplyMsg += @" \c07{0}\c lvl {1} \c3+{2}\c xp;".FormatWith(SkillsDif[i].Name, PlayerNew.Skills[SkillsDif[i].Name].Level + DifLevel, SkillsDif[i].Exp.ToShortString(1));
                     }
                 }
                 bc.SendReply(ReplyMsg);
@@ -203,11 +203,11 @@ namespace Supay.Bot
                 Match M = Regex.Match(recordPage, recordRegex, RegexOptions.Singleline);
                 if (M.Success)
                 {
-                    bc.SendReply(@"{0}'s records in {1}: Day \c07{2}\c ({3}); Week \c07{4}\c ({5}); Month \c07{6}\c ({7}); \c12http://runetracker.org/track-{0},{8},0".FormatWith(rsn, skill, M.Groups[2], string.IsNullOrEmpty(M.Groups[1].Value) ? "N/A" : M.Groups[1].Value, M.Groups[4], string.IsNullOrEmpty(M.Groups[3].Value) ? "N/A" : M.Groups[3].Value, M.Groups[6], string.IsNullOrEmpty(M.Groups[5].Value) ? "N/A" : M.Groups[5].Value, Skill.NameToId(skill)));
+                    bc.SendReply(@"{0}'s records in {1}: Day \c07{2}\c ({3}); Week \c07{4}\c ({5}); Month \c07{6}\c ({7}); \c12http://runetracker.org/track-{0},{8},0\c", rsn, skill, M.Groups[2], string.IsNullOrEmpty(M.Groups[1].Value) ? "N/A" : M.Groups[1].Value, M.Groups[4], string.IsNullOrEmpty(M.Groups[3].Value) ? "N/A" : M.Groups[3].Value, M.Groups[6], string.IsNullOrEmpty(M.Groups[5].Value) ? "N/A" : M.Groups[5].Value, Skill.NameToId(skill));
                 }
                 else
                 {
-                    bc.SendReply("rscript has no records in {0} for {1}.".FormatWith(skill, rsn));
+                    bc.SendReply(@"rscript has no records in {0} for {1}.", skill, rsn);
                 }
             }
             catch

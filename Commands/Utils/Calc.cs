@@ -14,7 +14,7 @@ namespace Supay.Bot
 
             var mp = new MathParser();
             mp.Evaluate(bc.MessageTokens.Join(1));
-            bc.SendReply("\\c07" + mp.Expression + "\\c => \\c07" + mp.ValueAsString + "\\c");
+            bc.SendReply(@"\c07{0}\c => \c07{1}\c", mp.Expression, mp.ValueAsString);
         }
     }
 }

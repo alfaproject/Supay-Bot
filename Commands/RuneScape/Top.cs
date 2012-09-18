@@ -84,7 +84,7 @@ namespace Supay.Bot
             var hiscores = new Hiscores(skill, activity, rank);
 
             int startIndex = Math.Max(rank - hiscores[0].Rank - 5, 0);
-            string reply = "RS \\u" + hiscores.Name.ToLowerInvariant() + "\\u rankings:";
+            var reply = @"RS \u{0}\u rankings:".FormatWith(hiscores.Name.ToLowerInvariant());
             if (activity == null)
             {
                 for (int i = startIndex; i < Math.Min(startIndex + 12, hiscores.Count); i++)
@@ -92,21 +92,21 @@ namespace Supay.Bot
                     reply += " ";
                     if (hiscores[i].Rank == rank)
                     {
-                        reply += "\\b";
+                        reply += @"\b";
                     }
 
                     if (level)
                     {
-                        reply += "\\c07#{0:r}\\c {1} ({0:l})".FormatWith((Skill) hiscores[i], hiscores[i].RSN);
+                        reply += @"\c07#{0:r}\c {1} ({0:l})".FormatWith((Skill) hiscores[i], hiscores[i].RSN);
                     }
                     else
                     {
-                        reply += "\\c07#{0:r}\\c {1} ({0:e})".FormatWith((Skill) hiscores[i], hiscores[i].RSN);
+                        reply += @"\c07#{0:r}\c {1} ({0:e})".FormatWith((Skill) hiscores[i], hiscores[i].RSN);
                     }
 
                     if (hiscores[i].Rank == rank)
                     {
-                        reply += "\\b";
+                        reply += @"\b";
                     }
                     reply += ";";
                 }
@@ -118,12 +118,12 @@ namespace Supay.Bot
                     reply += " ";
                     if (hiscores[i].Rank == rank)
                     {
-                        reply += "\\b";
+                        reply += @"\b";
                     }
-                    reply += "\\c07#{0}\\c {1} ({2})".FormatWith(hiscores[i].Rank, hiscores[i].RSN, ((Activity) hiscores[i]).Score);
+                    reply += @"\c07#{0}\c {1} ({2})".FormatWith(hiscores[i].Rank, hiscores[i].RSN, ((Activity) hiscores[i]).Score);
                     if (hiscores[i].Rank == rank)
                     {
-                        reply += "\\b";
+                        reply += @"\b";
                     }
                     reply += ";";
                 }
