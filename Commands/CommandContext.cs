@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using Supay.Bot.Properties;
 using Supay.Irc;
 using Supay.Irc.Messages;
@@ -160,6 +162,19 @@ namespace Supay.Bot
                 {
                     this._irc.SendChat(message, this._channel.Name);
                 }
+            }
+        }
+
+        public void SendReply(StringBuilder stringBuilder)
+        {
+            SendReply(stringBuilder.ToString());
+        }
+
+        public void SendReply(IEnumerable<StringBuilder> stringBuilders)
+        {
+            foreach (var stringBuilder in stringBuilders)
+            {
+                SendReply(stringBuilder);
             }
         }
     }
