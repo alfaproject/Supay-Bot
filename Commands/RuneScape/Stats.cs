@@ -9,7 +9,8 @@ namespace Supay.Bot
 {
     internal static partial class Command
     {
-        private static readonly Regex _lessThanRegex = new Regex(@"\s+<\D*(\d+)([kKmM]{0,1})", RegexOptions.Compiled);
+        private static readonly Regex _lessThanRegex = new Regex(@"\s+<\D*(\d+)([mMkK]{0,1})", RegexOptions.Compiled);
+        private static readonly Regex _greaterThanRegex = new Regex(@"\s+>\D*(\d+)([mMkK]{0,1})", RegexOptions.Compiled);
 
         public static async Task Stats(CommandContext bc)
         {
@@ -58,13 +59,13 @@ namespace Supay.Bot
                 lessThan = int.Parse(lessThanMatch.Groups[1].Value, CultureInfo.InvariantCulture);
                 switch (lessThanMatch.Groups[2].Value)
                 {
-                    case "k":
-                    case "K":
-                        lessThan *= 1000;
-                        break;
                     case "m":
                     case "M":
                         lessThan *= 1000000;
+                        break;
+                    case "k":
+                    case "K":
+                        lessThan *= 1000;
                         break;
                 }
                 
@@ -77,27 +78,29 @@ namespace Supay.Bot
             }
 
             // get >
-            int InputGreaterThan = 0;
-            var M = Regex.Match(bc.Message, " >(\\d+m|\\d+k|\\d+)");
-            if (M.Success)
+            var greaterThan = 0;
+            var greaterThanMatch = _greaterThanRegex.Match(bc.Message);
+            if (greaterThanMatch.Success)
             {
-                if (M.Groups[1].Value.EndsWithI("m"))
+                greaterThan = int.Parse(greaterThanMatch.Groups[1].Value, CultureInfo.InvariantCulture);
+                switch (greaterThanMatch.Groups[2].Value)
                 {
-                    InputGreaterThan = 1000000 * int.Parse(M.Groups[1].Value.Substring(0, M.Groups[1].Value.Length - 1), CultureInfo.InvariantCulture);
+                    case "m":
+                    case "M":
+                        greaterThan *= 1000000;
+                        break;
+                    case "k":
+                    case "K":
+                        greaterThan *= 1000;
+                        break;
                 }
-                else if (M.Groups[1].Value.EndsWithI("k"))
+
+                if (greaterThan < 126)
                 {
-                    InputGreaterThan = 1000 * int.Parse(M.Groups[1].Value.Substring(0, M.Groups[1].Value.Length - 1), CultureInfo.InvariantCulture);
+                    greaterThan = (greaterThan + 1).ToExp();
                 }
-                else
-                {
-                    InputGreaterThan = int.Parse(M.Groups[1].Value, CultureInfo.InvariantCulture);
-                }
-                if (InputGreaterThan < 127)
-                {
-                    InputGreaterThan = InputGreaterThan.ToExp();
-                }
-                bc.Message = Regex.Replace(bc.Message, " >(\\d+m|\\d+k|\\d+)", string.Empty);
+
+                bc.Message = bc.Message.Replace(greaterThanMatch.Value, string.Empty);
             }
 
             // get rsn
@@ -207,11 +210,11 @@ namespace Supay.Bot
                     {
                         continue;
                     }
-                    if (InputGreaterThan > 0 && s.Exp <= InputGreaterThan)
+                    if (greaterThan > 0 && s.Exp <= greaterThan)
                     {
                         continue;
                     }
-                    if (lessThan > 0 && InputGreaterThan > 0 && s.Exp >= lessThan && s.Exp <= InputGreaterThan)
+                    if (lessThan > 0 && greaterThan > 0 && s.Exp >= lessThan && s.Exp <= greaterThan)
                     {
                         continue;
                     }
