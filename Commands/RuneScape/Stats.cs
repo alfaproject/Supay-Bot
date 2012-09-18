@@ -116,47 +116,47 @@ namespace Supay.Bot
                 return;
             }
             
-            // calculate "real" overall xp, max overall exp, max overall level
-            long totalExp = 0,
-                 maxTotalExp = 0,
-                 maxTotalLevel = 0;
-            foreach (Skill s in player.Skills.Values.Where(s => s.Name != Skill.OVER && s.Name != Skill.COMB))
-            {
-                long maxSkillExp = s.MaxLevel.ToExp();
-                totalExp += Math.Min(maxSkillExp, s.Exp);
-                maxTotalExp += maxSkillExp;
-                maxTotalLevel += s.MaxLevel;
-            }
+            // select non meta player skills
+            var playerSkills = (from skill in player.Skills.Values
+                                where skill.Name != Skill.OVER && skill.Name != Skill.COMB
+                                select skill).ToList();
 
-            // calculate total level and average level
-            int totalLevel = player.Skills[0].Level;
+            // calculate overall max level and exp
+            var maxOverallLevel = 0;
+            var maxOverallExp = 0L;
             if (virtualMatch.Success)
             {
-                totalLevel = 0;
-                for (int i = 1; i < player.Skills.Count - 1; i++)
+                maxOverallLevel = 126 * playerSkills.Count;
+                maxOverallExp = 200000000L * playerSkills.Count;
+            }
+            else
+            {
+                foreach (var skill in playerSkills)
                 {
-                    totalLevel += player.Skills[i].VLevel;
+                    maxOverallLevel += skill.MaxLevel;
+                    maxOverallExp += skill.MaxLevel.ToExp();
                 }
             }
-            double AvgSkilldouble = Math.Round(totalLevel / (double) (player.Skills.Count - 2), 1);
-            if (expMatch.Success)
-            {
-                AvgSkilldouble = ((long) (player.Skills[0].Exp / (double) (player.Skills.Count - 2))).ToLevel();
-            }
 
-            string reply = @"\b{0}\b \c07{3:n}\c | level: \c07{1:N0}\c (\c07{2}\c avg.) | exp: \c07{3:e}\c (\c07{4}%\c of {5}) | rank: \c07{3:R}\c".FormatWith(player.Name, totalLevel, AvgSkilldouble, player.Skills[0], Math.Round((double) totalExp / maxTotalExp * 100.0, 1), maxTotalLevel);
-
-            var AvgSkill = (int) AvgSkilldouble;
+            // calculate overall and average levels
+            var overallLevel = virtualMatch.Success ? playerSkills.Sum(skill => skill.VLevel) : player.Skills[Skill.OVER].Level;
+            var avgSkillLevelReal = (double) overallLevel / playerSkills.Count;
+            var avgSkillLevel = (int) avgSkillLevelReal;
 
             // add up SS rank if applicable
-            var ssplayers = new Players("SS");
-            if (ssplayers.Contains(player.Name))
+            var ssRank = string.Empty;
+            var ssPlayers = from p in new Players("SS")
+                            let overallSkill = p.Skills[Skill.OVER]
+                            orderby overallSkill.Level descending, overallSkill.Exp descending
+                            select p;
+            var indexOfPlayer = ssPlayers.FindIndex(p => p.Name == player.Name);
+            if (indexOfPlayer != -1)
             {
-                ssplayers.SortBySkill(Skill.OVER, false);
-                reply += @" (SS rank: \c07{0}\c)".FormatWith(ssplayers.IndexOf(player.Name) + 1);
+                ssRank = @" (SS rank: \c07{0}\c)".FormatWith(indexOfPlayer + 1);
             }
 
-            bc.SendReply(reply);
+            // output overall information
+            bc.SendReply(@"\b{0}\b \c7{1:n}\c | level:\c7 {2:N0}\c (\c07{3:N1}\c avg) | exp:\c7 {1:e}\c (\c07{4:#.#%}\c of {5}) | rank:\c7 {1:R}\c{6}", player.Name, player.Skills[Skill.OVER], overallLevel, avgSkillLevelReal, (double) player.Skills[Skill.OVER].Exp / maxOverallExp, maxOverallLevel, ssRank);
 
             string format;
             if (expMatch.Success)
@@ -176,6 +176,7 @@ namespace Supay.Bot
                 format = @" {2}\c{1:00}{0:rl}\c {0:n}{2};";
             }
 
+            var reply = string.Empty;
             var replyCombat = @"\uCombat skills\u:";
             var replyOther = @"\uOther skills\u:";
             for (int i = 1; i < player.Skills.Count - 1; i++)
@@ -195,7 +196,7 @@ namespace Supay.Bot
                     continue;
                 }
 
-                reply = format.FormatWith(s, (virtualMatch.Success ? s.VLevel : s.Level) > AvgSkill + 7 ? 3 : ((virtualMatch.Success ? s.VLevel : s.Level) < AvgSkill - 7 ? 4 : 7), s.Exp == player.Skills.Highest[0].Exp ? @"\u" : string.Empty);
+                reply = format.FormatWith(s, (virtualMatch.Success ? s.VLevel : s.Level) > avgSkillLevel + 7 ? 3 : ((virtualMatch.Success ? s.VLevel : s.Level) < avgSkillLevel - 7 ? 4 : 7), s.Exp == player.Skills.Highest[0].Exp ? @"\u" : string.Empty);
 
                 if (s.Name != Skill.ATTA && s.Name != Skill.STRE && s.Name != Skill.DEFE && s.Name != Skill.HITP && s.Name != Skill.PRAY && s.Name != Skill.SUMM && s.Name != Skill.RANG && s.Name != Skill.MAGI)
                 {

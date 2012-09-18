@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
@@ -255,6 +256,20 @@ namespace Supay.Bot
             bool result = TryInt64(self, out resultValue);
             value = (int) resultValue;
             return result;
+        }
+
+        public static int FindIndex<T>(this IEnumerable<T> source, Func<T, bool> match)
+        {
+            var i = 0;
+            foreach (var item in source)
+            {
+                if (match(item))
+                {
+                    return i;
+                }
+                i++;
+            }
+            return -1;
         }
     }
 }
