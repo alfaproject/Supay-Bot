@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -110,16 +110,14 @@ namespace Supay.Bot
                              group skill by i++ / 13
                              into skills
                              select skills.Aggregate(
-                                 new StringBuilder(@"\b{0}\b's exp. to next level:".FormatWith(player.Name)),
-                                 (sb, skill) => sb.AppendFormat(@"\c{0} {1:N0}\c {2};", skill.VLevel >= skill.MaxLevel ? "4" : "3", skill.ExpToVLevel, skill.Name)
+                                 new StringBuilder(512).AppendFormat(@"\b{0}\b exp. to next level:", player.Name),
+                                 (sb, skill) => sb.AppendFormat(@"\c{0} {1:N0}\c {2};", skill.VLevel >= skill.MaxLevel ? 4 : 3, skill.ExpToVLevel, skill.Name)
                                  ));
                 return;
             }
             
             // select non meta player skills
-            var playerSkills = (from skill in player.Skills.Values
-                                where skill.Name != Skill.OVER && skill.Name != Skill.COMB
-                                select skill).ToList();
+            var playerSkills = player.Skills.Values.Where(s => s.Name != Skill.OVER && s.Name != Skill.COMB).ToList();
 
             // calculate overall max level and exp
             var maxOverallLevel = 0;
@@ -143,8 +141,10 @@ namespace Supay.Bot
             var avgSkillLevel = (double) overallLevel / playerSkills.Count;
             var averageExp = player.Skills[Skill.OVER].Exp / playerSkills.Count;
 
+            var reply = new StringBuilder(512)
+                .AppendFormat(@"\b{0}\b \c7{1:n}\c | level:\c7 {2:N0}\c (\c07{3:N1}\c avg) | exp:\c7 {1:e}\c (\c07{4:0.#%}\c of {5}) | rank:\c7 {1:R}\c", player.Name, player.Skills[Skill.OVER], overallLevel, avgSkillLevel, (double) player.Skills[Skill.OVER].Exp / maxOverallExp, maxOverallLevel);
+
             // add up SS rank if applicable
-            var ssRank = string.Empty;
             var ssPlayers = from p in new Players("SS")
                             let overallSkill = p.Skills[Skill.OVER]
                             orderby overallSkill.Level descending, overallSkill.Exp descending
@@ -152,77 +152,50 @@ namespace Supay.Bot
             var indexOfPlayer = ssPlayers.FindIndex(p => p.Name == player.Name);
             if (indexOfPlayer != -1)
             {
-                ssRank = @" (SS rank: \c07{0}\c)".FormatWith(indexOfPlayer + 1);
+                reply.AppendFormat(@" (SS rank: \c07{0}\c)", indexOfPlayer + 1);
             }
 
             // output overall information
-            bc.SendReply(@"\b{0}\b \c7{1:n}\c | level:\c7 {2:N0}\c (\c07{3:N1}\c avg) | exp:\c7 {1:e}\c (\c07{4:#.#%}\c of {5}) | rank:\c7 {1:R}\c{6}", player.Name, player.Skills[Skill.OVER], overallLevel, avgSkillLevel, (double) player.Skills[Skill.OVER].Exp / maxOverallExp, maxOverallLevel, ssRank);
+            bc.SendReply(reply);
 
-            string format;
+            // output skills
+            var format = @" {2}\c{1:00}{0:r";
             if (expMatch.Success)
             {
-                format = @" {2}\c{1:00}{0:re}\c {0:n}{2};";
-            }
-            else if (rankMatch.Success)
-            {
-                format = @" {2}\c{1:00}{0:r}\c {0:n}{2};";
+                format += 'e';
             }
             else if (virtualMatch.Success)
             {
-                format = @" {2}\c{1:00}{0:rv}\c {0:n}{2};";
+                format += 'v';
             }
-            else
+            else if (!rankMatch.Success)
             {
-                format = @" {2}\c{1:00}{0:rl}\c {0:n}{2};";
+                format += 'l';
             }
+            format += @"}\c {0:n}{2};";
 
-            var reply = string.Empty;
-            var replyCombat = @"\uCombat skills\u:";
-            var replyOther = @"\uOther skills\u:";
-            for (int i = 1; i < player.Skills.Count - 1; i++)
+            var avgExpThreshold = averageExp / 5;
+            var highestExp = playerSkills.Max(s => s.Exp);
+
+            var filteredSkills = playerSkills.Where(s => (lessThan == 0 || s.Exp < lessThan) && (greaterThan == 0 || s.Exp > greaterThan)).ToList();
+
+            bc.SendReply(filteredSkills.Where(s => s.IsCombat).Concat(player.Skills[Skill.COMB]).Aggregate(
+                new StringBuilder(@"\uCombat skills\u:", 512),
+                (sb, s) => sb.AppendFormat(format, s, s.Exp > averageExp + avgExpThreshold ? 3 : (s.Exp < averageExp - avgExpThreshold ? 4 : 7), s.Exp == highestExp ? @"\u" : string.Empty)
+                ).AppendFormat(@" (\c7{0}\c)", player.CombatClass));
+
+            bc.SendReply(filteredSkills.Where(s => !s.IsCombat).AggregateOrDefault(
+                new StringBuilder(@"\uOther skills\u:", 512),
+                (sb, s) => sb.AppendFormat(format, s, s.Exp > averageExp + avgExpThreshold ? 3 : (s.Exp < averageExp - avgExpThreshold ? 4 : 7), s.Exp == highestExp ? @"\u" : string.Empty)
+                ));
+
+            // output activities
+            if (lessThan == 0 && greaterThan == 0)
             {
-                Skill s = player.Skills[i];
-
-                if (lessThan > 0 && s.Exp >= lessThan)
-                {
-                    continue;
-                }
-                if (greaterThan > 0 && s.Exp <= greaterThan)
-                {
-                    continue;
-                }
-                if (lessThan > 0 && greaterThan > 0 && s.Exp >= lessThan && s.Exp <= greaterThan)
-                {
-                    continue;
-                }
-
-                reply = format.FormatWith(s, s.Exp > averageExp * 1.2 ? 3 : (s.Exp < averageExp * .8 ? 4 : 7), s.Exp == player.Skills.Highest[0].Exp ? @"\u" : string.Empty);
-
-                if (s.Name != Skill.ATTA && s.Name != Skill.STRE && s.Name != Skill.DEFE && s.Name != Skill.HITP && s.Name != Skill.PRAY && s.Name != Skill.SUMM && s.Name != Skill.RANG && s.Name != Skill.MAGI)
-                {
-                    replyOther += reply;
-                }
-                else
-                {
-                    replyCombat += reply;
-                }
-            }
-            bc.SendReply(replyCombat + format.Substring(0, format.Length - 1) + @" (\c07{3}\c)", player.Skills[Skill.COMB], 7, string.Empty, player.CombatClass);
-            bc.SendReply(replyOther);
-
-            bool ranked = false;
-            reply = @"\uActivities\u:";
-            foreach (Activity m in player.Activities.Values)
-            {
-                if (m.Rank > 0)
-                {
-                    ranked = true;
-                    reply += @" \c07{0}\c {1};".FormatWith(rankMatch.Success ? m.Rank : m.Score, m.Name);
-                }
-            }
-            if (ranked)
-            {
-                bc.SendReply(reply);
+                bc.SendReply(player.Activities.Values.Where(a => a.Rank > 0).AggregateOrDefault(
+                    new StringBuilder(@"\uActivities\u:", 512),
+                    (sb, a) => sb.AppendFormat(@"\c7 {0:N0}\c {1};", rankMatch.Success ? a.Rank : a.Score, a.Name)
+                    ));
             }
         }
     }
