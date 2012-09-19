@@ -251,6 +251,14 @@ namespace Supay.Bot
             return -1;
         }
 
+        public bool IsCombat
+        {
+            get
+            {
+                return Name == ATTA || Name == STRE || Name == DEFE || Name == HITP || Name == PRAY || Name == SUMM || Name == RANG || Name == MAGI;
+            }
+        }
+
 
         #region Operators
 
