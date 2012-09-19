@@ -140,8 +140,8 @@ namespace Supay.Bot
 
             // calculate overall and average levels
             var overallLevel = virtualMatch.Success ? playerSkills.Sum(skill => skill.VLevel) : player.Skills[Skill.OVER].Level;
-            var avgSkillLevelReal = (double) overallLevel / playerSkills.Count;
-            var avgSkillLevel = (int) avgSkillLevelReal;
+            var avgSkillLevel = (double) overallLevel / playerSkills.Count;
+            var averageExp = player.Skills[Skill.OVER].Exp / playerSkills.Count;
 
             // add up SS rank if applicable
             var ssRank = string.Empty;
@@ -156,7 +156,7 @@ namespace Supay.Bot
             }
 
             // output overall information
-            bc.SendReply(@"\b{0}\b \c7{1:n}\c | level:\c7 {2:N0}\c (\c07{3:N1}\c avg) | exp:\c7 {1:e}\c (\c07{4:#.#%}\c of {5}) | rank:\c7 {1:R}\c{6}", player.Name, player.Skills[Skill.OVER], overallLevel, avgSkillLevelReal, (double) player.Skills[Skill.OVER].Exp / maxOverallExp, maxOverallLevel, ssRank);
+            bc.SendReply(@"\b{0}\b \c7{1:n}\c | level:\c7 {2:N0}\c (\c07{3:N1}\c avg) | exp:\c7 {1:e}\c (\c07{4:#.#%}\c of {5}) | rank:\c7 {1:R}\c{6}", player.Name, player.Skills[Skill.OVER], overallLevel, avgSkillLevel, (double) player.Skills[Skill.OVER].Exp / maxOverallExp, maxOverallLevel, ssRank);
 
             string format;
             if (expMatch.Success)
@@ -196,7 +196,7 @@ namespace Supay.Bot
                     continue;
                 }
 
-                reply = format.FormatWith(s, (virtualMatch.Success ? s.VLevel : s.Level) > avgSkillLevel + 7 ? 3 : ((virtualMatch.Success ? s.VLevel : s.Level) < avgSkillLevel - 7 ? 4 : 7), s.Exp == player.Skills.Highest[0].Exp ? @"\u" : string.Empty);
+                reply = format.FormatWith(s, s.Exp > averageExp * 1.2 ? 3 : (s.Exp < averageExp * .8 ? 4 : 7), s.Exp == player.Skills.Highest[0].Exp ? @"\u" : string.Empty);
 
                 if (s.Name != Skill.ATTA && s.Name != Skill.STRE && s.Name != Skill.DEFE && s.Name != Skill.HITP && s.Name != Skill.PRAY && s.Name != Skill.SUMM && s.Name != Skill.RANG && s.Name != Skill.MAGI)
                 {
