@@ -149,6 +149,7 @@
     <Compile Include="DataFiles\SkillItem.cs" />
     <Compile Include="DataFiles\SkillItems.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="LinqExtensions.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
