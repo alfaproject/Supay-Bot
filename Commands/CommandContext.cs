@@ -167,6 +167,11 @@ namespace Supay.Bot
 
         public void SendReply(StringBuilder stringBuilder)
         {
+            if (stringBuilder == null)
+            {
+                return;
+            }
+
             SendReply(stringBuilder.ToString());
         }
 
