@@ -324,7 +324,7 @@ namespace Supay.Bot
         {
             if (bc.MessageTokens.Length == 1)
             {
-                bc.SendReply("Syntax: !CalcCombat Att Str Def Hit Pray Ran Mag");
+                bc.SendReply("Syntax: !CalcCombat Att Str Def Hit Ran Mag");
                 return;
             }
 
@@ -332,7 +332,6 @@ namespace Supay.Bot
                 Str = 0,
                 Def = 0,
                 Hit = 0,
-                Pray = 0,
                 Ran = 0,
                 Mag = 0;
 
@@ -351,15 +350,11 @@ namespace Supay.Bot
             }
             if (bc.MessageTokens.Length > 5)
             {
-                int.TryParse(bc.MessageTokens[5], out Pray);
+                int.TryParse(bc.MessageTokens[5], out Ran);
             }
             if (bc.MessageTokens.Length > 6)
             {
-                int.TryParse(bc.MessageTokens[6], out Ran);
-            }
-            if (bc.MessageTokens.Length > 7)
-            {
-                int.TryParse(bc.MessageTokens[7], out Mag);
+                int.TryParse(bc.MessageTokens[6], out Mag);
             }
 
             var p = new Player(bc.GetPlayerName(bc.From.Nickname));
@@ -380,10 +375,6 @@ namespace Supay.Bot
                 if (Hit <= 0)
                 {
                     Hit = p.Skills[Skill.HITP].VLevel;
-                }
-                if (Pray <= 0)
-                {
-                    Pray = p.Skills[Skill.PRAY].VLevel;
                 }
                 if (Ran <= 0)
                 {
@@ -412,10 +403,6 @@ namespace Supay.Bot
                 {
                     Hit = 10;
                 }
-                if (Pray <= 0)
-                {
-                    Pray = 1;
-                }
                 if (Ran <= 0)
                 {
                     Ran = 1;
@@ -427,15 +414,14 @@ namespace Supay.Bot
             }
 
             string cmbclass = Utils.CombatClass(Att, Str, Ran, Mag);
-            int cmblevel = Utils.CalculateCombat(Att, Str, Def, Hit, Ran, Pray, Mag);
-            bc.SendReply(@"Combat: \c07{0}\c | Class: \c07{1}\c | Stats: \c07{2} {3} {4}\c {5} \c07{6}\c {7} {8}", cmblevel, cmbclass, Att, Str, Def, Hit, Pray, Ran, Mag);
+            int cmblevel = Utils.CalculateCombat(Att, Str, Def, Hit, Ran, Mag);
+            bc.SendReply(@"Combat: \c07{0}\c | Class: \c07{1}\c | Stats: \c07{2} {3} {4}\c {5} {6} {7}", cmblevel, cmbclass, Att, Str, Def, Hit, Ran, Mag);
 
-            int nextAS = Utils.NextCombatAttStr(Att, Str, Def, Hit, Ran, Pray, Mag);
-            int nextDH = Utils.NextCombatDefHp(Att, Str, Def, Hit, Ran, Pray, Mag);
-            int nextP = Utils.NextCombatPray(Att, Str, Def, Hit, Ran, Pray, Mag);
-            int nextR = Utils.NextCombatRan(Att, Str, Def, Hit, Ran, Pray, Mag);
-            int nextM = Utils.NextCombatMag(Att, Str, Def, Hit, Ran, Pray, Mag);
-            bc.SendReply(@"Stats to level | Att/Str: \c{0}\c | Def/Hp: \c{1}\c | Pray: \c{2}\c | Range: \c{3}\c | Mage: \c{4}\c", (Att + nextAS > 99 && Str + nextAS > 99 ? "04" : "03") + nextAS, (Def + nextDH > 99 && Hit + nextDH > 99 ? "04" : "03") + nextDH, (Pray + nextP > 99 ? "04" : "03") + nextP, (Ran + nextR > 99 ? "04" : "03") + nextR, (Mag + nextM > 99 ? "04" : "03") + nextM);
+            int nextAS = Utils.NextCombatAttStr(Att, Str, Def, Hit, Ran, Mag);
+            int nextDH = Utils.NextCombatDefHp(Att, Str, Def, Hit, Ran, Mag);
+            int nextR = Utils.NextCombatRan(Att, Str, Def, Hit, Ran, Mag);
+            int nextM = Utils.NextCombatMag(Att, Str, Def, Hit, Ran, Mag);
+            bc.SendReply(@"Stats to level | Att/Str: \c{0}\c | Def/Hp: \c{1}\c | Range: \c{2}\c | Mage: \c{3}\c", (Att + nextAS > 99 && Str + nextAS > 99 ? "04" : "03") + nextAS, (Def + nextDH > 99 && Hit + nextDH > 99 ? "04" : "03") + nextDH, (Ran + nextR > 99 ? "04" : "03") + nextR, (Mag + nextM > 99 ? "04" : "03") + nextM);
         }
     }
 }

@@ -95,29 +95,24 @@ namespace Supay.Bot
                         case Skill.ATTA:
                         case Skill.STRE:
                             next = virtualMatch.Success
-                                ? Utils.NextCombatAttStr(player.Skills[Skill.ATTA].VLevel, player.Skills[Skill.STRE].VLevel, player.Skills[Skill.DEFE].VLevel, player.Skills[Skill.HITP].VLevel, player.Skills[Skill.RANG].VLevel, player.Skills[Skill.PRAY].VLevel, player.Skills[Skill.MAGI].VLevel)
-                                : Utils.NextCombatAttStr(player.Skills[Skill.ATTA].Level, player.Skills[Skill.STRE].Level, player.Skills[Skill.DEFE].Level, player.Skills[Skill.HITP].Level, player.Skills[Skill.RANG].Level, player.Skills[Skill.PRAY].Level, player.Skills[Skill.MAGI].Level);
+                                ? Utils.NextCombatAttStr(player.Skills[Skill.ATTA].VLevel, player.Skills[Skill.STRE].VLevel, player.Skills[Skill.DEFE].VLevel, player.Skills[Skill.HITP].VLevel, player.Skills[Skill.RANG].VLevel, player.Skills[Skill.MAGI].VLevel)
+                                : Utils.NextCombatAttStr(player.Skills[Skill.ATTA].Level, player.Skills[Skill.STRE].Level, player.Skills[Skill.DEFE].Level, player.Skills[Skill.HITP].Level, player.Skills[Skill.RANG].Level, player.Skills[Skill.MAGI].Level);
                             break;
                         case Skill.DEFE:
                         case Skill.HITP:
                             next = virtualMatch.Success
-                                ? Utils.NextCombatDefHp(player.Skills[Skill.ATTA].VLevel, player.Skills[Skill.STRE].VLevel, player.Skills[Skill.DEFE].VLevel, player.Skills[Skill.HITP].VLevel, player.Skills[Skill.RANG].VLevel, player.Skills[Skill.PRAY].VLevel, player.Skills[Skill.MAGI].VLevel)
-                                : Utils.NextCombatDefHp(player.Skills[Skill.ATTA].Level, player.Skills[Skill.STRE].Level, player.Skills[Skill.DEFE].Level, player.Skills[Skill.HITP].Level, player.Skills[Skill.RANG].Level, player.Skills[Skill.PRAY].Level, player.Skills[Skill.MAGI].Level);
-                            break;
-                        case Skill.PRAY:
-                            next = virtualMatch.Success
-                                ? Utils.NextCombatPray(player.Skills[Skill.ATTA].VLevel, player.Skills[Skill.STRE].VLevel, player.Skills[Skill.DEFE].VLevel, player.Skills[Skill.HITP].VLevel, player.Skills[Skill.RANG].VLevel, player.Skills[Skill.PRAY].VLevel, player.Skills[Skill.MAGI].VLevel)
-                                : Utils.NextCombatPray(player.Skills[Skill.ATTA].Level, player.Skills[Skill.STRE].Level, player.Skills[Skill.DEFE].Level, player.Skills[Skill.HITP].Level, player.Skills[Skill.RANG].Level, player.Skills[Skill.PRAY].Level, player.Skills[Skill.MAGI].Level);
+                                ? Utils.NextCombatDefHp(player.Skills[Skill.ATTA].VLevel, player.Skills[Skill.STRE].VLevel, player.Skills[Skill.DEFE].VLevel, player.Skills[Skill.HITP].VLevel, player.Skills[Skill.RANG].VLevel, player.Skills[Skill.MAGI].VLevel)
+                                : Utils.NextCombatDefHp(player.Skills[Skill.ATTA].Level, player.Skills[Skill.STRE].Level, player.Skills[Skill.DEFE].Level, player.Skills[Skill.HITP].Level, player.Skills[Skill.RANG].Level, player.Skills[Skill.MAGI].Level);
                             break;
                         case Skill.MAGI:
                             next = virtualMatch.Success
-                                ? Utils.NextCombatMag(player.Skills[Skill.ATTA].VLevel, player.Skills[Skill.STRE].VLevel, player.Skills[Skill.DEFE].VLevel, player.Skills[Skill.HITP].VLevel, player.Skills[Skill.RANG].VLevel, player.Skills[Skill.PRAY].VLevel, player.Skills[Skill.MAGI].VLevel)
-                                : Utils.NextCombatMag(player.Skills[Skill.ATTA].Level, player.Skills[Skill.STRE].Level, player.Skills[Skill.DEFE].Level, player.Skills[Skill.HITP].Level, player.Skills[Skill.RANG].Level, player.Skills[Skill.PRAY].Level, player.Skills[Skill.MAGI].Level);
+                                ? Utils.NextCombatMag(player.Skills[Skill.ATTA].VLevel, player.Skills[Skill.STRE].VLevel, player.Skills[Skill.DEFE].VLevel, player.Skills[Skill.HITP].VLevel, player.Skills[Skill.RANG].VLevel, player.Skills[Skill.MAGI].VLevel)
+                                : Utils.NextCombatMag(player.Skills[Skill.ATTA].Level, player.Skills[Skill.STRE].Level, player.Skills[Skill.DEFE].Level, player.Skills[Skill.HITP].Level, player.Skills[Skill.RANG].Level, player.Skills[Skill.MAGI].Level);
                             break;
                         case Skill.RANG:
                             next = virtualMatch.Success
-                                ? Utils.NextCombatRan(player.Skills[Skill.ATTA].VLevel, player.Skills[Skill.STRE].VLevel, player.Skills[Skill.DEFE].VLevel, player.Skills[Skill.HITP].VLevel, player.Skills[Skill.RANG].VLevel, player.Skills[Skill.PRAY].VLevel, player.Skills[Skill.MAGI].VLevel)
-                                : Utils.NextCombatRan(player.Skills[Skill.ATTA].Level, player.Skills[Skill.STRE].Level, player.Skills[Skill.DEFE].Level, player.Skills[Skill.HITP].Level, player.Skills[Skill.RANG].Level, player.Skills[Skill.PRAY].Level, player.Skills[Skill.MAGI].Level);
+                                ? Utils.NextCombatRan(player.Skills[Skill.ATTA].VLevel, player.Skills[Skill.STRE].VLevel, player.Skills[Skill.DEFE].VLevel, player.Skills[Skill.HITP].VLevel, player.Skills[Skill.RANG].VLevel, player.Skills[Skill.MAGI].VLevel)
+                                : Utils.NextCombatRan(player.Skills[Skill.ATTA].Level, player.Skills[Skill.STRE].Level, player.Skills[Skill.DEFE].Level, player.Skills[Skill.HITP].Level, player.Skills[Skill.RANG].Level, player.Skills[Skill.MAGI].Level);
                             break;
                     }
                 }
