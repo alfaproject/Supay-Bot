@@ -9,16 +9,16 @@ namespace Supay.Bot
             return (int) Math.Floor((neutralBonus * 100 + Math.Max(meleeBonus, Math.Max(magicBonus, rangeBonus)) * 130) / 400.0);
         }
 
-        public static int CalculateCombat(int att, int str, int def, int hp, int ran, int mag)
+        public static int CalculateCombat(int att, int str, int def, int ran, int mag)
         {
-            return CalculateCombat(def + hp, att + str, mag + mag / 2, ran + ran / 2);
+            return CalculateCombat(def, att + str, mag + mag / 2, ran + ran / 2);
         }
 
         public static int CalculateCombat(SkillDictionary skills, bool @virtual)
         {
             return @virtual
-                ? CalculateCombat(skills[Skill.ATTA].VLevel, skills[Skill.STRE].VLevel, skills[Skill.DEFE].VLevel, skills[Skill.HITP].VLevel, skills[Skill.RANG].VLevel, skills[Skill.MAGI].VLevel)
-                : CalculateCombat(skills[Skill.ATTA].Level, skills[Skill.STRE].Level, skills[Skill.DEFE].Level, skills[Skill.HITP].Level, skills[Skill.RANG].Level, skills[Skill.MAGI].Level);
+                ? CalculateCombat(skills[Skill.ATTA].VLevel, skills[Skill.STRE].VLevel, skills[Skill.DEFE].VLevel, skills[Skill.RANG].VLevel, skills[Skill.MAGI].VLevel)
+                : CalculateCombat(skills[Skill.ATTA].Level, skills[Skill.STRE].Level, skills[Skill.DEFE].Level, skills[Skill.RANG].Level, skills[Skill.MAGI].Level);
         }
 
         public static string CombatClass(int att, int str, int ran, int mag)
@@ -51,41 +51,41 @@ namespace Supay.Bot
             return CombatClass(skills[Skill.ATTA].Level, skills[Skill.STRE].Level, skills[Skill.RANG].Level, skills[Skill.MAGI].Level);
         }
 
-        public static int NextCombatAttStr(int att, int str, int def, int hp, int ran, int mag)
+        public static int NextCombatAttStr(int att, int str, int def, int ran, int mag)
         {
             int initialAtt = att;
-            int initialCombat = CalculateCombat(att, str, def, hp, ran, mag);
-            while (CalculateCombat(++att, str, def, hp, ran, mag) <= initialCombat)
+            int initialCombat = CalculateCombat(att, str, def, ran, mag);
+            while (CalculateCombat(++att, str, def, ran, mag) <= initialCombat)
             {
             }
             return att - initialAtt;
         }
 
-        public static int NextCombatDefHp(int att, int str, int def, int hp, int ran, int mag)
+        public static int NextCombatDefence(int att, int str, int def, int ran, int mag)
         {
             int initialDef = def;
-            int initialCombat = CalculateCombat(att, str, def, hp, ran, mag);
-            while (CalculateCombat(att, str, ++def, hp, ran, mag) <= initialCombat)
+            int initialCombat = CalculateCombat(att, str, def, ran, mag);
+            while (CalculateCombat(att, str, ++def, ran, mag) <= initialCombat)
             {
             }
             return def - initialDef;
         }
 
-        public static int NextCombatMag(int att, int str, int def, int hp, int ran, int mag)
+        public static int NextCombatMag(int att, int str, int def, int ran, int mag)
         {
             int initialMag = mag;
-            int initialCombat = CalculateCombat(att, str, def, hp, ran, mag);
-            while (CalculateCombat(att, str, def, hp, ran, ++mag) <= initialCombat)
+            int initialCombat = CalculateCombat(att, str, def, ran, mag);
+            while (CalculateCombat(att, str, def, ran, ++mag) <= initialCombat)
             {
             }
             return mag - initialMag;
         }
 
-        public static int NextCombatRan(int att, int str, int def, int hp, int ran, int mag)
+        public static int NextCombatRan(int att, int str, int def, int ran, int mag)
         {
             int initialRan = ran;
-            int initialCombat = CalculateCombat(att, str, def, hp, ran, mag);
-            while (CalculateCombat(att, str, def, hp, ++ran, mag) <= initialCombat)
+            int initialCombat = CalculateCombat(att, str, def, ran, mag);
+            while (CalculateCombat(att, str, def, ++ran, mag) <= initialCombat)
             {
             }
             return ran - initialRan;
