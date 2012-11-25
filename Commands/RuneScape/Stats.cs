@@ -145,10 +145,7 @@ namespace Supay.Bot
                 .AppendFormat(@"\b{0}\b \c7{1:n}\c | level:\c7 {2:N0}\c (\c07{3:N1}\c avg) | exp:\c7 {1:e}\c (\c07{4:0.#%}\c of {5}) | rank:\c7 {1:R}\c", player.Name, player.Skills[Skill.OVER], overallLevel, avgSkillLevel, (double) player.Skills[Skill.OVER].Exp / maxOverallExp, maxOverallLevel);
 
             // add up SS rank if applicable
-            var ssPlayers = from p in new Players("SS")
-                            let overallSkill = p.Skills[Skill.OVER]
-                            orderby overallSkill.Level descending, overallSkill.Exp descending
-                            select p;
+            var ssPlayers = new Players("SS").OrderBy(p => p.Skills[Skill.OVER]);
             var indexOfPlayer = ssPlayers.FindIndex(p => p.Name == player.Name);
             if (indexOfPlayer != -1)
             {
