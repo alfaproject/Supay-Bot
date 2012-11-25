@@ -9,18 +9,18 @@ namespace Supay.Bot
         {
             if (!bc.IsAdmin)
             {
-                bc.SendReply("You need to be a bot administrator to use this command.");
+                await bc.SendReply("You need to be a bot administrator to use this command.");
                 return;
             }
 
             var skill = Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new SQLiteParameter("@chan", bc.Channel) });
             if (skill == null)
             {
-                bc.SendReply("There isn't a war going on in this channel.");
+                await bc.SendReply("There isn't a war going on in this channel.");
                 return;
             }
 
-            bc.SendReply("Please wait while the bot gathers all players stats...");
+            await bc.SendReply("Please wait while the bot gathers all players stats...");
 
             // Create a list of the war players
             var warPlayers = new Players();
@@ -44,7 +44,7 @@ namespace Supay.Bot
                 {
                     if (reply != null)
                     {
-                        bc.SendReply(reply);
+                        await bc.SendReply(reply);
                     }
                     reply = @"War \u{0}\u ranking:".FormatWith(skill.ToLowerInvariant());
                 }
@@ -52,7 +52,7 @@ namespace Supay.Bot
             }
             if (reply != null)
             {
-                bc.SendReply(reply);
+                await bc.SendReply(reply);
             }
         }
     }

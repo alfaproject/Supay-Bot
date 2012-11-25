@@ -10,7 +10,7 @@ namespace Supay.Bot
             if (bc.MessageTokens.Length == 1)
             {
                 // !rank
-                bc.SendReply("Syntax: !rank <skill/activity> <rank>");
+                await bc.SendReply("Syntax: !rank <skill/activity> <rank>");
                 return;
             }
 
@@ -46,7 +46,7 @@ namespace Supay.Bot
                 }
                 else
                 {
-                    bc.SendReply("Syntax: !rank <skill/activity> <rank>");
+                    await bc.SendReply("Syntax: !rank <skill/activity> <rank>");
                     return;
                 }
             }
@@ -58,7 +58,7 @@ namespace Supay.Bot
 
             if (rsn == null)
             {
-                bc.SendReply(@"\u{0}\u hiscores don't have rank \c07{1}\c.", skill ?? activity, rank);
+                await bc.SendReply(@"\u{0}\u hiscores don't have rank \c07{1}\c.", skill ?? activity, rank);
                 return;
             }
 
@@ -66,12 +66,12 @@ namespace Supay.Bot
             if (activity == null)
             {
                 bc.Message = skill + " " + rsn;
-                SkillInfo(bc);
+                await SkillInfo(bc);
             }
             else
             {
                 bc.Message = activity.Replace(" ", string.Empty) + " " + rsn;
-                Activity(bc);
+                await Activity(bc);
             }
         }
     }

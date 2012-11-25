@@ -16,7 +16,7 @@ namespace Supay.Bot
             var p = new Player(rsn);
             if (!p.Ranked)
             {
-                bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
+                await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
                 return;
             }
 
@@ -32,7 +32,7 @@ namespace Supay.Bot
             long expected_combat_xp = p.Skills[Skill.HITP].Exp + p.Skills[Skill.HITP].Exp * 12 / 4;
             long current_combat_xp = p.Skills[Skill.HITP].Exp + p.Skills[Skill.ATTA].Exp + p.Skills[Skill.STRE].Exp + p.Skills[Skill.DEFE].Exp + p.Skills[Skill.RANG].Exp;
 
-            bc.SendReply(@"\b{0}\b statistic percentages | Total exp: \c07{1:N0}\c | Combat exp: \c07{2:N0}\c (\c07{3:0.##}%\c) | F2P exp: \c07{4:N0}\c (\c07{5:0.##}%\c) | Slayer%: \c07{6:0.##}% - {7:0.##}%\c | PestControl%: \c07{8:0.##}%\c", rsn, totalExp, combatExp, (double) combatExp / totalExp * 100, f2pExp, (double) f2pExp / totalExp * 100, (double) p.Skills[Skill.SLAY].Exp / expected_max_slayer_exp * 100, (double) p.Skills[Skill.SLAY].Exp / (expected_max_slayer_exp - (hits_exp_gained / 133)) * 100, (double) (current_combat_xp - expected_combat_xp) / current_combat_xp * 100);
+            await bc.SendReply(@"\b{0}\b statistic percentages | Total exp: \c07{1:N0}\c | Combat exp: \c07{2:N0}\c (\c07{3:0.##}%\c) | F2P exp: \c07{4:N0}\c (\c07{5:0.##}%\c) | Slayer%: \c07{6:0.##}% - {7:0.##}%\c | PestControl%: \c07{8:0.##}%\c", rsn, totalExp, combatExp, (double) combatExp / totalExp * 100, f2pExp, (double) f2pExp / totalExp * 100, (double) p.Skills[Skill.SLAY].Exp / expected_max_slayer_exp * 100, (double) p.Skills[Skill.SLAY].Exp / (expected_max_slayer_exp - (hits_exp_gained / 133)) * 100, (double) (current_combat_xp - expected_combat_xp) / current_combat_xp * 100);
         }
 
         public static async Task CombatPercent(CommandContext bc)
@@ -51,11 +51,11 @@ namespace Supay.Bot
             var p = new Player(rsn);
             if (!p.Ranked)
             {
-                bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
+                await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
                 return;
             }
 
-            bc.SendReply(@"\b{0}\b is \c07{1:0.##}%\c combat based, with \c07{2:e}\c combat based exp. and \c07{3:e}\c total exp.", rsn, (double) p.Skills[Skill.COMB].Exp / (double) p.Skills[Skill.OVER].Exp * 100.0, p.Skills[Skill.COMB], p.Skills[Skill.OVER]);
+            await bc.SendReply(@"\b{0}\b is \c07{1:0.##}%\c combat based, with \c07{2:e}\c combat based exp. and \c07{3:e}\c total exp.", rsn, (double) p.Skills[Skill.COMB].Exp / (double) p.Skills[Skill.OVER].Exp * 100.0, p.Skills[Skill.COMB], p.Skills[Skill.OVER]);
         }
 
         public static async Task F2pPercent(CommandContext bc)
@@ -74,11 +74,11 @@ namespace Supay.Bot
             var p = new Player(rsn);
             if (!p.Ranked)
             {
-                bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
+                await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
                 return;
             }
 
-            bc.SendReply(@"\b{0}\b is \c07{1:0.##}%\c f2p based, with \c07{2:N0}\c f2p based exp. and \c07{3:e}\c total exp.", rsn, (double) p.Skills.F2pExp / (double) p.Skills[Skill.OVER].Exp * 100, p.Skills.F2pExp, p.Skills[Skill.OVER]);
+            await bc.SendReply(@"\b{0}\b is \c07{1:0.##}%\c f2p based, with \c07{2:N0}\c f2p based exp. and \c07{3:e}\c total exp.", rsn, (double) p.Skills.F2pExp / (double) p.Skills[Skill.OVER].Exp * 100, p.Skills.F2pExp, p.Skills[Skill.OVER]);
         }
 
         public static async Task SlayerPercent(CommandContext bc)
@@ -97,14 +97,14 @@ namespace Supay.Bot
             var p = new Player(rsn);
             if (!p.Ranked)
             {
-                bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
+                await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
                 return;
             }
 
             long hits_exp_gained = p.Skills[Skill.HITP].Exp - 1154;
             double expected_max_slayer_exp = hits_exp_gained * 3.0 / 4.0;
 
-            bc.SendReply(@"\b{0}\b \c07{1:0.##}% - {2:0.##}%\c of combat exp. is slayer based, with \c07{3:N0}\c combat slayer exp. and \c07{4:N0}\c combat total exp. (This percentage isn't accurate, mostly because of monster hp regeneration ratio and cannon slayering.)", rsn, (double) p.Skills[Skill.SLAY].Exp / expected_max_slayer_exp * 100.0, (double) p.Skills[Skill.SLAY].Exp / (expected_max_slayer_exp - ((double) hits_exp_gained / 133.0)) * 100.0, (double) p.Skills[Skill.SLAY].Exp * 16.0 / 3.0, hits_exp_gained + hits_exp_gained * 3);
+            await bc.SendReply(@"\b{0}\b \c07{1:0.##}% - {2:0.##}%\c of combat exp. is slayer based, with \c07{3:N0}\c combat slayer exp. and \c07{4:N0}\c combat total exp. (This percentage isn't accurate, mostly because of monster hp regeneration ratio and cannon slayering.)", rsn, (double) p.Skills[Skill.SLAY].Exp / expected_max_slayer_exp * 100.0, (double) p.Skills[Skill.SLAY].Exp / (expected_max_slayer_exp - ((double) hits_exp_gained / 133.0)) * 100.0, (double) p.Skills[Skill.SLAY].Exp * 16.0 / 3.0, hits_exp_gained + hits_exp_gained * 3);
         }
 
         public static async Task PcPercent(CommandContext bc)
@@ -123,14 +123,14 @@ namespace Supay.Bot
             var p = new Player(rsn);
             if (!p.Ranked)
             {
-                bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
+                await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
                 return;
             }
 
             long expected_combat_xp = p.Skills[Skill.HITP].Exp + p.Skills[Skill.HITP].Exp * 12 / 4;
             long current_combat_xp = p.Skills[Skill.HITP].Exp + p.Skills[Skill.ATTA].Exp + p.Skills[Skill.STRE].Exp + p.Skills[Skill.DEFE].Exp + p.Skills[Skill.RANG].Exp;
 
-            bc.SendReply(@"\b{0}\b \c07{1:0.##}%\c of combat exp. was pest controled and/or cannoned, with \c07{2:N0}\c normal combat exp. and \c07{3:N0}\c total combat exp. (This percentage might not be accurate; magic isn't included in calculations.)", rsn, (double) (current_combat_xp - expected_combat_xp) / (double) current_combat_xp * 100.0, expected_combat_xp, current_combat_xp);
+            await bc.SendReply(@"\b{0}\b \c07{1:0.##}%\c of combat exp. was pest controled and/or cannoned, with \c07{2:N0}\c normal combat exp. and \c07{3:N0}\c total combat exp. (This percentage might not be accurate; magic isn't included in calculations.)", rsn, (double) (current_combat_xp - expected_combat_xp) / (double) current_combat_xp * 100.0, expected_combat_xp, current_combat_xp);
         }
 
         public static async Task Players(CommandContext bc)
@@ -140,7 +140,7 @@ namespace Supay.Bot
                 var rsPage = wc.DownloadString("http://www.runescape.com/index.ws");
 
                 var playersMatch = Regex.Match(rsPage, @"([\d,]+)</span> people");
-                bc.SendReply(
+                await bc.SendReply(
                     playersMatch.Success
                         ? @"There are currently \c07{0}\c players online.".FormatWith(playersMatch.Groups[1].Value)
                         : @"Error: No players were found."
@@ -152,7 +152,7 @@ namespace Supay.Bot
         {
             if (bc.MessageTokens.Length == 1)
             {
-                bc.SendReply("Syntax: !grats <skill> <level>");
+                await bc.SendReply("Syntax: !grats <skill> <level>");
                 return;
             }
 
@@ -170,7 +170,7 @@ namespace Supay.Bot
                 else
                 {
                     // !grats <level>
-                    bc.SendReply("Syntax: !grats <skill> <level>");
+                    await bc.SendReply("Syntax: !grats <skill> <level>");
                     return;
                 }
             }
@@ -196,7 +196,7 @@ namespace Supay.Bot
             }
             else
             {
-                bc.SendReply("Syntax: !grats <skill> <level>");
+                await bc.SendReply("Syntax: !grats <skill> <level>");
                 return;
             }
 
@@ -212,11 +212,11 @@ namespace Supay.Bot
             bc.ReplyNotice = false;
             if (level > 0)
             {
-                bc.SendReply(@":D\-< ¤.¡*°*¡.¤ Woo! Congrats on your \c07{0} level {1} {2}\c!! ¤.¡*°*¡.¤ :D/-<", skill.ToLowerInvariant(), level, rsn);
+                await bc.SendReply(@":D\-< ¤.¡*°*¡.¤ Woo! Congrats on your \c07{0} level {1} {2}\c!! ¤.¡*°*¡.¤ :D/-<", skill.ToLowerInvariant(), level, rsn);
             }
             else
             {
-                bc.SendReply(@":D\-< ¤.¡*°*¡.¤ Woo! Congrats on your \c07{0} level {1}\c!! ¤.¡*°*¡.¤ :D/-<", skill.ToLowerInvariant(), rsn);
+                await bc.SendReply(@":D\-< ¤.¡*°*¡.¤ Woo! Congrats on your \c07{0} level {1}\c!! ¤.¡*°*¡.¤ :D/-<", skill.ToLowerInvariant(), rsn);
             }
         }
 
@@ -245,7 +245,7 @@ namespace Supay.Bot
             var p = new Player(rsn);
             if (!p.Ranked)
             {
-                bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", p.Name);
+                await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", p.Name);
                 return;
             }
 
@@ -269,7 +269,7 @@ namespace Supay.Bot
                 }
                 reply = reply.Substring(0, reply.Length - 1) + @" level \c07{0:rv}\c ranked \c07#{0:r}\c".FormatWith(highest[0]);
                 reply += @" \ufollowed by\u \c07{0:N}\c level \c07{0:rv}\c ranked \c07#{0:r}\c.".FormatWith(highest[i]);
-                bc.SendReply(reply);
+                await bc.SendReply(reply);
 
                 lowest = p.Skills.LowestRanked;
                 int lowestRank = lowest[0].Rank;
@@ -284,7 +284,7 @@ namespace Supay.Bot
                 }
                 reply = reply.Substring(0, reply.Length - 1) + @" level \c07{0:rv}\c ranked \c07#{0:r}\c".FormatWith(lowest[0]);
                 reply += @" \ufollowed by\u \c07{0:N}\c level \c07{0:rv}\c ranked \c07#{0:r}\c.".FormatWith(lowest[i]);
-                bc.SendReply(reply);
+                await bc.SendReply(reply);
             }
             else
             {
@@ -301,7 +301,7 @@ namespace Supay.Bot
                 }
                 reply = reply.Substring(0, reply.Length - 1) + @" level \c07{0:rv}\c with \c07{0:e}\c exp.".FormatWith(highest[0]);
                 reply += @" \ufollowed by\u \c07{0:N}\c level \c07{0:rv}\c with \c07{0:e}\c exp.".FormatWith(highest[i]);
-                bc.SendReply(reply);
+                await bc.SendReply(reply);
 
                 lowest = p.Skills.Lowest;
                 long lowestExp = lowest[0].Exp;
@@ -316,7 +316,7 @@ namespace Supay.Bot
                 }
                 reply = reply.Substring(0, reply.Length - 1) + @" level \c07{0:rv}\c with \c07{0:e}\c exp.".FormatWith(lowest[0]);
                 reply += @" \ufollowed by\u \c07{0:N}\c level \c07{0:rv}\c with \c07{0:e}\c exp.".FormatWith(lowest[i]);
-                bc.SendReply(reply);
+                await bc.SendReply(reply);
             }
         }
 
@@ -324,7 +324,7 @@ namespace Supay.Bot
         {
             if (bc.MessageTokens.Length == 1)
             {
-                bc.SendReply("Syntax: !CalcCombat Att Str Def Ran Mag");
+                await bc.SendReply("Syntax: !CalcCombat Att Str Def Ran Mag");
                 return;
             }
 
@@ -402,14 +402,14 @@ namespace Supay.Bot
 
             string cmbclass = Utils.CombatClass(Att, Str, Ran, Mag);
             int cmblevel = Utils.CalculateCombat(Att, Str, Def, Ran, Mag);
-            bc.SendReply(@"Combat: \c07{0}\c | Class: \c07{1}\c | Stats: \c07{2} {3}\c {4} \c07{5} {6}\c", cmblevel, cmbclass, Att, Str, Def, Ran, Mag);
+            await bc.SendReply(@"Combat: \c07{0}\c | Class: \c07{1}\c | Stats: \c07{2} {3}\c {4} \c07{5} {6}\c", cmblevel, cmbclass, Att, Str, Def, Ran, Mag);
 
             int nextA = Utils.NextCombatAttack(Att, Str, Def, Ran, Mag);
             int nextS = Utils.NextCombatStrength(Att, Str, Def, Ran, Mag);
             int nextD = Utils.NextCombatDefence(Att, Str, Def, Ran, Mag);
             int nextR = Utils.NextCombatRanged(Att, Str, Def, Ran, Mag);
             int nextM = Utils.NextCombatMagic(Att, Str, Def, Ran, Mag);
-            bc.SendReply(@"Stats to level | Att: \c{0}\c | Str: \c{1}\c | Def: \c{2}\c | Range: \c{3}\c | Mage: \c{4}\c", (Att + nextA > 99 ? "04" : "03") + nextA, (Str + nextS > 99 ? "04" : "03") + nextS, (Def + nextD > 99 ? "04" : "03") + nextD, (Ran + nextR > 99 ? "04" : "03") + nextR, (Mag + nextM > 99 ? "04" : "03") + nextM);
+            await bc.SendReply(@"Stats to level | Att: \c{0}\c | Str: \c{1}\c | Def: \c{2}\c | Range: \c{3}\c | Mage: \c{4}\c", (Att + nextA > 99 ? "04" : "03") + nextA, (Str + nextS > 99 ? "04" : "03") + nextS, (Def + nextD > 99 ? "04" : "03") + nextD, (Ran + nextR > 99 ? "04" : "03") + nextR, (Mag + nextM > 99 ? "04" : "03") + nextM);
         }
     }
 }

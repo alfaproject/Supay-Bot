@@ -11,7 +11,7 @@ namespace Supay.Bot
         {
             if (!bc.IsAdmin)
             {
-                bc.SendReply("You need to be a bot administrator to use this command.");
+                await bc.SendReply("You need to be a bot administrator to use this command.");
                 return;
             }
 
@@ -29,7 +29,7 @@ namespace Supay.Bot
             var skillName = Database.Lookup<string>("skill", "wars", "channel=@channelName", new[] { channelNameParameter });
             if (skillName == null)
             {
-                bc.SendReply("You have to start a war in this channel first using !WarStart <skill>.");
+                await bc.SendReply("You have to start a war in this channel first using !WarStart <skill>.");
                 return;
             }
 
@@ -40,7 +40,7 @@ namespace Supay.Bot
                 var p = new Player(warPlayers.GetString(0));
                 if (!p.Ranked)
                 {
-                    bc.SendReply(@"Player \b" + p.Name + "\b has changed his/her name or was banned during the war, and couldn't be tracked.");
+                    await bc.SendReply(@"Player \b" + p.Name + "\b has changed his/her name or was banned during the war, and couldn't be tracked.");
                     continue;
                 }
                 if (count % 2 == 0)
@@ -53,16 +53,16 @@ namespace Supay.Bot
                 }
                 if (count % 5 == 0)
                 {
-                    bc.SendReply(reply);
+                    await bc.SendReply(reply);
                     reply = string.Empty;
                 }
             }
             if (!string.IsNullOrEmpty(reply))
             {
-                bc.SendReply(reply);
+                await bc.SendReply(reply);
             }
 
-            bc.SendReply(@"\b{0}\b war ended on \u{1}\u for these players.", skillName, DateTime.UtcNow);
+            await bc.SendReply(@"\b{0}\b war ended on \u{1}\u for these players.", skillName, DateTime.UtcNow);
 
             Database.ExecuteNonQuery("DELETE FROM wars WHERE channel='" + channelName + "'");
             Database.ExecuteNonQuery("DELETE FROM warPlayers WHERE channel='" + channelName + "'");

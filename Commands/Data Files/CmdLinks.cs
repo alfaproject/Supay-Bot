@@ -9,18 +9,18 @@ namespace Supay.Bot
         {
             if (bc.MessageTokens.Length == 1)
             {
-                bc.SendReply("Syntax: !Qfc <qfc>");
+                await bc.SendReply("Syntax: !Qfc <qfc>");
                 return;
             }
 
             Match qfc = Regex.Match(bc.MessageTokens.Join(1), "(\\d+).(\\d+).(\\d+).(\\d+)");
             if (!qfc.Success)
             {
-                bc.SendReply("Syntax: !Qfc <qfc>");
+                await bc.SendReply("Syntax: !Qfc <qfc>");
             }
             else
             {
-                bc.SendReply(@"Quick find code \c07{0}-{1}-{2}-{3}\c: \c12http://forum.runescape.com/forums.ws?{0},{1},{2},{3}\c", qfc.Groups[1].Value, qfc.Groups[2].Value, qfc.Groups[3].Value, qfc.Groups[4].Value);
+                await bc.SendReply(@"Quick find code \c07{0}-{1}-{2}-{3}\c: \c12http://forum.runescape.com/forums.ws?{0},{1},{2},{3}\c", qfc.Groups[1].Value, qfc.Groups[2].Value, qfc.Groups[3].Value, qfc.Groups[4].Value);
             }
         }
     }

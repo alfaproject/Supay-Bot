@@ -34,7 +34,7 @@ namespace Supay.Bot
                         reply += @" (SS rank: \c07{0}\c)".FormatWith(ssplayers.IndexOf(rsn) + 1);
                     }
 
-                    bc.SendReply(reply);
+                    await bc.SendReply(reply);
 
                     // Show player performance if applicable
                     string dblastupdate = Database.LastUpdate(rsn);
@@ -82,14 +82,14 @@ namespace Supay.Bot
                         }
                         if (reply.Length > 0)
                         {
-                            bc.SendReply(reply.EndsWithI(" | ") ? reply.Substring(0, reply.Length - 3) : reply);
+                            await bc.SendReply(reply.EndsWithI(" | ") ? reply.Substring(0, reply.Length - 3) : reply);
                         }
                     }
 
                     return;
                 }
             }
-            bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
+            await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
         }
 
         private static string _GetPerformance(string interval, Activity mg_old, Activity mg_new)

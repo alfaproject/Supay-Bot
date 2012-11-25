@@ -15,7 +15,7 @@ namespace Supay.Bot
             var p = new Player(rsn);
             if (!p.Ranked)
             {
-                bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
+                await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
                 return;
             }
 
@@ -48,7 +48,7 @@ namespace Supay.Bot
                 {
                     reply += @" Estimated time to level up: \c07{0}\c".FormatWith(TimeSpan.FromSeconds(p.Skills[skill].ExpToVLevel / (gainedExp / time.TotalSeconds)).ToLongString());
                 }
-                bc.SendReply(reply);
+                await bc.SendReply(reply);
 
                 if (gainedExp > 0)
                 {
@@ -69,11 +69,11 @@ namespace Supay.Bot
             {
                 if (name.Length > 0)
                 {
-                    bc.SendReply("You must start timing a skill on that timer first.");
+                    await bc.SendReply("You must start timing a skill on that timer first.");
                 }
                 else
                 {
-                    bc.SendReply("You must start timing a skill first.");
+                    await bc.SendReply("You must start timing a skill first.");
                 }
             }
         }

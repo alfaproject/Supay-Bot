@@ -12,7 +12,7 @@ namespace Supay.Bot
         {
             if (bc.MessageTokens.Length < 3)
             {
-                bc.SendReply("Syntax: !ClanCompare <clan1> <clan2>");
+                await bc.SendReply("Syntax: !ClanCompare <clan1> <clan2>");
                 return;
             }
 
@@ -39,7 +39,7 @@ namespace Supay.Bot
                 }
                 else
                 {
-                    bc.SendReply(@"\c12www.runehead.com\c doesn't have any record for \b{0}\b.", clan1);
+                    await bc.SendReply(@"\c12www.runehead.com\c doesn't have any record for \b{0}\b.", clan1);
                     return;
                 }
 
@@ -61,7 +61,7 @@ namespace Supay.Bot
                 }
                 else
                 {
-                    bc.SendReply(@"\c12www.runehead.com\c doesn't have any record for \b{0}\b.", clan2);
+                    await bc.SendReply(@"\c12www.runehead.com\c doesn't have any record for \b{0}\b.", clan2);
                     return;
                 }
 
@@ -114,12 +114,13 @@ namespace Supay.Bot
                 reply += Combat;
                 reply += Total;
 
-                bc.SendReply(reply);
+                await bc.SendReply(reply);
+                return;
             }
             catch
             {
-                bc.SendReply(@"\c12www.runehead.com\c seems to be down.");
             }
+            await bc.SendReply(@"\c12www.runehead.com\c seems to be down.");
         }
     }
 }

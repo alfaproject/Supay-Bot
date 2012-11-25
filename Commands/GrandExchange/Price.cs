@@ -9,7 +9,7 @@ namespace Supay.Bot
         {
             if (bc.MessageTokens.Length == 1)
             {
-                bc.SendReply("Syntax: !Price [qty] <item>");
+                await bc.SendReply("Syntax: !Price [qty] <item>");
                 return;
             }
 
@@ -29,7 +29,7 @@ namespace Supay.Bot
             var price_list = new Prices(search_term);
             if (price_list.Count == 0)
             {
-                bc.SendReply(@"\c12www.runescape.com\c doesn't have any record for '{0}'.", search_term);
+                await bc.SendReply(@"\c12www.runescape.com\c doesn't have any record for '{0}'.", search_term);
                 return;
             }
 
@@ -50,7 +50,7 @@ namespace Supay.Bot
             {
                 reply += " | (...)";
             }
-            bc.SendReply(reply);
+            await bc.SendReply(reply);
         }
     }
 }

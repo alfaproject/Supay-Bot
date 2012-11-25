@@ -9,7 +9,7 @@ namespace Supay.Bot
         {
             if (bc.MessageTokens.Length <= 1)
             {
-                bc.SendReply(@"{0}'s RSN is \b{1}\b", bc.From.Nickname, bc.GetPlayerName(bc.From.Nickname));
+                await bc.SendReply(@"{0}'s RSN is \b{1}\b", bc.From.Nickname, bc.GetPlayerName(bc.From.Nickname));
                 return;
             }
 
@@ -18,11 +18,11 @@ namespace Supay.Bot
             User u;
             if (bc.Users.TryGetValue(nick, out u))
             {
-                bc.SendReply(@"{0}'s RSN is \b{1}\b", u.Nickname, bc.GetPlayerName(nick));
+                await bc.SendReply(@"{0}'s RSN is \b{1}\b", u.Nickname, bc.GetPlayerName(nick));
             }
             else
             {
-                bc.SendReply(@"\c07{0}\c must be in a channel monitored by the bot for you to look up their RSN.", nick);
+                await bc.SendReply(@"\c07{0}\c must be in a channel monitored by the bot for you to look up their RSN.", nick);
             }
         }
     }

@@ -128,7 +128,7 @@ namespace Supay.Bot
                     reply += ";";
                 }
             }
-            bc.SendReply(reply);
+            await bc.SendReply(reply);
         }
     }
 }

@@ -23,11 +23,11 @@ namespace Supay.Bot
             var skill = Database.Lookup<string>("skill", "wars", "channel=@channelName", new[] { channelNameParameter });
             if (skill == null)
             {
-                bc.SendReply("There isn't a war going on in this channel.");
+                await bc.SendReply("There isn't a war going on in this channel.");
                 return;
             }
 
-            bc.SendReply("Please wait while the bot gathers all players stats...");
+            await bc.SendReply("Please wait while the bot gathers all players stats...");
 
             // Create a list of the war players
             var warPlayers = new Players();
@@ -130,7 +130,7 @@ namespace Supay.Bot
                 reply += @" \c07#{0}\c \u{1}\u ({2:e});".FormatWith(inputPlayerRank, warPlayers[inputPlayerRank - 1].Name, warPlayers[inputPlayerRank - 1].Skills[skill]);
             }
 
-            bc.SendReply(reply);
+            await bc.SendReply(reply);
         }
     }
 }

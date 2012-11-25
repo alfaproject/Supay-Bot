@@ -3,6 +3,7 @@ using System.Data.SQLite;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Supay.Bot.Properties;
 using Supay.Irc;
 using Supay.Irc.Messages;
@@ -139,7 +140,7 @@ namespace Supay.Bot
                 : query.ValidatePlayerName();
         }
 
-        public void SendReply(string message, params object[] args)
+        public async Task SendReply(string message, params object[] args)
         {
             message = string.Format(CultureInfo.InvariantCulture, message, args);
 
@@ -150,36 +151,36 @@ namespace Supay.Bot
 
             if (this._replyNotice)
             {
-                this._irc.Send(new NoticeMessage(message, this.From.Nickname));
+                await this._irc.Send(new NoticeMessage(message, this.From.Nickname));
             }
             else
             {
                 if (this._channel == null)
                 {
-                    this._irc.SendChat(message, this.From.Nickname);
+                    await this._irc.SendChat(message, this.From.Nickname);
                 }
                 else
                 {
-                    this._irc.SendChat(message, this._channel.Name);
+                    await this._irc.SendChat(message, this._channel.Name);
                 }
             }
         }
 
-        public void SendReply(StringBuilder stringBuilder)
+        public async Task SendReply(StringBuilder stringBuilder)
         {
             if (stringBuilder == null)
             {
                 return;
             }
 
-            SendReply(stringBuilder.ToString());
+            await SendReply(stringBuilder.ToString());
         }
 
-        public void SendReply(IEnumerable<StringBuilder> stringBuilders)
+        public async Task SendReply(IEnumerable<StringBuilder> stringBuilders)
         {
             foreach (var stringBuilder in stringBuilders)
             {
-                SendReply(stringBuilder);
+                await SendReply(stringBuilder);
             }
         }
     }

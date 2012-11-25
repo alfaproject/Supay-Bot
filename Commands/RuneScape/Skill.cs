@@ -308,7 +308,7 @@ namespace Supay.Bot
                     }
                 }
 
-                bc.SendReply(reply);
+                await bc.SendReply(reply);
 
                 // Show player performance if applicable
                 DateTime lastupdate;
@@ -400,12 +400,12 @@ namespace Supay.Bot
 
                 if (reply.Length > 0)
                 {
-                    bc.SendReply(reply.EndsWithI(" | ") ? reply.Substring(0, reply.Length - 3) : reply);
+                    await bc.SendReply(reply.EndsWithI(" | ") ? reply.Substring(0, reply.Length - 3) : reply);
                 }
 
                 return;
             }
-            bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
+            await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
         }
 
         private static SkillItem _GetItem(string skill, string input_item)

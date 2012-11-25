@@ -41,7 +41,7 @@ namespace Supay.Bot
             var player = new Player(bc.GetPlayerName(bc.MessageTokens.Length == 1 ? bc.From.Nickname : bc.MessageTokens.Join(1)));
             if (!player.Ranked)
             {
-                bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", player.Name);
+                await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", player.Name);
                 return;
             }
 
@@ -59,14 +59,14 @@ namespace Supay.Bot
                 .AppendFormat(@"\b{0}\b \c07combat\c | level: \c07{1}\c | exp: \c07{2:e}\c | combat%: \c07{3:0.##}%\c | slayer%: \c07{4:0.##}%\c | class: \c07{5}\c", player.Name, combatLevel, player.Skills[Skill.COMB], (double) player.Skills[Skill.COMB].Exp / (double) player.Skills[Skill.OVER].Exp * 100.0, (double) player.Skills[Skill.SLAY].Exp / (double) expectedMaxSlayerExp * 100.0, combatClass);
 
             // Add up SS rank if applicable
-            var ssPlayers = new Players("SS").OrderBy(p => p.Skills[Skill.COMB]);
+            var ssPlayers = new Players("SS").Where(p => p.Ranked).OrderBy(p => p.Skills[Skill.OVER]);
             var indexOfPlayer = ssPlayers.FindIndex(p => p.Name == player.Name);
             if (indexOfPlayer != -1)
             {
                 reply.AppendFormat(@" (SS rank: \c07{0}\c)", indexOfPlayer + 1);
             }
 
-            bc.SendReply(reply);
+            await bc.SendReply(reply);
 
             var format = @" {2}\c{1:00}{0:r";
             if (expMatch.Success)
@@ -122,7 +122,7 @@ namespace Supay.Bot
 
                 reply.AppendFormat(format, s, s.Exp > averageExp + avgExpThreshold ? 3 : (s.Exp < averageExp - avgExpThreshold ? 4 : 7), s.Exp == highestLevelExp ? @"\u" : string.Empty, next > 0 ? "(+" + next + ")" : string.Empty);
             }
-            bc.SendReply(reply);
+            await bc.SendReply(reply);
 
             // Show player performance if applicable
             string dblastupdate = Database.LastUpdate(player.Name);
@@ -171,7 +171,7 @@ namespace Supay.Bot
                 if (reply.Length > 0)
                 {
                     var r = reply.ToString();
-                    bc.SendReply(r.EndsWithI(" | ") ? r.Substring(0, r.Length - 3) : r);
+                    await bc.SendReply(r.EndsWithI(" | ") ? r.Substring(0, r.Length - 3) : r);
                 }
             }
         }

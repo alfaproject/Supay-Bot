@@ -98,7 +98,7 @@ namespace Supay.Bot
             var player = new Player(bc.GetPlayerName(bc.MessageTokens.Length == 1 ? bc.From.Nickname : bc.MessageTokens.Join(1)));
             if (!player.Ranked)
             {
-                bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", player.Name);
+                await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", player.Name);
                 return;
             }
 
@@ -106,7 +106,7 @@ namespace Supay.Bot
             if (nextMatch.Success)
             {
                 var i = 0;
-                bc.SendReply(from skill in player.Skills.SortedByExpToNextVLevel
+                await bc.SendReply(from skill in player.Skills.SortedByExpToNextVLevel
                              group skill by i++ / 13
                              into skills
                              select skills.Aggregate(
@@ -145,7 +145,7 @@ namespace Supay.Bot
                 .AppendFormat(@"\b{0}\b \c7{1:n}\c | level:\c7 {2:N0}\c (\c07{3:N1}\c avg) | exp:\c7 {1:e}\c (\c07{4:0.#%}\c of {5}) | rank:\c7 {1:R}\c", player.Name, player.Skills[Skill.OVER], overallLevel, avgSkillLevel, (double) player.Skills[Skill.OVER].Exp / maxOverallExp, maxOverallLevel);
 
             // add up SS rank if applicable
-            var ssPlayers = new Players("SS").OrderBy(p => p.Skills[Skill.OVER]);
+            var ssPlayers = new Players("SS").Where(p => p.Ranked).OrderBy(p => p.Skills[Skill.OVER]);
             var indexOfPlayer = ssPlayers.FindIndex(p => p.Name == player.Name);
             if (indexOfPlayer != -1)
             {
@@ -153,7 +153,7 @@ namespace Supay.Bot
             }
 
             // output overall information
-            bc.SendReply(reply);
+            await bc.SendReply(reply);
 
             // output skills
             var format = @" {2}\c{1:00}{0:r";
@@ -176,12 +176,12 @@ namespace Supay.Bot
 
             var filteredSkills = playerSkills.Where(s => (lessThan == 0 || s.Exp < lessThan) && (greaterThan == 0 || s.Exp > greaterThan)).ToList();
 
-            bc.SendReply(filteredSkills.Where(s => s.IsCombat).Concat(player.Skills[Skill.COMB]).Aggregate(
+            await bc.SendReply(filteredSkills.Where(s => s.IsCombat).Concat(player.Skills[Skill.COMB]).Aggregate(
                 new StringBuilder(@"\uCombat skills\u:", 512),
                 (sb, s) => sb.AppendFormat(format, s, s.Exp > averageExp + avgExpThreshold ? 3 : (s.Exp < averageExp - avgExpThreshold ? 4 : 7), s.Exp == highestExp ? @"\u" : string.Empty)
                 ).AppendFormat(@" (\c7{0}\c)", player.CombatClass));
 
-            bc.SendReply(filteredSkills.Where(s => !s.IsCombat).AggregateOrDefault(
+            await bc.SendReply(filteredSkills.Where(s => !s.IsCombat).AggregateOrDefault(
                 new StringBuilder(@"\uOther skills\u:", 512),
                 (sb, s) => sb.AppendFormat(format, s, s.Exp > averageExp + avgExpThreshold ? 3 : (s.Exp < averageExp - avgExpThreshold ? 4 : 7), s.Exp == highestExp ? @"\u" : string.Empty)
                 ));
@@ -189,7 +189,7 @@ namespace Supay.Bot
             // output activities
             if (lessThan == 0 && greaterThan == 0)
             {
-                bc.SendReply(player.Activities.Values.Where(a => a.Rank > 0).AggregateOrDefault(
+                await bc.SendReply(player.Activities.Values.Where(a => a.Rank > 0).AggregateOrDefault(
                     new StringBuilder(@"\uActivities\u:", 512),
                     (sb, a) => sb.AppendFormat(@"\c7 {0:N0}\c {1};", rankMatch.Success ? a.Rank : a.Score, a.Name)
                     ));

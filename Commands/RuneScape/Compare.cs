@@ -8,7 +8,7 @@ namespace Supay.Bot
         {
             if (bc.MessageTokens.Length == 1)
             {
-                bc.SendReply("Syntax: !compare [skill] <player1> [player2]");
+                await bc.SendReply("Syntax: !compare [skill] <player1> [player2]");
                 return;
             }
 
@@ -78,14 +78,14 @@ namespace Supay.Bot
             var p1 = new Player(rsn1);
             if (!p1.Ranked)
             {
-                bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn1);
+                await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn1);
                 return;
             }
 
             var p2 = new Player(rsn2);
             if (!p2.Ranked)
             {
-                bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn2);
+                await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn2);
                 return;
             }
 
@@ -144,7 +144,7 @@ namespace Supay.Bot
                         reply += @" and has \c07{0:N0}\c less experience.".FormatWith(pskill2.Exp - pskill1.Exp);
                     }
                 }
-                bc.SendReply(reply);
+                await bc.SendReply(reply);
 
                 // get these players last update time
                 string dblastupdate = Database.LastUpdate(rsn1);
@@ -161,7 +161,7 @@ namespace Supay.Bot
                             {
                                 Skill skilldif1 = pskill1 - p1.Skills[skill1];
                                 Skill skilldif2 = pskill2 - p2.Skills[skill1];
-                                bc.SendReply(@"Today \b{0}\b did \c07{1:e}\c exp. while \b{2}\b did \c07{3:e}\c exp.", rsn1, skilldif1, rsn2, skilldif2);
+                                await bc.SendReply(@"Today \b{0}\b did \c07{1:e}\c exp. while \b{2}\b did \c07{3:e}\c exp.", rsn1, skilldif1, rsn2, skilldif2);
                             }
                         }
                     }
@@ -175,12 +175,12 @@ namespace Supay.Bot
 
                 if (p1Activity.Rank == -1)
                 {
-                    bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn1);
+                    await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn1);
                     return;
                 }
                 if (p2Activity.Rank == -1)
                 {
-                    bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn2);
+                    await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn2);
                     return;
                 }
 
@@ -196,7 +196,7 @@ namespace Supay.Bot
                 {
                     reply = @"\b{0}\b has \c07{2}\c less score than \b{1}\b.".FormatWith(rsn1, rsn2, p2Activity.Score - p1Activity.Score);
                 }
-                bc.SendReply(reply);
+                await bc.SendReply(reply);
 
                 // get these players last update time
                 string dblastupdate = Database.LastUpdate(rsn1);
@@ -213,7 +213,7 @@ namespace Supay.Bot
                             {
                                 Activity p1ActivityDelta = p1Activity - p1.Activities[activity1];
                                 Activity p2ActivityDelta = p2Activity - p2.Activities[activity1];
-                                bc.SendReply(@"Today \b{0}\b did \c07{1:s}\c score while \b{2}\b did \c07{3:s}\c score.", rsn1, p1ActivityDelta, rsn2, p2ActivityDelta);
+                                await bc.SendReply(@"Today \b{0}\b did \c07{1:s}\c score while \b{2}\b did \c07{3:s}\c score.", rsn1, p1ActivityDelta, rsn2, p2ActivityDelta);
                             }
                         }
                     }

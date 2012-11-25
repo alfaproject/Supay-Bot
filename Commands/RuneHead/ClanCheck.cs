@@ -10,13 +10,13 @@ namespace Supay.Bot
         {
             if (!bc.IsAdmin)
             {
-                bc.SendReply("You need to be a bot administrator to use this command.");
+                await bc.SendReply("You need to be a bot administrator to use this command.");
                 return;
             }
 
             if (bc.MessageTokens.Length == 1)
             {
-                bc.SendReply("Syntax: !ClanCheck <runehead alias>");
+                await bc.SendReply("Syntax: !ClanCheck <runehead alias>");
             }
 
             // get @f2p
@@ -41,26 +41,26 @@ namespace Supay.Bot
                 var p = new Player(clanMember.Groups[1].Value.ValidatePlayerName());
                 if (!p.Ranked)
                 {
-                    bc.SendReply(@"\b{0}\b is not ranked.", p.Name);
+                    await bc.SendReply(@"\b{0}\b is not ranked.", p.Name);
                     continue;
                 }
                 if (p.Name.StartsWithI("_") || p.Name.EndsWithI("_"))
                 {
-                    bc.SendReply(@"\b{0}\b has unneeded underscores. Please change it to \b{1}\c.", p.Name, p.Name.Trim('_'));
+                    await bc.SendReply(@"\b{0}\b has unneeded underscores. Please change it to \b{1}\c.", p.Name, p.Name.Trim('_'));
                 }
 
                 if (f2p && p.Skills.F2pExp == p.Skills[Skill.OVER].Exp)
                 {
-                    bc.SendReply(@"\b{0}\b is \c14F2P\c.", p.Name);
+                    await bc.SendReply(@"\b{0}\b is \c14F2P\c.", p.Name);
                 }
 
                 if (p2p && p.Skills.F2pExp != p.Skills[Skill.OVER].Exp)
                 {
-                    bc.SendReply(@"\b{0}\b is \c07P2P\c.", p.Name);
+                    await bc.SendReply(@"\b{0}\b is \c07P2P\c.", p.Name);
                 }
             }
 
-            bc.SendReply(@"Clan \b{0}\b is checked.", bc.MessageTokens[1]);
+            await bc.SendReply(@"Clan \b{0}\b is checked.", bc.MessageTokens[1]);
         }
     }
 }

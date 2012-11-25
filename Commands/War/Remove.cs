@@ -10,13 +10,13 @@ namespace Supay.Bot
         {
             if (!bc.IsAdmin)
             {
-                bc.SendReply("You need to be a bot administrator to use this command.");
+                await bc.SendReply("You need to be a bot administrator to use this command.");
                 return;
             }
 
             if (bc.MessageTokens.Length < 2)
             {
-                bc.SendReply(@"\bSyntax:\b !WarRemove <player name> [#channel name]");
+                await bc.SendReply(@"\bSyntax:\b !WarRemove <player name> [#channel name]");
                 return;
             }
 
@@ -36,11 +36,11 @@ namespace Supay.Bot
             if (Database.Lookup<string>("rsn", "warPlayers", "channel=@channelName AND rsn=@playerName", new[] { channelNameParameter, playerNameParameter }) != null)
             {
                 Database.ExecuteNonQuery("DELETE FROM warPlayers WHERE channel='" + channelName + "' AND rsn='" + playerName + "'");
-                bc.SendReply(@"\b{0}\b was removed from current war.", playerName);
+                await bc.SendReply(@"\b{0}\b was removed from current war.", playerName);
             }
             else
             {
-                bc.SendReply(@"\b{0}\b isn't signed to current war.", playerName);
+                await bc.SendReply(@"\b{0}\b isn't signed to current war.", playerName);
             }
         }
     }

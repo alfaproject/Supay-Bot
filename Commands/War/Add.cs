@@ -12,13 +12,13 @@ namespace Supay.Bot
         {
             if (!bc.IsAdmin)
             {
-                bc.SendReply("You need to be a bot administrator to use this command.");
+                await bc.SendReply("You need to be a bot administrator to use this command.");
                 return;
             }
 
             if (bc.MessageTokens.Length < 2)
             {
-                bc.SendReply(@"\bSyntax:\b !WarAdd <player name> [#channel name]");
+                await bc.SendReply(@"\bSyntax:\b !WarAdd <player name> [#channel name]");
                 return;
             }
 
@@ -37,7 +37,7 @@ namespace Supay.Bot
             {
                 if (Database.Lookup<string>("rsn", "warPlayers", "channel=@channelName", new[] { channelNameParameter }) == playerName)
                 {
-                    bc.SendReply(@"\b{0}\b is already signed to current war.", playerName);
+                    await bc.SendReply(@"\b{0}\b is already signed to current war.", playerName);
                 }
                 else
                 {
@@ -53,12 +53,12 @@ namespace Supay.Bot
                         {
                             Database.Insert("warPlayers", "channel", channelName, "rsn", playerName, "startLevel", player.Skills[skillName].Level.ToStringI(), "startExp", player.Skills[skillName].Exp.ToStringI(), "startRank", player.Skills[skillName].Rank.ToStringI());
                         }
-                        bc.SendReply(@"\b{0}\b is now signed to current war.", playerName);
+                        await bc.SendReply(@"\b{0}\b is now signed to current war.", playerName);
                         Thread.Sleep(1000);
                     }
                     else
                     {
-                        bc.SendReply(@"\b{0}\b doesn't feature hiscores.", playerName);
+                        await bc.SendReply(@"\b{0}\b doesn't feature hiscores.", playerName);
                     }
                 }
             }

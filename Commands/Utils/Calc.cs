@@ -8,13 +8,13 @@ namespace Supay.Bot
         {
             if (bc.MessageTokens.Length == 1)
             {
-                bc.SendReply("Syntax: !calc <expression>");
+                await bc.SendReply("Syntax: !calc <expression>");
                 return;
             }
 
             var mp = new MathParser();
             mp.Evaluate(bc.MessageTokens.Join(1));
-            bc.SendReply(@"\c07{0}\c => \c07{1}\c", mp.Expression, mp.ValueAsString);
+            await bc.SendReply(@"\c07{0}\c => \c07{1}\c", mp.Expression, mp.ValueAsString);
         }
     }
 }

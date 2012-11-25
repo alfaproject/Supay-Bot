@@ -7,6 +7,7 @@ using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
 using Supay.Bot.Properties;
@@ -75,7 +76,7 @@ namespace Supay.Bot
             this.textBox.Invoke(new delOutputMessage(this.outputMessage), "##### End players update");
         }
 
-        private void checkGE(object stateInfo)
+        private async void checkGE(object stateInfo)
         {
             string pricesPage;
             try
@@ -126,7 +127,7 @@ namespace Supay.Bot
                     reply += "...";
                     foreach (var channelName in this._irc.Channels.Keys)
                     {
-                        this._irc.SendChat(reply, channelName);
+                        await this._irc.SendChat(reply, channelName);
                     }
                 }
 
@@ -138,7 +139,7 @@ namespace Supay.Bot
             }
         }
 
-        private void _checkForum(object stateInfo)
+        private async void _checkForum(object stateInfo)
         {
             const string mainChannel = "#skillers";
             if (!this._irc.Channels.ContainsKey(mainChannel))
@@ -164,7 +165,7 @@ namespace Supay.Bot
                     {
                         Database.Insert("forums", "topicId", topicId.ToStringI());
                         string reply = @"\bNew topic!\b | Forum: \c07{0}\c | Topic: \c07{1}\c | Poster: \c07{2}\c | \c12{3}\c".FormatWith(forum, topic, poster, href);
-                        this._irc.SendChat(reply, mainChannel);
+                        await this._irc.SendChat(reply, mainChannel);
                     }
                 }
             }
@@ -223,7 +224,7 @@ namespace Supay.Bot
             }
         }
 
-        private void _timerMain_Tick(object sender, EventArgs e)
+        private async void _timerMain_Tick(object sender, EventArgs e)
         {
             // Event check every hour
             if (DateTime.UtcNow.Second == 0 && DateTime.UtcNow.Minute == 0)
@@ -267,8 +268,8 @@ namespace Supay.Bot
                                 if (u.FingerPrint == fingerprint || u.Nickname == nick)
                                 {
                                     Database.ExecuteNonQuery("DELETE FROM timers WHERE fingerprint='" + fingerprint + "' AND started='" + rsTimer.GetString(4) + "';");
-                                    this._irc.Send(new NoticeMessage(@"\c07{0}\c timer ended for \b{1}\b.".FormatWith(rsTimer.GetString(2), u.Nickname), u.Nickname));
-                                    this._irc.SendChat(@"\c07{0}\c timer ended for \b{1}\b.".FormatWith(rsTimer.GetString(2), u.Nickname), u.Nickname);
+                                    await this._irc.Send(new NoticeMessage(@"\c07{0}\c timer ended for \b{1}\b.".FormatWith(rsTimer.GetString(2), u.Nickname), u.Nickname));
+                                    await this._irc.SendChat(@"\c07{0}\c timer ended for \b{1}\b.".FormatWith(rsTimer.GetString(2), u.Nickname), u.Nickname);
                                 }
                             }
                         }
@@ -286,11 +287,11 @@ namespace Supay.Bot
                                     Database.ExecuteNonQuery("DELETE FROM timers WHERE nick='" + nick + "' AND name='" + rsTimer.GetString(2) + "' AND duration='" + rsTimer.GetInt32(3) + "';");
                                     if (rsTimer.GetInt32(3) < 3600)
                                     {
-                                        this._irc.Send(new NoticeMessage(@"Next event starts in \c07{0}\c for more information type !event".FormatWith((fingerDate - DateTime.UtcNow).ToLongString()), channelName));
+                                        await this._irc.Send(new NoticeMessage(@"Next event starts in \c07{0}\c for more information type !event".FormatWith((fingerDate - DateTime.UtcNow).ToLongString()), channelName));
                                     }
                                     else
                                     {
-                                        this._irc.SendChat(@"Next event starts in \c07{0}\c for more information type !event".FormatWith((fingerDate - DateTime.UtcNow).ToLongString()), channelName);
+                                        await this._irc.SendChat(@"Next event starts in \c07{0}\c for more information type !event".FormatWith((fingerDate - DateTime.UtcNow).ToLongString()), channelName);
                                     }
                                 }
                             }
@@ -343,17 +344,17 @@ namespace Supay.Bot
             }
         }
 
-        private void Irc_NamesEndReply(object sender, IrcMessageEventArgs<NamesEndReplyMessage> e)
+        private async void Irc_NamesEndReply(object sender, IrcMessageEventArgs<NamesEndReplyMessage> e)
         {
-            this._irc.Connection.Write("WHO " + e.Message.Channel);
+            await this._irc.Connection.Write("WHO " + e.Message.Channel);
         }
 
-        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        private async void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Quit IRC.
             if (this._irc.Connection.Status == ConnectionStatus.Connected)
             {
-                this._irc.SendQuit(this.Text);
+                await this._irc.SendQuit(this.Text);
             }
 
             // Persist application settings.
@@ -365,18 +366,18 @@ namespace Supay.Bot
             this.Close();
         }
 
-        private void Irc_Ready(object sender, EventArgs e)
+        private async void Irc_Ready(object sender, EventArgs e)
         {
             // Perform the commands in the perform list.
             foreach (string command in Settings.Default.Perform.Split(';'))
             {
-                this._irc.Connection.Write(command);
+                await this._irc.Connection.Write(command);
             }
 
             // Join the channels in the channel list.
             foreach (string channel in Settings.Default.Channels.Split(';'))
             {
-                this._irc.Connection.Write("JOIN " + channel);
+                await this._irc.Connection.Write("JOIN " + channel);
             }
         }
 
@@ -391,10 +392,11 @@ namespace Supay.Bot
                     return;
                 }
 
+                Exception thrownException = null;
                 switch (bc.MessageTokens[0].ToUpperInvariant())
                 {
                     case "RAW":
-                        this._irc.Connection.Write(bc.MessageTokens.Join(1));
+                        await this._irc.Connection.Write(bc.MessageTokens.Join(1));
                         break;
                     case "SQL":
                         try
@@ -403,7 +405,11 @@ namespace Supay.Bot
                         }
                         catch (Exception ex)
                         {
-                            bc.SendReply(ex.Message.Replace("\r\n", " » "));
+                            thrownException = ex;
+                        }
+                        if (thrownException != null)
+                        {
+                            await bc.SendReply(thrownException.Message.Replace("\r\n", " » "));
                         }
                         break;
                     case "SQLRESULT":
@@ -417,18 +423,22 @@ namespace Supay.Bot
                                 {
                                     reply += " " + sqlQuery.GetValue(i) + ";";
                                 }
-                                this._irc.SendChat(reply, e.Message.Sender.Nickname);
+                                await this._irc.SendChat(reply, e.Message.Sender.Nickname);
                             }
                         }
                         catch (Exception ex)
                         {
-                            bc.SendReply(ex.Message.Replace("\r\n", " » "));
+                            thrownException = ex;
+                        }
+                        if (thrownException != null)
+                        {
+                            await bc.SendReply(thrownException.Message.Replace("\r\n", " » "));
                         }
                         break;
                     case "LISTCHANNELS":
                         foreach (var channel in this._irc.Channels.Values)
                         {
-                            this._irc.SendChat(channel.Name + " » " + string.Join(" ", channel.Users.Keys), e.Message.Sender.Nickname);
+                            await this._irc.SendChat(channel.Name + " » " + string.Join(" ", channel.Users.Keys), e.Message.Sender.Nickname);
                         }
                         break;
                 }
@@ -935,7 +945,7 @@ namespace Supay.Bot
                     c.Evaluate(msg);
                     if (c.LastError == null && c.Operations > 0)
                     {
-                        this._irc.Send(new NoticeMessage(c.Expression + " => " + c.ValueAsString, e.Message.Sender.Nickname));
+                        await this._irc.Send(new NoticeMessage(c.Expression + " => " + c.ValueAsString, e.Message.Sender.Nickname));
                     }
                 }
             }

@@ -19,7 +19,7 @@ namespace Supay.Bot
 
             if (bc.MessageTokens.Length <= 1)
             {
-                bc.SendReply("Syntax: !AddTracker <rsn>");
+                await bc.SendReply("Syntax: !AddTracker <rsn>");
                 return;
             }
 
@@ -31,17 +31,18 @@ namespace Supay.Bot
                 {
                     Database.Insert("players", "rsn", rsn, "clan", string.Empty, "lastupdate", string.Empty);
                     p.SaveToDB(DateTime.UtcNow.ToStringI("yyyyMMdd"));
-                    bc.SendReply(@"\b{0}\b is now being tracked.", rsn);
+                    await bc.SendReply(@"\b{0}\b is now being tracked.", rsn);
                 }
                 else
                 {
-                    bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
+                    await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
                 }
+                return;
             }
             catch
             {
-                bc.SendReply(@"\b{0}\b was already being tracked.", rsn);
             }
+            await bc.SendReply(@"\b{0}\b was already being tracked.", rsn);
         }
 
         public static async Task Remove(CommandContext bc)
@@ -53,7 +54,7 @@ namespace Supay.Bot
 
             if (bc.MessageTokens.Length <= 1)
             {
-                bc.SendReply("Syntax: !RemoveTracker <rsn>");
+                await bc.SendReply("Syntax: !RemoveTracker <rsn>");
                 return;
             }
 
@@ -63,11 +64,11 @@ namespace Supay.Bot
             {
                 Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + playerId + ";");
                 Database.ExecuteNonQuery("DELETE FROM players WHERE id=" + playerId + ";");
-                bc.SendReply(@"\b{0}\b was removed from the tracker database.", rsn);
+                await bc.SendReply(@"\b{0}\b was removed from the tracker database.", rsn);
             }
             else
             {
-                bc.SendReply(@"\b{0}\b was not found on the tracker database.", rsn);
+                await bc.SendReply(@"\b{0}\b was not found on the tracker database.", rsn);
             }
         }
 
@@ -80,7 +81,7 @@ namespace Supay.Bot
 
             if (bc.MessageTokens.Length < 2)
             {
-                bc.SendReply("Syntax: !Rename <old_rsn> <new_rsn>");
+                await bc.SendReply("Syntax: !Rename <old_rsn> <new_rsn>");
                 return;
             }
 
@@ -90,7 +91,7 @@ namespace Supay.Bot
             long oldPlayerId = Database.Lookup("id", "players", "rsn=@rsn", new[] { new SQLiteParameter("@rsn", oldRsn) }, -1L);
             if (oldPlayerId == -1)
             {
-                bc.SendReply(@"Player \b{0}\b wasn't being tracked.", oldRsn);
+                await bc.SendReply(@"Player \b{0}\b wasn't being tracked.", oldRsn);
                 return;
             }
 
@@ -98,7 +99,7 @@ namespace Supay.Bot
             var oldPlayer = new Player(oldRsn);
             if (oldPlayer.Ranked)
             {
-                bc.SendReply(@"Player \b{0}\b is still ranked in hiscores.", oldRsn);
+                await bc.SendReply(@"Player \b{0}\b is still ranked in hiscores.", oldRsn);
                 return;
             }
 
@@ -106,7 +107,7 @@ namespace Supay.Bot
             var newPlayer = new Player(newRsn);
             if (!newPlayer.Ranked)
             {
-                bc.SendReply(@"Player \b{0\b doesn't feature in hiscores.", newRsn);
+                await bc.SendReply(@"Player \b{0\b doesn't feature in hiscores.", newRsn);
                 return;
             }
 
@@ -130,7 +131,7 @@ namespace Supay.Bot
                 Database.Update("players", "id=" + oldPlayerId, "rsn", newRsn);
             }
 
-            bc.SendReply(@"Player \b{0}\b was renamed or merged to \b{1}\b.", oldRsn, newRsn);
+            await bc.SendReply(@"Player \b{0}\b was renamed or merged to \b{1}\b.", oldRsn, newRsn);
         }
 
         public static async Task RemoveTrackerFromClan(CommandContext bc)
@@ -142,7 +143,7 @@ namespace Supay.Bot
 
             if (bc.MessageTokens.Length == 1)
             {
-                bc.SendReply("Syntax: !RemoveTrackerFromClan <clan|@clanless>");
+                await bc.SendReply("Syntax: !RemoveTrackerFromClan <clan|@clanless>");
                 return;
             }
 
@@ -161,12 +162,12 @@ namespace Supay.Bot
             }
             dr.Close();
             Database.ExecuteNonQuery("DELETE FROM players WHERE clan ='" + clan + "';");
-            bc.SendReply(@"\b{0}\b players were removed from tracker.", playersRemoved);
+            await bc.SendReply(@"\b{0}\b players were removed from tracker.", playersRemoved);
 
             Database.ExecuteNonQuery("VACUUM;");
 
             long playersLeft = Database.Lookup("COUNT(*)", "players", null, null, 0L);
-            bc.SendReply(@"There are \b{0}\b players left in the tracker.", playersLeft);
+            await bc.SendReply(@"There are \b{0}\b players left in the tracker.", playersLeft);
         }
 
         public static async Task Performance(CommandContext bc)
@@ -288,10 +289,10 @@ namespace Supay.Bot
             {
                 // Get data from RuneScript
                 PlayerOld = new Player(rsn, (int) (DateTime.UtcNow - firstday).TotalSeconds);
-                bc.SendReply(@"\c07{0}\c information retrieved from RuneScript database. (This data may not be 100% accurate)", firstday.ToStringI("yyyy/MMM/dd"));
+                await bc.SendReply(@"\c07{0}\c information retrieved from RuneScript database. (This data may not be 100% accurate)", firstday.ToStringI("yyyy/MMM/dd"));
                 if (!PlayerOld.Ranked)
                 {
-                    bc.SendReply(@"\b{0}\b wasn't being tracked on \c07{1}\c.", rsn, firstday.ToStringI("yyyy/MMM/dd"));
+                    await bc.SendReply(@"\b{0}\b wasn't being tracked on \c07{1}\c.", rsn, firstday.ToStringI("yyyy/MMM/dd"));
                     return;
                 }
                 foreach (Skill skill in PlayerOld.Skills.Values)
@@ -314,16 +315,16 @@ namespace Supay.Bot
             {
                 if (lastday == DateTime.MaxValue)
                 {
-                    bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
+                    await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
                     return;
                 }
 
                 // Get data from RuneScript
                 PlayerNew = new Player(rsn, (int) (DateTime.UtcNow - lastday).TotalSeconds);
-                bc.SendReply(@"\c07{0}\c information retrieved from RuneScript database. (This data may not be 100% accurate)", lastday.ToStringI("yyyy/MMM/dd"));
+                await bc.SendReply(@"\c07{0}\c information retrieved from RuneScript database. (This data may not be 100% accurate)", lastday.ToStringI("yyyy/MMM/dd"));
                 if (!PlayerNew.Ranked)
                 {
-                    bc.SendReply(@"\b{0}\b wasn't being tracked on \c07{1}\c.", rsn, lastday.ToStringI("yyyy/MMM/dd"));
+                    await bc.SendReply(@"\b{0}\b wasn't being tracked on \c07{1}\c.", rsn, lastday.ToStringI("yyyy/MMM/dd"));
                     return;
                 }
             }
@@ -333,7 +334,7 @@ namespace Supay.Bot
             Skill OverallDif = PlayerNew.Skills[Skill.OVER] - PlayerOld.Skills[Skill.OVER];
             if (OverallDif.Exp <= 0)
             {
-                bc.SendReply(@"No performance for \b{0}\b within this period.", rsn);
+                await bc.SendReply(@"No performance for \b{0}\b within this period.", rsn);
             }
             else
             {
@@ -360,7 +361,7 @@ namespace Supay.Bot
                 ReplyMsg += @"; \c07Combat\c lvl {0} \c03+{1}\c xp (\c07{2}%\c)".FormatWith(PlayerNew.Skills[Skill.COMB].Level + DifLevel, CombatDif.Exp.ToShortString(1), (CombatDif.Exp / (double) OverallDif.Exp * 100.0).ToShortString(1));
 
                 ReplyMsg += @"; Interval: \c07{0}\c -> \c07{1}\c".FormatWith(firstday.ToStringI("yyyy/MMM/dd"), lastday == DateTime.MaxValue ? "Now" : lastday.ToStringI("yyyy/MMM/dd"));
-                bc.SendReply(ReplyMsg);
+                await bc.SendReply(ReplyMsg);
 
                 // 2nd line: skills list
                 List<Skill> SkillsDif = (from SkillNow in PlayerNew.Skills.Values
@@ -385,14 +386,14 @@ namespace Supay.Bot
                     }
                     if ((i + 1) % 10 == 0)
                     {
-                        bc.SendReply(ReplyMsg);
+                        await bc.SendReply(ReplyMsg);
                         has_performance = false;
                         ReplyMsg = @"\b{0}\b \u{1}\u skills:".FormatWith(rsn, interval.ToLowerInvariant());
                     }
                 }
                 if (has_performance)
                 {
-                    bc.SendReply(ReplyMsg);
+                    await bc.SendReply(ReplyMsg);
                 }
 
                 // 3rd line: activities list
@@ -415,7 +416,7 @@ namespace Supay.Bot
                     }
                     if (has_performance)
                     {
-                        bc.SendReply(ReplyMsg);
+                        await bc.SendReply(ReplyMsg);
                     }
                 }
             }

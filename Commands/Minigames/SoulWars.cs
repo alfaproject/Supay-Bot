@@ -51,7 +51,7 @@ namespace Supay.Bot
             }
             if (string.IsNullOrEmpty(skill) || (string.IsNullOrEmpty(rsn) && level == 0))
             {
-                bc.SendReply("Syntax: !soulwars <level> <skill>");
+                await bc.SendReply("Syntax: !soulwars <level> <skill>");
                 return;
             }
 
@@ -60,7 +60,7 @@ namespace Supay.Bot
                 var p = new Player(rsn);
                 if (!p.Ranked)
                 {
-                    bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
+                    await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
                     return;
                 }
                 Skill skillInfo = p.Skills[skill];
@@ -78,10 +78,10 @@ namespace Supay.Bot
                 case Skill.PRAY:
                 case Skill.SLAY:
                     int exp = Utils.SoulWarsExpPerZeal(skill, level);
-                    bc.SendReply(@"For each point at level \c07{0}\c you will gain \c07{1:N0} {2}\c experience.", level, exp, skill);
+                    await bc.SendReply(@"For each point at level \c07{0}\c you will gain \c07{1:N0} {2}\c experience.", level, exp, skill);
                     break;
                 default:
-                    bc.SendReply("You can only calculate experience for Attack, Strength, Defence, Constitution, Prayer and Slayer at the moment.");
+                    await bc.SendReply("You can only calculate experience for Attack, Strength, Defence, Constitution, Prayer and Slayer at the moment.");
                     break;
             }
         }

@@ -23,11 +23,11 @@ namespace Supay.Bot
                 rsTimer.Close();
                 if (timers > 0)
                 {
-                    bc.SendReply(@"Found \c07{0}\c timers: {1}", timers, reply);
+                    await bc.SendReply(@"Found \c07{0}\c timers: {1}", timers, reply);
                 }
                 else
                 {
-                    bc.SendReply("Syntax: !timer <duration>");
+                    await bc.SendReply("Syntax: !timer <duration>");
                 }
 
                 return;
@@ -56,7 +56,7 @@ namespace Supay.Bot
                 default:
                     if (!int.TryParse(bc.MessageTokens[1], out duration))
                     {
-                        bc.SendReply("Error: Invalid duration. Duration must be in minutes.");
+                        await bc.SendReply("Error: Invalid duration. Duration must be in minutes.");
                         return;
                     }
                     name = duration + " mins";
@@ -65,7 +65,7 @@ namespace Supay.Bot
 
             // start a new timer for this duration
             Database.Insert("timers", "fingerprint", bc.From.FingerPrint, "nick", bc.From.Nickname, "name", name, "duration", (duration * 60).ToStringI(), "started", DateTime.UtcNow.ToStringI("yyyyMMddHHmmss"));
-            bc.SendReply(@"Timer started to \b{0}\b. Timer will end at \c07{1}\c.", bc.From.Nickname, DateTime.UtcNow.AddMinutes(duration).ToStringI("yyyy/MM/dd HH:mm:ss"));
+            await bc.SendReply(@"Timer started to \b{0}\b. Timer will end at \c07{1}\c.", bc.From.Nickname, DateTime.UtcNow.AddMinutes(duration).ToStringI("yyyy/MM/dd HH:mm:ss"));
         }
     }
 }

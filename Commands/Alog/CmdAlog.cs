@@ -34,19 +34,23 @@ namespace Supay.Bot
                 rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
             }
 
-            RssManager reader;
+            List<RssItem> list = null;
             try
             {
-                string url = "http://services.runescape.com/m=adventurers-log/rssfeed?searchName=" + rsn;
-                reader = new RssManager(url);
+                var reader = new RssManager("http://services.runescape.com/m=adventurers-log/rssfeed?searchName=" + rsn);
+                reader.GetFeed();
+                list = reader.RssItems;
             }
             catch
             {
-                bc.SendReply(@"No achievements found for \c7{0}\c{1}. The profile may be private, the player may be f2p, or the rsn incorrect.", rsn, string.IsNullOrEmpty(timeSpanName) ? string.Empty : @" in " + timeSpanName);
+            }
+
+            if (list == null)
+            {
+                await bc.SendReply(@"No achievements found for \c7{0}\c{1}. The profile may be private, the player may be f2p, or the rsn incorrect.", rsn, string.IsNullOrEmpty(timeSpanName) ? string.Empty : @" in " + timeSpanName);
                 return;
             }
-            reader.GetFeed();
-            List<RssItem> list = reader.RssItems;
+
             var p = new Player(rsn);
             list.Sort((i1, i2) => i2.Date.CompareTo(i1.Date));
             if (timeSpan > 0)
@@ -60,7 +64,7 @@ namespace Supay.Bot
             }
             if (list.Count == 0 || !p.Ranked)
             {
-                bc.SendReply(@"No achievements found for \c7{0}\c{1}. The profile may be private, the player may be f2p, or the rsn incorrect.", rsn, string.IsNullOrEmpty(timeSpanName) ? string.Empty : @" in " + timeSpanName);
+                await bc.SendReply(@"No achievements found for \c7{0}\c{1}. The profile may be private, the player may be f2p, or the rsn incorrect.", rsn, string.IsNullOrEmpty(timeSpanName) ? string.Empty : @" in " + timeSpanName);
                 return;
             }
 
@@ -232,7 +236,7 @@ namespace Supay.Bot
                     }
                 }
             }
-            bc.SendReply(reply.Trim());
+            await bc.SendReply(reply.Trim());
         }
     }
 }

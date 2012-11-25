@@ -9,7 +9,7 @@ namespace Supay.Bot
         {
             if (bc.MessageTokens.Length == 1)
             {
-                bc.SendReply("Syntax: !PriceInfo <item>");
+                await bc.SendReply("Syntax: !PriceInfo <item>");
                 return;
             }
 
@@ -30,7 +30,7 @@ namespace Supay.Bot
                 switch (prices.Count)
                 {
                     case 0:
-                        bc.SendReply(@"\c12www.runescape.com\c doesn't have any record for '{0}'.", query);
+                        await bc.SendReply(@"\c12www.runescape.com\c doesn't have any record for '{0}'.", query);
                         return;
                     case 1:
                         price = prices[0];
@@ -45,7 +45,7 @@ namespace Supay.Bot
                         {
                             reply += " | ...";
                         }
-                        bc.SendReply(reply);
+                        await bc.SendReply(reply);
                         return;
                 }
             }
@@ -108,8 +108,8 @@ namespace Supay.Bot
                 change180days = @"\c07{0:0.#}%2\c".FormatWith(price.Change180days);
             }
 
-            bc.SendReply(@"Name: \c07{0}\c | Price: \c07{1}\c | Today's change: {2} | Last 30 days: {3} | Last 90 days: {4} | Last 180 days: {5}", price.Name, price.MarketPrice.ToShortString(1), changeToday, change30days, change90days, change180days);
-            bc.SendReply(@"Examine: \c07{0}\c | \c12http://services.runescape.com/m=itemdb_rs/viewitem.ws?obj={1}\c", price.Examine, price.Id);
+            await bc.SendReply(@"Name: \c07{0}\c | Price: \c07{1}\c | Today's change: {2} | Last 30 days: {3} | Last 90 days: {4} | Last 180 days: {5}", price.Name, price.MarketPrice.ToShortString(1), changeToday, change30days, change90days, change180days);
+            await bc.SendReply(@"Examine: \c07{0}\c | \c12http://services.runescape.com/m=itemdb_rs/viewitem.ws?obj={1}\c", price.Examine, price.Id);
         }
     }
 }

@@ -27,23 +27,24 @@ namespace Supay.Bot
                 // Clans
                 List<string[]> clans = _GetClans(rsn, "http://runehead.com/feeds/lowtech/searchuser.php?user=");
                 clanCount += clans.Count;
-                _OutputClans(bc, "clan", rsn, clans);
+                await _OutputClans(bc, "clan", rsn, clans);
 
                 // Non-clans
                 clans = _GetClans(rsn, "http://runehead.com/feeds/lowtech/searchuser.php?type=1&user=");
                 clanCount += clans.Count;
-                _OutputClans(bc, "non-clan", rsn, clans);
+                await _OutputClans(bc, "non-clan", rsn, clans);
 
                 // User not found
                 if (clanCount == 0)
                 {
-                    bc.SendReply(@"\c12www.runehead.com\c doesn't have any record for \b{0}\b.", rsn);
+                    await bc.SendReply(@"\c12www.runehead.com\c doesn't have any record for \b{0}\b.", rsn);
                 }
+                return;
             }
             catch
             {
-                bc.SendReply(@"\c12www.runehead.com\c seems to be down.");
             }
+            await bc.SendReply(@"\c12www.runehead.com\c seems to be down.");
         }
 
         private static List<string[]> _GetClans(string rsn, string url)
@@ -57,7 +58,7 @@ namespace Supay.Bot
             return clans;
         }
 
-        private static void _OutputClans(CommandContext bc, string type, string rsn, List<string[]> clans)
+        private static async Task _OutputClans(CommandContext bc, string type, string rsn, List<string[]> clans)
         {
             if (clans.Count == 0)
             {
@@ -74,7 +75,7 @@ namespace Supay.Bot
                 reply = @"\b{0}\b is in \c07{1}\c {2}s:".FormatWith(rsn, clans.Count, type);
                 reply = clans.Aggregate(reply, (current, clan) => current + @" \c07{0}\c;".FormatWith(clan[0]));
             }
-            bc.SendReply(reply);
+            await bc.SendReply(reply);
         }
     }
 }

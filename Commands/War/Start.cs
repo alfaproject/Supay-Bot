@@ -11,7 +11,7 @@ namespace Supay.Bot
         {
             if (!bc.IsAdmin)
             {
-                bc.SendReply("You need to be a bot administrator to use this command.");
+                await bc.SendReply("You need to be a bot administrator to use this command.");
                 return;
             }
 
@@ -28,7 +28,7 @@ namespace Supay.Bot
             string skillName = Skill.OVER;
             if (bc.MessageTokens.Length < 2 || !Skill.TryParse(bc.MessageTokens[1], ref skillName))
             {
-                bc.SendReply(@"\bSyntax:\b !WarStart <skill name> [#channel name]");
+                await bc.SendReply(@"\bSyntax:\b !WarStart <skill name> [#channel name]");
                 return;
             }
 
@@ -48,19 +48,19 @@ namespace Supay.Bot
                 }
                 if (count % 5 == 0)
                 {
-                    bc.SendReply(reply);
+                    await bc.SendReply(reply);
                     reply = string.Empty;
                 }
             }
             if (!string.IsNullOrEmpty(reply))
             {
-                bc.SendReply(reply);
+                await bc.SendReply(reply);
             }
 
             Database.ExecuteNonQuery("DELETE FROM wars WHERE channel='" + channelName + "';");
             Database.Insert("wars", "channel", channelName, "skill", skillName, "startDate", DateTime.UtcNow.ToStringI("yyyyMMddHHmm"));
 
-            bc.SendReply(@"\b{0}\b war started on \u{1}\u for these players. \bYou can now login and good luck!\b", skillName, DateTime.UtcNow);
+            await bc.SendReply(@"\b{0}\b war started on \u{1}\u for these players. \bYou can now login and good luck!\b", skillName, DateTime.UtcNow);
         }
     }
 }

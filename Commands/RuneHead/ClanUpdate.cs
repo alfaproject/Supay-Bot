@@ -13,9 +13,9 @@ namespace Supay.Bot
         {
             var clanMembers = new List<string>(500);
 
-            string pageRuneHead;
-            string clanInitials;
-            string clanName;
+            string pageRuneHead = null;
+            string clanInitials = null;
+            string clanName = null;
             try
             {
                 if (bc.Message.ContainsI("SS"))
@@ -42,7 +42,11 @@ namespace Supay.Bot
             }
             catch
             {
-                bc.SendReply("Update failed. Runehead appears to be down.");
+            }
+
+            if (pageRuneHead == null)
+            {
+                await bc.SendReply("Update failed. Runehead appears to be down.");
                 return;
             }
 
@@ -57,7 +61,7 @@ namespace Supay.Bot
                 if (!clanMembers.Contains(p.Name))
                 {
                     Database.Update("players", "id=" + p.Id, "clan", string.Empty);
-                    bc.SendReply(@"\b{0}\b is now being tracked under no clan.", p.Name);
+                    await bc.SendReply(@"\b{0}\b is now being tracked under no clan.", p.Name);
                 }
             }
 
@@ -82,10 +86,10 @@ namespace Supay.Bot
                         Database.Update("players", "rsn LIKE '" + rsn + "'", "clan", clanInitials);
                     }
                     string reply = @"\b{0}\b is now being tracked under \c07{1}\c clan. \c{2}\c".FormatWith(rsn, clanName, f2p ? "14[F2P]" : "7[P2P]");
-                    bc.SendReply(reply);
+                    await bc.SendReply(reply);
                 }
             }
-            bc.SendReply(@"Clan \b{0}\b is up to date.", clanName);
+            await bc.SendReply(@"Clan \b{0}\b is up to date.", clanName);
         }
     }
 }

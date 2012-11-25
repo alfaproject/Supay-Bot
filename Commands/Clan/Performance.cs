@@ -152,11 +152,11 @@ namespace Supay.Bot
                             reply += @" \c07#{0}\c {1};".FormatWith(clanPlayers.IndexOf(p) + 1, s.ShortName);
                         }
                     }
-                    bc.SendReply(reply, clanInitials, rsn);
+                    await bc.SendReply(reply, clanInitials, rsn);
                 }
                 else
                 {
-                    bc.SendReply(@"\b{0}\b wasn't at {1}.", rsn, clanName);
+                    await bc.SendReply(@"\b{0}\b wasn't at {1}.", rsn, clanName);
                 }
             }
             else
@@ -226,11 +226,11 @@ namespace Supay.Bot
                         reply += @" \c7#{0}\c \u{1}\u ({2:e});".FormatWith(input_player_rank, clanPlayers[input_player_rank - 1].Name, clanPlayers[input_player_rank - 1].Skills[skill]);
                     }
 
-                    bc.SendReply(reply);
+                    await bc.SendReply(reply);
                 }
                 else
                 {
-                    bc.SendReply(clanName + " didn't have any member ranked at this skill.");
+                    await bc.SendReply(clanName + " didn't have any member ranked at this skill.");
                 }
             }
         }
