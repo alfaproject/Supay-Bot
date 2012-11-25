@@ -324,7 +324,7 @@ namespace Supay.Bot
         {
             if (bc.MessageTokens.Length == 1)
             {
-                bc.SendReply("Syntax: !CalcCombat Att Str Def Hit Pray Sum Ran Mag");
+                bc.SendReply("Syntax: !CalcCombat Att Str Def Hit Pray Ran Mag");
                 return;
             }
 
@@ -333,7 +333,6 @@ namespace Supay.Bot
                 Def = 0,
                 Hit = 0,
                 Pray = 0,
-                Sum = 0,
                 Ran = 0,
                 Mag = 0;
 
@@ -356,15 +355,11 @@ namespace Supay.Bot
             }
             if (bc.MessageTokens.Length > 6)
             {
-                int.TryParse(bc.MessageTokens[6], out Sum);
+                int.TryParse(bc.MessageTokens[6], out Ran);
             }
             if (bc.MessageTokens.Length > 7)
             {
-                int.TryParse(bc.MessageTokens[7], out Ran);
-            }
-            if (bc.MessageTokens.Length > 8)
-            {
-                int.TryParse(bc.MessageTokens[8], out Mag);
+                int.TryParse(bc.MessageTokens[7], out Mag);
             }
 
             var p = new Player(bc.GetPlayerName(bc.From.Nickname));
@@ -389,10 +384,6 @@ namespace Supay.Bot
                 if (Pray <= 0)
                 {
                     Pray = p.Skills[Skill.PRAY].VLevel;
-                }
-                if (Sum <= 0)
-                {
-                    Sum = p.Skills[Skill.SUMM].VLevel;
                 }
                 if (Ran <= 0)
                 {
@@ -425,10 +416,6 @@ namespace Supay.Bot
                 {
                     Pray = 1;
                 }
-                if (Sum <= 0)
-                {
-                    Mag = 1;
-                }
                 if (Ran <= 0)
                 {
                     Ran = 1;
@@ -440,16 +427,15 @@ namespace Supay.Bot
             }
 
             string cmbclass = Utils.CombatClass(Att, Str, Ran, Mag);
-            int cmblevel = Utils.CalculateCombat(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
-            bc.SendReply(@"Combat: \c07{0}\c | Class: \c07{1}\c | Stats: \c07{2} {3} {4}\c {5} \c07{6} {7}\c {8} {9}", cmblevel, cmbclass, Att, Str, Def, Hit, Pray, Sum, Ran, Mag);
+            int cmblevel = Utils.CalculateCombat(Att, Str, Def, Hit, Ran, Pray, Mag);
+            bc.SendReply(@"Combat: \c07{0}\c | Class: \c07{1}\c | Stats: \c07{2} {3} {4}\c {5} \c07{6}\c {7} {8}", cmblevel, cmbclass, Att, Str, Def, Hit, Pray, Ran, Mag);
 
-            int nextAS = Utils.NextCombatAttStr(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
-            int nextDH = Utils.NextCombatDefHp(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
-            int nextP = Utils.NextCombatPray(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
-            int nextS = Utils.NextCombatSum(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
-            int nextR = Utils.NextCombatRan(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
-            int nextM = Utils.NextCombatMag(Att, Str, Def, Hit, Ran, Pray, Mag, Sum);
-            bc.SendReply(@"Stats to level | Att/Str: \c{0}\c | Def/Hp: \c{1}\c | Pray: \c{2}\c | Sum: \c{3}\c | Range: \c{4}\c | Mage: \c{5}\c", (Att + nextAS > 99 && Str + nextAS > 99 ? "04" : "03") + nextAS, (Def + nextDH > 99 && Hit + nextDH > 99 ? "04" : "03") + nextDH, (Pray + nextP > 99 ? "04" : "03") + nextP, (Sum + nextS > 99 ? "04" : "03") + nextS, (Ran + nextR > 99 ? "04" : "03") + nextR, (Mag + nextM > 99 ? "04" : "03") + nextM);
+            int nextAS = Utils.NextCombatAttStr(Att, Str, Def, Hit, Ran, Pray, Mag);
+            int nextDH = Utils.NextCombatDefHp(Att, Str, Def, Hit, Ran, Pray, Mag);
+            int nextP = Utils.NextCombatPray(Att, Str, Def, Hit, Ran, Pray, Mag);
+            int nextR = Utils.NextCombatRan(Att, Str, Def, Hit, Ran, Pray, Mag);
+            int nextM = Utils.NextCombatMag(Att, Str, Def, Hit, Ran, Pray, Mag);
+            bc.SendReply(@"Stats to level | Att/Str: \c{0}\c | Def/Hp: \c{1}\c | Pray: \c{2}\c | Range: \c{3}\c | Mage: \c{4}\c", (Att + nextAS > 99 && Str + nextAS > 99 ? "04" : "03") + nextAS, (Def + nextDH > 99 && Hit + nextDH > 99 ? "04" : "03") + nextDH, (Pray + nextP > 99 ? "04" : "03") + nextP, (Ran + nextR > 99 ? "04" : "03") + nextR, (Mag + nextM > 99 ? "04" : "03") + nextM);
         }
     }
 }

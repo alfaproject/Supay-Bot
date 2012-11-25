@@ -9,16 +9,16 @@ namespace Supay.Bot
             return (int) Math.Floor((neutralBonus * 100 + Math.Max(meleeBonus, Math.Max(magicBonus, rangeBonus)) * 130) / 400.0);
         }
 
-        public static int CalculateCombat(int att, int str, int def, int hp, int ran, int pr, int mag, int sum)
+        public static int CalculateCombat(int att, int str, int def, int hp, int ran, int pr, int mag)
         {
-            return CalculateCombat(def + hp + pr / 2 + sum / 2, att + str, mag + mag / 2, ran + ran / 2);
+            return CalculateCombat(def + hp + pr / 2, att + str, mag + mag / 2, ran + ran / 2);
         }
 
         public static int CalculateCombat(SkillDictionary skills, bool @virtual)
         {
             return @virtual
-                ? CalculateCombat(skills[Skill.ATTA].VLevel, skills[Skill.STRE].VLevel, skills[Skill.DEFE].VLevel, skills[Skill.HITP].VLevel, skills[Skill.RANG].VLevel, skills[Skill.PRAY].VLevel, skills[Skill.MAGI].VLevel, skills[Skill.SUMM].VLevel)
-                : CalculateCombat(skills[Skill.ATTA].Level, skills[Skill.STRE].Level, skills[Skill.DEFE].Level, skills[Skill.HITP].Level, skills[Skill.RANG].Level, skills[Skill.PRAY].Level, skills[Skill.MAGI].Level, skills[Skill.SUMM].Level);
+                ? CalculateCombat(skills[Skill.ATTA].VLevel, skills[Skill.STRE].VLevel, skills[Skill.DEFE].VLevel, skills[Skill.HITP].VLevel, skills[Skill.RANG].VLevel, skills[Skill.PRAY].VLevel, skills[Skill.MAGI].VLevel)
+                : CalculateCombat(skills[Skill.ATTA].Level, skills[Skill.STRE].Level, skills[Skill.DEFE].Level, skills[Skill.HITP].Level, skills[Skill.RANG].Level, skills[Skill.PRAY].Level, skills[Skill.MAGI].Level);
         }
 
         public static string CombatClass(int att, int str, int ran, int mag)
@@ -51,64 +51,54 @@ namespace Supay.Bot
             return CombatClass(skills[Skill.ATTA].Level, skills[Skill.STRE].Level, skills[Skill.RANG].Level, skills[Skill.MAGI].Level);
         }
 
-        public static int NextCombatAttStr(int att, int str, int def, int hp, int ran, int pr, int mag, int sum)
+        public static int NextCombatAttStr(int att, int str, int def, int hp, int ran, int pr, int mag)
         {
             int initialAtt = att;
-            int initialCombat = CalculateCombat(att, str, def, hp, ran, pr, mag, sum);
-            while (CalculateCombat(++att, str, def, hp, ran, pr, mag, sum) <= initialCombat)
+            int initialCombat = CalculateCombat(att, str, def, hp, ran, pr, mag);
+            while (CalculateCombat(++att, str, def, hp, ran, pr, mag) <= initialCombat)
             {
             }
             return att - initialAtt;
         }
 
-        public static int NextCombatDefHp(int att, int str, int def, int hp, int ran, int pr, int mag, int sum)
+        public static int NextCombatDefHp(int att, int str, int def, int hp, int ran, int pr, int mag)
         {
             int initialDef = def;
-            int initialCombat = CalculateCombat(att, str, def, hp, ran, pr, mag, sum);
-            while (CalculateCombat(att, str, ++def, hp, ran, pr, mag, sum) <= initialCombat)
+            int initialCombat = CalculateCombat(att, str, def, hp, ran, pr, mag);
+            while (CalculateCombat(att, str, ++def, hp, ran, pr, mag) <= initialCombat)
             {
             }
             return def - initialDef;
         }
 
-        public static int NextCombatMag(int att, int str, int def, int hp, int ran, int pr, int mag, int sum)
+        public static int NextCombatMag(int att, int str, int def, int hp, int ran, int pr, int mag)
         {
             int initialMag = mag;
-            int initialCombat = CalculateCombat(att, str, def, hp, ran, pr, mag, sum);
-            while (CalculateCombat(att, str, def, hp, ran, pr, ++mag, sum) <= initialCombat)
+            int initialCombat = CalculateCombat(att, str, def, hp, ran, pr, mag);
+            while (CalculateCombat(att, str, def, hp, ran, pr, ++mag) <= initialCombat)
             {
             }
             return mag - initialMag;
         }
 
-        public static int NextCombatRan(int att, int str, int def, int hp, int ran, int pr, int mag, int sum)
+        public static int NextCombatRan(int att, int str, int def, int hp, int ran, int pr, int mag)
         {
             int initialRan = ran;
-            int initialCombat = CalculateCombat(att, str, def, hp, ran, pr, mag, sum);
-            while (CalculateCombat(att, str, def, hp, ++ran, pr, mag, sum) <= initialCombat)
+            int initialCombat = CalculateCombat(att, str, def, hp, ran, pr, mag);
+            while (CalculateCombat(att, str, def, hp, ++ran, pr, mag) <= initialCombat)
             {
             }
             return ran - initialRan;
         }
 
-        public static int NextCombatPray(int att, int str, int def, int hp, int ran, int pr, int mag, int sum)
+        public static int NextCombatPray(int att, int str, int def, int hp, int ran, int pr, int mag)
         {
             int initialPray = pr;
-            int initialCombat = CalculateCombat(att, str, def, hp, ran, pr, mag, sum);
-            while (CalculateCombat(att, str, def, hp, ran, ++pr, mag, sum) <= initialCombat)
+            int initialCombat = CalculateCombat(att, str, def, hp, ran, pr, mag);
+            while (CalculateCombat(att, str, def, hp, ran, ++pr, mag) <= initialCombat)
             {
             }
             return pr - initialPray;
-        }
-
-        public static int NextCombatSum(int att, int str, int def, int hp, int ran, int pr, int mag, int sum)
-        {
-            int initialSum = sum;
-            int initialCombat = CalculateCombat(att, str, def, hp, ran, pr, mag, sum);
-            while (CalculateCombat(att, str, def, hp, ran, pr, mag, ++sum) <= initialCombat)
-            {
-            }
-            return sum - initialSum;
         }
 
         public static int SoulWarsExpPerZeal(string skill, int level)
