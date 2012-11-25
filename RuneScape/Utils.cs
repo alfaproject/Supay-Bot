@@ -14,26 +14,11 @@ namespace Supay.Bot
             return CalculateCombat(def + hp + pr / 2 + sum / 2, att + str, mag + mag / 2, ran + ran / 2);
         }
 
-        public static int CalculateCombat(int att, int str, int def, int hp, int ran, int pr, int mag)
+        public static int CalculateCombat(SkillDictionary skills, bool @virtual)
         {
-            return CalculateCombat(def + hp + pr / 2, att + str, mag + mag / 2, ran + ran / 2);
-        }
-
-        public static int CalculateCombat(SkillDictionary skills, bool @virtual, bool f2p)
-        {
-            if (@virtual)
-            {
-                if (f2p)
-                {
-                    return CalculateCombat(skills[Skill.ATTA].VLevel, skills[Skill.STRE].VLevel, skills[Skill.DEFE].VLevel, skills[Skill.HITP].VLevel, skills[Skill.RANG].VLevel, skills[Skill.PRAY].VLevel, skills[Skill.MAGI].VLevel);
-                }
-                return CalculateCombat(skills[Skill.ATTA].VLevel, skills[Skill.STRE].VLevel, skills[Skill.DEFE].VLevel, skills[Skill.HITP].VLevel, skills[Skill.RANG].VLevel, skills[Skill.PRAY].VLevel, skills[Skill.MAGI].VLevel, skills[Skill.SUMM].VLevel);
-            }
-            if (f2p)
-            {
-                return CalculateCombat(skills[Skill.ATTA].Level, skills[Skill.STRE].Level, skills[Skill.DEFE].Level, skills[Skill.HITP].Level, skills[Skill.RANG].Level, skills[Skill.PRAY].Level, skills[Skill.MAGI].Level);
-            }
-            return CalculateCombat(skills[Skill.ATTA].Level, skills[Skill.STRE].Level, skills[Skill.DEFE].Level, skills[Skill.HITP].Level, skills[Skill.RANG].Level, skills[Skill.PRAY].Level, skills[Skill.MAGI].Level, skills[Skill.SUMM].Level);
+            return @virtual
+                ? CalculateCombat(skills[Skill.ATTA].VLevel, skills[Skill.STRE].VLevel, skills[Skill.DEFE].VLevel, skills[Skill.HITP].VLevel, skills[Skill.RANG].VLevel, skills[Skill.PRAY].VLevel, skills[Skill.MAGI].VLevel, skills[Skill.SUMM].VLevel)
+                : CalculateCombat(skills[Skill.ATTA].Level, skills[Skill.STRE].Level, skills[Skill.DEFE].Level, skills[Skill.HITP].Level, skills[Skill.RANG].Level, skills[Skill.PRAY].Level, skills[Skill.MAGI].Level, skills[Skill.SUMM].Level);
         }
 
         public static string CombatClass(int att, int str, int ran, int mag)

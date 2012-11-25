@@ -52,24 +52,11 @@ namespace Supay.Bot
 
             var expectedMaxSlayerExp = (int) ((player.Skills[Skill.HITP].Exp - 1154) * 3 / 4.0);
 
-            int combatLevel,
-                combatF2pLevel;
-            string combatClass;
-            if (virtualMatch.Success)
-            {
-                combatClass = Utils.CombatClass(player.Skills, true);
-                combatLevel = Utils.CalculateCombat(player.Skills, true, false);
-                combatF2pLevel = Utils.CalculateCombat(player.Skills, true, true);
-            }
-            else
-            {
-                combatClass = Utils.CombatClass(player.Skills, false);
-                combatLevel = Utils.CalculateCombat(player.Skills, false, false);
-                combatF2pLevel = Utils.CalculateCombat(player.Skills, false, true);
-            }
+            var combatClass = Utils.CombatClass(player.Skills, virtualMatch.Success);
+            var combatLevel = Utils.CalculateCombat(player.Skills, virtualMatch.Success);
 
             var reply = new StringBuilder(512)
-                .AppendFormat(@"\b{0}\b \c07combat\c | level: \c07{1}\c (f2p: \c07{2}\c) | exp: \c07{3:e}\c | combat%: \c07{4:0.##}%\c | slayer%: \c07{5:0.##}%\c | class: \c07{6}\c", player.Name, combatLevel, combatF2pLevel, player.Skills[Skill.COMB], (double) player.Skills[Skill.COMB].Exp / (double) player.Skills[Skill.OVER].Exp * 100.0, (double) player.Skills[Skill.SLAY].Exp / (double) expectedMaxSlayerExp * 100.0, combatClass);
+                .AppendFormat(@"\b{0}\b \c07combat\c | level: \c07{1}\c | exp: \c07{2:e}\c | combat%: \c07{3:0.##}%\c | slayer%: \c07{4:0.##}%\c | class: \c07{5}\c", player.Name, combatLevel, player.Skills[Skill.COMB], (double) player.Skills[Skill.COMB].Exp / (double) player.Skills[Skill.OVER].Exp * 100.0, (double) player.Skills[Skill.SLAY].Exp / (double) expectedMaxSlayerExp * 100.0, combatClass);
 
             // Add up SS rank if applicable
             var ssPlayers = new Players("SS").OrderBy(p => p.Skills[Skill.COMB]);

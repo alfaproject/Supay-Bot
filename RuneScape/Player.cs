@@ -356,7 +356,7 @@ namespace Supay.Bot
         private void _CreateCombatSkill()
         {
             this._combatclass = Utils.CombatClass(this._skills, false);
-            int CmbLevel = Utils.CalculateCombat(this._skills, false, false);
+            int CmbLevel = Utils.CalculateCombat(this._skills, false);
             long CmbExp = this._skills[Skill.ATTA].Exp + this._skills[Skill.STRE].Exp + this._skills[Skill.DEFE].Exp + this._skills[Skill.HITP].Exp + this._skills[Skill.RANG].Exp + this._skills[Skill.PRAY].Exp + this._skills[Skill.MAGI].Exp + this._skills[Skill.SUMM].Exp;
             this._skills.Add(Skill.COMB, new Skill(Skill.COMB, -1, CmbLevel, CmbExp));
         }
