@@ -68,7 +68,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Includes\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Supay.Irc, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Supay.Irc, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Supay.Irc\Supay.Irc\bin\Debug\Supay.Irc.dll</HintPath>
     </Reference>

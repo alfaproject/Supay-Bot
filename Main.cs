@@ -301,7 +301,7 @@ namespace Supay.Bot
             }
         }
 
-        private void btnConnect_Click(object sender, EventArgs e)
+        private async void btnConnect_Click(object sender, EventArgs e)
         {
             this.btnConnect.Enabled = false;
 
@@ -312,19 +312,29 @@ namespace Supay.Bot
                 EnableAutoIdent = false
             };
 
-            this._irc.DataSent += (dsender, de) => this.outputMessage("-> " + ((Client) dsender).ServerName + " " + de.Data);
-            this._irc.DataReceived += (dsender, de) => this.outputMessage("<- " + de.Data);
+            this._irc.Connection.DataSent += (dsender, de) => this.outputMessage("-> " + _irc.ServerName + " " + de.Data);
+            this._irc.Connection.DataReceived += (dsender, de) => this.outputMessage("<- " + de.Data);
             this._irc.Ready += this.Irc_Ready;
 
             this._irc.Messages.Chat += this.IrcChat;
             this._irc.Messages.NamesEndReply += this.Irc_NamesEndReply;
 
-            this._irc.Connection.Disconnected += (dsender, de) => this.outputMessage("[DISCONNECTED] " + de.Data);
+            this._irc.Connection.Connected += (o, args) =>
+            {
+                this.btnConnect.Enabled = false;
+                this.btnDisconnect.Enabled = true;
+            };
+
+            this._irc.Connection.Disconnected += (dsender, de) =>
+            {
+                this.outputMessage("[DISCONNECTED] " + de.Data);
+                this.btnConnect.Enabled = true;
+                this.btnDisconnect.Enabled = false;
+            };
 
             try
             {
-                // Since I'm a Windows.Forms application, I pass in this form to the Connect method so it can sync with me.
-                this._irc.Connection.Connect(this);
+                await this._irc.Connection.Connect();
             }
             catch (Exception ex)
             {
@@ -980,11 +990,6 @@ namespace Supay.Bot
                     this.components.Dispose();
                 }
 
-                if (this._irc != null)
-                {
-                    ((IDisposable) this._irc).Dispose();
-                }
-
                 if (this._dailyPlayersUpdater != null)
                 {
                     this._dailyPlayersUpdater.Dispose();
@@ -999,7 +1004,7 @@ namespace Supay.Bot
             base.Dispose(disposing);
         }
 
-        private void btnReconnect_Click(object sender, EventArgs e)
+        private void btnDisconnect_Click(object sender, EventArgs e)
         {
             if (this._irc == null)
             {
@@ -1007,8 +1012,7 @@ namespace Supay.Bot
             }
             else
             {
-                this._irc.Dispose();
-                this.btnConnect_Click(sender, e);
+                this._irc.Connection.Disconnect();
             }
         }
 
