@@ -404,11 +404,12 @@ namespace Supay.Bot
             int cmblevel = Utils.CalculateCombat(Att, Str, Def, Ran, Mag);
             bc.SendReply(@"Combat: \c07{0}\c | Class: \c07{1}\c | Stats: \c07{2} {3}\c {4} \c07{5} {6}\c", cmblevel, cmbclass, Att, Str, Def, Ran, Mag);
 
-            int nextAS = Utils.NextCombatAttStr(Att, Str, Def, Ran, Mag);
+            int nextA = Utils.NextCombatAttack(Att, Str, Def, Ran, Mag);
+            int nextS = Utils.NextCombatStrength(Att, Str, Def, Ran, Mag);
             int nextD = Utils.NextCombatDefence(Att, Str, Def, Ran, Mag);
-            int nextR = Utils.NextCombatRan(Att, Str, Def, Ran, Mag);
-            int nextM = Utils.NextCombatMag(Att, Str, Def, Ran, Mag);
-            bc.SendReply(@"Stats to level | Att/Str: \c{0}\c | Def: \c{1}\c | Range: \c{2}\c | Mage: \c{3}\c", (Att + nextAS > 99 && Str + nextAS > 99 ? "04" : "03") + nextAS, (Def + nextD > 99 ? "04" : "03") + nextD, (Ran + nextR > 99 ? "04" : "03") + nextR, (Mag + nextM > 99 ? "04" : "03") + nextM);
+            int nextR = Utils.NextCombatRanged(Att, Str, Def, Ran, Mag);
+            int nextM = Utils.NextCombatMagic(Att, Str, Def, Ran, Mag);
+            bc.SendReply(@"Stats to level | Att: \c{0}\c | Str: \c{1}\c | Def: \c{2}\c | Range: \c{3}\c | Mage: \c{4}\c", (Att + nextA > 99 ? "04" : "03") + nextA, (Str + nextS > 99 ? "04" : "03") + nextS, (Def + nextD > 99 ? "04" : "03") + nextD, (Ran + nextR > 99 ? "04" : "03") + nextR, (Mag + nextM > 99 ? "04" : "03") + nextM);
         }
     }
 }

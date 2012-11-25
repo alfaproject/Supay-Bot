@@ -93,10 +93,14 @@ namespace Supay.Bot
                     switch (s.Name)
                     {
                         case Skill.ATTA:
+                            next = virtualMatch.Success
+                                ? Utils.NextCombatAttack(player.Skills[Skill.ATTA].VLevel, player.Skills[Skill.STRE].VLevel, player.Skills[Skill.DEFE].VLevel, player.Skills[Skill.RANG].VLevel, player.Skills[Skill.MAGI].VLevel)
+                                : Utils.NextCombatAttack(player.Skills[Skill.ATTA].Level, player.Skills[Skill.STRE].Level, player.Skills[Skill.DEFE].Level, player.Skills[Skill.RANG].Level, player.Skills[Skill.MAGI].Level);
+                            break;
                         case Skill.STRE:
                             next = virtualMatch.Success
-                                ? Utils.NextCombatAttStr(player.Skills[Skill.ATTA].VLevel, player.Skills[Skill.STRE].VLevel, player.Skills[Skill.DEFE].VLevel, player.Skills[Skill.RANG].VLevel, player.Skills[Skill.MAGI].VLevel)
-                                : Utils.NextCombatAttStr(player.Skills[Skill.ATTA].Level, player.Skills[Skill.STRE].Level, player.Skills[Skill.DEFE].Level, player.Skills[Skill.RANG].Level, player.Skills[Skill.MAGI].Level);
+                                ? Utils.NextCombatStrength(player.Skills[Skill.ATTA].VLevel, player.Skills[Skill.STRE].VLevel, player.Skills[Skill.DEFE].VLevel, player.Skills[Skill.RANG].VLevel, player.Skills[Skill.MAGI].VLevel)
+                                : Utils.NextCombatStrength(player.Skills[Skill.ATTA].Level, player.Skills[Skill.STRE].Level, player.Skills[Skill.DEFE].Level, player.Skills[Skill.RANG].Level, player.Skills[Skill.MAGI].Level);
                             break;
                         case Skill.DEFE:
                             next = virtualMatch.Success
@@ -105,13 +109,13 @@ namespace Supay.Bot
                             break;
                         case Skill.MAGI:
                             next = virtualMatch.Success
-                                ? Utils.NextCombatMag(player.Skills[Skill.ATTA].VLevel, player.Skills[Skill.STRE].VLevel, player.Skills[Skill.DEFE].VLevel, player.Skills[Skill.RANG].VLevel, player.Skills[Skill.MAGI].VLevel)
-                                : Utils.NextCombatMag(player.Skills[Skill.ATTA].Level, player.Skills[Skill.STRE].Level, player.Skills[Skill.DEFE].Level, player.Skills[Skill.RANG].Level, player.Skills[Skill.MAGI].Level);
+                                ? Utils.NextCombatMagic(player.Skills[Skill.ATTA].VLevel, player.Skills[Skill.STRE].VLevel, player.Skills[Skill.DEFE].VLevel, player.Skills[Skill.RANG].VLevel, player.Skills[Skill.MAGI].VLevel)
+                                : Utils.NextCombatMagic(player.Skills[Skill.ATTA].Level, player.Skills[Skill.STRE].Level, player.Skills[Skill.DEFE].Level, player.Skills[Skill.RANG].Level, player.Skills[Skill.MAGI].Level);
                             break;
                         case Skill.RANG:
                             next = virtualMatch.Success
-                                ? Utils.NextCombatRan(player.Skills[Skill.ATTA].VLevel, player.Skills[Skill.STRE].VLevel, player.Skills[Skill.DEFE].VLevel, player.Skills[Skill.RANG].VLevel, player.Skills[Skill.MAGI].VLevel)
-                                : Utils.NextCombatRan(player.Skills[Skill.ATTA].Level, player.Skills[Skill.STRE].Level, player.Skills[Skill.DEFE].Level, player.Skills[Skill.RANG].Level, player.Skills[Skill.MAGI].Level);
+                                ? Utils.NextCombatRanged(player.Skills[Skill.ATTA].VLevel, player.Skills[Skill.STRE].VLevel, player.Skills[Skill.DEFE].VLevel, player.Skills[Skill.RANG].VLevel, player.Skills[Skill.MAGI].VLevel)
+                                : Utils.NextCombatRanged(player.Skills[Skill.ATTA].Level, player.Skills[Skill.STRE].Level, player.Skills[Skill.DEFE].Level, player.Skills[Skill.RANG].Level, player.Skills[Skill.MAGI].Level);
                             break;
                     }
                 }
