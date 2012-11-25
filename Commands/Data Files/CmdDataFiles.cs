@@ -411,30 +411,51 @@ namespace Supay.Bot
 
         public static async Task Reqs(CommandContext bc)
         {
-            if (bc.MessageTokens.Length > 1 && (bc.Channel == "#skillers" || bc.Channel == "#Skillers" || bc.Channel == "#howdy"))
+            if (bc.MessageTokens.Length > 1 && (bc.Channel.EqualsI("#skillers") || bc.Channel.EqualsI("#supay")))
             {
-                string rsn = bc.GetPlayerName(bc.MessageTokens.Join(1, " "));
-                Player p = new Player(rsn);
-
-                int cmb = p.Skills[Skill.COMB].Level;
-                int over = p.Skills[Skill.OVER].Level;
-                int min = Utils.Reqs(cmb);
-                var member = "Member: " + (over >= min ? @"reqs met (\c07{0} above\c); ".FormatWith(over - min) : @"\c07{0} to go\c;".FormatWith(min - over));
-                min += 200;
-                var elite = "Elite: " + (over >= min ? @"reqs met (\c07{0} above\c); ".FormatWith(over - min) : @"\c07{0} to go\c;".FormatWith(min - over));
-                bc.SendReply(@"\b{0}\b Supreme Skillers Reqs {1} {2} | Forum: \c12www.supremeskillers.net\c", rsn, member, elite);
-                return;
-            }
-            using (var reqs_file = new StreamReader("Data/Reqs.txt"))
-            {
-                string reqs_line;
-                while ((reqs_line = reqs_file.ReadLine()) != null)
+                var player = new Player(bc.GetPlayerName(bc.MessageTokens.Join(1)));
+                if (player.Ranked)
                 {
-                    if (reqs_line.ContainsI(bc.Channel))
+                    var over = player.Skills[Skill.OVER].Level;
+                    var min = 2000;
+                    var member = over >= min
+                        ? @"reqs met (\c07{0} above\c)".FormatWith(over - min)
+                        : @"\c07{0} to go\c".FormatWith(min - over);
+
+                    min += 400;
+                    var elite = over >= min
+                        ? @"reqs met (\c07{0} above\c)".FormatWith(over - min)
+                        : @"\c07{0} to go\c".FormatWith(min - over);
+
+                    bc.SendReply(@"\b{0}\b Supreme Skillers Reqs | Member: {1} | Elite: {2} | \c12http://supremeskillers.net/\c", player.Name, member, elite);
+                    return;
+                }
+            }
+
+            StreamReader reader = null;
+            try
+            {
+                reader = new StreamReader("Data/Reqs.txt");
+
+                string reqs;
+                while ((reqs = reader.ReadLine()) != null)
+                {
+                    if (reqs.StartsWithI(bc.Channel))
                     {
-                        bc.SendReply(reqs_line.Substring(reqs_line.IndexOf('|') + 1));
+                        bc.SendReply(reqs.Substring(reqs.IndexOf('|') + 1));
                         break;
                     }
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                // no reqs file
+            }
+            finally
+            {
+                if (reader != null)
+                {
+                    reader.Close();
                 }
             }
         }

@@ -229,22 +229,5 @@ namespace Supay.Bot
             }
             return effigies;
         }
-
-        public static int Reqs(int combat)
-        {
-            if (combat >= 131)
-            {
-                return 2200;
-            }
-            if (combat >= 121)
-            {
-                return 2150;
-            }
-            if (combat >= 101)
-            {
-                return 2100;
-            }
-            return 2050;
-        }
     }
 }
