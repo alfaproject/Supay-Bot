@@ -57,12 +57,12 @@ namespace Supay.Bot
                 // Clean and sort clan members by specified skill
                 if (activity == null)
                 {
-                    clanPlayers.RemoveAll(p => !p.Ranked || p.Skills[skill].Exp == 0);
+                    clanPlayers.RemoveAll(p => p.Skills[skill].Exp == 0);
                     clanPlayers.SortBySkill(skill, exp);
                 }
                 else
                 {
-                    clanPlayers.RemoveAll(p => !p.Ranked || p.Activities[activity].Score == 0);
+                    clanPlayers.RemoveAll(p => p.Activities[activity].Score == 0);
                     clanPlayers.SortByActivity(activity);
                 }
 

@@ -11,12 +11,16 @@ namespace Supay.Bot
         {
         }
 
-        public Players(string clan)
+        public Players(string clan, bool onlyRanked = true)
         {
             SQLiteDataReader rs = Database.ExecuteReader("SELECT rsn, lastUpdate FROM players WHERE clan LIKE '%" + clan + "%'");
             while (rs.Read())
             {
-                this.Add(new Player(rs.GetString(0), rs.GetString(1).ToDateTime()));
+                var player = new Player(rs.GetString(0), rs.GetString(1).ToDateTime());
+                if (!onlyRanked || player.Ranked)
+                {
+                    this.Add(player);
+                }
             }
             rs.Close();
         }

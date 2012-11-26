@@ -21,11 +21,8 @@ namespace Supay.Bot
             var ssplayers = new Players("SS");
             foreach (Player p in ssplayers)
             {
-                if (p.Ranked)
-                {
-                    totallevel += p.Skills[skill].Level;
-                    totalexp += p.Skills[skill].Exp;
-                }
+                totallevel += p.Skills[skill].Level;
+                totalexp += p.Skills[skill].Exp;
             }
 
             await bc.SendReply(@"\bSupreme Skillers\b | Homepage: \c12http://supremeskillers.net\c | \u{0}\u average level: \c07{1}\c (\c07{2:N0}\c average exp.) | Members (\c07{3}\c): \c12http://services.runescape.com/m=clan-hiscores/members.ws?clanId=314\c", skill, totallevel / ssplayers.Count, totalexp / ssplayers.Count, ssplayers.Count);

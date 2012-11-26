@@ -53,7 +53,7 @@ namespace Supay.Bot
             clanMembers.AddRange(from Match clanMember in Regex.Matches(pageRuneHead, "\\?name=([^&]+)&")
                                  select clanMember.Groups[1].Value.ValidatePlayerName());
 
-            var clanPlayers = new Players(clanInitials);
+            var clanPlayers = new Players(clanInitials, false);
 
             // remove players from clan that were removed from clan listing
             foreach (Player p in clanPlayers)

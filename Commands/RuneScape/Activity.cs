@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Supay.Bot
@@ -16,12 +17,12 @@ namespace Supay.Bot
                 {
                     string reply = @"\b{0}\b \c07{1:n}\c | score: \c07{1:s}\c | rank: \c07{1:R}\c".FormatWith(player.Name, activity);
 
-                    // Add up SS rank if applicable
-                    var ssplayers = new Players("SS");
-                    if (ssplayers.Contains(player.Name))
+                    // Add SS rank if applicable
+                    var ssPlayers = new Players("SS").OrderBy(p => p.Activities[activity.Name]);
+                    var ssRank = ssPlayers.FindIndex(p => p.Name.EqualsI(player.Name));
+                    if (ssRank != -1)
                     {
-                        ssplayers.SortByActivity(activity.Name);
-                        reply += @" (SS rank: \c07{0}\c)".FormatWith(ssplayers.IndexOf(player.Name) + 1);
+                        reply += @" (SS rank: \c07{0}\c)".FormatWith(ssRank + 1);
                     }
 
                     await bc.SendReply(reply);

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -144,12 +143,12 @@ namespace Supay.Bot
             var reply = new StringBuilder(512)
                 .AppendFormat(@"\b{0}\b \c7{1:n}\c | level:\c7 {2:N0}\c (\c07{3:N1}\c avg) | exp:\c7 {1:e}\c (\c07{4:0.#%}\c of {5}) | rank:\c7 {1:R}\c", player.Name, player.Skills[Skill.OVER], overallLevel, avgSkillLevel, (double) player.Skills[Skill.OVER].Exp / maxOverallExp, maxOverallLevel);
 
-            // add up SS rank if applicable
-            var ssPlayers = new Players("SS").Where(p => p.Ranked).OrderBy(p => p.Skills[Skill.OVER]);
-            var indexOfPlayer = ssPlayers.FindIndex(p => p.Name == player.Name);
-            if (indexOfPlayer != -1)
+            // add SS rank if applicable
+            var ssPlayers = new Players("SS").OrderBy(p => p.Skills[Skill.OVER]);
+            var ssRank = ssPlayers.FindIndex(p => p.Name.EqualsI(player.Name));
+            if (ssRank != -1)
             {
-                reply.AppendFormat(@" (SS rank: \c07{0}\c)", indexOfPlayer + 1);
+                reply.AppendFormat(@" (SS rank: \c07{0}\c)", ssRank + 1);
             }
 
             // output overall information

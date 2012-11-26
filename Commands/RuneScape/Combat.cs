@@ -58,12 +58,12 @@ namespace Supay.Bot
             var reply = new StringBuilder(512)
                 .AppendFormat(@"\b{0}\b \c07combat\c | level: \c07{1}\c | exp: \c07{2:e}\c | combat%: \c07{3:0.##}%\c | slayer%: \c07{4:0.##}%\c | class: \c07{5}\c", player.Name, combatLevel, player.Skills[Skill.COMB], (double) player.Skills[Skill.COMB].Exp / (double) player.Skills[Skill.OVER].Exp * 100.0, (double) player.Skills[Skill.SLAY].Exp / (double) expectedMaxSlayerExp * 100.0, combatClass);
 
-            // Add up SS rank if applicable
-            var ssPlayers = new Players("SS").Where(p => p.Ranked).OrderBy(p => p.Skills[Skill.OVER]);
-            var indexOfPlayer = ssPlayers.FindIndex(p => p.Name == player.Name);
-            if (indexOfPlayer != -1)
+            // Add SS rank if applicable
+            var ssPlayers = new Players("SS").OrderBy(p => p.Skills[Skill.COMB]);
+            var ssRank = ssPlayers.FindIndex(p => p.Name.EqualsI(player.Name));
+            if (ssRank != -1)
             {
-                reply.AppendFormat(@" (SS rank: \c07{0}\c)", indexOfPlayer + 1);
+                reply.AppendFormat(@" (SS rank: \c07{0}\c)", ssRank + 1);
             }
 
             await bc.SendReply(reply);

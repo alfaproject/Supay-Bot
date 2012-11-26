@@ -158,12 +158,12 @@ namespace Supay.Bot
 
                 string reply = @"\b{0}\b \c07{1:n}\c | level: \c07{1:v}\c | exp: \c07{1:e}\c (\c07{2}%\c of {3}) | rank: \c07{1:R}\c".FormatWith(player.Name, skill, percentDone, targetLevel);
 
-                // Add up SS rank if applicable
-                var ssplayers = new Players("SS");
-                if (ssplayers.Contains(player.Name))
+                // Add SS rank if applicable
+                var ssPlayers = new Players("SS").OrderBy(p => p.Skills[skill.Name]);
+                var ssRank = ssPlayers.FindIndex(p => p.Name.EqualsI(player.Name));
+                if (ssRank != -1)
                 {
-                    ssplayers.SortBySkill(skill.Name, false);
-                    reply += @" (SS rank: \c07{0}\c)".FormatWith(ssplayers.IndexOf(player.Name) + 1);
+                    reply += @" (SS rank: \c07{0}\c)".FormatWith(ssRank + 1);
                 }
 
                 // Add exp to go and items
