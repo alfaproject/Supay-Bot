@@ -56,14 +56,7 @@ namespace Supay.Bot
 
         public int IndexOf(string name)
         {
-            for (int i = 0; i < this.Count; i++)
-            {
-                if (this[i].Name.Equals(name))
-                {
-                    return i;
-                }
-            }
-            return -1;
+            return this.FindIndex(p => p.Name.Equals(name));
         }
 
         public void SortBySkill(string skill, bool byExp)
