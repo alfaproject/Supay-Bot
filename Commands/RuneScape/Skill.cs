@@ -44,21 +44,11 @@ namespace Supay.Bot
                 item = Database.GetStringParameter("users", "items", "fingerprint='" + bc.From.FingerPrint + "'", skillName, null);
             }
 
-            // get rsn
-            string rsn;
-            if (bc.MessageTokens.Length > 1)
+            // get player
+            var player = new Player(bc.GetPlayerName(bc.MessageTokens.Length > 1 ? bc.MessageTokens.Join(1) : bc.From.Nickname));
+            if (player.Ranked)
             {
-                rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
-            }
-            else
-            {
-                rsn = bc.GetPlayerName(bc.From.Nickname);
-            }
-
-            var p = new Player(rsn);
-            if (p.Ranked)
-            {
-                Skill skill = p.Skills[skillName];
+                Skill skill = player.Skills[skillName];
 
                 // parse goal
                 int targetLevel;
@@ -149,7 +139,7 @@ namespace Supay.Bot
                     long totalExp = 0,
                          maxExp = 0;
                     targetLevel = 0;
-                    foreach (Skill s in p.Skills.Values.Where(s => s.Name != Skill.OVER && s.Name != Skill.COMB))
+                    foreach (Skill s in player.Skills.Values.Where(s => s.Name != Skill.OVER && s.Name != Skill.COMB))
                     {
                         int maxSkillExp = s.MaxLevel.ToExp();
                         totalExp += Math.Min(maxSkillExp, s.Exp);
@@ -166,14 +156,14 @@ namespace Supay.Bot
                     percentDone = Math.Round(100 - expToGo / (double) (targetExp - skill.VLevel.ToExp()) * 100, 1).ToStringI();
                 }
 
-                string reply = @"\b{0}\b \c07{1:n}\c | level: \c07{1:v}\c | exp: \c07{1:e}\c (\c07{2}%\c of {3}) | rank: \c07{1:R}\c".FormatWith(rsn, skill, percentDone, targetLevel);
+                string reply = @"\b{0}\b \c07{1:n}\c | level: \c07{1:v}\c | exp: \c07{1:e}\c (\c07{2}%\c of {3}) | rank: \c07{1:R}\c".FormatWith(player.Name, skill, percentDone, targetLevel);
 
                 // Add up SS rank if applicable
                 var ssplayers = new Players("SS");
-                if (ssplayers.Contains(p.Name))
+                if (ssplayers.Contains(player.Name))
                 {
                     ssplayers.SortBySkill(skill.Name, false);
-                    reply += @" (SS rank: \c07{0}\c)".FormatWith(ssplayers.IndexOf(rsn) + 1);
+                    reply += @" (SS rank: \c07{0}\c)".FormatWith(ssplayers.IndexOf(player.Name) + 1);
                 }
 
                 // Add exp to go and items
@@ -312,7 +302,7 @@ namespace Supay.Bot
 
                 // Show player performance if applicable
                 DateTime lastupdate;
-                string dblastupdate = Database.LastUpdate(rsn);
+                string dblastupdate = Database.LastUpdate(player.Name);
                 if (dblastupdate == null || dblastupdate.Length < 8)
                 {
                     lastupdate = DateTime.UtcNow.AddHours(-DateTime.UtcNow.Hour + 6).AddMinutes(-DateTime.UtcNow.Minute).AddSeconds(-DateTime.UtcNow.Second);
@@ -329,10 +319,10 @@ namespace Supay.Bot
                 string perf;
                 reply = string.Empty;
 
-                var p_old = new Player(rsn, lastupdate);
+                var p_old = new Player(player.Name, lastupdate);
                 if (!p_old.Ranked)
                 {
-                    p_old = new Player(rsn, (int) (DateTime.UtcNow - lastupdate).TotalSeconds);
+                    p_old = new Player(player.Name, (int) (DateTime.UtcNow - lastupdate).TotalSeconds);
                 }
                 if (p_old.Ranked)
                 {
@@ -343,10 +333,10 @@ namespace Supay.Bot
                     }
                 }
 
-                p_old = new Player(rsn, lastupdate.AddDays(-((int) lastupdate.DayOfWeek)));
+                p_old = new Player(player.Name, lastupdate.AddDays(-((int) lastupdate.DayOfWeek)));
                 if (!p_old.Ranked)
                 {
-                    p_old = new Player(rsn, (int) (DateTime.UtcNow - lastupdate.AddDays(-((int) lastupdate.DayOfWeek))).TotalSeconds);
+                    p_old = new Player(player.Name, (int) (DateTime.UtcNow - lastupdate.AddDays(-((int) lastupdate.DayOfWeek))).TotalSeconds);
                 }
                 if (p_old.Ranked)
                 {
@@ -357,10 +347,10 @@ namespace Supay.Bot
                     }
                 }
 
-                p_old = new Player(rsn, lastupdate.AddDays(1 - lastupdate.Day));
+                p_old = new Player(player.Name, lastupdate.AddDays(1 - lastupdate.Day));
                 if (!p_old.Ranked)
                 {
-                    p_old = new Player(rsn, (int) (DateTime.UtcNow - lastupdate.AddDays(1 - lastupdate.Day)).TotalSeconds);
+                    p_old = new Player(player.Name, (int) (DateTime.UtcNow - lastupdate.AddDays(1 - lastupdate.Day)).TotalSeconds);
                 }
                 if (p_old.Ranked)
                 {
@@ -371,10 +361,10 @@ namespace Supay.Bot
                     }
                 }
 
-                p_old = new Player(rsn, lastupdate.AddDays(1 - lastupdate.DayOfYear));
+                p_old = new Player(player.Name, lastupdate.AddDays(1 - lastupdate.DayOfYear));
                 if (!p_old.Ranked)
                 {
-                    p_old = new Player(rsn, (int) (DateTime.UtcNow - lastupdate.AddDays(1 - lastupdate.DayOfYear)).TotalSeconds);
+                    p_old = new Player(player.Name, (int) (DateTime.UtcNow - lastupdate.AddDays(1 - lastupdate.DayOfYear)).TotalSeconds);
                 }
                 if (p_old.Ranked)
                 {
@@ -386,7 +376,7 @@ namespace Supay.Bot
                 }
 
                 // ***** start war *****
-                SQLiteDataReader warPlayer = Database.ExecuteReader("SELECT startrank, startlevel, startexp FROM warplayers WHERE channel='" + bc.Channel + "' AND rsn='" + rsn + "';");
+                SQLiteDataReader warPlayer = Database.ExecuteReader("SELECT startrank, startlevel, startexp FROM warplayers WHERE channel='" + bc.Channel + "' AND rsn='" + player.Name + "';");
                 if (warPlayer.Read() && Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new SQLiteParameter("@chan", bc.Channel) }) == skill.Name)
                 {
                     var oldSkill = new Skill(skill.Name, warPlayer.GetInt32(0), warPlayer.GetInt32(1), warPlayer.GetInt32(2));
@@ -405,7 +395,7 @@ namespace Supay.Bot
 
                 return;
             }
-            await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
+            await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", player.Name);
         }
 
         private static SkillItem _GetItem(string skill, string input_item)
