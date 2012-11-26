@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -91,7 +93,7 @@ namespace Supay.Bot
             }
 
             // Create a list of Clan players
-            var clanPlayers = new Players(clanInitials, firstDay, lastDay);
+            List<Player> clanPlayers = new Players(clanInitials, firstDay, lastDay);
 
             // Parse command arguments
             if (bc.MessageTokens.Length == 1)
@@ -105,8 +107,9 @@ namespace Supay.Bot
                 rank = 1;
 
                 // Clean and sort clan members by specified skill
-                clanPlayers.RemoveAll(p => p.Skills[skill].Exp == 0);
-                clanPlayers.SortBySkill(skill, true);
+                clanPlayers = clanPlayers.Where(p => p.Skills[skill].Exp > 0)
+                                         .OrderByDescending(p => p.Skills[skill].Exp)
+                                         .ToList();
 
                 if (bc.MessageTokens.Length > 2)
                 {
@@ -123,9 +126,10 @@ namespace Supay.Bot
                     {
                         // !ClanTop Skill
                         rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
-                        if (clanPlayers.Contains(rsn))
+                        var indexOfPlayer = clanPlayers.FindIndex(p => p.Name.EqualsI(rsn));
+                        if (indexOfPlayer != -1)
                         {
-                            rank = clanPlayers.IndexOf(rsn) + 1;
+                            rank = indexOfPlayer + 1;
                         }
                     }
                 }
@@ -139,18 +143,15 @@ namespace Supay.Bot
 
             if (IsIndividual)
             {
-                Player p = clanPlayers.Find(rsn);
-                if (p != null)
+                var player = clanPlayers.FirstOrDefault(p => p.Name.EqualsI(rsn));
+                if (player != null)
                 {
                     // individual skill ranks
                     var reply = @"[{0}] \b{1}\b skill ranks:";
-                    foreach (Skill s in p.Skills.Values)
+                    foreach (var s in player.Skills.Values.Where(s => s.Exp > 0))
                     {
-                        if (s.Exp > 0)
-                        {
-                            clanPlayers.SortBySkill(s.Name, true);
-                            reply += @" \c07#{0}\c {1};".FormatWith(clanPlayers.IndexOf(p) + 1, s.ShortName);
-                        }
+                        var indexOfPlayer = clanPlayers.OrderBy(p => p.Skills[s.Name]).IndexOf(player);
+                        reply += @" \c07#{0}\c {1};".FormatWith(indexOfPlayer + 1, s.ShortName);
                     }
                     await bc.SendReply(reply, clanInitials, rsn);
                 }
@@ -158,80 +159,75 @@ namespace Supay.Bot
                 {
                     await bc.SendReply(@"\b{0}\b wasn't at {1}.", rsn, clanName);
                 }
+                return;
+            }
+            
+            // Get input player rank
+            var inputPlayerRank = clanPlayers.FindIndex(p => p.Name.EqualsI(bc.GetPlayerName(bc.From.Nickname))) + 1;
+
+            // fix rank
+            if (rank < 1)
+            {
+                rank = 1;
+            }
+            else if (rank > clanPlayers.Count)
+            {
+                rank = clanPlayers.Count;
+            }
+
+            int MinRank = rank - 6;
+            if (MinRank < 0)
+            {
+                MinRank = 0;
+            }
+            else if (MinRank > clanPlayers.Count - 11)
+            {
+                MinRank = clanPlayers.Count - 11;
+            }
+
+            if (clanPlayers.Count > 0)
+            {
+                string reply = @"[{0}] \u{1}\u ranking:".FormatWith(clanInitials, skill.ToLowerInvariant());
+                if (inputPlayerRank > 0 && inputPlayerRank <= MinRank)
+                {
+                    reply += @" \c7#{0}\c \u{1}\u ({2:e});".FormatWith(inputPlayerRank, clanPlayers[inputPlayerRank - 1].Name, clanPlayers[inputPlayerRank - 1].Skills[skill]);
+                }
+
+                for (int i = MinRank; i < Math.Min(MinRank + 11, clanPlayers.Count); i++)
+                {
+                    reply += " ";
+                    if (i == rank - 1)
+                    {
+                        reply += @"\b";
+                    }
+                    reply += @"\c07#{0}\c ".FormatWith(i + 1);
+                    if (i == inputPlayerRank - 1)
+                    {
+                        reply += @"\u";
+                    }
+                    reply += clanPlayers[i].Name;
+                    if (i == inputPlayerRank - 1)
+                    {
+                        reply += @"\u";
+                    }
+                    reply += " (" + clanPlayers[i].Skills[skill].ToStringI("e") + ")";
+                    if (i == rank - 1)
+                    {
+                        reply += @"\b";
+                    }
+                    reply += ";";
+                }
+
+                if (inputPlayerRank > 0 && inputPlayerRank > MinRank + 11)
+                {
+                    reply += @" \c7#{0}\c \u{1}\u ({2:e});".FormatWith(inputPlayerRank, clanPlayers[inputPlayerRank - 1].Name, clanPlayers[inputPlayerRank - 1].Skills[skill]);
+                }
+
+                await bc.SendReply(reply);
             }
             else
             {
-                // Get input player rank
-                int input_player_rank = 0;
-                if (clanPlayers.Contains(bc.GetPlayerName(bc.From.Nickname)))
-                {
-                    input_player_rank = clanPlayers.IndexOf(bc.GetPlayerName(bc.From.Nickname)) + 1;
-                }
-
-                // fix rank
-                if (rank < 1)
-                {
-                    rank = 1;
-                }
-                else if (rank > clanPlayers.Count)
-                {
-                    rank = clanPlayers.Count;
-                }
-
-                int MinRank = rank - 6;
-                if (MinRank < 0)
-                {
-                    MinRank = 0;
-                }
-                else if (MinRank > clanPlayers.Count - 11)
-                {
-                    MinRank = clanPlayers.Count - 11;
-                }
-
-                if (clanPlayers.Count > 0)
-                {
-                    string reply = @"[{0}] \u{1}\u ranking:".FormatWith(clanInitials, skill.ToLowerInvariant());
-                    if (input_player_rank > 0 && input_player_rank <= MinRank)
-                    {
-                        reply += @" \c7#{0}\c \u{1}\u ({2:e});".FormatWith(input_player_rank, clanPlayers[input_player_rank - 1].Name, clanPlayers[input_player_rank - 1].Skills[skill]);
-                    }
-
-                    for (int i = MinRank; i < Math.Min(MinRank + 11, clanPlayers.Count); i++)
-                    {
-                        reply += " ";
-                        if (i == rank - 1)
-                        {
-                            reply += @"\b";
-                        }
-                        reply += @"\c07#{0}\c ".FormatWith(i + 1);
-                        if (i == input_player_rank - 1)
-                        {
-                            reply += @"\u";
-                        }
-                        reply += clanPlayers[i].Name;
-                        if (i == input_player_rank - 1)
-                        {
-                            reply += @"\u";
-                        }
-                        reply += " (" + clanPlayers[i].Skills[skill].ToStringI("e") + ")";
-                        if (i == rank - 1)
-                        {
-                            reply += @"\b";
-                        }
-                        reply += ";";
-                    }
-
-                    if (input_player_rank > 0 && input_player_rank > MinRank + 11)
-                    {
-                        reply += @" \c7#{0}\c \u{1}\u ({2:e});".FormatWith(input_player_rank, clanPlayers[input_player_rank - 1].Name, clanPlayers[input_player_rank - 1].Skills[skill]);
-                    }
-
-                    await bc.SendReply(reply);
-                }
-                else
-                {
-                    await bc.SendReply(clanName + " didn't have any member ranked at this skill.");
-                }
+                await bc.SendReply(clanName + " didn't have any member ranked at this skill.");
             }
         }
     }
