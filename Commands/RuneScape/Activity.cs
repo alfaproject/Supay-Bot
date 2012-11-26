@@ -7,44 +7,34 @@ namespace Supay.Bot
     {
         public static async Task Activity(CommandContext bc)
         {
-            // get rsn
-            string rsn;
-            if (bc.MessageTokens.Length > 1)
+            // get player
+            var player = new Player(bc.GetPlayerName(bc.MessageTokens.Length > 1 ? bc.MessageTokens.Join(1) : bc.From.Nickname));
+            if (player.Ranked)
             {
-                rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
-            }
-            else
-            {
-                rsn = bc.GetPlayerName(bc.From.Nickname);
-            }
-
-            var p = new Player(rsn);
-            if (p.Ranked)
-            {
-                Activity activity = p.Activities[Bot.Activity.Parse(bc.MessageTokens[0])];
+                Activity activity = player.Activities[Bot.Activity.Parse(bc.MessageTokens[0])];
                 if (activity.Rank > 0)
                 {
-                    string reply = @"\b{0}\b \c07{1:n}\c | score: \c07{1:s}\c | rank: \c07{1:R}\c".FormatWith(rsn, activity);
+                    string reply = @"\b{0}\b \c07{1:n}\c | score: \c07{1:s}\c | rank: \c07{1:R}\c".FormatWith(player.Name, activity);
 
                     // Add up SS rank if applicable
                     var ssplayers = new Players("SS");
-                    if (ssplayers.Contains(p.Name))
+                    if (ssplayers.Contains(player.Name))
                     {
                         ssplayers.SortByActivity(activity.Name);
-                        reply += @" (SS rank: \c07{0}\c)".FormatWith(ssplayers.IndexOf(rsn) + 1);
+                        reply += @" (SS rank: \c07{0}\c)".FormatWith(ssplayers.IndexOf(player.Name) + 1);
                     }
 
                     await bc.SendReply(reply);
 
                     // Show player performance if applicable
-                    string dblastupdate = Database.LastUpdate(rsn);
+                    string dblastupdate = Database.LastUpdate(player.Name);
                     if (dblastupdate != null && dblastupdate.Length == 8)
                     {
                         DateTime lastupdate = dblastupdate.ToDateTime();
                         string perf;
                         reply = string.Empty;
 
-                        var p_old = new Player(rsn, lastupdate);
+                        var p_old = new Player(player.Name, lastupdate);
                         if (p_old.Ranked)
                         {
                             perf = _GetPerformance("Today", p_old.Activities[activity.Name], activity);
@@ -53,7 +43,7 @@ namespace Supay.Bot
                                 reply += perf + " | ";
                             }
                         }
-                        p_old = new Player(rsn, lastupdate.AddDays(-((int) lastupdate.DayOfWeek)));
+                        p_old = new Player(player.Name, lastupdate.AddDays(-((int) lastupdate.DayOfWeek)));
                         if (p_old.Ranked)
                         {
                             perf = _GetPerformance("Week", p_old.Activities[activity.Name], activity);
@@ -62,7 +52,7 @@ namespace Supay.Bot
                                 reply += perf + " | ";
                             }
                         }
-                        p_old = new Player(rsn, lastupdate.AddDays(1 - lastupdate.Day));
+                        p_old = new Player(player.Name, lastupdate.AddDays(1 - lastupdate.Day));
                         if (p_old.Ranked)
                         {
                             perf = _GetPerformance("Month", p_old.Activities[activity.Name], activity);
@@ -71,7 +61,7 @@ namespace Supay.Bot
                                 reply += perf + " | ";
                             }
                         }
-                        p_old = new Player(rsn, lastupdate.AddDays(1 - lastupdate.DayOfYear));
+                        p_old = new Player(player.Name, lastupdate.AddDays(1 - lastupdate.DayOfYear));
                         if (p_old.Ranked)
                         {
                             perf = _GetPerformance("Year", p_old.Activities[activity.Name], activity);
@@ -89,7 +79,7 @@ namespace Supay.Bot
                     return;
                 }
             }
-            await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
+            await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", player.Name);
         }
 
         private static string _GetPerformance(string interval, Activity mg_old, Activity mg_new)
