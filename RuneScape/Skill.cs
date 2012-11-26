@@ -373,7 +373,11 @@ namespace Supay.Bot
             }
 
             // compare by experience if levels are the same or levels otherwise
-            return this.Level == other.Level ? other.Exp.CompareTo(this.Exp) : other.Level.CompareTo(this.Level);
+            if (this.Level == other.Level)
+            {
+                return this.Exp == other.Exp ? this.Rank.CompareTo(other.Rank) : other.Exp.CompareTo(this.Exp);
+            }
+            return other.Level.CompareTo(this.Level);
         }
 
         #endregion
