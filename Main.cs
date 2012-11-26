@@ -7,7 +7,6 @@ using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
 using Supay.Bot.Properties;
@@ -313,7 +312,7 @@ namespace Supay.Bot
                 EnableAutoIdent = false
             };
 
-            this._irc.Connection.DataSent += (dsender, de) => this.outputMessage("-> " + _irc.ServerName + " " + de.Data);
+            this._irc.Connection.DataSent += (dsender, de) => this.textBox.Invoke(new delOutputMessage(this.outputMessage), "-> " + _irc.ServerName + " " + de.Data);
             this._irc.Connection.DataReceived += (dsender, de) => this.outputMessage("<- " + de.Data);
             this._irc.Ready += this.Irc_Ready;
 
@@ -973,9 +972,12 @@ namespace Supay.Bot
 
         private void outputMessage(string message)
         {
-            this.textBox.AppendText("(" + DateTime.UtcNow.ToLongTimeString() + ") ");
-            this.textBox.AppendText(message + "\r\n");
-            this.textBox.ScrollToCaret();
+            if (!this.textBox.IsDisposed)
+            {
+                this.textBox.AppendText("(" + DateTime.UtcNow.ToLongTimeString() + ") ");
+                this.textBox.AppendText(message + "\r\n");
+                this.textBox.ScrollToCaret();
+            }
 
             if (message.StartsWithI("<-") || message.StartsWithI("-> "))
             {
