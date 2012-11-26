@@ -70,5 +70,25 @@ namespace Supay.Bot
             }
             return result;
         }
+
+        public static int IndexOf<T>(this IEnumerable<T> source, T value, IEqualityComparer<T> comparer)
+        {
+            var index = 0;
+            comparer = comparer ?? EqualityComparer<T>.Default;
+            foreach (var item in source)
+            {
+                if (comparer.Equals(item, value))
+                {
+                    return index;
+                }
+                index++;
+            }
+            return -1;
+        }
+
+        public static int IndexOf<T>(this IEnumerable<T> source, T value)
+        {
+            return source.IndexOf(value, null);
+        }
     }
 }
