@@ -1,4 +1,6 @@
-﻿using System.Data.SQLite;
+﻿using System.Collections.Generic;
+using System.Data.SQLite;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Supay.Bot
@@ -23,7 +25,7 @@ namespace Supay.Bot
             await bc.SendReply("Please wait while the bot gathers all players stats...");
 
             // Create a list of the war players
-            var warPlayers = new Players();
+            List<Player> warPlayers = new Players();
             SQLiteDataReader warPlayersDr = Database.ExecuteReader("SELECT rsn, startrank, startlevel, startexp FROM warplayers WHERE channel='" + bc.Channel + "';");
             while (warPlayersDr.Read())
             {
@@ -35,7 +37,7 @@ namespace Supay.Bot
                 warPlayer.Skills[skill] -= new Skill(skill, warPlayersDr.GetInt32(1), warPlayersDr.GetInt32(2), warPlayersDr.GetInt32(3));
                 warPlayers.Add(warPlayer);
             }
-            warPlayers.SortBySkill(skill, true);
+            warPlayers = warPlayers.OrderByDescending(p => p.Skills[skill].Exp).ToList();
 
             string reply = null;
             for (int i = 0; i < warPlayers.Count; i++)
