@@ -25,7 +25,7 @@ namespace Supay.Bot
             await bc.SendReply("Please wait while the bot gathers all players stats...");
 
             // Create a list of the war players
-            List<Player> warPlayers = new Players();
+            var warPlayers = new List<Player>();
             SQLiteDataReader warPlayersDr = Database.ExecuteReader("SELECT rsn, startrank, startlevel, startexp FROM warplayers WHERE channel='" + bc.Channel + "';");
             while (warPlayersDr.Read())
             {

@@ -68,7 +68,7 @@ namespace Supay.Bot
             // add players that were added to clan listing to clan
             foreach (string rsn in clanMembers)
             {
-                if (!clanPlayers.Contains(rsn))
+                if (!clanPlayers.Any(p => p.Name.EqualsI(rsn)))
                 {
                     bool f2p = false;
                     try
