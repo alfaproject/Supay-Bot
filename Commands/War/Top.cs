@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -30,7 +32,7 @@ namespace Supay.Bot
             await bc.SendReply("Please wait while the bot gathers all players stats...");
 
             // Create a list of the war players
-            var warPlayers = new Players();
+            List<Player> warPlayers = new Players();
             SQLiteDataReader warPlayersDr = Database.ExecuteReader("SELECT rsn, startrank, startlevel, startexp FROM warplayers WHERE channel='" + channelName + "';");
             while (warPlayersDr.Read())
             {
@@ -41,7 +43,7 @@ namespace Supay.Bot
                     warPlayers.Add(warPlayer);
                 }
             }
-            warPlayers.SortBySkill(skill, true);
+            warPlayers = warPlayers.OrderByDescending(p => p.Skills[skill].Exp).ToList();
 
             // parse command arguments
             int rank = 1;
@@ -60,19 +62,16 @@ namespace Supay.Bot
                 {
                     // !War <rsn>
                     string rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
-                    if (warPlayers.Contains(rsn))
+                    var indexOfPlayer = warPlayers.FindIndex(p => p.Name.EqualsI(rsn));
+                    if (indexOfPlayer != -1)
                     {
-                        rank = warPlayers.IndexOf(rsn) + 1;
+                        rank = indexOfPlayer + 1;
                     }
                 }
             }
 
             // get input player rank
-            int inputPlayerRank = 0;
-            if (warPlayers.Contains(bc.GetPlayerName(bc.From.Nickname)))
-            {
-                inputPlayerRank = warPlayers.IndexOf(bc.GetPlayerName(bc.From.Nickname)) + 1;
-            }
+            var inputPlayerRank = warPlayers.FindIndex(p => p.Name.EqualsI(bc.GetPlayerName(bc.From.Nickname))) + 1;
 
             // fix rank
             if (rank < 1)
