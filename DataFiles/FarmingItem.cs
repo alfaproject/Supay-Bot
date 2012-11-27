@@ -52,7 +52,7 @@ namespace Supay.Bot
             set;
         }
 
-        public int SeedPrice
+        public long SeedPrice
         {
             get
             {
@@ -76,7 +76,7 @@ namespace Supay.Bot
             set;
         }
 
-        public int ProducePrice
+        public long ProducePrice
         {
             get
             {
@@ -130,7 +130,7 @@ namespace Supay.Bot
             set;
         }
 
-        public int PaymentPrice
+        public long PaymentPrice
         {
             get
             {

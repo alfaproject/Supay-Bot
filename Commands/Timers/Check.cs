@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Data.SQLite;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Supay.Bot
@@ -27,8 +27,8 @@ namespace Supay.Bot
                 bc.Message = bc.Message.Substring(0, indexofsharp - 1);
             }
 
-            SQLiteDataReader rs = Database.ExecuteReader("SELECT skill, exp, datetime FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "' LIMIT 1;");
-            if (rs.Read())
+            var rs = Database.ExecuteReader("SELECT skill, exp, datetime FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "' LIMIT 1").FirstOrDefault();
+            if (rs != null)
             {
                 string skill = rs.GetString(0);
 

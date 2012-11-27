@@ -27,11 +27,11 @@ namespace Supay.Bot
             set;
         }
 
-        public int RunesCost
+        public long RunesCost
         {
             get
             {
-                int cost = 0;
+                long cost = 0;
                 foreach (string rune in this.Runes)
                 {
                     Match matchRune = Regex.Match(rune, @"(\d+)x (\w+)");

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Data.SQLite;
+using MySql.Data.MySqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -136,7 +136,7 @@ namespace Supay.Bot
             // or return a validated player name from query
             User peer;
             return this._users.TryGetValue(query, out peer)
-                ? Database.Lookup("rsn", "users", "fingerprint=@fp", new[] { new SQLiteParameter("@fp", peer.FingerPrint) }, query.ValidatePlayerName())
+                ? Database.Lookup("rsn", "users", "fingerprint=@fp", new[] { new MySqlParameter("@fp", peer.FingerPrint) }, query.ValidatePlayerName())
                 : query.ValidatePlayerName();
         }
 

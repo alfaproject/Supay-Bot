@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2010
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Supay-Bot", "Supay-Bot.csproj", "{57B7C0C0-AD4E-4B1F-A763-C5F294B5F2B8}"
 EndProject
 Global

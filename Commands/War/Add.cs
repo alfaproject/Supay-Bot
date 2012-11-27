@@ -1,7 +1,6 @@
-﻿using System.Data.SQLite;
+﻿using MySql.Data.MySqlClient;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Supay.Bot
@@ -30,7 +29,7 @@ namespace Supay.Bot
                 channelName = matchChannel.Groups[1].Value;
                 bc.Message = bc.Message.Replace(matchChannel.Value, string.Empty);
             }
-            var channelNameParameter = new SQLiteParameter("@channelName", channelName);
+            var channelNameParameter = new MySqlParameter("@channelName", channelName);
 
             string[] playerNames = bc.MessageTokens.Join(1).Split(new[] { ',', ';', '+', '|' });
             foreach (string playerName in playerNames.Select(name => name.ValidatePlayerName()))
@@ -54,7 +53,7 @@ namespace Supay.Bot
                             Database.Insert("warPlayers", "channel", channelName, "rsn", playerName, "startLevel", player.Skills[skillName].Level.ToStringI(), "startExp", player.Skills[skillName].Exp.ToStringI(), "startRank", player.Skills[skillName].Rank.ToStringI());
                         }
                         await bc.SendReply(@"\b{0}\b is now signed to current war.", playerName);
-                        Thread.Sleep(1000);
+                        await Task.Delay(1000);
                     }
                     else
                     {

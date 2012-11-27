@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Data.SQLite;
+using MySql.Data.MySqlClient;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -23,7 +23,7 @@ namespace Supay.Bot
                 channelName = matchChannel.Groups[1].Value;
                 bc.Message = bc.Message.Replace(matchChannel.Value, string.Empty);
             }
-            var channelNameParameter = new SQLiteParameter("@channelName", channelName);
+            var channelNameParameter = new MySqlParameter("@channelName", channelName);
 
             // get skill name
             var skillName = Database.Lookup<string>("skill", "wars", "channel=@channelName", new[] { channelNameParameter });
@@ -34,10 +34,10 @@ namespace Supay.Bot
             }
 
             string reply = string.Empty;
-            SQLiteDataReader warPlayers = Database.ExecuteReader("SELECT rsn FROM warPlayers WHERE channel='" + channelName + "'");
-            for (int count = 1; warPlayers.Read(); count++)
+            var warPlayers = Database.ExecuteReader("SELECT rsn FROM warPlayers WHERE channel='" + channelName + "'");
+            for (int count = 1; count <= warPlayers.Count; count++)
             {
-                var p = new Player(warPlayers.GetString(0));
+                var p = new Player(warPlayers[count - 1].GetString(0));
                 if (!p.Ranked)
                 {
                     await bc.SendReply(@"Player \b" + p.Name + "\b has changed his/her name or was banned during the war, and couldn't be tracked.");

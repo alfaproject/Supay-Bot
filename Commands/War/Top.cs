@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
+using MySql.Data.MySqlClient;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -19,7 +19,7 @@ namespace Supay.Bot
                 channelName = matchChannel.Groups[1].Value;
                 bc.Message = bc.Message.Replace(matchChannel.Value, string.Empty);
             }
-            var channelNameParameter = new SQLiteParameter("@channelName", channelName);
+            var channelNameParameter = new MySqlParameter("@channelName", channelName);
 
             // get skill name
             var skill = Database.Lookup<string>("skill", "wars", "channel=@channelName", new[] { channelNameParameter });
@@ -33,8 +33,7 @@ namespace Supay.Bot
 
             // Create a list of the war players
             var warPlayers = new List<Player>();
-            SQLiteDataReader warPlayersDr = Database.ExecuteReader("SELECT rsn, startrank, startlevel, startexp FROM warplayers WHERE channel='" + channelName + "';");
-            while (warPlayersDr.Read())
+            foreach (var warPlayersDr in Database.ExecuteReader("SELECT rsn, startrank, startlevel, startexp FROM warplayers WHERE channel='" + channelName + "'"))
             {
                 var warPlayer = new Player(warPlayersDr.GetString(0));
                 if (warPlayer.Ranked)

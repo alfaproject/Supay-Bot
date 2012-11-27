@@ -487,18 +487,18 @@ namespace Supay.Bot
             }
             else
             {
-                int componentsPrice = familiar.ComponentsPrice;
+                var componentsPrice = familiar.ComponentsPrice;
 
                 await bc.SendReply(@"Familiar: \c{0}{1}\c | Level: \c{0}{2}\c | Exp: \c{0}{3:#,##0.#}\c | Time: \c{0}{4} min\c | Charm: \c{0}{5}\c | Components: \c{0}{6}\c (\c{0}{7:N0} gp\c) | Abilities: \c{0}{8}\c", familiar.IrcColour, familiar.NameCombat, familiar.Level, qty * familiar.Exp, familiar.Time, familiar.Charm, familiar.Components, qty * familiar.ComponentsPrice, familiar.Abilities);
 
-                int totalCost = componentsPrice + familiar.Shards * 25 + 1;
-                int bogrogCost = componentsPrice + (int) Math.Ceiling(.3 * familiar.Shards) * 25 + 1;
+                var totalCost = componentsPrice + familiar.Shards * 25 + 1;
+                var bogrogCost = componentsPrice + (int) Math.Ceiling(.3 * familiar.Shards) * 25 + 1;
 
-                int marketPrice = familiar.PouchPrice;
+                var marketPrice = familiar.PouchPrice;
 
                 var price = new Price(561);
                 price.LoadFromCache();
-                int natureCost = price.MarketPrice;
+                var natureCost = price.MarketPrice;
 
                 await bc.SendReply(@"Shards: \c{0}{1:N0}\c (\c{0}{2:N0} gp\c) | Cost: \c{0}{3:N0}\c (\c{0}{4:0.#}/xp\c) | Bogrog cost: \c{0}{5:N0}\c (\c{0}{6:0.#}/xp\c) | High alch: \c{0}{7:N0}\c (\c{0}{8:0.#}/xp\c) | Market price: \c{0}{9:N0}\c (\c{0}{10:0.#}/xp\c)", familiar.IrcColour, qty * familiar.Shards, qty * familiar.Shards * 25, qty * totalCost, totalCost / familiar.Exp, qty * bogrogCost, bogrogCost / familiar.Exp, qty * familiar.HighAlch, (totalCost + natureCost - familiar.HighAlch) / familiar.Exp, qty * marketPrice, (totalCost - marketPrice) / familiar.Exp);
             }
@@ -633,7 +633,7 @@ namespace Supay.Bot
                     }
                 }
 
-                int potionPrice = potion.Price;
+                long potionPrice = potion.Price;
                 await bc.SendReply(@"Potion: \c07{0}\c (\c07{1:N0} gp\c) | Level: \c07{2}\c | Exp: \c07{3:#,##0.#}\c | Ingredients: \c07{4}\c | Total cost: \c07{5:N0} gp\c (\c07{6:0.#}/xp\c) | Effect: \c07{7}\c", potion.Name, qty * potionPrice, potion.Level, qty * potion.Exp, ingredientsWithPrice, qty * potion.Cost, (potion.Cost - potionPrice) / potion.Exp, potion.Effect);
             }
         }
@@ -665,7 +665,7 @@ namespace Supay.Bot
             }
             else
             {
-                int spellPrice = spell.RunesCost;
+                long spellPrice = spell.RunesCost;
                 if (spell.MaxHit == 0)
                 {
                     await bc.SendReply(@"Spell: \c07{0}\c | Level: \c07{1}\c | Exp: \c07{2:#,##0.#}\c | Book: \c07{3}\c | Runes: \c07{4}\c | Total cost: \c07{5:N0} gp\c (\c07{6:0.#}/xp\c) | Effect: \c07{7}\c", spell.Name, spell.Level, qty * spell.Exp, spell.Book, string.Join(@"\c + \c07", spell.Runes), qty * spellPrice, spellPrice / spell.Exp, spell.Effect);

@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Data.SQLite;
+using System.Linq;
+using MySql.Data.MySqlClient;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -35,8 +36,8 @@ namespace Supay.Bot
                 bc.Message = bc.Message.Substring(0, indexOfSharp - 1);
             }
 
-            SQLiteDataReader rs = Database.ExecuteReader("SELECT skill, exp, datetime FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "' LIMIT 1;");
-            if (rs.Read())
+            var rs = Database.ExecuteReader("SELECT skill, exp, datetime FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "' LIMIT 1").FirstOrDefault();
+            if (rs != null)
             {
                 string skill = rs.GetString(0);
 
@@ -53,7 +54,7 @@ namespace Supay.Bot
                 if (gainedExp > 0)
                 {
                     // Add this player to database if he never set a default name.
-                    if (Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new SQLiteParameter("@fp", bc.From.FingerPrint) }) < 1)
+                    if (Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new MySqlParameter("@fp", bc.From.FingerPrint) }) < 1)
                     {
                         Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.GetPlayerName(bc.From.Nickname));
                     }

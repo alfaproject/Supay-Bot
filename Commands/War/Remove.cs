@@ -1,4 +1,4 @@
-﻿using System.Data.SQLite;
+﻿using MySql.Data.MySqlClient;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -28,10 +28,10 @@ namespace Supay.Bot
                 channelName = matchChannel.Groups[1].Value;
                 bc.Message = bc.Message.Replace(matchChannel.Value, string.Empty);
             }
-            var channelNameParameter = new SQLiteParameter("@channelName", channelName);
+            var channelNameParameter = new MySqlParameter("@channelName", channelName);
 
             string playerName = bc.MessageTokens.Join(1).ValidatePlayerName();
-            var playerNameParameter = new SQLiteParameter("@playerName", playerName);
+            var playerNameParameter = new MySqlParameter("@playerName", playerName);
 
             if (Database.Lookup<string>("rsn", "warPlayers", "channel=@channelName AND rsn=@playerName", new[] { channelNameParameter, playerNameParameter }) != null)
             {

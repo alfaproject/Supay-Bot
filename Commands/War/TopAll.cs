@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Data.SQLite;
+using MySql.Data.MySqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,7 +15,7 @@ namespace Supay.Bot
                 return;
             }
 
-            var skill = Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new SQLiteParameter("@chan", bc.Channel) });
+            var skill = Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new MySqlParameter("@chan", bc.Channel) });
             if (skill == null)
             {
                 await bc.SendReply("There isn't a war going on in this channel.");
@@ -26,8 +26,7 @@ namespace Supay.Bot
 
             // Create a list of the war players
             var warPlayers = new List<Player>();
-            SQLiteDataReader warPlayersDr = Database.ExecuteReader("SELECT rsn, startrank, startlevel, startexp FROM warplayers WHERE channel='" + bc.Channel + "';");
-            while (warPlayersDr.Read())
+            foreach (var warPlayersDr in Database.ExecuteReader("SELECT rsn, startrank, startlevel, startexp FROM warplayers WHERE channel='" + bc.Channel + "'"))
             {
                 var warPlayer = new Player(warPlayersDr.GetString(0));
                 if (!warPlayer.Ranked)

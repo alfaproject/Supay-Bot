@@ -8,7 +8,7 @@ namespace Supay.Bot
     {
         private readonly int[] _ingredientsIds;
         private readonly int _potionId;
-        private int[] _ingredientsPrices;
+        private long[] _ingredientsPrices;
         private Price _price;
 
         public HerbloreItem(string[] tokens)
@@ -38,13 +38,13 @@ namespace Supay.Bot
             set;
         }
 
-        public int[] IngredientsPrices
+        public long[] IngredientsPrices
         {
             get
             {
                 if (this._ingredientsPrices == null)
                 {
-                    this._ingredientsPrices = new int[this._ingredientsIds.Length];
+                    this._ingredientsPrices = new long[this._ingredientsIds.Length];
                     for (int i = 0; i < this._ingredientsIds.Length; i++)
                     {
                         if (this._ingredientsIds[i] > 0)
@@ -73,7 +73,7 @@ namespace Supay.Bot
             set;
         }
 
-        public int Price
+        public long Price
         {
             get
             {
@@ -97,7 +97,7 @@ namespace Supay.Bot
             }
         }
 
-        public int Cost
+        public long Cost
         {
             get
             {

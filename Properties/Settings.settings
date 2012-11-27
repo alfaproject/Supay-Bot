@@ -1,25 +1,36 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)"
-              GeneratedClassNamespace="Supay.Bot.Properties" GeneratedClassName="Settings">
-    <Profiles/>
-    <Settings>
-        <Setting Name="DailyUpdateTime" Type="System.TimeSpan" Scope="Application">
-            <Value Profile="(Default)">06:00:00</Value>
-        </Setting>
-        <Setting Name="Administrators" Type="System.String" Scope="Application">
-            <Value Profile="(Default)"/>
-        </Setting>
-        <Setting Name="ServerAddress" Type="System.String" Scope="Application">
-            <Value Profile="(Default)">irc.swiftirc.net</Value>
-        </Setting>
-        <Setting Name="Nick" Type="System.String" Scope="Application">
-            <Value Profile="(Default)">SupayBot</Value>
-        </Setting>
-        <Setting Name="Channels" Type="System.String" Scope="Application">
-            <Value Profile="(Default)">#supay</Value>
-        </Setting>
-        <Setting Name="Perform" Type="System.String" Scope="Application">
-            <Value Profile="(Default)">MODE SupayBot +B</Value>
-        </Setting>
-    </Settings>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Supay.Bot.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="DailyUpdateTime" Type="System.TimeSpan" Scope="Application">
+      <Value Profile="(Default)">06:00:00</Value>
+    </Setting>
+    <Setting Name="Administrators" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ServerAddress" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">irc.swiftirc.net</Value>
+    </Setting>
+    <Setting Name="Nick" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">SupayBot</Value>
+    </Setting>
+    <Setting Name="Channels" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">#supay</Value>
+    </Setting>
+    <Setting Name="Perform" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">MODE SupayBot +B</Value>
+    </Setting>
+    <Setting Name="DatabaseHost" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">localhost</Value>
+    </Setting>
+    <Setting Name="DatabaseUser" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DatabasePass" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DatabaseName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
 </SettingsFile>

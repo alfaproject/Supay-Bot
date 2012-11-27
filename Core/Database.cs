@@ -1,42 +1,53 @@
 ﻿using System;
-using System.Data.SQLite;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using System.Text.RegularExpressions;
+using MySql.Data.MySqlClient;
+using Supay.Bot.Properties;
 
 namespace Supay.Bot
 {
     internal class Database
     {
         private static readonly Lazy<Database> _instance = new Lazy<Database>(() => new Database());
-        private readonly SQLiteConnection _connection;
+        private readonly MySqlConnection _connection;
 
         private Database()
         {
             // initialize connection
-            this._connection = new SQLiteConnection(@"Data Source=Data/BigSister.db");
+            this._connection = new MySqlConnection("Server=" + Settings.Default.DatabaseHost + ";Uid=" + Settings.Default.DatabaseUser + ";Pwd=" + Settings.Default.DatabasePass + ";Database=" + Settings.Default.DatabaseName + ";Charset=utf8");
             this._connection.Open();
         }
 
-        public static SQLiteDataReader ExecuteReader(string sql)
+        public static List<IDataRecord> ExecuteReader(string sql)
         {
-            SQLiteDataReader reader;
-            using (var command = new SQLiteCommand(sql, _instance.Value._connection))
+            lock (_instance.Value._connection)
             {
-                reader = command.ExecuteReader();
+                using (var command = new MySqlCommand(sql, _instance.Value._connection))
+                {
+                    using (var reader = command.ExecuteReader())
+                    {
+                        return reader.Cast<IDataRecord>().ToList();
+                    }
+                }
             }
-            return reader;
         }
 
         public static void ExecuteNonQuery(string sql)
         {
-            using (var command = new SQLiteCommand(sql, _instance.Value._connection))
+            lock (_instance.Value._connection)
             {
-                command.ExecuteNonQuery();
+                using (var command = new MySqlCommand(sql, _instance.Value._connection))
+                {
+                    command.ExecuteNonQuery();
+                }
             }
         }
 
         public static string LastUpdate(string rsn)
         {
-            return Lookup<string>("lastUpdate", "players", "rsn=@rsn", new[] { new SQLiteParameter("@rsn", rsn) });
+            return Lookup<string>("lastUpdate", "players", "rsn=@rsn", new[] { new MySqlParameter("@rsn", rsn) });
         }
 
         public static void Insert(string table, params string[] fieldsValues)
@@ -97,7 +108,7 @@ namespace Supay.Bot
             Update(table, condition, field, fieldValue);
         }
 
-        public static T Lookup<T>(string field, string table, string condition = null, SQLiteParameter[] parameters = null, T defaultValue = default(T))
+        public static T Lookup<T>(string field, string table, string condition = null, MySqlParameter[] parameters = null, T defaultValue = default(T))
         {
             string sql = "SELECT " + field + " FROM " + table;
             if (condition != null)
@@ -113,13 +124,16 @@ namespace Supay.Bot
             }
 
             object result;
-            using (var command = new SQLiteCommand(sql + " LIMIT 1", _instance.Value._connection))
+            lock (_instance.Value._connection)
             {
-                if (parameters != null)
+                using (var command = new MySqlCommand(sql + " LIMIT 1", _instance.Value._connection))
                 {
-                    command.Parameters.AddRange(parameters);
+                    if (parameters != null)
+                    {
+                        command.Parameters.AddRange(parameters);
+                    }
+                    result = command.ExecuteScalar();
                 }
-                result = command.ExecuteScalar();
             }
             if (result == null || result is DBNull)
             {

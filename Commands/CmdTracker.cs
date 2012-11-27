@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
+using MySql.Data.MySqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -59,7 +59,7 @@ namespace Supay.Bot
             }
 
             string rsn = bc.MessageTokens.Join(1).ValidatePlayerName();
-            long playerId = Database.Lookup("id", "players", "rsn LIKE @name", new[] { new SQLiteParameter("@name", rsn) }, -1L);
+            long playerId = Database.Lookup("id", "players", "rsn LIKE @name", new[] { new MySqlParameter("@name", rsn) }, -1L);
             if (playerId != -1)
             {
                 Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + playerId + ";");
@@ -88,7 +88,7 @@ namespace Supay.Bot
             string oldRsn = bc.MessageTokens[1].ValidatePlayerName();
             string newRsn = bc.MessageTokens.Join(2).ValidatePlayerName();
 
-            long oldPlayerId = Database.Lookup("id", "players", "rsn=@rsn", new[] { new SQLiteParameter("@rsn", oldRsn) }, -1L);
+            long oldPlayerId = Database.Lookup("id", "players", "rsn=@rsn", new[] { new MySqlParameter("@rsn", oldRsn) }, -1L);
             if (oldPlayerId == -1)
             {
                 await bc.SendReply(@"Player \b{0}\b wasn't being tracked.", oldRsn);
@@ -111,7 +111,7 @@ namespace Supay.Bot
                 return;
             }
 
-            long newPlayerId = Database.Lookup("id", "players", "rsn=@rsn", new[] { new SQLiteParameter("@rsn", newRsn) }, -1L);
+            long newPlayerId = Database.Lookup("id", "players", "rsn=@rsn", new[] { new MySqlParameter("@rsn", newRsn) }, -1L);
 
             // check if the new player already exists in the database
             if (newPlayerId != -1)
@@ -154,13 +154,11 @@ namespace Supay.Bot
             }
 
             int playersRemoved = 0;
-            SQLiteDataReader dr = Database.ExecuteReader("SELECT id FROM players WHERE clan='" + clan + "';");
-            while (dr.Read())
+            foreach (var dr in Database.ExecuteReader("SELECT id FROM players WHERE clan='" + clan + "'"))
             {
                 Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + dr.GetInt32(0) + ";");
                 playersRemoved++;
             }
-            dr.Close();
             Database.ExecuteNonQuery("DELETE FROM players WHERE clan ='" + clan + "';");
             await bc.SendReply(@"\b{0}\b players were removed from tracker.", playersRemoved);
 

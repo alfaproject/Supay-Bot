@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Data.SQLite;
+using MySql.Data.MySqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -376,8 +376,8 @@ namespace Supay.Bot
                 }
 
                 // ***** start war *****
-                SQLiteDataReader warPlayer = Database.ExecuteReader("SELECT startrank, startlevel, startexp FROM warplayers WHERE channel='" + bc.Channel + "' AND rsn='" + player.Name + "';");
-                if (warPlayer.Read() && Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new SQLiteParameter("@chan", bc.Channel) }) == skill.Name)
+                var warPlayer = Database.ExecuteReader("SELECT startrank, startlevel, startexp FROM warplayers WHERE channel='" + bc.Channel + "' AND rsn='" + player.Name + "'").FirstOrDefault();
+                if (warPlayer != null && Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new MySqlParameter("@chan", bc.Channel) }) == skill.Name)
                 {
                     var oldSkill = new Skill(skill.Name, warPlayer.GetInt32(0), warPlayer.GetInt32(1), warPlayer.GetInt32(2));
                     perf = _GetPerformance("War", oldSkill, skill);

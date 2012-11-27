@@ -99,7 +99,7 @@ namespace Supay.Bot
             }
         }
 
-        public int ComponentsPrice
+        public long ComponentsPrice
         {
             get
             {
@@ -108,7 +108,7 @@ namespace Supay.Bot
                     return 0;
                 }
 
-                int componentsPrice = 0;
+                long componentsPrice = 0;
                 foreach (string component in this.ComponentsIds.Split('+'))
                 {
                     var price = new Price(int.Parse(component, CultureInfo.InvariantCulture));
@@ -119,7 +119,7 @@ namespace Supay.Bot
             }
         }
 
-        public int PouchPrice
+        public long PouchPrice
         {
             get
             {
@@ -129,7 +129,7 @@ namespace Supay.Bot
             }
         }
 
-        public int TotalCost
+        public long TotalCost
         {
             get
             {
@@ -137,7 +137,7 @@ namespace Supay.Bot
             }
         }
 
-        public int BogrogCost
+        public long BogrogCost
         {
             get
             {
@@ -152,8 +152,8 @@ namespace Supay.Bot
                 var nature = new Price(561);
                 nature.LoadFromCache();
 
-                int componentsPrice = this.ComponentsPrice;
-                int totalCost = componentsPrice + this.Shards * 25 + 1;
+                var componentsPrice = this.ComponentsPrice;
+                var totalCost = componentsPrice + this.Shards * 25 + 1;
 
                 double bogrogExp = (componentsPrice + Math.Ceiling(.3 * this.Shards) * 25 + 1) / this.Exp;
                 ////double marketExp = (totalCost - this.PouchPrice) / this.Exp;

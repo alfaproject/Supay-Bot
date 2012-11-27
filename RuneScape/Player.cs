@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Data.SQLite;
+using System.Linq;
+using MySql.Data.MySqlClient;
 using System.Globalization;
 using System.Net;
 using Newtonsoft.Json.Linq;
@@ -96,8 +97,8 @@ namespace Supay.Bot
             try
             {
                 // Query database
-                SQLiteDataReader rs = Database.ExecuteReader("SELECT tracker.* FROM tracker INNER JOIN players ON tracker.pid=players.id WHERE players.rsn = '" + this._name + "' AND tracker.date='" + day.ToStringI("yyyyMMdd") + "';");
-                if (rs.Read())
+                var rs = Database.ExecuteReader("SELECT t.* FROM tracker t JOIN players p ON t.pid = p.id WHERE p.rsn = '" + _name + "' AND t.date = '" + day.ToStringI("yyyyMMdd") + "'").FirstOrDefault();
+                if (rs != null)
                 {
                     // Initialize variables
                     this.Id = Convert.ToInt32(rs["pid"], CultureInfo.InvariantCulture);
@@ -150,14 +151,13 @@ namespace Supay.Bot
                 }
                 else
                 {
-                    SQLiteDataReader player = Database.ExecuteReader("SELECT * FROM players WHERE rsn LIKE '" + this._name + "';");
-                    if (player.Read())
+                    var player = Database.ExecuteReader("SELECT id FROM players WHERE rsn = '" + _name + "'").FirstOrDefault();
+                    if (player != null)
                     {
-                        this.Id = Convert.ToInt32(player["id"], CultureInfo.InvariantCulture);
+                        this.Id = player.GetInt32(0);
                     }
                     this.Ranked = false;
                 }
-                rs.Close();
             }
             catch (Exception)
             {
@@ -363,7 +363,7 @@ namespace Supay.Bot
 
         public void SaveToDB(string s_date)
         {
-            this.Id = Database.Lookup<long>("id", "players", "rsn=@name", new[] { new SQLiteParameter("@name", this._name) });
+            this.Id = Database.Lookup<uint>("id", "players", "rsn=@name", new[] { new MySqlParameter("@name", this._name) });
 
             if (this.Ranked)
             {

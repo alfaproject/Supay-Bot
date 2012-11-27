@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 using Newtonsoft.Json.Linq;
 using Supay.Bot.Properties;
 using Supay.Irc;
 using Supay.Irc.Messages;
 using Supay.Irc.Network;
-using ThreadedTimer = System.Threading.Timer;
-using Timer = System.Windows.Forms.Timer;
+using Timer = System.Timers.Timer;
 
 namespace Supay.Bot
 {
@@ -22,8 +23,8 @@ namespace Supay.Bot
     {
         // timers
         private readonly Timer _timerMain;
-        private ThreadedTimer _dailyPlayersUpdater;
-        private ThreadedTimer _geChecker;
+        private Timer _dailyPlayersUpdater;
+        private readonly Timer _geChecker;
         private Client _irc;
 
         public Main()
@@ -41,24 +42,39 @@ namespace Supay.Bot
             Trace.Listeners.Add(defaultListener);
 
             // set up clock timer
-            this._timerMain = new Timer();
-            this._timerMain.Tick += this._timerMain_Tick;
-            this._timerMain.Interval = 1000;
-            this._timerMain.Start();
+            _timerMain = new Timer(1000);
+            _timerMain.SynchronizingObject = this;
+            _timerMain.Elapsed += _timerMain_Tick;
+            _timerMain.Start();
+
+            _dailyPlayersUpdater = new Timer();
+            _dailyPlayersUpdater.SynchronizingObject = this;
+            _dailyPlayersUpdater.Elapsed += (o, args) => UpdatePlayers();
+
+            // set up ge checker (every minute)
+            _geChecker = new Timer(60000);
+            _geChecker.SynchronizingObject = this;
+            _geChecker.Elapsed += (sender, args) => checkGE(null);
+            _geChecker.Start();
         }
 
-        private void updatePlayers(object stateInfo)
+        private async Task UpdatePlayers()
         {
+            if (_dailyPlayersUpdater != null)
+            {
+                // set proper interval
+                _dailyPlayersUpdater.Interval = TimeSpan.FromDays(1.0).TotalMilliseconds;
+            }
+
             this.textBox.Invoke(new delOutputMessage(this.outputMessage), "##### Begin players update");
 
             DateTime now = DateTime.UtcNow;
-            SQLiteDataReader rs = Database.ExecuteReader("SELECT rsn FROM players WHERE lastUpdate!='" + now.ToStringI("yyyyMMdd") + "';");
-            while (rs.Read())
+            foreach (var rs in Database.ExecuteReader("SELECT rsn FROM players WHERE lastUpdate!='" + now.ToStringI("yyyyMMdd") + "'"))
             {
                 int tries = 0;
                 do
                 {
-                    Thread.Sleep(250);
+                    await Task.Delay(250);
                     var player = new Player(rs.GetString(0));
                     if (player.Ranked)
                     {
@@ -70,7 +86,6 @@ namespace Supay.Bot
                 }
                 while (++tries < 3);
             }
-            rs.Close();
 
             this.textBox.Invoke(new delOutputMessage(this.outputMessage), "##### End players update");
         }
@@ -160,7 +175,7 @@ namespace Supay.Bot
                     var poster = (string) post["poster"]["name"];
 
                     // Check if this topic exists in database
-                    if (Database.Lookup<long>("topicId", "forums", "topicId=@topicId", new[] { new SQLiteParameter("@topicId", topicId) }) != topicId)
+                    if (Database.Lookup<long>("topicId", "forums", "topicId=@topicId", new[] { new MySqlParameter("@topicId", topicId) }) != topicId)
                     {
                         Database.Insert("forums", "topicId", topicId.ToStringI());
                         string reply = @"\bNew topic!\b | Forum: \c07{0}\c | Topic: \c07{1}\c | Poster: \c07{2}\c | \c12{3}\c".FormatWith(forum, topic, poster, href);
@@ -199,10 +214,9 @@ namespace Supay.Bot
 
                 nextEvent = JObject.Parse(events[0]);
                 DateTime startTime = DateTime.ParseExact((string) nextEvent["startTime"], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
-                SQLiteDataReader rsTimer = Database.ExecuteReader("SELECT fingerprint, nick, name, duration, started FROM timers;");
-                while (rsTimer.Read())
+                foreach (var rsTimer in Database.ExecuteReader("SELECT name FROM timers"))
                 {
-                    if (rsTimer.GetString(2) == (string) nextEvent["id"])
+                    if (rsTimer.GetString(0) == (string) nextEvent["id"])
                     {
                         return;
                     }
@@ -228,13 +242,13 @@ namespace Supay.Bot
             // Event check every hour
             if (DateTime.UtcNow.Second == 0 && DateTime.UtcNow.Minute == 0)
             {
-                ThreadPool.QueueUserWorkItem(this._checkEvent);
+                this._checkEvent(null);
             }
 
             // Forum check every minute
             if (DateTime.UtcNow.Second == 0)
             {
-                ThreadPool.QueueUserWorkItem(this._checkForum);
+                this._checkForum(null);
             }
 
             // update utc timer label
@@ -252,8 +266,7 @@ namespace Supay.Bot
             if (this._irc != null && this._irc.Connection.Status == ConnectionStatus.Connected)
             {
                 // check for pending timers
-                SQLiteDataReader rsTimer = Database.ExecuteReader("SELECT fingerprint, nick, name, duration, started FROM timers;");
-                while (rsTimer.Read())
+                foreach (var rsTimer in Database.ExecuteReader("SELECT fingerprint, nick, name, duration, started FROM timers"))
                 {
                     if (DateTime.UtcNow >= rsTimer.GetString(4).ToDateTime().AddSeconds(rsTimer.GetInt32(3)))
                     {
@@ -297,7 +310,6 @@ namespace Supay.Bot
                         }
                     }
                 }
-                rsTimer.Close();
             }
         }
 
@@ -312,7 +324,13 @@ namespace Supay.Bot
                 EnableAutoIdent = false
             };
 
-            this._irc.Connection.DataSent += (dsender, de) => this.textBox.Invoke(new delOutputMessage(this.outputMessage), "-> " + _irc.ServerName + " " + de.Data);
+            this._irc.Connection.DataSent += (dsender, de) =>
+            {
+                if (!this.textBox.IsDisposed)
+                {
+                    this.textBox.Invoke(new delOutputMessage(this.outputMessage), "-> " + _irc.ServerName + " " + de.Data);
+                }
+            };
             this._irc.Connection.DataReceived += (dsender, de) => this.outputMessage("<- " + de.Data);
             this._irc.Ready += this.Irc_Ready;
 
@@ -397,43 +415,6 @@ namespace Supay.Bot
                     case "RAW":
                         await this._irc.Connection.Write(bc.MessageTokens.Join(1));
                         break;
-                    case "SQL":
-                        try
-                        {
-                            Database.ExecuteNonQuery(bc.MessageTokens.Join(1));
-                        }
-                        catch (Exception ex)
-                        {
-                            thrownException = ex;
-                        }
-                        if (thrownException != null)
-                        {
-                            await bc.SendReply(thrownException.Message.Replace("\r\n", " » "));
-                        }
-                        break;
-                    case "SQLRESULT":
-                        try
-                        {
-                            SQLiteDataReader sqlQuery = Database.ExecuteReader(bc.MessageTokens.Join(1) + " LIMIT 1;");
-                            if (sqlQuery.Read())
-                            {
-                                string reply = "Results »";
-                                for (int i = 0; i < sqlQuery.FieldCount; i++)
-                                {
-                                    reply += " " + sqlQuery.GetValue(i) + ";";
-                                }
-                                await this._irc.SendChat(reply, e.Message.Sender.Nickname);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            thrownException = ex;
-                        }
-                        if (thrownException != null)
-                        {
-                            await bc.SendReply(thrownException.Message.Replace("\r\n", " » "));
-                        }
-                        break;
                     case "LISTCHANNELS":
                         foreach (var channel in this._irc.Channels.Values)
                         {
@@ -456,8 +437,8 @@ namespace Supay.Bot
 
                     if (bc.MessageTokens[0].Length == 0)
                     {
-                        SQLiteDataReader defaultSkillInfo = Database.ExecuteReader("SELECT skill, publicSkill FROM users WHERE fingerprint='" + e.Message.Sender.FingerPrint + "';");
-                        if (defaultSkillInfo.Read())
+                        var defaultSkillInfo = Database.ExecuteReader("SELECT skill, publicSkill FROM users WHERE fingerprint='" + e.Message.Sender.FingerPrint + "'").FirstOrDefault();
+                        if (defaultSkillInfo != null)
                         {
                             if (!(defaultSkillInfo.GetValue(0) is DBNull))
                             {
@@ -962,12 +943,10 @@ namespace Supay.Bot
                 nextMorning += TimeSpan.FromDays(1.0);
 
                 // update all missing players
-                ThreadPool.QueueUserWorkItem(this.updatePlayers);
+                this.UpdatePlayers();
             }
-            this._dailyPlayersUpdater = new ThreadedTimer(this.updatePlayers, null, nextMorning, TimeSpan.FromDays(1.0));
-
-            // set up ge checker (every minute)
-            this._geChecker = new ThreadedTimer(this.checkGE, null, 15000, 60000);
+            _dailyPlayersUpdater.Interval = nextMorning.TotalMilliseconds;
+            _dailyPlayersUpdater.Start();
         }
 
         private void outputMessage(string message)
@@ -1000,16 +979,6 @@ namespace Supay.Bot
                 if (this.components != null)
                 {
                     this.components.Dispose();
-                }
-
-                if (this._dailyPlayersUpdater != null)
-                {
-                    this._dailyPlayersUpdater.Dispose();
-                }
-
-                if (this._geChecker != null)
-                {
-                    this._geChecker.Dispose();
                 }
             }
 

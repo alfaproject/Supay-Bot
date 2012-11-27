@@ -1,4 +1,4 @@
-﻿using System.Data.SQLite;
+﻿using MySql.Data.MySqlClient;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -52,7 +52,7 @@ namespace Supay.Bot
             string rsn = bc.MessageTokens.Join(2).ValidatePlayerName();
 
             // add/update to database
-            if (Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new SQLiteParameter("@fp", bc.From.FingerPrint) }) > 0)
+            if (Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new MySqlParameter("@fp", bc.From.FingerPrint) }) > 0)
             {
                 Database.Update("users", "fingerprint='" + bc.From.FingerPrint + "'", "rsn", rsn);
             }
@@ -105,7 +105,7 @@ namespace Supay.Bot
             }
 
             // Add this player to database if he never set a default name.
-            if (Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new SQLiteParameter("@fp", bc.From.FingerPrint) }) < 1)
+            if (Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new MySqlParameter("@fp", bc.From.FingerPrint) }) < 1)
             {
                 Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.GetPlayerName(bc.From.Nickname));
             }
@@ -177,7 +177,7 @@ namespace Supay.Bot
             string item = bc.MessageTokens.Join(3).Replace(";", string.Empty).ToLowerInvariant();
 
             // Add this player to database if he never set a default name.
-            if (Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new SQLiteParameter("@fp", bc.From.FingerPrint) }) < 1)
+            if (Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new MySqlParameter("@fp", bc.From.FingerPrint) }) < 1)
             {
                 Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.GetPlayerName(bc.From.Nickname));
             }
@@ -209,7 +209,7 @@ namespace Supay.Bot
             }
 
             // Add this player to database if he never set a default name.
-            if (Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new SQLiteParameter("@fp", bc.From.FingerPrint) }) < 1)
+            if (Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new MySqlParameter("@fp", bc.From.FingerPrint) }) < 1)
             {
                 Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.GetPlayerName(bc.From.Nickname));
             }
@@ -237,7 +237,7 @@ namespace Supay.Bot
             string state = bc.MessageTokens[2].ToLowerInvariant();
 
             // Add this player to database if he never set a default name.
-            if (Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new SQLiteParameter("@fp", bc.From.FingerPrint) }) < 1)
+            if (Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new MySqlParameter("@fp", bc.From.FingerPrint) }) < 1)
             {
                 Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.GetPlayerName(bc.From.Nickname));
             }
@@ -272,7 +272,7 @@ namespace Supay.Bot
             }
 
             // Add this player to database if he never set a default name.
-            if (Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new SQLiteParameter("@fp", bc.From.FingerPrint) }) < 1)
+            if (Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new MySqlParameter("@fp", bc.From.FingerPrint) }) < 1)
             {
                 Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.GetPlayerName(bc.From.Nickname));
             }

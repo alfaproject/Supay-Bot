@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
 
 namespace Supay.Bot
 {
@@ -8,8 +7,7 @@ namespace Supay.Bot
     {
         public Players(string clan, bool onlyRanked = true)
         {
-            SQLiteDataReader rs = Database.ExecuteReader("SELECT rsn, lastUpdate FROM players WHERE clan LIKE '%" + clan + "%'");
-            while (rs.Read())
+            foreach (var rs in Database.ExecuteReader("SELECT rsn, lastUpdate FROM players WHERE clan LIKE '%" + clan + "%'"))
             {
                 var player = new Player(rs.GetString(0), rs.GetString(1).ToDateTime());
                 if (!onlyRanked || player.Ranked)
@@ -17,14 +15,12 @@ namespace Supay.Bot
                     this.Add(player);
                 }
             }
-            rs.Close();
         }
 
         // performance constructor
         public Players(string clan, DateTime firstDay, DateTime lastDay)
         {
-            SQLiteDataReader rs = Database.ExecuteReader("SELECT rsn FROM players WHERE clan LIKE '%" + clan + "%'");
-            while (rs.Read())
+            foreach (var rs in Database.ExecuteReader("SELECT rsn FROM players WHERE clan LIKE '%" + clan + "%'"))
             {
                 var playerBegin = new Player(rs.GetString(0), firstDay);
                 if (playerBegin.Ranked)
@@ -40,7 +36,6 @@ namespace Supay.Bot
                     }
                 }
             }
-            rs.Close();
         }
     }
 }

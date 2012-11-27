@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Data.SQLite;
+using System.Linq;
 using System.Globalization;
 using System.Net;
 using System.Text.RegularExpressions;
+using MySql.Data.MySqlClient;
 
 namespace Supay.Bot
 {
@@ -45,13 +46,13 @@ namespace Supay.Bot
             private set;
         }
 
-        public int MarketPrice
+        public long MarketPrice
         {
             get;
             set;
         }
 
-        public int ChangeToday
+        public long ChangeToday
         {
             get;
             set;
@@ -120,14 +121,13 @@ namespace Supay.Bot
 
         public void LoadFromDB()
         {
-            SQLiteDataReader dr = Database.ExecuteReader("SELECT name, price, lastUpdate FROM prices WHERE id=" + this.Id + ";");
-            if (dr.Read())
+            var dr = Database.ExecuteReader("SELECT name, price, lastUpdate FROM prices WHERE id=" + this.Id).FirstOrDefault();
+            if (dr != null)
             {
-                this.Name = dr.GetString(0);
-                this.MarketPrice = dr.GetInt32(1);
-                this.LastUpdate = dr.GetString(2).ToDateTime();
+                this.Name = (string) dr["name"];
+                this.MarketPrice = (uint) dr["price"];
+                this.LastUpdate = ((string) dr["lastUpdate"]).ToDateTime();
             }
-            dr.Close();
         }
 
         public void LoadFromGE()
