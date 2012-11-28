@@ -59,7 +59,7 @@ namespace Supay.Bot
                 .AppendFormat(@"\b{0}\b \c07combat\c | level: \c07{1}\c | exp: \c07{2:e}\c | combat%: \c07{3:0.##}%\c | slayer%: \c07{4:0.##}%\c | class: \c07{5}\c", player.Name, combatLevel, player.Skills[Skill.COMB], (double) player.Skills[Skill.COMB].Exp / (double) player.Skills[Skill.OVER].Exp * 100.0, (double) player.Skills[Skill.SLAY].Exp / (double) expectedMaxSlayerExp * 100.0, combatClass);
 
             // Add SS rank if applicable
-            var ssPlayers = new Players("SS").OrderBy(p => p.Skills[Skill.COMB]);
+            var ssPlayers = (await Players.FromClan("SS")).OrderBy(p => p.Skills[Skill.COMB]);
             var ssRank = ssPlayers.FindIndex(p => p.Name.EqualsI(player.Name));
             if (ssRank != -1)
             {
@@ -132,7 +132,7 @@ namespace Supay.Bot
                 string perf;
                 reply = new StringBuilder(512);
 
-                var p_old = new Player(player.Name, lastupdate);
+                var p_old = await Player.FromDatabase(player.Name, lastupdate);
                 if (p_old.Ranked)
                 {
                     perf = _GetPerformance("Today", p_old.Skills[Skill.COMB], player.Skills[Skill.COMB]);
@@ -141,7 +141,7 @@ namespace Supay.Bot
                         reply.Append(perf + " | ");
                     }
                 }
-                p_old = new Player(player.Name, lastupdate.AddDays(-((int) lastupdate.DayOfWeek)));
+                p_old = await Player.FromDatabase(player.Name, lastupdate.AddDays(-((int) lastupdate.DayOfWeek)));
                 if (p_old.Ranked)
                 {
                     perf = _GetPerformance("Week", p_old.Skills[Skill.COMB], player.Skills[Skill.COMB]);
@@ -150,7 +150,7 @@ namespace Supay.Bot
                         reply.Append(perf + " | ");
                     }
                 }
-                p_old = new Player(player.Name, lastupdate.AddDays(1 - lastupdate.Day));
+                p_old = await Player.FromDatabase(player.Name, lastupdate.AddDays(1 - lastupdate.Day));
                 if (p_old.Ranked)
                 {
                     perf = _GetPerformance("Month", p_old.Skills[Skill.COMB], player.Skills[Skill.COMB]);
@@ -159,7 +159,7 @@ namespace Supay.Bot
                         reply.Append(perf + " | ");
                     }
                 }
-                p_old = new Player(player.Name, lastupdate.AddDays(1 - lastupdate.DayOfYear));
+                p_old = await Player.FromDatabase(player.Name, lastupdate.AddDays(1 - lastupdate.DayOfYear));
                 if (p_old.Ranked)
                 {
                     perf = _GetPerformance("Year", p_old.Skills[Skill.COMB], player.Skills[Skill.COMB]);

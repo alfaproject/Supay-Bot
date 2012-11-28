@@ -144,7 +144,7 @@ namespace Supay.Bot
                 .AppendFormat(@"\b{0}\b \c7{1:n}\c | level:\c7 {2:N0}\c (\c07{3:N1}\c avg) | exp:\c7 {1:e}\c (\c07{4:0.#%}\c of {5}) | rank:\c7 {1:R}\c", player.Name, player.Skills[Skill.OVER], overallLevel, avgSkillLevel, (double) player.Skills[Skill.OVER].Exp / maxOverallExp, maxOverallLevel);
 
             // add SS rank if applicable
-            var ssPlayers = new Players("SS").OrderBy(p => p.Skills[Skill.OVER]);
+            var ssPlayers = (await Players.FromClan("SS")).OrderBy(p => p.Skills[Skill.OVER]);
             var ssRank = ssPlayers.FindIndex(p => p.Name.EqualsI(player.Name));
             if (ssRank != -1)
             {

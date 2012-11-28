@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -43,7 +42,7 @@ namespace Supay.Bot
             }
 
             // Create a list of Clan players
-            List<Player> clanPlayers = new Players(clanInitials);
+            var clanPlayers = await Players.FromClan(clanInitials);
 
             // Parse command arguments
             if (bc.MessageTokens.Length == 1)

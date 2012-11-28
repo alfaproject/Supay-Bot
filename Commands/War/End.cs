@@ -34,7 +34,7 @@ namespace Supay.Bot
             }
 
             string reply = string.Empty;
-            var warPlayers = Database.ExecuteReader("SELECT rsn FROM warPlayers WHERE channel='" + channelName + "'");
+            var warPlayers = await Database.FetchAll("SELECT rsn FROM warPlayers WHERE channel='" + channelName + "'");
             for (int count = 1; count <= warPlayers.Count; count++)
             {
                 var p = await Player.FromHiscores(warPlayers[count - 1].GetString(0));

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using Supay.Bot.Properties;
 
@@ -20,16 +21,13 @@ namespace Supay.Bot
             this._connection.Open();
         }
 
-        public static List<IDataRecord> ExecuteReader(string sql)
+        public async static Task<List<IDataRecord>> FetchAll(string sql)
         {
-            lock (_instance.Value._connection)
+            using (var command = new MySqlCommand(sql, _instance.Value._connection))
             {
-                using (var command = new MySqlCommand(sql, _instance.Value._connection))
+                using (var reader = await command.ExecuteReaderAsync())
                 {
-                    using (var reader = command.ExecuteReader())
-                    {
-                        return reader.Cast<IDataRecord>().ToList();
-                    }
+                    return reader.Cast<IDataRecord>().ToList();
                 }
             }
         }

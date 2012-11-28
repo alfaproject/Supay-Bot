@@ -36,7 +36,7 @@ namespace Supay.Bot
                 bc.Message = bc.Message.Substring(0, indexOfSharp - 1);
             }
 
-            var rs = Database.ExecuteReader("SELECT skill, exp, datetime FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "' LIMIT 1").FirstOrDefault();
+            var rs = (await Database.FetchAll("SELECT skill, exp, datetime FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "' LIMIT 1")).FirstOrDefault();
             if (rs != null)
             {
                 string skill = rs.GetString(0);

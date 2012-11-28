@@ -18,7 +18,7 @@ namespace Supay.Bot
                     string reply = @"\b{0}\b \c07{1:n}\c | score: \c07{1:s}\c | rank: \c07{1:R}\c".FormatWith(player.Name, activity);
 
                     // Add SS rank if applicable
-                    var ssPlayers = new Players("SS").OrderBy(p => p.Activities[activity.Name]);
+                    var ssPlayers = (await Players.FromClan("SS")).OrderBy(p => p.Activities[activity.Name]);
                     var ssRank = ssPlayers.FindIndex(p => p.Name.EqualsI(player.Name));
                     if (ssRank != -1)
                     {
@@ -35,7 +35,7 @@ namespace Supay.Bot
                         string perf;
                         reply = string.Empty;
 
-                        var p_old = new Player(player.Name, lastupdate);
+                        var p_old = await Player.FromDatabase(player.Name, lastupdate);
                         if (p_old.Ranked)
                         {
                             perf = _GetPerformance("Today", p_old.Activities[activity.Name], activity);
@@ -44,7 +44,7 @@ namespace Supay.Bot
                                 reply += perf + " | ";
                             }
                         }
-                        p_old = new Player(player.Name, lastupdate.AddDays(-((int) lastupdate.DayOfWeek)));
+                        p_old = await Player.FromDatabase(player.Name, lastupdate.AddDays(-((int) lastupdate.DayOfWeek)));
                         if (p_old.Ranked)
                         {
                             perf = _GetPerformance("Week", p_old.Activities[activity.Name], activity);
@@ -53,7 +53,7 @@ namespace Supay.Bot
                                 reply += perf + " | ";
                             }
                         }
-                        p_old = new Player(player.Name, lastupdate.AddDays(1 - lastupdate.Day));
+                        p_old = await Player.FromDatabase(player.Name, lastupdate.AddDays(1 - lastupdate.Day));
                         if (p_old.Ranked)
                         {
                             perf = _GetPerformance("Month", p_old.Activities[activity.Name], activity);
@@ -62,7 +62,7 @@ namespace Supay.Bot
                                 reply += perf + " | ";
                             }
                         }
-                        p_old = new Player(player.Name, lastupdate.AddDays(1 - lastupdate.DayOfYear));
+                        p_old = await Player.FromDatabase(player.Name, lastupdate.AddDays(1 - lastupdate.DayOfYear));
                         if (p_old.Ranked)
                         {
                             perf = _GetPerformance("Year", p_old.Activities[activity.Name], activity);

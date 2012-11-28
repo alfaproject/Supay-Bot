@@ -1,41 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
-    internal class Players : List<Player>
+    internal static class Players
     {
-        public Players(string clan, bool onlyRanked = true)
+        public async static Task<IList<Player>> FromClan(string clan, bool onlyRanked = true)
         {
-            foreach (var rs in Database.ExecuteReader("SELECT rsn, lastUpdate FROM players WHERE clan LIKE '%" + clan + "%'"))
+            var players = new List<Player>();
+            foreach (var rs in await Database.FetchAll("SELECT rsn, lastUpdate FROM players WHERE clan LIKE '%" + clan + "%'"))
             {
-                var player = new Player(rs.GetString(0), rs.GetString(1).ToDateTime());
+                var player = await Player.FromDatabase(rs.GetString(0), rs.GetString(1).ToDateTime());
                 if (!onlyRanked || player.Ranked)
                 {
-                    this.Add(player);
+                    players.Add(player);
                 }
             }
+            return players;
         }
 
-        // performance constructor
-        public Players(string clan, DateTime firstDay, DateTime lastDay)
+        public async static Task<IList<Player>> FromClanAsPeriod(string clan, DateTime firstDay, DateTime lastDay)
         {
-            foreach (var rs in Database.ExecuteReader("SELECT rsn FROM players WHERE clan LIKE '%" + clan + "%'"))
+            var players = new List<Player>();
+            foreach (var rs in await Database.FetchAll("SELECT rsn FROM players WHERE clan LIKE '%" + clan + "%'"))
             {
-                var playerBegin = new Player(rs.GetString(0), firstDay);
+                var playerBegin = await Player.FromDatabase(rs.GetString(0), firstDay);
                 if (playerBegin.Ranked)
                 {
-                    var playerEnd = new Player(rs.GetString(0), lastDay);
+                    var playerEnd = await Player.FromDatabase(rs.GetString(0), lastDay);
                     if (playerEnd.Ranked)
                     {
                         for (int i = 0; i < playerEnd.Skills.Count; i++)
                         {
                             playerEnd.Skills[i] -= playerBegin.Skills[i];
                         }
-                        this.Add(playerEnd);
+                        players.Add(playerEnd);
                     }
                 }
             }
+            return players;
         }
     }
 }

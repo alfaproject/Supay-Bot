@@ -150,13 +150,13 @@ namespace Supay.Bot
                 string dblastupdate = Database.LastUpdate(rsn1);
                 if (dblastupdate != null && dblastupdate.Length == 8)
                 {
-                    p1 = new Player(rsn1, dblastupdate.ToDateTime());
+                    p1 = await Player.FromDatabase(rsn1, dblastupdate.ToDateTime());
                     if (p1.Ranked)
                     {
                         dblastupdate = Database.LastUpdate(rsn2);
                         if (dblastupdate != null && dblastupdate.Length == 8)
                         {
-                            p2 = new Player(rsn2, dblastupdate.ToDateTime());
+                            p2 = await Player.FromDatabase(rsn2, dblastupdate.ToDateTime());
                             if (p2.Ranked)
                             {
                                 Skill skilldif1 = pskill1 - p1.Skills[skill1];
@@ -202,13 +202,13 @@ namespace Supay.Bot
                 string dblastupdate = Database.LastUpdate(rsn1);
                 if (dblastupdate != null && dblastupdate.Length == 8)
                 {
-                    p1 = new Player(rsn1, dblastupdate.ToDateTime());
+                    p1 = await Player.FromDatabase(rsn1, dblastupdate.ToDateTime());
                     if (p1.Ranked && p1.Activities[activity1].Rank > 0)
                     {
                         dblastupdate = Database.LastUpdate(rsn2);
                         if (dblastupdate != null && dblastupdate.Length == 8)
                         {
-                            p2 = new Player(rsn2, dblastupdate.ToDateTime());
+                            p2 = await Player.FromDatabase(rsn2, dblastupdate.ToDateTime());
                             if (p2.Ranked && p2.Activities[activity1].Rank > 0)
                             {
                                 Activity p1ActivityDelta = p1Activity - p1.Activities[activity1];

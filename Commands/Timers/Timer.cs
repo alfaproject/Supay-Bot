@@ -11,7 +11,7 @@ namespace Supay.Bot
             {
                 int timers = 0;
                 string reply = string.Empty;
-                foreach (var rsTimer in Database.ExecuteReader("SELECT name, duration, started FROM timers WHERE fingerprint='" + bc.From.FingerPrint + "' OR nick='" + bc.From.Nickname + "'"))
+                foreach (var rsTimer in await Database.FetchAll("SELECT name, duration, started FROM timers WHERE fingerprint='" + bc.From.FingerPrint + "' OR nick='" + bc.From.Nickname + "'"))
                 {
                     timers++;
                     DateTime start = rsTimer.GetString(2).ToDateTime();

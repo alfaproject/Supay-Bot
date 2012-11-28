@@ -154,7 +154,7 @@ namespace Supay.Bot
             }
 
             int playersRemoved = 0;
-            foreach (var dr in Database.ExecuteReader("SELECT id FROM players WHERE clan='" + clan + "'"))
+            foreach (var dr in await Database.FetchAll("SELECT id FROM players WHERE clan='" + clan + "'"))
             {
                 Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + dr.GetInt32(0) + ";");
                 playersRemoved++;
@@ -282,7 +282,7 @@ namespace Supay.Bot
             }
 
             // Get old player 
-            var PlayerOld = new Player(rsn, firstday);
+            var PlayerOld = await Player.FromDatabase(rsn, firstday);
             if (!PlayerOld.Ranked)
             {
                 // Get data from RuneScript
@@ -307,7 +307,7 @@ namespace Supay.Bot
             }
             else
             {
-                PlayerNew = new Player(rsn, lastday);
+                PlayerNew = await Player.FromDatabase(rsn, lastday);
             }
             if (!PlayerNew.Ranked)
             {

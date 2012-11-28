@@ -18,7 +18,7 @@ namespace Supay.Bot
 
             int totallevel = 0;
             long totalexp = 0;
-            var ssplayers = new Players("SS");
+            var ssplayers = await Players.FromClan("SS");
             foreach (Player p in ssplayers)
             {
                 totallevel += p.Skills[skill].Level;

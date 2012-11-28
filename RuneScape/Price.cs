@@ -3,7 +3,7 @@ using System.Linq;
 using System.Globalization;
 using System.Net;
 using System.Text.RegularExpressions;
-using MySql.Data.MySqlClient;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
@@ -119,9 +119,9 @@ namespace Supay.Bot
             }
         }
 
-        public void LoadFromDB()
+        public async Task LoadFromDB()
         {
-            var dr = Database.ExecuteReader("SELECT name, price, lastUpdate FROM prices WHERE id=" + this.Id).FirstOrDefault();
+            var dr = (await Database.FetchAll("SELECT name, price, lastUpdate FROM prices WHERE id=" + this.Id)).FirstOrDefault();
             if (dr != null)
             {
                 this.Name = (string) dr["name"];

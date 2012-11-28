@@ -159,7 +159,7 @@ namespace Supay.Bot
                 string reply = @"\b{0}\b \c07{1:n}\c | level: \c07{1:v}\c | exp: \c07{1:e}\c (\c07{2}%\c of {3}) | rank: \c07{1:R}\c".FormatWith(player.Name, skill, percentDone, targetLevel);
 
                 // Add SS rank if applicable
-                var ssPlayers = new Players("SS").OrderBy(p => p.Skills[skill.Name]);
+                var ssPlayers = (await Players.FromClan("SS")).OrderBy(p => p.Skills[skill.Name]);
                 var ssRank = ssPlayers.FindIndex(p => p.Name.EqualsI(player.Name));
                 if (ssRank != -1)
                 {
@@ -319,7 +319,7 @@ namespace Supay.Bot
                 string perf;
                 reply = string.Empty;
 
-                var p_old = new Player(player.Name, lastupdate);
+                var p_old = await Player.FromDatabase(player.Name, lastupdate);
                 if (!p_old.Ranked)
                 {
                     p_old = new Player(player.Name, (int) (DateTime.UtcNow - lastupdate).TotalSeconds);
@@ -333,7 +333,7 @@ namespace Supay.Bot
                     }
                 }
 
-                p_old = new Player(player.Name, lastupdate.AddDays(-((int) lastupdate.DayOfWeek)));
+                p_old = await Player.FromDatabase(player.Name, lastupdate.AddDays(-((int) lastupdate.DayOfWeek)));
                 if (!p_old.Ranked)
                 {
                     p_old = new Player(player.Name, (int) (DateTime.UtcNow - lastupdate.AddDays(-((int) lastupdate.DayOfWeek))).TotalSeconds);
@@ -347,7 +347,7 @@ namespace Supay.Bot
                     }
                 }
 
-                p_old = new Player(player.Name, lastupdate.AddDays(1 - lastupdate.Day));
+                p_old = await Player.FromDatabase(player.Name, lastupdate.AddDays(1 - lastupdate.Day));
                 if (!p_old.Ranked)
                 {
                     p_old = new Player(player.Name, (int) (DateTime.UtcNow - lastupdate.AddDays(1 - lastupdate.Day)).TotalSeconds);
@@ -361,7 +361,7 @@ namespace Supay.Bot
                     }
                 }
 
-                p_old = new Player(player.Name, lastupdate.AddDays(1 - lastupdate.DayOfYear));
+                p_old = await Player.FromDatabase(player.Name, lastupdate.AddDays(1 - lastupdate.DayOfYear));
                 if (!p_old.Ranked)
                 {
                     p_old = new Player(player.Name, (int) (DateTime.UtcNow - lastupdate.AddDays(1 - lastupdate.DayOfYear)).TotalSeconds);
@@ -376,7 +376,7 @@ namespace Supay.Bot
                 }
 
                 // ***** start war *****
-                var warPlayer = Database.ExecuteReader("SELECT startrank, startlevel, startexp FROM warplayers WHERE channel='" + bc.Channel + "' AND rsn='" + player.Name + "'").FirstOrDefault();
+                var warPlayer = (await Database.FetchAll("SELECT startrank, startlevel, startexp FROM warplayers WHERE channel='" + bc.Channel + "' AND rsn='" + player.Name + "'")).FirstOrDefault();
                 if (warPlayer != null && Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new MySqlParameter("@chan", bc.Channel) }) == skill.Name)
                 {
                     var oldSkill = new Skill(skill.Name, warPlayer.GetInt32(0), warPlayer.GetInt32(1), warPlayer.GetInt32(2));

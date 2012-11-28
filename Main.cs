@@ -68,7 +68,7 @@ namespace Supay.Bot
             this.textBox.Invoke(new delOutputMessage(this.outputMessage), "##### Begin players update");
 
             DateTime now = DateTime.UtcNow;
-            foreach (var rs in Database.ExecuteReader("SELECT rsn FROM players WHERE lastUpdate!='" + now.ToStringI("yyyyMMdd") + "'"))
+            foreach (var rs in await Database.FetchAll("SELECT rsn FROM players WHERE lastUpdate!='" + now.ToStringI("yyyyMMdd") + "'"))
             {
                 int tries = 0;
                 do
@@ -213,7 +213,7 @@ namespace Supay.Bot
 
                 nextEvent = JObject.Parse(events[0]);
                 DateTime startTime = DateTime.ParseExact((string) nextEvent["startTime"], "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
-                foreach (var rsTimer in Database.ExecuteReader("SELECT name FROM timers"))
+                foreach (var rsTimer in await Database.FetchAll("SELECT name FROM timers"))
                 {
                     if (rsTimer.GetString(0) == (string) nextEvent["id"])
                     {
@@ -265,7 +265,7 @@ namespace Supay.Bot
             if (this._irc != null && this._irc.Connection.Status == ConnectionStatus.Connected)
             {
                 // check for pending timers
-                foreach (var rsTimer in Database.ExecuteReader("SELECT fingerprint, nick, name, duration, started FROM timers"))
+                foreach (var rsTimer in await Database.FetchAll("SELECT fingerprint, nick, name, duration, started FROM timers"))
                 {
                     if (DateTime.UtcNow >= rsTimer.GetString(4).ToDateTime().AddSeconds(rsTimer.GetInt32(3)))
                     {
@@ -435,7 +435,7 @@ namespace Supay.Bot
 
                     if (bc.MessageTokens[0].Length == 0)
                     {
-                        var defaultSkillInfo = Database.ExecuteReader("SELECT skill, publicSkill FROM users WHERE fingerprint='" + e.Message.Sender.FingerPrint + "'").FirstOrDefault();
+                        var defaultSkillInfo = (await Database.FetchAll("SELECT skill, publicSkill FROM users WHERE fingerprint='" + e.Message.Sender.FingerPrint + "'")).FirstOrDefault();
                         if (defaultSkillInfo != null)
                         {
                             if (!(defaultSkillInfo.GetValue(0) is DBNull))
