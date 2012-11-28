@@ -51,7 +51,7 @@ namespace Supay.Bot
                 return;
             }
 
-            var p = new Player(rsn);
+            var p = await Player.FromHiscores(rsn);
             list.Sort((i1, i2) => i2.Date.CompareTo(i1.Date));
             if (timeSpan > 0)
             {

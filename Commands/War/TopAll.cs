@@ -28,7 +28,7 @@ namespace Supay.Bot
             var warPlayers = new List<Player>();
             foreach (var warPlayersDr in Database.ExecuteReader("SELECT rsn, startrank, startlevel, startexp FROM warplayers WHERE channel='" + bc.Channel + "'"))
             {
-                var warPlayer = new Player(warPlayersDr.GetString(0));
+                var warPlayer = await Player.FromHiscores(warPlayersDr.GetString(0));
                 if (!warPlayer.Ranked)
                 {
                     continue;

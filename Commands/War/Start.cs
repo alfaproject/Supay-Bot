@@ -35,7 +35,7 @@ namespace Supay.Bot
             var warPlayers = Database.ExecuteReader("SELECT rsn FROM warPlayers WHERE channel='" + channelName + "'");
             for (int count = 1; count <= warPlayers.Count; count++)
             {
-                var p = new Player(warPlayers[count - 1].GetString(0));
+                var p = await Player.FromHiscores(warPlayers[count - 1].GetString(0));
                 Database.Update("warPlayers", "channel='" + channelName + "' AND rsn='" + p.Name + "'", "startLevel", p.Skills[skillName].Level.ToStringI(), "startExp", p.Skills[skillName].Exp.ToStringI(), "startRank", p.Skills[skillName].Rank.ToStringI());
                 if (count % 2 == 0)
                 {

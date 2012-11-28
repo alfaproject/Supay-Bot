@@ -9,7 +9,7 @@ namespace Supay.Bot
         public static async Task Activity(CommandContext bc)
         {
             // get player
-            var player = new Player(bc.GetPlayerName(bc.MessageTokens.Length > 1 ? bc.MessageTokens.Join(1) : bc.From.Nickname));
+            var player = await Player.FromHiscores(bc.GetPlayerName(bc.MessageTokens.Length > 1 ? bc.MessageTokens.Join(1) : bc.From.Nickname));
             if (player.Ranked)
             {
                 Activity activity = player.Activities[Bot.Activity.Parse(bc.MessageTokens[0])];

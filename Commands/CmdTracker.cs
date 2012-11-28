@@ -26,7 +26,7 @@ namespace Supay.Bot
             string rsn = bc.MessageTokens.Join(1).ValidatePlayerName();
             try
             {
-                var p = new Player(rsn);
+                var p = await Player.FromHiscores(rsn);
                 if (p.Ranked)
                 {
                     Database.Insert("players", "rsn", rsn, "clan", string.Empty, "lastupdate", string.Empty);
@@ -96,7 +96,7 @@ namespace Supay.Bot
             }
 
             // check if the old player still exists in hiscores
-            var oldPlayer = new Player(oldRsn);
+            var oldPlayer = await Player.FromHiscores(oldRsn);
             if (oldPlayer.Ranked)
             {
                 await bc.SendReply(@"Player \b{0}\b is still ranked in hiscores.", oldRsn);
@@ -104,7 +104,7 @@ namespace Supay.Bot
             }
 
             // check if the new player is in hiscores
-            var newPlayer = new Player(newRsn);
+            var newPlayer = await Player.FromHiscores(newRsn);
             if (!newPlayer.Ranked)
             {
                 await bc.SendReply(@"Player \b{0\b doesn't feature in hiscores.", newRsn);
@@ -303,7 +303,7 @@ namespace Supay.Bot
             Player PlayerNew;
             if (lastday == DateTime.MaxValue)
             {
-                PlayerNew = new Player(rsn);
+                PlayerNew = await Player.FromHiscores(rsn);
             }
             else
             {

@@ -40,7 +40,7 @@ namespace Supay.Bot
                 }
                 else
                 {
-                    var player = new Player(playerName);
+                    var player = await Player.FromHiscores(playerName);
                     if (player.Ranked)
                     {
                         var skillName = Database.Lookup<string>("skill", "wars", "channel=@channelName", new[] { channelNameParameter });

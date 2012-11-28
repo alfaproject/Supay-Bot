@@ -38,7 +38,7 @@ namespace Supay.Bot
             string pageRuneHead = new WebClient().DownloadString("http://runehead.com/clans/ml.php?sort=name&clan=" + bc.MessageTokens[1]);
             foreach (Match clanMember in Regex.Matches(pageRuneHead, "\\?name=([^&]+)"))
             {
-                var p = new Player(clanMember.Groups[1].Value.ValidatePlayerName());
+                var p = await Player.FromHiscores(clanMember.Groups[1].Value.ValidatePlayerName());
                 if (!p.Ranked)
                 {
                     await bc.SendReply(@"\b{0}\b is not ranked.", p.Name);

@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
@@ -49,12 +48,12 @@ namespace Supay.Bot
 
             _dailyPlayersUpdater = new Timer();
             _dailyPlayersUpdater.SynchronizingObject = this;
-            _dailyPlayersUpdater.Elapsed += (o, args) => UpdatePlayers();
+            _dailyPlayersUpdater.Elapsed += async (o, args) => await UpdatePlayers();
 
             // set up ge checker (every minute)
             _geChecker = new Timer(60000);
             _geChecker.SynchronizingObject = this;
-            _geChecker.Elapsed += (sender, args) => checkGE(null);
+            _geChecker.Elapsed += async (sender, args) => await CheckGE();
             _geChecker.Start();
         }
 
@@ -75,7 +74,7 @@ namespace Supay.Bot
                 do
                 {
                     await Task.Delay(250);
-                    var player = new Player(rs.GetString(0));
+                    var player = await Player.FromHiscores(rs.GetString(0));
                     if (player.Ranked)
                     {
                         player.SaveToDB(now.ToStringI("yyyyMMdd"));
@@ -90,14 +89,14 @@ namespace Supay.Bot
             this.textBox.Invoke(new delOutputMessage(this.outputMessage), "##### End players update");
         }
 
-        private async void checkGE(object stateInfo)
+        private async Task CheckGE()
         {
             string pricesPage;
             try
             {
                 var wc = new WebClient();
-                pricesPage = wc.DownloadString("http://services.runescape.com/m=itemdb_rs/frontpage.ws");
-                pricesPage += wc.DownloadString("http://services.runescape.com/m=itemdb_rs/results.ws?query=ring");
+                pricesPage = await wc.DownloadStringTaskAsync("http://services.runescape.com/m=itemdb_rs/frontpage.ws");
+                pricesPage += await wc.DownloadStringTaskAsync("http://services.runescape.com/m=itemdb_rs/results.ws?query=ring");
             }
             catch (WebException)
             {
@@ -153,7 +152,7 @@ namespace Supay.Bot
             }
         }
 
-        private async void _checkForum(object stateInfo)
+        private async Task CheckForum()
         {
             const string mainChannel = "#skillers";
             if (!this._irc.Channels.ContainsKey(mainChannel))
@@ -163,7 +162,7 @@ namespace Supay.Bot
 
             try
             {
-                string forumPage = new WebClient().DownloadString("http://supremeskillers.net/api/?module=forum&action=getLatestTopics");
+                string forumPage = await new WebClient().DownloadStringTaskAsync("http://supremeskillers.net/api/?module=forum&action=getLatestTopics");
                 JObject LatestTopics = JObject.Parse(forumPage);
 
                 foreach (JObject post in LatestTopics["data"])
@@ -188,7 +187,7 @@ namespace Supay.Bot
             }
         }
 
-        private void _checkEvent(object stateInfo)
+        private async Task CheckEvent()
         {
             const string mainChannel = "#skillers";
             if (!this._irc.Channels.ContainsKey(mainChannel))
@@ -198,7 +197,7 @@ namespace Supay.Bot
 
             try
             {
-                string eventPage = new WebClient().DownloadString("http://supremeskillers.net/api/?module=events&action=getNext&channel=" + Uri.EscapeDataString(mainChannel));
+                string eventPage = await new WebClient().DownloadStringTaskAsync("http://supremeskillers.net/api/?module=events&action=getNext&channel=" + Uri.EscapeDataString(mainChannel));
                 JObject nextEvent = JObject.Parse(eventPage);
 
                 if (nextEvent["data"] == null)
@@ -242,13 +241,13 @@ namespace Supay.Bot
             // Event check every hour
             if (DateTime.UtcNow.Second == 0 && DateTime.UtcNow.Minute == 0)
             {
-                this._checkEvent(null);
+                await this.CheckEvent();
             }
 
             // Forum check every minute
             if (DateTime.UtcNow.Second == 0)
             {
-                this._checkForum(null);
+                await this.CheckForum();
             }
 
             // update utc timer label
@@ -409,7 +408,6 @@ namespace Supay.Bot
                     return;
                 }
 
-                Exception thrownException = null;
                 switch (bc.MessageTokens[0].ToUpperInvariant())
                 {
                     case "RAW":
@@ -931,7 +929,7 @@ namespace Supay.Bot
             }
         }
 
-        private void Main_Shown(object sender, EventArgs e)
+        private async void Main_Shown(object sender, EventArgs e)
         {
             this.btnConnect_Click(sender, e);
 
@@ -943,7 +941,7 @@ namespace Supay.Bot
                 nextMorning += TimeSpan.FromDays(1.0);
 
                 // update all missing players
-                this.UpdatePlayers();
+                await this.UpdatePlayers();
             }
             _dailyPlayersUpdater.Interval = nextMorning.TotalMilliseconds;
             _dailyPlayersUpdater.Start();

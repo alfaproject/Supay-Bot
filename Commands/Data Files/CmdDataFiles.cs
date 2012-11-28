@@ -413,7 +413,7 @@ namespace Supay.Bot
         {
             if (bc.MessageTokens.Length > 1 && (bc.Channel.EqualsI("#skillers") || bc.Channel.EqualsI("#supay")))
             {
-                var player = new Player(bc.GetPlayerName(bc.MessageTokens.Join(1)));
+                var player = await Player.FromHiscores(bc.GetPlayerName(bc.MessageTokens.Join(1)));
                 if (player.Ranked)
                 {
                     var over = player.Skills[Skill.OVER].Level;
@@ -513,7 +513,7 @@ namespace Supay.Bot
             }
 
             // Get player summoning level
-            var player = new Player(bc.GetPlayerName(bc.From.Nickname));
+            var player = await Player.FromHiscores(bc.GetPlayerName(bc.From.Nickname));
             if (!player.Ranked)
             {
                 await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", player.Name);
@@ -716,7 +716,7 @@ namespace Supay.Bot
                 await bc.SendReply(@"No Slayer Monster matching '\c07{0}\c'", monster);
                 return;
             }
-            var p = new Player(bc.GetPlayerName(bc.From.Nickname));
+            var p = await Player.FromHiscores(bc.GetPlayerName(bc.From.Nickname));
             if (!p.Ranked)
             {
                 await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", p.Name);

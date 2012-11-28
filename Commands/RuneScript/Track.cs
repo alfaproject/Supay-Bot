@@ -108,7 +108,7 @@ namespace Supay.Bot
             }
 
             // Get new player
-            var PlayerNew = new Player(rsn);
+            var PlayerNew = await Player.FromHiscores(rsn);
             if (!PlayerNew.Ranked)
             {
                 await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);

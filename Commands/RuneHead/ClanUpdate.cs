@@ -74,7 +74,7 @@ namespace Supay.Bot
                     try
                     {
                         Database.Insert("players", "rsn", rsn.ValidatePlayerName(), "clan", clanInitials, "lastupdate", string.Empty);
-                        var p = new Player(rsn);
+                        var p = await Player.FromHiscores(rsn);
                         if (p.Ranked)
                         {
                             f2p = p.Skills.F2pExp == p.Skills[Skill.OVER].Exp;

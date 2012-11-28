@@ -35,7 +35,7 @@ namespace Supay.Bot
             var warPlayers = new List<Player>();
             foreach (var warPlayersDr in Database.ExecuteReader("SELECT rsn, startrank, startlevel, startexp FROM warplayers WHERE channel='" + channelName + "'"))
             {
-                var warPlayer = new Player(warPlayersDr.GetString(0));
+                var warPlayer = await Player.FromHiscores(warPlayersDr.GetString(0));
                 if (warPlayer.Ranked)
                 {
                     warPlayer.Skills[skill] -= new Skill(skill, warPlayersDr.GetInt32(1), warPlayersDr.GetInt32(2), warPlayersDr.GetInt32(3));

@@ -44,7 +44,7 @@ namespace Supay.Bot
                     {
                         // !Top Skill/Activity RSN
                         rsn = bc.GetPlayerName(bc.MessageTokens.Join(2));
-                        var p = new Player(rsn);
+                        var p = await Player.FromHiscores(rsn);
                         if (p.Ranked)
                         {
                             if (skill == null)
@@ -70,7 +70,7 @@ namespace Supay.Bot
                 rank = 1;
                 skill = Skill.OVER;
                 rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
-                var p = new Player(rsn);
+                var p = await Player.FromHiscores(rsn);
                 if (p.Ranked)
                 {
                     rank = p.Skills[skill].Rank;

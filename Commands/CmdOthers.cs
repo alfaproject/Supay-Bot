@@ -13,7 +13,7 @@ namespace Supay.Bot
             // get rsn
             string rsn = bc.GetPlayerName(bc.MessageTokens.Length > 1 ? bc.MessageTokens.Join(1) : bc.From.Nickname);
 
-            var p = new Player(rsn);
+            var p = await Player.FromHiscores(rsn);
             if (!p.Ranked)
             {
                 await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
@@ -48,7 +48,7 @@ namespace Supay.Bot
                 rsn = bc.GetPlayerName(bc.From.Nickname);
             }
 
-            var p = new Player(rsn);
+            var p = await Player.FromHiscores(rsn);
             if (!p.Ranked)
             {
                 await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
@@ -71,7 +71,7 @@ namespace Supay.Bot
                 rsn = bc.GetPlayerName(bc.From.Nickname);
             }
 
-            var p = new Player(rsn);
+            var p = await Player.FromHiscores(rsn);
             if (!p.Ranked)
             {
                 await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
@@ -94,7 +94,7 @@ namespace Supay.Bot
                 rsn = bc.GetPlayerName(bc.From.Nickname);
             }
 
-            var p = new Player(rsn);
+            var p = await Player.FromHiscores(rsn);
             if (!p.Ranked)
             {
                 await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
@@ -120,7 +120,7 @@ namespace Supay.Bot
                 rsn = bc.GetPlayerName(bc.From.Nickname);
             }
 
-            var p = new Player(rsn);
+            var p = await Player.FromHiscores(rsn);
             if (!p.Ranked)
             {
                 await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);
@@ -183,7 +183,7 @@ namespace Supay.Bot
                 else
                 {
                     // !grats <skill>
-                    var p = new Player(rsn);
+                    var p = await Player.FromHiscores(rsn);
                     if (p.Ranked)
                     {
                         level = p.Skills[skill].VLevel;
@@ -242,7 +242,7 @@ namespace Supay.Bot
                 rsn = bc.GetPlayerName(bc.From.Nickname);
             }
 
-            var p = new Player(rsn);
+            var p = await Player.FromHiscores(rsn);
             if (!p.Ranked)
             {
                 await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", p.Name);
@@ -352,7 +352,7 @@ namespace Supay.Bot
                 int.TryParse(bc.MessageTokens[5], out Mag);
             }
 
-            var p = new Player(bc.GetPlayerName(bc.From.Nickname));
+            var p = await Player.FromHiscores(bc.GetPlayerName(bc.From.Nickname));
             if (p.Ranked)
             {
                 if (Att <= 0)

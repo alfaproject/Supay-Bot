@@ -57,7 +57,7 @@ namespace Supay.Bot
 
             if (!string.IsNullOrEmpty(rsn))
             {
-                var p = new Player(rsn);
+                var p = await Player.FromHiscores(rsn);
                 if (!p.Ranked)
                 {
                     await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn);

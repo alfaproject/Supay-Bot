@@ -75,14 +75,14 @@ namespace Supay.Bot
                 rsn2 = bc.GetPlayerName(bc.MessageTokens.Join(2));
             }
 
-            var p1 = new Player(rsn1);
+            var p1 = await Player.FromHiscores(rsn1);
             if (!p1.Ranked)
             {
                 await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn1);
                 return;
             }
 
-            var p2 = new Player(rsn2);
+            var p2 = await Player.FromHiscores(rsn2);
             if (!p2.Ranked)
             {
                 await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", rsn2);

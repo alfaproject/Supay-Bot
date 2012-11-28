@@ -37,7 +37,7 @@ namespace Supay.Bot
             var warPlayers = Database.ExecuteReader("SELECT rsn FROM warPlayers WHERE channel='" + channelName + "'");
             for (int count = 1; count <= warPlayers.Count; count++)
             {
-                var p = new Player(warPlayers[count - 1].GetString(0));
+                var p = await Player.FromHiscores(warPlayers[count - 1].GetString(0));
                 if (!p.Ranked)
                 {
                     await bc.SendReply(@"Player \b" + p.Name + "\b has changed his/her name or was banned during the war, and couldn't be tracked.");
