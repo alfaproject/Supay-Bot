@@ -24,8 +24,7 @@ namespace Supay.Bot
             else
             {
                 string query = bc.MessageTokens.Join(1);
-                var prices = new Prices();
-                prices.SearchExact(query);
+                var prices = await Prices.FromRuneScapeSearchExact(query);
 
                 switch (prices.Count)
                 {

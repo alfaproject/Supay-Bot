@@ -39,8 +39,7 @@ namespace Supay.Bot
             }
             else
             {
-                var prices = new Prices();
-                prices.SearchExact(query);
+                var prices = await Prices.FromRuneScapeSearchExact(query);
 
                 switch (prices.Count)
                 {

@@ -26,7 +26,7 @@ namespace Supay.Bot
                 search_term = bc.MessageTokens.Join(1);
             }
 
-            var price_list = new Prices(search_term);
+            var price_list = await Prices.FromRuneScapeSearch(search_term);
             if (price_list.Count == 0)
             {
                 await bc.SendReply(@"\c12www.runescape.com\c doesn't have any record for '{0}'.", search_term);
