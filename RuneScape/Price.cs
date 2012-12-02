@@ -49,7 +49,7 @@ namespace Supay.Bot
         public long MarketPrice
         {
             get;
-            set;
+            private set;
         }
 
         public long ChangeToday
@@ -112,9 +112,7 @@ namespace Supay.Bot
 
         public static async Task<Price> FromCache(int id)
         {
-            var price = new Price(id);
-
-            await price.LoadFromDB();
+            var price = await FromDatabase(id);
             if ((DateTime.UtcNow - price.LastUpdate).Days > 1)
             {
                 price.LoadFromGE();
@@ -123,15 +121,19 @@ namespace Supay.Bot
             return price;
         }
 
-        public async Task LoadFromDB()
+        public static async Task<Price> FromDatabase(int id)
         {
-            var dr = await Database.FetchFirst("SELECT name,price,lastUpdate FROM prices WHERE id=@id", new MySqlParameter("@id", Id));
+            var price = new Price(id);
+
+            var dr = await Database.FetchFirst("SELECT name,price,lastUpdate FROM prices WHERE id=@id", new MySqlParameter("@id", id));
             if (dr != null)
             {
-                this.Name = (string) dr["name"];
-                this.MarketPrice = (uint) dr["price"];
-                this.LastUpdate = ((string) dr["lastUpdate"]).ToDateTime();
+                price.Name = (string) dr["name"];
+                price.MarketPrice = (uint) dr["price"];
+                price.LastUpdate = ((string) dr["lastUpdate"]).ToDateTime();
             }
+
+            return price;
         }
 
         public void LoadFromGE()

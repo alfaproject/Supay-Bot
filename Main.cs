@@ -108,8 +108,7 @@ namespace Supay.Bot
             foreach (Match priceMatch in Regex.Matches(pricesPage, pricesRegex, RegexOptions.Singleline))
             {
                 var newPrice = new Price(int.Parse(priceMatch.Groups[1].Value, CultureInfo.InvariantCulture), priceMatch.Groups[2].Value.Trim(), priceMatch.Groups[3].Value.ToInt32());
-                var oldPrice = new Price(newPrice.Id);
-                await oldPrice.LoadFromDB();
+                var oldPrice = await Price.FromDatabase(newPrice.Id);
 
                 // if the last saved price is outdated, add it to the list of changed prices
                 newPrice.ChangeToday = newPrice.MarketPrice - oldPrice.MarketPrice;
