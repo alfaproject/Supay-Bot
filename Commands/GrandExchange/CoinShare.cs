@@ -65,7 +65,7 @@ namespace Supay.Bot
                 }
             }
 
-            price.LoadFromGE();
+            price = await Bot.Price.FromCache(price.Id);
             if (price.Name == null)
             {
                 await bc.SendReply(@"Grand Exchange doesn't have the item \c07#{0}\c.", price.Id);

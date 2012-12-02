@@ -50,7 +50,7 @@ namespace Supay.Bot
                 }
             }
 
-            price.LoadFromGE();
+            price = await Bot.Price.FromRuneScape(price.Id);
 
             string changeToday;
             if (price.ChangeToday < 0)
