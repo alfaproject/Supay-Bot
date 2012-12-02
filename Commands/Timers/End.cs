@@ -35,7 +35,7 @@ namespace Supay.Bot
                 bc.Message = bc.Message.Substring(0, indexOfSharp - 1);
             }
 
-            var rs = await Database.FetchFirst("SELECT skill, exp, datetime FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "' LIMIT 1");
+            var rs = await Database.FetchFirst("SELECT skill,exp,datetime FROM timers_exp WHERE fingerprint=@fingerprint AND name=@name LIMIT 1", new MySqlParameter("@fingerprint", bc.From.FingerPrint), new MySqlParameter("@name", name));
             if (rs != null)
             {
                 string skill = rs.GetString(0);

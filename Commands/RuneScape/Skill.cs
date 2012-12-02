@@ -376,7 +376,7 @@ namespace Supay.Bot
                 }
 
                 // ***** start war *****
-                var warPlayer = await Database.FetchFirst("SELECT startrank, startlevel, startexp FROM warplayers WHERE channel='" + bc.Channel + "' AND rsn='" + player.Name + "'");
+                var warPlayer = await Database.FetchFirst("SELECT startrank,startlevel,startexp FROM warplayers WHERE channel=@channel AND rsn=@name", new MySqlParameter("@channel", bc.Channel), new MySqlParameter("@name", player.Name));
                 if (warPlayer != null && Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new MySqlParameter("@chan", bc.Channel) }) == skill.Name)
                 {
                     var oldSkill = new Skill(skill.Name, warPlayer.GetInt32(0), warPlayer.GetInt32(1), warPlayer.GetInt32(2));

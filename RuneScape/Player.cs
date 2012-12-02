@@ -96,7 +96,7 @@ namespace Supay.Bot
             try
             {
                 // Query database
-                var rs = await Database.FetchFirst("SELECT t.* FROM tracker t JOIN players p ON t.pid = p.id WHERE p.rsn = '" + name + "' AND t.date = '" + day.ToStringI("yyyyMMdd") + "'");
+                var rs = await Database.FetchFirst("SELECT t.* FROM tracker t JOIN players p ON t.pid=p.id WHERE p.rsn=@name AND t.date=@date", new MySqlParameter("@name", name), new MySqlParameter("@date", day.ToStringI("yyyyMMdd")));
                 if (rs != null)
                 {
                     // Initialize variables
@@ -150,7 +150,7 @@ namespace Supay.Bot
                 }
                 else
                 {
-                    var playerRecord = await Database.FetchFirst("SELECT id FROM players WHERE rsn = '" + name + "'");
+                    var playerRecord = await Database.FetchFirst("SELECT id FROM players WHERE rsn=@name", new MySqlParameter("@name", name));
                     if (playerRecord != null)
                     {
                         player.Id = playerRecord.GetInt32(0);

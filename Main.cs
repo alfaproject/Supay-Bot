@@ -434,7 +434,7 @@ namespace Supay.Bot
 
                     if (bc.MessageTokens[0].Length == 0)
                     {
-                        var defaultSkillInfo = await Database.FetchFirst("SELECT skill, publicSkill FROM users WHERE fingerprint='" + e.Message.Sender.FingerPrint + "'");
+                        var defaultSkillInfo = await Database.FetchFirst("SELECT skill,publicSkill FROM users WHERE fingerprint=@fingerprint", new MySqlParameter("@fingerprint", e.Message.Sender.FingerPrint));
                         if (defaultSkillInfo != null)
                         {
                             if (!(defaultSkillInfo.GetValue(0) is DBNull))
