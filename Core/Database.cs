@@ -21,10 +21,15 @@ namespace Supay.Bot
             this._connection.Open();
         }
 
-        public async static Task<List<IDataRecord>> FetchAll(string sql)
+        public async static Task<List<IDataRecord>> FetchAll(string sql, params MySqlParameter[] parameters)
         {
             using (var command = new MySqlCommand(sql, _instance.Value._connection))
             {
+                foreach (var parameter in parameters)
+                {
+                    command.Parameters.Add(parameter);
+                }
+
                 using (var reader = await command.ExecuteReaderAsync())
                 {
                     return reader.Cast<IDataRecord>().ToList();

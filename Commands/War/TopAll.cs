@@ -26,7 +26,7 @@ namespace Supay.Bot
 
             // Create a list of the war players
             var warPlayers = new List<Player>();
-            foreach (var warPlayersDr in await Database.FetchAll("SELECT rsn, startrank, startlevel, startexp FROM warplayers WHERE channel='" + bc.Channel + "'"))
+            foreach (var warPlayersDr in await Database.FetchAll("SELECT rsn,startrank,startlevel,startexp FROM warplayers WHERE channel=@channel", new MySqlParameter("@channel", bc.Channel)))
             {
                 var warPlayer = await Player.FromHiscores(warPlayersDr.GetString(0));
                 if (!warPlayer.Ranked)

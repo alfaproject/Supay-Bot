@@ -67,7 +67,7 @@ namespace Supay.Bot
             this.textBox.Invoke(new delOutputMessage(this.outputMessage), "##### Begin players update");
 
             DateTime now = DateTime.UtcNow;
-            foreach (var rs in await Database.FetchAll("SELECT rsn FROM players WHERE lastUpdate!='" + now.ToStringI("yyyyMMdd") + "'"))
+            foreach (var rs in await Database.FetchAll("SELECT rsn FROM players WHERE lastUpdate<>@lastUpdate", new MySqlParameter("@lastUpdate", now.ToStringI("yyyyMMdd"))))
             {
                 int tries = 0;
                 do
