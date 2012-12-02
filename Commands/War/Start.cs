@@ -37,7 +37,7 @@ namespace Supay.Bot
             for (int count = 1; count <= warPlayers.Count; count++)
             {
                 var p = await Player.FromHiscores(warPlayers[count - 1].GetString(0));
-                Database.Update("warPlayers", "channel='" + channelName + "' AND rsn='" + p.Name + "'", "startLevel", p.Skills[skillName].Level.ToStringI(), "startExp", p.Skills[skillName].Exp.ToStringI(), "startRank", p.Skills[skillName].Rank.ToStringI());
+                await Database.Update("warPlayers", "channel='" + channelName + "' AND rsn='" + p.Name + "'", "startLevel", p.Skills[skillName].Level.ToStringI(), "startExp", p.Skills[skillName].Exp.ToStringI(), "startRank", p.Skills[skillName].Rank.ToStringI());
                 if (count % 2 == 0)
                 {
                     reply += @"\c07{0} ({1:e});\c ".FormatWith(p.Name, p.Skills[skillName]);
@@ -57,8 +57,8 @@ namespace Supay.Bot
                 await bc.SendReply(reply);
             }
 
-            Database.ExecuteNonQuery("DELETE FROM wars WHERE channel='" + channelName + "'");
-            Database.Insert("wars", "channel", channelName, "skill", skillName, "startDate", DateTime.UtcNow.ToStringI("yyyyMMddHHmm"));
+            await Database.ExecuteNonQuery("DELETE FROM wars WHERE channel='" + channelName + "'");
+            await Database.Insert("wars", "channel", channelName, "skill", skillName, "startDate", DateTime.UtcNow.ToStringI("yyyyMMddHHmm"));
 
             await bc.SendReply(@"\b{0}\b war started on \u{1}\u for these players. \bYou can now login and good luck!\b", skillName, DateTime.UtcNow);
         }

@@ -174,7 +174,7 @@ namespace Supay.Bot
                     // Check if this topic exists in database
                     if (await Database.Lookup<long>("topicId", "forums", "topicId=@topicId", new[] { new MySqlParameter("@topicId", topicId) }) != topicId)
                     {
-                        Database.Insert("forums", "topicId", topicId.ToStringI());
+                        await Database.Insert("forums", "topicId", topicId.ToStringI());
                         string reply = @"\bNew topic!\b | Forum: \c07{0}\c | Topic: \c07{1}\c | Poster: \c07{2}\c | \c12{3}\c".FormatWith(forum, topic, poster, href);
                         await this._irc.SendChat(reply, mainChannel);
                     }
@@ -226,7 +226,7 @@ namespace Supay.Bot
                     {
                         continue;
                     }
-                    Database.Insert("timers", "fingerprint", startTime.ToStringI("yyyyMMddHHmmss"), "nick", "#skillers", "name", (string) nextEvent["id"], "duration", (((int) (startTime - DateTime.UtcNow).TotalMinutes - noticeDuration[i]) * 60 + 60).ToStringI(), "started", DateTime.UtcNow.ToStringI("yyyyMMddHHmmss"));
+                    await Database.Insert("timers", "fingerprint", startTime.ToStringI("yyyyMMddHHmmss"), "nick", "#skillers", "name", (string) nextEvent["id"], "duration", (((int) (startTime - DateTime.UtcNow).TotalMinutes - noticeDuration[i]) * 60 + 60).ToStringI(), "started", DateTime.UtcNow.ToStringI("yyyyMMddHHmmss"));
                 }
             }
             catch
@@ -276,7 +276,7 @@ namespace Supay.Bot
                             {
                                 if (u.FingerPrint == fingerprint || u.Nickname == nick)
                                 {
-                                    Database.ExecuteNonQuery("DELETE FROM timers WHERE fingerprint='" + fingerprint + "' AND started='" + rsTimer.GetString(4) + "'");
+                                    await Database.ExecuteNonQuery("DELETE FROM timers WHERE fingerprint='" + fingerprint + "' AND started='" + rsTimer.GetString(4) + "'");
                                     await this._irc.Send(new NoticeMessage(@"\c07{0}\c timer ended for \b{1}\b.".FormatWith(rsTimer.GetString(2), u.Nickname), u.Nickname));
                                     await this._irc.SendChat(@"\c07{0}\c timer ended for \b{1}\b.".FormatWith(rsTimer.GetString(2), u.Nickname), u.Nickname);
                                 }
@@ -293,7 +293,7 @@ namespace Supay.Bot
                             {
                                 if (channelName.ToLowerInvariant() == nick)
                                 {
-                                    Database.ExecuteNonQuery("DELETE FROM timers WHERE nick='" + nick + "' AND name='" + rsTimer.GetString(2) + "' AND duration='" + rsTimer.GetInt32(3) + "'");
+                                    await Database.ExecuteNonQuery("DELETE FROM timers WHERE nick='" + nick + "' AND name='" + rsTimer.GetString(2) + "' AND duration='" + rsTimer.GetInt32(3) + "'");
                                     if (rsTimer.GetInt32(3) < 3600)
                                     {
                                         await this._irc.Send(new NoticeMessage(@"Next event starts in \c07{0}\c for more information type !event".FormatWith((fingerDate - DateTime.UtcNow).ToLongString()), channelName));

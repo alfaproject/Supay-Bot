@@ -102,12 +102,14 @@ namespace Supay.Bot
 
             try
             {
-                Database.Insert("prices", "id", this.Id.ToStringI(), "name", this.Name, "price", this.MarketPrice.ToStringI(), "lastUpdate", lastUpdate);
+                // TODO: Replace with INSERT ... ON DUPLICATE KEY UPDATE
+                await Database.Insert("prices", "id", this.Id.ToStringI(), "name", this.Name, "price", this.MarketPrice.ToStringI(), "lastUpdate", lastUpdate);
+                return;
             }
             catch
             {
-                Database.Update("prices", "id=" + this.Id.ToStringI(), "name", this.Name, "price", this.MarketPrice.ToStringI(), "lastUpdate", lastUpdate);
             }
+            await Database.Update("prices", "id=" + this.Id.ToStringI(), "name", this.Name, "price", this.MarketPrice.ToStringI(), "lastUpdate", lastUpdate);
         }
 
         public static async Task<Price> FromCache(int id)

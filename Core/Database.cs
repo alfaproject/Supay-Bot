@@ -53,14 +53,11 @@ namespace Supay.Bot
             }
         }
 
-        public static void ExecuteNonQuery(string sql)
+        public static async Task<int> ExecuteNonQuery(string sql)
         {
-            lock (_instance.Value._connection)
+            using (var command = new MySqlCommand(sql, _instance.Value._connection))
             {
-                using (var command = new MySqlCommand(sql, _instance.Value._connection))
-                {
-                    command.ExecuteNonQuery();
-                }
+                return await command.ExecuteNonQueryAsync();
             }
         }
 
@@ -69,7 +66,7 @@ namespace Supay.Bot
             return await Lookup<string>("lastUpdate", "players", "rsn=@rsn", new[] { new MySqlParameter("@rsn", rsn) });
         }
 
-        public static void Insert(string table, params string[] fieldsValues)
+        public static async Task Insert(string table, params string[] fieldsValues)
         {
             string sql = "INSERT INTO `" + table + "` (";
             int i;
@@ -83,10 +80,10 @@ namespace Supay.Bot
                 sql += "'" + fieldsValues[i].Replace("'", "''") + "', ";
             }
 
-            ExecuteNonQuery(sql.Substring(0, sql.Length - 2) + ")");
+            await ExecuteNonQuery(sql.Substring(0, sql.Length - 2) + ")");
         }
 
-        public static void Update(string table, string condition, params string[] fieldsValues)
+        public static async Task Update(string table, string condition, params string[] fieldsValues)
         {
             string sql = "UPDATE `" + table + "` SET ";
             for (int i = fieldsValues.GetLowerBound(0); i <= fieldsValues.GetUpperBound(0) - 1; i += 2)
@@ -100,7 +97,7 @@ namespace Supay.Bot
                 sql += " WHERE " + condition;
             }
 
-            ExecuteNonQuery(sql);
+            await ExecuteNonQuery(sql);
         }
 
         public static async Task<string> GetStringParameter(string table, string field, string condition, string parameter, string defaultValue)
@@ -124,10 +121,10 @@ namespace Supay.Bot
             {
                 fieldValue += parameter + ":" + value + ";";
             }
-            Update(table, condition, field, fieldValue);
+            await Update(table, condition, field, fieldValue);
         }
 
-        public static async Task<T> Lookup<T>(string field, string table, string condition = null, MySqlParameter[] parameters = null, T defaultValue = default(T))
+        public static async Task<T> Lookup<T>(string field, string table, string condition = null, IEnumerable<MySqlParameter> parameters = null, T defaultValue = default(T))
         {
             string sql = "SELECT " + field + " FROM " + table;
             if (condition != null)

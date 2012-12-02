@@ -60,7 +60,7 @@ namespace Supay.Bot
             {
                 if (!clanMembers.Contains(p.Name))
                 {
-                    Database.Update("players", "id=" + p.Id, "clan", string.Empty);
+                    await Database.Update("players", "id=" + p.Id, "clan", string.Empty);
                     await bc.SendReply(@"\b{0}\b is now being tracked under no clan.", p.Name);
                 }
             }
@@ -71,9 +71,12 @@ namespace Supay.Bot
                 if (!clanPlayers.Any(p => p.Name.EqualsI(rsn)))
                 {
                     bool f2p = false;
+                    var inserted = false;
                     try
                     {
-                        Database.Insert("players", "rsn", rsn.ValidatePlayerName(), "clan", clanInitials, "lastupdate", string.Empty);
+                        // TODO: Replace with INSERT ... ON DUPLICATE KEY UPDATE
+                        await Database.Insert("players", "rsn", rsn.ValidatePlayerName(), "clan", clanInitials, "lastupdate", string.Empty);
+                        inserted = true;
                         var p = await Player.FromHiscores(rsn);
                         if (p.Ranked)
                         {
@@ -83,7 +86,10 @@ namespace Supay.Bot
                     }
                     catch
                     {
-                        Database.Update("players", "rsn LIKE '" + rsn + "'", "clan", clanInitials);
+                    }
+                    if (!inserted)
+                    {
+                        await Database.Update("players", "rsn LIKE '" + rsn + "'", "clan", clanInitials);
                     }
                     string reply = @"\b{0}\b is now being tracked under \c07{1}\c clan. \c{2}\c".FormatWith(rsn, clanName, f2p ? "14[F2P]" : "7[P2P]");
                     await bc.SendReply(reply);

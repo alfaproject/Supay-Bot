@@ -33,9 +33,9 @@ namespace Supay.Bot
             string playerName = bc.MessageTokens.Join(1).ValidatePlayerName();
             var playerNameParameter = new MySqlParameter("@playerName", playerName);
 
-            if (Database.Lookup<string>("rsn", "warPlayers", "channel=@channelName AND rsn=@playerName", new[] { channelNameParameter, playerNameParameter }) != null)
+            if (await Database.Lookup<string>("rsn", "warPlayers", "channel=@channelName AND rsn=@playerName", new[] { channelNameParameter, playerNameParameter }) != null)
             {
-                Database.ExecuteNonQuery("DELETE FROM warPlayers WHERE channel='" + channelName + "' AND rsn='" + playerName + "'");
+                await Database.ExecuteNonQuery("DELETE FROM warPlayers WHERE channel='" + channelName + "' AND rsn='" + playerName + "'");
                 await bc.SendReply(@"\b{0}\b was removed from current war.", playerName);
             }
             else

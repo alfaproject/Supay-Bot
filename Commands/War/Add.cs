@@ -46,11 +46,11 @@ namespace Supay.Bot
                         var skillName = await Database.Lookup<string>("skill", "wars", "channel=@channelName", new[] { channelNameParameter });
                         if (skillName == null)
                         {
-                            Database.Insert("warPlayers", "channel", channelName, "rsn", playerName);
+                            await Database.Insert("warPlayers", "channel", channelName, "rsn", playerName);
                         }
                         else
                         {
-                            Database.Insert("warPlayers", "channel", channelName, "rsn", playerName, "startLevel", player.Skills[skillName].Level.ToStringI(), "startExp", player.Skills[skillName].Exp.ToStringI(), "startRank", player.Skills[skillName].Rank.ToStringI());
+                            await Database.Insert("warPlayers", "channel", channelName, "rsn", playerName, "startLevel", player.Skills[skillName].Level.ToStringI(), "startExp", player.Skills[skillName].Exp.ToStringI(), "startRank", player.Skills[skillName].Rank.ToStringI());
                         }
                         await bc.SendReply(@"\b{0}\b is now signed to current war.", playerName);
                         await Task.Delay(1000);

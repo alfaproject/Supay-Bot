@@ -55,7 +55,7 @@ namespace Supay.Bot
                     // Add this player to database if he never set a default name.
                     if (await Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new MySqlParameter("@fp", bc.From.FingerPrint) }) < 1)
                     {
-                        Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", await bc.GetPlayerName(bc.From.Nickname));
+                        await Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", await bc.GetPlayerName(bc.From.Nickname));
                     }
 
                     // Set exp. made in an hour in this skill.
@@ -63,7 +63,7 @@ namespace Supay.Bot
                 }
 
                 // remove the timer with this name
-                Database.ExecuteNonQuery("DELETE FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "'");
+                await Database.ExecuteNonQuery("DELETE FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "'");
             }
             else
             {

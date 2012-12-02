@@ -364,7 +364,7 @@ namespace Supay.Bot
 
             if (this.Ranked)
             {
-                Database.Insert(
+                await Database.Insert(
                     "tracker",
                     "pid", this.Id.ToStringI(),
                     "date", s_date,
@@ -407,7 +407,7 @@ namespace Supay.Bot
                     "conqRank", this.Activities[Activity.CONQ].Rank.ToStringI(), "conqScore", this.Activities[Activity.CONQ].Score.ToStringI(),
                     "domiRank", this.Activities[Activity.DOMI].Rank.ToStringI(), "domiScore", this.Activities[Activity.DOMI].Score.ToStringI());
 
-                Database.Update("players", "id=" + this.Id, "lastupdate", s_date);
+                await Database.Update("players", "id=" + this.Id, "lastupdate", s_date);
             }
         }
 

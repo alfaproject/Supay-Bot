@@ -54,11 +54,11 @@ namespace Supay.Bot
             // add/update to database
             if (await Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new MySqlParameter("@fp", bc.From.FingerPrint) }) > 0)
             {
-                Database.Update("users", "fingerprint='" + bc.From.FingerPrint + "'", "rsn", rsn);
+                await Database.Update("users", "fingerprint='" + bc.From.FingerPrint + "'", "rsn", rsn);
             }
             else
             {
-                Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", rsn);
+                await Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", rsn);
             }
 
             await bc.SendReply(@"Your default RuneScape name is now \b{0}\b. This RSN is associated with the address \u*!*{1}\u.", rsn, bc.From.FingerPrint);
@@ -107,7 +107,7 @@ namespace Supay.Bot
             // Add this player to database if he never set a default name.
             if (await Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new MySqlParameter("@fp", bc.From.FingerPrint) }) < 1)
             {
-                Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", await bc.GetPlayerName(bc.From.Nickname));
+                await Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", await bc.GetPlayerName(bc.From.Nickname));
             }
 
             if (goal.EqualsI("nl"))
@@ -179,7 +179,7 @@ namespace Supay.Bot
             // Add this player to database if he never set a default name.
             if (await Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new MySqlParameter("@fp", bc.From.FingerPrint) }) < 1)
             {
-                Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", await bc.GetPlayerName(bc.From.Nickname));
+                await Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", await bc.GetPlayerName(bc.From.Nickname));
             }
 
             await Database.SetStringParameter("users", "items", "fingerprint='" + bc.From.FingerPrint + "'", skill, item);
@@ -211,7 +211,7 @@ namespace Supay.Bot
             // Add this player to database if he never set a default name.
             if (await Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new MySqlParameter("@fp", bc.From.FingerPrint) }) < 1)
             {
-                Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", await bc.GetPlayerName(bc.From.Nickname));
+                await Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", await bc.GetPlayerName(bc.From.Nickname));
             }
 
             int speedValue = speed.ToInt32();
@@ -239,14 +239,14 @@ namespace Supay.Bot
             // Add this player to database if he never set a default name.
             if (await Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new MySqlParameter("@fp", bc.From.FingerPrint) }) < 1)
             {
-                Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", await bc.GetPlayerName(bc.From.Nickname));
+                await Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", await bc.GetPlayerName(bc.From.Nickname));
             }
             string publicSkill = "1";
             if (state == "off")
             {
                 publicSkill = "0";
             }
-            Database.Update("users", "fingerprint='" + bc.From.FingerPrint + "'", "publicSkill", publicSkill);
+            await Database.Update("users", "fingerprint='" + bc.From.FingerPrint + "'", "publicSkill", publicSkill);
             await bc.SendReply("Your public trigger-only command have been turned " + state + ".");
         }
 
@@ -274,10 +274,10 @@ namespace Supay.Bot
             // Add this player to database if he never set a default name.
             if (await Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new MySqlParameter("@fp", bc.From.FingerPrint) }) < 1)
             {
-                Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", await bc.GetPlayerName(bc.From.Nickname));
+                await Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", await bc.GetPlayerName(bc.From.Nickname));
             }
 
-            Database.Update("users", "fingerprint='" + bc.From.FingerPrint + "'", "skill", skill);
+            await Database.Update("users", "fingerprint='" + bc.From.FingerPrint + "'", "skill", skill);
             await bc.SendReply(@"Your default skill is currently set to \b{0}\b.", skill);
         }
     }

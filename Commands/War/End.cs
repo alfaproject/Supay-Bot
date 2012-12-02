@@ -64,8 +64,8 @@ namespace Supay.Bot
 
             await bc.SendReply(@"\b{0}\b war ended on \u{1}\u for these players.", skillName, DateTime.UtcNow);
 
-            Database.ExecuteNonQuery("DELETE FROM wars WHERE channel='" + channelName + "'");
-            Database.ExecuteNonQuery("DELETE FROM warPlayers WHERE channel='" + channelName + "'");
+            await Database.ExecuteNonQuery("DELETE FROM wars WHERE channel='" + channelName + "'");
+            await Database.ExecuteNonQuery("DELETE FROM warPlayers WHERE channel='" + channelName + "'");
         }
     }
 }

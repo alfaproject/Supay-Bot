@@ -62,7 +62,7 @@ namespace Supay.Bot
             }
 
             // start a new timer for this duration
-            Database.Insert("timers", "fingerprint", bc.From.FingerPrint, "nick", bc.From.Nickname, "name", name, "duration", (duration * 60).ToStringI(), "started", DateTime.UtcNow.ToStringI("yyyyMMddHHmmss"));
+            await Database.Insert("timers", "fingerprint", bc.From.FingerPrint, "nick", bc.From.Nickname, "name", name, "duration", (duration * 60).ToStringI(), "started", DateTime.UtcNow.ToStringI("yyyyMMddHHmmss"));
             await bc.SendReply(@"Timer started to \b{0}\b. Timer will end at \c07{1}\c.", bc.From.Nickname, DateTime.UtcNow.AddMinutes(duration).ToStringI("yyyy/MM/dd HH:mm:ss"));
         }
     }

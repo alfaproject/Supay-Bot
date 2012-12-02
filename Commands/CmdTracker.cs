@@ -29,7 +29,7 @@ namespace Supay.Bot
                 var p = await Player.FromHiscores(rsn);
                 if (p.Ranked)
                 {
-                    Database.Insert("players", "rsn", rsn, "clan", string.Empty, "lastupdate", string.Empty);
+                    await Database.Insert("players", "rsn", rsn, "clan", string.Empty, "lastupdate", string.Empty);
                     await p.SaveToDB(DateTime.UtcNow.ToStringI("yyyyMMdd"));
                     await bc.SendReply(@"\b{0}\b is now being tracked.", rsn);
                 }
@@ -62,8 +62,8 @@ namespace Supay.Bot
             var playerId = await Database.Lookup("id", "players", "rsn LIKE @name", new[] { new MySqlParameter("@name", rsn) }, -1L);
             if (playerId != -1)
             {
-                Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + playerId);
-                Database.ExecuteNonQuery("DELETE FROM players WHERE id=" + playerId);
+                await Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + playerId);
+                await Database.ExecuteNonQuery("DELETE FROM players WHERE id=" + playerId);
                 await bc.SendReply(@"\b{0}\b was removed from the tracker database.", rsn);
             }
             else
@@ -117,18 +117,18 @@ namespace Supay.Bot
             if (newPlayerId != -1)
             {
                 // delete the first record of the new player to prevent merge conflicts
-                Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + newPlayerId + " AND date=(SELECT date FROM tracker WHERE pid=" + newPlayerId + " ORDER BY date LIMIT 1)");
+                await Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + newPlayerId + " AND date=(SELECT date FROM tracker WHERE pid=" + newPlayerId + " ORDER BY date LIMIT 1)");
 
                 // merge both players data under the new player id
-                Database.Update("tracker", "pid=" + oldPlayerId, "pid", newPlayerId.ToStringI());
+                await Database.Update("tracker", "pid=" + oldPlayerId, "pid", newPlayerId.ToStringI());
 
                 // remove the old player name
-                Database.ExecuteNonQuery("DELETE FROM players WHERE id=" + oldPlayerId);
+                await Database.ExecuteNonQuery("DELETE FROM players WHERE id=" + oldPlayerId);
             }
             else
             {
                 // rename the old player name with the new one
-                Database.Update("players", "id=" + oldPlayerId, "rsn", newRsn);
+                await Database.Update("players", "id=" + oldPlayerId, "rsn", newRsn);
             }
 
             await bc.SendReply(@"Player \b{0}\b was renamed or merged to \b{1}\b.", oldRsn, newRsn);

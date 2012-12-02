@@ -34,10 +34,10 @@ namespace Supay.Bot
             }
 
             // remove previous timer with this name, if any
-            Database.ExecuteNonQuery("DELETE FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "'");
+            await Database.ExecuteNonQuery("DELETE FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "'");
 
             // start a new timer with this name
-            Database.Insert("timers_exp", "fingerprint", bc.From.FingerPrint, "name", name, "skill", skill, "exp", p.Skills[skill].Exp.ToStringI(), "datetime", DateTime.UtcNow.ToStringI("yyyyMMddHHmmss"));
+            await Database.Insert("timers_exp", "fingerprint", bc.From.FingerPrint, "name", name, "skill", skill, "exp", p.Skills[skill].Exp.ToStringI(), "datetime", DateTime.UtcNow.ToStringI("yyyyMMddHHmmss"));
             await bc.SendReply(@"\b{0}\b starting exp of \c07{1:e}\c in \u{1:n}\u has been recorded{2}.", rsn, p.Skills[skill], name.Length > 0 ? @" on timer \c07" + name + @"\c" : string.Empty);
         }
     }
