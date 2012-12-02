@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
@@ -52,22 +53,18 @@ namespace Supay.Bot
             set;
         }
 
-        public long SeedPrice
+        public async Task<long> GetSeedPrice()
         {
-            get
+            var price = await Price.FromCache(_seedId);
+
+            int qty = 1;
+            Match matchQty = Regex.Match(this.Seed, @"(\d+)x ");
+            if (matchQty.Success)
             {
-                var price = new Price(this._seedId);
-                price.LoadFromCache();
-
-                int qty = 1;
-                Match matchQty = Regex.Match(this.Seed, @"(\d+)x ");
-                if (matchQty.Success)
-                {
-                    qty = int.Parse(matchQty.Groups[1].Value, CultureInfo.InvariantCulture);
-                }
-
-                return qty * price.MarketPrice;
+                qty = int.Parse(matchQty.Groups[1].Value, CultureInfo.InvariantCulture);
             }
+
+            return qty * price.MarketPrice;
         }
 
         public string Produce
@@ -76,22 +73,18 @@ namespace Supay.Bot
             set;
         }
 
-        public long ProducePrice
+        public async Task<long> GetProducePrice()
         {
-            get
+            var price = await Price.FromCache(_produceId);
+
+            int qty = 1;
+            Match matchQty = Regex.Match(this.Produce, @"(\d+)x ");
+            if (matchQty.Success)
             {
-                var price = new Price(this._produceId);
-                price.LoadFromCache();
-
-                int qty = 1;
-                Match matchQty = Regex.Match(this.Produce, @"(\d+)x ");
-                if (matchQty.Success)
-                {
-                    qty = int.Parse(matchQty.Groups[1].Value, CultureInfo.InvariantCulture);
-                }
-
-                return qty * price.MarketPrice;
+                qty = int.Parse(matchQty.Groups[1].Value, CultureInfo.InvariantCulture);
             }
+
+            return qty * price.MarketPrice;
         }
 
         public string Patch
@@ -130,22 +123,18 @@ namespace Supay.Bot
             set;
         }
 
-        public long PaymentPrice
+        public async Task<long> GetPaymentPrice()
         {
-            get
+            var price = await Price.FromCache(_paymentId);
+
+            int qty = 1;
+            Match matchQty = Regex.Match(this.Payment, @"(\d+)x ");
+            if (matchQty.Success)
             {
-                var price = new Price(this._paymentId);
-                price.LoadFromCache();
-
-                int qty = 1;
-                Match matchQty = Regex.Match(this.Payment, @"(\d+)x ");
-                if (matchQty.Success)
-                {
-                    qty = int.Parse(matchQty.Groups[1].Value, CultureInfo.InvariantCulture);
-                }
-
-                return qty * price.MarketPrice;
+                qty = int.Parse(matchQty.Groups[1].Value, CultureInfo.InvariantCulture);
             }
+
+            return qty * price.MarketPrice;
         }
     }
 }

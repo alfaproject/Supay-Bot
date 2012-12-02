@@ -290,7 +290,7 @@ namespace Supay.Bot
             }
             else
             {
-                string reply = @"Plant: \c07{0}\c | Level: \c07{1}\c | Exp: \c07{2:#,##0.#}\c | Patch: \c07{3}\c | Seed: \c07{4}\c (\c07{5:N0} gp\c) | Produce: \c07{6}\c (\c07{7:N0} gp\c) | Plant xp: \c07{8:#,##0.#}\c".FormatWith(plant.Name, plant.Level, qty * plant.Exp, plant.Patch, plant.Seed, qty * plant.SeedPrice, plant.Produce, qty * plant.ProducePrice, qty * plant.PlantExp);
+                string reply = @"Plant: \c07{0}\c | Level: \c07{1}\c | Exp: \c07{2:#,##0.#}\c | Patch: \c07{3}\c | Seed: \c07{4}\c (\c07{5:N0} gp\c) | Produce: \c07{6}\c (\c07{7:N0} gp\c) | Plant xp: \c07{8:#,##0.#}\c".FormatWith(plant.Name, plant.Level, qty * plant.Exp, plant.Patch, plant.Seed, qty * await plant.GetSeedPrice(), plant.Produce, qty * await plant.GetProducePrice(), qty * plant.PlantExp);
                 if (plant.HarvestExp != 0)
                 {
                     reply += @" | Harvest xp: \c07{0:#,##0.#}\c".FormatWith(qty * plant.HarvestExp);
@@ -304,7 +304,7 @@ namespace Supay.Bot
 
                 if (plant.Payment != "-")
                 {
-                    reply += @" | Payment: \c07{0}\c (\c07{1:N0} gp)".FormatWith(plant.Payment, qty * plant.PaymentPrice);
+                    reply += @" | Payment: \c07{0}\c (\c07{1:N0} gp)".FormatWith(plant.Payment, qty * await plant.GetPaymentPrice());
                 }
 
                 await bc.SendReply(reply);
@@ -487,17 +487,16 @@ namespace Supay.Bot
             }
             else
             {
-                var componentsPrice = familiar.ComponentsPrice;
+                var componentsPrice = await familiar.GetComponentsPrice();
 
-                await bc.SendReply(@"Familiar: \c{0}{1}\c | Level: \c{0}{2}\c | Exp: \c{0}{3:#,##0.#}\c | Time: \c{0}{4} min\c | Charm: \c{0}{5}\c | Components: \c{0}{6}\c (\c{0}{7:N0} gp\c) | Abilities: \c{0}{8}\c", familiar.IrcColour, familiar.NameCombat, familiar.Level, qty * familiar.Exp, familiar.Time, familiar.Charm, familiar.Components, qty * familiar.ComponentsPrice, familiar.Abilities);
+                await bc.SendReply(@"Familiar: \c{0}{1}\c | Level: \c{0}{2}\c | Exp: \c{0}{3:#,##0.#}\c | Time: \c{0}{4} min\c | Charm: \c{0}{5}\c | Components: \c{0}{6}\c (\c{0}{7:N0} gp\c) | Abilities: \c{0}{8}\c", familiar.IrcColour, familiar.NameCombat, familiar.Level, qty * familiar.Exp, familiar.Time, familiar.Charm, familiar.Components, qty * componentsPrice, familiar.Abilities);
 
                 var totalCost = componentsPrice + familiar.Shards * 25 + 1;
                 var bogrogCost = componentsPrice + (int) Math.Ceiling(.3 * familiar.Shards) * 25 + 1;
 
-                var marketPrice = familiar.PouchPrice;
+                var marketPrice = await familiar.GetPouchPrice();
 
-                var price = new Price(561);
-                price.LoadFromCache();
+                var price = await Price.FromCache(561);
                 var natureCost = price.MarketPrice;
 
                 await bc.SendReply(@"Shards: \c{0}{1:N0}\c (\c{0}{2:N0} gp\c) | Cost: \c{0}{3:N0}\c (\c{0}{4:0.#}/xp\c) | Bogrog cost: \c{0}{5:N0}\c (\c{0}{6:0.#}/xp\c) | High alch: \c{0}{7:N0}\c (\c{0}{8:0.#}/xp\c) | Market price: \c{0}{9:N0}\c (\c{0}{10:0.#}/xp\c)", familiar.IrcColour, qty * familiar.Shards, qty * familiar.Shards * 25, qty * totalCost, totalCost / familiar.Exp, qty * bogrogCost, bogrogCost / familiar.Exp, qty * familiar.HighAlch, (totalCost + natureCost - familiar.HighAlch) / familiar.Exp, qty * marketPrice, (totalCost - marketPrice) / familiar.Exp);
@@ -565,24 +564,24 @@ namespace Supay.Bot
             SummoningItem blue = familiars.FindLast(f => f.Charm == "Blue" && f.Level <= summLevel);
 
             const string block = @"\c{0}{1:N0} {2}: {3:#,##0.#} exp; {4:N0} shards; {5:N0} gp\c | ";
-            string reply = block.FormatWith(gold.IrcColour, goldCharms, gold.Name, goldCharms * gold.Exp, goldCharms * gold.Shards, goldCharms * gold.TotalCost);
+            string reply = block.FormatWith(gold.IrcColour, goldCharms, gold.Name, goldCharms * gold.Exp, goldCharms * gold.Shards, goldCharms * await gold.GetTotalCost());
             int totalShards = goldCharms * gold.Shards;
             double totalExp = goldCharms * gold.Exp;
             if (green != null)
             {
-                reply += block.FormatWith(green.IrcColour, greenCharms, green.Name, greenCharms * green.Exp, greenCharms * green.Shards, greenCharms * green.TotalCost);
+                reply += block.FormatWith(green.IrcColour, greenCharms, green.Name, greenCharms * green.Exp, greenCharms * green.Shards, greenCharms * await green.GetTotalCost());
                 totalShards += greenCharms * green.Shards;
                 totalExp += greenCharms * green.Exp;
             }
             if (crimson != null)
             {
-                reply += block.FormatWith(crimson.IrcColour, crimsonCharms, crimson.Name, crimsonCharms * crimson.Exp, crimsonCharms * crimson.Shards, crimsonCharms * crimson.TotalCost);
+                reply += block.FormatWith(crimson.IrcColour, crimsonCharms, crimson.Name, crimsonCharms * crimson.Exp, crimsonCharms * crimson.Shards, crimsonCharms * await crimson.GetTotalCost());
                 totalShards += crimsonCharms * crimson.Shards;
                 totalExp += crimsonCharms * crimson.Exp;
             }
             if (blue != null)
             {
-                reply += block.FormatWith(blue.IrcColour, blueCharms, blue.Name, blueCharms * blue.Exp, blueCharms * blue.Shards, blueCharms * blue.TotalCost);
+                reply += block.FormatWith(blue.IrcColour, blueCharms, blue.Name, blueCharms * blue.Exp, blueCharms * blue.Shards, blueCharms * await blue.GetTotalCost());
                 totalShards += blueCharms * blue.Shards;
                 totalExp += blueCharms * blue.Exp;
             }
@@ -619,6 +618,7 @@ namespace Supay.Bot
             }
             else
             {
+                var ingredientsPrices = await potion.GetIngredientsPrices();
                 string ingredientsWithPrice = string.Empty;
                 for (int i = 0; i < potion.Ingredients.Length; i++)
                 {
@@ -627,14 +627,15 @@ namespace Supay.Bot
                         ingredientsWithPrice += " + ";
                     }
                     ingredientsWithPrice += @"\c07{0}\c".FormatWith(potion.Ingredients[i]);
-                    if (potion.IngredientsPrices[i] != 0)
+                    if (ingredientsPrices[i] != 0)
                     {
-                        ingredientsWithPrice += @" (\c07{0:N0} gp\c)".FormatWith(qty * potion.IngredientsPrices[i]);
+                        ingredientsWithPrice += @" (\c07{0:N0} gp\c)".FormatWith(qty * ingredientsPrices[i]);
                     }
                 }
 
-                long potionPrice = potion.Price;
-                await bc.SendReply(@"Potion: \c07{0}\c (\c07{1:N0} gp\c) | Level: \c07{2}\c | Exp: \c07{3:#,##0.#}\c | Ingredients: \c07{4}\c | Total cost: \c07{5:N0} gp\c (\c07{6:0.#}/xp\c) | Effect: \c07{7}\c", potion.Name, qty * potionPrice, potion.Level, qty * potion.Exp, ingredientsWithPrice, qty * potion.Cost, (potion.Cost - potionPrice) / potion.Exp, potion.Effect);
+                var potionPrice = await potion.GetPrice();
+                var potionCost = await potion.GetCost();
+                await bc.SendReply(@"Potion: \c07{0}\c (\c07{1:N0} gp\c) | Level: \c07{2}\c | Exp: \c07{3:#,##0.#}\c | Ingredients: \c07{4}\c | Total cost: \c07{5:N0} gp\c (\c07{6:0.#}/xp\c) | Effect: \c07{7}\c", potion.Name, qty * potionPrice, potion.Level, qty * potion.Exp, ingredientsWithPrice, qty * potionCost, (potionCost - potionPrice) / potion.Exp, potion.Effect);
             }
         }
 
@@ -665,7 +666,7 @@ namespace Supay.Bot
             }
             else
             {
-                long spellPrice = spell.RunesCost;
+                long spellPrice = await spell.GetRunesCost();
                 if (spell.MaxHit == 0)
                 {
                     await bc.SendReply(@"Spell: \c07{0}\c | Level: \c07{1}\c | Exp: \c07{2:#,##0.#}\c | Book: \c07{3}\c | Runes: \c07{4}\c | Total cost: \c07{5:N0} gp\c (\c07{6:0.#}/xp\c) | Effect: \c07{7}\c", spell.Name, spell.Level, qty * spell.Exp, spell.Book, string.Join(@"\c + \c07", spell.Runes), qty * spellPrice, spellPrice / spell.Exp, spell.Effect);

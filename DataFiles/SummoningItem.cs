@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
@@ -99,68 +100,50 @@ namespace Supay.Bot
             }
         }
 
-        public long ComponentsPrice
+        public async Task<long> GetComponentsPrice()
         {
-            get
+            if (this.ComponentsIds == "0")
             {
-                if (this.ComponentsIds == "0")
-                {
-                    return 0;
-                }
-
-                long componentsPrice = 0;
-                foreach (string component in this.ComponentsIds.Split('+'))
-                {
-                    var price = new Price(int.Parse(component, CultureInfo.InvariantCulture));
-                    price.LoadFromCache();
-                    componentsPrice += price.MarketPrice;
-                }
-                return componentsPrice;
+                return 0;
             }
+
+            long componentsPrice = 0;
+            foreach (string component in this.ComponentsIds.Split('+'))
+            {
+                var price = await Price.FromCache(int.Parse(component, CultureInfo.InvariantCulture));
+                componentsPrice += price.MarketPrice;
+            }
+            return componentsPrice;
         }
 
-        public long PouchPrice
+        public async Task<long> GetPouchPrice()
         {
-            get
-            {
-                var price = new Price(this._pouchId);
-                price.LoadFromCache();
-                return price.MarketPrice;
-            }
+            var price = await Price.FromCache(_pouchId);
+            return price.MarketPrice;
         }
 
-        public long TotalCost
+        public async Task<long> GetTotalCost()
         {
-            get
-            {
-                return this.ComponentsPrice + this.Shards * 25 + 1;
-            }
+            return await GetComponentsPrice() + Shards * 25 + 1;
         }
 
-        public long BogrogCost
+        public async Task<long> GetBogrogCost()
         {
-            get
-            {
-                return this.ComponentsPrice + (int) Math.Ceiling(.3 * this.Shards) * 25 + 1;
-            }
+            return await GetComponentsPrice() + (int) Math.Ceiling(.3 * Shards) * 25 + 1;
         }
 
-        public double CheapestExpCost
+        public async Task<double> GetCheapestExpCost()
         {
-            get
-            {
-                var nature = new Price(561);
-                nature.LoadFromCache();
+            var nature = await Price.FromCache(561);
 
-                var componentsPrice = this.ComponentsPrice;
-                var totalCost = componentsPrice + this.Shards * 25 + 1;
+            var componentsPrice = await GetComponentsPrice();
+            var totalCost = componentsPrice + this.Shards * 25 + 1;
 
-                double bogrogExp = (componentsPrice + Math.Ceiling(.3 * this.Shards) * 25 + 1) / this.Exp;
-                ////double marketExp = (totalCost - this.PouchPrice) / this.Exp;
-                double alchExp = (totalCost + nature.MarketPrice - this.HighAlch) / this.Exp;
+            double bogrogExp = (componentsPrice + Math.Ceiling(.3 * this.Shards) * 25 + 1) / this.Exp;
+            ////double marketExp = (totalCost - this.PouchPrice) / this.Exp;
+            double alchExp = (totalCost + nature.MarketPrice - this.HighAlch) / this.Exp;
 
-                return Math.Min(bogrogExp, alchExp);
-            }
+            return Math.Min(bogrogExp, alchExp);
         }
     }
 }

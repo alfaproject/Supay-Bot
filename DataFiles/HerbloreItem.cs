@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Supay.Bot
 {
@@ -8,7 +9,6 @@ namespace Supay.Bot
     {
         private readonly int[] _ingredientsIds;
         private readonly int _potionId;
-        private long[] _ingredientsPrices;
         private Price _price;
 
         public HerbloreItem(string[] tokens)
@@ -38,33 +38,26 @@ namespace Supay.Bot
             set;
         }
 
-        public long[] IngredientsPrices
+        public async Task<long[]> GetIngredientsPrices()
         {
-            get
+            var ingredientsPrices = new long[this._ingredientsIds.Length];
+            for (int i = 0; i < this._ingredientsIds.Length; i++)
             {
-                if (this._ingredientsPrices == null)
+                if (this._ingredientsIds[i] > 0)
                 {
-                    this._ingredientsPrices = new long[this._ingredientsIds.Length];
-                    for (int i = 0; i < this._ingredientsIds.Length; i++)
+                    var p = await Price.FromCache(_ingredientsIds[i]);
+
+                    int qty = 1;
+                    Match matchQty = Regex.Match(this.Ingredients[i], @"(\d+)x ");
+                    if (matchQty.Success)
                     {
-                        if (this._ingredientsIds[i] > 0)
-                        {
-                            var p = new Price(this._ingredientsIds[i]);
-                            p.LoadFromCache();
-
-                            int qty = 1;
-                            Match matchQty = Regex.Match(this.Ingredients[i], @"(\d+)x ");
-                            if (matchQty.Success)
-                            {
-                                qty = int.Parse(matchQty.Groups[1].Value, CultureInfo.InvariantCulture);
-                            }
-
-                            this._ingredientsPrices[i] = qty * p.MarketPrice;
-                        }
+                        qty = int.Parse(matchQty.Groups[1].Value, CultureInfo.InvariantCulture);
                     }
+
+                    ingredientsPrices[i] = qty * p.MarketPrice;
                 }
-                return this._ingredientsPrices;
             }
+            return ingredientsPrices;
         }
 
         public string Effect
@@ -73,36 +66,30 @@ namespace Supay.Bot
             set;
         }
 
-        public long Price
+        public async Task<long> GetPrice()
         {
-            get
+            if (this._potionId == 0)
             {
-                if (this._potionId == 0)
-                {
-                    return 0;
-                }
-
-                int qty = 1;
-                if (this._price == null)
-                {
-                    this._price = new Price(this._potionId);
-                    this._price.LoadFromCache();
-                    Match matchQty = Regex.Match(this.Name, @"(\d+)x ");
-                    if (matchQty.Success)
-                    {
-                        qty = int.Parse(matchQty.Groups[1].Value, CultureInfo.InvariantCulture);
-                    }
-                }
-                return qty * this._price.MarketPrice;
+                return 0;
             }
+
+            int qty = 1;
+            if (this._price == null)
+            {
+                this._price = await Price.FromCache(_potionId);
+                Match matchQty = Regex.Match(this.Name, @"(\d+)x ");
+                if (matchQty.Success)
+                {
+                    qty = int.Parse(matchQty.Groups[1].Value, CultureInfo.InvariantCulture);
+                }
+            }
+            return qty * this._price.MarketPrice;
         }
 
-        public long Cost
+        public async Task<long> GetCost()
         {
-            get
-            {
-                return this.IngredientsPrices.Where(price => price != 0).Sum();
-            }
+            var ingredientsPrices = await GetIngredientsPrices();
+            return ingredientsPrices.Where(price => price != 0).Sum();
         }
     }
 }

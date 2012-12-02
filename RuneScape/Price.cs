@@ -110,13 +110,17 @@ namespace Supay.Bot
             }
         }
 
-        public void LoadFromCache()
+        public static async Task<Price> FromCache(int id)
         {
-            this.LoadFromDB();
-            if ((DateTime.UtcNow - this.LastUpdate).Days > 1)
+            var price = new Price(id);
+
+            await price.LoadFromDB();
+            if ((DateTime.UtcNow - price.LastUpdate).Days > 1)
             {
-                this.LoadFromGE();
+                price.LoadFromGE();
             }
+
+            return price;
         }
 
         public async Task LoadFromDB()
