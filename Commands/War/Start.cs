@@ -56,7 +56,7 @@ namespace Supay.Bot
                 await bc.SendReply(reply);
             }
 
-            Database.ExecuteNonQuery("DELETE FROM wars WHERE channel='" + channelName + "';");
+            Database.ExecuteNonQuery("DELETE FROM wars WHERE channel='" + channelName + "'");
             Database.Insert("wars", "channel", channelName, "skill", skillName, "startDate", DateTime.UtcNow.ToStringI("yyyyMMddHHmm"));
 
             await bc.SendReply(@"\b{0}\b war started on \u{1}\u for these players. \bYou can now login and good luck!\b", skillName, DateTime.UtcNow);

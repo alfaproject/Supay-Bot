@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using MySql.Data.MySqlClient;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -36,7 +35,7 @@ namespace Supay.Bot
                 bc.Message = bc.Message.Substring(0, indexOfSharp - 1);
             }
 
-            var rs = (await Database.FetchAll("SELECT skill, exp, datetime FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "' LIMIT 1")).FirstOrDefault();
+            var rs = await Database.FetchFirst("SELECT skill, exp, datetime FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "' LIMIT 1");
             if (rs != null)
             {
                 string skill = rs.GetString(0);
@@ -64,7 +63,7 @@ namespace Supay.Bot
                 }
 
                 // remove the timer with this name
-                Database.ExecuteNonQuery("DELETE FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "';");
+                Database.ExecuteNonQuery("DELETE FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "'");
             }
             else
             {

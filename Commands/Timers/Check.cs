@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Supay.Bot
@@ -27,12 +26,12 @@ namespace Supay.Bot
                 bc.Message = bc.Message.Substring(0, indexofsharp - 1);
             }
 
-            var rs = (await Database.FetchAll("SELECT skill, exp, datetime FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "' LIMIT 1")).FirstOrDefault();
+            var rs = await Database.FetchFirst("SELECT skill, exp, datetime FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "' LIMIT 1");
             if (rs != null)
             {
                 string skill = rs.GetString(0);
 
-                long gained_exp = p.Skills[skill].Exp - rs.GetInt64(1);
+                long gained_exp = p.Skills[skill].Exp - (uint) rs["exp"];
                 TimeSpan time = DateTime.UtcNow - rs.GetString(2).ToDateTime();
 
                 var reply = @"You gained \c07{0:N0}\c \u{1}\u exp in \c07{2}\c. That's \c07{3:N0}\c exp/h.".FormatWith(gained_exp, skill.ToLowerInvariant(), time.ToLongString(), (double) gained_exp / time.TotalHours);

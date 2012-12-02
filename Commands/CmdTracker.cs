@@ -62,8 +62,8 @@ namespace Supay.Bot
             long playerId = Database.Lookup("id", "players", "rsn LIKE @name", new[] { new MySqlParameter("@name", rsn) }, -1L);
             if (playerId != -1)
             {
-                Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + playerId + ";");
-                Database.ExecuteNonQuery("DELETE FROM players WHERE id=" + playerId + ";");
+                Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + playerId);
+                Database.ExecuteNonQuery("DELETE FROM players WHERE id=" + playerId);
                 await bc.SendReply(@"\b{0}\b was removed from the tracker database.", rsn);
             }
             else
@@ -156,13 +156,11 @@ namespace Supay.Bot
             int playersRemoved = 0;
             foreach (var dr in await Database.FetchAll("SELECT id FROM players WHERE clan='" + clan + "'"))
             {
-                Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + dr.GetInt32(0) + ";");
+                Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + dr.GetInt32(0));
                 playersRemoved++;
             }
-            Database.ExecuteNonQuery("DELETE FROM players WHERE clan ='" + clan + "';");
+            Database.ExecuteNonQuery("DELETE FROM players WHERE clan ='" + clan + "'");
             await bc.SendReply(@"\b{0}\b players were removed from tracker.", playersRemoved);
-
-            Database.ExecuteNonQuery("VACUUM;");
 
             long playersLeft = Database.Lookup("COUNT(*)", "players", null, null, 0L);
             await bc.SendReply(@"There are \b{0}\b players left in the tracker.", playersLeft);

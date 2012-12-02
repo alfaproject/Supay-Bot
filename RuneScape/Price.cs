@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Globalization;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -121,7 +120,7 @@ namespace Supay.Bot
 
         public async Task LoadFromDB()
         {
-            var dr = (await Database.FetchAll("SELECT name, price, lastUpdate FROM prices WHERE id=" + this.Id)).FirstOrDefault();
+            var dr = await Database.FetchFirst("SELECT name, price, lastUpdate FROM prices WHERE id=" + this.Id);
             if (dr != null)
             {
                 this.Name = (string) dr["name"];

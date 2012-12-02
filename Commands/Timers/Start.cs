@@ -34,7 +34,7 @@ namespace Supay.Bot
             }
 
             // remove previous timer with this name, if any
-            Database.ExecuteNonQuery("DELETE FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "';");
+            Database.ExecuteNonQuery("DELETE FROM timers_exp WHERE fingerprint='" + bc.From.FingerPrint + "' AND name='" + name.Replace("'", "''") + "'");
 
             // start a new timer with this name
             Database.Insert("timers_exp", "fingerprint", bc.From.FingerPrint, "name", name, "skill", skill, "exp", p.Skills[skill].Exp.ToStringI(), "datetime", DateTime.UtcNow.ToStringI("yyyyMMddHHmmss"));

@@ -32,6 +32,17 @@ namespace Supay.Bot
             }
         }
 
+        public static async Task<IDataRecord> FetchFirst(string sql)
+        {
+            using (var command = new MySqlCommand(sql, _instance.Value._connection))
+            {
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    return reader.Cast<IDataRecord>().FirstOrDefault();
+                }
+            }
+        }
+
         public static void ExecuteNonQuery(string sql)
         {
             lock (_instance.Value._connection)
@@ -62,7 +73,7 @@ namespace Supay.Bot
                 sql += "'" + fieldsValues[i].Replace("'", "''") + "', ";
             }
 
-            ExecuteNonQuery(sql.Substring(0, sql.Length - 2) + ");");
+            ExecuteNonQuery(sql.Substring(0, sql.Length - 2) + ")");
         }
 
         public static void Update(string table, string condition, params string[] fieldsValues)
@@ -79,7 +90,7 @@ namespace Supay.Bot
                 sql += " WHERE " + condition;
             }
 
-            ExecuteNonQuery(sql + ";");
+            ExecuteNonQuery(sql);
         }
 
         public static string GetStringParameter(string table, string field, string condition, string parameter, string defaultValue)

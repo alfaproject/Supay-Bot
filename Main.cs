@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -278,7 +277,7 @@ namespace Supay.Bot
                             {
                                 if (u.FingerPrint == fingerprint || u.Nickname == nick)
                                 {
-                                    Database.ExecuteNonQuery("DELETE FROM timers WHERE fingerprint='" + fingerprint + "' AND started='" + rsTimer.GetString(4) + "';");
+                                    Database.ExecuteNonQuery("DELETE FROM timers WHERE fingerprint='" + fingerprint + "' AND started='" + rsTimer.GetString(4) + "'");
                                     await this._irc.Send(new NoticeMessage(@"\c07{0}\c timer ended for \b{1}\b.".FormatWith(rsTimer.GetString(2), u.Nickname), u.Nickname));
                                     await this._irc.SendChat(@"\c07{0}\c timer ended for \b{1}\b.".FormatWith(rsTimer.GetString(2), u.Nickname), u.Nickname);
                                 }
@@ -295,7 +294,7 @@ namespace Supay.Bot
                             {
                                 if (channelName.ToLowerInvariant() == nick)
                                 {
-                                    Database.ExecuteNonQuery("DELETE FROM timers WHERE nick='" + nick + "' AND name='" + rsTimer.GetString(2) + "' AND duration='" + rsTimer.GetInt32(3) + "';");
+                                    Database.ExecuteNonQuery("DELETE FROM timers WHERE nick='" + nick + "' AND name='" + rsTimer.GetString(2) + "' AND duration='" + rsTimer.GetInt32(3) + "'");
                                     if (rsTimer.GetInt32(3) < 3600)
                                     {
                                         await this._irc.Send(new NoticeMessage(@"Next event starts in \c07{0}\c for more information type !event".FormatWith((fingerDate - DateTime.UtcNow).ToLongString()), channelName));
@@ -435,7 +434,7 @@ namespace Supay.Bot
 
                     if (bc.MessageTokens[0].Length == 0)
                     {
-                        var defaultSkillInfo = (await Database.FetchAll("SELECT skill, publicSkill FROM users WHERE fingerprint='" + e.Message.Sender.FingerPrint + "'")).FirstOrDefault();
+                        var defaultSkillInfo = await Database.FetchFirst("SELECT skill, publicSkill FROM users WHERE fingerprint='" + e.Message.Sender.FingerPrint + "'");
                         if (defaultSkillInfo != null)
                         {
                             if (!(defaultSkillInfo.GetValue(0) is DBNull))
