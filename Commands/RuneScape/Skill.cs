@@ -22,11 +22,11 @@ namespace Supay.Bot
                 goal = M.Groups[1].Value;
                 bc.Message = Regex.Replace(bc.Message, @"(?:#|goal=)" + goal, string.Empty);
                 bc.Message = Regex.Replace(bc.Message, @"\s+", " ").TrimEnd();
-                Database.SetStringParameter("users", "goals", "fingerprint='" + bc.From.FingerPrint + "'", skillName, goal);
+                await Database.SetStringParameter("users", "goals", "fingerprint='" + bc.From.FingerPrint + "'", skillName, goal);
             }
             else
             {
-                goal = Database.GetStringParameter("users", "goals", "fingerprint='" + bc.From.FingerPrint + "'", skillName, "nl");
+                goal = await Database.GetStringParameter("users", "goals", "fingerprint='" + bc.From.FingerPrint + "'", skillName, "nl");
             }
 
             // get item
@@ -37,15 +37,15 @@ namespace Supay.Bot
                 item = M.Groups[1].Value;
                 bc.Message = Regex.Replace(bc.Message, "(?:@|§)" + item, string.Empty);
                 bc.Message = Regex.Replace(bc.Message, @"\s+", " ").TrimEnd();
-                Database.SetStringParameter("users", "items", "fingerprint='" + bc.From.FingerPrint + "'", skillName, item);
+                await Database.SetStringParameter("users", "items", "fingerprint='" + bc.From.FingerPrint + "'", skillName, item);
             }
             else
             {
-                item = Database.GetStringParameter("users", "items", "fingerprint='" + bc.From.FingerPrint + "'", skillName, null);
+                item = await Database.GetStringParameter("users", "items", "fingerprint='" + bc.From.FingerPrint + "'", skillName, null);
             }
 
             // get player
-            var player = await Player.FromHiscores(bc.GetPlayerName(bc.MessageTokens.Length > 1 ? bc.MessageTokens.Join(1) : bc.From.Nickname));
+            var player = await Player.FromHiscores(await bc.GetPlayerName(bc.MessageTokens.Length > 1 ? bc.MessageTokens.Join(1) : bc.From.Nickname));
             if (player.Ranked)
             {
                 Skill skill = player.Skills[skillName];
@@ -171,7 +171,7 @@ namespace Supay.Bot
                 {
                     reply += @" | \c07{0:N0}\c exp. to go".FormatWith(expToGo);
 
-                    int speed = int.Parse(Database.GetStringParameter("users", "speeds", "fingerprint='" + bc.From.FingerPrint + "'", skillName, "0"), CultureInfo.InvariantCulture);
+                    int speed = int.Parse(await Database.GetStringParameter("users", "speeds", "fingerprint='" + bc.From.FingerPrint + "'", skillName, "0"), CultureInfo.InvariantCulture);
                     if (speed > 0)
                     {
                         reply += @" (\c07{0}\c)".FormatWith(TimeSpan.FromHours(expToGo / (double) speed).ToLongString());
@@ -302,7 +302,7 @@ namespace Supay.Bot
 
                 // Show player performance if applicable
                 DateTime lastupdate;
-                string dblastupdate = Database.LastUpdate(player.Name);
+                var dblastupdate = await Database.LastUpdate(player.Name);
                 if (dblastupdate == null || dblastupdate.Length < 8)
                 {
                     lastupdate = DateTime.UtcNow.AddHours(-DateTime.UtcNow.Hour + 6).AddMinutes(-DateTime.UtcNow.Minute).AddSeconds(-DateTime.UtcNow.Second);
@@ -377,7 +377,7 @@ namespace Supay.Bot
 
                 // ***** start war *****
                 var warPlayer = await Database.FetchFirst("SELECT startrank,startlevel,startexp FROM warplayers WHERE channel=@channel AND rsn=@name", new MySqlParameter("@channel", bc.Channel), new MySqlParameter("@name", player.Name));
-                if (warPlayer != null && Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new MySqlParameter("@chan", bc.Channel) }) == skill.Name)
+                if (warPlayer != null && await Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new MySqlParameter("@chan", bc.Channel) }) == skill.Name)
                 {
                     var oldSkill = new Skill(skill.Name, warPlayer.GetInt32(0), warPlayer.GetInt32(1), warPlayer.GetInt32(2));
                     perf = _GetPerformance("War", oldSkill, skill);

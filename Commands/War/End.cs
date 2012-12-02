@@ -26,7 +26,7 @@ namespace Supay.Bot
             var channelNameParameter = new MySqlParameter("@channelName", channelName);
 
             // get skill name
-            var skillName = Database.Lookup<string>("skill", "wars", "channel=@channelName", new[] { channelNameParameter });
+            var skillName = await Database.Lookup<string>("skill", "wars", "channel=@channelName", new[] { channelNameParameter });
             if (skillName == null)
             {
                 await bc.SendReply("You have to start a war in this channel first using !WarStart <skill>.");

@@ -121,7 +121,7 @@ namespace Supay.Bot
             }
         }
 
-        public string GetPlayerName(string query)
+        public async Task<string> GetPlayerName(string query)
         {
             // remove leading and trailing whitespace
             query = query.Trim();
@@ -136,7 +136,7 @@ namespace Supay.Bot
             // or return a validated player name from query
             User peer;
             return this._users.TryGetValue(query, out peer)
-                ? Database.Lookup("rsn", "users", "fingerprint=@fp", new[] { new MySqlParameter("@fp", peer.FingerPrint) }, query.ValidatePlayerName())
+                ? await Database.Lookup("rsn", "users", "fingerprint=@fp", new[] { new MySqlParameter("@fp", peer.FingerPrint) }, query.ValidatePlayerName())
                 : query.ValidatePlayerName();
         }
 

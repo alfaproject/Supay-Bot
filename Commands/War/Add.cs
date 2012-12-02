@@ -34,7 +34,7 @@ namespace Supay.Bot
             string[] playerNames = bc.MessageTokens.Join(1).Split(new[] { ',', ';', '+', '|' });
             foreach (string playerName in playerNames.Select(name => name.ValidatePlayerName()))
             {
-                if (Database.Lookup<string>("rsn", "warPlayers", "channel=@channelName", new[] { channelNameParameter }) == playerName)
+                if (await Database.Lookup<string>("rsn", "warPlayers", "channel=@channelName", new[] { channelNameParameter }) == playerName)
                 {
                     await bc.SendReply(@"\b{0}\b is already signed to current war.", playerName);
                 }
@@ -43,7 +43,7 @@ namespace Supay.Bot
                     var player = await Player.FromHiscores(playerName);
                     if (player.Ranked)
                     {
-                        var skillName = Database.Lookup<string>("skill", "wars", "channel=@channelName", new[] { channelNameParameter });
+                        var skillName = await Database.Lookup<string>("skill", "wars", "channel=@channelName", new[] { channelNameParameter });
                         if (skillName == null)
                         {
                             Database.Insert("warPlayers", "channel", channelName, "rsn", playerName);

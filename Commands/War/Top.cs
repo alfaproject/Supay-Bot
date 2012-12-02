@@ -22,7 +22,7 @@ namespace Supay.Bot
             var channelNameParameter = new MySqlParameter("@channelName", channelName);
 
             // get skill name
-            var skill = Database.Lookup<string>("skill", "wars", "channel=@channelName", new[] { channelNameParameter });
+            var skill = await Database.Lookup<string>("skill", "wars", "channel=@channelName", new[] { channelNameParameter });
             if (skill == null)
             {
                 await bc.SendReply("There isn't a war going on in this channel.");
@@ -60,7 +60,7 @@ namespace Supay.Bot
                 else
                 {
                     // !War <rsn>
-                    string rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
+                    string rsn = await bc.GetPlayerName(bc.MessageTokens.Join(1));
                     var indexOfPlayer = warPlayers.FindIndex(p => p.Name.EqualsI(rsn));
                     if (indexOfPlayer != -1)
                     {
@@ -70,7 +70,8 @@ namespace Supay.Bot
             }
 
             // get input player rank
-            var inputPlayerRank = warPlayers.FindIndex(p => p.Name.EqualsI(bc.GetPlayerName(bc.From.Nickname))) + 1;
+            var inputPlayerName = await bc.GetPlayerName(bc.From.Nickname);
+            var inputPlayerRank = warPlayers.FindIndex(p => p.Name.EqualsI(inputPlayerName)) + 1;
 
             // fix rank
             if (rank < 1)

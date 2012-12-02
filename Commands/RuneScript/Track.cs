@@ -13,7 +13,7 @@ namespace Supay.Bot
         public static async Task Graph(CommandContext bc)
         {
             string skill = Skill.OVER;
-            string rsn = bc.GetPlayerName(bc.From.Nickname);
+            string rsn = await bc.GetPlayerName(bc.From.Nickname);
 
             if (bc.MessageTokens.Length > 1)
             {
@@ -21,12 +21,12 @@ namespace Supay.Bot
                 {
                     if (bc.MessageTokens.Length > 2)
                     {
-                        rsn = bc.GetPlayerName(bc.MessageTokens.Join(2));
+                        rsn = await bc.GetPlayerName(bc.MessageTokens.Join(2));
                     }
                 }
                 else
                 {
-                    rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
+                    rsn = await bc.GetPlayerName(bc.MessageTokens.Join(1));
                 }
             }
 
@@ -100,11 +100,11 @@ namespace Supay.Bot
             string rsn;
             if (bc.MessageTokens.Length > 1)
             {
-                rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
+                rsn = await bc.GetPlayerName(bc.MessageTokens.Join(1));
             }
             else
             {
-                rsn = bc.GetPlayerName(bc.From.Nickname);
+                rsn = await bc.GetPlayerName(bc.From.Nickname);
             }
 
             // Get new player
@@ -173,7 +173,7 @@ namespace Supay.Bot
 
         public static async Task Record(CommandContext bc)
         {
-            string rsn = bc.GetPlayerName(bc.From.Nickname);
+            string rsn = await bc.GetPlayerName(bc.From.Nickname);
             string skill = Skill.OVER;
 
             if (bc.MessageTokens.Length > 1)
@@ -182,12 +182,12 @@ namespace Supay.Bot
                 {
                     if (bc.MessageTokens.Length > 2)
                     {
-                        rsn = bc.GetPlayerName(bc.MessageTokens.Join(2));
+                        rsn = await bc.GetPlayerName(bc.MessageTokens.Join(2));
                     }
                 }
                 else
                 {
-                    rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
+                    rsn = await bc.GetPlayerName(bc.MessageTokens.Join(1));
                 }
             }
 

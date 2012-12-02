@@ -15,7 +15,7 @@ namespace Supay.Bot
                 return;
             }
 
-            var skill = Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new MySqlParameter("@chan", bc.Channel) });
+            var skill = await Database.Lookup<string>("skill", "wars", "channel=@chan", new[] { new MySqlParameter("@chan", bc.Channel) });
             if (skill == null)
             {
                 await bc.SendReply("There isn't a war going on in this channel.");

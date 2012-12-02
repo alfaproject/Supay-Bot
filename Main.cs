@@ -76,7 +76,7 @@ namespace Supay.Bot
                     var player = await Player.FromHiscores(rs.GetString(0));
                     if (player.Ranked)
                     {
-                        player.SaveToDB(now.ToStringI("yyyyMMdd"));
+                        await player.SaveToDB(now.ToStringI("yyyyMMdd"));
                         this.textBox.Invoke(new delOutputMessage(this.outputMessage), "##### Player updated: " + player.Name);
                         break;
                     }
@@ -145,7 +145,7 @@ namespace Supay.Bot
                 // save the new prices
                 foreach (Price price in pricesChanged)
                 {
-                    price.SaveToDB(true);
+                    await price.SaveToDB(true);
                 }
             }
         }
@@ -172,7 +172,7 @@ namespace Supay.Bot
                     var poster = (string) post["poster"]["name"];
 
                     // Check if this topic exists in database
-                    if (Database.Lookup<long>("topicId", "forums", "topicId=@topicId", new[] { new MySqlParameter("@topicId", topicId) }) != topicId)
+                    if (await Database.Lookup<long>("topicId", "forums", "topicId=@topicId", new[] { new MySqlParameter("@topicId", topicId) }) != topicId)
                     {
                         Database.Insert("forums", "topicId", topicId.ToStringI());
                         string reply = @"\bNew topic!\b | Forum: \c07{0}\c | Topic: \c07{1}\c | Poster: \c07{2}\c | \c12{3}\c".FormatWith(forum, topic, poster, href);

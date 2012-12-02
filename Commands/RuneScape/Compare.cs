@@ -21,21 +21,21 @@ namespace Supay.Bot
                 if (bc.MessageTokens.Length == 3)
                 {
                     // !compare <skill> <player2>
-                    rsn1 = bc.GetPlayerName(bc.From.Nickname);
-                    rsn2 = bc.GetPlayerName(bc.MessageTokens[2]);
+                    rsn1 = await bc.GetPlayerName(bc.From.Nickname);
+                    rsn2 = await bc.GetPlayerName(bc.MessageTokens[2]);
                 }
                 else if (bc.MessageTokens.Length > 3)
                 {
                     // !compare <skill> <player1> <player2>
-                    rsn1 = bc.GetPlayerName(bc.MessageTokens[2]);
-                    rsn2 = bc.GetPlayerName(bc.MessageTokens.Join(3));
+                    rsn1 = await bc.GetPlayerName(bc.MessageTokens[2]);
+                    rsn2 = await bc.GetPlayerName(bc.MessageTokens.Join(3));
                 }
                 else
                 {
                     // !compare <player2>
                     skill1 = Skill.OVER;
-                    rsn1 = bc.GetPlayerName(bc.From.Nickname);
-                    rsn2 = bc.GetPlayerName(bc.MessageTokens[1]);
+                    rsn1 = await bc.GetPlayerName(bc.From.Nickname);
+                    rsn2 = await bc.GetPlayerName(bc.MessageTokens[1]);
                 }
             }
             else if (Bot.Activity.TryParse(bc.MessageTokens[1], ref activity1))
@@ -43,36 +43,36 @@ namespace Supay.Bot
                 if (bc.MessageTokens.Length == 3)
                 {
                     // !compare <activity> <player2>
-                    rsn1 = bc.GetPlayerName(bc.From.Nickname);
-                    rsn2 = bc.GetPlayerName(bc.MessageTokens[2]);
+                    rsn1 = await bc.GetPlayerName(bc.From.Nickname);
+                    rsn2 = await bc.GetPlayerName(bc.MessageTokens[2]);
                 }
                 else if (bc.MessageTokens.Length > 3)
                 {
                     // !compare <activity> <player1> <player2>
-                    rsn1 = bc.GetPlayerName(bc.MessageTokens[2]);
-                    rsn2 = bc.GetPlayerName(bc.MessageTokens.Join(3));
+                    rsn1 = await bc.GetPlayerName(bc.MessageTokens[2]);
+                    rsn2 = await bc.GetPlayerName(bc.MessageTokens.Join(3));
                 }
                 else
                 {
                     // !compare <player2>
                     skill1 = Skill.OVER;
-                    rsn1 = bc.GetPlayerName(bc.From.Nickname);
-                    rsn2 = bc.GetPlayerName(bc.MessageTokens[1]);
+                    rsn1 = await bc.GetPlayerName(bc.From.Nickname);
+                    rsn2 = await bc.GetPlayerName(bc.MessageTokens[1]);
                 }
             }
             else if (bc.MessageTokens.Length == 2)
             {
                 // !compare <player2>
                 skill1 = Skill.OVER;
-                rsn1 = bc.GetPlayerName(bc.From.Nickname);
-                rsn2 = bc.GetPlayerName(bc.MessageTokens[1]);
+                rsn1 = await bc.GetPlayerName(bc.From.Nickname);
+                rsn2 = await bc.GetPlayerName(bc.MessageTokens[1]);
             }
             else
             {
                 // !compare <player1> <player2>
                 skill1 = Skill.OVER;
-                rsn1 = bc.GetPlayerName(bc.MessageTokens[1]);
-                rsn2 = bc.GetPlayerName(bc.MessageTokens.Join(2));
+                rsn1 = await bc.GetPlayerName(bc.MessageTokens[1]);
+                rsn2 = await bc.GetPlayerName(bc.MessageTokens.Join(2));
             }
 
             var p1 = await Player.FromHiscores(rsn1);
@@ -147,13 +147,13 @@ namespace Supay.Bot
                 await bc.SendReply(reply);
 
                 // get these players last update time
-                string dblastupdate = Database.LastUpdate(rsn1);
+                var dblastupdate = await Database.LastUpdate(rsn1);
                 if (dblastupdate != null && dblastupdate.Length == 8)
                 {
                     p1 = await Player.FromDatabase(rsn1, dblastupdate.ToDateTime());
                     if (p1.Ranked)
                     {
-                        dblastupdate = Database.LastUpdate(rsn2);
+                        dblastupdate = await Database.LastUpdate(rsn2);
                         if (dblastupdate != null && dblastupdate.Length == 8)
                         {
                             p2 = await Player.FromDatabase(rsn2, dblastupdate.ToDateTime());
@@ -199,13 +199,13 @@ namespace Supay.Bot
                 await bc.SendReply(reply);
 
                 // get these players last update time
-                string dblastupdate = Database.LastUpdate(rsn1);
+                var dblastupdate = await Database.LastUpdate(rsn1);
                 if (dblastupdate != null && dblastupdate.Length == 8)
                 {
                     p1 = await Player.FromDatabase(rsn1, dblastupdate.ToDateTime());
                     if (p1.Ranked && p1.Activities[activity1].Rank > 0)
                     {
-                        dblastupdate = Database.LastUpdate(rsn2);
+                        dblastupdate = await Database.LastUpdate(rsn2);
                         if (dblastupdate != null && dblastupdate.Length == 8)
                         {
                             p2 = await Player.FromDatabase(rsn2, dblastupdate.ToDateTime());

@@ -39,7 +39,7 @@ namespace Supay.Bot
             foreach (Match priceMatch in Regex.Matches(pricesPage, REGEX_PRICES, RegexOptions.Singleline))
             {
                 var price = new Price(int.Parse(priceMatch.Groups[1].Value, CultureInfo.InvariantCulture), priceMatch.Groups[2].Value.Trim(), priceMatch.Groups[4].Value.ToInt32(), priceMatch.Groups[5].Value.ToInt32(), priceMatch.Groups[3].Value == "members");
-                price.SaveToDB(false);
+                await price.SaveToDB(false);
                 prices.Add(price);
             }
 
@@ -61,7 +61,7 @@ namespace Supay.Bot
             foreach (Match priceMatch in Regex.Matches(pricesPage, REGEX_PRICES, RegexOptions.Singleline))
             {
                 var price = new Price(int.Parse(priceMatch.Groups[1].Value, CultureInfo.InvariantCulture), priceMatch.Groups[2].Value.Trim(), priceMatch.Groups[4].Value.ToInt32(), priceMatch.Groups[5].Value.ToInt32(), priceMatch.Groups[3].Value == "members");
-                price.SaveToDB(false);
+                await price.SaveToDB(false);
                 prices.Add(price);
             }
 

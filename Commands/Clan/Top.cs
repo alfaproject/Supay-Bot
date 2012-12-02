@@ -26,7 +26,7 @@ namespace Supay.Bot
                 clanName = "Portugal";
             }
 
-            string rsn = bc.GetPlayerName(bc.From.Nickname);
+            var rsn = await bc.GetPlayerName(bc.From.Nickname);
             string skill = null,
                    activity = null;
             int rank = 0;
@@ -83,7 +83,7 @@ namespace Supay.Bot
                     else
                     {
                         // !ClanTop Skill/Activity RSN
-                        rsn = bc.GetPlayerName(bc.MessageTokens.Join(2));
+                        rsn = await bc.GetPlayerName(bc.MessageTokens.Join(2));
                         var indexOfPlayer = clanPlayers.FindIndex(p => p.Name.EqualsI(rsn));
                         if (indexOfPlayer != -1)
                         {
@@ -95,7 +95,7 @@ namespace Supay.Bot
             else
             {
                 // !ClanTop RSN
-                rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
+                rsn = await bc.GetPlayerName(bc.MessageTokens.Join(1));
                 IsIndividual = true;
             }
 
@@ -136,7 +136,8 @@ namespace Supay.Bot
             }
             
             // Get input player rank
-            var inputPlayerRank = clanPlayers.FindIndex(p => p.Name.EqualsI(bc.GetPlayerName(bc.From.Nickname))) + 1;
+            var inputPlayerName = await bc.GetPlayerName(bc.From.Nickname);
+            var inputPlayerRank = clanPlayers.FindIndex(p => p.Name.EqualsI(inputPlayerName)) + 1;
 
             // fix rank
             if (rank < 1)

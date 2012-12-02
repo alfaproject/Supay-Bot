@@ -30,7 +30,7 @@ namespace Supay.Bot
                 if (p.Ranked)
                 {
                     Database.Insert("players", "rsn", rsn, "clan", string.Empty, "lastupdate", string.Empty);
-                    p.SaveToDB(DateTime.UtcNow.ToStringI("yyyyMMdd"));
+                    await p.SaveToDB(DateTime.UtcNow.ToStringI("yyyyMMdd"));
                     await bc.SendReply(@"\b{0}\b is now being tracked.", rsn);
                 }
                 else
@@ -59,7 +59,7 @@ namespace Supay.Bot
             }
 
             string rsn = bc.MessageTokens.Join(1).ValidatePlayerName();
-            long playerId = Database.Lookup("id", "players", "rsn LIKE @name", new[] { new MySqlParameter("@name", rsn) }, -1L);
+            var playerId = await Database.Lookup("id", "players", "rsn LIKE @name", new[] { new MySqlParameter("@name", rsn) }, -1L);
             if (playerId != -1)
             {
                 Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + playerId);
@@ -88,7 +88,7 @@ namespace Supay.Bot
             string oldRsn = bc.MessageTokens[1].ValidatePlayerName();
             string newRsn = bc.MessageTokens.Join(2).ValidatePlayerName();
 
-            long oldPlayerId = Database.Lookup("id", "players", "rsn=@rsn", new[] { new MySqlParameter("@rsn", oldRsn) }, -1L);
+            var oldPlayerId = await Database.Lookup("id", "players", "rsn=@rsn", new[] { new MySqlParameter("@rsn", oldRsn) }, -1L);
             if (oldPlayerId == -1)
             {
                 await bc.SendReply(@"Player \b{0}\b wasn't being tracked.", oldRsn);
@@ -111,7 +111,7 @@ namespace Supay.Bot
                 return;
             }
 
-            long newPlayerId = Database.Lookup("id", "players", "rsn=@rsn", new[] { new MySqlParameter("@rsn", newRsn) }, -1L);
+            var newPlayerId = await Database.Lookup("id", "players", "rsn=@rsn", new[] { new MySqlParameter("@rsn", newRsn) }, -1L);
 
             // check if the new player already exists in the database
             if (newPlayerId != -1)
@@ -147,16 +147,16 @@ namespace Supay.Bot
             string rsn;
             if (bc.MessageTokens.Length > 1)
             {
-                rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
+                rsn = await bc.GetPlayerName(bc.MessageTokens.Join(1));
             }
             else
             {
-                rsn = bc.GetPlayerName(bc.From.Nickname);
+                rsn = await bc.GetPlayerName(bc.From.Nickname);
             }
 
             // get this player last update time
             DateTime lastupdate;
-            string dblastupdate = Database.LastUpdate(rsn);
+            var dblastupdate = await Database.LastUpdate(rsn);
             if (dblastupdate == null || dblastupdate.Length < 8)
             {
                 lastupdate = DateTime.UtcNow.AddHours(-DateTime.UtcNow.Hour + 6).AddMinutes(-DateTime.UtcNow.Minute).AddSeconds(-DateTime.UtcNow.Second);

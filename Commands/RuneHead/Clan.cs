@@ -13,11 +13,11 @@ namespace Supay.Bot
             string rsn;
             if (bc.MessageTokens.Length > 1)
             {
-                rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
+                rsn = await bc.GetPlayerName(bc.MessageTokens.Join(1));
             }
             else
             {
-                rsn = bc.GetPlayerName(bc.From.Nickname);
+                rsn = await bc.GetPlayerName(bc.From.Nickname);
             }
 
             try

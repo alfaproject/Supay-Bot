@@ -64,9 +64,9 @@ namespace Supay.Bot
             }
         }
 
-        public static string LastUpdate(string rsn)
+        public static async Task<string> LastUpdate(string rsn)
         {
-            return Lookup<string>("lastUpdate", "players", "rsn=@rsn", new[] { new MySqlParameter("@rsn", rsn) });
+            return await Lookup<string>("lastUpdate", "players", "rsn=@rsn", new[] { new MySqlParameter("@rsn", rsn) });
         }
 
         public static void Insert(string table, params string[] fieldsValues)
@@ -103,9 +103,9 @@ namespace Supay.Bot
             ExecuteNonQuery(sql);
         }
 
-        public static string GetStringParameter(string table, string field, string condition, string parameter, string defaultValue)
+        public static async Task<string> GetStringParameter(string table, string field, string condition, string parameter, string defaultValue)
         {
-            string fieldValue = Lookup(field, table, condition, null, string.Empty);
+            var fieldValue = await Lookup(field, table, condition, null, string.Empty);
             if (fieldValue.ContainsI(parameter))
             {
                 return Regex.Match(fieldValue, parameter + ":([^;]+)").Groups[1].Value;
@@ -113,9 +113,9 @@ namespace Supay.Bot
             return defaultValue;
         }
 
-        public static void SetStringParameter(string table, string field, string condition, string parameter, string value)
+        public static async Task SetStringParameter(string table, string field, string condition, string parameter, string value)
         {
-            string fieldValue = Lookup(field, table, condition, null, string.Empty);
+            var fieldValue = await Lookup(field, table, condition, null, string.Empty);
             if (fieldValue.ContainsI(parameter))
             {
                 fieldValue = Regex.Replace(fieldValue, parameter + ":([^;]*)", parameter + ":" + value);
@@ -127,7 +127,7 @@ namespace Supay.Bot
             Update(table, condition, field, fieldValue);
         }
 
-        public static T Lookup<T>(string field, string table, string condition = null, MySqlParameter[] parameters = null, T defaultValue = default(T))
+        public static async Task<T> Lookup<T>(string field, string table, string condition = null, MySqlParameter[] parameters = null, T defaultValue = default(T))
         {
             string sql = "SELECT " + field + " FROM " + table;
             if (condition != null)
@@ -143,16 +143,17 @@ namespace Supay.Bot
             }
 
             object result;
-            lock (_instance.Value._connection)
+            using (var command = new MySqlCommand(sql + " LIMIT 1", _instance.Value._connection))
             {
-                using (var command = new MySqlCommand(sql + " LIMIT 1", _instance.Value._connection))
+                if (parameters != null)
                 {
-                    if (parameters != null)
+                    foreach (var parameter in parameters)
                     {
-                        command.Parameters.AddRange(parameters);
+                        command.Parameters.Add(parameter);
                     }
-                    result = command.ExecuteScalar();
                 }
+
+                result = await command.ExecuteScalarAsync();
             }
             if (result == null || result is DBNull)
             {

@@ -10,7 +10,7 @@ namespace Supay.Bot
         public static async Task End(CommandContext bc)
         {
             // get rsn
-            string rsn = bc.GetPlayerName(bc.From.Nickname);
+            string rsn = await bc.GetPlayerName(bc.From.Nickname);
 
             var p = await Player.FromHiscores(rsn);
             if (!p.Ranked)
@@ -53,13 +53,13 @@ namespace Supay.Bot
                 if (gainedExp > 0)
                 {
                     // Add this player to database if he never set a default name.
-                    if (Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new MySqlParameter("@fp", bc.From.FingerPrint) }) < 1)
+                    if (await Database.Lookup<long>("COUNT(*)", "users", "fingerprint=@fp", new[] { new MySqlParameter("@fp", bc.From.FingerPrint) }) < 1)
                     {
-                        Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", bc.GetPlayerName(bc.From.Nickname));
+                        Database.Insert("users", "fingerprint", bc.From.FingerPrint, "rsn", await bc.GetPlayerName(bc.From.Nickname));
                     }
 
                     // Set exp. made in an hour in this skill.
-                    Database.SetStringParameter("users", "speeds", "fingerprint='" + bc.From.FingerPrint + "'", skill, ((int) (gainedExp / time.TotalHours)).ToStringI());
+                    await Database.SetStringParameter("users", "speeds", "fingerprint='" + bc.From.FingerPrint + "'", skill, ((int) (gainedExp / time.TotalHours)).ToStringI());
                 }
 
                 // remove the timer with this name

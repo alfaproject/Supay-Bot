@@ -11,7 +11,7 @@ namespace Supay.Bot
         public static async Task Percent(CommandContext bc)
         {
             // get rsn
-            string rsn = bc.GetPlayerName(bc.MessageTokens.Length > 1 ? bc.MessageTokens.Join(1) : bc.From.Nickname);
+            var rsn = await bc.GetPlayerName(bc.MessageTokens.Length > 1 ? bc.MessageTokens.Join(1) : bc.From.Nickname);
 
             var p = await Player.FromHiscores(rsn);
             if (!p.Ranked)
@@ -41,11 +41,11 @@ namespace Supay.Bot
             string rsn;
             if (bc.MessageTokens.Length > 1)
             {
-                rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
+                rsn = await bc.GetPlayerName(bc.MessageTokens.Join(1));
             }
             else
             {
-                rsn = bc.GetPlayerName(bc.From.Nickname);
+                rsn = await bc.GetPlayerName(bc.From.Nickname);
             }
 
             var p = await Player.FromHiscores(rsn);
@@ -64,11 +64,11 @@ namespace Supay.Bot
             string rsn;
             if (bc.MessageTokens.Length > 1)
             {
-                rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
+                rsn = await bc.GetPlayerName(bc.MessageTokens.Join(1));
             }
             else
             {
-                rsn = bc.GetPlayerName(bc.From.Nickname);
+                rsn = await bc.GetPlayerName(bc.From.Nickname);
             }
 
             var p = await Player.FromHiscores(rsn);
@@ -87,11 +87,11 @@ namespace Supay.Bot
             string rsn;
             if (bc.MessageTokens.Length > 1)
             {
-                rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
+                rsn = await bc.GetPlayerName(bc.MessageTokens.Join(1));
             }
             else
             {
-                rsn = bc.GetPlayerName(bc.From.Nickname);
+                rsn = await bc.GetPlayerName(bc.From.Nickname);
             }
 
             var p = await Player.FromHiscores(rsn);
@@ -113,11 +113,11 @@ namespace Supay.Bot
             string rsn;
             if (bc.MessageTokens.Length > 1)
             {
-                rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
+                rsn = await bc.GetPlayerName(bc.MessageTokens.Join(1));
             }
             else
             {
-                rsn = bc.GetPlayerName(bc.From.Nickname);
+                rsn = await bc.GetPlayerName(bc.From.Nickname);
             }
 
             var p = await Player.FromHiscores(rsn);
@@ -157,7 +157,7 @@ namespace Supay.Bot
             }
 
             // get rsn
-            string rsn = bc.GetPlayerName(bc.From.Nickname);
+            var rsn = await bc.GetPlayerName(bc.From.Nickname);
 
             string skill = null;
             int level;
@@ -235,11 +235,11 @@ namespace Supay.Bot
             string rsn;
             if (bc.MessageTokens.Length > 1)
             {
-                rsn = bc.GetPlayerName(bc.MessageTokens.Join(1));
+                rsn = await bc.GetPlayerName(bc.MessageTokens.Join(1));
             }
             else
             {
-                rsn = bc.GetPlayerName(bc.From.Nickname);
+                rsn = await bc.GetPlayerName(bc.From.Nickname);
             }
 
             var p = await Player.FromHiscores(rsn);
@@ -352,7 +352,7 @@ namespace Supay.Bot
                 int.TryParse(bc.MessageTokens[5], out Mag);
             }
 
-            var p = await Player.FromHiscores(bc.GetPlayerName(bc.From.Nickname));
+            var p = await Player.FromHiscores(await bc.GetPlayerName(bc.From.Nickname));
             if (p.Ranked)
             {
                 if (Att <= 0)

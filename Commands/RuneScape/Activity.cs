@@ -9,7 +9,7 @@ namespace Supay.Bot
         public static async Task Activity(CommandContext bc)
         {
             // get player
-            var player = await Player.FromHiscores(bc.GetPlayerName(bc.MessageTokens.Length > 1 ? bc.MessageTokens.Join(1) : bc.From.Nickname));
+            var player = await Player.FromHiscores(await bc.GetPlayerName(bc.MessageTokens.Length > 1 ? bc.MessageTokens.Join(1) : bc.From.Nickname));
             if (player.Ranked)
             {
                 Activity activity = player.Activities[Bot.Activity.Parse(bc.MessageTokens[0])];
@@ -28,7 +28,7 @@ namespace Supay.Bot
                     await bc.SendReply(reply);
 
                     // Show player performance if applicable
-                    string dblastupdate = Database.LastUpdate(player.Name);
+                    var dblastupdate = await Database.LastUpdate(player.Name);
                     if (dblastupdate != null && dblastupdate.Length == 8)
                     {
                         DateTime lastupdate = dblastupdate.ToDateTime();

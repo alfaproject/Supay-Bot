@@ -88,7 +88,7 @@ namespace Supay.Bot
             private set;
         }
 
-        public void SaveToDB(bool updateDate)
+        public async Task SaveToDB(bool updateDate)
         {
             string lastUpdate;
             if (updateDate)
@@ -97,7 +97,7 @@ namespace Supay.Bot
             }
             else
             {
-                lastUpdate = Database.Lookup("lastUpdate", "prices", "ORDER BY lastUpdate DESC", null, string.Empty);
+                lastUpdate = await Database.Lookup("lastUpdate", "prices", "ORDER BY lastUpdate DESC", null, string.Empty);
             }
 
             try
@@ -183,7 +183,7 @@ namespace Supay.Bot
                 {
                     price.MarketPrice = match.Groups[1].Value.ToInt32();
 
-                    price.SaveToDB(false);
+                    await price.SaveToDB(false);
                 }
             }
 

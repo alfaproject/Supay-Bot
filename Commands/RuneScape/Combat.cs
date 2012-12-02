@@ -38,7 +38,7 @@ namespace Supay.Bot
             }
 
             // get player
-            var player = await Player.FromHiscores(bc.GetPlayerName(bc.MessageTokens.Length == 1 ? bc.From.Nickname : bc.MessageTokens.Join(1)));
+            var player = await Player.FromHiscores(await bc.GetPlayerName(bc.MessageTokens.Length == 1 ? bc.From.Nickname : bc.MessageTokens.Join(1)));
             if (!player.Ranked)
             {
                 await bc.SendReply(@"\b{0}\b doesn't feature Hiscores.", player.Name);
@@ -125,7 +125,7 @@ namespace Supay.Bot
             await bc.SendReply(reply);
 
             // Show player performance if applicable
-            string dblastupdate = Database.LastUpdate(player.Name);
+            var dblastupdate = await Database.LastUpdate(player.Name);
             if (dblastupdate != null && dblastupdate.Length == 8)
             {
                 DateTime lastupdate = dblastupdate.ToDateTime();

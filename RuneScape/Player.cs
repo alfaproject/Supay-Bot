@@ -358,9 +358,9 @@ namespace Supay.Bot
             this.Skills.Add(Skill.COMB, new Skill(Skill.COMB, -1, CmbLevel, CmbExp));
         }
 
-        public void SaveToDB(string s_date)
+        public async Task SaveToDB(string s_date)
         {
-            this.Id = Database.Lookup<uint>("id", "players", "rsn=@name", new[] { new MySqlParameter("@name", this.Name) });
+            this.Id = await Database.Lookup<uint>("id", "players", "rsn=@name", new[] { new MySqlParameter("@name", this.Name) });
 
             if (this.Ranked)
             {

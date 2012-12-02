@@ -8,7 +8,7 @@ namespace Supay.Bot
         public static async Task Start(CommandContext bc)
         {
             // get rsn
-            string rsn = bc.GetPlayerName(bc.From.Nickname);
+            string rsn = await bc.GetPlayerName(bc.From.Nickname);
 
             var p = await Player.FromHiscores(rsn);
             if (!p.Ranked)

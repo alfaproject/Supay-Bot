@@ -12,7 +12,7 @@ namespace Supay.Bot
             int level = 0;
             if (bc.MessageTokens.Length == 2)
             {
-                rsn = bc.GetPlayerName(bc.From.Nickname);
+                rsn = await bc.GetPlayerName(bc.From.Nickname);
                 Skill.TryParse(bc.MessageTokens[1], ref skill);
             }
             else if (bc.MessageTokens.Length == 3)
@@ -29,11 +29,11 @@ namespace Supay.Bot
                 {
                     if (Skill.TryParse(bc.MessageTokens[1], ref skill))
                     {
-                        rsn = bc.GetPlayerName(bc.MessageTokens[2]);
+                        rsn = await bc.GetPlayerName(bc.MessageTokens[2]);
                     }
                     else if (Skill.TryParse(bc.MessageTokens[2], ref skill))
                     {
-                        rsn = bc.GetPlayerName(bc.MessageTokens[1]);
+                        rsn = await bc.GetPlayerName(bc.MessageTokens[1]);
                     }
                 }
             }
@@ -41,12 +41,12 @@ namespace Supay.Bot
             {
                 if (Skill.TryParse(bc.MessageTokens[1], ref skill))
                 {
-                    rsn = bc.GetPlayerName(bc.MessageTokens.Join(2).Trim());
+                    rsn = await bc.GetPlayerName(bc.MessageTokens.Join(2).Trim());
                 }
                 else if (Skill.TryParse(bc.MessageTokens[bc.MessageTokens.Length - 1], ref skill))
                 {
                     bc.MessageTokens[bc.MessageTokens.Length - 1] = string.Empty;
-                    rsn = bc.GetPlayerName(bc.MessageTokens.Join(1).Trim());
+                    rsn = await bc.GetPlayerName(bc.MessageTokens.Join(1).Trim());
                 }
             }
             if (string.IsNullOrEmpty(skill) || (string.IsNullOrEmpty(rsn) && level == 0))

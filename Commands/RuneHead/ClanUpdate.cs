@@ -78,7 +78,7 @@ namespace Supay.Bot
                         if (p.Ranked)
                         {
                             f2p = p.Skills.F2pExp == p.Skills[Skill.OVER].Exp;
-                            p.SaveToDB(DateTime.UtcNow.ToStringI("yyyyMMdd"));
+                            await p.SaveToDB(DateTime.UtcNow.ToStringI("yyyyMMdd"));
                         }
                     }
                     catch
