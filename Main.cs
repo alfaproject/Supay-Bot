@@ -483,10 +483,6 @@ namespace Supay.Bot
                         case "TRACKERMERGE":
                             await CmdTracker.Rename(bc);
                             break;
-                        case "REMOVETRACKERFROMCLAN":
-                        case "REMOVECLANFROMTRACKER":
-                            await CmdTracker.RemoveTrackerFromClan(bc);
-                            break;
                         case "TODAY":
                         case "WEEK":
                         case "MONTH":

@@ -134,38 +134,6 @@ namespace Supay.Bot
             await bc.SendReply(@"Player \b{0}\b was renamed or merged to \b{1}\b.", oldRsn, newRsn);
         }
 
-        public static async Task RemoveTrackerFromClan(CommandContext bc)
-        {
-            if (!bc.IsAdmin)
-            {
-                return;
-            }
-
-            if (bc.MessageTokens.Length == 1)
-            {
-                await bc.SendReply("Syntax: !RemoveTrackerFromClan <clan|@clanless>");
-                return;
-            }
-
-            string clan = bc.MessageTokens.Join(1).ToUpperInvariant();
-            if (clan == "@CLANLESS")
-            {
-                clan = string.Empty;
-            }
-
-            int playersRemoved = 0;
-            foreach (var dr in await Database.FetchAll("SELECT id FROM players WHERE clan='" + clan + "'"))
-            {
-                Database.ExecuteNonQuery("DELETE FROM tracker WHERE pid=" + dr.GetInt32(0));
-                playersRemoved++;
-            }
-            Database.ExecuteNonQuery("DELETE FROM players WHERE clan ='" + clan + "'");
-            await bc.SendReply(@"\b{0}\b players were removed from tracker.", playersRemoved);
-
-            long playersLeft = Database.Lookup("COUNT(*)", "players", null, null, 0L);
-            await bc.SendReply(@"There are \b{0}\b players left in the tracker.", playersLeft);
-        }
-
         public static async Task Performance(CommandContext bc)
         {
             bool showAll = false;
