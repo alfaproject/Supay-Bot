@@ -33,6 +33,7 @@ namespace Supay.Bot
         public const string CONS = "Construction";
         public const string SUMM = "Summoning";
         public const string DUNG = "Dungeoneering";
+        public const string DIVI = "Divination";
         public const string COMB = "Combat";
 
         private static readonly string[][] _aliases = {
@@ -62,6 +63,7 @@ namespace Supay.Bot
             new[] { CONS, "CO", "CON", "CONS", "CONST", "CONSTRUCT" },
             new[] { SUMM, "SU", "SUM", "SUMM", "SUMMON" },
             new[] { DUNG, "DU", "DG", "DUN", "DUNG", "DUNGEON", "DUNGEONERING" },
+            new[] { DIVI, "DI", "DIV", "DIVI", "DIVINATION" },
             new[] { COMB, "CB", "CMB", "COMB" }
         };
 

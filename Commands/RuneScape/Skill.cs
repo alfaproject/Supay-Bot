@@ -322,7 +322,7 @@ namespace Supay.Bot
                 var p_old = new Player(player.Name, lastupdate);
                 if (!p_old.Ranked)
                 {
-                    p_old = new Player(player.Name, (int) (DateTime.UtcNow - lastupdate).TotalSeconds);
+                    //p_old = new Player(player.Name, (int) (DateTime.UtcNow - lastupdate).TotalSeconds);
                 }
                 if (p_old.Ranked)
                 {
@@ -336,7 +336,7 @@ namespace Supay.Bot
                 p_old = new Player(player.Name, lastupdate.AddDays(-((int) lastupdate.DayOfWeek)));
                 if (!p_old.Ranked)
                 {
-                    p_old = new Player(player.Name, (int) (DateTime.UtcNow - lastupdate.AddDays(-((int) lastupdate.DayOfWeek))).TotalSeconds);
+                    //p_old = new Player(player.Name, (int) (DateTime.UtcNow - lastupdate.AddDays(-((int) lastupdate.DayOfWeek))).TotalSeconds);
                 }
                 if (p_old.Ranked)
                 {
@@ -350,7 +350,7 @@ namespace Supay.Bot
                 p_old = new Player(player.Name, lastupdate.AddDays(1 - lastupdate.Day));
                 if (!p_old.Ranked)
                 {
-                    p_old = new Player(player.Name, (int) (DateTime.UtcNow - lastupdate.AddDays(1 - lastupdate.Day)).TotalSeconds);
+                    //p_old = new Player(player.Name, (int) (DateTime.UtcNow - lastupdate.AddDays(1 - lastupdate.Day)).TotalSeconds);
                 }
                 if (p_old.Ranked)
                 {
@@ -364,7 +364,7 @@ namespace Supay.Bot
                 p_old = new Player(player.Name, lastupdate.AddDays(1 - lastupdate.DayOfYear));
                 if (!p_old.Ranked)
                 {
-                    p_old = new Player(player.Name, (int) (DateTime.UtcNow - lastupdate.AddDays(1 - lastupdate.DayOfYear)).TotalSeconds);
+                    //p_old = new Player(player.Name, (int) (DateTime.UtcNow - lastupdate.AddDays(1 - lastupdate.DayOfYear)).TotalSeconds);
                 }
                 if (p_old.Ranked)
                 {

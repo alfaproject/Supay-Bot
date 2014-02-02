@@ -287,6 +287,7 @@ namespace Supay.Bot
             var PlayerOld = new Player(rsn, firstday);
             if (!PlayerOld.Ranked)
             {
+                /*
                 // Get data from RuneScript
                 PlayerOld = new Player(rsn, (int) (DateTime.UtcNow - firstday).TotalSeconds);
                 await bc.SendReply(@"\c07{0}\c information retrieved from RuneScript database. (This data may not be 100% accurate)", firstday.ToStringI("yyyy/MMM/dd"));
@@ -299,6 +300,9 @@ namespace Supay.Bot
                 {
                     PlayerOld.Skills[skill.Name].Level = Math.Max(0, skill.Level);
                 }
+                 */
+                await bc.SendReply(@"\b{0}\b wasn't being tracked on \c07{1}\c.", rsn, lastday.ToStringI("yyyy/MMM/dd"));
+                return;
             }
 
             // Get new player
